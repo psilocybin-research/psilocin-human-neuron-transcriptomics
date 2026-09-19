@@ -3,7 +3,7 @@
   "release": "v1.0.0",
   "created": "2026-09-19",
   "file_count": 259,
-  "total_bytes": 156684388,
+  "total_bytes": 156684402,
   "status": "pass",
   "failures": [],
   "files": [
@@ -499,8 +499,8 @@
     },
     {
       "path": "requirements.release.txt",
-      "bytes": 44,
-      "sha256": "bcd787af95e9c931d9f971f8cbb7c710a60f277aae80b8b83151a3086838c538"
+      "bytes": 58,
+      "sha256": "7e0c2964a040bd926d514eb44ac69abd3148ac0c4692571c901c7a9d9aee60ba"
     },
     {
       "path": "requirements.txt",

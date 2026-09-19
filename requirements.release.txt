@@ -1,3 +1,4 @@
 cffconvert==2.0.0
 reuse==6.2.0
 tomli==2.4.1
+PyYAML==6.0.2
