@@ -1,6 +1,6 @@
 PYTHON ?= .venv/bin/python
 
-.PHONY: acquire audit audit-design test setup-r qc-reproduce analyze targeted-redox dna-maintenance oxphos-alias-sensitivity figures atlas
+.PHONY: acquire audit audit-design test validate-release zenodo-payload setup-r qc-reproduce analyze targeted-redox dna-maintenance oxphos-alias-sensitivity figures atlas
 
 acquire:
 	$(PYTHON) -m src.acquisition.download
@@ -15,6 +15,12 @@ audit-design:
 test:
 	$(PYTHON) -m pytest -q
 	$(PYTHON) src/validate_release.py
+
+validate-release:
+	$(PYTHON) src/validate_release.py
+
+zenodo-payload:
+	$(PYTHON) src/zenodo_release.py payload
 
 setup-r:
 	Rscript src/transcriptomics/restore_environment.R

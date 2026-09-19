@@ -34,6 +34,9 @@ def validate_metadata() -> None:
     require(cff_orcid == zenodo["creators"][0]["orcid"], "ORCID mismatch")
     require(cff["authors"][0]["affiliation"] == zenodo["creators"][0]["affiliation"], "Affiliation mismatch")
     require(cff["repository-code"] == zenodo["related_identifiers"][0]["identifier"], "Repository URL mismatch")
+    discoverability = {"psychedelics", "neuroplasticity", "mitochondria"}
+    require(discoverability <= set(cff["keywords"]), "CFF discoverability keywords missing")
+    require(discoverability <= set(zenodo["keywords"]), "Zenodo discoverability keywords missing")
 
     # A single CFF license would incorrectly imply a repository-wide license.
     require("license" not in cff, "CFF must defer mixed licensing to the file-level map")

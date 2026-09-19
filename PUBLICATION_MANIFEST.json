@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.0.0",
   "created": "2026-09-19",
-  "file_count": 259,
-  "total_bytes": 156684402,
+  "file_count": 261,
+  "total_bytes": 156697256,
   "status": "pass",
   "failures": [],
   "files": [
@@ -18,14 +18,19 @@
       "sha256": "da6332c49ccf9edb82719bcece7eb976d9939072e68bb6a2a5c6127d7b72510e"
     },
     {
+      "path": ".github/workflows/release.yml",
+      "bytes": 1057,
+      "sha256": "68e11ab41d4e024404b2be37e1544ec751e1fc0a5afd407a8b9518236c964fe8"
+    },
+    {
       "path": ".gitignore",
       "bytes": 218,
       "sha256": "fe17377801d74ab3ab55bc2333d8ce59ebfca1f1f211088028f1287ef29793c6"
     },
     {
       "path": ".zenodo.json",
-      "bytes": 1708,
-      "sha256": "3f6c24b104e564651c0e31cfb9377b198e3c6cf5235d6500ca89415c9ed360dc"
+      "bytes": 1771,
+      "sha256": "d5cecf04de456f07d2be807d9eccbc9a08f5ad9c5b6e14cecccf859daa7d42e6"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -34,13 +39,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 1041,
-      "sha256": "383d632f08d30d92340e7bba88dc74eefc6fd0bbe48f36a111a8e8971117bb61"
+      "bytes": 1095,
+      "sha256": "ab9380a032bfab8b8d041f7a31b694b8062fc5c2b680d9880d3924ff72c4a88d"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 35598,
-      "sha256": "1f8b6a26f7e43523dc7daeba92970ad2c6faa96e5ce83138c3924f28044b7bf3"
+      "bytes": 35834,
+      "sha256": "cb8b8dcbad4e2da601bd1e83d80d937002dd75d8986f430971d453cd4ef189bd"
     },
     {
       "path": "LICENSE.md",
@@ -69,13 +74,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 1027,
-      "sha256": "bcce508ee87c69c7f9d092062336cbe9e6c44e872a4f3d8526e66ad3d1b1ee6e"
+      "bytes": 1171,
+      "sha256": "0911f08c1cc588f6fd3bff4fa26d640343207638bc7d264292500c813bf8e23d"
     },
     {
       "path": "README.md",
-      "bytes": 4945,
-      "sha256": "858c4d6a662af504b9157f354390787b7392a0a9bbd9bf331c15c9897777447e"
+      "bytes": 5552,
+      "sha256": "b38b5cfb100f776a222836220461533be758849e5014b161b7c49f30daf7267a"
     },
     {
       "path": "REUSE.toml",
@@ -709,8 +714,13 @@
     },
     {
       "path": "src/validate_release.py",
-      "bytes": 8206,
-      "sha256": "4faf3a17c0d68a71ed0d8848d218f4e80a6a1bc6f3a6982cac4ce21af273c5f4"
+      "bytes": 8472,
+      "sha256": "ba78e04e1d9a234f80814726a5794d46d69602be3b641bd6fb6f0a794ee93d5c"
+    },
+    {
+      "path": "src/zenodo_release.py",
+      "bytes": 10427,
+      "sha256": "413f77d532b897bd2a26dbda565c26f8a4de063bce0b1913e8c377986930be31"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",

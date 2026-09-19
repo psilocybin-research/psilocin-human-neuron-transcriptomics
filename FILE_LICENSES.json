@@ -11,6 +11,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  ".github/workflows/release.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   ".gitignore": {
     "spdx": "CC0-1.0",
     "copyright": [
@@ -838,6 +844,12 @@
     ]
   },
   "src/validate_release.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/zenodo_release.py": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

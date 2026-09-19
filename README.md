@@ -86,6 +86,10 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 Citation metadata are provided in `CITATION.cff`. A version-specific Zenodo DOI will be added after archival of the first GitHub release.
 
+## Release process
+
+The release pipeline is split into reviewable stages. `src/zenodo_release.py` uses Zenodo's official API to reserve a DOI, upload one checksum-verified ZIP, inspect the draft, and publish only when the record ID, DOI and SHA-256 are explicitly confirmed. Its token is read from a private file outside the repository and is never placed in GitHub Actions. `make validate-release` checks the local package; `make zenodo-payload` prints the proposed metadata without requiring credentials. Tags matching `v*` run the full repository checks before GitHub creates the corresponding release.
+
 ## License
 
 Original software is released under the MIT License. Original documentation, figures and derived result tables are released under CC BY 4.0, with upstream components separately attributed. See `LICENSE.md`, `FILE_LICENSES.json`, `THIRD_PARTY_NOTICES.md` and `metadata/gene_set_redistribution_review.json`.
