@@ -6,12 +6,12 @@
 <meta name="generator" content="Observable Framework v1.13.4">
 <title>Psilocin transcriptomic atlas | Psilocin · transcriptomic atlas</title>
 
-<link rel="preload" as="style" href="./_import/style.62ccf36e.css">
-<link rel="stylesheet" type="text/css" href="./_import/style.62ccf36e.css">
+<link rel="preload" as="style" href="./_import/style.dd2ccd1b.css">
+<link rel="stylesheet" type="text/css" href="./_import/style.dd2ccd1b.css">
 <link rel="modulepreload" href="./_observablehq/client.4a52a1f6.js">
 <link rel="modulepreload" href="./_observablehq/runtime.fa9f71c0.js">
 <link rel="modulepreload" href="./_observablehq/stdlib.bc967ff7.js">
-<link rel="modulepreload" href="./_import/components/atlas.792f6518.js">
+<link rel="modulepreload" href="./_import/components/atlas.9b88b2e1.js">
 <link rel="modulepreload" href="./_import/components/format.0a1392e2.js">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2032%2032%22%3E%3Crect%20width=%2232%22%20height=%2232%22%20rx=%226%22%20fill=%22%2523245b50%22/%3E%3Ctext%20x=%2216%22%20y=%2223%22%20text-anchor=%22middle%22%20fill=%22white%22%20font-size=%2223%22%3EP%3C/text%3E%3C/svg%3E">
@@ -62,7 +62,7 @@ registerFile("./data/genes.json", {"name":"./data/genes.json","mimeType":"applic
 registerFile("./data/provenance.json", {"name":"./data/provenance.json","mimeType":"application/json","path":"./_file/data/provenance.b0d00659.json","lastModified":1789821303685,"size":16725});
 
 define({id: "32be5789", inputs: ["FileAttachment","display"], outputs: ["createAtlas","atlas","provenance","geneFile"], body: async (FileAttachment,display) => {
-const {createAtlas} = await import("./_import/components/atlas.792f6518.js");
+const {createAtlas} = await import("./_import/components/atlas.9b88b2e1.js");
 const atlas = await FileAttachment("./data/atlas.json").json();
 const provenance = await FileAttachment("./data/provenance.json").json();
 const geneFile = FileAttachment("./data/genes.json");
