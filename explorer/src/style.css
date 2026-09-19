@@ -26,3 +26,4 @@ code,pre,.gene-symbol,.numeric,.identifier,.gene-hit strong,.gene-row text,.chip
 body{background:#fff;color:#17312f}.atlas{color:#17312f}.wordmark{color:#17312f!important}
 .release,.affiliation,.eyebrow,.timeline span{color:#43574f}.tabs button,.metrics span,.section-heading p,.note,.scale-key,.atlas th,.method-card p{color:#40564e}.boundary,.standfirst{color:#354b43}.identifier,.gene-hit small{color:#4b5d55}
 .author-line{color:#27473d}.author-line a{color:#174f43}.author-line .orcid{color:#315c4d}.author-line .orcid::before{content:"";display:inline-block;width:8px;height:8px;margin-right:5px;border-radius:50%;background:#789f29}
+.header-source{margin-top:4px;color:#174f43;font-size:11px;font-weight:700;text-decoration:none}.header-source:hover{text-decoration:underline}

@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import config from '../observablehq.config.js';
 
 const script = config.head.match(/<script type="application\/ld\+json">(.+)<\/script>/s);
 assert.ok(script, 'JSON-LD block is missing');
 const metadata = JSON.parse(script[1]);
+const atlasSource = readFileSync(new URL('../src/components/atlas.js', import.meta.url), 'utf8');
 
 test('atlas exposes scholarly discovery and signposting metadata', () => {
   assert.match(config.head, /rel="canonical"/);
@@ -12,6 +14,13 @@ test('atlas exposes scholarly discovery and signposting metadata', () => {
   assert.match(config.head, /rel="describedby" type="application\/vnd\.datacite\.datacite\+json"/);
   assert.match(config.head, /name="citation_doi" content="10\.5281\/zenodo\.22843281"/);
   assert.match(config.head, /property="og:image"/);
+});
+
+test('atlas foregrounds source data and the principal positive finding', () => {
+  assert.match(atlasSource, /Original source data · Dryad/);
+  assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
+  assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);
+  assert.match(atlasSource, /that narrower result does not negate the broader transcriptional finding/);
 });
 
 test('JSON-LD distinguishes this creator from source-study creators', () => {

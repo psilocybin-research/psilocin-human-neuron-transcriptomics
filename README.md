@@ -47,6 +47,8 @@ The atlas is the fastest way to inspect the complete result. It exposes the path
 
 A brief psilocin pulse was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks.
 
+That distributed and reproducibly characterized OXPHOS response is the principal contribution of this secondary analysis. A separately specified post-primary tier did not support NRF2, glutathione, or their joint NRF2–glutathione–pentose-phosphate prediction as the specific mechanism. This narrows the mechanistic interpretation; it does not convert the broader OXPHOS-centered finding into a null result.
+
 The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
