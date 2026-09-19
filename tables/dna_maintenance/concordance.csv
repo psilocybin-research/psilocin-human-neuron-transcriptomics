@@ -1,0 +1,7 @@
+selection,statistic,n,spearman,same_sign_n,positive_both_n,zero_either_n,same_sign_fraction,interpretation
+HALLMARK_DNA_REPAIR,log2FoldChange,72,0.7778956846099427,68,68,0,0.9444444444444444,"Selected genes; shared controls; descriptive, no p-value"
+HALLMARK_DNA_REPAIR,stat,72,0.6700752459965271,68,68,0,0.9444444444444444,"Selected genes; shared controls; descriptive, no p-value"
+REACTOME_TELOMERE_MAINTENANCE,log2FoldChange,30,0.7913236929922136,29,29,0,0.9666666666666667,"Selected genes; shared controls; descriptive, no p-value"
+REACTOME_TELOMERE_MAINTENANCE,stat,30,0.771301446051168,29,29,0,0.9666666666666667,"Selected genes; shared controls; descriptive, no p-value"
+DNA_REPAIR_TELOMERE_UNION,log2FoldChange,88,0.7689584727554507,84,84,0,0.9545454545454546,"Selected genes; shared controls; descriptive, no p-value"
+DNA_REPAIR_TELOMERE_UNION,stat,88,0.679792892113698,84,84,0,0.9545454545454546,"Selected genes; shared controls; descriptive, no p-value"

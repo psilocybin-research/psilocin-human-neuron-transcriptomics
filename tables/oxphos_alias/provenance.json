@@ -1,0 +1,10 @@
+{
+  "hgnc_url": "https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt",
+  "hgnc_sha256": "b3752a7668b90a24ef555495ee1acaee40999622859c2c452354307a73d7790c",
+  "source_gene_annotation_sha256": "309ef34cec1afcc157622dc1667cc5866a27888e51cefadf267da7a188ee9882",
+  "frozen_gene_sets_sha256": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8",
+  "analysis_type": "post-freeze OXPHOS alias-mapping sensitivity; no primary output replacement",
+  "rescued": 16,
+  "still_unmapped": 2,
+  "seed": 104006
+}

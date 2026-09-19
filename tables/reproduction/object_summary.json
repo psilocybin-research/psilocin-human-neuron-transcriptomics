@@ -1,0 +1,9 @@
+{
+  "cached_deseq2": "1.40.2",
+  "current_deseq2": "1.52.0",
+  "raw_genes": 57820,
+  "cached_genes": 46006,
+  "libraries": 43,
+  "all_control_times_missing": true,
+  "formula": "~Batch + Cell_line + Condition_simple"
+}

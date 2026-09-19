@@ -1,0 +1,176 @@
+{
+  "database_version": "97",
+  "license": "CC0 for annotation data; CC BY 4.0 for website content; see saved license.html",
+  "license_url": "https://reactome.org/license",
+  "role": "Current hierarchy/stable-ID annotation only; gene membership remains MSigDB 2026.1.Hs",
+  "assets": [
+    {
+      "url": "https://reactome.org/ContentService/data/database/version",
+      "resolved_url": "https://reactome.org/ContentService/data/database/version",
+      "path": "data/raw/context/reactome_dna/version.txt",
+      "retrieved_utc": "2026-09-18T23:11:08.968937+00:00",
+      "bytes": 2,
+      "sha256": "d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091"
+    },
+    {
+      "url": "https://reactome.org/license",
+      "resolved_url": "https://reactome.org/license",
+      "path": "data/raw/context/reactome_dna/license.html",
+      "retrieved_utc": "2026-09-18T23:11:09.225143+00:00",
+      "bytes": 57886,
+      "sha256": "264304d3a3cda9dd420c763f74edf95c5dc8c4ff08d8d8ae299ad2c60f440e1f"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-157579",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-157579",
+      "path": "data/raw/context/reactome_dna/R-HSA-157579.json",
+      "retrieved_utc": "2026-09-18T23:11:09.697739+00:00",
+      "bytes": 14285,
+      "sha256": "e0ac7b4ca5aad6f88f86054c6d28ac9fe46ba66269dd6211d00749abbd0c4bf5"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-180786",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-180786",
+      "path": "data/raw/context/reactome_dna/R-HSA-180786.json",
+      "retrieved_utc": "2026-09-18T23:11:09.918295+00:00",
+      "bytes": 7291,
+      "sha256": "fa1db3b72f81bbed908beeda9f7b155be7e5653cacb9738bf34efb79255fd9d6"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-171319",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-171319",
+      "path": "data/raw/context/reactome_dna/R-HSA-171319.json",
+      "retrieved_utc": "2026-09-18T23:11:10.146960+00:00",
+      "bytes": 13154,
+      "sha256": "fd6b5ba91b22b54c9804b028800835f3f5fd14a3fdbb4ef798cbc8db0f5463d4"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-174417",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-174417",
+      "path": "data/raw/context/reactome_dna/R-HSA-174417.json",
+      "retrieved_utc": "2026-09-18T23:11:10.353624+00:00",
+      "bytes": 8715,
+      "sha256": "6cbfa72aa710867504e9846f9698170bd0e4ee7b3ef7d1ff1743e16cddce2ab5"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-174430",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-174430",
+      "path": "data/raw/context/reactome_dna/R-HSA-174430.json",
+      "retrieved_utc": "2026-09-18T23:11:10.568208+00:00",
+      "bytes": 8765,
+      "sha256": "f8995442bfe0d7abbaa7b9bdcf4f1ab616dfeab815c1f236511d6340d84c342c"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-174411",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-174411",
+      "path": "data/raw/context/reactome_dna/R-HSA-174411.json",
+      "retrieved_utc": "2026-09-18T23:11:10.775754+00:00",
+      "bytes": 11104,
+      "sha256": "428555ffb6853a382b428c7707e2078f6bfa476c85652584021f4446831c41d8"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-174414",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-174414",
+      "path": "data/raw/context/reactome_dna/R-HSA-174414.json",
+      "retrieved_utc": "2026-09-18T23:11:10.977725+00:00",
+      "bytes": 8024,
+      "sha256": "1bfd8e6cd84dc423e67e7ec86ffeda5a220921ce48ccb6925766ad65b1d13cd7"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-174437",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-174437",
+      "path": "data/raw/context/reactome_dna/R-HSA-174437.json",
+      "retrieved_utc": "2026-09-18T23:11:11.181823+00:00",
+      "bytes": 7774,
+      "sha256": "065c52b076a64e29a21e64538ed8cf6a2e22f78008a59bf9f498626a67385b2f"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-171306",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-171306",
+      "path": "data/raw/context/reactome_dna/R-HSA-171306.json",
+      "retrieved_utc": "2026-09-18T23:11:11.380282+00:00",
+      "bytes": 5897,
+      "sha256": "a1af08b1f1b4fac4a0fc222887392e7d9fea1e7b6c4af4ff6654690fb60b3340"
+    },
+    {
+      "url": "https://reactome.org/ContentService/data/query/R-HSA-9670095",
+      "resolved_url": "https://reactome.org/ContentService/data/query/R-HSA-9670095",
+      "path": "data/raw/context/reactome_dna/R-HSA-9670095.json",
+      "retrieved_utc": "2026-09-18T23:11:11.576898+00:00",
+      "bytes": 7658,
+      "sha256": "f45261b886686c714bd218c205179f83446171550b54bad85532f69ba57b4cc6"
+    }
+  ],
+  "nodes": [
+    {
+      "stId": "R-HSA-157579",
+      "stIdVersion": "R-HSA-157579.7",
+      "displayName": "Telomere Maintenance",
+      "schemaClass": "Pathway",
+      "parent": null
+    },
+    {
+      "stId": "R-HSA-180786",
+      "stIdVersion": "R-HSA-180786.4",
+      "displayName": "Extension of Telomeres",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-157579"
+    },
+    {
+      "stId": "R-HSA-171319",
+      "stIdVersion": "R-HSA-171319.5",
+      "displayName": "Telomere Extension By Telomerase",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-180786"
+    },
+    {
+      "stId": "R-HSA-174417",
+      "stIdVersion": "R-HSA-174417.5",
+      "displayName": "Telomere C-strand (Lagging Strand) Synthesis",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-180786"
+    },
+    {
+      "stId": "R-HSA-174430",
+      "stIdVersion": "R-HSA-174430.6",
+      "displayName": "Telomere C-strand synthesis initiation",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-174417"
+    },
+    {
+      "stId": "R-HSA-174411",
+      "stIdVersion": "R-HSA-174411.6",
+      "displayName": "Polymerase switching on the C-strand of the telomere",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-174417"
+    },
+    {
+      "stId": "R-HSA-174414",
+      "stIdVersion": "R-HSA-174414.5",
+      "displayName": "Processive synthesis on the C-strand of the telomere",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-174417"
+    },
+    {
+      "stId": "R-HSA-174437",
+      "stIdVersion": "R-HSA-174437.5",
+      "displayName": "Removal of the Flap Intermediate from the C-strand",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-174414"
+    },
+    {
+      "stId": "R-HSA-171306",
+      "stIdVersion": "R-HSA-171306.5",
+      "displayName": "Packaging Of Telomere Ends",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-157579"
+    },
+    {
+      "stId": "R-HSA-9670095",
+      "stIdVersion": "R-HSA-9670095.3",
+      "displayName": "Inhibition of DNA recombination at telomere",
+      "schemaClass": "Pathway",
+      "parent": "R-HSA-157579"
+    }
+  ]
+}

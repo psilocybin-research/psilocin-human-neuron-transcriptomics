@@ -1,0 +1,47 @@
+{
+  "title": "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "access_right": "open",
+  "license": "other-open",
+  "language": "eng",
+  "description": "Reproducibility code, frozen specifications, complete derived results, publication figures, and a static interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout. Mixed-license archive: original software is MIT licensed; original documentation, figures and derived result tables are CC BY 4.0; upstream material retains its original terms. LICENSE.md provides the file-level map.",
+  "creators": [
+    {
+      "name": "Germann, Christopher B.",
+      "orcid": "0000-0002-1573-4651",
+      "affiliation": "Faculty of Health, School of Medicine, University of Witten/Herdecke",
+      "type": "ProjectMember"
+    }
+  ],
+  "keywords": [
+    "psilocin",
+    "psilocybin",
+    "transcriptomics",
+    "RNA-seq",
+    "human iPSC-derived cortical neurons",
+    "oxidative phosphorylation",
+    "OXPHOS",
+    "mitochondrial metabolism",
+    "redox biology",
+    "DNA repair",
+    "reproducible research"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "10.7554/eLife.104006.3",
+      "relation": "isDerivedFrom",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "10.5061/dryad.xsj3tx9w3",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset"
+    }
+  ]
+}

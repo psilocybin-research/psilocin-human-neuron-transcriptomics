@@ -1,0 +1,4 @@
+contrast,leading_edge_n,positive_log2fc_n,gene_fdr_below_005_n,nominal_p_below_005_n,scope
+day1_vs_control,95,95,54,70,Selected leading-edge genes; original transcriptome-wide gene FDR; not independent evidence
+day3_vs_control,107,107,0,44,Selected leading-edge genes; original transcriptome-wide gene FDR; not independent evidence
+day3_vs_day1,96,0,0,8,Selected leading-edge genes; original transcriptome-wide gene FDR; not independent evidence

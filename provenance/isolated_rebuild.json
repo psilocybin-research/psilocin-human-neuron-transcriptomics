@@ -1,0 +1,34 @@
+{
+  "checkout_commit": "02f657abd400d9dae488393a2c9128357b9bb2c2",
+  "isolated_directory": "/tmp/schmidt-rebuild-tm43d3aa",
+  "environment": "same installed locked R/Python packages; separate checkout and regenerated processed inputs",
+  "raw_inputs": "read-only reuse by hard link; source hashes checked by analysis freeze",
+  "comparisons": {
+    "data/processed/schmidt/core_block_condition_counts.tsv.gz": {
+      "original": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9",
+      "rebuild": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9",
+      "identical": true
+    },
+    "tables/transcriptomics/enrichment_all.csv": {
+      "original": "2e93a3fb942f5a3a9651426518d2be716a3ddab4e928d7968a0ff13fff369525",
+      "rebuild": "2e93a3fb942f5a3a9651426518d2be716a3ddab4e928d7968a0ff13fff369525",
+      "identical": true
+    },
+    "tables/transcriptomics/enrichment_primary_model.csv": {
+      "original": "e16f8d10a23168af753f8b6ea303b3688cb83a07428ac8494451e7bb8075b7eb",
+      "rebuild": "e16f8d10a23168af753f8b6ea303b3688cb83a07428ac8494451e7bb8075b7eb",
+      "identical": true
+    },
+    "tables/transcriptomics/gene_mapping.csv": {
+      "original": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+      "rebuild": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+      "identical": true
+    },
+    "tables/transcriptomics/block_score_sign_flips.csv": {
+      "original": "676207a0545dda8e58eb0a8c0d8e8092a814bebfe6169bd635f1e6df49b03237",
+      "rebuild": "676207a0545dda8e58eb0a8c0d8e8092a814bebfe6169bd635f1e6df49b03237",
+      "identical": true
+    }
+  },
+  "all_identical": true
+}

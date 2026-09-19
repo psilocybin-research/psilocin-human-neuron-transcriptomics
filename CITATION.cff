@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software or its derived results, please cite the archived release."
+title: "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas"
+type: software
+version: 1.0.0
+abstract: "Mixed-license research software release: original software is MIT licensed; original documentation, figures and derived result tables are CC BY 4.0. See LICENSE.md for the file-level license map."
+authors:
+  - family-names: Germann
+    given-names: Christopher B.
+    affiliation: "Faculty of Health, School of Medicine, University of Witten/Herdecke"
+    orcid: "https://orcid.org/0000-0002-1573-4651"
+repository-code: "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics"
+url: "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"
+keywords:
+  - psilocin
+  - psilocybin
+  - transcriptomics
+  - RNA-seq
+  - human iPSC-derived cortical neurons
+  - oxidative phosphorylation
+  - mitochondrial metabolism
+  - redox biology
+  - reproducible research

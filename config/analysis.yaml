@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "seed": 104006,
+  "control_decision": "B_common_reference",
+  "design": "~block + condition",
+  "condition_levels": ["control", "psilocin_day1", "psilocin_day3"],
+  "contrasts": {"day1_vs_control": ["psilocin_day1", "control"], "day3_vs_control": ["psilocin_day3", "control"], "day3_vs_day1": ["psilocin_day3", "psilocin_day1"]},
+  "minimum_count": 10,
+  "minimum_samples": 3,
+  "symbol_mapping": "source featureCounts name; select highest primary all-sample mean normalized count per symbol; ties lexical gene_id; fixed across sensitivities",
+  "rank_statistic": "unshrunken DESeq2 Wald statistic; finite only; no independent filtering; default Cooks masking; lexical symbol tie break",
+  "fgsea": {"method": "fgseaMultilevel", "minSize": 15, "maxSize": 500, "eps": 0, "nPermSimple": 10000, "sampleSize": 101, "scoreType": "std", "gseaParam": 1, "nproc": 1},
+  "multiplicity": "BH across 5 primary sets x 3 contrasts = 15 tests; secondary 7 x 3 = 21 separately; exploratory 2 x 3 = 6 separately; untestable tests count as p=1 in correction",
+  "alpha": 0.05,
+  "sensitivity": ["leave_each_block_out", "pooled_mean_RIN_covariate", "exclude_RIN_below_6_then_repool", "lexical_first_library_per_group"],
+  "per_block": "log2(normalized_count+1) numerator minus denominator; fgsea descriptive competitive ranking; leading-edge mean direction; no per-block biological p-value",
+  "robustness": {
+    "robust": "primary BH<0.05; all three per-block NES and all leave-one-block-out NES same sign as full model; all three technical/RIN sensitivity NES same sign; all estimable",
+    "block_dependent": "primary BH<0.05 and any per-block or leave-one-block-out NES zero/opposite sign",
+    "directionally_consistent_but_uncertain": "primary BH<0.05 but technical sensitivity reverses or any sensitivity not estimable; OR primary BH>=0.05 with all block and technical directions aligned",
+    "unsupported": "primary BH>=0.05 with incomplete or inconsistent directional support"
+  },
+  "scope": "robustness labels describe within-dataset directions, not independent replication or population-level pathway significance",
+  "coherence": "At least two robust primary anchors from distinct families (OXPHOS, glycolysis, ROS, or growth signaling; both mTOR anchors count as one family), with overlap and leading edges shown. Treated temporal structure requires a robust day3_vs_day1 anchor; drug-specific temporal interaction remains unidentifiable. Mixed signs can describe distinct responses but cannot be called uniform metabolic activation.",
+  "competitive_test_limit": "Gene-randomization fgsea p-values do not preserve inter-gene correlation and are not biological-sample permutation p-values. Block-direction checks are required for interpretation. With only 3 independent blocks, two-sided exhaustive sign-flip testing has minimum p=0.25 and cannot supply conventional sample-level significance."
+}

@@ -1,0 +1,8 @@
+"variant","n","genes","rank","residual_df","formula"
+"primary",9,21154,5,4,"~block + condition"
+"omit_68_3__batch1",6,21154,4,2,"~block + condition"
+"omit_68_3__batch2",6,21154,4,2,"~block + condition"
+"omit_69_2__batch1",6,21154,4,2,"~block + condition"
+"RIN_covariate",9,21154,6,3,"~block + RIN_centered + condition"
+"RIN_ge6",9,21154,5,4,"~block + condition"
+"one_library_per_group",9,21154,5,4,"~block + condition"

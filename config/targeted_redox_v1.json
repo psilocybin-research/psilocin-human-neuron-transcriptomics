@@ -1,0 +1,127 @@
+{
+  "version": "targeted-v1.0-post-primary",
+  "modules": [
+    {
+      "id": "PAPER_NRF2_FIVE_TARGETS",
+      "genes": [
+        "GCLC",
+        "GCLM",
+        "GSR",
+        "HMOX1",
+        "NQO1"
+      ],
+      "method": "fgsea",
+      "source": "user-supplied hypothesis manuscript section 4, pp 6\u20137",
+      "membership_sha256": "400097aa4821a7418621811dfa3101b83e4536b8a717dea7b8fa3b5b2ed1c16d"
+    },
+    {
+      "id": "REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING",
+      "genes": [
+        "CHAC1",
+        "CHAC2",
+        "CNDP2",
+        "GCLC",
+        "GCLM",
+        "GGCT",
+        "GGT1",
+        "GGT5",
+        "GGT6",
+        "GGT7",
+        "GSS",
+        "OPLAH"
+      ],
+      "method": "fgsea",
+      "source": "MSigDB 2026.1.Hs Reactome",
+      "membership_sha256": "dfbefb2c40db93d2e85f321d79e4b415e78ee52b0425c669080eb5f1aa7d824b"
+    },
+    {
+      "id": "REACTOME_PENTOSE_PHOSPHATE_PATHWAY",
+      "genes": [
+        "DERA",
+        "G6PD",
+        "PGD",
+        "PGLS",
+        "PGM2",
+        "PRPS1",
+        "PRPS1L1",
+        "PRPS2",
+        "RBKS",
+        "RPE",
+        "RPEL1",
+        "RPIA",
+        "SHPK",
+        "TALDO1",
+        "TKT"
+      ],
+      "method": "fgsea",
+      "source": "MSigDB 2026.1.Hs Reactome",
+      "membership_sha256": "be2bae3b751dae378a9eb53822310a89b3db1a0b640a2fc360df7daaa3e5aeb1"
+    },
+    {
+      "id": "GPX4_SENTINEL",
+      "genes": [
+        "GPX4"
+      ],
+      "method": "gene_Wald",
+      "source": "hypothesis manuscript Figure 2 and section 4; narrow sentinel, not a ferroptosis module",
+      "membership_sha256": "041b5b5cf4e620a0d898e589c86fe841b233fb20050248e1ff3ee9801a3d5562"
+    }
+  ],
+  "contrasts": [
+    "day1_vs_control",
+    "day3_vs_control"
+  ],
+  "seed": 104006,
+  "minSize": 3,
+  "min_coverage": 0.75,
+  "maxSize": 500,
+  "BH_tests": 8,
+  "prediction": "positive direction in all four tests; a coordinated upstream architecture requires positive robust NRF2, glutathione and PPP modules; GPX4 is a separate extension",
+  "robustness": "same directional rule as frozen primary, across all three blocks, three omissions and three technical/RIN variants; no significance requirement for sensitivities",
+  "scope": "secondary, post-primary-results specification; never primary confirmation or independent replication",
+  "source_gmt": "data/raw/gene_sets/c2.cp.reactome.v2026.1.Hs.symbols.gmt",
+  "source_sha256": "5d61f289a2400cddfbb3a3353829fd2284a360bbe50f2093b566c4b7bea93341",
+  "descriptive_sentinels": [
+    "NFE2L2",
+    "NOX4",
+    "SIRT1",
+    "PPARGC1A",
+    "G6PD",
+    "GCLC",
+    "GCLM",
+    "GSR",
+    "NQO1",
+    "HMOX1",
+    "GPX4",
+    "TXN",
+    "TXNRD1",
+    "TXNRD2",
+    "PRDX1",
+    "PRDX2",
+    "PRDX3",
+    "CAT"
+  ],
+  "curated_context_set": "REACTOME_NFE2L2_REGULATING_ANTI_OXIDANT_DETOXIFICATION_ENZYMES",
+  "curated_context_members": [
+    "ATF4",
+    "BACH1",
+    "CHD6",
+    "CREBBP",
+    "EP300",
+    "GCLC",
+    "GCLM",
+    "GSR",
+    "GSTA1",
+    "GSTA3",
+    "HMOX1",
+    "MAFK",
+    "NFE2L2",
+    "NQO1",
+    "PRDX1",
+    "SLC7A11",
+    "SOD3",
+    "SRXN1",
+    "TXN",
+    "TXNRD1"
+  ]
+}

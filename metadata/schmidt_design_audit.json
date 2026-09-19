@@ -1,0 +1,45 @@
+{
+  "core_libraries": 23,
+  "excluded_libraries": 20,
+  "genetic_backgrounds": 2,
+  "line_batch_blocks": 3,
+  "analysis_units": 9,
+  "genes": 57820,
+  "design_columns": [
+    "Intercept",
+    "block_68_3__batch2",
+    "block_69_2__batch1",
+    "condition_psilocin_day1",
+    "condition_psilocin_day3"
+  ],
+  "design_rank": 5,
+  "nominal_residual_df": 4,
+  "model_fitted": false,
+  "control_harvest_times_resolved": false,
+  "treated_time_contrast_is_treatment_by_time_interaction": false,
+  "pooling": "conservative aggregation within line x Batch x condition; not evidence of independent donors",
+  "counts_sha256": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9",
+  "leave_one_block_out_designs": [
+    {
+      "omitted_block": "68_3__batch1",
+      "units": 6,
+      "remaining_genetic_backgrounds": 2,
+      "design_rank": 4,
+      "residual_df": 2
+    },
+    {
+      "omitted_block": "68_3__batch2",
+      "units": 6,
+      "remaining_genetic_backgrounds": 2,
+      "design_rank": 4,
+      "residual_df": 2
+    },
+    {
+      "omitted_block": "69_2__batch1",
+      "units": 6,
+      "remaining_genetic_backgrounds": 1,
+      "design_rank": 4,
+      "residual_df": 2
+    }
+  ]
+}

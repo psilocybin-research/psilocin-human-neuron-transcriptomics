@@ -1,0 +1,114 @@
+gene,functional_group,annotation_source,annotation_rule
+NDUFB7,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS6,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS8,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA3,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFV1,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFB2,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA2,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA8,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS3,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFB6,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFAB1,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA1,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA9,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFB8,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS4,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS7,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFA7,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFB3,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFB4,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+NDUFS2,Respiratory complex I,Project descriptive assignment; not an ontology or enrichment result,Symbol starts NDUF
+SDHB,Respiratory complex II,Project descriptive assignment; not an ontology or enrichment result,"Symbol is SDHA, SDHB, SDHC or SDHD; assigned here before TCA group"
+SDHC,Respiratory complex II,Project descriptive assignment; not an ontology or enrichment result,"Symbol is SDHA, SDHB, SDHC or SDHD; assigned here before TCA group"
+SDHA,Respiratory complex II,Project descriptive assignment; not an ontology or enrichment result,"Symbol is SDHA, SDHB, SDHC or SDHD; assigned here before TCA group"
+CYC1,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCRC1,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCR10,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCR11,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCRQ,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCRFS1,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCRH,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+UQCRC2,Respiratory complex III,Project descriptive assignment; not an ontology or enrichment result,Symbol starts UQCR or CYC1
+COX8A,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX6B1,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX5B,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX4I1,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX10,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX17,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX7C,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX6A1,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX6C,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX5A,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX7B,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX7A2,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+COX7A2L,Respiratory complex IV,Project descriptive assignment; not an ontology or enrichment result,Symbol starts COX
+ATP6V0C,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6V1F,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6V0B,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6V1E1,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6AP1,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6V1G1,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+ATP6V1H,ATPase and ion transport,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts ATP; broad display class, not exclusively respiratory complex V"
+TIMM13,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPS12,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+TOMM22,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPL11,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+TIMM10,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+TIMM50,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPS15,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+TIMM8B,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+GRPEL1,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPL15,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPS11,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+PMPCA,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPL34,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+FXN,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+IMMT,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+AFG3L2,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+MRPL35,Mitochondrial import and translation,Project descriptive assignment; not an ontology or enrichment result,"Symbol starts TIMM, TOMM, MRPL or MRPS; or is AFG3L2, FXN, GRPEL1, HSPA9, IMMT, OXA1L or PMPCA"
+OGDH,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+IDH3G,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+ACO2,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+IDH2,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+MDH2,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+IDH3B,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+PDHA1,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+FH,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+DLST,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+CS,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+IDH1,TCA cycle and pyruvate metabolism,Project descriptive assignment; not an ontology or enrichment result,Symbol in declared ACO2 CS DLAT DLD DLST FH IDH1 IDH2 IDH3A IDH3B IDH3G MDH2 MPC1 OGDH PDHA1 SDHA SDHB SDHC SDHD SUCLG1 list after earlier rule matches
+ECH1,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+ECI1,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+ETFB,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+ECHS1,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+ACAA1,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+PHYH,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+HADHA,Lipid oxidation and electron transfer,Project descriptive assignment; not an ontology or enrichment result,Symbol in ACAA1 ACADVL ECI1 ECH1 ECHS1 ETFB HADHA PHYH list
+GPX4,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+HSD17B10,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+CYB5R3,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SLC25A6,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SLC25A11,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+RHOT2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+BAX,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+POR,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+POLR2F,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+GPI,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SLC25A5,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+MFN2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+PHB2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SLC25A4,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+GOT2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SURF1,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+SLC25A3,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+HTRA2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+VDAC1,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+ALAS1,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+TCIRG1,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+CYCS,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+LDHA,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+MGST3,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+LDHB,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+NQO2,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module
+ALDH6A1,Other OXPHOS-set genes,Project descriptive assignment; not an ontology or enrichment result,Residual membership after preceding ordered symbol rules; not a single biological module

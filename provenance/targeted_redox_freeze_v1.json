@@ -1,0 +1,12 @@
+{
+  "frozen_utc": "2026-09-18T11:39:10.468611+00:00",
+  "commit": "02f657abd400d9dae488393a2c9128357b9bb2c2",
+  "status": "post-primary; before targeted module testing, partial constituent-gene exposure disclosed",
+  "sha256": {
+    "config/targeted_redox_v1.json": "10ef86f61b839d0176512d6062b280f600c06e87b90fc9b06078d5f7ea0cf831",
+    "reports/targeted_redox_plan_v1.md": "fa3b9bd9c7f4868864930e5f028fd4ff2d2403ffe39e6b2828a231840ee1ed4a",
+    "data/raw/gene_sets/c2.cp.reactome.v2026.1.Hs.symbols.gmt": "5d61f289a2400cddfbb3a3353829fd2284a360bbe50f2093b566c4b7bea93341",
+    "Psilocybin_cellular_aging_hypothesis_Redox_Biology_coauthor_review_2026-08-02-1.pdf": "d82bd77942110a2c43f6a64258ccfdbdc74728c915127cf19fac935287aa5278",
+    "Proposal-SEP-211384244-1.pdf": "580255c9d5d9e41a8e6f7242bffee257d156c3838feed3bf93b2eac1955b87ac"
+  }
+}

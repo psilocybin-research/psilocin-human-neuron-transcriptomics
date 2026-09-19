@@ -1,0 +1,4 @@
+"contrast","cached_deg","refit_deg","shared_deg","cached_up","cached_down","lfc_pearson","median_abs_lfc_difference","max_abs_lfc_difference","sign_agreement"
+"day1_vs_control",8347,8347,8347,4779,3568,1,1.26121335597418e-13,1.06599114957362e-06,1
+"day3_vs_control",1481,1481,1481,707,774,1,7.07489622442381e-14,9.2223052750029e-08,1
+"day3_vs_day1",2502,2502,2502,897,1605,1,1.16472803624035e-13,1.93282491878222e-06,1

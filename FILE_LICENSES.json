@@ -1,0 +1,1554 @@
+{
+  ".github/workflows/ci.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/workflows/pages.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".gitignore": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  ".zenodo.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "ATLAS_THIRD_PARTY_NOTICES.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "CITATION.cff": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "FILE_LICENSES.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "LICENSE.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "Makefile": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "PUBLICATION_MANIFEST.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "README.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "REUSE.toml": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "SHA256SUMS": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "THIRD_PARTY_NOTICES.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "config/analysis.yaml": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "config/dna_maintenance_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "config/gene_sets.yaml": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "config/oxphos_display_annotations.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "config/plasticity_overlap_context.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "config/public_release_outputs.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "config/targeted_redox_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "data/README.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "docs/analysis_history.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/README.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/observablehq.config.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/package-lock.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "explorer/package.json": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/atlas.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/format.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/data/atlas.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "explorer/src/data/genes.json": {
+    "spdx": "MIT AND CC-BY-4.0",
+    "copyright": [
+      "2026 Anne Hoffrichter",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/data/provenance.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/index.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/style.css": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_alias_sensitivity.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_alias_sensitivity.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_alias_sensitivity.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_evidence.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_evidence.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_evidence.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_gene_landscape.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_gene_landscape.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/oxphos_gene_landscape.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/primary_enrichment.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/primary_enrichment.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/primary_enrichment.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/qc_all_libraries.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/qc_core_libraries.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/qc_pooled_profiles.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/gene_set_redistribution_review.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/provenance.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/reactome_citation_check.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Reactome"
+    ]
+  },
+  "metadata/reactome_dna_annotation.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Reactome"
+    ]
+  },
+  "metadata/reactome_dna_reactions.json": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Reactome"
+    ]
+  },
+  "metadata/schmidt_accession_search.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_analysis_units.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_archive_comparison.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_control_resolution.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_control_resolution.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_core_exclusions.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_core_samples.csv": {
+    "spdx": "MIT AND CC-BY-4.0",
+    "copyright": [
+      "2026 Anne Hoffrichter",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_count_qc.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_counts_transformation.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_data_dictionary.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_design_audit.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_design_counts.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_design_matrix.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_gene_annotation.csv": {
+    "spdx": "MIT AND CC-BY-4.0",
+    "copyright": [
+      "2026 Anne Hoffrichter",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "metadata/schmidt_samples.csv": {
+    "spdx": "MIT AND CC-BY-4.0",
+    "copyright": [
+      "2026 Anne Hoffrichter",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/analysis_freeze.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/analysis_r_session_info.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/dna_maintenance_freeze_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/dna_maintenance_session.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/figure_session_info.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/isolated_rebuild.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/oxphos_alias_session.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/software_versions.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/targeted_redox_freeze_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/targeted_redox_session.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "renv.figures.lock": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "renv.lock": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
+  "renv/settings.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/analysis_plan_frozen.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/dna_maintenance_plan_v1.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/dna_maintenance_results.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/oxphos_alias_sensitivity.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_control_resolution.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_design_decision.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_primary_results.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_reproduction_check.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_rnaseq_qc.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/schmidt_secondary_results.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "requirements.figures.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "requirements.lock.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "requirements.release.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "requirements.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_file/data/atlas.8326664d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "site/_file/data/genes.592821e0.json": {
+    "spdx": "MIT AND CC-BY-4.0",
+    "copyright": [
+      "2026 Anne Hoffrichter",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_file/data/provenance.2241e923.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_import/components/atlas.7bb633a5.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_import/components/format.0a1392e2.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_import/style.bc8e15d9.css": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "site/_observablehq/client.4a52a1f6.js": {
+    "spdx": "ISC",
+    "copyright": [
+      "2018-2024 Observable, Inc."
+    ]
+  },
+  "site/_observablehq/runtime.fa9f71c0.js": {
+    "spdx": "ISC",
+    "copyright": [
+      "2018-2024 Observable, Inc."
+    ]
+  },
+  "site/_observablehq/stdlib.bc967ff7.js": {
+    "spdx": "ISC",
+    "copyright": [
+      "2018-2024 Observable, Inc."
+    ]
+  },
+  "site/index.html": {
+    "spdx": "MIT AND ISC",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "2018-2024 Observable, Inc."
+    ]
+  },
+  "src/__init__.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/__init__.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/analysis_inputs.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/download.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/reactome_dna_annotation.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/reactome_dna_reactions.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/restore.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/acquisition/schmidt_context.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/audit/__init__.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/audit/control_resolution.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/audit/inventory.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/audit/schmidt_design.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/figures/audit_explorer_runtime.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/figures/audit_publication_figures.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/figures/export_explorer.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/figures/figure_style.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/analyze.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/dna_maintenance.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/freeze.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/helpers.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/oxphos_alias_sensitivity.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/oxphos_gene_heatmap.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/prepare_gene_sets.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/publication_figures.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/qc_reproduce.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/report_dna_maintenance.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/report_oxphos_gene_summary.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/report_results.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/restore_environment.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/targeted_redox.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/validate_release.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/all_tests.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/annotation_dictionary.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/canonical_panel.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/concordance.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/concordance_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/frozen_exploratory.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/overlap.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/primary_tests.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/dna_maintenance/telomere_decomposition.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/oxphos_alias/alias_mapping.csv": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "HGNC 2026"
+    ]
+  },
+  "tables/oxphos_alias/all_variants.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/oxphos_alias/primary_comparison.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/oxphos_alias/provenance.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_distances.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_metrics.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_pca.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_pca_variance.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_pearson.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/all43_spearman.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_distances.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_metrics.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_pair_concordance.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_pca.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_pca_variance.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_pearson.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/core23_spearman.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_distances.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_metrics.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_pca.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_pca_variance.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_pearson.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/qc/pooled9_spearman.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/count_identity.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day1_vs_control_cached.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day1_vs_control_refitted.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day3_vs_control_cached.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day3_vs_control_refitted.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day3_vs_day1_cached.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/day3_vs_day1_refitted.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/model_agreement.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/object_summary.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/reproduction/representative_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/targeted_redox/all_tests.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/targeted_redox/gene_detail.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/targeted_redox/primary_tests.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_covariate_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/RIN_ge6_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/block_score_sign_flips.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/enrichment_all.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/enrichment_primary_model.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/first_library_selection.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/gene_mapping.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/leading_edge_block_directions.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/leading_edge_breadth.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/leading_edge_time_overlap.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/metabolic_plasticity_overlap.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/model_diagnostics.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch1_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_68_3__batch2_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/omit_69_2__batch1_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/one_library_per_group_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/oxphos_display_profiles.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/oxphos_gene_evidence_summary.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/oxphos_leading_edge_function_map.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/per_block_gene_directions.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day1_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day1_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day3_vs_control_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day3_vs_control_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day3_vs_day1_genes.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_day3_vs_day1_ranks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_leading_edge_overlap.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_mapping_coverage.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_membership_overlap.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_pathway_evidence.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_pathway_evidence_long.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/primary_pathway_gene_detail.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/run_summary.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/transcriptomics/secondary_evidence.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_dna_maintenance.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_identity.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_provenance.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_reporting.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_schmidt_design.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_transcriptomics.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "third_party_licenses/observable-framework-1.13.4.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2023-2024 Observable, Inc."
+    ]
+  },
+  "third_party_licenses/observable-inspector-5.0.1.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2018-2024 Observable, Inc."
+    ]
+  },
+  "third_party_licenses/observable-runtime-6.0.1.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2018-2024 Observable, Inc."
+    ]
+  }
+}

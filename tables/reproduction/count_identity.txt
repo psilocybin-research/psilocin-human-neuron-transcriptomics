@@ -1,0 +1,1 @@
+Every cached count equals independently reconstructed source counts; all 43 library identities and gene ordering agree.

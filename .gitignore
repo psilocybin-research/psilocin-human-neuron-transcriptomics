@@ -1,0 +1,17 @@
+.venv/
+.Rlib/
+renv/library/
+renv/staging/
+node_modules/
+explorer/node_modules/
+explorer/dist/
+explorer/src/.observablehq/
+__pycache__/
+.pytest_cache/
+*.pyc
+.Rhistory
+.RData
+.env
+data/raw/
+data/interim/
+data/processed/

@@ -1,0 +1,103 @@
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = [".gitignore", "PUBLICATION_MANIFEST.json", "FILE_LICENSES.json", "SHA256SUMS", "explorer/package-lock.json", "renv.lock", "renv.figures.lock"]
+precedence = "override"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [".github/**", "Makefile", "requirements.txt", "requirements.figures.txt", "requirements.release.txt", "src/**", "tests/**", "explorer/package.json", "explorer/observablehq.config.js", "explorer/test/**", "explorer/src/components/**", "explorer/src/style.css"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["config/gene_sets.yaml", "config/plasticity_overlap_context.json"]
+precedence = "override"
+SPDX-FileCopyrightText = "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["config/targeted_redox_v1.json", "config/dna_maintenance_v1.json"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"]
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "metadata/reactome_*"
+precedence = "override"
+SPDX-FileCopyrightText = "Reactome"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "tables/oxphos_alias/alias_mapping.csv"
+precedence = "override"
+SPDX-FileCopyrightText = "HGNC 2026"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["metadata/schmidt_gene_annotation.csv", "metadata/schmidt_samples.csv", "metadata/schmidt_core_samples.csv"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Anne Hoffrichter", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "MIT AND CC-BY-4.0"
+
+[[annotations]]
+path = "explorer/src/data/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "site/_observablehq/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2018-2024 Observable, Inc."
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = "third_party_licenses/observable-framework-1.13.4.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2023-2024 Observable, Inc."
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = ["third_party_licenses/observable-runtime-6.0.1.txt", "third_party_licenses/observable-inspector-5.0.1.txt"]
+precedence = "override"
+SPDX-FileCopyrightText = "2018-2024 Observable, Inc."
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = ["site/_import/components/**", "site/_import/style*.css"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "site/_file/data/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["explorer/src/data/atlas.json", "site/_file/data/atlas.*"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"]
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["explorer/src/data/genes.json", "site/_file/data/genes.*"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Anne Hoffrichter", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "MIT AND CC-BY-4.0"
+
+[[annotations]]
+path = "site/index.html"
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2018-2024 Observable, Inc."]
+SPDX-License-Identifier = "MIT AND ISC"

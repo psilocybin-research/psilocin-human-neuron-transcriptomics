@@ -1,0 +1,10 @@
+analysis_unit,block,condition,Cell_line,Batch,libraries_n,RIN_min,RIN_max,RIN_mean,source_samples
+68_3__batch1__control,68_3__batch1,control,68_3,1,3,6.9,9.6,8.200000000000001,ctrl1-2;ctrl2-2;ctrl3-2
+68_3__batch1__psilocin_day1,68_3__batch1,psilocin_day1,68_3,1,3,7.4,9.1,8.066666666666666,trt511-2;trt512-2;trt52-2
+68_3__batch1__psilocin_day3,68_3__batch1,psilocin_day3,68_3,1,3,6.6,9.4,8.433333333333334,trt31-2;trt32-2;trt33-2
+68_3__batch2__control,68_3__batch2,control,68_3,2,2,8.0,8.9,8.45,ctrl11-3;ctrl12-3
+68_3__batch2__psilocin_day1,68_3__batch2,psilocin_day1,68_3,2,1,8.9,8.9,8.9,trt51-3
+68_3__batch2__psilocin_day3,68_3__batch2,psilocin_day3,68_3,2,2,9.2,9.2,9.2,trt311-3;trt312-3
+69_2__batch1__control,69_2__batch1,control,69_2,1,3,7.0,8.7,7.599999999999999,ctrl1-1;ctrl2-1;ctrl3-1
+69_2__batch1__psilocin_day1,69_2__batch1,psilocin_day1,69_2,1,3,5.0,6.7,5.633333333333333,trt511-4;trt512-4;trt52-1
+69_2__batch1__psilocin_day3,69_2__batch1,psilocin_day3,69_2,1,3,7.7,8.7,8.2,trt31-1;trt32-1;trt33-1

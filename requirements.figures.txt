@@ -1,0 +1,2 @@
+# Optional publication PDF inspection, separate from the frozen scientific environment.
+PyMuPDF==1.26.7

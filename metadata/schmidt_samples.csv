@@ -1,0 +1,44 @@
+ODCF_name,ID,ASID,Name,sample_name,RIN,Cell_line,Condition,Culture,Batch,QC_comment,timepoint_d,Age generation of fibroblasts ,Sex,Psi_conc_uM,Psi_trt_time_min,Ket_conc_uM,Ket_trt_time_min,PLG_conc_uM,PLG_trt_time_min,Condition_simple,Treatment_simple
+ctrl1-1,,,Ctrl 1,OE0533_MS_692_1_C1,7.0,69_2,Ctrl_1,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl1-2,,,Ctrl 1,OE0533_MS_683_1_C1,8.1,68_3,Ctrl_1,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl11-3,,,Ctrl 1 T1,OE0533_MS_683_2_C11,8.9,68_3,Ctrl_1_T1,2D,2,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl12-3,,,Ctrl 1 T2,OE0533_MS_683_2_C12,8.0,68_3,Ctrl_1_T2,2D,2,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl2-1,,,Ctrl 2,OE0533_MS_692_1_C2,7.1,69_2,Ctrl_2,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl2-2,,,Ctrl 2,OE0533_MS_683_1_C2,6.9,68_3,Ctrl_2,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl3-1,,,Ctrl 3,OE0533_MS_692_1_C3,8.7,69_2,Ctrl_3,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+ctrl3-2,,,Ctrl 3,OE0533_MS_683_1_C3,9.6,68_3,Ctrl_3,2D,1,,,,Female,0,0,0,0,0,0,Ctrl,Ctrl
+trt31-1,,,3D 10µM Psi 10min 1,OE0533_MS_692_1_T31,8.7,69_2,3D_10µM_Psi_10min_1,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt31-2,,,3D 10µM Psi 10min 1,OE0533_MS_683_1_T31,6.6,68_3,3D_10µM_Psi_10min_1,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt311-3,,,3D 10µM Psi 10min 1 T1,OE0533_MS_683_2_T311,9.2,68_3,3D_10µM_Psi_10min_1_T1,2D,2,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt312-3,,,3D 10µM Psi 10min 1 T2,OE0533_MS_683_2_T312,9.2,68_3,3D_10µM_Psi_10min_1_T2,2D,2,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt32-1,,,3D 10µM Psi 10min 2,OE0533_MS_692_1_T32,8.2,69_2,3D_10µM_Psi_10min_2,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt32-2,,,3D 10µM Psi 10min 2,OE0533_MS_683_1_T32,9.4,68_3,3D_10µM_Psi_10min_2,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt33-1,,,3D 10µM Psi 10min 3,OE0533_MS_692_1_T33,7.7,69_2,3D_10µM_Psi_10min_3,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt33-2,,,3D 10µM Psi 10min 3,OE0533_MS_683_1_T33,9.3,68_3,3D_10µM_Psi_10min_3,2D,1,,,,Female,10,10,0,0,0,0,Trt3,psi
+trt41-1,,,3D 10µM Psi + 75µM Ket 10min 1,OE0533_MS_692_1_T41,8.7,69_2,3D_10µM_Psi_75µM_Ket_10min_1,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt41-2,,,3D 10µM Psi + 75µM Ket 10min 1,OE0533_MS_683_1_T41,7.9,68_3,3D_10µM_Psi_75µM_Ket_10min_1,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt41-3,,,3D 10µM Psi + 75µM Ket 10min 1,OE0533_MS_683_2_T41,6.5,68_3,3D_10µM_Psi_75µM_Ket_10min_1,2D,2,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt42-1,,,3D 10µM Psi + 75µM Ket 10min 2,OE0533_MS_692_1_T42,8.5,69_2,3D_10µM_Psi_75µM_Ket_10min_2,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt42-2,,,3D 10µM Psi + 75µM Ket 10min 2,OE0533_MS_683_1_T42,8.9,68_3,3D_10µM_Psi_75µM_Ket_10min_2,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt43-1,,,3D 10µM Psi + 75µM Ket 10min 3,OE0533_MS_692_1_T43,8.6,69_2,3D_10µM_Psi_75µM_Ket_10min_3,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt43-2,,,3D 10µM Psi + 75µM Ket 10min 3,OE0533_MS_683_1_T43,8.7,68_3,3D_10µM_Psi_75µM_Ket_10min_3,2D,1,,,,Female,10,10,75,20,0,0,Trt4,ket
+trt51-3,,,1D 10µM Psi 10min 1,OE0533_MS_683_2_T51,8.9,68_3,1D_10µM_Psi_10min_1,2D,2,,,,Female,10,10,0,0,0,0,Trt5,psi
+trt511-2,,,1D 10µM Psi 10min 1 T1,OE0533_MS_683_1_T511,7.4,68_3,1D_10µM_Psi_10min_1_T1,2D,1,,,,Female,10,10,0,0,0,0,Trt5,psi
+trt511-4,,,1D 10µM Psi 10min 1 T1,OE0533_MS_692_1_T511,5.2,69_2,1D_10µM_Psi_10min_1_T1,2D,1,"Sample was sent in on a separate plate again (first QC failed), seq was connected to former submission ",,,Female,10,10,0,0,0,0,Trt5,psi
+trt512-2,,,1D 10µM Psi 10min 1 T2 ,OE0533_MS_683_1_T512,7.7,68_3,1D_10µM_Psi_10min_1_T2 ,2D,1,,,,Female,10,10,0,0,0,0,Trt5,psi
+trt512-4,,,1D 10µM Psi 10min 1 T2 ,OE0533_MS_692_1_T512,5.0,69_2,1D_10µM_Psi_10min_1_T2 ,2D,1,"Sample was sent in on a separate plate again (first QC failed), seq was connected to former submission ",,,Female,10,10,0,0,0,0,Trt5,psi
+trt52-1,,,1D 10µM Psi 10min 2,OE0533_MS_692_1_T52,6.7,69_2,1D_10µM_Psi_10min_2,2D,1,,,,Female,10,10,0,0,0,0,Trt5,psi
+trt52-2,,,1D 10µM Psi 10min 2,OE0533_MS_683_1_T52,9.1,68_3,1D_10µM_Psi_10min_2,2D,1,,,,Female,10,10,0,0,0,0,Trt5,psi
+trt61-1,,,1D 10µM Psi + 75µM Ket 10min 1,OE0533_MS_692_1_T61,8.0,69_2,1D_10µM_Psi_75µM_Ket_10min_1,2D,1,,,,Female,10,10,75,20,0,0,Trt6,ket
+trt61-3,,,1D 10µM Psi + 75µM Ket 10min 1,OE0533_MS_683_2_T61,9.4,68_3,1D_10µM Psi_75µM_Ket_10min_1,2D,2,,,,Female,10,10,75,20,0,0,Trt6,ket
+trt62-1,,,1D 10µM Psi + 75µM Ket 10min 2,OE0533_MS_692_1_T62,8.2,69_2,1D_10µM_Psi_75µM_Ket_10min_2,2D,1,,,,Female,10,10,75,20,0,0,Trt6,ket
+trt62-2,,,1D 10µM Psi + 75µM Ket 10min 2,OE0533_MS_683_1_T62,8.9,68_3,1D_10µM_Psi_75µM_Ket_10min_2,2D,1,,,,Female,10,10,75,20,0,0,Trt6,ket
+trt63-2,,,1D 10µM Psi + 75µM Ket 10min 3,OE0533_MS_688_1_T63,8.7,68_3,1D_10µM_Psi_75µM_Ket_10min_3,2D,1,,,,Female,10,10,75,20,0,0,Trt6,ket
+trt71-1,,,Ctrl + 4h PLG 1,OE0533_MS_692_1_T71,8.2,69_2,Ctrl_4h_PLG_1,2D,1,,,,Female,0,0,0,0,1 mg/ml,240,Trt7,Ctrl_PLG
+trt71-3,,,Ctrl + 4h PLG 1,OE0533_MS_683_2_T71,8.8,68_3,Ctrl_4h_PLG_1,2D,2,,,,Female,0,0,0,0,1 mg/ml,240,Trt7,Ctrl_PLG
+trt72-1,,,Ctrl + 4h PLG 2,OE0533_MS_692_1_T72,8.2,69_2,Ctrl_4h_PLG_2,2D,1,,,,Female,0,0,0,0,1 mg/ml,240,Trt7,Ctrl_PLG
+trt72-3,,,Ctrl + 4h PLG 2,OE0533_MS_683_2_T72,8.3,68_3,Ctrl_4h_PLG_2,2D,2,,,,Female,0,0,0,0,1 mg/ml,240,Trt7,Ctrl_PLG
+trt81-1,,,3D 10µM Psi + 4h PLG 1,OE0533_MS_692_1_T81,5.7,69_2,3D_10µM_Psi_4h_PLG_1,2D,1,,,,Female,10,10,0,0,1 mg/ml,240,Trt8,PLG
+trt81-3,,,3D 10µM Psi + 4h PLG 1,OE0533_MS_683_2_T81,6.4,68_3,3D_10µM_Psi_4h_PLG_1,2D,2,,,,Female,10,10,0,0,1 mg/ml,240,Trt8,PLG
+trt82-1,,,3D 10µM Psi + 4h PLG 2,OE0533_MS_692_1_T82,5.7,69_2,3D_10µM_Psi_4h_PLG_2,2D,1,,,,Female,10,10,0,0,1 mg/ml,240,Trt8,PLG
+trt82-3,,,3D 10µM Psi + 4h PLG 2,OE0533_MS_683_2_T82,6.2,68_3,3D_10µM_Psi_4h_PLG_2,2D,2,,,,Female,10,10,0,0,1 mg/ml,240,Trt8,PLG

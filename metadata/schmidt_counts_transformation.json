@@ -1,0 +1,100 @@
+{
+  "script": "src/audit/schmidt_design.py",
+  "output": "data/processed/schmidt/core_block_condition_counts.tsv.gz",
+  "output_sha256": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9",
+  "sample_mapping": "metadata/schmidt_core_samples.csv",
+  "inputs": [
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl1-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "8c9b696f3681d489ac28926e57361fe4d3a47f8d864fac167293231b9eb25273"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl1-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "91b2e9006ff7face18888e7379e33d8994cb57e9a8658c8b73b73363ae61100a"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl11-3_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "0afc13cdf2b4b825154e6c2e1542fa7487b725cfe392215c7773cdf869bf5ee4"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl12-3_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "db2a1ae57c7cfa561a80be0d714b10be4ec8982726b1d6436c9f5eae28dcdbd7"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl2-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "ac5f7eec2efe32fa855ac5420d5b983fc8a9ec10259dfe21f22fccd65c25b55f"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl2-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "08230096ce9269ddc11e6eb307d7d2348775fb0c80193eb904a03c1c5916a42b"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl3-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "373d79f033a7fbbd61865d358759a42a9ed498d1190e102923c878025f98b256"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/ctrl3-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "c7d3af992409710f043242fbd9c8b16d22d294eeab6511f6d40c874bd44a4ce4"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt31-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "0405b2605a5a5dec9371f85bc2471eac137f2a986b10e96b2c5ef1ca309d60a2"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt31-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "43733cb43b989c92b5a5a519da808c2555fe2d74e784564568f3cd48a5123bde"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt311-3_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "460c1120293e7c09e84d1e651cb3679757d3f2892cd011e50906c5d462f44b7b"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt312-3_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "a0fe010979154dc3bb9e08c61b67ced3e8765988d77bc6d26fbafe852f017e4d"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt32-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "f3b483dd1e257052ab1857531f587818b0cb48ab0a3683f3e75fa7414bb9ae2e"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt32-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "7d4caa89e0dead901eeb6c6cd9ef4183793d19f372a15198665d116de3afd424"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt33-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "1d029c6e00b9f82c66e1561da30cbb7645647eda9351e5610bf61fb3ed9023cc"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt33-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "929fe4822ab14357a6646cd167e9a562ee269cf1a0205307a3f30753c0c56ce6"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt51-3_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "a3f860628cce44fb631146c8335e5e8722e7a8afc22cd55584727e1c168f2322"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt511-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "a0085f44baba0c6b2cc46d8f837fb8a99935d084544bf8dee04986090a159f9d"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt511-4_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "c46f33c48414a6dadd9976412b2b877c033f6067738a9eff852e88043ae634e8"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt512-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "1d4edf65d0c681994068cf85ab1cb25e844f56ae31d98afad1bb64c2a0f0ca86"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt512-4_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "6cf889a7ab9ad95243a92cc7525220b40948bbd6df8a8a46066a117edaa2f8c8"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt52-1_OE0533_MS_69_2.fpkm_tpm.featureCounts.tsv",
+      "sha256": "4d4ef3637e440619b255b41bd94f04e1e44a28de622efc368fc7e3b212c13418"
+    },
+    {
+      "path": "data/raw/schmidt/github/raw_data/IlseID29538/featureCounts/trt52-2_OE0533_MS_68_3.fpkm_tpm.featureCounts.tsv",
+      "sha256": "5c847317080af880a935e78ee234c4dec14e75676b9a67ec20421a894fec0d5b"
+    }
+  ]
+}

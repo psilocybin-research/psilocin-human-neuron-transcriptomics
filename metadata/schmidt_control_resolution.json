@@ -1,0 +1,9 @@
+{
+  "decision": "B",
+  "control_library_days_recovered": false,
+  "control_libraries": 8,
+  "all_metadata_timepoint_d_missing": true,
+  "software_heritage_equals_archived_github": true,
+  "analysis_blobs_unchanged_since_initial": true,
+  "scope": "public supplied metadata/code/archive; no author contact; absence of labels does not prove unmatched control collection"
+}

@@ -1,0 +1,21 @@
+ODCF_name,Condition_simple,Condition,reason
+trt41-1,Trt4,3D_10µM_Psi_75µM_Ket_10min_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt41-2,Trt4,3D_10µM_Psi_75µM_Ket_10min_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt41-3,Trt4,3D_10µM_Psi_75µM_Ket_10min_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt42-1,Trt4,3D_10µM_Psi_75µM_Ket_10min_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt42-2,Trt4,3D_10µM_Psi_75µM_Ket_10min_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt43-1,Trt4,3D_10µM_Psi_75µM_Ket_10min_3,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt43-2,Trt4,3D_10µM_Psi_75µM_Ket_10min_3,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt61-1,Trt6,1D_10µM_Psi_75µM_Ket_10min_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt61-3,Trt6,1D_10µM Psi_75µM_Ket_10min_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt62-1,Trt6,1D_10µM_Psi_75µM_Ket_10min_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt62-2,Trt6,1D_10µM_Psi_75µM_Ket_10min_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt63-2,Trt6,1D_10µM_Psi_75µM_Ket_10min_3,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt71-1,Trt7,Ctrl_4h_PLG_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt71-3,Trt7,Ctrl_4h_PLG_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt72-1,Trt7,Ctrl_4h_PLG_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt72-3,Trt7,Ctrl_4h_PLG_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt81-1,Trt8,3D_10µM_Psi_4h_PLG_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt81-3,Trt8,3D_10µM_Psi_4h_PLG_1,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt82-1,Trt8,3D_10µM_Psi_4h_PLG_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs
+trt82-3,Trt8,3D_10µM_Psi_4h_PLG_2,co-treatment or PLG condition outside primary comparison; retained in raw inputs

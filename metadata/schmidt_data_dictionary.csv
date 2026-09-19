@@ -1,0 +1,23 @@
+original_column,dtype,missing_n,unique_nonmissing_n,definition_status
+ID,float64,43,0,source header; semantic review required
+ASID,float64,43,0,source header; semantic review required
+Name,object,0,24,source header; semantic review required
+sample_name,object,0,43,source header; semantic review required
+RIN,float64,0,28,source header; semantic review required
+Cell_line,object,0,2,source header; semantic review required
+Condition,object,0,25,source header; semantic review required
+Culture,object,0,1,source header; semantic review required
+Batch,int64,0,2,source header; semantic review required
+QC_comment,object,41,1,source header; semantic review required
+timepoint_d,float64,43,0,source header; semantic review required
+Age generation of fibroblasts ,float64,43,0,source header; semantic review required
+Sex,object,0,1,source header; semantic review required
+Psi_conc_uM,int64,0,2,source header; semantic review required
+Psi_trt_time_min,int64,0,2,source header; semantic review required
+Ket_conc_uM,int64,0,2,source header; semantic review required
+Ket_trt_time_min,int64,0,2,source header; semantic review required
+PLG_conc_uM,object,0,2,source header; semantic review required
+PLG_trt_time_min,int64,0,2,source header; semantic review required
+ODCF_name,object,0,43,source header; semantic review required
+Condition_simple,object,0,7,source header; semantic review required
+Treatment_simple,object,0,5,source header; semantic review required

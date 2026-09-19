@@ -1,0 +1,30 @@
+[
+  {
+    "file": "data/raw/schmidt/article.json",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/article.xml",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/dryad_metadata.json",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/dryad_landing.html",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/github/r-scripts/001_Data_preparation_Schmidt_et_al_2024.Rmd",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/github/r-scripts/002_Figure3_Schmidt_et_al_2024.Rmd",
+    "sequencing_accessions": []
+  },
+  {
+    "file": "data/raw/schmidt/github/r-scripts/003_Supplementary_Figure3_Schmidt_et_al.Rmd",
+    "sequencing_accessions": []
+  }
+]
