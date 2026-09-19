@@ -17,10 +17,23 @@ test('atlas exposes scholarly discovery and signposting metadata', () => {
 });
 
 test('atlas foregrounds source data and the principal positive finding', () => {
+  assert.match(atlasSource, /GERMANN REANALYSIS · VERSION 1\.0\.0/);
+  assert.match(atlasSource, /SOURCE STUDY · SCHMIDT ET AL\. \(2026\)/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
   assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);
   assert.match(atlasSource, /that narrower result does not negate the broader transcriptional finding/);
+});
+
+test('atlas progressively enhances sharing and plot fullscreen controls', () => {
+  assert.match(atlasSource, /typeof navigator\.share==='function'/);
+  assert.match(atlasSource, /navigator\.share\(/);
+  assert.match(atlasSource, /mailto:\?subject=/);
+  assert.match(atlasSource, /shareDetails/);
+  assert.match(atlasSource, /syncLocation/);
+  assert.match(atlasSource, /requestFullscreen/);
+  assert.match(atlasSource, /webkitRequestFullscreen/);
+  assert.match(atlasSource, /View .* in full screen/);
 });
 
 test('JSON-LD distinguishes this creator from source-study creators', () => {
