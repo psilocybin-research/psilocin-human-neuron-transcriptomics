@@ -1,7 +1,7 @@
 const url = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/";
 const image = "https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/docs/images/atlas-overview.png";
 const title = "Psilocin human-neuron transcriptomic atlas";
-const description = "Explore the complete frozen pathway, OXPHOS, gene-level, robustness, and DNA-maintenance results from an independent secondary analysis of the Schmidt et al. human-neuron RNA-seq study.";
+const description = "Explore the primary OXPHOS-centered signature and bounded exploratory DNA-repair and telomere-maintenance findings from an independent secondary analysis of the Schmidt et al. human-neuron RNA-seq study.";
 const sourceAuthors = [
   "Malin Schmidt", "Anne Hoffrichter", "Mahnaz Davoudi", "Sandra Horschitz",
   "Thorsten Lau", "Marcus W. Meinhardt", "Rainer Spanagel", "Julia Ladewig",

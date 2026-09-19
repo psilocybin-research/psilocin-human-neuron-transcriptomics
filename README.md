@@ -49,6 +49,8 @@ A brief psilocin pulse was associated with a broad OXPHOS-centered transcription
 
 That distributed and reproducibly characterized OXPHOS response is the principal contribution of this secondary analysis. A separately specified post-primary tier did not support NRF2, glutathione, or their joint NRF2–glutathione–pentose-phosphate prediction as the specific mechanism. This narrows the mechanistic interpretation; it does not convert the broader OXPHOS-centered finding into a null result.
 
+The frozen exploratory family also identified positive DNA-repair and telomere-maintenance enrichment at both sampled days. In the separately corrected post hoc decomposition, DNA repair remained supported after telomere-set genes were removed, whereas telomere maintenance after removal of DNA-repair genes met the follow-up threshold only at Day 1. Accompanying DNA-replication enrichment and mixed cell-cycle controls leave biological specificity unresolved. These findings nominate an exploratory genome-maintenance-associated transcriptional dimension; they do not establish DNA-repair activity, telomere maintenance, or a nonspecific proliferative response.
+
 The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
