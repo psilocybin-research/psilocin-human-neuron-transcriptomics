@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/">
     <img src="docs/images/atlas-overview.png" alt="Overview of the interactive psilocin transcriptomic atlas, showing the study design, headline result and primary pathway matrix" width="920">
   </a>
 </p>
@@ -50,7 +50,7 @@ A brief psilocin pulse was associated with a broad OXPHOS-centered transcription
 The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/">
     <img src="docs/images/atlas-landscape.png" alt="Interactive OXPHOS landscape showing gene-level expression profiles, model effects and leading-edge membership" width="920">
   </a>
 </p>
