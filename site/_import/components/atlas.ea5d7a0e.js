@@ -22,10 +22,11 @@ export function createAtlas(data,provenance,loadGenes){
  const tabs=[['overview','Overview'],['landscape','OXPHOS landscape'],['genes','Gene explorer'],['pathways','Pathways'],['robustness','Robustness'],['dna','DNA maintenance'],['methods','Methods & sources']];
  let tab='overview',selected='GPX4',pathway='HALLMARK_OXIDATIVE_PHOSPHORYLATION',contrast='day1_vs_control',group='All functions',pathwayTier='all';
  const params=new URLSearchParams(location.hash.slice(1));if(tabs.some(x=>x[0]===params.get('view')))tab=params.get('view');selected=params.get('gene')||selected;
- const top=el('header','masthead');const home=el('a','wordmark','PSILOCIN / TRANSCRIPTOMIC ATLAS');home.href='https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/';top.append(home,el('span','release','SCHMIDT REANALYSIS · VERSION 1.0.0'));
+ const top=el('header','masthead');const home=el('a','wordmark','PSILOCIN / TRANSCRIPTOMIC ATLAS');home.href='https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/';top.append(home,el('span','release','SCHMIDT ET AL. (2026) REANALYSIS · VERSION 1.0.0'));
  const nav=el('nav','tabs');nav.setAttribute('aria-label','Explorer sections');
  const body=el('div','atlas-body');const boundary=el('aside','boundary','Interpretation boundary · Three differentiation blocks, two genetic backgrounds. Control harvest days are unresolved; treatment-specific temporal change cannot be estimated.');
- root.append(top,nav,boundary,body);
+ const footer=el('footer','source-footer');footer.append(el('span','', 'Source study · Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife, 14, RP104006. '));const doi=el('a','','https://doi.org/10.7554/eLife.104006.3');doi.href='https://doi.org/10.7554/eLife.104006.3';doi.target='_blank';doi.rel='noopener';footer.append(doi);
+ root.append(top,nav,boundary,body,footer);
  function go(next,gene){tab=next;if(gene)selected=gene;const q=new URLSearchParams({view:tab});if(tab==='genes'||tab==='landscape')q.set('gene',selected);history.replaceState(null,'',`#${q}`);render();}
  for(const [id,t]of tabs)nav.append(button(t,()=>go(id)));
  function render(){[...nav.children].forEach((b,i)=>{b.classList.toggle('active',tabs[i][0]===tab);b.setAttribute('aria-current',tabs[i][0]===tab?'page':'false');});body.replaceChildren();({overview,landscape,genesView,pathways,robustness,dna:dnaView,methods}[tab==='genes'?'genesView':tab])();}

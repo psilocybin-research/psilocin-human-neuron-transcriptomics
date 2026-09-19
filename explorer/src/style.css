@@ -16,3 +16,4 @@ code,pre,.gene-symbol,.numeric,.identifier,.gene-hit strong,.gene-row text,.chip
 
 .dna-map-scroll{overflow:auto;background:white;border:1px solid #dce4dd;padding:12px}.dna-map{min-width:620px}.dna-row{cursor:pointer}.dna-row text,.gene-symbol-cell{font-family:var(--font-mono)}.dna-row:hover{opacity:.75}.dna-row:focus-visible{outline:2px solid #cca255}.atlas details{margin:18px 0}.atlas summary{cursor:pointer;font-weight:600;font-size:13px}
 .source-study,.citation-card{margin:8px 0 30px;padding:20px 22px;background:#f3f6f1;border:1px solid #dce4dd}.source-study h2,.citation-card h3{margin:0 0 8px;font-size:18px}.source-study p,.citation-card p{margin:0;color:#53645c;font-size:13px;line-height:1.65}.source-study .source-link{margin:12px 0 0}
+.source-footer{margin-top:24px;border-top:1px solid #cdd8d3;padding:18px 0 30px;color:#65736c;font-size:11px;line-height:1.6}.source-footer a{color:#28624c;overflow-wrap:anywhere}
