@@ -7,7 +7,7 @@
   "access_right": "open",
   "license": "other-open",
   "language": "eng",
-  "description": "<p><strong>Explore the results in the <a href=\"https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/\">interactive transcriptomic atlas</a>.</strong></p><p>This archive provides reproducibility code, frozen specifications, complete derived results, publication figures, and a static copy of the atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout.</p><p>The analysis identifies a broad OXPHOS-centered transcriptional signature at both sampled days. It reports the complete primary pathway family, gene-level estimates, leading edges, prespecified robustness checks, and bounded exploratory analyses. Because control harvest days are unresolved, a treatment-specific temporal trajectory is not estimable. Transcriptional enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity, or telomere preservation.</p><p><strong>Source study:</strong> Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). <em>Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons.</em> eLife, 14, RP104006. <a href=\"https://doi.org/10.7554/eLife.104006.3\">https://doi.org/10.7554/eLife.104006.3</a>.</p><p><strong>Source repository:</strong> <a href=\"https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics\">GitHub</a>. This is a mixed-license archive; path-level rights and third-party notices are documented in LICENSE.md, REUSE.toml, FILE_LICENSES.json, and THIRD_PARTY_NOTICES.md.</p>",
+  "description": "<p><strong>Explore the results in the <a href=\"https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/\">interactive transcriptomic atlas</a>.</strong></p><p>This record is an independent secondary analysis and derived research object. It is not the original Schmidt experimental dataset or the original Hoffrichter/Schmidt analysis.</p><p><strong>Original experiment and data generation:</strong> Schmidt et al. generated the human iPSC-derived cortical-neuron data and reported the experiment in <em>Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons</em> (2026), <a href=\"https://doi.org/10.7554/eLife.104006\">doi:10.7554/eLife.104006</a>. The associated source research data are deposited at Dryad, <a href=\"https://doi.org/10.5061/dryad.xsj3tx9w3\">doi:10.5061/dryad.xsj3tx9w3</a>, under Dryad's CC0 framework.</p><p><strong>Original analysis:</strong> the Hoffrichter/Schmidt RNA-seq analysis code is pinned at Git commit <code>c565709affafbea09406bd7b42fe494f08db6cce</code> and preserved by Software Heritage as <a href=\"https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/\"><code>swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048</code></a>.</p><p><strong>This secondary analysis:</strong> Christopher B. Germann independently reanalysed the public RNA-seq data. This archive contains the newly generated reproducibility code, frozen specifications, derived tables, figures, tests, and a static copy of the interactive atlas. Schmidt et al. are cited as the source-study authors; they are not creators of this research object.</p><p>The analysis identifies a broad OXPHOS-centered transcriptional signature at both sampled days. It reports the complete primary pathway family, gene-level estimates, leading edges, prespecified robustness checks, and bounded exploratory analyses. Because control harvest days are unresolved, a treatment-specific temporal trajectory is not estimable. Transcriptional enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity, or telomere preservation.</p><p><strong>Licensing:</strong> source Dryad research data are distributed under CC0. This archive does not relicense them. Newly created software is MIT licensed; newly created documentation, figures, and derived result tables are CC BY 4.0 unless a path-level notice states otherwise. Upstream components retain their original terms. This is a mixed-license archive; exact rights and notices are documented in LICENSE.md, REUSE.toml, FILE_LICENSES.json, and THIRD_PARTY_NOTICES.md.</p><p><strong>Secondary-analysis repository:</strong> <a href=\"https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics\">GitHub</a>.</p>",
   "creators": [
     {
       "name": "Germann, Christopher B.",
@@ -39,7 +39,7 @@
       "resource_type": "software"
     },
     {
-      "identifier": "10.7554/eLife.104006.3",
+      "identifier": "10.7554/eLife.104006",
       "relation": "isDerivedFrom",
       "resource_type": "publication-article"
     },
@@ -47,6 +47,16 @@
       "identifier": "10.5061/dryad.xsj3tx9w3",
       "relation": "isDerivedFrom",
       "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://github.com/ahoffrichter/Schmidt_et_al_2025/tree/c565709affafbea09406bd7b42fe494f08db6cce",
+      "relation": "isDerivedFrom",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/",
+      "relation": "isDerivedFrom",
+      "resource_type": "software"
     }
   ],
   "communities": [

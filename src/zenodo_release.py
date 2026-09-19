@@ -101,8 +101,10 @@ def payload() -> dict:
             "subjects": [{"subject": item} for item in reviewed["keywords"]],
             "related_identifiers": [
                 {"identifier": REPOSITORY, "scheme": "url", "relation_type": {"id": "issupplementto"}, "resource_type": {"id": "software"}},
-                {"identifier": "10.7554/eLife.104006.3", "scheme": "doi", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "publication-article"}},
+                {"identifier": "10.7554/eLife.104006", "scheme": "doi", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "publication-article"}},
                 {"identifier": "10.5061/dryad.xsj3tx9w3", "scheme": "doi", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "dataset"}},
+                {"identifier": "https://github.com/ahoffrichter/Schmidt_et_al_2025/tree/c565709affafbea09406bd7b42fe494f08db6cce", "scheme": "url", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "software"}},
+                {"identifier": "https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/", "scheme": "url", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "software"}},
             ],
         },
     }

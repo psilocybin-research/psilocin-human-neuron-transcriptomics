@@ -5,7 +5,7 @@ type: software
 version: 1.0.0
 doi: 10.5281/zenodo.22843281
 date-released: 2026-09-19
-abstract: "Reproducibility code, frozen specifications, complete derived results, publication figures, and an interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout."
+abstract: "An independent secondary analysis of the Schmidt et al. (2026) human-neuron experiment and its public data. This research object contains newly generated reproducibility code, frozen specifications, derived tables, figures, tests, and an interactive atlas; it is not the original experimental dataset or the original Hoffrichter/Schmidt analysis."
 authors:
   - family-names: Germann
     given-names: Christopher B.
@@ -26,3 +26,38 @@ keywords:
   - neuroplasticity
   - redox biology
   - reproducible research
+references:
+  - type: article
+    title: "Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons"
+    doi: 10.7554/eLife.104006
+    authors: &schmidt_authors
+      - family-names: Schmidt
+        given-names: Markus
+      - family-names: Hoffrichter
+        given-names: Anne
+      - family-names: Davoudi
+        given-names: Mina
+      - family-names: Horschitz
+        given-names: Sandra
+      - family-names: Lau
+        given-names: Tobias
+      - family-names: Meinhardt
+        given-names: Marcus W.
+      - family-names: Spanagel
+        given-names: Rainer
+      - family-names: Ladewig
+        given-names: Julia
+      - family-names: Köhr
+        given-names: Georg
+      - family-names: Koch
+        given-names: Philipp
+  - type: data
+    title: "Data from: Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons"
+    doi: 10.5061/dryad.xsj3tx9w3
+    authors: *schmidt_authors
+  - type: software
+    title: "Original Hoffrichter/Schmidt RNA-seq analysis code"
+    url: "https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/"
+    authors:
+      - family-names: Hoffrichter
+        given-names: Anne

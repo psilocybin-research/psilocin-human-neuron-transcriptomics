@@ -4,9 +4,9 @@ This repository does not redistribute the raw Schmidt RNA-sequencing downloads. 
 
 ## Schmidt et al. data and code
 
-- Schmidt article: <https://doi.org/10.7554/eLife.104006.3>, CC BY 4.0.
+- Schmidt article: <https://doi.org/10.7554/eLife.104006>, CC BY 4.0. The reviewed eLife version used for this project is <https://doi.org/10.7554/eLife.104006.3>.
 - Dryad dataset: <https://doi.org/10.5061/dryad.xsj3tx9w3>, record version 434510, CC0 1.0 as recorded by Dryad.
-- Author repository: <https://github.com/ahoffrichter/Schmidt_et_al_2025>, pinned commit `c565709affafbea09406bd7b42fe494f08db6cce`, MIT License, copyright Anne Hoffrichter. The pinned upstream license has SHA-256 `fb4543330f1c9cf263ad289628fbc92df62ad4d65090f0480cf0e9a8529a7717`.
+- Original Hoffrichter/Schmidt analysis repository: <https://github.com/ahoffrichter/Schmidt_et_al_2025>, pinned commit `c565709affafbea09406bd7b42fe494f08db6cce`, preserved as Software Heritage directory identifier `swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048`, MIT License, copyright Anne Hoffrichter. The pinned upstream license has SHA-256 `fb4543330f1c9cf263ad289628fbc92df62ad4d65090f0480cf0e9a8529a7717`.
 
 ## Gene sets
 

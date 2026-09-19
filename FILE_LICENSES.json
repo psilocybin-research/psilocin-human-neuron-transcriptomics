@@ -243,6 +243,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/metadata.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "figures/oxphos_alias_sensitivity.pdf": {
     "spdx": "CC-BY-4.0",
     "copyright": [

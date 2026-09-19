@@ -2,15 +2,15 @@
   "schema_version": 1,
   "release": "v1.0.0",
   "created": "2026-09-19",
-  "file_count": 265,
-  "total_bytes": 157037994,
+  "file_count": 266,
+  "total_bytes": 157063847,
   "status": "pass",
   "failures": [],
   "files": [
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 818,
-      "sha256": "0c23cc05ab254fd488cc9b3446d2e7eba3bf79bca45080a1efdc96825c766667"
+      "bytes": 950,
+      "sha256": "8706f0fdfc4b5b3aa19bc430c01d56ee576dacc5d0d71403610cca7608cb1b96"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -34,8 +34,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 3069,
-      "sha256": "abf4d88b81f94501e1044a2c5453d8a5676a877fdd836250e9634aec51add3af"
+      "bytes": 4612,
+      "sha256": "028cb6db6de84d1c5fb0ef54e7cdb3ee488841f2ccb503b6045dec574e2d6e52"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -44,13 +44,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 1203,
-      "sha256": "2c70936ab191bcc4104a1c8c0dd3b33267a9473930d8317239657ffeed720caf"
+      "bytes": 2490,
+      "sha256": "d62dc13f2623e9394587f13381d7e35f7d1e47c0aa74b260c86215bdfd54a769"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 36329,
-      "sha256": "6d974f399dbbf058f2fa19da8a6afc7a4e177d085396372331853d3564d912c0"
+      "bytes": 36452,
+      "sha256": "32b1b90f403af6843aa4af1a9e640fe4abed6ed5b9ee330e1d705b4d3d9dc2dc"
     },
     {
       "path": "LICENSE.md",
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 11001,
-      "sha256": "ab911fdcd7088326b154f21e51a8006b10ec2b54f8894403efef83394033fb31"
+      "bytes": 12191,
+      "sha256": "e0d3186c2ef194f570b702d0272228a2feea8b0fb26426a8aa336e1ed282938d"
     },
     {
       "path": "REUSE.toml",
@@ -94,8 +94,8 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 1872,
-      "sha256": "fde061a48197ca7b853dbb043b8d6433db18cf4b86c84f2eae15efd82832abec"
+      "bytes": 2101,
+      "sha256": "4c5d1b0218f5cafad3dbf78d9fee6e8e85a32843d1f060253decac3505e3904f"
     },
     {
       "path": "config/analysis.yaml",
@@ -159,8 +159,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 659,
-      "sha256": "cc3f1249c30a5fe28137ca84d2eba162c7b4c8231786a6ef8ca0a366d1b135d3"
+      "bytes": 7097,
+      "sha256": "2b0a32f474117be7d6d2f06fd953795138116588175f1d338625b64dc0700331"
     },
     {
       "path": "explorer/package-lock.json",
@@ -216,6 +216,11 @@
       "path": "explorer/test/data.test.js",
       "bytes": 3645,
       "sha256": "852c24279d1e2ba44432267b6da80b5fb792a69485a59f4d4c53b9ec980e5d37"
+    },
+    {
+      "path": "explorer/test/metadata.test.js",
+      "bytes": 1621,
+      "sha256": "9d2cf49256e32904a74c2c500070c584dafe7aaac5b067019eaafa5b47f3579f"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
@@ -574,8 +579,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 2886,
-      "sha256": "cf1f15d71add86b41f9c1ba0de609385250ca5586d2d058cf4661d02ce110187"
+      "bytes": 10508,
+      "sha256": "5a32b8c9dc5e690e03ff1365c6e2e5b79a2b5ad3ccb6ecef514f1a48520f05c5"
     },
     {
       "path": "src/__init__.py",
@@ -734,13 +739,13 @@
     },
     {
       "path": "src/validate_release.py",
-      "bytes": 8684,
-      "sha256": "ef667f8863497724fbae4e4654fef8da1010bdf28103c476bcfe5b5bfbe24a7f"
+      "bytes": 13906,
+      "sha256": "79142f4a6cc63cf0b22d42a987aeecb6e6761b8834928d5d2dd9d9cfc9cb2479"
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 11288,
-      "sha256": "3fab985612e29d04f2086f59f16d88a0776ea77075322996b1673a00a80b0a60"
+      "bytes": 11734,
+      "sha256": "13a095c12cbf8de5d14614ea6cb16d9b6c05c57eefbb8699e96a4bc648b9368e"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",

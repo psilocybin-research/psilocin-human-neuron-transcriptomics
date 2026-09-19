@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview">
     <img src="docs/images/atlas-overview.png" alt="Overview of the interactive psilocin transcriptomic atlas, showing the study design, headline result and primary pathway matrix" width="920">
   </a>
 </p>
@@ -50,7 +50,7 @@ A brief psilocin pulse was associated with a broad OXPHOS-centered transcription
 The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
     <img src="docs/images/atlas-landscape.png" alt="Interactive OXPHOS landscape showing gene-level expression profiles, model effects and leading-edge membership" width="920">
   </a>
 </p>
@@ -120,15 +120,17 @@ These are derived results from the archived analysis. Gene-level adjusted p-valu
 
 ## Source study
 
-This is an independent secondary analysis of data accompanying:
+This repository is an independent secondary analysis and derived research object. It is not the original experimental dataset or the original Schmidt/Hoffrichter analysis.
 
-> Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. *eLife*, 14, RP104006. [https://doi.org/10.7554/eLife.104006.3](https://doi.org/10.7554/eLife.104006.3)
+The original experiment and data generation were reported in:
 
-- [Original article](https://doi.org/10.7554/eLife.104006.3)
-- [Author code and RNA-seq repository](https://github.com/ahoffrichter/Schmidt_et_al_2025)
-- [Dryad phenotype record](https://doi.org/10.5061/dryad.xsj3tx9w3)
+> Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. *eLife*, 14, RP104006. [https://doi.org/10.7554/eLife.104006](https://doi.org/10.7554/eLife.104006)
 
-Raw source files are not duplicated here. [`metadata/provenance.json`](metadata/provenance.json) records pinned source URLs, versions and SHA-256 checksums; acquisition scripts restore and verify public inputs. Cite the original Schmidt article when using or discussing the source experiment, and cite this archived release when using this reanalysis, atlas, code or derived results.
+- [Original Schmidt article](https://doi.org/10.7554/eLife.104006) (the reviewed version used here is [eLife.104006.3](https://doi.org/10.7554/eLife.104006.3))
+- [Associated Schmidt Dryad research data](https://doi.org/10.5061/dryad.xsj3tx9w3), distributed under Dryad's CC0 framework
+- Original Hoffrichter/Schmidt RNA-seq analysis code: [pinned Git commit](https://github.com/ahoffrichter/Schmidt_et_al_2025/tree/c565709affafbea09406bd7b42fe494f08db6cce) and preserved Software Heritage directory [`swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048`](https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/)
+
+Christopher B. Germann performed this secondary analysis and created its reproducibility code, specifications, derived tables, figures, tests, and interactive atlas. Schmidt et al. are cited and attributed as the source-study authors, but are not listed as creators of this research object. Raw source files are not duplicated here. [`metadata/provenance.json`](metadata/provenance.json) records pinned source URLs, versions and SHA-256 checksums; acquisition scripts restore and verify public inputs. Cite the original Schmidt article when using or discussing the source experiment, and cite this archived release when using this reanalysis, atlas, code, or derived results. Newly created materials and upstream sources retain the path-level licenses documented in [`LICENSE.md`](LICENSE.md), [`FILE_LICENSES.json`](FILE_LICENSES.json), and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## Reproduce the analysis
 
@@ -140,6 +142,7 @@ cd psilocin-human-neuron-transcriptomics
 
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.lock.txt
+.venv/bin/python -m pip install -r requirements.release.txt
 make acquire
 make audit
 make audit-design
