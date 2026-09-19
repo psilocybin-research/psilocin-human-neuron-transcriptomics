@@ -45,7 +45,7 @@ That distributed and reproducibly characterized OXPHOS response is the principal
 
 The frozen exploratory family also identified positive DNA-repair and telomere-maintenance enrichment at both sampled days. In the separately corrected post hoc decomposition, DNA repair remained supported after telomere-set genes were removed, whereas telomere maintenance after removal of DNA-repair genes met the follow-up threshold only at Day 1. Accompanying DNA-replication enrichment and mixed cell-cycle controls leave biological specificity unresolved. These findings nominate an exploratory genome-maintenance-associated transcriptional dimension; they do not establish DNA-repair activity, telomere maintenance, or a nonspecific proliferative response.
 
-The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
+Source materials describe vehicle controls at matching time points, but the public RNA-seq metadata do not link individual control libraries to harvest day. This reanalysis therefore uses the available common control pool and cannot estimate a treatment × time interaction. Competitive pathway q-values describe concentration within the ranked transcriptome, not biological-replication probabilities across three differentiation blocks. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
   <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
@@ -184,7 +184,7 @@ The repository intentionally excludes manuscript files, journal correspondence, 
 
 ## Statistical scope
 
-The primary model conservatively aggregates 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion in [`reports/analysis_plan_frozen.md`](reports/analysis_plan_frozen.md).
+The primary model conservatively aggregates raw counts from 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion in [`reports/analysis_plan_frozen.md`](reports/analysis_plan_frozen.md).
 
 Exploratory DNA-repair and telomere-maintenance findings and their post hoc decomposition are clearly separated from the primary metabolic and redox analysis. See [`docs/analysis_history.md`](docs/analysis_history.md).
 
