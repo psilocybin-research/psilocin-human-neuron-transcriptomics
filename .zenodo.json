@@ -7,7 +7,7 @@
   "access_right": "open",
   "license": "other-open",
   "language": "eng",
-  "description": "Reproducibility code, frozen specifications, complete derived results, publication figures, and a static interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout. Mixed-license archive: original software is MIT licensed; original documentation, figures and derived result tables are CC BY 4.0; upstream material retains its original terms. LICENSE.md provides the file-level map.",
+  "description": "Reproducibility code, frozen specifications, complete derived results, publication figures, and a static interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout. The archive accompanies the live atlas at https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/ and the source repository at https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics. This is a mixed-license archive. Original software is MIT licensed; original documentation, figures, derived result tables, and redistributed MSigDB memberships are CC BY 4.0 with attribution; Observable runtime assets are ISC licensed; directly reproduced Reactome and HGNC data are CC0. Upstream components retain their original terms. LICENSE.md, REUSE.toml, FILE_LICENSES.json, THIRD_PARTY_NOTICES.md, and third_party_licenses/ provide the path-level rights and notices.",
   "creators": [
     {
       "name": "Germann, Christopher B.",
@@ -47,6 +47,11 @@
       "identifier": "10.5061/dryad.xsj3tx9w3",
       "relation": "isDerivedFrom",
       "resource_type": "dataset"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "psilocybin-research"
     }
   ]
 }

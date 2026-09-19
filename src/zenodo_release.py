@@ -14,15 +14,17 @@ import json
 import os
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve()
+ROOT = HERE.parents[1] if (HERE.parents[1] / ".zenodo.json").is_file() else HERE.parents[2]
 DEFAULT_TOKEN = Path.home() / ".config/psilocybin-bridge/zenodo_token"
 API = "https://zenodo.org/api"
-RIGHTS = ["mit", "cc-by-4.0", "isc", "cc0-1.0"]
+RIGHTS = ["other-open"]
 TITLE = "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas"
 VERSION = "1.0.0"
 REPOSITORY = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics"
@@ -118,15 +120,34 @@ def payload() -> dict:
     }
 
 
+def legacy_metadata() -> dict:
+    """Return the reviewed repository metadata in Zenodo's documented deposit schema."""
+    metadata = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    metadata.pop("doi", None)
+    for creator in metadata.get("creators", []):
+        creator.pop("type", None)
+    return metadata
+
+
 def concise(record: dict) -> dict:
     metadata = record.get("metadata", {})
-    doi = metadata.get("doi") or record.get("pids", {}).get("doi", {}).get("identifier")
+    preregistered = metadata.get("prereserve_doi") or {}
+    doi = (
+        metadata.get("doi")
+        or record.get("doi")
+        or record.get("pids", {}).get("doi", {}).get("identifier")
+        or preregistered.get("doi")
+    )
     rights = metadata.get("rights") or ([metadata["license"]] if metadata.get("license") else [])
-    right_ids = [item.get("id") for item in rights]
+    right_ids = [item.get("id") if isinstance(item, dict) else item for item in rights]
     files = record.get("files", {})
-    entries = files.get("entries", {}) if isinstance(files, dict) else {}
+    if isinstance(files, dict):
+        entries = files.get("entries", {})
+    else:
+        entries = {item.get("key") or item.get("filename"): item for item in files}
     return {
-        "id": record.get("id"), "status": record.get("status"), "is_published": record.get("is_published"),
+        "id": record.get("id"), "status": record.get("status") or record.get("state"),
+        "is_published": record.get("is_published", record.get("submitted")),
         "title": metadata.get("title"), "version": metadata.get("version"), "doi": doi,
         "rights": right_ids, "file_keys": sorted(entries),
         "links": {k: v for k, v in record.get("links", {}).items() if k in {"self_html", "preview_html", "doi", "publish"}},
@@ -144,10 +165,19 @@ def validate_record(record: dict, archive: Path | None = None, expected_sha: str
     if archive is not None:
         actual = sha256(archive)
         if expected_sha and actual != expected_sha: errors.append(f"local archive SHA-256 mismatch: {actual}")
-        entries = record.get("files", {}).get("entries", {})
+        files = record.get("files", {})
+        if isinstance(files, dict):
+            entries = files.get("entries", {})
+        else:
+            entries = {item.get("key") or item.get("filename"): item for item in files}
         entry = entries.get(archive.name)
         if not entry: errors.append(f"uploaded archive absent: {archive.name}")
-        elif entry.get("status") not in {"completed", "committed"}: errors.append(f"uploaded archive not committed: {entry.get('status')}")
+        else:
+            status = entry.get("status")
+            if status and status not in {"completed", "committed"}: errors.append(f"uploaded archive not committed: {status}")
+            remote_md5 = (entry.get("checksum") or "").removeprefix("md5:")
+            local_md5 = hashlib.md5(archive.read_bytes()).hexdigest()
+            if remote_md5 and remote_md5 != local_md5: errors.append(f"uploaded archive MD5 mismatch: {remote_md5}")
     if errors:
         raise SystemExit("Zenodo draft validation failed:\n- " + "\n- ".join(errors))
     return doi
@@ -170,6 +200,7 @@ def main() -> None:
     sub.add_parser("payload")
     sub.add_parser("create-draft")
     inspect_p = sub.add_parser("inspect"); inspect_p.add_argument("record_id")
+    update_p = sub.add_parser("update-metadata"); update_p.add_argument("record_id")
     upload_p = sub.add_parser("upload"); upload_p.add_argument("record_id"); upload_p.add_argument("archive", type=Path)
     publish_p = sub.add_parser("publish"); publish_p.add_argument("record_id"); publish_p.add_argument("archive", type=Path); publish_p.add_argument("--expected-doi", required=True); publish_p.add_argument("--expected-sha256", required=True)
     args = parser.parse_args()
@@ -185,19 +216,22 @@ def main() -> None:
         validate_record(record)
         write_state(args.state, record)
         print(json.dumps(concise(record), indent=2)); return
-    record = api("GET", f"{API}/records/{args.record_id}/draft", token)
+    record = api("GET", f"{API}/deposit/depositions/{args.record_id}", token)
     if args.command == "inspect":
+        validate_record(record)
+        write_state(args.state, record)
+        print(json.dumps(concise(record), indent=2)); return
+    if args.command == "update-metadata":
+        record = api("PUT", f"{API}/deposit/depositions/{args.record_id}", token, payload={"metadata": legacy_metadata()})
         validate_record(record)
         write_state(args.state, record)
         print(json.dumps(concise(record), indent=2)); return
     archive = args.archive.resolve()
     if not archive.is_file(): raise SystemExit(f"Archive absent: {archive}")
     if args.command == "upload":
-        api("POST", record["links"]["files"], token, payload=[{"key": archive.name}])
-        file_url = f"{record['links']['files']}/{archive.name}"
-        api("PUT", file_url + "/content", token, binary=archive.read_bytes())
-        api("POST", file_url + "/commit", token, payload={})
-        record = api("GET", f"{API}/records/{args.record_id}/draft", token)
+        file_url = f"{record['links']['bucket']}/{urllib.parse.quote(archive.name)}"
+        api("PUT", file_url, token, binary=archive.read_bytes())
+        record = api("GET", f"{API}/deposit/depositions/{args.record_id}", token)
         validate_record(record, archive)
         write_state(args.state, record, archive)
         print(json.dumps(concise(record), indent=2)); return

@@ -3,7 +3,7 @@
   "release": "v1.0.0",
   "created": "2026-09-19",
   "file_count": 261,
-  "total_bytes": 156697919,
+  "total_bytes": 156699950,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 1843,
-      "sha256": "68891bd0de30dedee705450be1b6343b8b5841545159278b7d1fad2b0f5f342a"
+      "bytes": 2405,
+      "sha256": "fb3815d041cc914b2aa8914ee3adb61090b3034751875f5bd1671ed06cd73fe5"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -428,11 +428,6 @@
       "sha256": "fccc445e11b36df01ec133d006638e0a914a4af16dbc9438ad0ee235a3906a24"
     },
     {
-      "path": "renv/settings.json",
-      "bytes": 500,
-      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
-    },
-    {
       "path": "renv.figures.lock",
       "bytes": 155491,
       "sha256": "be83593e3c85768c65eb573799c284a4c9309170de6eaa4a8f5f9dccd07660d8"
@@ -441,6 +436,11 @@
       "path": "renv.lock",
       "bytes": 134719,
       "sha256": "36f0a49e5f99c90bf4eee0f75ca90d39f1a33934d3626312041dd9019e498f3c"
+    },
+    {
+      "path": "renv/settings.json",
+      "bytes": 500,
+      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
     },
     {
       "path": "reports/analysis_plan_frozen.md",
@@ -719,8 +719,8 @@
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 10427,
-      "sha256": "413f77d532b897bd2a26dbda565c26f8a4de063bce0b1913e8c377986930be31"
+      "bytes": 11896,
+      "sha256": "127ce7edc052fd919fb6f30066c63b4f8e292ad45ddfc4335fe5ab6f65d13171"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",
