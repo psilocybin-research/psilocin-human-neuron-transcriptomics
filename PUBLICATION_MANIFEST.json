@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.0.0",
   "created": "2026-09-19",
-  "file_count": 263,
-  "total_bytes": 156958457,
+  "file_count": 265,
+  "total_bytes": 157037994,
   "status": "pass",
   "failures": [],
   "files": [
@@ -23,9 +23,14 @@
       "sha256": "68e11ab41d4e024404b2be37e1544ec751e1fc0a5afd407a8b9518236c964fe8"
     },
     {
+      "path": ".github/workflows/reproduce-r.yml",
+      "bytes": 884,
+      "sha256": "4f6ef8c4d68fe79c4853d66cb0c51774ff9a7ba5e224882a46b97f138390bb3b"
+    },
+    {
       "path": ".gitignore",
-      "bytes": 218,
-      "sha256": "fe17377801d74ab3ab55bc2333d8ce59ebfca1f1f211088028f1287ef29793c6"
+      "bytes": 229,
+      "sha256": "087dd2933068875e1d8e851b687b0d1389d12154566dab1a370c7d51c5941fca"
     },
     {
       "path": ".zenodo.json",
@@ -44,8 +49,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 36093,
-      "sha256": "d00820f3d1ead8aef50633e43434f762c6675a423157241115f4a7c72ca2be89"
+      "bytes": 36329,
+      "sha256": "6d974f399dbbf058f2fa19da8a6afc7a4e177d085396372331853d3564d912c0"
     },
     {
       "path": "LICENSE.md",
@@ -79,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 10477,
-      "sha256": "8e9d28aab132bd91bc6ad67c972afca6e6592a3d79708fd738dedf2fb8b37cb4"
+      "bytes": 11001,
+      "sha256": "ab911fdcd7088326b154f21e51a8006b10ec2b54f8894403efef83394033fb31"
     },
     {
       "path": "REUSE.toml",
@@ -139,13 +144,13 @@
     },
     {
       "path": "docs/images/atlas-landscape.png",
-      "bytes": 130195,
-      "sha256": "8c97f88206da5a3720162a5859e3186af9d38b76705152d157bfe37d4111b03f"
+      "bytes": 159433,
+      "sha256": "3c8cff90872f2063374ac11b2a310fa307200c9cd7dafdc317fe602d0358ef6b"
     },
     {
       "path": "docs/images/atlas-overview.png",
-      "bytes": 118935,
-      "sha256": "c7c2ca32566a3446aebe15dcbae5f682742de5f24a9c005a52745258c1e5be5f"
+      "bytes": 155926,
+      "sha256": "280c22f7ef61ffd698fb3d36d8e6c6522adfb68bd242884b1925d9fbec42cf5d"
     },
     {
       "path": "explorer/README.md",
@@ -154,8 +159,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 730,
-      "sha256": "c0d40551a6a3d87ce525f35545e43f94340d696318c98899c3a26f6bb3b36d0f"
+      "bytes": 659,
+      "sha256": "cc3f1249c30a5fe28137ca84d2eba162c7b4c8231786a6ef8ca0a366d1b135d3"
     },
     {
       "path": "explorer/package-lock.json",
@@ -169,8 +174,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 35058,
-      "sha256": "bee092ba3f292b9f896f46d277aed18db15b36370dfddd9a77e2fbfd83358b31"
+      "bytes": 36290,
+      "sha256": "f31beade5eba96ecde32712c8ef39dcb006a2ec652a1424f8ca1762ccf2f6b56"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -199,13 +204,13 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 9319,
-      "sha256": "0f1a0d8adba5bf0b09cebd9d46e11c11f7079696f9dee1652e5a93d871c48658"
+      "bytes": 11387,
+      "sha256": "6fcecf47598041f6647cec8d1e5641ac76693160f5eb9c17ba95afc2fdeb2c4c"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 6664,
-      "sha256": "2e27aceeda36acaea6f61c63da6b61a8f39c61c1c18bbe8788e7c8e61379518f"
+      "bytes": 8089,
+      "sha256": "ca44f91724c36002a1ec7c9b119de6fa83bb143b1becd9ea9f04cce8df587aa8"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -538,9 +543,9 @@
       "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
-      "path": "site/_import/components/atlas.ea5d7a0e.js",
-      "bytes": 35067,
-      "sha256": "43696d67786a445a01a1e07ff46e4f24cbff7f151b08ba87a74afe80890254c0"
+      "path": "site/_import/components/atlas.341e71f7.js",
+      "bytes": 36299,
+      "sha256": "4f64721d5bcaadf3dd009ca19fbbe6159c2dc11264541e573e6f80bfabea09ee"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -548,9 +553,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.d6a7fd98.css",
-      "bytes": 31989,
-      "sha256": "d6a7fd98e05608c30753373fcf79c9ddb38269931ecaa79b24990d591d7e2311"
+      "path": "site/_import/style.4417dc1f.css",
+      "bytes": 33894,
+      "sha256": "4417dc1f282ae597f27214b01ce699fa7531140a5a9fdafb17eec514efb02365"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -569,8 +574,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 3013,
-      "sha256": "4c1de077c6fa3120b5cc29b0de3997a563bc4c72a2353c8805beb326f598c118"
+      "bytes": 2886,
+      "sha256": "cf1f15d71add86b41f9c1ba0de609385250ca5586d2d058cf4661d02ce110187"
     },
     {
       "path": "src/__init__.py",
@@ -651,6 +656,11 @@
       "path": "src/figures/figure_style.R",
       "bytes": 324,
       "sha256": "872d0e2fbb9df8d74d62f285e62d5d9c3dc7a7cc26f27767de6d9c0192b9b86e"
+    },
+    {
+      "path": "src/quick_start.R",
+      "bytes": 3989,
+      "sha256": "deddc16d1b79ead00a256a3c26c08e53998c999f6f65dab930eef79331701de3"
     },
     {
       "path": "src/transcriptomics/analyze.R",

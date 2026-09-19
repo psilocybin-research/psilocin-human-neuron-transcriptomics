@@ -6,6 +6,7 @@ node_modules/
 explorer/node_modules/
 explorer/dist/
 explorer/src/.observablehq/
+artifacts/
 __pycache__/
 .pytest_cache/
 *.pyc

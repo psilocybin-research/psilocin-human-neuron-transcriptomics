@@ -17,6 +17,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  ".github/workflows/reproduce-r.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   ".gitignore": {
     "spdx": "CC0-1.0",
     "copyright": [
@@ -632,7 +638,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.ea5d7a0e.js": {
+  "site/_import/components/atlas.341e71f7.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -644,7 +650,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.d6a7fd98.css": {
+  "site/_import/style.4417dc1f.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -766,6 +772,12 @@
     ]
   },
   "src/figures/figure_style.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/quick_start.R": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

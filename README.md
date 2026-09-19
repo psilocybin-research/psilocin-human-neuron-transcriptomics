@@ -73,6 +73,10 @@ The release also retains a frozen static atlas under [`site/`](site/).
 
 The complete derived tables are public, so readers can inspect the primary results without downloading raw RNA-seq inputs or rebuilding the analysis.
 
+**[Run this quick start on GitHub →](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/reproduce-r.yml)**
+
+The manual workflow runs [`src/quick_start.R`](src/quick_start.R) with R 4.6.1, presents the key results in the GitHub run summary, and provides the reproduced CSV tables plus complete R session information as a downloadable artifact. It uses base R and the repository's frozen derived tables; the locked environments remain available for full analytical reproduction.
+
 ```r
 base <- paste0(
   "https://raw.githubusercontent.com/psilocybin-research/",
