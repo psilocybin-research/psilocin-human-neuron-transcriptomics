@@ -20,7 +20,7 @@ test('JSON-LD distinguishes this creator from source-study creators', () => {
   const article = metadata.isBasedOn.find(item => item['@type'] === 'ScholarlyArticle');
   const dataset = metadata.isBasedOn.find(item => item['@type'] === 'Dataset');
   const software = metadata.isBasedOn.find(item => item['@type'] === 'SoftwareSourceCode');
-  assert.ok(article.author.some(author => author.name === 'Markus Schmidt'));
+  assert.ok(article.author.some(author => author.name === 'Malin Schmidt'));
   assert.equal(dataset.license, 'https://creativecommons.org/publicdomain/zero/1.0/');
   assert.equal(software.identifier, 'swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048');
   assert.deepEqual(

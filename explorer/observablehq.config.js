@@ -3,8 +3,8 @@ const image = "https://raw.githubusercontent.com/psilocybin-research/psilocin-hu
 const title = "Psilocin human-neuron transcriptomic atlas";
 const description = "Explore the complete frozen pathway, OXPHOS, gene-level, robustness, and DNA-maintenance results from an independent secondary analysis of the Schmidt et al. human-neuron RNA-seq study.";
 const sourceAuthors = [
-  "Markus Schmidt", "Anne Hoffrichter", "Mina Davoudi", "Sandra Horschitz",
-  "Tobias Lau", "Marcus W. Meinhardt", "Rainer Spanagel", "Julia Ladewig",
+  "Malin Schmidt", "Anne Hoffrichter", "Mahnaz Davoudi", "Sandra Horschitz",
+  "Thorsten Lau", "Marcus W. Meinhardt", "Rainer Spanagel", "Julia Ladewig",
   "Georg Köhr", "Philipp Koch"
 ].map(name => ({"@type": "Person", name}));
 const structuredData = {

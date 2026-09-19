@@ -3,7 +3,7 @@
   "release": "v1.0.0",
   "created": "2026-09-19",
   "file_count": 266,
-  "total_bytes": 157063847,
+  "total_bytes": 157063858,
   "status": "pass",
   "failures": [],
   "files": [
@@ -44,8 +44,8 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 2490,
-      "sha256": "d62dc13f2623e9394587f13381d7e35f7d1e47c0aa74b260c86215bdfd54a769"
+      "bytes": 2493,
+      "sha256": "041462a97764f7984bfe989792dc224ce922ffbaf4916e750d87af2416945d4f"
     },
     {
       "path": "FILE_LICENSES.json",
@@ -159,8 +159,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7097,
-      "sha256": "2b0a32f474117be7d6d2f06fd953795138116588175f1d338625b64dc0700331"
+      "bytes": 7100,
+      "sha256": "0365d66c6b5d231fb26ba2f5bd5bad8fd693b9b8fe01a4c09fcc53a45defc33b"
     },
     {
       "path": "explorer/package-lock.json",
@@ -219,8 +219,8 @@
     },
     {
       "path": "explorer/test/metadata.test.js",
-      "bytes": 1621,
-      "sha256": "9d2cf49256e32904a74c2c500070c584dafe7aaac5b067019eaafa5b47f3579f"
+      "bytes": 1620,
+      "sha256": "2345c1696b74f92e2c9732df77709db4ff13a94d451e1614c2aea6840844c100"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
@@ -579,8 +579,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 10508,
-      "sha256": "5a32b8c9dc5e690e03ff1365c6e2e5b79a2b5ad3ccb6ecef514f1a48520f05c5"
+      "bytes": 10514,
+      "sha256": "756e9a98f7b8bdc0c62d95a18c106cc67f2a4bcccaa28cb08fcfc9b528fdcc41"
     },
     {
       "path": "src/__init__.py",
