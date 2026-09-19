@@ -10,4 +10,4 @@ const geneFile = FileAttachment("./data/genes.json");
 display(createAtlas(atlas, provenance, () => geneFile.json()));
 ```
 
-<noscript>This explorer requires JavaScript. All numerical results are also available in the manuscript's Supplementary Data workbook and reproducibility archive.</noscript>
+<noscript>This atlas requires JavaScript. All numerical results are also available as downloadable tables in the public repository and archived release.</noscript>

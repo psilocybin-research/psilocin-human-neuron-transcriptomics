@@ -1,11 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software or its derived results, please cite the archived release."
-title: "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas"
+title: "A brief pulse. A broad transcriptional signature: psilocin human-neuron transcriptomics"
 type: software
 version: 1.0.0
 doi: 10.5281/zenodo.22843281
 date-released: 2026-09-19
-abstract: "Mixed-license research software release: original software is MIT licensed; original documentation, figures and derived result tables are CC BY 4.0. See LICENSE.md for the file-level license map."
+abstract: "Reproducibility code, frozen specifications, complete derived results, publication figures, and an interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout."
 authors:
   - family-names: Germann
     given-names: Christopher B.

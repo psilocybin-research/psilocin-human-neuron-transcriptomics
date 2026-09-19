@@ -1,55 +1,139 @@
-# Psilocin human-neuron transcriptomics
+<p align="center">
+  <strong>PSILOCIN HUMAN-NEURON TRANSCRIPTOMICS</strong>
+</p>
 
-[![CI](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml/badge.svg)](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml)
+<h1 align="center">A brief pulse. A broad transcriptional signature.</h1>
 
-Reproducible secondary analysis of public bulk RNA-sequencing data from human iPSC-derived cortical neurons after a 10-minute psilocin pulse followed by washout. The analysis focuses on oxidative phosphorylation, metabolic and redox transcription, robustness across the verified experimental design, and bounded exploratory DNA-maintenance results.
+<p align="center">
+  Psilocin human-neuron transcriptomics · reproducibility code and interactive atlas
+</p>
 
-Psilocin is the active metabolite of psilocybin. The experiment analyzed here used **psilocin**, and this repository preserves that distinction.
+<p align="center">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"><strong>Explore the live atlas</strong></a>
+  ·
+  <a href="https://doi.org/10.5281/zenodo.22843281">Archived release</a>
+  ·
+  <a href="#quick-start-in-r">R quick start</a>
+  ·
+  <a href="#citation">Citation</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://doi.org/10.5281/zenodo.22843281"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.22843281.svg"></a>
+  <a href="CITATION.cff"><img alt="Citation metadata: CFF" src="https://img.shields.io/badge/citation-CFF-7a5c2e"></a>
+  <a href="LICENSE.md"><img alt="Licenses: path-level" src="https://img.shields.io/badge/licenses-path--level-2f6f5e"></a>
+</p>
+
+<p align="center">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview">
+    <img src="docs/images/atlas-overview.png" alt="Overview of the interactive psilocin transcriptomic atlas, showing the study design, headline result and primary pathway matrix" width="920">
+  </a>
+</p>
+
+The atlas is the fastest way to inspect the complete result. It exposes the pathway matrix, the 113-gene OXPHOS landscape, transcriptome-wide gene estimates, every frozen sensitivity analysis, bounded DNA-maintenance follow-up, downloadable CSV files, and exact provenance. The browser only selects and displays archived outputs; it does not refit models or create new tests.
+
+## What this project provides
+
+| Area | What is available |
+| --- | --- |
+| Interactive evidence | A public atlas with overview, gene, pathway, robustness, DNA-maintenance and methods views |
+| Complete results | Gene-level estimates, pathway tables, leading edges, sensitivity variants and null/untestable results |
+| Reproducibility | Frozen plans, executable Python/R code, locked environments, checksums and session information |
+| Scientific context | Explicit experimental units, multiplicity families, temporal limits and interpretation boundaries |
+| Persistent archive | Versioned Zenodo software record with a checksum-verified release archive |
 
 ## Main result
 
-A brief psilocin pulse was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks. The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity, or telomere preservation.
+A brief psilocin pulse was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks.
 
-## Repository contents
+The public metadata do not identify control harvest days, so a treatment-specific temporal trajectory is not estimable. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
-| Path | Contents |
-|---|---|
-| `src/` | acquisition, audit, RNA-seq, enrichment and figure code |
-| `config/` | frozen model, pathway and sensitivity specifications |
-| `metadata/` | sample mappings, source inventory and design audit |
-| `tables/` | complete derived gene, pathway and sensitivity results |
-| `figures/` | final scientific figures and QC summaries |
-| `explorer/` | source and frozen display data for the interactive atlas |
-| `site/` | frozen static atlas build from this release |
-| `reports/` | frozen plan and scientific result reports |
-| `docs/` | concise public analysis chronology |
-| `provenance/` | freeze records, session information and source checksums |
+<p align="center">
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
+    <img src="docs/images/atlas-landscape.png" alt="Interactive OXPHOS landscape showing gene-level expression profiles, model effects and leading-edge membership" width="920">
+  </a>
+</p>
 
-The repository intentionally excludes manuscript files, journal correspondence, raw upstream downloads and internal development materials. `config/public_release_outputs.json` is the exact allowlist for redistributed numerical outputs.
+## Start with the atlas
 
-## Interactive atlas
+Open the **[live interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/)**. Useful entry points include:
 
-The live atlas will be available at:
+- [Overview and complete primary pathway matrix](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview)
+- [113-gene OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
+- [Searchable gene explorer](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=genes)
+- [All pathway tiers and contrasts](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=pathways)
+- [Prespecified robustness checks](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=robustness)
+- [Bounded DNA-maintenance follow-up](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=dna)
+- [Methods, sources and checksums](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)
 
-<https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/>
+The release also retains a frozen static atlas under [`site/`](site/).
 
-The atlas displays frozen outputs and does not run new statistical analyses in the browser. A static copy is retained in `site/`.
+## Quick start in R
 
-## Source data
+The complete derived tables are public, so readers can inspect the primary results without downloading raw RNA-seq inputs or rebuilding the analysis.
 
-The analysis uses the public data and code accompanying Schmidt et al.:
+```r
+base <- paste0(
+  "https://raw.githubusercontent.com/psilocybin-research/",
+  "psilocin-human-neuron-transcriptomics/v1.0.0/"
+)
 
-- Article: <https://doi.org/10.7554/eLife.104006.3>
-- Author repository: <https://github.com/ahoffrichter/Schmidt_et_al_2025>
-- Dryad record: <https://doi.org/10.5061/dryad.xsj3tx9w3>
+enrichment <- read.csv(paste0(
+  base,
+  "tables/transcriptomics/enrichment_primary_model.csv"
+))
 
-Raw files are not duplicated here. `metadata/provenance.json` records pinned source URLs, versions and SHA-256 checksums. Acquisition scripts restore and verify the public inputs.
+primary <- subset(
+  enrichment,
+  tier == "primary" & variant == "primary"
+)
 
-## Reproduction
+primary[c(
+  "pathway", "contrast", "NES", "family_fdr", "robustness"
+)]
 
-The analysis used Python 3.10 and R 4.6.1. Exact Python and R package states are recorded in `requirements.lock.txt`, `renv.lock` and `renv.figures.lock`.
+oxphos <- subset(
+  primary,
+  pathway == "HALLMARK_OXIDATIVE_PHOSPHORYLATION"
+)
+oxphos[c("contrast", "NES", "family_fdr", "robustness")]
+```
+
+To inspect transcriptome-wide Day-1 gene estimates:
+
+```r
+day1 <- read.csv(paste0(
+  base,
+  "tables/transcriptomics/primary_day1_vs_control_genes.csv"
+))
+
+day1[day1$symbol %in% c("GPX4", "NDUFB7", "ATP5A1"),
+     c("gene_id", "symbol", "log2FoldChange", "pvalue", "padj")]
+```
+
+These are derived results from the archived analysis. Gene-level adjusted p-values remain transcriptome-wide estimates and are not independent confirmation of pathway enrichment.
+
+## Source study
+
+This is an independent secondary analysis of data accompanying:
+
+> Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. *eLife*, 14, RP104006. [https://doi.org/10.7554/eLife.104006.3](https://doi.org/10.7554/eLife.104006.3)
+
+- [Original article](https://doi.org/10.7554/eLife.104006.3)
+- [Author code and RNA-seq repository](https://github.com/ahoffrichter/Schmidt_et_al_2025)
+- [Dryad phenotype record](https://doi.org/10.5061/dryad.xsj3tx9w3)
+
+Raw source files are not duplicated here. [`metadata/provenance.json`](metadata/provenance.json) records pinned source URLs, versions and SHA-256 checksums; acquisition scripts restore and verify public inputs. Cite the original Schmidt article when using or discussing the source experiment, and cite this archived release when using this reanalysis, atlas, code or derived results.
+
+## Reproduce the analysis
+
+The analysis used Python 3.10 and R 4.6.1. Exact package states are recorded in `requirements.lock.txt`, `renv.lock` and `renv.figures.lock`.
 
 ```bash
+git clone https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics.git
+cd psilocin-human-neuron-transcriptomics
+
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.lock.txt
 make acquire
@@ -65,9 +149,7 @@ make oxphos-alias-sensitivity
 make figures
 ```
 
-Network acquisition is explicit. Analysis and reporting commands use checksum-verified inputs and frozen specifications. The repository already contains the complete derived results so readers can inspect every reported result without rerunning the upstream acquisition.
-
-For the atlas:
+Network acquisition is explicit. Analysis and reporting commands use checksum-verified inputs and frozen specifications. To build the atlas locally:
 
 ```bash
 npm --prefix explorer ci
@@ -76,20 +158,39 @@ npm --prefix explorer run build
 python3 -m http.server 4173 --directory explorer/dist
 ```
 
+Then open `http://127.0.0.1:4173/`.
+
+## Repository guide
+
+| Path | Contents |
+| --- | --- |
+| [`src/`](src/) | Acquisition, audit, RNA-seq, enrichment and figure code |
+| [`config/`](config/) | Frozen model, pathway and sensitivity specifications |
+| [`metadata/`](metadata/) | Sample mappings, source inventory and design audit |
+| [`tables/`](tables/) | Complete derived gene, pathway and sensitivity results |
+| [`figures/`](figures/) | Publication figures and QC summaries in reusable formats |
+| [`explorer/`](explorer/) | Atlas source, tests and frozen display data |
+| [`site/`](site/) | Frozen static atlas build |
+| [`reports/`](reports/) | Frozen plan and complete scientific result reports |
+| [`docs/`](docs/) | Public analysis chronology and README images |
+| [`provenance/`](provenance/) | Freeze records, session information and checksums |
+
+The repository intentionally excludes manuscript files, journal correspondence, raw upstream downloads and internal development materials. [`config/public_release_outputs.json`](config/public_release_outputs.json) is the exact allowlist for redistributed numerical outputs.
+
 ## Statistical scope
 
-The primary model conservatively aggregates 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion described in `reports/analysis_plan_frozen.md`.
+The primary model conservatively aggregates 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion in [`reports/analysis_plan_frozen.md`](reports/analysis_plan_frozen.md).
 
-Exploratory DNA-repair and telomere-maintenance findings and their post hoc decomposition are clearly separated from the primary metabolic and redox analysis. See `docs/analysis_history.md`.
+Exploratory DNA-repair and telomere-maintenance findings and their post hoc decomposition are clearly separated from the primary metabolic and redox analysis. See [`docs/analysis_history.md`](docs/analysis_history.md).
 
 ## Citation
 
-Citation metadata are provided in `CITATION.cff`. Version 1.0.0 is archived at <https://doi.org/10.5281/zenodo.22843281>.
+Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff). The permanent citation for this release is:
 
-## Release process
+> Germann, C. B. (2026). *A brief pulse. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.0.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.22843281](https://doi.org/10.5281/zenodo.22843281)
 
-The release pipeline is split into reviewable stages. `src/zenodo_release.py` uses Zenodo's official API to reserve a DOI, upload one checksum-verified ZIP, inspect the draft, and publish only when the record ID, DOI and SHA-256 are explicitly confirmed. Its token is read from a private file outside the repository and is never placed in GitHub Actions. `make validate-release` checks the local package; `make zenodo-payload` prints the proposed metadata without requiring credentials. Tags matching `v*` run the full repository checks before GitHub creates the corresponding release.
+## Integrity and licensing
 
-## License
+`make validate-release` checks the curated package; `SHA256SUMS` and `PUBLICATION_MANIFEST.json` describe the archived tree.
 
-Original software is released under the MIT License. Original documentation, figures and derived result tables are released under CC BY 4.0, with upstream components separately attributed. See `LICENSE.md`, `FILE_LICENSES.json`, `THIRD_PARTY_NOTICES.md` and `metadata/gene_set_redistribution_review.json`.
+Original software is MIT licensed. Original documentation, figures and derived result tables are CC BY 4.0; upstream components retain their original terms. See [`LICENSE.md`](LICENSE.md), [`FILE_LICENSES.json`](FILE_LICENSES.json), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and [`metadata/gene_set_redistribution_review.json`](metadata/gene_set_redistribution_review.json).

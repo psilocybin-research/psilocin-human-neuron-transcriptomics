@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.0.0",
   "created": "2026-09-19",
-  "file_count": 261,
-  "total_bytes": 156699958,
+  "file_count": 263,
+  "total_bytes": 156957133,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 2405,
-      "sha256": "fb3815d041cc914b2aa8914ee3adb61090b3034751875f5bd1671ed06cd73fe5"
+      "bytes": 3069,
+      "sha256": "abf4d88b81f94501e1044a2c5453d8a5676a877fdd836250e9634aec51add3af"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -39,13 +39,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 1150,
-      "sha256": "36f0dac4c069572597109278ffc82fe32ccaebf7b9e191b1d446fa9bd782464b"
+      "bytes": 1203,
+      "sha256": "2c70936ab191bcc4104a1c8c0dd3b33267a9473930d8317239657ffeed720caf"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 35834,
-      "sha256": "d895a62fa7f3cf1c1568235e015f7782f4af2f2c40114b929b4bf47544a96669"
+      "bytes": 36093,
+      "sha256": "bb9f8e4074e4022ef45264dad216e01d62869721795f711ac2d9d542a9cd17d5"
     },
     {
       "path": "LICENSE.md",
@@ -79,8 +79,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5536,
-      "sha256": "934e7ab0afa225bf3829b661b4f40fd8c2d0b22a9679b0be13086ec1cf8ddddb"
+      "bytes": 10506,
+      "sha256": "fa145f9e9094a2633931cfb15330384bd1b045e097a411a5ff3f5f4db7836fe6"
     },
     {
       "path": "REUSE.toml",
@@ -138,6 +138,16 @@
       "sha256": "5939a4d74629431a9926f02637ae295bd23e3014c3e86565e1a86e81feb14b5b"
     },
     {
+      "path": "docs/images/atlas-landscape.png",
+      "bytes": 130195,
+      "sha256": "8c97f88206da5a3720162a5859e3186af9d38b76705152d157bfe37d4111b03f"
+    },
+    {
+      "path": "docs/images/atlas-overview.png",
+      "bytes": 118935,
+      "sha256": "c7c2ca32566a3446aebe15dcbae5f682742de5f24a9c005a52745258c1e5be5f"
+    },
+    {
       "path": "explorer/README.md",
       "bytes": 545,
       "sha256": "844d6b7229549c3a477a7debcc3eff64c95daa645d558595acc6ac1c692aa437"
@@ -159,8 +169,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 33503,
-      "sha256": "b7060e211de5f4b9c9ace9e55db778ddeeff6b4ddab1b854be38dd62770ed926"
+      "bytes": 34561,
+      "sha256": "b0a9e68e60790fd198cb17bf895b323491e0ea09588c1bb2725ea5d805029cf8"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -184,13 +194,13 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 538,
-      "sha256": "0455f97f207ea1c195045791dad50d068ba17ae56efed1323e7a4b46061685d4"
+      "bytes": 528,
+      "sha256": "26d5b694db3805038228865b522a8594f5dc1701db58b6879a738a950e35acc7"
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 8833,
-      "sha256": "d98a40dd66ea2dbfd1370aefc30da6e7cb6a60c22d7df064673107e03c942439"
+      "bytes": 9139,
+      "sha256": "6cb84eabbc7fb4b8521dadf9e5376d23d401e49c5efd0d587f54ff934e8df2f5"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -205,7 +215,7 @@
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
       "bytes": 23209,
-      "sha256": "2c7757bc97b20ce398b74a06f7e38ca772000f5cb43d86cb77a082b6f4f489ca"
+      "sha256": "10c5a50ce86412095300a87cd293cbfa53351734b3c1c6a39976abb84d5fd535"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.png",
@@ -220,7 +230,7 @@
     {
       "path": "figures/oxphos_evidence.pdf",
       "bytes": 222023,
-      "sha256": "9d763cffaaa62b9f3332eaf078bf809dd01ae0c29b63ec85465dcffe2e3b3654"
+      "sha256": "04c6887fb0592c9421de0b568d5b5694b250e68c99de24915230caca3f04f01b"
     },
     {
       "path": "figures/oxphos_evidence.png",
@@ -235,7 +245,7 @@
     {
       "path": "figures/oxphos_gene_landscape.pdf",
       "bytes": 46121,
-      "sha256": "a1b43459dbac25ded04d384f7859baa370da9995eef831bc81909db76d7998d8"
+      "sha256": "7de4949a5d7c5583cf10efec323f4340631a4d071065186d516c1beced6d1157"
     },
     {
       "path": "figures/oxphos_gene_landscape.png",
@@ -250,7 +260,7 @@
     {
       "path": "figures/primary_enrichment.pdf",
       "bytes": 23059,
-      "sha256": "3f2a49a162b672d69d5a7460725a1ec88f58523d645c321fc48b1671a3c3676a"
+      "sha256": "72b501bcc2f6130b6dcf9cab23f07f1a6d33a5a8a5fb0f03a768250c5aa1f6df"
     },
     {
       "path": "figures/primary_enrichment.png",
@@ -428,6 +438,11 @@
       "sha256": "fccc445e11b36df01ec133d006638e0a914a4af16dbc9438ad0ee235a3906a24"
     },
     {
+      "path": "renv/settings.json",
+      "bytes": 500,
+      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
+    },
+    {
       "path": "renv.figures.lock",
       "bytes": 155491,
       "sha256": "be83593e3c85768c65eb573799c284a4c9309170de6eaa4a8f5f9dccd07660d8"
@@ -436,11 +451,6 @@
       "path": "renv.lock",
       "bytes": 134719,
       "sha256": "36f0a49e5f99c90bf4eee0f75ca90d39f1a33934d3626312041dd9019e498f3c"
-    },
-    {
-      "path": "renv/settings.json",
-      "bytes": 500,
-      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
     },
     {
       "path": "reports/analysis_plan_frozen.md",
@@ -528,9 +538,9 @@
       "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
-      "path": "site/_import/components/atlas.4fd1f9b6.js",
-      "bytes": 33512,
-      "sha256": "fcfd08eeb76ee4c9b347db4e0964e9aec0b77604d5b5eb20720761e80cfcce65"
+      "path": "site/_import/components/atlas.a08e2f19.js",
+      "bytes": 34570,
+      "sha256": "36802faa2d6f7262dc60681194580464345a2c57fd9a5a927fd1a295e38c4d4b"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -538,9 +548,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.bc8e15d9.css",
-      "bytes": 31505,
-      "sha256": "bc8e15d95aa3067279aaeff682eca0ed3aff5e6d521201b2f2b30992af9ee8f3"
+      "path": "site/_import/style.17225538.css",
+      "bytes": 31810,
+      "sha256": "17225538307a4829c8805c623e9d38ee86f843a8a8eb21152f8e85c31463cbd7"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -559,8 +569,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 3023,
-      "sha256": "9b51bc1b244febd56e081d860a847cd99ac0e24eac64582c1eb46473c4c8b258"
+      "bytes": 3013,
+      "sha256": "155e911613aed3fc9b2db92aa15b33e1a15ce9281006a8e4f253c7b05c2298b2"
     },
     {
       "path": "src/__init__.py",
@@ -719,8 +729,8 @@
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 11896,
-      "sha256": "127ce7edc052fd919fb6f30066c63b4f8e292ad45ddfc4335fe5ab6f65d13171"
+      "bytes": 11288,
+      "sha256": "3fab985612e29d04f2086f59f16d88a0776ea77075322996b1673a00a80b0a60"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",

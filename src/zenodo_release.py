@@ -25,7 +25,7 @@ ROOT = HERE.parents[1] if (HERE.parents[1] / ".zenodo.json").is_file() else HERE
 DEFAULT_TOKEN = Path.home() / ".config/psilocybin-bridge/zenodo_token"
 API = "https://zenodo.org/api"
 RIGHTS = ["other-open"]
-TITLE = "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas"
+TITLE = "A brief pulse. A broad transcriptional signature: psilocin human-neuron transcriptomics"
 VERSION = "1.0.0"
 REPOSITORY = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics"
 ATLAS = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"
@@ -60,7 +60,7 @@ def read_token(path: Path) -> str:
     return token
 
 
-def api(method: str, url: str, token: str, payload: object | None = None, binary: bytes | None = None) -> dict:
+def api(method: str, url: str, token: str, payload: object | None = None, binary: bytes | None = None, missing_ok: bool = False) -> dict:
     headers = {"Authorization": f"Bearer {token}", "Accept": "application/json"}
     data = None
     if payload is not None:
@@ -74,24 +74,16 @@ def api(method: str, url: str, token: str, payload: object | None = None, binary
         with urllib.request.urlopen(request, timeout=180) as response:
             body = response.read()
     except urllib.error.HTTPError as exc:
+        if missing_ok and exc.code == 404:
+            return {}
         detail = exc.read().decode("utf-8", errors="replace")
         raise SystemExit(f"Zenodo API {method} failed ({exc.code}): {detail[:2000]}") from None
     return json.loads(body) if body else {}
 
 
 def payload() -> dict:
-    description = (
-        "<p>Reproducibility code, frozen specifications, complete derived results, publication figures, "
-        "and a static interactive atlas for a secondary RNA-seq analysis of human iPSC-derived cortical "
-        "neurons after a 10-minute psilocin pulse followed by washout.</p>"
-        "<p>This is a mixed-license archive. Original software is MIT licensed; original documentation, "
-        "figures and derived result tables are CC BY 4.0; Observable runtime assets are ISC; directly "
-        "redistributed Reactome and HGNC data are CC0. Upstream material retains its original terms. "
-        "The authoritative path-level map is in <code>LICENSE.md</code>, <code>REUSE.toml</code>, and "
-        "<code>FILE_LICENSES.json</code> inside the archive.</p>"
-        f"<p>Source: <a href=\"{REPOSITORY}\">{REPOSITORY}</a><br>"
-        f"Interactive atlas: <a href=\"{ATLAS}\">{ATLAS}</a></p>"
-    )
+    reviewed = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    description = reviewed["description"]
     return {
         "access": {"record": "public", "files": "public"},
         "files": {"enabled": True},
@@ -106,11 +98,7 @@ def payload() -> dict:
             "version": VERSION,
             "languages": [{"id": "eng"}],
             "rights": [{"id": item} for item in RIGHTS],
-            "subjects": [{"subject": item} for item in [
-                "psilocin", "psilocybin", "psychedelics", "transcriptomics", "RNA-seq",
-                "human iPSC-derived cortical neurons", "oxidative phosphorylation",
-                "mitochondrial metabolism", "mitochondria", "neuroplasticity", "redox biology", "reproducible research",
-            ]],
+            "subjects": [{"subject": item} for item in reviewed["keywords"]],
             "related_identifiers": [
                 {"identifier": REPOSITORY, "scheme": "url", "relation_type": {"id": "issupplementto"}, "resource_type": {"id": "software"}},
                 {"identifier": "10.7554/eLife.104006.3", "scheme": "doi", "relation_type": {"id": "isderivedfrom"}, "resource_type": {"id": "publication-article"}},
@@ -222,10 +210,19 @@ def main() -> None:
         write_state(args.state, record)
         print(json.dumps(concise(record), indent=2)); return
     if args.command == "update-metadata":
-        record = api("PUT", f"{API}/deposit/depositions/{args.record_id}", token, payload={"metadata": legacy_metadata()})
+        public = api("GET", f"{API}/records/{args.record_id}", token)
+        draft_url = public["links"]["draft"]
+        draft = api("GET", draft_url, token, missing_ok=True)
+        if not draft:
+            draft = api("POST", draft_url, token, payload={})
+        update = payload()
+        update.pop("pids", None)
+        record = api("PUT", draft["links"]["self"], token, payload=update)
         validate_record(record)
-        write_state(args.state, record)
-        print(json.dumps(concise(record), indent=2)); return
+        published = api("POST", record["links"]["publish"], token, payload={})
+        validate_record(published)
+        write_state(args.state, published)
+        print(json.dumps(concise(published), indent=2)); return
     archive = args.archive.resolve()
     if not archive.is_file(): raise SystemExit(f"Archive absent: {archive}")
     if args.command == "upload":
