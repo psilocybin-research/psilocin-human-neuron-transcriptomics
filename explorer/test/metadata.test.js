@@ -17,7 +17,8 @@ test('atlas exposes scholarly discovery and signposting metadata', () => {
 });
 
 test('atlas foregrounds source data and the principal positive finding', () => {
-  assert.match(atlasSource, /GERMANN REANALYSIS · VERSION 1\.0\.0/);
+  assert.match(atlasSource, /github\.com\/psilocybin-research\/psilocin-human-neuron-transcriptomics/);
+  assert.match(atlasSource, /v1\.0\.0/);
   assert.match(atlasSource, /SOURCE STUDY · SCHMIDT ET AL\. \(2026\)/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
@@ -36,7 +37,10 @@ test('atlas progressively enhances sharing and plot fullscreen controls', () => 
   assert.match(atlasSource, /syncLocation/);
   assert.match(atlasSource, /requestFullscreen/);
   assert.match(atlasSource, /webkitRequestFullscreen/);
+  assert.match(atlasSource, /figure-toolbar/);
+  assert.match(atlasSource, /shell\.append\(toolbar,context,host\)/);
   assert.match(atlasSource, /View .* in full screen/);
+  assert.match(atlasSource, /Print \$\{title\}/);
 });
 
 test('JSON-LD distinguishes this creator from source-study creators', () => {

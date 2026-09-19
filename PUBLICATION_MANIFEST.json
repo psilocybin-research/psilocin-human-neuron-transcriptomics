@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.0.0",
   "created": "2026-09-19",
-  "file_count": 266,
-  "total_bytes": 157082977,
+  "file_count": 265,
+  "total_bytes": 157014899,
   "status": "pass",
   "failures": [],
   "files": [
@@ -49,8 +49,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 36452,
-      "sha256": "0f41f50cd5290269c00b93e161c6a32ba27713905d4a19ee76f9edea94b52b8a"
+      "bytes": 36323,
+      "sha256": "d1eb58b6d14d30d24d16cc95ae78677910a779a99188aaa670a4592918157a29"
     },
     {
       "path": "LICENSE.md",
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 13289,
-      "sha256": "fff338e49a8d572fa3f1357bf2c71f119731c8f26655218935766f270238ec42"
+      "bytes": 12960,
+      "sha256": "48e24e514b42196d35c43579ef452b4394be1c9e33238ae5761e14b4afeb9834"
     },
     {
       "path": "REUSE.toml",
@@ -144,13 +144,8 @@
     },
     {
       "path": "docs/images/atlas-landscape.png",
-      "bytes": 159433,
-      "sha256": "3c8cff90872f2063374ac11b2a310fa307200c9cd7dafdc317fe602d0358ef6b"
-    },
-    {
-      "path": "docs/images/atlas-overview.png",
-      "bytes": 155926,
-      "sha256": "280c22f7ef61ffd698fb3d36d8e6c6522adfb68bd242884b1925d9fbec42cf5d"
+      "bytes": 236368,
+      "sha256": "c3b38ebed95a2c5b02b7dd6f3379f62e708efdb91c9828a120b81cbb3b8e49c1"
     },
     {
       "path": "explorer/README.md",
@@ -174,8 +169,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 42130,
-      "sha256": "09814fdbf4902a7a3a043b7b8f7bdbccf614a1daffc3e9fc6cdf2a5ad0798217"
+      "bytes": 45511,
+      "sha256": "ad73527cd2c20e1c190db06f2bb808475ec99eec9e701579a26a2b316eb1269c"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -204,13 +199,13 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 13236,
-      "sha256": "03f956e91c10f274a2d3b39f7bfbf22fb897d29762a0a371fa198cf08ec3c7e1"
+      "bytes": 14693,
+      "sha256": "0e3e7cf4f69e9ac5ffe95d901d14b254cd5b50fef38ff09de4d0b9e3f7569fd4"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 9168,
-      "sha256": "67274b580b34ef65d634119e658f490d2f38cd33e4ceb2e115412bec68180796"
+      "bytes": 10650,
+      "sha256": "988c84725ed9900ea2dd57c4d4fa07a501613d87e01199b9e9f084ef071bf9e4"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -219,8 +214,8 @@
     },
     {
       "path": "explorer/test/metadata.test.js",
-      "bytes": 3068,
-      "sha256": "f08cc33472fac64f6c9e61649b676088287de3e42c8e2cbf9719dab1ca9457bc"
+      "bytes": 3310,
+      "sha256": "843cc07d548598da4adab088305fa9d52f00efed662c1556f05b8e32048b822f"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
@@ -548,9 +543,9 @@
       "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
-      "path": "site/_import/components/atlas.1e116133.js",
-      "bytes": 42139,
-      "sha256": "7349e8577ba8f6c42b73ba321a52757cea88e3fc7af352d9c10fc1470d616bd4"
+      "path": "site/_import/components/atlas.792f6518.js",
+      "bytes": 45520,
+      "sha256": "9ce8e5ff3181f3ed828f17e290c5cf0d99c92fe63b1784cb18bc95bdf25bc93e"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -558,9 +553,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.4cab76c4.css",
-      "bytes": 35720,
-      "sha256": "4cab76c426cfbc862b6ece4014aac624ab52ffe8f5ea48381f803d7d3b07cf42"
+      "path": "site/_import/style.62ccf36e.css",
+      "bytes": 37183,
+      "sha256": "62ccf36efd0ac92ab872c28e50e5183caacf50a5054811748ec3d1ea0843cefa"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -580,7 +575,7 @@
     {
       "path": "site/index.html",
       "bytes": 10600,
-      "sha256": "de430b50ef74e952e930b96a6ee1e82dbc874ea5bb087f3b1dc8507a0cce9de0"
+      "sha256": "f71ebeea17e5690c4e6adcc880b11312cdc687dabd9c5c4d986a7bcafd6345dc"
     },
     {
       "path": "src/__init__.py",
@@ -739,8 +734,8 @@
     },
     {
       "path": "src/validate_release.py",
-      "bytes": 13906,
-      "sha256": "79142f4a6cc63cf0b22d42a987aeecb6e6761b8834928d5d2dd9d9cfc9cb2479"
+      "bytes": 13871,
+      "sha256": "b616773dc18e16252d1dde3f9e3f5e602ba3e2bbed202610fad697c69f776243"
     },
     {
       "path": "src/zenodo_release.py",

@@ -25,12 +25,6 @@
   <a href="LICENSE.md"><img alt="Licenses: path-level" src="https://img.shields.io/badge/licenses-path--level-2f6f5e"></a>
 </p>
 
-<p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview">
-    <img src="docs/images/atlas-overview.png" alt="Overview of the interactive psilocin transcriptomic atlas, showing the study design, headline result and primary pathway matrix" width="920">
-  </a>
-</p>
-
 The atlas is the fastest way to inspect the complete result. It exposes the pathway matrix, the 113-gene OXPHOS landscape, transcriptome-wide gene estimates, every frozen sensitivity analysis, bounded DNA-maintenance follow-up, downloadable CSV files, and exact provenance. The browser only selects and displays archived outputs; it does not refit models or create new tests.
 
 ## What this project provides

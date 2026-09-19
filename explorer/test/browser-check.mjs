@@ -13,13 +13,15 @@ page.on('requestfailed',r=>failedRequests.push({url:r.url(),failure:r.failure()}
 page.on('response',r=>{if(r.status()>=400)failedRequests.push({url:r.url(),status:r.status()})});
 await page.goto(atlasURL);
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).waitFor();
-assert.match(await page.locator('.release').innerText(),/GERMANN REANALYSIS · VERSION 1\.0\.0/);
+assert.equal(await page.locator('.header-repository').getAttribute('href'),'https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics');
+assert.equal(await page.locator('.release').innerText(),'v1.0.0');
 assert.match(await page.locator('.header-study').innerText(),/SOURCE STUDY · SCHMIDT ET AL\. \(2026\)/);
 assert.equal(await page.locator('.header-study').getAttribute('href'),'https://doi.org/10.7554/eLife.104006');
 assert.match(await page.locator('.author-line').innerText(),/Germann, Christopher B\./);
 assert.equal(await page.locator('.orcid').getAttribute('href'),'https://orcid.org/0000-0002-1573-4651');
 assert.equal(await page.locator('.native-share').count(),1);
 assert.equal(await page.locator('.native-share').getAttribute('aria-label'),'Share the current atlas analysis');
+assert.equal(await page.locator('.native-share svg').count(),1);
 const fullscreenSupported=await page.evaluate(()=>Boolean((document.fullscreenEnabled||document.webkitFullscreenEnabled)&&(Element.prototype.requestFullscreen||Element.prototype.webkitRequestFullscreen)));
 assert.equal((await page.locator('.figure-fullscreen').count())>0,fullscreenSupported);
 assert.ok(!(await page.locator('body').innerText()).includes('A companion to the Schmidt secondary analysis'));
@@ -36,8 +38,9 @@ assert.match(await scrollTop.evaluate(el=>getComputedStyle(el).backgroundImage),
 await scrollTop.click();
 await page.waitForFunction(()=>window.scrollY<5);
 assert.equal(await page.locator('.matrix-cell').count(),15);
+const layout=await page.evaluate(()=>{const button=document.querySelector('.figure-fullscreen'),toolbar=document.querySelector('.figure-toolbar'),matrix=document.querySelector('.matrix-scroll');const b=button.getBoundingClientRect(),t=toolbar.getBoundingClientRect(),m=matrix.getBoundingClientRect();return{position:getComputedStyle(button).position,toolbarBeforePlot:t.bottom<=m.top,buttonBeforePlot:b.bottom<=m.top,matrixOverflowY:getComputedStyle(matrix).overflowY,headlineWhiteSpace:getComputedStyle(document.querySelector('.hero h1')).whiteSpace};});
+assert.equal(layout.position,'static');assert.equal(layout.toolbarBeforePlot,true);assert.equal(layout.buttonBeforePlot,true);assert.equal(layout.matrixOverflowY,'hidden');assert.equal(layout.headlineWhiteSpace,'normal');
 await mkdir('screenshots',{recursive:true});
-await page.screenshot({path:'screenshots/overview.png',fullPage:true});
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).click();
 assert.equal(await page.locator('.gene-row').count(),113);
 await page.getByRole('button',{name:'Inspect NDUFB7, Respiratory complex I',exact:true}).click();
@@ -48,6 +51,11 @@ const sharedLandscape=await page.evaluate(()=>window.__lastSharedPayload);
 assert.match(sharedLandscape.title,/OXPHOS landscape · Gene: NDUFB7/);
 assert.match(sharedLandscape.url,/#view=landscape&gene=NDUFB7/);
 await page.screenshot({path:'screenshots/landscape.png',fullPage:true});
+assert.equal(await page.getByRole('button',{name:'Print The OXPHOS landscape'}).count(),1);
+if(fullscreenSupported){
+ const fullscreen=await page.evaluate(()=>{const shell=[...document.querySelectorAll('.figure-shell')].find(x=>x.querySelector('.landscape-layout'));const detail=shell.querySelector('.gene-detail');const toolbar=shell.querySelector('.figure-toolbar');return {detail:detail?.innerText,toolbarAbove:toolbar.getBoundingClientRect().bottom<=shell.querySelector('.landscape-layout').getBoundingClientRect().top,background:getComputedStyle(shell).backgroundColor};});
+ assert.equal(fullscreen.background,'rgb(255, 255, 255)');assert.match(fullscreen.detail,/NDUFB7/);assert.equal(fullscreen.toolbarAbove,true);
+}
 await page.getByLabel('Functional group',{exact:true}).selectOption('Respiratory complex II');
 assert.equal(await page.locator('.gene-row').count(),3);
 await page.getByRole('button',{name:'Gene explorer',exact:true}).click();
@@ -83,7 +91,6 @@ assert.match(await page.locator('.atlas-body').innerText(),/1.395/);
 await page.getByText('Inspect all 240 follow-up results',{exact:true}).click();
 assert.equal(await page.locator('details').first().locator('tbody tr').count(),240);
 await page.getByText('Inspect all 240 follow-up results',{exact:true}).click();
-await page.screenshot({path:'screenshots/dna-maintenance.png',fullPage:true});
 await page.getByRole('button',{name:'Methods & sources',exact:true}).click();
 assert.match(await page.locator('.hash-record').innerText(),/2026-09-18T07:56:56/);
 await page.setViewportSize({width:390,height:844});
@@ -91,9 +98,8 @@ for(const name of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Rob
  await page.getByRole('button',{name,exact:true}).click();
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`Mobile overflow in ${name}`);
 }
-await page.getByRole('button',{name:'Overview',exact:true}).click();await page.screenshot({path:'screenshots/mobile.png',fullPage:true});
-const fonts=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,title:getComputedStyle(document.querySelector('h1')).fontFamily}));
+const fonts=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,title:getComputedStyle(document.querySelector('h1,h2,h3')).fontFamily}));
 assert.match(fonts.body,/system-ui/);assert.doesNotMatch(fonts.title,/Georgia|Source Serif/);
 assert.deepEqual(externalRequests,[]);assert.deepEqual(failedRequests,[]);assert.deepEqual(errors,[]);
-await writeFile('screenshots/browser-check.json',JSON.stringify({passed:true,checks:['author and ORCID masthead','white high-contrast surface','scroll progress and return-to-top control','primary family','113 heatmap rows','gene selection','functional filter','alias lookup','missing gene','untestable secondary set','mixed temporal result','all sensitivity variants','CSV download','provenance','seven mobile views','exploratory family','30-gene DNA view','multi-membership annotation filter','24-test family','240 follow-up variants','system typography','external requests blocked'],browser:await browser.version(),fonts,palette,externalRequests,failedRequests,requestCount:requests.length,requestOrigins:[...new Set(requests.map(u=>new URL(u).origin))],errors},null,2));
+await writeFile('screenshots/browser-check.json',JSON.stringify({passed:true,checks:['header repository and ORCID icons','white high-contrast surface','scroll progress and return-to-top control','primary family','fullscreen landscape with selected-gene detail','print control','113 heatmap rows','gene selection','functional filter','alias lookup','missing gene','untestable secondary set','mixed temporal result','all sensitivity variants','CSV download','provenance','seven mobile views','exploratory family','30-gene DNA view','multi-membership annotation filter','24-test family','240 follow-up variants','system typography','external requests blocked'],browser:await browser.version(),fonts,palette,externalRequests,failedRequests,requestCount:requests.length,requestOrigins:[...new Set(requests.map(u=>new URL(u).origin))],errors},null,2));
 console.log('Browser checks passed; screenshots saved.');await browser.close();

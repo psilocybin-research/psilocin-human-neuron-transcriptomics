@@ -122,7 +122,7 @@ def validate_metadata() -> None:
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     atlas = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"
-    for image, view in (("atlas-overview.png", "overview"), ("atlas-landscape.png", "landscape")):
+    for image, view in (("atlas-landscape.png", "landscape"),):
         pattern = rf'<a href="{re.escape(atlas)}#view={view}">\s*<img src="docs/images/{image}"'
         require(re.search(pattern, readme) is not None, f"README image does not target its atlas view: {image}")
 
