@@ -16,7 +16,7 @@ const structuredData = {
   "@type": "WebApplication",
   "@id": url,
   name: title,
-  headline: "A brief pulse. A broad transcriptional signature.",
+  headline: "A brief perturbation. A broad transcriptional signature.",
   description,
   url,
   applicationCategory: "ScientificApplication",
@@ -85,7 +85,7 @@ const head = `
 <meta name="author" content="Christopher B. Germann">
 <meta name="keywords" content="psilocin, psilocybin, transcriptomics, RNA-seq, human cortical neurons, oxidative phosphorylation, OXPHOS, redox biology, neuroplasticity, reproducible research">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<meta name="citation_title" content="A brief pulse. A broad transcriptional signature: psilocin human-neuron transcriptomics">
+<meta name="citation_title" content="A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics">
 <meta name="citation_author" content="Germann, Christopher B.">
 <meta name="citation_publication_date" content="2026-09-19">
 <meta name="citation_doi" content="10.5281/zenodo.22843281">

@@ -2,7 +2,7 @@
   <strong>PSILOCIN HUMAN-NEURON TRANSCRIPTOMICS</strong>
 </p>
 
-<h1 align="center">A brief pulse. A broad transcriptional signature.</h1>
+<h1 align="center">A brief perturbation. A broad transcriptional signature.</h1>
 
 <p align="center">
   Psilocin human-neuron transcriptomics · reproducibility code and interactive atlas
@@ -45,7 +45,7 @@ The atlas is the fastest way to inspect the complete result. It exposes the path
 
 ## Main result
 
-A brief psilocin pulse was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks.
+A brief psilocin perturbation was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks.
 
 That distributed and reproducibly characterized OXPHOS response is the principal contribution of this secondary analysis. A separately specified post-primary tier did not support NRF2, glutathione, or their joint NRF2–glutathione–pentose-phosphate prediction as the specific mechanism. This narrows the mechanistic interpretation; it does not convert the broader OXPHOS-centered finding into a null result.
 
@@ -198,7 +198,7 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff). The permanent citation for this release is:
 
-> Germann, C. B. (2026). *A brief pulse. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.0.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.22843281](https://doi.org/10.5281/zenodo.22843281)
+> Germann, C. B. (2026). *A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.0.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.22843281](https://doi.org/10.5281/zenodo.22843281)
 
 ## Integrity and licensing
 

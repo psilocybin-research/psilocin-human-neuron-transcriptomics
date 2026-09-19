@@ -3,7 +3,7 @@
   "release": "v1.0.0",
   "created": "2026-09-19",
   "file_count": 266,
-  "total_bytes": 157082893,
+  "total_bytes": 157082977,
   "status": "pass",
   "failures": [],
   "files": [
@@ -34,8 +34,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 4612,
-      "sha256": "028cb6db6de84d1c5fb0ef54e7cdb3ee488841f2ccb503b6045dec574e2d6e52"
+      "bytes": 4619,
+      "sha256": "9f8b07e9901a9aabed3ae26456b25a28b1553d0108618f87d7419146fb78cbb7"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -44,13 +44,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 2493,
-      "sha256": "041462a97764f7984bfe989792dc224ce922ffbaf4916e750d87af2416945d4f"
+      "bytes": 2500,
+      "sha256": "601729073fc0a87a92b2e59c3db757864095de521740cde3c8239101cb6c83db"
     },
     {
       "path": "FILE_LICENSES.json",
       "bytes": 36452,
-      "sha256": "9c53e5e71d98631c529bc57ce8261cb5fa606768a11f67706903874564eea08a"
+      "sha256": "0f41f50cd5290269c00b93e161c6a32ba27713905d4a19ee76f9edea94b52b8a"
     },
     {
       "path": "LICENSE.md",
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 13268,
-      "sha256": "69e00dccc78247bea5eda2ea087395361526f1c7d435d6988536368c2accef5b"
+      "bytes": 13289,
+      "sha256": "fff338e49a8d572fa3f1357bf2c71f119731c8f26655218935766f270238ec42"
     },
     {
       "path": "REUSE.toml",
@@ -159,8 +159,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7118,
-      "sha256": "6b831cc46c21d7b66f7b5f015f80cdbedfebc81e39e7d420c17c427ff5f6f18d"
+      "bytes": 7132,
+      "sha256": "d6395f52734fd852f3b629acb3f4ab5ef344985ae1386e9d3f644c94402915e5"
     },
     {
       "path": "explorer/package-lock.json",
@@ -174,8 +174,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 42123,
-      "sha256": "692f4737034120e4ce026c04a75c67331dc140f714bfcce8d6d671961789caac"
+      "bytes": 42130,
+      "sha256": "09814fdbf4902a7a3a043b7b8f7bdbccf614a1daffc3e9fc6cdf2a5ad0798217"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -548,9 +548,9 @@
       "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
-      "path": "site/_import/components/atlas.40dfdd98.js",
-      "bytes": 42132,
-      "sha256": "52b90c14c5a8ffef93ea3a5d770253115e2cf2cbfbcf50c2605dbfc329c8f15e"
+      "path": "site/_import/components/atlas.1e116133.js",
+      "bytes": 42139,
+      "sha256": "7349e8577ba8f6c42b73ba321a52757cea88e3fc7af352d9c10fc1470d616bd4"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -579,8 +579,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 10586,
-      "sha256": "03a353cca08bc5e0f784c73e4f736d2504615514b21081c226ea7273e0bb9e1e"
+      "bytes": 10600,
+      "sha256": "de430b50ef74e952e930b96a6ee1e82dbc874ea5bb087f3b1dc8507a0cce9de0"
     },
     {
       "path": "src/__init__.py",
@@ -744,8 +744,8 @@
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 11734,
-      "sha256": "13a095c12cbf8de5d14614ea6cb16d9b6c05c57eefbb8699e96a4bc648b9368e"
+      "bytes": 11741,
+      "sha256": "015e307b791038f83b6c0f838396a72c4b1835e59221dea89eda20840d32ef23"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",
