@@ -3,6 +3,8 @@ message: "If you use this software or its derived results, please cite the archi
 title: "Psilocin human-neuron transcriptomics: reproducibility code and interactive atlas"
 type: software
 version: 1.0.0
+doi: 10.5281/zenodo.22843281
+date-released: 2026-09-19
 abstract: "Mixed-license research software release: original software is MIT licensed; original documentation, figures and derived result tables are CC BY 4.0. See LICENSE.md for the file-level license map."
 authors:
   - family-names: Germann

@@ -84,7 +84,7 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 ## Citation
 
-Citation metadata are provided in `CITATION.cff`. A version-specific Zenodo DOI will be added after archival of the first GitHub release.
+Citation metadata are provided in `CITATION.cff`. Version 1.0.0 is archived at <https://doi.org/10.5281/zenodo.22843281>.
 
 ## Release process
 

@@ -27,6 +27,8 @@ def validate_metadata() -> None:
     require(cff["cff-version"] == "1.2.0", "Unsupported CFF version")
     for field in ("title", "version"):
         require(cff[field] == zenodo[field], f"CFF/Zenodo mismatch: {field}")
+    require(cff["doi"] == zenodo["doi"] == "10.5281/zenodo.22843281", "Reserved Zenodo DOI mismatch")
+    require(str(cff["date-released"]) == zenodo["publication_date"] == "2026-09-19", "Release date mismatch")
     require(cff["type"] == "software" and zenodo["upload_type"] == "software", "Resource type mismatch")
     require(cff["authors"][0]["family-names"] == "Germann", "CFF creator mismatch")
     require(zenodo["creators"][0]["name"] == "Germann, Christopher B.", "Zenodo creator mismatch")

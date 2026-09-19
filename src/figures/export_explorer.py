@@ -7,6 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'explorer/src/data'
+ARCHIVE_DOI = '10.5281/zenodo.22843281'
+SITE_URL = 'https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/'
 CONTRASTS = ['day1_vs_control','day3_vs_control','day3_vs_day1']
 NUMERIC = {'baseMean','log2FoldChange','lfcSE','stat','pvalue','padj','pval','NES','ES','family_fdr','size','estimate','mapped','total','RIN_mean','libraries_n','vst','row_z','day1_log2fc','day3_log2fc','day3_minus_day1_log2fc','day1_gene_fdr','day3_gene_fdr','day1_log2FoldChange','day3_log2FoldChange','day1_stat','day3_stat','spearman','same_sign_fraction','same_sign_n','positive_both_n','zero_either_n','n','dna_n','telomere_n','shared_n','union_n','jaccard','fraction_dna','fraction_telomere','gene_fdr'}
 inputs = {}
@@ -73,6 +75,7 @@ def main():
     dump('provenance.json',dict(source='https://github.com/ahoffrichter/Schmidt_et_al_2025',
         article='https://doi.org/10.7554/eLife.104006.3',freeze=json.loads(freeze.read_text()),
         inputs=inputs,outputs={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.glob('*.json') if p.name!='provenance.json'},
-        dnaFreeze=json.loads((ROOT/'provenance/dna_maintenance_freeze_v1.json').read_text()),archiveDOI=None,siteURL=None))
+        dnaFreeze=json.loads((ROOT/'provenance/dna_maintenance_freeze_v1.json').read_text()),
+        archiveDOI=ARCHIVE_DOI,siteURL=SITE_URL))
     print(f'Exported {len(genes)} genes, {len(pathways)} pathway results, {len(profiles)} expression cells; curve ES checks passed.')
 if __name__=='__main__': main()

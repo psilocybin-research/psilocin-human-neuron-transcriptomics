@@ -3,7 +3,7 @@
   "release": "v1.0.0",
   "created": "2026-09-19",
   "file_count": 261,
-  "total_bytes": 156697256,
+  "total_bytes": 156697919,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 1771,
-      "sha256": "d5cecf04de456f07d2be807d9eccbc9a08f5ad9c5b6e14cecccf859daa7d42e6"
+      "bytes": 1843,
+      "sha256": "68891bd0de30dedee705450be1b6343b8b5841545159278b7d1fad2b0f5f342a"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -39,13 +39,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 1095,
-      "sha256": "ab9380a032bfab8b8d041f7a31b694b8062fc5c2b680d9880d3924ff72c4a88d"
+      "bytes": 1150,
+      "sha256": "36f0dac4c069572597109278ffc82fe32ccaebf7b9e191b1d446fa9bd782464b"
     },
     {
       "path": "FILE_LICENSES.json",
       "bytes": 35834,
-      "sha256": "cb8b8dcbad4e2da601bd1e83d80d937002dd75d8986f430971d453cd4ef189bd"
+      "sha256": "ff6fd002e73925786f322620119a8c68e2048e8a7152486003f9f2c45214ad95"
     },
     {
       "path": "LICENSE.md",
@@ -79,8 +79,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5552,
-      "sha256": "b38b5cfb100f776a222836220461533be758849e5014b161b7c49f30daf7267a"
+      "bytes": 5536,
+      "sha256": "934e7ab0afa225bf3829b661b4f40fd8c2d0b22a9679b0be13086ec1cf8ddddb"
     },
     {
       "path": "REUSE.toml",
@@ -179,8 +179,8 @@
     },
     {
       "path": "explorer/src/data/provenance.json",
-      "bytes": 16630,
-      "sha256": "2241e923f13686f8326984a81ce1d76cd0313f05b6f9fad5f8421403e41d535a"
+      "bytes": 16725,
+      "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
       "path": "explorer/src/index.md",
@@ -523,9 +523,9 @@
       "sha256": "592821e02de1b201c3f7c24f4d17eff808413f9e8ef9fe606c4780b7bd2e6508"
     },
     {
-      "path": "site/_file/data/provenance.2241e923.json",
-      "bytes": 16630,
-      "sha256": "2241e923f13686f8326984a81ce1d76cd0313f05b6f9fad5f8421403e41d535a"
+      "path": "site/_file/data/provenance.b0d00659.json",
+      "bytes": 16725,
+      "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
     },
     {
       "path": "site/_import/components/atlas.7bb633a5.js",
@@ -560,7 +560,7 @@
     {
       "path": "site/index.html",
       "bytes": 3023,
-      "sha256": "a11ed83d5d624b639f6a1c0929f966aac39adc369d377645bc4f7cd4b7de1ecf"
+      "sha256": "d5b6241acf0f13b4c2741786ce32af30d2fbf6f3713b81e1889f1d52df212892"
     },
     {
       "path": "src/__init__.py",
@@ -634,8 +634,8 @@
     },
     {
       "path": "src/figures/export_explorer.py",
-      "bytes": 5441,
-      "sha256": "4b14ac6dc9d8f13776659c427b614ffc5e9378ecea7093807856f76e89f5c47f"
+      "bytes": 5591,
+      "sha256": "ae7735d1b5897486fe47759dda1ffb697be6f02ad55ea1f8f67f30536beced75"
     },
     {
       "path": "src/figures/figure_style.R",
@@ -714,8 +714,8 @@
     },
     {
       "path": "src/validate_release.py",
-      "bytes": 8472,
-      "sha256": "ba78e04e1d9a234f80814726a5794d46d69602be3b641bd6fb6f0a794ee93d5c"
+      "bytes": 8684,
+      "sha256": "ef667f8863497724fbae4e4654fef8da1010bdf28103c476bcfe5b5bfbe24a7f"
     },
     {
       "path": "src/zenodo_release.py",
