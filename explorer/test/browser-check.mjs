@@ -14,7 +14,7 @@ page.on('response',r=>{if(r.status()>=400)failedRequests.push({url:r.url(),statu
 await page.goto(atlasURL);
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).waitFor();
 assert.equal(await page.locator('.header-repository').getAttribute('href'),'https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics');
-assert.equal(await page.locator('.release').innerText(),'v1.0.0');
+assert.equal(await page.locator('.release').innerText(),'v1.0.1');
 assert.match(await page.locator('.header-study').innerText(),/SOURCE STUDY · SCHMIDT ET AL\. \(2026\)/);
 assert.equal(await page.locator('.header-study').getAttribute('href'),'https://doi.org/10.7554/eLife.104006');
 assert.match(await page.locator('.author-line').innerText(),/Germann, Christopher B\./);

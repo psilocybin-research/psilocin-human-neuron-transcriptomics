@@ -21,7 +21,7 @@ const structuredData = {
   url,
   applicationCategory: "ScientificApplication",
   operatingSystem: "Any web browser",
-  version: "1.0.0",
+  version: "1.0.1",
   author: {
     "@type": "Person",
     name: "Christopher B. Germann",
@@ -32,7 +32,7 @@ const structuredData = {
     }
   },
   codeRepository: "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics",
-  citation: {"@id": "https://doi.org/10.5281/zenodo.22843281"},
+  citation: {"@id": "https://doi.org/10.5281/zenodo.22849800"},
   isBasedOn: [
     {
       "@type": "ScholarlyArticle",
@@ -75,12 +75,12 @@ const structuredData = {
 const head = `
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23245b50%22/%3E%3Ctext x=%2216%22 y=%2223%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2223%22%3EP%3C/text%3E%3C/svg%3E">
 <link rel="canonical" href="${url}">
-<link rel="cite-as" href="https://doi.org/10.5281/zenodo.22843281">
-<link rel="describedby" type="application/vnd.datacite.datacite+json" href="https://api.datacite.org/dois/10.5281/zenodo.22843281">
+<link rel="cite-as" href="https://doi.org/10.5281/zenodo.22849800">
+<link rel="describedby" type="application/vnd.datacite.datacite+json" href="https://api.datacite.org/dois/10.5281/zenodo.22849800">
 <link rel="author" href="https://orcid.org/0000-0002-1573-4651">
 <link rel="license" href="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md">
 <meta name="description" content="${description}">
-<meta name="DC.identifier" content="https://doi.org/10.5281/zenodo.22843281">
+<meta name="DC.identifier" content="https://doi.org/10.5281/zenodo.22849800">
 <meta name="DC.language" content="en">
 <meta name="author" content="Christopher B. Germann">
 <meta name="keywords" content="psilocin, psilocybin, transcriptomics, RNA-seq, human cortical neurons, oxidative phosphorylation, OXPHOS, redox biology, neuroplasticity, reproducible research">
@@ -88,12 +88,12 @@ const head = `
 <meta name="citation_title" content="A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics">
 <meta name="citation_author" content="Germann, Christopher B.">
 <meta name="citation_publication_date" content="2026-09-19">
-<meta name="citation_doi" content="10.5281/zenodo.22843281">
+<meta name="citation_doi" content="10.5281/zenodo.22849800">
 <meta name="citation_keywords" content="psilocin; psilocybin; transcriptomics; RNA-seq; human cortical neurons; oxidative phosphorylation; redox biology">
 <meta name="citation_reference" content="Schmidt M, Hoffrichter A, Davoudi M, et al. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife. doi:10.7554/eLife.104006">
 <meta name="dcterms.type" content="InteractiveResource">
 <meta name="dcterms.creator" content="Germann, Christopher B.">
-<meta name="dcterms.bibliographicCitation" content="doi:10.5281/zenodo.22843281">
+<meta name="dcterms.bibliographicCitation" content="doi:10.5281/zenodo.22849800">
 <meta name="dcterms.source" content="doi:10.7554/eLife.104006">
 <meta name="dcterms.source" content="doi:10.5061/dryad.xsj3tx9w3">
 <meta name="dcterms.source" content="swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048">

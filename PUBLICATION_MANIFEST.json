@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "release": "v1.0.0",
+  "release": "v1.0.1",
   "created": "2026-09-19",
   "file_count": 265,
-  "total_bytes": 157017712,
+  "total_bytes": 157018906,
   "status": "pass",
   "failures": [],
   "files": [
@@ -34,8 +34,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 4619,
-      "sha256": "9f8b07e9901a9aabed3ae26456b25a28b1553d0108618f87d7419146fb78cbb7"
+      "bytes": 4759,
+      "sha256": "868836d68f6e11ea2971bc5d44963a01bd33566d14f2c9cb3250f0ff6ce53b4e"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -45,12 +45,12 @@
     {
       "path": "CITATION.cff",
       "bytes": 2500,
-      "sha256": "601729073fc0a87a92b2e59c3db757864095de521740cde3c8239101cb6c83db"
+      "sha256": "0ed57652255e2e7c4163875ad90d24cc95ffe0e5f0fcca0870b18f9b5de9181d"
     },
     {
       "path": "FILE_LICENSES.json",
       "bytes": 36323,
-      "sha256": "a7e424c7f817aa8b363dacc96025dc7a4475332767d2fa3e57b9702866b85170"
+      "sha256": "d3d79553545a0b5d406930d5c02ce1fb193ce9873b657f0a0b43c11e149679fd"
     },
     {
       "path": "LICENSE.md",
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 13294,
-      "sha256": "d85a2ef4c01c2115c0e7e358ba1a146359c926d8283703da4a6f6db7dd08f945"
+      "bytes": 14348,
+      "sha256": "82459817bc6528750722230d9c2ae8e7da21f0857e6868d9c2fe9bec5e595df3"
     },
     {
       "path": "REUSE.toml",
@@ -155,7 +155,7 @@
     {
       "path": "explorer/observablehq.config.js",
       "bytes": 7132,
-      "sha256": "d6395f52734fd852f3b629acb3f4ab5ef344985ae1386e9d3f644c94402915e5"
+      "sha256": "83cb2a89b126bdca953b30c67e16050babfc24c24e73912803517c7941e1487d"
     },
     {
       "path": "explorer/package-lock.json",
@@ -170,7 +170,7 @@
     {
       "path": "explorer/src/components/atlas.js",
       "bytes": 46647,
-      "sha256": "9d7919887f8540e783148afd2819ddd35f3b8590162be0c050838d0bda288dd4"
+      "sha256": "7c012c4668aaecf2ef103ab319995e2b8f04d4c6a8c862b87691751ba00e6010"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -190,7 +190,7 @@
     {
       "path": "explorer/src/data/provenance.json",
       "bytes": 16725,
-      "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
+      "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
       "path": "explorer/src/index.md",
@@ -205,7 +205,7 @@
     {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 10650,
-      "sha256": "988c84725ed9900ea2dd57c4d4fa07a501613d87e01199b9e9f084ef071bf9e4"
+      "sha256": "8ba6044663c6aaad164a81436695a772e71ee2208aac9f341f95e6c09efff4e3"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -215,12 +215,12 @@
     {
       "path": "explorer/test/metadata.test.js",
       "bytes": 3366,
-      "sha256": "5d8e779a8c64455c877cf984b719f12f81a34a1f366884b054574cbb05e078aa"
+      "sha256": "84b2226ac58c9d236e44401d7d3084bcc05ddc9ada10e69abd2dfdc77afd030f"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
       "bytes": 23209,
-      "sha256": "10c5a50ce86412095300a87cd293cbfa53351734b3c1c6a39976abb84d5fd535"
+      "sha256": "1122bb58df8c8f561ed424d128bd2ab0cb5a106b0e18f54cee4484bd315bd274"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.png",
@@ -235,7 +235,7 @@
     {
       "path": "figures/oxphos_evidence.pdf",
       "bytes": 222023,
-      "sha256": "04c6887fb0592c9421de0b568d5b5694b250e68c99de24915230caca3f04f01b"
+      "sha256": "cf123e9e14bbecb13a1907ef76b630d8c8477449320409ad4d92e969f8150cbf"
     },
     {
       "path": "figures/oxphos_evidence.png",
@@ -250,7 +250,7 @@
     {
       "path": "figures/oxphos_gene_landscape.pdf",
       "bytes": 46121,
-      "sha256": "7de4949a5d7c5583cf10efec323f4340631a4d071065186d516c1beced6d1157"
+      "sha256": "5d648f1da5b15a9a0b4014dd53e33960f36d60ab2e4ee927b15159b0ad6c117c"
     },
     {
       "path": "figures/oxphos_gene_landscape.png",
@@ -265,7 +265,7 @@
     {
       "path": "figures/primary_enrichment.pdf",
       "bytes": 23059,
-      "sha256": "72b501bcc2f6130b6dcf9cab23f07f1a6d33a5a8a5fb0f03a768250c5aa1f6df"
+      "sha256": "2eb3ad9b52e91f53a505481e8da20010a9927e016a1a1cb0079a3400e6bf4893"
     },
     {
       "path": "figures/primary_enrichment.png",
@@ -538,14 +538,14 @@
       "sha256": "592821e02de1b201c3f7c24f4d17eff808413f9e8ef9fe606c4780b7bd2e6508"
     },
     {
-      "path": "site/_file/data/provenance.b0d00659.json",
+      "path": "site/_file/data/provenance.58e853b3.json",
       "bytes": 16725,
-      "sha256": "b0d00659148e0dc706ec18f482c3778bcdf026daf63f703fad4cb60e43a60fe2"
+      "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.77d50d71.js",
+      "path": "site/_import/components/atlas.4c59719e.js",
       "bytes": 46656,
-      "sha256": "404b1edcfd94af6c63b05a20e2f1bc08f318cf670b8eda363ec85ddaf6a10753"
+      "sha256": "70e8279cc6fb188890b98f2b1d91fbb6fd2a5ce85359797663deaf4f1edd37a2"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -575,7 +575,7 @@
     {
       "path": "site/index.html",
       "bytes": 10600,
-      "sha256": "b58ff567e4536baddd11bd48c5635d98ea2342f2e92f1a0b9e9a0d1e33647042"
+      "sha256": "ad4ca102339d87ecafd2ec15607882298a0d03531d63aea859e4b639e0bfe9b2"
     },
     {
       "path": "src/__init__.py",
@@ -650,7 +650,7 @@
     {
       "path": "src/figures/export_explorer.py",
       "bytes": 5591,
-      "sha256": "ae7735d1b5897486fe47759dda1ffb697be6f02ad55ea1f8f67f30536beced75"
+      "sha256": "4311c2f2207a1f51abfa9bc4d6ecd7d429123c7bbf1b8c666966b9e7aba514da"
     },
     {
       "path": "src/figures/figure_style.R",
@@ -735,12 +735,12 @@
     {
       "path": "src/validate_release.py",
       "bytes": 13871,
-      "sha256": "b616773dc18e16252d1dde3f9e3f5e602ba3e2bbed202610fad697c69f776243"
+      "sha256": "66d3c5f8fec4cfaeefe99081a6a87196cf07ce1249b2c109f98ec0c9ff477dff"
     },
     {
       "path": "src/zenodo_release.py",
       "bytes": 11741,
-      "sha256": "015e307b791038f83b6c0f838396a72c4b1835e59221dea89eda20840d32ef23"
+      "sha256": "a0f38253f2ea845d12affb849c39be0c92e63f34b2d505ac106f9c9e10af2f83"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",

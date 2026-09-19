@@ -10,15 +10,15 @@ const atlasSource = readFileSync(new URL('../src/components/atlas.js', import.me
 
 test('atlas exposes scholarly discovery and signposting metadata', () => {
   assert.match(config.head, /rel="canonical"/);
-  assert.match(config.head, /rel="cite-as" href="https:\/\/doi\.org\/10\.5281\/zenodo\.22843281"/);
+  assert.match(config.head, /rel="cite-as" href="https:\/\/doi\.org\/10\.5281\/zenodo\.22849800"/);
   assert.match(config.head, /rel="describedby" type="application\/vnd\.datacite\.datacite\+json"/);
-  assert.match(config.head, /name="citation_doi" content="10\.5281\/zenodo\.22843281"/);
+  assert.match(config.head, /name="citation_doi" content="10\.5281\/zenodo\.22849800"/);
   assert.match(config.head, /property="og:image"/);
 });
 
 test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /github\.com\/psilocybin-research\/psilocin-human-neuron-transcriptomics/);
-  assert.match(atlasSource, /v1\.0\.0/);
+  assert.match(atlasSource, /v1\.0\.1/);
   assert.match(atlasSource, /SOURCE STUDY · SCHMIDT ET AL\. \(2026\)/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);

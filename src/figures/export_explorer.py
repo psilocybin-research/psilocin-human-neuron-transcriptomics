@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'explorer/src/data'
-ARCHIVE_DOI = '10.5281/zenodo.22843281'
+ARCHIVE_DOI = '10.5281/zenodo.22849800'
 SITE_URL = 'https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/'
 CONTRASTS = ['day1_vs_control','day3_vs_control','day3_vs_day1']
 NUMERIC = {'baseMean','log2FoldChange','lfcSE','stat','pvalue','padj','pval','NES','ES','family_fdr','size','estimate','mapped','total','RIN_mean','libraries_n','vst','row_z','day1_log2fc','day3_log2fc','day3_minus_day1_log2fc','day1_gene_fdr','day3_gene_fdr','day1_log2FoldChange','day3_log2FoldChange','day1_stat','day3_stat','spearman','same_sign_fraction','same_sign_n','positive_both_n','zero_either_n','n','dna_n','telomere_n','shared_n','union_n','jaccard','fraction_dna','fraction_telomere','gene_fdr'}

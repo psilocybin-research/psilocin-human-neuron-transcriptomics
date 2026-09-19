@@ -26,7 +26,7 @@ DEFAULT_TOKEN = Path.home() / ".config/psilocybin-bridge/zenodo_token"
 API = "https://zenodo.org/api"
 RIGHTS = ["other-open"]
 TITLE = "A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 REPOSITORY = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics"
 ATLAS = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"
 CREATOR = {
@@ -185,7 +185,7 @@ def write_state(path: Path, record: dict, archive: Path | None = None) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--token-file", type=Path, default=DEFAULT_TOKEN)
-    parser.add_argument("--state", type=Path, default=ROOT / "provenance/zenodo_release_v1.0.0.json")
+    parser.add_argument("--state", type=Path, default=ROOT / "provenance/zenodo_release_v1.0.1.json")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("payload")
     sub.add_parser("create-draft")
