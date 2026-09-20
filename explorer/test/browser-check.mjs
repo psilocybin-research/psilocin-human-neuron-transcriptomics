@@ -26,6 +26,10 @@ assert.deepEqual(headerIcons.github,[22,22]);assert.deepEqual(headerIcons.orcid,
 assert.equal(await page.locator('.native-share').count(),1);
 assert.equal(await page.locator('.native-share').getAttribute('aria-label'),'Share the current atlas analysis');
 assert.equal(await page.locator('.native-share svg').count(),1);
+assert.equal(await page.locator('.boundary').count(),1);
+assert.match(await page.locator('.boundary').innerText(),/^Interpretation boundary/);
+const boundaryOrder=await page.evaluate(()=>{const boundary=document.querySelector('.boundary'),exploratory=[...document.querySelectorAll('.section-heading h2')].find(node=>node.textContent==='Exploratory DNA-maintenance evidence')?.closest('.section-heading');return Boolean(boundary&&exploratory&&(exploratory.compareDocumentPosition(boundary)&Node.DOCUMENT_POSITION_FOLLOWING));});
+assert.equal(boundaryOrder,true);
 const fullscreenSupported=await page.evaluate(()=>Boolean((document.fullscreenEnabled||document.webkitFullscreenEnabled)&&(Element.prototype.requestFullscreen||Element.prototype.webkitRequestFullscreen)));
 assert.equal((await page.locator('.figure-fullscreen').count())>0,fullscreenSupported);
 assert.ok(!(await page.locator('body').innerText()).includes('A companion to the Schmidt secondary analysis'));
@@ -46,6 +50,7 @@ const layout=await page.evaluate(()=>{const button=document.querySelector('.figu
 assert.equal(layout.position,'static');assert.equal(layout.toolbarBeforePlot,true);assert.equal(layout.buttonBeforePlot,true);assert.equal(layout.matrixOverflowY,'hidden');assert.equal(layout.headlineWhiteSpace,'normal');
 await mkdir('screenshots',{recursive:true});
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).click();
+assert.equal(await page.locator('.boundary').count(),0);
 assert.equal(await page.locator('.gene-row').count(),113);
 await page.getByRole('button',{name:'Inspect NDUFB7, Respiratory complex I',exact:true}).click();
 await page.waitForFunction(()=>document.querySelector('.gene-symbol')?.textContent==='NDUFB7'&&document.querySelector('.gene-detail')?.textContent.includes('ENSG'));
@@ -105,5 +110,5 @@ for(const name of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Rob
 const fonts=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,title:getComputedStyle(document.querySelector('h1,h2,h3')).fontFamily}));
 assert.match(fonts.body,/system-ui/);assert.doesNotMatch(fonts.title,/Georgia|Source Serif/);
 assert.deepEqual(externalRequests,[]);assert.deepEqual(failedRequests,[]);assert.deepEqual(errors,[]);
-await writeFile('screenshots/browser-check.json',JSON.stringify({passed:true,checks:['header repository and ORCID icons','white high-contrast surface','scroll progress and return-to-top control','primary family','fullscreen landscape with selected-gene detail','print control','113 heatmap rows','gene selection','functional filter','alias lookup','missing gene','untestable secondary set','mixed temporal result','all sensitivity variants','CSV download','provenance','seven mobile views','exploratory family','30-gene DNA view','multi-membership annotation filter','24-test family','240 follow-up variants','system typography','external requests blocked'],browser:await browser.version(),fonts,palette,externalRequests,failedRequests,requestCount:requests.length,requestOrigins:[...new Set(requests.map(u=>new URL(u).origin))],errors},null,2));
+await writeFile('screenshots/browser-check.json',JSON.stringify({passed:true,checks:['header repository and ORCID icons','interpretation boundary follows overview evidence','white high-contrast surface','scroll progress and return-to-top control','primary family','fullscreen landscape with selected-gene detail','print control','113 heatmap rows','gene selection','functional filter','alias lookup','missing gene','untestable secondary set','mixed temporal result','all sensitivity variants','CSV download','provenance','seven mobile views','exploratory family','30-gene DNA view','multi-membership annotation filter','24-test family','240 follow-up variants','system typography','external requests blocked'],browser:await browser.version(),fonts,palette,externalRequests,failedRequests,requestCount:requests.length,requestOrigins:[...new Set(requests.map(u=>new URL(u).origin))],errors},null,2));
 console.log('Browser checks passed; screenshots saved.');await browser.close();

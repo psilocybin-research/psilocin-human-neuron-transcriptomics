@@ -180,8 +180,6 @@ Then open `http://127.0.0.1:4173/`.
 | [`docs/`](docs/) | Public analysis chronology and README images |
 | [`provenance/`](provenance/) | Freeze records, session information and checksums |
 
-The repository intentionally excludes manuscript files, journal correspondence, raw upstream downloads and internal development materials. [`config/public_release_outputs.json`](config/public_release_outputs.json) is the exact allowlist for redistributed numerical outputs.
-
 ## Statistical scope
 
 The primary model conservatively aggregates raw counts from 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion in [`reports/analysis_plan_frozen.md`](reports/analysis_plan_frozen.md).

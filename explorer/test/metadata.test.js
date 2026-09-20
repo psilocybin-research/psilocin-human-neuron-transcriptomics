@@ -25,6 +25,8 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);
   assert.match(atlasSource, /that narrower result does not negate the broader transcriptional finding/);
   assert.match(atlasSource, /Exploratory DNA-maintenance evidence/);
+  assert.match(atlasSource, /Study design and interpretation/);
+  assert.ok(atlasSource.indexOf("heading('Study design and interpretation'") > atlasSource.indexOf("heading('Exploratory DNA-maintenance evidence'"));
   assert.match(atlasSource, /leave specificity unresolved/);
   assert.match(atlasSource, /do not demonstrate DNA-repair activity, telomere maintenance or proliferation/);
   assert.doesNotMatch(atlasSource, /el\('sup'/);
