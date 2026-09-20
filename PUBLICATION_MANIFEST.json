@@ -3,7 +3,7 @@
   "release": "v1.0.1",
   "created": "2026-09-20",
   "file_count": 265,
-  "total_bytes": 157037956,
+  "total_bytes": 157371467,
   "status": "pass",
   "failures": [],
   "files": [
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14073,
-      "sha256": "cab5b5886c4adf61b446eaf44a11f23e75593fa52741397944e43bb72b74165c"
+      "bytes": 14078,
+      "sha256": "9da075a3cc513b0b3a317d71c2f08479affd9619d74cd8329aa6b0cf866616fb"
     },
     {
       "path": "REUSE.toml",
@@ -144,8 +144,8 @@
     },
     {
       "path": "docs/images/atlas-landscape.png",
-      "bytes": 236368,
-      "sha256": "c3b38ebed95a2c5b02b7dd6f3379f62e708efdb91c9828a120b81cbb3b8e49c1"
+      "bytes": 569874,
+      "sha256": "1c07c7c710cb7a7785345ab694fea5dd6b5a52eafaa3b407880188bdfacd07cf"
     },
     {
       "path": "explorer/README.md",

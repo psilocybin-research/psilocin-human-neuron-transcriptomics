@@ -49,7 +49,7 @@ Source materials describe vehicle controls at matching time points, but the publ
 
 <p align="center">
   <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
-    <img src="docs/images/atlas-landscape.png" alt="Interactive OXPHOS landscape showing gene-level expression profiles, model effects and leading-edge membership" width="920">
+    <img src="docs/images/atlas-landscape.png" alt="Cropped OXPHOS landscape showing gene-level expression profiles, model effects and the selected-gene evidence panel" width="920">
   </a>
 </p>
 
