@@ -3,7 +3,7 @@
   "release": "v1.0.1",
   "created": "2026-09-20",
   "file_count": 265,
-  "total_bytes": 157371467,
+  "total_bytes": 157371160,
   "status": "pass",
   "failures": [],
   "files": [
@@ -169,8 +169,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 48571,
-      "sha256": "d2013a260847c8827ec009f535542f86837bdb2c9b3b8b22c54c90f3051098f9"
+      "bytes": 48044,
+      "sha256": "a7e4c2d91c46f5633adff8d8cac03918a4a502bdcd154372b66698f61ab1e63e"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -199,13 +199,13 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 16311,
-      "sha256": "23eadd9018899b321faef29126b52ca3a8d318ec575d91aebb6f2a9640bac53f"
+      "bytes": 16503,
+      "sha256": "fcce0c3ce498c677791abc555d73b9d80047175edddb12adedfccd0a3dfb21a8"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12330,
-      "sha256": "fec0a991fe1335925d3e3d268d2da67821206d338f2e6d2d507fd06fe66a3413"
+      "bytes": 12386,
+      "sha256": "7717983f69855579eb1a862ecc221221d9790e1d605a8de5a18813e92db89614"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -214,8 +214,8 @@
     },
     {
       "path": "explorer/test/metadata.test.js",
-      "bytes": 4088,
-      "sha256": "793a22218a9157283df119c93c359c370d1c30d54752a55a6da0b9580e8911ff"
+      "bytes": 4060,
+      "sha256": "952a9461809b2f93f8337eeb1f33a8b66b2d80d2d3d650c2a30590bad43f3387"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",

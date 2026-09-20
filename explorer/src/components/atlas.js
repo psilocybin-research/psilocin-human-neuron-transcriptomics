@@ -61,21 +61,20 @@ export function createAtlas(data,provenance,loadGenes){
  const citations=el('div','header-citations');
  const sourceCitation=el('div','header-citation');sourceCitation.append(el('span','citation-label','Source study'));
  const sourceStudy=el('a','citation-text','Schmidt M, Hoffrichter A, Davoudi M, et al. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife 14:RP104006. doi:10.7554/eLife.104006.3');sourceStudy.href='https://doi.org/10.7554/eLife.104006.3';sourceStudy.target='_blank';sourceStudy.rel='noopener';sourceCitation.append(sourceStudy);
- const analysisCitation=el('div','header-citation');analysisCitation.append(el('span','citation-label','Secondary analysis'));
- const analysisStatus=el('span','citation-text','Germann CB. Metabolic and redox transcriptional signatures after brief psilocin exposure in human iPSC-derived cortical neurons: a secondary analysis. Submitted to bioRxiv; screening in progress.');analysisStatus.title='No public bioRxiv record is available yet; this status will be replaced by the live preprint citation after posting.';analysisCitation.append(analysisStatus);
  const archiveCitation=el('div','header-citation');archiveCitation.append(el('span','citation-label','Software · atlas'));
  const archive=el('a','citation-text','Germann CB (2026). A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics (Version 1.0.1) [Computer software]. Zenodo. doi:10.5281/zenodo.22849800');archive.href='https://doi.org/10.5281/zenodo.22849800';archive.target='_blank';archive.rel='noopener';archiveCitation.append(archive);
- citations.append(sourceCitation,analysisCitation,archiveCitation);
+ citations.append(sourceCitation,archiveCitation);
  const headerActions=el('div','header-actions');
  const repository=el('a','header-repository');repository.href='https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics';repository.target='_blank';repository.rel='noopener';repository.title='Open the public GitHub repository';repository.append(icon('github'),el('span','repository-full','github.com/psilocybin-research/psilocin-human-neuron-transcriptomics'),el('span','repository-short','GitHub repository'));
  const sourceData=el('a','header-source','Original source data · Dryad ↗');sourceData.href='https://doi.org/10.5061/dryad.xsj3tx9w3';sourceData.target='_blank';sourceData.rel='noopener';
  headerActions.append(repository,el('span','release','v1.0.1'),sourceData);
- const share=iconButton('Share','share',shareCurrent,'native-share');share.setAttribute('aria-label','Share the current atlas analysis');share.title=typeof navigator.share==='function'?'Share the current view':'Share the current view by email';headerActions.append(share);
+ const share=iconButton('Share','share',shareCurrent,'native-share');share.setAttribute('aria-label','Share the current atlas analysis');share.title=typeof navigator.share==='function'?'Share the current view':'Share the current view by email';
  meta.append(identity,citations,headerActions);top.append(home,meta);
  const nav=el('nav','tabs');nav.setAttribute('aria-label','Explorer sections');
+ const shareRow=el('div','atlas-share');shareRow.append(share);
  const body=el('div','atlas-body');
  const footer=el('footer','source-footer');footer.append(el('span','', 'Source study · Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife, 14, RP104006. '));const doi=el('a','','https://doi.org/10.7554/eLife.104006.3');doi.href='https://doi.org/10.7554/eLife.104006.3';doi.target='_blank';doi.rel='noopener';footer.append(doi);
- root.append(top,nav,body,footer);
+ root.append(top,nav,shareRow,body,footer);
  const toTop=button('↑',()=>window.scrollTo({top:0,behavior:'smooth'}),'scroll-top');toTop.setAttribute('aria-label','Scroll to top');toTop.title='Scroll to top';toTop.hidden=true;root.append(toTop);const updateScrollProgress=()=>{const range=document.documentElement.scrollHeight-innerHeight;const progress=range>0?Math.min(1,Math.max(0,scrollY/range)):0;toTop.style.setProperty('--scroll-progress',`${progress*360}deg`);toTop.hidden=progress<.06;};addEventListener('scroll',updateScrollProgress,{passive:true});addEventListener('resize',updateScrollProgress);updateScrollProgress();
  function go(next,gene){tab=next;if(gene)selected=gene;syncLocation();render();}
  for(const [id,t]of tabs)nav.append(button(t,()=>go(id)));

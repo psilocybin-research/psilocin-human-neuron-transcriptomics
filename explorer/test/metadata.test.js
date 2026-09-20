@@ -22,7 +22,7 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /Schmidt M, Hoffrichter A, Davoudi M, et al\. \(2026\)/);
   assert.match(atlasSource, /eLife 14:RP104006/);
   assert.match(atlasSource, /doi:10\.7554\/eLife\.104006\.3/);
-  assert.match(atlasSource, /Submitted to bioRxiv; screening in progress/);
+  assert.doesNotMatch(atlasSource, /bioRxiv/i);
   assert.doesNotMatch(atlasSource, /BIORXIV\/2026\/752941/);
   assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.22849800/);
   assert.match(atlasSource, /Original source data · Dryad/);
