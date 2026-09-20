@@ -19,7 +19,12 @@ test('atlas exposes scholarly discovery and signposting metadata', () => {
 test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /github\.com\/psilocybin-research\/psilocin-human-neuron-transcriptomics/);
   assert.match(atlasSource, /v1\.0\.1/);
-  assert.match(atlasSource, /Source study · Schmidt et al\. \(2026\)/);
+  assert.match(atlasSource, /Schmidt M, Hoffrichter A, Davoudi M, et al\. \(2026\)/);
+  assert.match(atlasSource, /eLife 14:RP104006/);
+  assert.match(atlasSource, /doi:10\.7554\/eLife\.104006\.3/);
+  assert.match(atlasSource, /Submitted to bioRxiv; screening in progress/);
+  assert.doesNotMatch(atlasSource, /BIORXIV\/2026\/752941/);
+  assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.22849800/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
   assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);
@@ -31,7 +36,7 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /do not demonstrate DNA-repair activity, telomere maintenance or proliferation/);
   assert.doesNotMatch(atlasSource, /el\('sup'/);
   assert.doesNotMatch(atlasSource, /¹ Faculty of Health/);
-  assert.match(atlasSource, /el\('div','header-sources'\)/);
+  assert.match(atlasSource, /el\('div','header-citations'\)/);
 });
 
 test('atlas progressively enhances sharing and plot fullscreen controls', () => {

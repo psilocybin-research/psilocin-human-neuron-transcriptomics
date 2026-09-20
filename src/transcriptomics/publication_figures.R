@@ -33,7 +33,21 @@ x <- x[x$tier == 'primary', ]
 x$pathway_label <- factor(pathway_labels[x$pathway], levels=rev(unname(pathway_labels)))
 x$contrast_label <- factor(contrast_labels[x$contrast], levels=unname(contrast_labels))
 x$status <- status_labels[x$robustness]
-x$label <- sprintf('NES %.2f\nq=%s\n%s', x$NES, format(x$family_fdr, digits=2), x$status)
+superscript_integer <- function(value) {
+  glyphs <- c('-'='⁻','0'='⁰','1'='¹','2'='²','3'='³','4'='⁴',
+              '5'='⁵','6'='⁶','7'='⁷','8'='⁸','9'='⁹')
+  paste0(unname(glyphs[strsplit(as.character(value), '', fixed=TRUE)[[1]]]), collapse='')
+}
+format_q <- function(value) {
+  if (value < .001) {
+    exponent <- floor(log10(value))
+    coefficient <- value / 10^exponent
+    return(sprintf('%.1f×10%s', coefficient, superscript_integer(exponent)))
+  }
+  formatC(value, format='fg', digits=2)
+}
+x$q_label <- vapply(x$family_fdr, format_q, character(1))
+x$label <- sprintf('NES %.2f\nq=%s\n%s', x$NES, x$q_label, x$status)
 
 p1 <- ggplot(x, aes(contrast_label, pathway_label, fill=NES)) +
   geom_tile(color='white', linewidth=1.1) +
@@ -136,7 +150,7 @@ p2b <- ggplot(b, aes(contrast_short, mean_leading_edge_log_ratio,
 p2 <- (p2a | p2b) +
   plot_layout(widths=c(1.05, 1)) +
   plot_annotation(
-    title='Day-specific OXPHOS enrichment is broad and consistent across blocks',
+    title='Day-versus-control OXPHOS enrichment is broad and directionally consistent across blocks',
     subtitle='Leading edges: 95 genes at Day 1 and 107 at Day 3, with 89 shared',
     tag_levels='a',
     theme=theme(
