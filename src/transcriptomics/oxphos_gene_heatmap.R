@@ -117,10 +117,10 @@ write.csv(profile_export, 'tables/transcriptomics/oxphos_display_profiles.csv', 
 font <- figure_style$font
 top_ha <- HeatmapAnnotation(
   RIN=anno_points(cd$RIN_mean, ylim=c(5,10), size=unit(1,'mm'),
-       axis_param=list(side='right',at=c(5,10), gp=gpar(fontsize=8)), gp=gpar(col='#333333')),
+       axis_param=list(side='right',at=c(5,10), gp=gpar(fontsize=9)), gp=gpar(col='#333333')),
   Libraries=anno_barplot(cd$libraries_n, ylim=c(0,3.5),
-       axis_param=list(side='right',at=c(0,3), gp=gpar(fontsize=8)), gp=gpar(fill='#667982',col=NA)),
-  annotation_name_gp=gpar(fontsize=8), annotation_name_side='right',annotation_name_rot=0,
+       axis_param=list(side='right',at=c(0,3), gp=gpar(fontsize=9)), gp=gpar(fill='#667982',col=NA)),
+  annotation_name_gp=gpar(fontsize=9), annotation_name_side='right',annotation_name_rot=0,
   annotation_name_offset=unit(5,'mm'),
   height=unit(16,'mm'))
 
@@ -132,7 +132,7 @@ left_ha <- rowAnnotation(
            ROS=binary_colors,Gly=binary_colors,PI3K=binary_colors,ET=binary_colors,Mito=binary_colors),
   show_legend=FALSE, annotation_name_side='top', annotation_name_rot=90,
   annotation_name_offset=unit(4,'mm'),
-  annotation_name_gp=gpar(fontsize=8), simple_anno_size=unit(2.4,'mm'))
+  annotation_name_gp=gpar(fontsize=9), simple_anno_size=unit(2.4,'mm'))
 short_groups <- c('Complex I','Complex II','Complex III','Complex IV',
                   'ATPase / ion\ntransport','Import /\ntranslation','TCA / pyruvate',
                   'Lipid oxidation /\nelectron transfer','Other OXPHOS')
@@ -141,42 +141,42 @@ profile_ht <- Heatmap(profile_z, name='Row z-score',
   cluster_rows=FALSE, cluster_columns=FALSE, cluster_row_slices=FALSE,
   row_split=group, row_gap=unit(1.3,'mm'),
   column_split=block, cluster_column_slices=FALSE, column_gap=unit(2,'mm'),
-  column_title=levels(block), column_title_gp=gpar(fontsize=8,fontface='bold'),
+  column_title=levels(block), column_title_gp=gpar(fontsize=9,fontface='bold'),
   show_row_names=FALSE, show_column_names=TRUE,
-  column_names_gp=gpar(fontsize=8), column_names_rot=0,
+  column_names_gp=gpar(fontsize=9), column_names_rot=0,
   rect_gp=gpar(col=NA), border=TRUE,
   top_annotation=top_ha, left_annotation=left_ha,
-  row_title=short_groups, row_title_gp=gpar(fontsize=8,fontface='bold'),
+  row_title=short_groups, row_title_gp=gpar(fontsize=9,fontface='bold'),
   row_title_rot=0, row_title_side='left', width=unit(54,'mm'),
   heatmap_legend_param=list(direction='horizontal',legend_width=unit(32,'mm'),
     at=c(-2.5,0,2.5),labels=c('−2.5','0','2.5'),
-    title_gp=gpar(fontsize=8,fontface='bold'),labels_gp=gpar(fontsize=8)))
+    title_gp=gpar(fontsize=9,fontface='bold'),labels_gp=gpar(fontsize=9)))
 effect_ht <- Heatmap(effect_mat, name='log2 fold change',
   col=colorRamp2(c(-1.5,0,1.5),c('#3b6fb6','white','#d55e00')),
   cluster_rows=FALSE,cluster_columns=FALSE,row_split=group,row_gap=unit(1.3,'mm'),
   cluster_row_slices=FALSE,show_row_names=FALSE,
-  show_column_names=TRUE,column_names_gp=gpar(fontsize=8),column_names_rot=45,
-  column_title='Model effects',column_title_gp=gpar(fontsize=8,fontface='bold'),
+  show_column_names=TRUE,column_names_gp=gpar(fontsize=9),column_names_rot=45,
+  column_title='Model effects',column_title_gp=gpar(fontsize=9,fontface='bold'),
   rect_gp=gpar(col=NA),border=TRUE,width=unit(24,'mm'),
   heatmap_legend_param=list(direction='horizontal',legend_width=unit(32,'mm'),
     at=c(-1.5,0,1.5),labels=c('−1.5','0','1.5'),
-    title_gp=gpar(fontsize=8,fontface='bold'),labels_gp=gpar(fontsize=8)))
+    title_gp=gpar(fontsize=9,fontface='bold'),labels_gp=gpar(fontsize=9)))
 representative_genes <- c('NDUFB7','SDHB','CYC1','COX8A','ATP6V0C','TIMM13','OGDH','GPX4')
 stopifnot(all(representative_genes %in% genes))
 label_idx <- which(genes %in% representative_genes)
 marks <- rowAnnotation(gene=anno_mark(at=label_idx,labels=genes[label_idx],
-  labels_gp=gpar(fontsize=8),link_gp=gpar(col='#777777',lwd=.6)),show_annotation_name=FALSE)
+  labels_gp=gpar(fontsize=9),link_gp=gpar(col='#777777',lwd=.6)),show_annotation_name=FALSE)
 landscape <- profile_ht + effect_ht + marks
 edge_legend <- Legend(title='Leading edge (LE)',labels=c('Shared','D1 only','D3 only'),
   legend_gp=gpar(fill=c('#222222','#56b4e9','#d55e00')),nrow=1,
-  title_gp=gpar(fontsize=8,fontface='bold'),labels_gp=gpar(fontsize=8))
+  title_gp=gpar(fontsize=9,fontface='bold'),labels_gp=gpar(fontsize=9))
 member_legend <- Legend(title='Pathway membership',labels=c('Absent','Present'),
   legend_gp=gpar(fill=binary_colors),nrow=1,
-  title_gp=gpar(fontsize=8,fontface='bold'),labels_gp=gpar(fontsize=8))
+  title_gp=gpar(fontsize=9,fontface='bold'),labels_gp=gpar(fontsize=9))
 draw_plot <- function() {
   pushViewport(viewport(gp=gpar(fontfamily=font)))
-  draw(landscape, column_title='OXPHOS leading-edge landscape',
-       column_title_gp=gpar(fontsize=10,fontface='bold'),
+  draw(landscape, column_title='Selected OXPHOS genes: descriptive landscape',
+       column_title_gp=gpar(fontsize=11,fontface='bold'),
        heatmap_legend_side='bottom',annotation_legend_side='bottom',
        annotation_legend_list=list(edge_legend,member_legend),
        merge_legends=TRUE,legend_gap=unit(5,'mm'),newpage=FALSE,padding=unit(c(4,4,4,4),'mm'))

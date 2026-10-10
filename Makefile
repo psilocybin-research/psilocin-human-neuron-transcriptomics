@@ -48,3 +48,11 @@ atlas:
 	$(PYTHON) src/figures/export_explorer.py
 	npm --prefix explorer test
 	npm --prefix explorer run build
+
+.PHONY: camera-sensitivity test-camera
+camera-sensitivity:
+	Rscript src/transcriptomics/camera_sensitivity_v1_1.R
+
+test-camera:
+	Rscript tests/test_camera_sensitivity.R
+	$(PYTHON) -m unittest discover -s tests -p 'test_camera_results.py'

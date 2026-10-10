@@ -185,7 +185,7 @@ def write_state(path: Path, record: dict, archive: Path | None = None) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--token-file", type=Path, default=DEFAULT_TOKEN)
-    parser.add_argument("--state", type=Path, default=ROOT / "provenance/zenodo_release_v1.1.0.json")
+    parser.add_argument("--state", type=Path, default=ROOT / "provenance/zenodo_release_v1.2.0.json")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("payload")
     sub.add_parser("create-draft")

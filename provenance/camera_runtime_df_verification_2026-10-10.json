@@ -1,0 +1,59 @@
+{
+  "state": "verified_in_actual_camera_execution",
+  "limma_version": "3.68.5",
+  "runtime_calls": {
+    "estimated:day1_vs_control": {
+      "reference_df": 4,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": false,
+      "use_ranks": false,
+      "weights_present": true
+    },
+    "estimated:day3_vs_control": {
+      "reference_df": 4,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": false,
+      "use_ranks": false,
+      "weights_present": true
+    },
+    "estimated:day3_vs_day1": {
+      "reference_df": 4,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": false,
+      "use_ranks": false,
+      "weights_present": true
+    },
+    "fixed_0.01:day1_vs_control": {
+      "reference_df": 21096,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": true,
+      "use_ranks": false,
+      "weights_present": true
+    },
+    "fixed_0.01:day3_vs_control": {
+      "reference_df": 21096,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": true,
+      "use_ranks": false,
+      "weights_present": true
+    },
+    "fixed_0.01:day3_vs_day1": {
+      "reference_df": 21096,
+      "residual_df": 4,
+      "genes": 21098,
+      "fixed_correlation": true,
+      "use_ranks": false,
+      "weights_present": true
+    }
+  },
+  "tests_matched": 30,
+  "max_absolute_p_q_difference": 4.4408920985006262e-16,
+  "saved_results_sha256": "b1d215f50d5515bbcf4c1116030ab8c5f03025bc9b5d09808b00e0645d3d2dd7",
+  "fitted_input_sha256": "388ea5f37ef054b7694ab7d5e6e2588beb16bddefe917be5268aa627d349e882",
+  "note": "Trace captures df.camera from camera.default during execution. Original output files are read only; no settings or numerical results changed."
+}

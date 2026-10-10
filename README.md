@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"><strong>Open the transcriptomic atlas</strong></a>
   ·
-  <a href="https://doi.org/10.5281/zenodo.23281795">Archived release</a>
+  <a href="https://doi.org/10.5281/zenodo.23283595">Archived release</a>
   ·
   <a href="#quick-start-in-r">R quick start</a>
   ·
@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml/badge.svg"></a>
-  <a href="https://doi.org/10.5281/zenodo.23281795"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.23281795.svg"></a>
+  <a href="https://doi.org/10.5281/zenodo.23283595"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.23283595.svg"></a>
   <a href="LICENSE.md"><img alt="Licenses: path-level" src="https://img.shields.io/badge/licenses-path--level-2f6f5e"></a>
 </p>
 
@@ -44,13 +44,19 @@ OXPHOS enrichment is the principal finding of this secondary analysis. A separat
 
 The frozen exploratory family also identified positive DNA-repair and telomere-maintenance enrichment at both sampled days. In the separately corrected post hoc decomposition, DNA repair remained supported after telomere-set genes were removed, whereas telomere maintenance after removal of DNA-repair genes met the follow-up threshold only at Day 1. Accompanying DNA-replication enrichment and mixed cell-cycle controls leave biological specificity unresolved. These exploratory transcriptional findings do not establish DNA-repair activity, telomere maintenance or proliferation.
 
-Source materials describe vehicle controls at matching time points, but the public RNA-seq metadata do not link individual control libraries to harvest day. This reanalysis therefore uses the available common control pool and cannot estimate a treatment × time interaction. Competitive pathway q-values describe concentration within the ranked transcriptome, not biological-replication probabilities across three differentiation blocks. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
+Source materials describe vehicle controls at matching time points, but the public RNA-seq metadata do not link individual control libraries to harvest day. This reanalysis uses the available common control pool: unknown control harvest composition can affect either day/control contrast and prevents a treatment × time interaction. Competitive pathway q-values describe concentration within the ranked transcriptome, not biological-replication probabilities across three differentiation blocks. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
 <p align="center">
   <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape">
     <img src="docs/images/atlas-landscape.png" alt="Cropped OXPHOS landscape showing gene-level expression profiles, model effects and the selected-gene evidence panel" width="920">
   </a>
 </p>
+
+## Correlation-aware statistical support
+
+A separately specified post hoc limma-voom CAMERA sensitivity retained upward OXPHOS direction at both days but did not reach the 15-test BH threshold with estimated inter-gene correlation (both q=0.587). None of the 15 tests passed in that setting. The documented fixed correlation 0.01 yielded significant upward OXPHOS (both q=5.84e-8). These settings change both variance inflation and CAMERA's parametric reference distribution: 4 versus 21,096 reference df, with four residual model df in either case. The correlation estimates come from standardized weighted residuals after fitting block and condition. Neither specification adds biological replication or establishes a matched-age drug effect.
+
+Competitive statistical support therefore depends on the inferential framework. The broad gene-ranking pattern and observed directional agreement do not imply method-independent significance or precisely estimated expression-shift magnitude. All settings and null results are retained in the [complete results](reports/camera_sensitivity_results.md), [methods](reports/camera_sensitivity_methods.md), [reproduction guide](reports/camera_sensitivity_reproduction.md) and [downloadable 30-test table](tables/camera_sensitivity/all_tests.csv).
 
 ## OXPHOS block-level uncertainty
 
@@ -83,7 +89,7 @@ The manual workflow runs [`src/quick_start.R`](src/quick_start.R) with R 4.6.1, 
 ```r
 base <- paste0(
   "https://raw.githubusercontent.com/psilocybin-research/",
-  "psilocin-human-neuron-transcriptomics/v1.1.0/"
+  "psilocin-human-neuron-transcriptomics/v1.2.0/"
 )
 
 enrichment <- read.csv(paste0(
@@ -195,7 +201,7 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff). The permanent citation for this release is:
 
-> Germann, C. B. (2026). *Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons* (Version 1.1.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.23281795](https://doi.org/10.5281/zenodo.23281795)
+> Germann, C. B. (2026). *Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons* (Version 1.2.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.23283595](https://doi.org/10.5281/zenodo.23283595)
 
 ## Data availability
 
@@ -203,9 +209,9 @@ Source RNA-seq data are available from the [Schmidt author repository](https://g
 
 ## Code availability
 
-Code, frozen specifications, derived results, and the static atlas are archived as [Zenodo version 1.1.0](https://doi.org/10.5281/zenodo.23281795); the maintained source is on [GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics).
+Code, frozen specifications, derived results, and the static atlas are archived as [Zenodo version 1.2.0](https://doi.org/10.5281/zenodo.23283595); the maintained source is on [GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics).
 
-Version 1.1.0 contains documentation and interpretation clarifications; analytical results are unchanged from version 1.0.0.
+Version 1.2.0 contains documentation and interpretation clarifications; analytical results are unchanged from version 1.0.0.
 
 ## Contact
 

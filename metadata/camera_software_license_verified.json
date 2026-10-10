@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-10",
+  "limma": "GPL (>=2)",
+  "statmod": "GPL-2 | GPL-3",
+  "evidence": "DESCRIPTION files inspected inside exact checksum-pinned source tarballs",
+  "correction": "Initial frozen statmod acquisition metadata used the generic GPL (>=2) label. Exact upstream expression is GPL-2 | GPL-3; source tarball is unchanged."
+}

@@ -1,0 +1,10 @@
+"profile","(Intercept)","block68_3__batch2","block69_2__batch1","conditionpsilocin_day1","conditionpsilocin_day3"
+"68_3__batch1__control",1,0,0,0,0
+"68_3__batch1__psilocin_day1",1,0,0,1,0
+"68_3__batch1__psilocin_day3",1,0,0,0,1
+"68_3__batch2__control",1,1,0,0,0
+"68_3__batch2__psilocin_day1",1,1,0,1,0
+"68_3__batch2__psilocin_day3",1,1,0,0,1
+"69_2__batch1__control",1,0,1,0,0
+"69_2__batch1__psilocin_day1",1,0,1,1,0
+"69_2__batch1__psilocin_day3",1,0,1,0,1

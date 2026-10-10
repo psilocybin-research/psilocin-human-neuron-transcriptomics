@@ -1,0 +1,10 @@
+{
+  "url": "https://bioconductor.posit.co/packages/3.23/bioc/src/contrib/limma_3.68.5.tar.gz",
+  "resolved_url": "https://bioconductor.posit.co/packages/3.23/bioc/src/contrib/limma_3.68.5.tar.gz",
+  "retrieved_utc": "2026-10-10T13:49:51.300686+00:00",
+  "path": "data/raw/software/limma_3.68.5.tar.gz",
+  "bytes": 2842081,
+  "sha256": "40b1d2059a76ad98db4bf80139760acf8e8bae92a8265aaaf16ac199831533f4",
+  "license": "GPL (>=2), package DESCRIPTION",
+  "primary_url_failure": "HTTP 403"
+}

@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "status": "post_hoc_sensitivity",
+  "seed": 104006,
+  "input_counts": "data/processed/schmidt/core_block_condition_counts.tsv.gz",
+  "metadata": "metadata/schmidt_analysis_units.csv",
+  "mapping": "tables/transcriptomics/gene_mapping.csv",
+  "gene_sets": "config/gene_sets.yaml",
+  "original_config": "config/analysis.yaml",
+  "minimum_count": 10,
+  "minimum_samples": 3,
+  "expected_filtered_genes": 21154,
+  "expected_symbols": 21098,
+  "expected_profiles": 9,
+  "design": "~ block + condition",
+  "expected_rank": 5,
+  "residual_df": 4,
+  "condition_levels": [
+    "control",
+    "psilocin_day1",
+    "psilocin_day3"
+  ],
+  "contrasts": {
+    "day1_vs_control": [
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "day3_vs_control": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "day3_vs_day1": [
+      0,
+      0,
+      0,
+      -1,
+      1
+    ]
+  },
+  "normalization": "DESeq2 median-ratio size factors estimated from all 21154 filtered genes; effective library sizes = size_factor/geometric_mean(size_factors) * geometric_mean(filtered library sums)",
+  "voom": {
+    "normalize_method": "none",
+    "span": 0.5,
+    "plot": false
+  },
+  "camera": {
+    "use_ranks": false,
+    "allow_neg_cor": false,
+    "directional": true,
+    "estimated_correlation": null,
+    "fixed_correlation": 0.01,
+    "trend_var": false
+  },
+  "multiplicity": "BH separately across all five pathways x three contrasts (15 tests) for each of two declared correlation modes",
+  "alpha": 0.05,
+  "pathways": [
+    "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+    "HALLMARK_GLYCOLYSIS",
+    "HALLMARK_REACTIVE_OXYGEN_SPECIES_PATHWAY",
+    "HALLMARK_MTORC1_SIGNALING",
+    "HALLMARK_PI3K_AKT_MTOR_SIGNALING"
+  ],
+  "size_bounds": [
+    15,
+    500
+  ],
+  "limma_version": "3.68.5",
+  "statmod_version": "1.5.2",
+  "limits": "Same data; no independent replication or new primary success rule. Estimated correlations have four residual degrees of freedom. Differences versus fgsea also include voom/limma modeling, not correlation alone. No treatment-by-time interaction or matched-age drug effect."
+}

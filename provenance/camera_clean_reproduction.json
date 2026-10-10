@@ -1,0 +1,14 @@
+{
+  "primary_rds_present": false,
+  "numeric_csvs_byte_identical": [
+    "all_tests.csv",
+    "membership.csv",
+    "normalization.csv",
+    "design.csv",
+    "genes_day1_vs_control.csv",
+    "genes_day3_vs_control.csv",
+    "genes_day3_vs_day1.csv"
+  ],
+  "environment": "same installed R dependencies; not fresh dependency restoration",
+  "returncode": 0
+}

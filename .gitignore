@@ -16,3 +16,6 @@ __pycache__/
 data/raw/
 data/interim/
 data/processed/
+
+.Rlib-camera/
+tables/camera_sensitivity/fit.rds

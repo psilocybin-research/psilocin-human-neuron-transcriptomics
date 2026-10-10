@@ -1,0 +1,9 @@
+{
+  "url": "https://cloud.r-project.org/src/contrib/statmod_1.5.2.tar.gz",
+  "resolved_url": "https://cloud.r-project.org/src/contrib/statmod_1.5.2.tar.gz",
+  "retrieved_utc": "2026-10-10T13:50:13.225785+00:00",
+  "path": "data/raw/software/statmod_1.5.2.tar.gz",
+  "bytes": 93227,
+  "sha256": "5f83d82043c5e26f1048fc0139580da1b7e40becf95fb4cb26ed3afcd46a581d",
+  "license": "GPL (>=2), DESCRIPTION"
+}

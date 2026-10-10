@@ -1,0 +1,32 @@
+{
+  "n_profiles": 9,
+  "n_filtered": 21154,
+  "n_symbols": 21098,
+  "n_blocks": 3,
+  "design_rank": 5,
+  "residual_df": 4,
+  "n_tests": 30,
+  "versions": [
+    {
+      "package": "limma",
+      "version": "3.68.5"
+    },
+    {
+      "package": "statmod",
+      "version": "1.5.2"
+    },
+    {
+      "package": "DESeq2",
+      "version": "1.52.0"
+    },
+    {
+      "package": "jsonlite",
+      "version": "2.0.0"
+    },
+    {
+      "package": "digest",
+      "version": "0.6.39"
+    }
+  ],
+  "warnings": []
+}

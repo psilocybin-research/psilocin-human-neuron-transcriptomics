@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "release": "v1.1.0",
+  "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 387,
-  "total_bytes": 239695245,
+  "file_count": 422,
+  "total_bytes": 246080565,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,13 +29,13 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 229,
-      "sha256": "087dd2933068875e1d8e851b687b0d1389d12154566dab1a370c7d51c5941fca"
+      "bytes": 278,
+      "sha256": "c4b57b01d2d5a5ee5ec9110b49de08ce03e70353f7dca2233f9d75f5910fbaea"
     },
     {
       "path": ".zenodo.json",
-      "bytes": 5143,
-      "sha256": "1dfd95b0b57e0bf244f916321ddea883da9449634dd3ea5c314daad9222812f9"
+      "bytes": 5387,
+      "sha256": "68f15348fae11be4206a11368a1b391ccf176ffdc850a9f5c78f6795f1d05b2a"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -45,12 +45,12 @@
     {
       "path": "CITATION.cff",
       "bytes": 2508,
-      "sha256": "0d073e5ef7abc9d7b54da0e4392430881aa224ffcc1c34189b7ef5edbca3cdd3"
+      "sha256": "bddbc31d28e2e07e99d5d2b73c26b2f9e8952d016e14ea5c8e3c546e7fd7ec8a"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 57163,
-      "sha256": "4b68679a4987425271a8d0b1ca6dfe0be1e26b83c107623a524dd5be06b546de"
+      "bytes": 62041,
+      "sha256": "436ffe2a6eb8ddc3f35722fd7b69fa2280139ef3e4dd9f06ece0c2466d123530"
     },
     {
       "path": "LICENSE.md",
@@ -79,13 +79,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 1171,
-      "sha256": "0911f08c1cc588f6fd3bff4fa26d640343207638bc7d264292500c813bf8e23d"
+      "bytes": 1410,
+      "sha256": "f2bbd4819a63c67feed2a3e26f70b21b21f991cc6af58dfcca9ae454ab0c52db"
     },
     {
       "path": "README.md",
-      "bytes": 14645,
-      "sha256": "c28b8f6ffaade97f4183ce2640a5cc246b149997bc6987e946b4a820257e489e"
+      "bytes": 15992,
+      "sha256": "63ccb5b2d400afd5fd0dd574c70074dd8b335d5c2536e37dc3c2b3adf7a15c65"
     },
     {
       "path": "REUSE.toml",
@@ -106,6 +106,11 @@
       "path": "config/bayesian_oxphos_v1.json",
       "bytes": 3113,
       "sha256": "d99afc529b801543323dafa8fa9e1a7596cadf1d08bcb37b405d05c1bda2a22f"
+    },
+    {
+      "path": "config/camera_sensitivity_v1.json",
+      "bytes": 2114,
+      "sha256": "aad36ae859f24554776512a939b53bf504e8faa54334d3ff9842e5154c2b8b6f"
     },
     {
       "path": "config/dna_maintenance_v1.json",
@@ -129,8 +134,8 @@
     },
     {
       "path": "config/public_release_outputs.json",
-      "bytes": 6712,
-      "sha256": "6c7aebf0db80a5bc0f4fa7069b3a83f059ddb6676acae6068c8731077c8e3ee1"
+      "bytes": 7272,
+      "sha256": "3ffcf5d6279b665db16cbfb95d2d6fe289250aa933ccdf6e729ce0de37e6c45e"
     },
     {
       "path": "config/targeted_redox_v1.json",
@@ -141,6 +146,11 @@
       "path": "data/README.md",
       "bytes": 380,
       "sha256": "d16e7d3cfb3022862542398c52aa08df5a31defa04886161391032c305335a0b"
+    },
+    {
+      "path": "data/processed/schmidt/core_block_condition_counts.tsv.gz",
+      "bytes": 719824,
+      "sha256": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9"
     },
     {
       "path": "docs/analysis_history.md",
@@ -165,7 +175,7 @@
     {
       "path": "explorer/observablehq.config.js",
       "bytes": 7232,
-      "sha256": "5c56fd059a9c2b8b2e7a906bfae8f6f80ce76f75edb052196eba14393c52033b"
+      "sha256": "85db3e65b437815c9ae3877785106999b56b5531203f2581b1e3c9501e06ed4a"
     },
     {
       "path": "explorer/package-lock.json",
@@ -178,9 +188,19 @@
       "sha256": "c70e247bd360190077532fce0e7474174423e1045258c3795cb91c17eb00f0fc"
     },
     {
+      "path": "explorer/screenshots/browser-check.json",
+      "bytes": 1308,
+      "sha256": "6e85b1a70170d971a88b8a14d09b63dabfa47b6391075b2c8ef99956c491ea69"
+    },
+    {
+      "path": "explorer/screenshots/landscape.png",
+      "bytes": 244398,
+      "sha256": "46a65b9d84c0e29f7e7144466b2ef69260da4064d9578b0775115793b54c0495"
+    },
+    {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 48369,
-      "sha256": "6ca5c25622d14e6c982c4588341f902ee2de3f395997cd59b429abfa86fa0463"
+      "bytes": 50130,
+      "sha256": "1a9d41073d509a2d05870d111bcc5e1a24436bbb561e2de356b207bbba2c61b3"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -214,8 +234,8 @@
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12347,
-      "sha256": "2419234b45508674d2fc98be73df90d896368c18a7983623cf13ab480d6701ae"
+      "bytes": 12569,
+      "sha256": "7cbd509decde69ecadd372104e4e51acfb951efa18ebd8cab85817c1102c07f0"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -225,7 +245,7 @@
     {
       "path": "explorer/test/metadata.test.js",
       "bytes": 4042,
-      "sha256": "456f68121579d604f2fdce51ee0360f378e4dd5fd38951880bd76767f7b0964e"
+      "sha256": "2f7003efe1c5f6c9ef25a403258712bdc379bccadd9a1f826835ad7793a50faa"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
@@ -260,7 +280,7 @@
     {
       "path": "figures/oxphos_evidence.pdf",
       "bytes": 203506,
-      "sha256": "050cd2f776582eecf6cacb706536115721ed90072501d47bdadb0da215860e59"
+      "sha256": "7a3c8cea2eed92b73fa03468715affc6f77751b7bff37dd2aa91e1f28f4e5dda"
     },
     {
       "path": "figures/oxphos_evidence.png",
@@ -270,37 +290,37 @@
     {
       "path": "figures/oxphos_evidence.svg",
       "bytes": 1059091,
-      "sha256": "6ef77c61e0478356f4abd5d611006f9238169e36365f1d2fdd7658521bb3c861"
+      "sha256": "4e9c8a7b620e0ec802917e3c665e4e4659eb655077680b41dc45f4a34b883f63"
     },
     {
       "path": "figures/oxphos_gene_landscape.pdf",
-      "bytes": 46121,
-      "sha256": "3f440b5dfa86cc9cbf4eefaf40bef98f856a825022925fbcf742c39ef7b72f8b"
+      "bytes": 46090,
+      "sha256": "33075551082c9efb430e4b458f88e471ddea425043ba1543b596e6a45f1e0dda"
     },
     {
       "path": "figures/oxphos_gene_landscape.png",
-      "bytes": 246150,
-      "sha256": "0b68c073714a4f6f9bde4513b92c19108137b2ff1f42bea33df4a350e3807493"
+      "bytes": 272326,
+      "sha256": "f2dc7b835d65d54b21d6f0852b148d4167c2733da82e3e9dc133bee37e1b0de3"
     },
     {
       "path": "figures/oxphos_gene_landscape.svg",
-      "bytes": 699760,
-      "sha256": "adc2d5987ccb80f12228ef612364ccd63997bc42953d8ec380bf41eab16a952d"
+      "bytes": 703610,
+      "sha256": "5bfc88244206f161cdb4e57e84b8f87a9db0489476494c1615fffe104e54ee15"
     },
     {
       "path": "figures/primary_enrichment.pdf",
-      "bytes": 31796,
-      "sha256": "cd23c1bed6319c02ae7a5320dde0bb5ec5babd5acfc208d18e597a583473e91e"
+      "bytes": 31975,
+      "sha256": "5898aee4fdf5f07556e52259edfbdd4b7cda24e0d2856039aa3c79608c88f5c2"
     },
     {
       "path": "figures/primary_enrichment.png",
-      "bytes": 346146,
-      "sha256": "d57d81d7643e659861e6db8f72b6d1a5111ed752576fb916d311c0a440fabd6e"
+      "bytes": 364496,
+      "sha256": "0ac5e2b2d41ee15f1653225c806e4cf4fd3c1e6b55fc0f4e925f4abe35f8b1a8"
     },
     {
       "path": "figures/primary_enrichment.svg",
-      "bytes": 175386,
-      "sha256": "a17dd59197899ef1d1ef29202c70cf3e665fdcfd53c3a72c749e8dd5ca2a70d9"
+      "bytes": 187742,
+      "sha256": "c246f7543170e145a911199fa1208e8f3724888a84a90131ca0bc59d2590d7a1"
     },
     {
       "path": "figures/qc_all_libraries.pdf",
@@ -316,6 +336,21 @@
       "path": "figures/qc_pooled_profiles.pdf",
       "bytes": 17230,
       "sha256": "e7d441869c51639da0324dd51d7534eb9000a7e997a430bb7e49774ac02f09cc"
+    },
+    {
+      "path": "metadata/camera_limma_source.json",
+      "bytes": 488,
+      "sha256": "fe781727750eea64b6b751bb2e852114102c652e6c415ec234ba00fdf008a0ad"
+    },
+    {
+      "path": "metadata/camera_software_license_verified.json",
+      "bytes": 341,
+      "sha256": "80ab8f94dc7edcf1bac248f112e51ce58a5814f92efe0013471d6773b9cc1511"
+    },
+    {
+      "path": "metadata/camera_statmod_source.json",
+      "bytes": 402,
+      "sha256": "591f7728dd1478cad3ea559843749ac3a673c8b02512ac288a9600c1dbc1e371"
     },
     {
       "path": "metadata/gene_set_redistribution_review.json",
@@ -923,6 +958,31 @@
       "sha256": "3af389ce300418acb0324d97bad7eb86f7d8dc1afc2ddf7f23a8abaf82a1a919"
     },
     {
+      "path": "provenance/camera_clean_reproduction.json",
+      "bytes": 359,
+      "sha256": "27ba8ad77cbbbba8d23629ff4336bf9c344e46c70de76bd84dd88e488f422d21"
+    },
+    {
+      "path": "provenance/camera_implementation_audit_2026-10-10.json",
+      "bytes": 1164,
+      "sha256": "2f266f194f87b525dd60b48b7a0bac059d3a3ceb507826b3bc5e8fcf96d8967e"
+    },
+    {
+      "path": "provenance/camera_runtime_df_verification_2026-10-10.json",
+      "bytes": 1753,
+      "sha256": "70a5b56b2662d1c5bef9918b6e064f7b1ad1faf13c591bb9f330619abf1d69b6"
+    },
+    {
+      "path": "provenance/camera_sensitivity_freeze_v1.json",
+      "bytes": 1585,
+      "sha256": "166a00bc9f341d9e799b91e405d3628d1ffde393ef7afc3700c10bc751e5b266"
+    },
+    {
+      "path": "provenance/camera_sensitivity_freeze_v1_1.json",
+      "bytes": 1941,
+      "sha256": "98c293b817d96ce4a8c980e0ab16851af8c9e4f466586acd2e5e45b41b5f575c"
+    },
+    {
       "path": "provenance/dna_maintenance_freeze_v1.json",
       "bytes": 4135,
       "sha256": "173fc94c40a784fa6d65286141c4cee2b8819d9cdcdf726d27d6137b4e7259d0"
@@ -1001,6 +1061,26 @@
       "path": "reports/bayesian_oxphos_results.md",
       "bytes": 1944,
       "sha256": "fc84a97cbd6a1a535a0b03071f03153d0e26705c90d1bc48a46815d2c4f9633c"
+    },
+    {
+      "path": "reports/camera_sensitivity_methods.md",
+      "bytes": 3192,
+      "sha256": "d6d6de8c46bd63966b0c028d67952ba5d44cfbf805c46d820b0b894d028747d8"
+    },
+    {
+      "path": "reports/camera_sensitivity_plan_v1.md",
+      "bytes": 3245,
+      "sha256": "619f2bd832b0af3be9d7e8d3bc957c1545a475bf3c9add7ceb2034c9d5b5de3c"
+    },
+    {
+      "path": "reports/camera_sensitivity_reproduction.md",
+      "bytes": 2325,
+      "sha256": "926524c7dcc0f64f992ad5d2d0f0174f72a6e78a1d10012b7d03f5319fd950a1"
+    },
+    {
+      "path": "reports/camera_sensitivity_results.md",
+      "bytes": 5130,
+      "sha256": "10ef8994ccf6e3d469f1c638e44bf59dc8b71c351acb90261dcfe44d2c6d4a38"
     },
     {
       "path": "reports/dna_maintenance_plan_v1.md",
@@ -1088,9 +1168,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.329a3c8c.js",
-      "bytes": 48378,
-      "sha256": "e7aee988bc3a7d36352a374b242031ade334b8072f2a9f3435ca2cfdfbb2765c"
+      "path": "site/_import/components/atlas.c06f7967.js",
+      "bytes": 50139,
+      "sha256": "d82bb94187c27551da9153470cc8af9ed5451a007c7c7f7773022f71fa625b1c"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1120,7 +1200,7 @@
     {
       "path": "site/index.html",
       "bytes": 10851,
-      "sha256": "d190f10e3f88f4fb4a0f3771450939050db41cf07946c0f3f99dfbcd5b6de37b"
+      "sha256": "f5f9d7ad6600b9dbe27969d14c4877b05f46a8f459ce116fa28320b916b0c92c"
     },
     {
       "path": "src/__init__.py",
@@ -1156,6 +1236,11 @@
       "path": "src/acquisition/restore.py",
       "bytes": 1911,
       "sha256": "ceaa9764eca4840f51c9be5051d28114e851e1d0bda50ac2e33e1273833c8471"
+    },
+    {
+      "path": "src/acquisition/restore_camera_software.py",
+      "bytes": 925,
+      "sha256": "288d7f8f290012b5b23021912035f1c746598ec5f2df6d54e6a955f9cf385068"
     },
     {
       "path": "src/acquisition/schmidt_context.py",
@@ -1213,9 +1298,29 @@
       "sha256": "80330cb24ff4787beac0b3a812b12f7fb1ad061831e2748b2bb848d9c07f6163"
     },
     {
+      "path": "src/transcriptomics/audit_camera_implementation.R",
+      "bytes": 3735,
+      "sha256": "3afe60c8ce4a28b51ac6c3b11cac7d7d6c9dd9d2210b9c962365b21ac41cc144"
+    },
+    {
       "path": "src/transcriptomics/bayesian_oxphos.py",
       "bytes": 9850,
       "sha256": "c07a78581beff8b230e435b6c4e3f5ecf27c3c853d8747622b3836cd45d165e4"
+    },
+    {
+      "path": "src/transcriptomics/camera_helpers.R",
+      "bytes": 1776,
+      "sha256": "511909a6758d3d555e355d839bf07eaf207d6812921be78b365724736fc674e6"
+    },
+    {
+      "path": "src/transcriptomics/camera_sensitivity.R",
+      "bytes": 5379,
+      "sha256": "70b306977ef1abb87b07ce5991960ef73b4cd434184e8afc261b2bec2d9dd4da"
+    },
+    {
+      "path": "src/transcriptomics/camera_sensitivity_v1_1.R",
+      "bytes": 5401,
+      "sha256": "8788cdbbe759a98a6fd717f3c7a8b81e2da20af206ef05b943c8cb96decc5622"
     },
     {
       "path": "src/transcriptomics/dna_maintenance.R",
@@ -1249,8 +1354,8 @@
     },
     {
       "path": "src/transcriptomics/oxphos_gene_heatmap.R",
-      "bytes": 10676,
-      "sha256": "d19b4c52fc84b36e5ce5c6be7b260e22bd026be457110da2005388445319a2d0"
+      "bytes": 10691,
+      "sha256": "83ab9acfc72bb30d5d2c577b453c4e3e78c5927e6a18819e9beee13dc31e6628"
     },
     {
       "path": "src/transcriptomics/plot_bayesian_oxphos.py",
@@ -1264,8 +1369,8 @@
     },
     {
       "path": "src/transcriptomics/publication_figures.R",
-      "bytes": 9817,
-      "sha256": "2e58483358da2fe440c68232d613c2430fdff0c9c0121000ad3252d404939b08"
+      "bytes": 10306,
+      "sha256": "11fa8a4dd5891cbc4a7f39439a98d6bf4d309e8a17b86a02a2aff3c0171f6f3c"
     },
     {
       "path": "src/transcriptomics/qc_reproduce.R",
@@ -1303,14 +1408,19 @@
       "sha256": "bd9058e50f7685f0093c7f4771a4d7aaf766f223cde36eb8b3ea6afe2471361a"
     },
     {
+      "path": "src/transcriptomics/verify_camera_runtime_df.R",
+      "bytes": 2916,
+      "sha256": "c361bb4c9a15e044ec11ba65ecfd65c0e14b8b684e6403456f4aecd460051515"
+    },
+    {
       "path": "src/validate_release.py",
-      "bytes": 13871,
-      "sha256": "da65aad77ab05c38b387679cb1dd82a5618469ace030ff690abc84a8c94c164e"
+      "bytes": 13949,
+      "sha256": "4c8b1612447b619e9c0270262eb80da7138481ecf089a152bddce923d839effb"
     },
     {
       "path": "src/zenodo_release.py",
       "bytes": 11800,
-      "sha256": "7baeca8f4d806d23571b5cf4f9b9c3bd94f22cf61daf9a98de7dc0bf9505d6d8"
+      "sha256": "7c65497e279defd85699b0db2dfb179093fe6cfe89469622e1ead4dada4159d1"
     },
     {
       "path": "tables/bayesian_oxphos/diagnostics.csv",
@@ -1341,6 +1451,61 @@
       "path": "tables/bayesian_oxphos/profile_scores.csv",
       "bytes": 754,
       "sha256": "77008643557ba6ebf57053118dd49a52ecae6f8ac82b87cf7cc8a0bcf1c0da53"
+    },
+    {
+      "path": "tables/camera_sensitivity/all_tests.csv",
+      "bytes": 4718,
+      "sha256": "b1d215f50d5515bbcf4c1116030ab8c5f03025bc9b5d09808b00e0645d3d2dd7"
+    },
+    {
+      "path": "tables/camera_sensitivity/audit.json",
+      "bytes": 509,
+      "sha256": "d7c39218ce5728863c77e7b8c02c99ac5677a26ef951e975648a0fb9e8cccc85"
+    },
+    {
+      "path": "tables/camera_sensitivity/design.csv",
+      "bytes": 456,
+      "sha256": "d8f27d7535ea1f14a8281082bc8e16066ef7c541630b3d551d3f57e98c258896"
+    },
+    {
+      "path": "tables/camera_sensitivity/genes_day1_vs_control.csv",
+      "bytes": 1365827,
+      "sha256": "0f655aa3bc8d7fb2a2446d83eca4fed47a14f323374df7c0eacfec903be03719"
+    },
+    {
+      "path": "tables/camera_sensitivity/genes_day3_vs_control.csv",
+      "bytes": 1365506,
+      "sha256": "d5953c8e74480f083aa415c00be10f4693fcebc24fca712ebeb20add20cab532"
+    },
+    {
+      "path": "tables/camera_sensitivity/genes_day3_vs_day1.csv",
+      "bytes": 1365772,
+      "sha256": "040ab4c426ef600987c491d7e691b0d9a58225e0ac225ee39e5894df6ffa64f7"
+    },
+    {
+      "path": "tables/camera_sensitivity/membership.csv",
+      "bytes": 33068,
+      "sha256": "741f70675a1148e226f97ec94b3c4999d07e8dcece9fab32995ff41429f1186d"
+    },
+    {
+      "path": "tables/camera_sensitivity/normalization.csv",
+      "bytes": 890,
+      "sha256": "da9c716101026c64223d8a9ff06722074d8284b5dec3d477e8356747a2be8a92"
+    },
+    {
+      "path": "tables/camera_sensitivity/session_info.txt",
+      "bytes": 1969,
+      "sha256": "8face3fccbd980592a41eb8cbc270efc6d525907c08f0302671e87b977223414"
+    },
+    {
+      "path": "tables/camera_sensitivity/voom_mean_variance.pdf",
+      "bytes": 1159808,
+      "sha256": "f15a97e5973d7a5c3af5602e72bcd23795935def6561a593266df4ec4449fef7"
+    },
+    {
+      "path": "tables/camera_sensitivity/warnings.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",
@@ -1896,6 +2061,16 @@
       "path": "tests/test_bayesian_score_reproduction.py",
       "bytes": 1165,
       "sha256": "2af854ee29b1daed2445ca3bae7d0a5f67bdd9b840e73c370e7ae5a401073c9b"
+    },
+    {
+      "path": "tests/test_camera_results.py",
+      "bytes": 3121,
+      "sha256": "52ac23739230e96342b13b9f7f5c57a0b84958308e897e8d5fecb7caaed16558"
+    },
+    {
+      "path": "tests/test_camera_sensitivity.R",
+      "bytes": 1452,
+      "sha256": "adb15de587a03bc200776b10e7f22a644b71000078ec223948a14227215ce188"
     },
     {
       "path": "tests/test_dna_maintenance.py",

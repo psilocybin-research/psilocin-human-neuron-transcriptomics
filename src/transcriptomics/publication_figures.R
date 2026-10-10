@@ -22,7 +22,7 @@ contrast_labels <- c(
   day3_vs_control='Day 3 / common control',
   day3_vs_day1='Treated Day 3 / Day 1')
 status_labels <- c(
-  robust='robust',
+  robust='directionally\nstable',
   `block-dependent`='block-dependent',
   `directionally consistent but uncertain`='uncertain',
   unsupported='unsupported')
@@ -51,14 +51,14 @@ x$label <- sprintf('NES %.2f\nq=%s\n%s', x$NES, x$q_label, x$status)
 
 p1 <- ggplot(x, aes(contrast_label, pathway_label, fill=NES)) +
   geom_tile(color='white', linewidth=1.1) +
-  geom_text(aes(label=label), size=3.2, lineheight=.94) +
+  geom_text(aes(label=label), size=3.0, lineheight=.94) +
   scale_fill_gradient2(low='#3b6fb6', mid='white', high='#d55e00', midpoint=0,
                        name='NES', limits=c(-2.6, 2.6)) +
   labs(
     x=NULL, y=NULL,
     title='Primary metabolic and redox pathway evidence',
-    subtitle='Blocked model of nine profiles from three differentiation blocks',
-    caption='q: Benjamini–Hochberg correction across all 15 primary tests') +
+    subtitle='Original fgsea results: colour shows NES; text separates q and directional class',
+    caption='Small q does not establish stable direction. Labels retain the frozen classification.\nCorrelation-aware sensitivity: Supplementary Table 13; q: BH across all 15 original tests') +
   theme_minimal(base_size=8.5, base_family=figure_style$font) +
   theme(
     panel.grid=element_blank(),
@@ -70,9 +70,9 @@ p1 <- ggplot(x, aes(contrast_label, pathway_label, fill=NES)) +
     legend.text=element_text(size=8),
     legend.position='right')
 
-ggsave('figures/transcriptomics/primary_enrichment.pdf', p1, width=7.01, height=4.15, device=cairo_pdf)
-ggsave('figures/transcriptomics/primary_enrichment.png', p1, width=7.01, height=4.15, dpi=400)
-grDevices::svg('figures/transcriptomics/primary_enrichment.svg', width=7.01, height=4.15)
+ggsave('figures/transcriptomics/primary_enrichment.pdf', p1, width=7.01, height=4.55, device=cairo_pdf)
+ggsave('figures/transcriptomics/primary_enrichment.png', p1, width=7.01, height=4.55, dpi=400)
+grDevices::svg('figures/transcriptomics/primary_enrichment.svg', width=7.01, height=4.55)
 print(p1)
 grDevices::dev.off()
 
@@ -116,8 +116,14 @@ p2a <- ggplot(curve, aes(rank_fraction * 100, running_ES)) +
     plot.title=element_text(face='bold', size=8.5))
 
 # Figure 2B: show the three biological blocks rather than another inferential p-value.
-b <- read.csv('tables/transcriptomics/leading_edge_block_directions.csv')
-b <- b[b$pathway == 'HALLMARK_OXIDATIVE_PHOSPHORYLATION', ]
+scores <- read.csv('tables/bayesian_oxphos/paired_scores.csv')
+stopifnot(nrow(scores)==3, !anyDuplicated(scores$block),
+          setequal(scores$block, c('68_3__batch1','68_3__batch2','69_2__batch1')))
+b <- do.call(rbind, lapply(c('day1_vs_control','day3_vs_control','day3_vs_day1'), function(co) {
+  column <- if (co=='day3_vs_day1') 'treated_day3_minus_day1' else co
+  data.frame(block=scores$block, contrast=co, full_set_score_difference=scores[[column]])
+}))
+stopifnot(all(is.finite(b$full_set_score_difference)))
 b$contrast_label <- factor(contrast_labels[b$contrast], levels=unname(contrast_labels))
 b$contrast_short <- factor(
   b$contrast,
@@ -128,7 +134,7 @@ b$block_label <- factor(
   levels=c('68_3__batch1','68_3__batch2','69_2__batch1'),
   labels=c('68_3 / B1','68_3 / B2','69_2 / B1'))
 
-p2b <- ggplot(b, aes(contrast_short, mean_leading_edge_log_ratio,
+p2b <- ggplot(b, aes(contrast_short, full_set_score_difference,
                      color=block_label, shape=block_label)) +
   geom_hline(yintercept=0, linewidth=.45, color='grey50') +
   geom_point(size=2.7, position=position_dodge(width=.45)) +
@@ -136,8 +142,8 @@ p2b <- ggplot(b, aes(contrast_short, mean_leading_edge_log_ratio,
   scale_shape_manual(values=c(16,17,15), name='Biological block') +
   scale_y_continuous(expand=expansion(mult=c(.12,.15))) +
   labs(
-    x=NULL, y='Mean leading-edge log2 expression ratio',
-    title='Descriptive block directions') +
+    x=NULL, y='Difference in mean log2\n(normalized count + 1)',
+    title='Full-set scores: all 182 mapped genes') +
   theme_bw(base_size=8, base_family=figure_style$font) +
   theme(
     axis.text=element_text(size=8), legend.text=element_text(size=8),
@@ -150,7 +156,7 @@ p2b <- ggplot(b, aes(contrast_short, mean_leading_edge_log_ratio,
 p2 <- (p2a | p2b) +
   plot_layout(widths=c(1.05, 1)) +
   plot_annotation(
-    title='Day-versus-control OXPHOS enrichment is broad and directionally consistent across blocks',
+    title='OXPHOS enrichment and full-set block scores',
     subtitle='Leading edges: 95 genes at Day 1 and 107 at Day 3, with 89 shared',
     tag_levels='a',
     theme=theme(
@@ -159,13 +165,13 @@ p2 <- (p2a | p2b) +
       plot.title=element_text(face='bold', size=10.5),
       plot.subtitle=element_text(size=8.2)))
 
-ggsave('figures/transcriptomics/oxphos_evidence.pdf', p2, width=7.01, height=4.8, device=cairo_pdf)
-ggsave('figures/transcriptomics/oxphos_evidence.png', p2, width=7.01, height=4.8, dpi=400)
-grDevices::svg('figures/transcriptomics/oxphos_evidence.svg', width=7.01, height=4.8)
+ggsave('figures/transcriptomics/npp_oxphos_evidence.pdf', p2, width=7.01, height=4.8, device=cairo_pdf)
+ggsave('figures/transcriptomics/npp_oxphos_evidence.png', p2, width=7.01, height=4.8, dpi=400)
+grDevices::svg('figures/transcriptomics/npp_oxphos_evidence.svg', width=7.01, height=4.8)
 print(p2)
 grDevices::dev.off()
 
-# Supplementary Figure 1: explicit post-freeze symbol-mapping sensitivity.
+# Supplementary Figure S1: explicit post-freeze symbol-mapping sensitivity.
 a <- read.csv('tables/oxphos_alias/all_variants.csv')
 variant_labels <- c(
   primary='All 3 blocks',
@@ -201,8 +207,8 @@ p3 <- ggplot(a, aes(y=variant_label)) +
     plot.title=element_text(face='bold', size=10.5), axis.text.y=element_text(size=8),
     panel.spacing=grid::unit(1, 'lines'))
 
-ggsave('figures/transcriptomics/oxphos_alias_sensitivity.pdf', p3, width=7.01, height=4.6, device=cairo_pdf)
-ggsave('figures/transcriptomics/oxphos_alias_sensitivity.png', p3, width=7.01, height=4.6, dpi=400)
-grDevices::svg('figures/transcriptomics/oxphos_alias_sensitivity.svg', width=7.01, height=4.6)
+ggsave('figures/transcriptomics/npp_oxphos_alias.pdf', p3, width=7.01, height=4.6, device=cairo_pdf)
+ggsave('figures/transcriptomics/npp_oxphos_alias.png', p3, width=7.01, height=4.6, dpi=400)
+grDevices::svg('figures/transcriptomics/npp_oxphos_alias.svg', width=7.01, height=4.6)
 print(p3)
 grDevices::dev.off()

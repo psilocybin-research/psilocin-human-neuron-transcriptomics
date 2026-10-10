@@ -1,0 +1,33 @@
+{
+  "state": "implementation_checks_passed",
+  "limma_version": "3.68.5",
+  "profiles": 9,
+  "blocks": 3,
+  "design_rank": 5,
+  "residual_df": 4,
+  "mapped_oxphos_genes": 182,
+  "voom_weights_preserved": true,
+  "normalization_formula_verified": true,
+  "contrast_and_residual_checks": {
+    "day1_vs_control": {
+      "contrast": [0, 0, 0, 1, 0],
+      "reconstructed_correlation": 0.3182,
+      "reconstructed_vif": 58.5883
+    },
+    "day3_vs_control": {
+      "contrast": [0, 0, 0, 0, 1],
+      "reconstructed_correlation": 0.2663,
+      "reconstructed_vif": 49.1944
+    },
+    "day3_vs_day1": {
+      "contrast": [0, 0, 0, -1, 1],
+      "reconstructed_correlation": 0.2649,
+      "reconstructed_vif": 48.944
+    }
+  },
+  "parametric_camera_reference_df": {
+    "estimated": 4,
+    "fixed_0.01": 21096
+  },
+  "interpretation": "Correlations are computed from standardized weighted residual coordinates after fitting all block and condition terms, not from raw between-condition expression. These residuals cannot identify biological versus technical causes. Estimated versus fixed CAMERA also changes the reference degrees of freedom in this limma version."
+}

@@ -14,12 +14,12 @@ page.on('response',r=>{if(r.status()>=400)failedRequests.push({url:r.url(),statu
 await page.goto(atlasURL);
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).waitFor();
 assert.equal(await page.locator('.header-repository').getAttribute('href'),'https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics');
-assert.equal(await page.locator('.release').innerText(),'v1.1.0');
+assert.equal(await page.locator('.release').innerText(),'v1.2.0');
 assert.equal(await page.locator('.header-citation').count(),2);
 assert.match(await page.locator('.header-citation').nth(0).innerText(),/Schmidt M, Hoffrichter A, Davoudi M, et al\. \(2026\).*eLife 14:RP104006/s);
 assert.equal(await page.locator('.header-citation').nth(0).locator('a').getAttribute('href'),'https://doi.org/10.7554/eLife.104006.3');
-assert.match(await page.locator('.header-citation').nth(1).innerText(),/Zenodo\. doi:10\.5281\/zenodo\.23281795/);
-assert.equal(await page.locator('.header-citation').nth(1).locator('a').getAttribute('href'),'https://doi.org/10.5281/zenodo.23281795');
+assert.match(await page.locator('.header-citation').nth(1).innerText(),/Zenodo\. doi:10\.5281\/zenodo\.23283595/);
+assert.equal(await page.locator('.header-citation').nth(1).locator('a').getAttribute('href'),'https://doi.org/10.5281/zenodo.23283595');
 assert.equal(await page.locator('.header-citation').filter({hasText:/bioRxiv/i}).count(),0);
 assert.match(await page.locator('.author-line').innerText(),/Germann, Christopher B\./);
 assert.equal(await page.locator('.orcid').getAttribute('href'),'https://orcid.org/0000-0002-1573-4651');
@@ -51,6 +51,9 @@ assert.equal(await scrollTop.evaluate(el=>getComputedStyle(el).backgroundImage),
 await scrollTop.click();
 await page.waitForFunction(()=>window.scrollY<5);
 assert.equal(await page.locator('.matrix-cell').count(),15);
+assert.equal(await page.locator('.camera-qualification').count(),1);
+assert.match(await page.locator('.camera-qualification').innerText(),/q=0\.587/);
+assert.equal(await page.locator('.camera-qualification a').count(),3);
 const layout=await page.evaluate(()=>{const button=document.querySelector('.figure-fullscreen'),toolbar=document.querySelector('.figure-toolbar'),matrix=document.querySelector('.matrix-scroll');const b=button.getBoundingClientRect(),t=toolbar.getBoundingClientRect(),m=matrix.getBoundingClientRect();return{position:getComputedStyle(button).position,toolbarBeforePlot:t.bottom<=m.top,buttonBeforePlot:b.bottom<=m.top,matrixOverflowY:getComputedStyle(matrix).overflowY,headlineWhiteSpace:getComputedStyle(document.querySelector('.hero h1')).whiteSpace};});
 assert.equal(layout.position,'static');assert.equal(layout.toolbarBeforePlot,true);assert.equal(layout.buttonBeforePlot,true);assert.equal(layout.matrixOverflowY,'hidden');assert.equal(layout.headlineWhiteSpace,'normal');
 await mkdir('screenshots',{recursive:true});

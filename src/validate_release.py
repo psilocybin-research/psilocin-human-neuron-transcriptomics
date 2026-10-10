@@ -45,7 +45,7 @@ def release_files() -> dict[str, Path]:
         if not path.is_file():
             continue
         relative = path.relative_to(ROOT).as_posix()
-        if relative in RUNTIME_NAMES or relative.startswith(RUNTIME_PREFIXES):
+        if relative != "data/processed/schmidt/core_block_condition_counts.tsv.gz" and (relative in RUNTIME_NAMES or relative.startswith(RUNTIME_PREFIXES)):
             continue
         if "__pycache__" in path.parts or ".pytest_cache" in path.parts:
             continue
@@ -60,7 +60,7 @@ def validate_metadata() -> None:
     require(cff["cff-version"] == "1.2.0", "Unsupported CFF version")
     for field in ("title", "version"):
         require(cff[field] == zenodo[field], f"CFF/Zenodo mismatch: {field}")
-    require(cff["doi"] == zenodo["doi"] == "10.5281/zenodo.23281795", "Reserved Zenodo DOI mismatch")
+    require(cff["doi"] == zenodo["doi"] == "10.5281/zenodo.23283595", "Reserved Zenodo DOI mismatch")
     require(str(cff["date-released"]) == zenodo["publication_date"] == "2026-10-10", "Release date mismatch")
     require(cff["type"] == "software" and zenodo["upload_type"] == "software", "Resource type mismatch")
     require(len(cff["authors"]) == 1 and cff["authors"][0]["family-names"] == "Germann", "CFF creator mismatch")

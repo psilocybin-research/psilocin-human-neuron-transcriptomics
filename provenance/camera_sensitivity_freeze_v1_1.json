@@ -1,0 +1,22 @@
+{
+  "frozen_utc": "2026-10-10T13:52:27.303296+00:00",
+  "status": "post_hoc_prior_results_known_camera_not_yet_run",
+  "sha256": {
+    "reports/camera_sensitivity_plan_v1.md": "619f2bd832b0af3be9d7e8d3bc957c1545a475bf3c9add7ceb2034c9d5b5de3c",
+    "config/camera_sensitivity_v1.json": "aad36ae859f24554776512a939b53bf504e8faa54334d3ff9842e5154c2b8b6f",
+    "src/transcriptomics/camera_sensitivity.R": "70b306977ef1abb87b07ce5991960ef73b4cd434184e8afc261b2bec2d9dd4da",
+    "src/transcriptomics/camera_helpers.R": "511909a6758d3d555e355d839bf07eaf207d6812921be78b365724736fc674e6",
+    "data/processed/schmidt/core_block_condition_counts.tsv.gz": "a2d411a0c6dad60110450f9973d4982739ed45c41c8aff4b0585165d9a75fdd9",
+    "metadata/schmidt_analysis_units.csv": "4d77c47b012f59ed468ba7b6edd6361da7e6cd680a317b80550dc9ad262deb02",
+    "tables/transcriptomics/gene_mapping.csv": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+    "config/gene_sets.yaml": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8",
+    "config/analysis.yaml": "93335f1fab8f6c9d7a708d7015c3d04feed70fbde112175f7342e258b4a8390b",
+    "metadata/camera_limma_source.json": "fe781727750eea64b6b751bb2e852114102c652e6c415ec234ba00fdf008a0ad",
+    "metadata/camera_statmod_source.json": "591f7728dd1478cad3ea559843749ac3a673c8b02512ac288a9600c1dbc1e371",
+    "data/raw/software/limma_3.68.5.tar.gz": "40b1d2059a76ad98db4bf80139760acf8e8bae92a8265aaaf16ac199831533f4",
+    "data/raw/software/statmod_1.5.2.tar.gz": "5f83d82043c5e26f1048fc0139580da1b7e40becf95fb4cb26ed3afcd46a581d",
+    "src/transcriptomics/camera_sensitivity_v1_1.R": "8788cdbbe759a98a6fd717f3c7a8b81e2da20af206ef05b943c8cb96decc5622"
+  },
+  "amended_utc": "2026-10-10T13:52:56.806129+00:00",
+  "amendment": "Fix naming of contrast matrix before moderated gene-statistic export; inferential CAMERA computation unchanged. Failure discovered before CAMERA result inspection."
+}
