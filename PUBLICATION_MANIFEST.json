@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.1.0",
   "created": "2026-10-10",
-  "file_count": 386,
-  "total_bytes": 239543349,
+  "file_count": 387,
+  "total_bytes": 239695245,
   "status": "pass",
   "failures": [],
   "files": [
@@ -34,8 +34,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 5138,
-      "sha256": "501be3fe9bd977e7caa839ff1e89240050b77a6d3212fa1643a6f6bef32d2178"
+      "bytes": 5143,
+      "sha256": "1dfd95b0b57e0bf244f916321ddea883da9449634dd3ea5c314daad9222812f9"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -44,13 +44,13 @@
     },
     {
       "path": "CITATION.cff",
-      "bytes": 2500,
-      "sha256": "f78d2c0d35706b59e11c2d0659e251bc7d99ae1d7d9faab3e92dec8fa37dec5c"
+      "bytes": 2508,
+      "sha256": "0d073e5ef7abc9d7b54da0e4392430881aa224ffcc1c34189b7ef5edbca3cdd3"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 57034,
-      "sha256": "0b5ef02a6f1e9bbabf849d18f082b98c6eba9989a61432138fd07c2254d81f90"
+      "bytes": 57163,
+      "sha256": "4b68679a4987425271a8d0b1ca6dfe0be1e26b83c107623a524dd5be06b546de"
     },
     {
       "path": "LICENSE.md",
@@ -84,8 +84,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14977,
-      "sha256": "58122fa5b3bdf154a4ba9ac474c0c8f440bf975bce06b63010c42d5e1d425894"
+      "bytes": 14645,
+      "sha256": "c28b8f6ffaade97f4183ce2640a5cc246b149997bc6987e946b4a820257e489e"
     },
     {
       "path": "REUSE.toml",
@@ -153,14 +153,19 @@
       "sha256": "1c07c7c710cb7a7785345ab694fea5dd6b5a52eafaa3b407880188bdfacd07cf"
     },
     {
+      "path": "docs/images/atlas-overview.png",
+      "bytes": 149500,
+      "sha256": "20190b498de4bf23ea47cf1c5d2af832493d026837ef926384c0606adf96c5dc"
+    },
+    {
       "path": "explorer/README.md",
       "bytes": 545,
       "sha256": "844d6b7229549c3a477a7debcc3eff64c95daa645d558595acc6ac1c692aa437"
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7132,
-      "sha256": "60dff72a0f57032290f9bd03dbc974a398eadd1908b23844699c4dc8d0877e44"
+      "bytes": 7232,
+      "sha256": "5c56fd059a9c2b8b2e7a906bfae8f6f80ce76f75edb052196eba14393c52033b"
     },
     {
       "path": "explorer/package-lock.json",
@@ -174,8 +179,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 48424,
-      "sha256": "00ba449678db76bcd1e9685958c327ac3dbef95466ae82d799151bf43446af21"
+      "bytes": 48369,
+      "sha256": "6ca5c25622d14e6c982c4588341f902ee2de3f395997cd59b429abfa86fa0463"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -199,18 +204,18 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 528,
-      "sha256": "26d5b694db3805038228865b522a8594f5dc1701db58b6879a738a950e35acc7"
+      "bytes": 601,
+      "sha256": "a95559492b2b4bf4ffa062afc215a24cfc39b9751649b0563f6da3824b7c2601"
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 16503,
-      "sha256": "fcce0c3ce498c677791abc555d73b9d80047175edddb12adedfccd0a3dfb21a8"
+      "bytes": 17710,
+      "sha256": "bc521c0722edb3cfd03db545bd9929a28082c29106fa1cb70828f9fec66d7513"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12386,
-      "sha256": "83c3cc94522f11e8dc077b9a46001cd30d11d3b21863d4830d8c68a852fb53c0"
+      "bytes": 12347,
+      "sha256": "2419234b45508674d2fc98be73df90d896368c18a7983623cf13ab480d6701ae"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -219,8 +224,8 @@
     },
     {
       "path": "explorer/test/metadata.test.js",
-      "bytes": 4060,
-      "sha256": "b84606ba41299cb2aa4d1983dd1c2d066657a51e55a2230e5c0d0fb01c50a027"
+      "bytes": 4042,
+      "sha256": "456f68121579d604f2fdce51ee0360f378e4dd5fd38951880bd76767f7b0964e"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
@@ -1083,9 +1088,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.15566917.js",
-      "bytes": 48433,
-      "sha256": "25fe9b1c2cc98567f5ba4aac841a4ce02ad3b972cab10e7dff19f53868be43ab"
+      "path": "site/_import/components/atlas.329a3c8c.js",
+      "bytes": 48378,
+      "sha256": "e7aee988bc3a7d36352a374b242031ade334b8072f2a9f3435ca2cfdfbb2765c"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1093,9 +1098,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.f8aa6d13.css",
-      "bytes": 38990,
-      "sha256": "f8aa6d1359e094d5d151c45f855d4ed1549e412444de9be42815da0418bc63ae"
+      "path": "site/_import/style.0329fd8d.css",
+      "bytes": 40104,
+      "sha256": "0329fd8d6f1c9765d6e0d091137b0441b282f9bcc3b2934ff936606fbc7fb9c8"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1114,8 +1119,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 10600,
-      "sha256": "a82e57d76c4ed88429edb74f1c65cb431855759772fed884e257c96537c52e33"
+      "bytes": 10851,
+      "sha256": "d190f10e3f88f4fb4a0f3771450939050db41cf07946c0f3f99dfbcd5b6de37b"
     },
     {
       "path": "src/__init__.py",
@@ -1304,8 +1309,8 @@
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 11792,
-      "sha256": "0bd109048afce8d36da04fd9ed3fc1c065e5825a6ea41b2c02c2852a101b4f10"
+      "bytes": 11800,
+      "sha256": "7baeca8f4d806d23571b5cf4f9b9c3bd94f22cf61daf9a98de7dc0bf9505d6d8"
     },
     {
       "path": "tables/bayesian_oxphos/diagnostics.csv",

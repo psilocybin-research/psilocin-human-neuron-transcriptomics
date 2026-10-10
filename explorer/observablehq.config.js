@@ -1,7 +1,7 @@
 const url = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/";
 const image = "https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/docs/images/atlas-overview.png";
-const title = "Psilocin human-neuron transcriptomic atlas";
-const description = "Explore the primary OXPHOS-centered signature and bounded exploratory DNA-repair and telomere-maintenance findings from an independent secondary analysis of the Schmidt et al. human-neuron RNA-seq study.";
+const title = "Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons";
+const description = "Gene-level estimates, metabolic and redox pathway enrichment, and sensitivity analyses from an independent secondary analysis of human cortical-neuron RNA-seq after brief psilocin exposure.";
 const sourceAuthors = [
   "Malin Schmidt", "Anne Hoffrichter", "Mahnaz Davoudi", "Sandra Horschitz",
   "Thorsten Lau", "Marcus W. Meinhardt", "Rainer Spanagel", "Julia Ladewig",
@@ -16,7 +16,7 @@ const structuredData = {
   "@type": "WebApplication",
   "@id": url,
   name: title,
-  headline: "A brief perturbation. A broad transcriptional signature.",
+  headline: "Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons",
   description,
   url,
   applicationCategory: "ScientificApplication",
@@ -85,7 +85,7 @@ const head = `
 <meta name="author" content="Christopher B. Germann">
 <meta name="keywords" content="psilocin, psilocybin, transcriptomics, RNA-seq, human cortical neurons, oxidative phosphorylation, OXPHOS, redox biology, neuroplasticity, reproducible research">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<meta name="citation_title" content="A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics">
+<meta name="citation_title" content="Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons">
 <meta name="citation_author" content="Germann, Christopher B.">
 <meta name="citation_publication_date" content="2026-10-10">
 <meta name="citation_doi" content="10.5281/zenodo.23281795">

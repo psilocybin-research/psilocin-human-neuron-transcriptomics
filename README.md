@@ -1,8 +1,7 @@
-<h1 align="center">Metabolic and redox transcriptional signatures after brief psilocin exposure in human iPSC-derived cortical neurons</h1>
+<h1 align="center">Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons</h1>
 
 <p align="center">
-  <em>A brief perturbation. A broad transcriptional signature.</em><br>
-  Reproducibility code and interactive atlas
+  Reproducibility code, derived results and interactive atlas
 </p>
 
 <p align="center">
@@ -10,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"><strong>Explore the live atlas</strong></a>
+  <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"><strong>Open the transcriptomic atlas</strong></a>
   ·
   <a href="https://doi.org/10.5281/zenodo.23281795">Archived release</a>
   ·
@@ -25,7 +24,7 @@
   <a href="LICENSE.md"><img alt="Licenses: path-level" src="https://img.shields.io/badge/licenses-path--level-2f6f5e"></a>
 </p>
 
-The atlas is the fastest way to inspect the complete result. It exposes the pathway matrix, the 113-gene OXPHOS landscape, transcriptome-wide gene estimates, every frozen sensitivity analysis, bounded DNA-maintenance follow-up, downloadable CSV files, and exact provenance. The browser only selects and displays archived outputs; it does not refit models or create new tests.
+The interactive atlas provides the pathway matrix, the 113-gene OXPHOS landscape, transcriptome-wide gene estimates, every frozen sensitivity analysis, bounded DNA-maintenance follow-up, downloadable CSV files, and exact provenance. The browser only selects and displays archived outputs; it does not refit models or create new tests.
 
 ## What this project provides
 
@@ -41,9 +40,9 @@ The atlas is the fastest way to inspect the complete result. It exposes the path
 
 A brief psilocin perturbation was associated with a broad OXPHOS-centered transcriptional signature at both later sampling points. The signal was distributed across 95 and 107 leading-edge genes, with 89 shared, and retained its direction across the prespecified block and RNA-quality checks.
 
-That distributed and reproducibly characterized OXPHOS response is the principal finding of this secondary analysis. A separately specified post-primary tier did not support NRF2, glutathione, or their joint NRF2–glutathione–pentose-phosphate prediction as the specific mechanism. This narrows the mechanistic interpretation; it does not convert the broader OXPHOS-centered finding into a null result.
+OXPHOS enrichment is the principal finding of this secondary analysis. A separate post-primary targeted analysis did not support a coordinated NRF2–glutathione–pentose-phosphate response. Enrichment and targeted redox tests address different questions.
 
-The frozen exploratory family also identified positive DNA-repair and telomere-maintenance enrichment at both sampled days. In the separately corrected post hoc decomposition, DNA repair remained supported after telomere-set genes were removed, whereas telomere maintenance after removal of DNA-repair genes met the follow-up threshold only at Day 1. Accompanying DNA-replication enrichment and mixed cell-cycle controls leave biological specificity unresolved. These findings nominate an exploratory genome-maintenance-associated transcriptional dimension; they do not establish DNA-repair activity, telomere maintenance, or a nonspecific proliferative response.
+The frozen exploratory family also identified positive DNA-repair and telomere-maintenance enrichment at both sampled days. In the separately corrected post hoc decomposition, DNA repair remained supported after telomere-set genes were removed, whereas telomere maintenance after removal of DNA-repair genes met the follow-up threshold only at Day 1. Accompanying DNA-replication enrichment and mixed cell-cycle controls leave biological specificity unresolved. These exploratory transcriptional findings do not establish DNA-repair activity, telomere maintenance or proliferation.
 
 Source materials describe vehicle controls at matching time points, but the public RNA-seq metadata do not link individual control libraries to harvest day. This reanalysis therefore uses the available common control pool and cannot estimate a treatment × time interaction. Competitive pathway q-values describe concentration within the ranked transcriptome, not biological-replication probabilities across three differentiation blocks. Transcriptomic enrichment does not establish respiration, ATP production, redox flux, DNA-repair activity or telomere preservation. Psilocin is the active metabolite of psilocybin; the cell experiment analyzed here used **psilocin**, and this repository preserves that distinction.
 
@@ -77,7 +76,7 @@ The release also retains a frozen static atlas under [`site/`](site/).
 
 The complete derived tables are public, so readers can inspect the primary results without downloading raw RNA-seq inputs or rebuilding the analysis.
 
-**[Run this quick start on GitHub →](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/reproduce-r.yml)**
+**[Run the R example on GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/reproduce-r.yml)**
 
 The manual workflow runs [`src/quick_start.R`](src/quick_start.R) with R 4.6.1, presents the key results in the GitHub run summary, and provides the reproduced CSV tables plus complete R session information as a downloadable artifact. It uses base R and the repository's frozen derived tables; the locked environments remain available for full analytical reproduction.
 
@@ -196,7 +195,7 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff). The permanent citation for this release is:
 
-> Germann, C. B. (2026). *A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.1.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.23281795](https://doi.org/10.5281/zenodo.23281795)
+> Germann, C. B. (2026). *Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons* (Version 1.1.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.23281795](https://doi.org/10.5281/zenodo.23281795)
 
 ## Data availability
 

@@ -27,8 +27,8 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.23281795/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
-  assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);
-  assert.match(atlasSource, /that narrower result does not negate the broader transcriptional finding/);
+  assert.match(atlasSource, /OXPHOS and targeted redox results/);
+  assert.match(atlasSource, /did not support a coordinated NRF2–glutathione–pentose-phosphate response/);
   assert.match(atlasSource, /Exploratory DNA-maintenance evidence/);
   assert.match(atlasSource, /Study design and interpretation/);
   assert.ok(atlasSource.indexOf("heading('Study design and interpretation'") > atlasSource.indexOf("heading('Exploratory DNA-maintenance evidence'"));

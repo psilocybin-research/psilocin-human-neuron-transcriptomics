@@ -1,5 +1,5 @@
 ---
-title: Psilocin transcriptomic atlas
+title: Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons
 ---
 
 ```js

@@ -163,6 +163,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "docs/images/atlas-overview.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/README.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -1286,7 +1292,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.15566917.js": {
+  "site/_import/components/atlas.329a3c8c.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -1298,7 +1304,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.f8aa6d13.css": {
+  "site/_import/style.0329fd8d.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
