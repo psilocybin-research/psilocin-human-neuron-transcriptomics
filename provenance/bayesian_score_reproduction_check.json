@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-10",
+  "route": "verified derived scores; unchanged original sampler",
+  "declared_fits": 10,
+  "all_final_fits_valid": true,
+  "maximum_absolute_summary_difference": 2.220446049250313e-16,
+  "base_commit": "865b5425bb3084188f9d231e93397af6e572113c",
+  "clean_checkout_original_RDS_present": false,
+  "existing_locked_environment_used": true,
+  "original_sampler_sha256": "c07a78581beff8b230e435b6c4e3f5ecf27c3c853d8747622b3836cd45d165e4",
+  "scope": "Posterior reproduction from supplied derived scores; original source-count-to-score reconstruction not repeated."
+}

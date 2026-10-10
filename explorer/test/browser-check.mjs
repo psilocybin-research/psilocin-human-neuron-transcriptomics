@@ -14,12 +14,12 @@ page.on('response',r=>{if(r.status()>=400)failedRequests.push({url:r.url(),statu
 await page.goto(atlasURL);
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).waitFor();
 assert.equal(await page.locator('.header-repository').getAttribute('href'),'https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics');
-assert.equal(await page.locator('.release').innerText(),'v1.0.1');
+assert.equal(await page.locator('.release').innerText(),'v1.1.0');
 assert.equal(await page.locator('.header-citation').count(),2);
 assert.match(await page.locator('.header-citation').nth(0).innerText(),/Schmidt M, Hoffrichter A, Davoudi M, et al\. \(2026\).*eLife 14:RP104006/s);
 assert.equal(await page.locator('.header-citation').nth(0).locator('a').getAttribute('href'),'https://doi.org/10.7554/eLife.104006.3');
-assert.match(await page.locator('.header-citation').nth(1).innerText(),/Zenodo\. doi:10\.5281\/zenodo\.22849800/);
-assert.equal(await page.locator('.header-citation').nth(1).locator('a').getAttribute('href'),'https://doi.org/10.5281/zenodo.22849800');
+assert.match(await page.locator('.header-citation').nth(1).innerText(),/Zenodo\. doi:10\.5281\/zenodo\.23281795/);
+assert.equal(await page.locator('.header-citation').nth(1).locator('a').getAttribute('href'),'https://doi.org/10.5281/zenodo.23281795');
 assert.equal(await page.locator('.header-citation').filter({hasText:/bioRxiv/i}).count(),0);
 assert.match(await page.locator('.author-line').innerText(),/Germann, Christopher B\./);
 assert.equal(await page.locator('.orcid').getAttribute('href'),'https://orcid.org/0000-0002-1573-4651');

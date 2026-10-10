@@ -1,0 +1,14 @@
+{
+  "created": "2026-10-10",
+  "purpose": "Derived-score posterior reproduction; original primary/Bayesian freezes remain unchanged.",
+  "files": {
+    "src/transcriptomics/bayesian_oxphos.py": "c07a78581beff8b230e435b6c4e3f5ecf27c3c853d8747622b3836cd45d165e4",
+    "config/bayesian_oxphos_v1.json": "d99afc529b801543323dafa8fa9e1a7596cadf1d08bcb37b405d05c1bda2a22f",
+    "reports/bayesian_oxphos_plan_v1.md": "98854bc36f3dc3c263a5c41d5ddb214a30dd2e1d0334ea26a50cff69333a738c",
+    "config/gene_sets.yaml": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8",
+    "tables/transcriptomics/gene_mapping.csv": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+    "tables/transcriptomics/per_block_gene_directions.csv": "a50eb15fa6abbf96b340aadedf98881e9066958b03b644e3dd9ae41869782893",
+    "tables/bayesian_oxphos/profile_scores.csv": "77008643557ba6ebf57053118dd49a52ecae6f8ac82b87cf7cc8a0bcf1c0da53",
+    "tables/bayesian_oxphos/membership.csv": "c0f72b5472f6fd22a420bca4d42006a5d3295733630bff9cbdab7dfdac1358ef"
+  }
+}

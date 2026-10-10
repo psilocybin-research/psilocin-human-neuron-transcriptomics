@@ -101,3 +101,9 @@ path = "site/index.html"
 precedence = "override"
 SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2018-2024 Observable, Inc."]
 SPDX-License-Identifier = "MIT AND ISC"
+
+[[annotations]]
+path = "requirements.bayes.lock.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"

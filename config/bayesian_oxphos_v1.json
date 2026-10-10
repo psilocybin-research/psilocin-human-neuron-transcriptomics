@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "status": "post hoc, locally specified after primary results; not preregistered",
+  "pathway": "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+  "mapping": "frozen literal symbols, selected representatives; finite ranks; expected 182 of 200",
+  "score": "arithmetic mean over all mapped pathway genes of log2(DESeq2 normalized count + 1); paired treated-minus-common-control within each differentiation block",
+  "blocks": [
+    "68_3__batch1",
+    "68_3__batch2",
+    "69_2__batch1"
+  ],
+  "conditions": [
+    "psilocin_day1",
+    "psilocin_day3"
+  ],
+  "observations": "three bivariate block-level differences; genes and libraries are not replicates",
+  "likelihood": "bivariate normal; fixed-df=4 bivariate Student-t likelihood sensitivity at baseline priors",
+  "prior_effect_sd": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "prior_residual_sd": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "prior_correlation": "LKJ eta=2, same across all fits",
+  "baseline": {
+    "effect_sd": 0.5,
+    "residual_sd": 0.5
+  },
+  "priors": "mu components independent Normal(0,effect_sd); marginal residual SDs HalfNormal(residual_sd); all scales in mean log2(normalized count+1) units",
+  "mcmc": {
+    "chains": 4,
+    "cores": 1,
+    "tune": 2000,
+    "draws": 4000,
+    "target_accept": 0.95,
+    "seed": 104006
+  },
+  "diagnostics": {
+    "rhat_max": 1.01,
+    "ess_bulk_min": 1000,
+    "ess_tail_min": 1000,
+    "divergences_max": 0,
+    "remedy": "one rerun of failed fit: tune=4000, draws=8000, target_accept=.99; retain failed diagnostics"
+  },
+  "predictive_draws": 5000,
+  "report": [
+    "paired block scores",
+    "posterior means, medians, equal-tail 95% credible intervals and P(mu>0) for both observed-day contrasts",
+    "derived mu_day3-mu_day1 as treated-day comparison only",
+    "prior/posterior predictive checks",
+    "all nine prior combinations and Student-t sensitivity",
+    "correlation/SD uncertainty and all computational diagnostics"
+  ],
+  "no_rope": "no justified biological threshold in this expression-summary scale; no ROPE, Bayes factor, acceptance threshold or new primary significance label",
+  "independence": "conditional exchangeable differentiation blocks within these two backgrounds; no independent-donor or population validation claim; dependence by background not separately estimable",
+  "stopping_rule": "run declared fits, report all results; no favorable-prior selection or pathway expansion; add concise supplementary evidence if computationally valid, regardless of direction or informativeness",
+  "input_sha256": {
+    "config/analysis.yaml": "93335f1fab8f6c9d7a708d7015c3d04feed70fbde112175f7342e258b4a8390b",
+    "config/gene_sets.yaml": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8",
+    "tables/transcriptomics/gene_mapping.csv": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+    "tables/transcriptomics/per_block_gene_directions.csv": "a50eb15fa6abbf96b340aadedf98881e9066958b03b644e3dd9ae41869782893",
+    "data/processed/schmidt/models/primary.rds": "82b061d661c8fc658c67369135f14f02e985645eb037f2852fc29b24ddb9e96e"
+  }
+}

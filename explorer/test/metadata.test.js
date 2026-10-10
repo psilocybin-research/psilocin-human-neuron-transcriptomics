@@ -10,21 +10,21 @@ const atlasSource = readFileSync(new URL('../src/components/atlas.js', import.me
 
 test('atlas exposes scholarly discovery and signposting metadata', () => {
   assert.match(config.head, /rel="canonical"/);
-  assert.match(config.head, /rel="cite-as" href="https:\/\/doi\.org\/10\.5281\/zenodo\.22849800"/);
+  assert.match(config.head, /rel="cite-as" href="https:\/\/doi\.org\/10\.5281\/zenodo\.23281795"/);
   assert.match(config.head, /rel="describedby" type="application\/vnd\.datacite\.datacite\+json"/);
-  assert.match(config.head, /name="citation_doi" content="10\.5281\/zenodo\.22849800"/);
+  assert.match(config.head, /name="citation_doi" content="10\.5281\/zenodo\.23281795"/);
   assert.match(config.head, /property="og:image"/);
 });
 
 test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /github\.com\/psilocybin-research\/psilocin-human-neuron-transcriptomics/);
-  assert.match(atlasSource, /v1\.0\.1/);
+  assert.match(atlasSource, /v1\.1\.0/);
   assert.match(atlasSource, /Schmidt M, Hoffrichter A, Davoudi M, et al\. \(2026\)/);
   assert.match(atlasSource, /eLife 14:RP104006/);
   assert.match(atlasSource, /doi:10\.7554\/eLife\.104006\.3/);
   assert.doesNotMatch(atlasSource, /bioRxiv/i);
   assert.doesNotMatch(atlasSource, /BIORXIV\/2026\/752941/);
-  assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.22849800/);
+  assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.23281795/);
   assert.match(atlasSource, /Original source data · Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
   assert.match(atlasSource, /Broad OXPHOS signal; narrower redox mechanism unresolved/);

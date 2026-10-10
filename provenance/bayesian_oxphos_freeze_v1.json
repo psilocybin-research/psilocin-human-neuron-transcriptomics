@@ -1,0 +1,15 @@
+{
+  "frozen_utc": "2026-10-10T10:47:31.461891+00:00",
+  "status": "post hoc, locally specified after primary results; not preregistered",
+  "files": {
+    "config/bayesian_oxphos_v1.json": "d99afc529b801543323dafa8fa9e1a7596cadf1d08bcb37b405d05c1bda2a22f",
+    "reports/bayesian_oxphos_plan_v1.md": "98854bc36f3dc3c263a5c41d5ddb214a30dd2e1d0334ea26a50cff69333a738c"
+  },
+  "input_sha256": {
+    "config/analysis.yaml": "93335f1fab8f6c9d7a708d7015c3d04feed70fbde112175f7342e258b4a8390b",
+    "config/gene_sets.yaml": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8",
+    "tables/transcriptomics/gene_mapping.csv": "8bf0e1009ecc785c96e110a5c9282849b07061d5b580ef3740c4f1df588cf143",
+    "tables/transcriptomics/per_block_gene_directions.csv": "a50eb15fa6abbf96b340aadedf98881e9066958b03b644e3dd9ae41869782893",
+    "data/processed/schmidt/models/primary.rds": "82b061d661c8fc658c67369135f14f02e985645eb037f2852fc29b24ddb9e96e"
+  }
+}

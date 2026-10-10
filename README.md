@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/"><strong>Explore the live atlas</strong></a>
   ·
-  <a href="https://doi.org/10.5281/zenodo.22849800">Archived release</a>
+  <a href="https://doi.org/10.5281/zenodo.23281795">Archived release</a>
   ·
   <a href="#quick-start-in-r">R quick start</a>
   ·
@@ -21,7 +21,7 @@
 
 <p align="center">
   <a href="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/ci.yml/badge.svg"></a>
-  <a href="https://doi.org/10.5281/zenodo.22849800"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.22849800.svg"></a>
+  <a href="https://doi.org/10.5281/zenodo.23281795"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.23281795.svg"></a>
   <a href="LICENSE.md"><img alt="Licenses: path-level" src="https://img.shields.io/badge/licenses-path--level-2f6f5e"></a>
 </p>
 
@@ -53,6 +53,12 @@ Source materials describe vehicle controls at matching time points, but the publ
   </a>
 </p>
 
+## OXPHOS block-level uncertainty
+
+A separate post hoc Bayesian analysis estimates full-set OXPHOS expression shifts using all 182 originally mapped genes and three paired differentiation-block observations. It complements the competitive enrichment analysis: stable enrichment direction does not imply precise effect magnitudes. Day-1 uncertainty depends on prior assumptions; all declared Day-3 credible intervals include zero. The analysis does not resolve missing control harvest days or establish metabolic function.
+
+See the [results](reports/bayesian_oxphos_results.md), [methods](reports/bayesian_oxphos_methods.md) and [reproduction instructions](reports/bayesian_oxphos_reproduction.md). The archive includes all ten declared models, original and remedial diagnostics, complete posterior/predictive draws and verified derived inputs. The interactive atlas retains its gene/pathway scope.
+
 ## Start with the atlas
 
 Open the **[live interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/)**. Useful entry points include:
@@ -78,7 +84,7 @@ The manual workflow runs [`src/quick_start.R`](src/quick_start.R) with R 4.6.1, 
 ```r
 base <- paste0(
   "https://raw.githubusercontent.com/psilocybin-research/",
-  "psilocin-human-neuron-transcriptomics/v1.0.1/"
+  "psilocin-human-neuron-transcriptomics/v1.1.0/"
 )
 
 enrichment <- read.csv(paste0(
@@ -190,7 +196,7 @@ Exploratory DNA-repair and telomere-maintenance findings and their post hoc deco
 
 Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff). The permanent citation for this release is:
 
-> Germann, C. B. (2026). *A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.0.1) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.22849800](https://doi.org/10.5281/zenodo.22849800)
+> Germann, C. B. (2026). *A brief perturbation. A broad transcriptional signature: psilocin human-neuron transcriptomics* (Version 1.1.0) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.23281795](https://doi.org/10.5281/zenodo.23281795)
 
 ## Data availability
 
@@ -198,9 +204,9 @@ Source RNA-seq data are available from the [Schmidt author repository](https://g
 
 ## Code availability
 
-Code, frozen specifications, derived results, and the static atlas are archived as [Zenodo version 1.0.1](https://doi.org/10.5281/zenodo.22849800); the maintained source is on [GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics).
+Code, frozen specifications, derived results, and the static atlas are archived as [Zenodo version 1.1.0](https://doi.org/10.5281/zenodo.23281795); the maintained source is on [GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics).
 
-Version 1.0.1 contains documentation and interpretation clarifications; analytical results are unchanged from version 1.0.0.
+Version 1.1.0 contains documentation and interpretation clarifications; analytical results are unchanged from version 1.0.0.
 
 ## Contact
 

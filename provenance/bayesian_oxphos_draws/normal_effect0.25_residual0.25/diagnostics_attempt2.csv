@@ -1,0 +1,7 @@
+,mcse_mean,mcse_sd,ess_bulk,ess_tail,r_hat
+mu[day1_vs_control],0.001,0.001,12928.0,11605.0,1.0
+mu[day3_vs_control],0.001,0.001,13679.0,12749.0,1.0
+sd[day1_vs_control],0.001,0.001,11511.0,17513.0,1.0
+sd[day3_vs_control],0.001,0.001,9493.0,16038.0,1.0
+rho,0.003,0.002,15174.0,17712.0,1.0
+treated_day_difference,0.001,0.001,13234.0,14196.0,1.0

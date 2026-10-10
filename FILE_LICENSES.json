@@ -101,6 +101,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "config/bayesian_oxphos_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "config/dna_maintenance_v1.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -239,6 +245,24 @@
   },
   "explorer/test/metadata.test.js": {
     "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_oxphos/bayesian_oxphos_intervals.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_oxphos/bayesian_oxphos_intervals.svg": {
+    "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
@@ -468,6 +492,600 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "provenance/bayesian_oxphos_R_session.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/diagnostics_attempt2.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/normal_effect1_residual1/sample_stats_attempt2.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/diagnostics_attempt1.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/posterior_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/posterior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/prior.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/prior_predictive.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/result.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/sample_stats_attempt1.npz": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_freeze_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_oxphos_run.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_score_inputs_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "provenance/bayesian_score_reproduction_check.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "provenance/dna_maintenance_freeze_v1.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -540,6 +1158,30 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "reports/bayesian_oxphos_methods.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/bayesian_oxphos_plan_v1.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/bayesian_oxphos_reproduction.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/bayesian_oxphos_results.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "reports/dna_maintenance_plan_v1.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -594,6 +1236,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "requirements.bayes.lock.txt": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "NONE"
+    ]
+  },
   "requirements.figures.txt": {
     "spdx": "MIT",
     "copyright": [
@@ -638,7 +1286,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.5a109658.js": {
+  "site/_import/components/atlas.15566917.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -650,7 +1298,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.bde1f9b7.css": {
+  "site/_import/style.f8aa6d13.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -789,7 +1437,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "src/transcriptomics/bayesian_oxphos.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "src/transcriptomics/dna_maintenance.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/export_bayesian_oxphos.R": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -807,6 +1467,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "src/transcriptomics/npp_figures.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "src/transcriptomics/oxphos_alias_sensitivity.R": {
     "spdx": "MIT",
     "copyright": [
@@ -814,6 +1480,12 @@
     ]
   },
   "src/transcriptomics/oxphos_gene_heatmap.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/plot_bayesian_oxphos.py": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -855,6 +1527,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "src/transcriptomics/reproduce_bayesian_scores.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "src/transcriptomics/restore_environment.R": {
     "spdx": "MIT",
     "copyright": [
@@ -875,6 +1553,42 @@
   },
   "src/zenodo_release.py": {
     "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/diagnostics.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/membership.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/paired_scores.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/posterior_summary.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/predictive_checks.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_oxphos/profile_scores.csv": {
+    "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
@@ -1529,6 +2243,18 @@
   },
   "tables/transcriptomics/secondary_evidence.csv": {
     "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_bayesian_oxphos.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tests/test_bayesian_score_reproduction.py": {
+    "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
     ]

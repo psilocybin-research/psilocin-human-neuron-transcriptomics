@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "release": "v1.0.1",
-  "created": "2026-09-20",
-  "file_count": 265,
-  "total_bytes": 157371160,
+  "release": "v1.1.0",
+  "created": "2026-10-10",
+  "file_count": 386,
+  "total_bytes": 239543349,
   "status": "pass",
   "failures": [],
   "files": [
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 950,
-      "sha256": "8706f0fdfc4b5b3aa19bc430c01d56ee576dacc5d0d71403610cca7608cb1b96"
+      "bytes": 1521,
+      "sha256": "549042cb535f036243790a82d2f48a0b8c0ea86e9e1c6a2bbe94a465a1ab4734"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -19,8 +19,8 @@
     },
     {
       "path": ".github/workflows/release.yml",
-      "bytes": 1057,
-      "sha256": "68e11ab41d4e024404b2be37e1544ec751e1fc0a5afd407a8b9518236c964fe8"
+      "bytes": 1147,
+      "sha256": "043e3893cc20b152200f874c9ad4db7409a38cb14d8f0cfa6db9e10afb0590e4"
     },
     {
       "path": ".github/workflows/reproduce-r.yml",
@@ -34,8 +34,8 @@
     },
     {
       "path": ".zenodo.json",
-      "bytes": 4759,
-      "sha256": "868836d68f6e11ea2971bc5d44963a01bd33566d14f2c9cb3250f0ff6ce53b4e"
+      "bytes": 5138,
+      "sha256": "501be3fe9bd977e7caa839ff1e89240050b77a6d3212fa1643a6f6bef32d2178"
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
@@ -45,12 +45,12 @@
     {
       "path": "CITATION.cff",
       "bytes": 2500,
-      "sha256": "0ed57652255e2e7c4163875ad90d24cc95ffe0e5f0fcca0870b18f9b5de9181d"
+      "sha256": "f78d2c0d35706b59e11c2d0659e251bc7d99ae1d7d9faab3e92dec8fa37dec5c"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 36323,
-      "sha256": "ebc380e1ee7b4bcce44e53856f425a44e32d7601d84a094909397e999c9369bc"
+      "bytes": 57034,
+      "sha256": "0b5ef02a6f1e9bbabf849d18f082b98c6eba9989a61432138fd07c2254d81f90"
     },
     {
       "path": "LICENSE.md",
@@ -84,13 +84,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 14078,
-      "sha256": "9da075a3cc513b0b3a317d71c2f08479affd9619d74cd8329aa6b0cf866616fb"
+      "bytes": 14977,
+      "sha256": "58122fa5b3bdf154a4ba9ac474c0c8f440bf975bce06b63010c42d5e1d425894"
     },
     {
       "path": "REUSE.toml",
-      "bytes": 3890,
-      "sha256": "db6872309dd9af21b246717749565ddbc28a34efd5177e3f2230edcfd40245ab"
+      "bytes": 4036,
+      "sha256": "8df4386a518be4381900a20091237513e4643f101465b7f01362815f8bcf22fb"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -101,6 +101,11 @@
       "path": "config/analysis.yaml",
       "bytes": 2919,
       "sha256": "93335f1fab8f6c9d7a708d7015c3d04feed70fbde112175f7342e258b4a8390b"
+    },
+    {
+      "path": "config/bayesian_oxphos_v1.json",
+      "bytes": 3113,
+      "sha256": "d99afc529b801543323dafa8fa9e1a7596cadf1d08bcb37b405d05c1bda2a22f"
     },
     {
       "path": "config/dna_maintenance_v1.json",
@@ -124,8 +129,8 @@
     },
     {
       "path": "config/public_release_outputs.json",
-      "bytes": 6420,
-      "sha256": "2da7801f734d570bc5f86af1136167ee73d7f53ca482d25a8b7391d5b9985c90"
+      "bytes": 6712,
+      "sha256": "6c7aebf0db80a5bc0f4fa7069b3a83f059ddb6676acae6068c8731077c8e3ee1"
     },
     {
       "path": "config/targeted_redox_v1.json",
@@ -155,7 +160,7 @@
     {
       "path": "explorer/observablehq.config.js",
       "bytes": 7132,
-      "sha256": "83cb2a89b126bdca953b30c67e16050babfc24c24e73912803517c7941e1487d"
+      "sha256": "60dff72a0f57032290f9bd03dbc974a398eadd1908b23844699c4dc8d0877e44"
     },
     {
       "path": "explorer/package-lock.json",
@@ -169,8 +174,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 48044,
-      "sha256": "a7e4c2d91c46f5633adff8d8cac03918a4a502bdcd154372b66698f61ab1e63e"
+      "bytes": 48424,
+      "sha256": "00ba449678db76bcd1e9685958c327ac3dbef95466ae82d799151bf43446af21"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -205,7 +210,7 @@
     {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 12386,
-      "sha256": "7717983f69855579eb1a862ecc221221d9790e1d605a8de5a18813e92db89614"
+      "sha256": "83c3cc94522f11e8dc077b9a46001cd30d11d3b21863d4830d8c68a852fb53c0"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -215,7 +220,22 @@
     {
       "path": "explorer/test/metadata.test.js",
       "bytes": 4060,
-      "sha256": "952a9461809b2f93f8337eeb1f33a8b66b2d80d2d3d650c2a30590bad43f3387"
+      "sha256": "b84606ba41299cb2aa4d1983dd1c2d066657a51e55a2230e5c0d0fb01c50a027"
+    },
+    {
+      "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
+      "bytes": 21685,
+      "sha256": "65b206fbaa856b4972660273696d9a9a53c5b0c25f32a402893c03b08e2e9240"
+    },
+    {
+      "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.png",
+      "bytes": 120945,
+      "sha256": "07571b7d8d13185fbfe8e3c41e8f72b151ec0055b54d756af0b348e333ea7d77"
+    },
+    {
+      "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.svg",
+      "bytes": 36919,
+      "sha256": "32234fa34248b5ac1a61123df8d2092cbb94395326d6e60db47ea22027acc556"
     },
     {
       "path": "figures/oxphos_alias_sensitivity.pdf",
@@ -234,18 +254,18 @@
     },
     {
       "path": "figures/oxphos_evidence.pdf",
-      "bytes": 221948,
-      "sha256": "ffad90a3907180b4f60c8c066435712ad99c6685be7c6e568893870b866ad7d3"
+      "bytes": 203506,
+      "sha256": "050cd2f776582eecf6cacb706536115721ed90072501d47bdadb0da215860e59"
     },
     {
       "path": "figures/oxphos_evidence.png",
-      "bytes": 226039,
-      "sha256": "afc788a2abc976fccc2a6a7338b47ebe7d98a7076ca442e146706e53957a7359"
+      "bytes": 223497,
+      "sha256": "595508aac3fd30af22cd33cacc13bab5e0b4174f3109b26ad3e71ebb27914104"
     },
     {
       "path": "figures/oxphos_evidence.svg",
-      "bytes": 1132564,
-      "sha256": "896cb045569d0931f5fe92de520f0bc139c4bc59ca013920d057b2ea8edc3997"
+      "bytes": 1059091,
+      "sha256": "6ef77c61e0478356f4abd5d611006f9238169e36365f1d2fdd7658521bb3c861"
     },
     {
       "path": "figures/oxphos_gene_landscape.pdf",
@@ -264,18 +284,18 @@
     },
     {
       "path": "figures/primary_enrichment.pdf",
-      "bytes": 31253,
-      "sha256": "2badfcba8cd23df8ecd3d934b508134b801d931836e05b706449bf1b25f2cb63"
+      "bytes": 31796,
+      "sha256": "cd23c1bed6319c02ae7a5320dde0bb5ec5babd5acfc208d18e597a583473e91e"
     },
     {
       "path": "figures/primary_enrichment.png",
-      "bytes": 306962,
-      "sha256": "4baca353ffd3545bc5bddd3ef1a8990640c12f146d47d82389227655f443a772"
+      "bytes": 346146,
+      "sha256": "d57d81d7643e659861e6db8f72b6d1a5111ed752576fb916d311c0a440fabd6e"
     },
     {
       "path": "figures/primary_enrichment.svg",
-      "bytes": 162105,
-      "sha256": "b31e7cdfd99fc8988fb2cd01998d6fcd4fd14a0ad1eee1a57295dcb9f819542c"
+      "bytes": 175386,
+      "sha256": "a17dd59197899ef1d1ef29202c70cf3e665fdcfd53c3a72c749e8dd5ca2a70d9"
     },
     {
       "path": "figures/qc_all_libraries.pdf",
@@ -403,6 +423,501 @@
       "sha256": "deb3b696f460fa984d8deff108096ff747150579b4145539213ef3dc2ff5c3c8"
     },
     {
+      "path": "provenance/bayesian_oxphos_R_session.txt",
+      "bytes": 1916,
+      "sha256": "6de4b3b49e6891faa7b374b64d758aaddf81b0d8b709741c651ef3be71910079"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "c058083fb010c474403fd68db02bbac6c782a654adb2f0b13fd1369047730958"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/diagnostics_attempt2.csv",
+      "bytes": 341,
+      "sha256": "4b4b6641dcc3f4a7c429d11a9b1a785c35e0bb95e7282f2328d4f03e9ba2e90a"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_attempt1.npz",
+      "bytes": 1496771,
+      "sha256": "cb5d3a573e248c1179b3ce0229102d688595da53a5720735e3b1a0a7f06c5926"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_attempt2.npz",
+      "bytes": 2999678,
+      "sha256": "71d02bc63a25c8c7b0987b8f02d35c86f799a88cd75c7842b4a9da4034a9eea7"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/posterior_predictive.npz",
+      "bytes": 1461877,
+      "sha256": "13cdce94b79e4995106e0792534b875a32bcb75917eaa89738eda4cb6c63a1d3"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/prior.npz",
+      "bytes": 470602,
+      "sha256": "9b0788097092b55752aaea487acd73e462710b272be40f2c52f120ad6faf60f9"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/prior_predictive.npz",
+      "bytes": 230074,
+      "sha256": "1a04227ba4898030c4abeea7a43627ed45dee7c0431806807d9bd11b26589eb0"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/result.json",
+      "bytes": 10925,
+      "sha256": "37694a680b8432f603795decb877badb4f378f007d209d51939a5a16903674be"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/sample_stats_attempt1.npz",
+      "bytes": 872545,
+      "sha256": "83e33acd23293d0d6913804d68c3a09e9b6c002bc878f40fbea9e33679e3df7f"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.25/sample_stats_attempt2.npz",
+      "bytes": 1734548,
+      "sha256": "dc9c88d5c82836c9dd847a3a72cc6385c935adc2263bd72dc997746aee427d9d"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "94861e9cc395df3a2145b9f49309c58d7619830770a6332f2c6b19eed23abc58"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/diagnostics_attempt2.csv",
+      "bytes": 338,
+      "sha256": "ca9040ec3fd2c3d3d106460f0e2cf75705cc7a35e813417a2be8490a725778d7"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_attempt1.npz",
+      "bytes": 1493689,
+      "sha256": "937bbe6388baee87db700c071dc8efb789c065fe827f931cb2a0e5aa7d8dc373"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_attempt2.npz",
+      "bytes": 3002108,
+      "sha256": "9b8f4b2f904dc92e55a4fb06ed3ab529f738d5633d382d96a7e0687c5fe82f07"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/posterior_predictive.npz",
+      "bytes": 1465759,
+      "sha256": "fb1a246f40c5eb63a4d32ce95efc06f6bfa81a8380c46198a113e0f433bc84a7"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/prior.npz",
+      "bytes": 470627,
+      "sha256": "395a5a4c52efa667336e06b55823766671eb588e1e2e94a2385beee9fb772667"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/prior_predictive.npz",
+      "bytes": 230265,
+      "sha256": "6c70b90882eb6b888c673a8f4b4ac49a09db01213b1a58d964e31b6a0d128fdf"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/result.json",
+      "bytes": 10891,
+      "sha256": "38779446d525758b02e30332f1c57e8e2c077bdb4fc826b3ab335a65216707da"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/sample_stats_attempt1.npz",
+      "bytes": 866696,
+      "sha256": "c6967249818e68270becd202157b362ce91304561803f3c1e43fd63717d44e7b"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual0.5/sample_stats_attempt2.npz",
+      "bytes": 1728408,
+      "sha256": "31924e073f0f81454d7a068842d0a717249909daf550f3599ed8b5054a4b4850"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "cbc8713c32f6d7ca1de3f292c47d820e4419a2660997e2f181af31e3f442fe97"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/diagnostics_attempt2.csv",
+      "bytes": 338,
+      "sha256": "e3f6a7735d7430304683952772fc18b8304cc3d62f21c14eda342cb79f6ee495"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_attempt1.npz",
+      "bytes": 1499939,
+      "sha256": "b31f77b928cbdfbcddc467b589ba39bd74a01dcd0cde58ee1ad3a00f831d0675"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_attempt2.npz",
+      "bytes": 3003474,
+      "sha256": "9b83758f486ecc5af73f9555bf084974d9e7117eea10a71a8159849f605ea0a6"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/posterior_predictive.npz",
+      "bytes": 1467776,
+      "sha256": "777ac6a45133215842140929961b3dd48fa97a9136c0e2ad8f3739f65134b02c"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/prior.npz",
+      "bytes": 471393,
+      "sha256": "ba30e29e0cb6da0ca0621b5a9bba0230fddd4b70f9552405a17beef43ac2538e"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/prior_predictive.npz",
+      "bytes": 231032,
+      "sha256": "d3aec953d4d0784e9a979e0f99c8ccfb05f8b78642578d240c808e986417c453"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/result.json",
+      "bytes": 10812,
+      "sha256": "3fa141888dd53f85dad082af18df6d3f800f25176e0e902956d79920c013ed71"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/sample_stats_attempt1.npz",
+      "bytes": 864893,
+      "sha256": "af3ae8c722fbb979d886ca4fbdb6793bb4de73832c7e5b32b97529345f3867cb"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.25_residual1/sample_stats_attempt2.npz",
+      "bytes": 1725240,
+      "sha256": "8b5216d88529df1d2d988e71485cdc0791264a6b0691dd5d79d5ed6231257682"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "f6cf2533669cbe64ca5749abc42e9852a0616eb6bea22627a90a267993a59821"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/diagnostics_attempt2.csv",
+      "bytes": 342,
+      "sha256": "3f7df4ba461e09b3de9b41bf32c191072b436c73da0ecc29dc8c560842e32664"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_attempt1.npz",
+      "bytes": 1494122,
+      "sha256": "0adc9a2550ffc23a3d138c1eef1d5ab60e662e96b38b1177dfae0a797b63a6e8"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_attempt2.npz",
+      "bytes": 2999184,
+      "sha256": "674e610ce479c871399351bedb6d1ecc44bdc6affec5bd1be1ba0abdaed2fb89"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/posterior_predictive.npz",
+      "bytes": 1460346,
+      "sha256": "8fcd043c0d586fe9159b9d55143912d88a4f0bccc78fcdc15addc2a850a35b60"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/prior.npz",
+      "bytes": 470638,
+      "sha256": "cfb972f82df7cca3148e3794f3a6245d47884279234ca6d42332b4b76efcf1b0"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/prior_predictive.npz",
+      "bytes": 230084,
+      "sha256": "deb189c6f85ea90bc0b0990da3c68da014859edd879f39334e1916a285fc0f39"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/result.json",
+      "bytes": 10886,
+      "sha256": "40c66ad8a8921e929363dc1d9b3b522090fc0e542675fa02da69c42e42dbfa76"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/sample_stats_attempt1.npz",
+      "bytes": 875286,
+      "sha256": "8d1711aaa358d1624d1c6a01b06d1285cf1a50a3adbee396b4b9a64c6af02754"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.25/sample_stats_attempt2.npz",
+      "bytes": 1734607,
+      "sha256": "078fd0ee8e706e7b1cbd1290d35c0365f53b7164e7da49257553a34e01eb5b3b"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "632870aa35fac04712cce01bc82b6e8576b21ffc341ebbaa209e11a290b964ba"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/diagnostics_attempt2.csv",
+      "bytes": 337,
+      "sha256": "228311fe12e2f1ea2d4adb1d0ebc9167fcd8c9d1760c2fde329906f45d23a29c"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_attempt1.npz",
+      "bytes": 1497009,
+      "sha256": "9760979da029a7d106b04f7ac619dac195b66f2f466bb42a01496c90c124b44c"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_attempt2.npz",
+      "bytes": 3001990,
+      "sha256": "9d0663dc78f25fe5750b5d64097ce72c795124f54062cedce6bdd56bec31401b"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/posterior_predictive.npz",
+      "bytes": 1464335,
+      "sha256": "4b1271c380c89e264e8b6585175a452efa3d3f6f82ab36aa65d5edf88b82b0df"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/prior.npz",
+      "bytes": 470663,
+      "sha256": "693c50110e5020c32276f5d29bc76a255bad2b8efcad91d83a4931e54a66b1ad"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/prior_predictive.npz",
+      "bytes": 230321,
+      "sha256": "e268e1fa89a3a2572f829078d6bbfd00dd314be681e0795780b4731ab07591fa"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/result.json",
+      "bytes": 10846,
+      "sha256": "0469ac73cd0037de83c7cb5d39c5771195a7c3e7c79a6eb28023fa62647f91a4"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/sample_stats_attempt1.npz",
+      "bytes": 875112,
+      "sha256": "bdd6cec2c24cb86813ecb8f8926b620085722cdf1f1066e6d56ca9c2a39d3637"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual0.5/sample_stats_attempt2.npz",
+      "bytes": 1735465,
+      "sha256": "0d5edfb46af97fb5d5634e4766acee8a80f2ecde2194a38bd2290b9261d5acec"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "a32e2ac36d3dc915b957f110d38045114233016d5aca07273a247208b16b915d"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/diagnostics_attempt2.csv",
+      "bytes": 334,
+      "sha256": "c345eecabffc9fcf914298335bbbe50800e54506df3c56d16150d3d82514b133"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_attempt1.npz",
+      "bytes": 1496932,
+      "sha256": "0123ac6f40efc02b0f8d3c1f8f39fe437ba6a0924d0c60d046beba3e768a0cc4"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_attempt2.npz",
+      "bytes": 3003634,
+      "sha256": "bfda6d9fe39860b7b763636f22247208d0a40f1c90a3c3d88449cabb0aeb31cf"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/posterior_predictive.npz",
+      "bytes": 1466689,
+      "sha256": "2dacd28cb3d58007bc8a781782679c3949224b9f67fb582d5f0b5bd77adc48e5"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/prior.npz",
+      "bytes": 471429,
+      "sha256": "54173e19b2185b8d26d10f72e41da1e7ebc7a3f93b2496534930d443eb698905"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/prior_predictive.npz",
+      "bytes": 231139,
+      "sha256": "f58a18f87b6f0d1a30bd97cf3297446c174b8b20afda4aa4245288b83747b50f"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/result.json",
+      "bytes": 10767,
+      "sha256": "4e12d30acc3d811df7c275f101f66b69b08859f57f95b78daa78f28abe594161"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/sample_stats_attempt1.npz",
+      "bytes": 875097,
+      "sha256": "42c248fd850337ede81bd4319af9d5af786756b70df1734693a82963935f8f06"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect0.5_residual1/sample_stats_attempt2.npz",
+      "bytes": 1732501,
+      "sha256": "bb1855829ebd13af331c55ebf754966b4b980f924fdf77b6eb2652a8ef96dd62"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "76e2901b381d41f848fdc66217df48165d78219e1f72ccbf15cec19c569449fb"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/posterior_attempt1.npz",
+      "bytes": 1496016,
+      "sha256": "6a4defc758adc3c1f4500ed2a1583e9a776ccc20c692e06fba8c47996daa9050"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/posterior_predictive.npz",
+      "bytes": 730024,
+      "sha256": "288ac9f6dcb9a427fe319716c1c4bc4a42cbeb1b78983fb54cdf343887a18196"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/prior.npz",
+      "bytes": 471151,
+      "sha256": "adfdb9dd63e4bf19d0cf6fa5a07171171f95469680a7a3b7eddffea97459dd10"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/prior_predictive.npz",
+      "bytes": 230845,
+      "sha256": "69eede73ea787e0d9c670ba787084cd6eae8630c2356f9638959e0b151fd9806"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/result.json",
+      "bytes": 10617,
+      "sha256": "41ad3096c483de9e2d88980d49a5d8496e1bef2a702b44747a53890060857ca0"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.25/sample_stats_attempt1.npz",
+      "bytes": 874414,
+      "sha256": "43934b750480b2038f59d248496704dd67cac039a8d54c2935d872151bc5593f"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "a6f3a8867bce90da132ac8dba0547ffcdb161d2b4914238a8e9af0edbb89a2ca"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/diagnostics_attempt2.csv",
+      "bytes": 338,
+      "sha256": "c19593190bda2a16f3298e68135b131c5c938e08bb43420c2d60892941507b9f"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_attempt1.npz",
+      "bytes": 1498403,
+      "sha256": "8a4f09eb95e0fb8dcd8c41b8145baad710a3750209621e67e68247f08c11ee6d"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_attempt2.npz",
+      "bytes": 3002065,
+      "sha256": "7bb455210cbf153a92350118800a5ccbad527ca893ceeb2167bb5c1856c95b0f"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/posterior_predictive.npz",
+      "bytes": 1464011,
+      "sha256": "2453c097a6862ad9f906495b60df7b6431edfa12dbd4b1c2f0bfce06713999e2"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/prior.npz",
+      "bytes": 471176,
+      "sha256": "05044028240e28a6c68eb8477354237120d9cd049dae62008c1bdff350c2ed10"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/prior_predictive.npz",
+      "bytes": 231053,
+      "sha256": "694a5d21c6c40abad3d04641633894c8ef3524a129fe5052de35ef3e568c693d"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/result.json",
+      "bytes": 10778,
+      "sha256": "e529eb35dce86ffda0757797680c8b37cd02908e7e0940ecf9184c13b2405428"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/sample_stats_attempt1.npz",
+      "bytes": 873367,
+      "sha256": "0218f16b1a39526dad6e72ddd07db4a72e323902cf26cb385d0a41848d4ebe72"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual0.5/sample_stats_attempt2.npz",
+      "bytes": 1733279,
+      "sha256": "24ad887940f454a9f99782ac8a83e07f8e38818508e4627e6c1ac2aa0a928106"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "513e2068251655eed6a3ba6601bcda40db7e0766d78adeeecd970babc1205986"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/diagnostics_attempt2.csv",
+      "bytes": 334,
+      "sha256": "c1c56766d225ccba7a3c9f52f5030e8db50c94c0da0e8ae499ee855fafcf6c43"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_attempt1.npz",
+      "bytes": 1499944,
+      "sha256": "ca8660f8ef90f035f12b081292c7a706fcbc2568962c42e226a140f2f1a34886"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_attempt2.npz",
+      "bytes": 3003618,
+      "sha256": "26cf42bd65b19c9e246421a82194d8f48163bdcae7c718947d8a854428bfdbca"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/posterior_predictive.npz",
+      "bytes": 1466702,
+      "sha256": "27646517ee36efb49db7ba0caa85988739069b0cb4f061884133b82952d8c464"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/prior.npz",
+      "bytes": 471942,
+      "sha256": "bc05b5257a32de896767429d374dea2de6874cb9f4c067abe67f2f52639d3e67"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/prior_predictive.npz",
+      "bytes": 231774,
+      "sha256": "511624ec94e9a4357e1c3e1bf0cd2fe232f857470aa8ccedceedc252dbd67f41"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/result.json",
+      "bytes": 10703,
+      "sha256": "c61b252eccadad6a988014564319c437d4c361920d7258f668817aa4fbc303f3"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/sample_stats_attempt1.npz",
+      "bytes": 873420,
+      "sha256": "7d7cfe0192f764ceb632fcf4ff859841740457c7302265fd09614658fdab5fe5"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/normal_effect1_residual1/sample_stats_attempt2.npz",
+      "bytes": 1732568,
+      "sha256": "f0cd47b28e240a583fb06da077264a78df66ab54904e79f7d0ea8c115966cf53"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/diagnostics_attempt1.csv",
+      "bytes": 330,
+      "sha256": "36817fa4fa29a6d7cc06e2f68e10f702acf1d7db5257e2321906f0981293d724"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/posterior_attempt1.npz",
+      "bytes": 1497529,
+      "sha256": "3d7898d68e6d0bf0ba1cb3bf03162c483d9f0a3c4a614faa96f0188805aeb912"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/posterior_predictive.npz",
+      "bytes": 732920,
+      "sha256": "85fe47b9059c2828cd8f99d5321e3d7cc50262bb88462f1dfafd3139dbc9fe96"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/prior.npz",
+      "bytes": 470663,
+      "sha256": "6c4dca5acf4f1f6fc7ffd6601e327dc21d0b441527b780ff741b67fc6894159c"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/prior_predictive.npz",
+      "bytes": 230508,
+      "sha256": "607811debe6ac35c194105d24f98388bc4804a1546dacb2648db2444e08c9ed4"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/result.json",
+      "bytes": 10777,
+      "sha256": "15965305274fbedd9fe11ee7de5e5abae756921ebb29e5e37d18fb5686eed5f2"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_draws/student_t4_effect0.5_residual0.5/sample_stats_attempt1.npz",
+      "bytes": 871743,
+      "sha256": "ec6c12455ef305b30f4522ad1bdf61d963755fd8aa8f1badb1774e717ff55f0d"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_freeze_v1.json",
+      "bytes": 949,
+      "sha256": "2c9207d0b91b10eff8893b9a623b71991cedecd8cd4b3ff2863ad20b37430b7c"
+    },
+    {
+      "path": "provenance/bayesian_oxphos_run.json",
+      "bytes": 15014,
+      "sha256": "a41f990f7d69d5a349483662adfd5e8326deb89c6f717bdcae2f583fa4a8c95a"
+    },
+    {
+      "path": "provenance/bayesian_score_inputs_v1.json",
+      "bytes": 1053,
+      "sha256": "98b10f0e6f34ec086b861b54b60ce46d35bf056308fe1ee598b4223fbb437953"
+    },
+    {
+      "path": "provenance/bayesian_score_reproduction_check.json",
+      "bytes": 589,
+      "sha256": "3af389ce300418acb0324d97bad7eb86f7d8dc1afc2ddf7f23a8abaf82a1a919"
+    },
+    {
       "path": "provenance/dna_maintenance_freeze_v1.json",
       "bytes": 4135,
       "sha256": "173fc94c40a784fa6d65286141c4cee2b8819d9cdcdf726d27d6137b4e7259d0"
@@ -443,11 +958,6 @@
       "sha256": "fccc445e11b36df01ec133d006638e0a914a4af16dbc9438ad0ee235a3906a24"
     },
     {
-      "path": "renv/settings.json",
-      "bytes": 500,
-      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
-    },
-    {
       "path": "renv.figures.lock",
       "bytes": 155491,
       "sha256": "be83593e3c85768c65eb573799c284a4c9309170de6eaa4a8f5f9dccd07660d8"
@@ -458,9 +968,34 @@
       "sha256": "36f0a49e5f99c90bf4eee0f75ca90d39f1a33934d3626312041dd9019e498f3c"
     },
     {
+      "path": "renv/settings.json",
+      "bytes": 500,
+      "sha256": "4ebc131a33c5d6d8bfc5ac3c9d14bae05493aaaa1fd425a4aa6f002207817e52"
+    },
+    {
       "path": "reports/analysis_plan_frozen.md",
       "bytes": 7443,
       "sha256": "0ab3ab66e6033361057e4b35ef9351b518294dcb19543df1b90ffc5dbaebd650"
+    },
+    {
+      "path": "reports/bayesian_oxphos_methods.md",
+      "bytes": 6513,
+      "sha256": "6f0d0abbb1438eae995998548a1b74d88e96bdc8b0da5b99a00ee556accc5f4d"
+    },
+    {
+      "path": "reports/bayesian_oxphos_plan_v1.md",
+      "bytes": 5317,
+      "sha256": "98854bc36f3dc3c263a5c41d5ddb214a30dd2e1d0334ea26a50cff69333a738c"
+    },
+    {
+      "path": "reports/bayesian_oxphos_reproduction.md",
+      "bytes": 4455,
+      "sha256": "0ece4ac880dddecee9e25f40c92c91a3ef96e3b68bf17b77982ef54ecd596c71"
+    },
+    {
+      "path": "reports/bayesian_oxphos_results.md",
+      "bytes": 1944,
+      "sha256": "fc84a97cbd6a1a535a0b03071f03153d0e26705c90d1bc48a46815d2c4f9633c"
     },
     {
       "path": "reports/dna_maintenance_plan_v1.md",
@@ -508,6 +1043,11 @@
       "sha256": "c18661d5a225b97fa0c20455796cbd57b1319963f92ec6f97f8a3d5ae5ba7663"
     },
     {
+      "path": "requirements.bayes.lock.txt",
+      "bytes": 620,
+      "sha256": "c1c936186047fd2acbcae3e75d47ddac13912e4a8575e06af15318dc2f19f52a"
+    },
+    {
       "path": "requirements.figures.txt",
       "bytes": 104,
       "sha256": "9191e33dae5dc1f979331cd3ef3c2fd86a21f2f03cd234c18dbf55b4a844121a"
@@ -543,9 +1083,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.5a109658.js",
-      "bytes": 48580,
-      "sha256": "243a290ddaa2826eeda5f59dbc2b9283b70e2e660781f827fb87639d7e39f3af"
+      "path": "site/_import/components/atlas.15566917.js",
+      "bytes": 48433,
+      "sha256": "25fe9b1c2cc98567f5ba4aac841a4ce02ad3b972cab10e7dff19f53868be43ab"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -553,9 +1093,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.bde1f9b7.css",
-      "bytes": 38799,
-      "sha256": "bde1f9b76444041b6a3f3302bdfcf2435e82871b90df76567eb461586e9b08e0"
+      "path": "site/_import/style.f8aa6d13.css",
+      "bytes": 38990,
+      "sha256": "f8aa6d1359e094d5d151c45f855d4ed1549e412444de9be42815da0418bc63ae"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -575,7 +1115,7 @@
     {
       "path": "site/index.html",
       "bytes": 10600,
-      "sha256": "1c307cee8b6f0a727fd60f55713811c85e740eeeaa5a2c61777cde232213bf30"
+      "sha256": "a82e57d76c4ed88429edb74f1c65cb431855759772fed884e257c96537c52e33"
     },
     {
       "path": "src/__init__.py",
@@ -668,9 +1208,19 @@
       "sha256": "80330cb24ff4787beac0b3a812b12f7fb1ad061831e2748b2bb848d9c07f6163"
     },
     {
+      "path": "src/transcriptomics/bayesian_oxphos.py",
+      "bytes": 9850,
+      "sha256": "c07a78581beff8b230e435b6c4e3f5ecf27c3c853d8747622b3836cd45d165e4"
+    },
+    {
       "path": "src/transcriptomics/dna_maintenance.R",
       "bytes": 3139,
       "sha256": "6fd1016e666408130083a8a77baf597e62cc77b0975940e4855844496101988e"
+    },
+    {
+      "path": "src/transcriptomics/export_bayesian_oxphos.R",
+      "bytes": 1786,
+      "sha256": "d529ddae6a4fa3aab9c6d63e94dfb86471bb6f3d3b5819cf11bd6546bd05ccca"
     },
     {
       "path": "src/transcriptomics/freeze.py",
@@ -683,6 +1233,11 @@
       "sha256": "b2c65c3345d8b1625430329418405f1531adb1f0a2eeb7ca4317874555c50cc9"
     },
     {
+      "path": "src/transcriptomics/npp_figures.R",
+      "bytes": 10202,
+      "sha256": "7b1b72fb925317d4e3c78dbe5c5c49540bebce110aa21872b09306719a94ed80"
+    },
+    {
       "path": "src/transcriptomics/oxphos_alias_sensitivity.R",
       "bytes": 6062,
       "sha256": "5ea6958f34c7b7ad518247e46919b868cb65432070341bea7ecb2df0e946641f"
@@ -691,6 +1246,11 @@
       "path": "src/transcriptomics/oxphos_gene_heatmap.R",
       "bytes": 10676,
       "sha256": "d19b4c52fc84b36e5ce5c6be7b260e22bd026be457110da2005388445319a2d0"
+    },
+    {
+      "path": "src/transcriptomics/plot_bayesian_oxphos.py",
+      "bytes": 2633,
+      "sha256": "3f0a9b0fed340e5427207ec94ebf22f003dab015f8e610bf1e929a3a38605881"
     },
     {
       "path": "src/transcriptomics/prepare_gene_sets.py",
@@ -723,6 +1283,11 @@
       "sha256": "52ecd41eea01933fab4c294736e92b53a5b24c10b95bae623dcf14e3a4f3ef89"
     },
     {
+      "path": "src/transcriptomics/reproduce_bayesian_scores.py",
+      "bytes": 5966,
+      "sha256": "a6df73c5cd050acc041b8cf89dca7cdf61dacb288290f601c45e7cf79e4e09e3"
+    },
+    {
       "path": "src/transcriptomics/restore_environment.R",
       "bytes": 467,
       "sha256": "8b16ca4d2ed734a92780b0bc74a0ec62d240383fc42a0e14afcda9d2adf15d5d"
@@ -735,12 +1300,42 @@
     {
       "path": "src/validate_release.py",
       "bytes": 13871,
-      "sha256": "66d3c5f8fec4cfaeefe99081a6a87196cf07ce1249b2c109f98ec0c9ff477dff"
+      "sha256": "da65aad77ab05c38b387679cb1dd82a5618469ace030ff690abc84a8c94c164e"
     },
     {
       "path": "src/zenodo_release.py",
-      "bytes": 11741,
-      "sha256": "a0f38253f2ea845d12affb849c39be0c92e63f34b2d505ac106f9c9e10af2f83"
+      "bytes": 11792,
+      "sha256": "0bd109048afce8d36da04fd9ed3fc1c065e5825a6ea41b2c02c2852a101b4f10"
+    },
+    {
+      "path": "tables/bayesian_oxphos/diagnostics.csv",
+      "bytes": 1745,
+      "sha256": "b09c243ce274beb5d58128e30aa4810e739656f963795691c873d177e3a65378"
+    },
+    {
+      "path": "tables/bayesian_oxphos/membership.csv",
+      "bytes": 9241,
+      "sha256": "c0f72b5472f6fd22a420bca4d42006a5d3295733630bff9cbdab7dfdac1358ef"
+    },
+    {
+      "path": "tables/bayesian_oxphos/paired_scores.csv",
+      "bytes": 280,
+      "sha256": "fc187a00d0fd24ee88345b3fcfb5498c765bc2eafd1bfc8ef2c5f9d3cadc45d1"
+    },
+    {
+      "path": "tables/bayesian_oxphos/posterior_summary.csv",
+      "bytes": 12907,
+      "sha256": "4c2f1a7a07d36ab26e8e2b7487e1dd9f422f4a5d952246c4e39ac51fa3793394"
+    },
+    {
+      "path": "tables/bayesian_oxphos/predictive_checks.csv",
+      "bytes": 33233,
+      "sha256": "79d29a1d9fdb573d5d0e4ad9c4611fed69252236da65f75c70e7dc52add61491"
+    },
+    {
+      "path": "tables/bayesian_oxphos/profile_scores.csv",
+      "bytes": 754,
+      "sha256": "77008643557ba6ebf57053118dd49a52ecae6f8ac82b87cf7cc8a0bcf1c0da53"
     },
     {
       "path": "tables/dna_maintenance/all_tests.csv",
@@ -1286,6 +1881,16 @@
       "path": "tables/transcriptomics/secondary_evidence.csv",
       "bytes": 8284,
       "sha256": "e094c385f104526f6bbdcb3a0e78a52d5d600dd9f5d8ff2e08fbb1bec1adb315"
+    },
+    {
+      "path": "tests/test_bayesian_oxphos.py",
+      "bytes": 2165,
+      "sha256": "02d80adaa8d5ee1136df6c5032177e4fb9879bbb998b3207f2cc63927b06fc98"
+    },
+    {
+      "path": "tests/test_bayesian_score_reproduction.py",
+      "bytes": 1165,
+      "sha256": "2af854ee29b1daed2445ca3bae7d0a5f67bdd9b840e73c370e7ae5a401073c9b"
     },
     {
       "path": "tests/test_dna_maintenance.py",
