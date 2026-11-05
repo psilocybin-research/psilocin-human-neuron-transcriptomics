@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 423,
-  "total_bytes": 246083856,
+  "total_bytes": 246083905,
   "status": "pass",
   "failures": [],
   "files": [
@@ -249,8 +249,8 @@
     },
     {
       "path": "explorer/test/print-check.mjs",
-      "bytes": 2644,
-      "sha256": "c9100a337b0f64c2b918a5936a6ba5ee090c87b15452443f186adda639c02ced"
+      "bytes": 2693,
+      "sha256": "0fbe819afa28bb5f18d2b776deb84634cb2014a4fff34b562a8d98c5da4d629b"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",

@@ -18,7 +18,7 @@ try{
  let count=0;
  for(const tab of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance']){
   await page.getByRole('button',{name:tab,exact:true}).click();
-  const buttons=page.locator('.figure-print');assert.ok(await buttons.count()>0,tab);
+  const buttons=page.locator('.figure-print');await buttons.first().waitFor({state:'visible'});assert.ok(await buttons.count()>0,tab);
   // Test every plot, including HTML matrices and SVG plots with selected details.
   for(let i=0;i<await buttons.count();i++){
    const button=buttons.nth(i),title=(await button.getAttribute('aria-label')).replace(/^Print /,'');
