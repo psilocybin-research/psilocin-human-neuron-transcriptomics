@@ -16,7 +16,22 @@ function select(title,values,current,fn){const wrap=el('label','control');wrap.a
 function table(rows,cols){const w=el('div','table-scroll'),t=el('table'),head=el('thead'),tr=el('tr');for(const [,name]of cols)tr.append(el('th','',name));head.append(tr);t.append(head);const body=el('tbody');for(const r of rows){const row=el('tr');for(const[k,,format]of cols){const cell=el('td',typeof r[k]==='number'?'numeric':k==='gene'?'gene-symbol-cell':'',format?format(r[k],r):r[k]??'Not estimable');row.append(cell);}body.append(row);}t.append(body);w.append(t);return w;}
 function status(s){return el('span',`status ${s==='robust'?'stable':s==='unsupported'?'unsupported':'mixed'}`,s==='robust'?'directionally stable':s||'Not classified');}
 function scaleKey(limit,title){const box=el('div','scale-key');box.append(el('span','',title),el('i','gradient'),el('span','',`−${limit}  ·  0  ·  +${limit}`));return box;}
-function printFigure(shell,title){const copy=shell.cloneNode(true);copy.querySelector('.figure-toolbar')?.remove();const frame=el('iframe','figure-print-frame');frame.title=`Printable ${title}`;frame.setAttribute('aria-hidden','true');frame.onload=()=>{const win=frame.contentWindow;if(!win)return;win.focus();win.print();setTimeout(()=>frame.remove(),1000);};document.body.append(frame);const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}.atlas svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`);doc.close();}
+function printFigure(shell,title){
+ const copy=shell.cloneNode(true);copy.querySelector('.figure-toolbar')?.remove();
+ const frame=el('iframe','figure-print-frame');frame.title=`Printable ${title}`;frame.setAttribute('aria-hidden','true');
+ let printed=false;
+ frame.onload=async()=>{
+  const win=frame.contentWindow,doc=frame.contentDocument;
+  if(printed||!win||!doc?.querySelector('.figure-shell'))return;
+  printed=true;
+  await doc.fonts?.ready;
+  await new Promise(resolve=>win.requestAnimationFrame(()=>win.requestAnimationFrame(resolve)));
+  win.addEventListener('afterprint',()=>frame.remove(),{once:true});
+  win.focus();win.print();
+ };
+ frame.srcdoc=`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}.atlas svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`;
+ document.body.append(frame);
+}
 function enhancePlots(scope){
  const requestName=['requestFullscreen','webkitRequestFullscreen'].find(name=>typeof document.documentElement[name]==='function');
  const exitName=['exitFullscreen','webkitExitFullscreen'].find(name=>typeof document[name]==='function');

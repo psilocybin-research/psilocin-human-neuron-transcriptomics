@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 422,
-  "total_bytes": 246080565,
+  "file_count": 423,
+  "total_bytes": 246083856,
   "status": "pass",
   "failures": [],
   "files": [
@@ -49,8 +49,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 62041,
-      "sha256": "436ffe2a6eb8ddc3f35722fd7b69fa2280139ef3e4dd9f06ece0c2466d123530"
+      "bytes": 62163,
+      "sha256": "6ec64236cf5c5be3123dbe3b6fa428350d269580d626a92b4f5445f778ad85ee"
     },
     {
       "path": "LICENSE.md",
@@ -184,8 +184,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 456,
-      "sha256": "c70e247bd360190077532fce0e7474174423e1045258c3795cb91c17eb00f0fc"
+      "bytes": 503,
+      "sha256": "ebebed62fde516349b64de76fd555194ac48923a0e500eb5fa4e6e9d0c96ceb7"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -199,8 +199,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 50130,
-      "sha256": "1a9d41073d509a2d05870d111bcc5e1a24436bbb561e2de356b207bbba2c61b3"
+      "bytes": 50369,
+      "sha256": "9642632347967a52e12f84a9b4de11123a8cc9a239bb5599ab5d38d9e323794d"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -246,6 +246,11 @@
       "path": "explorer/test/metadata.test.js",
       "bytes": 4042,
       "sha256": "2f7003efe1c5f6c9ef25a403258712bdc379bccadd9a1f826835ad7793a50faa"
+    },
+    {
+      "path": "explorer/test/print-check.mjs",
+      "bytes": 2644,
+      "sha256": "c9100a337b0f64c2b918a5936a6ba5ee090c87b15452443f186adda639c02ced"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
@@ -1168,9 +1173,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.c06f7967.js",
-      "bytes": 50139,
-      "sha256": "d82bb94187c27551da9153470cc8af9ed5451a007c7c7f7773022f71fa625b1c"
+      "path": "site/_import/components/atlas.b9e307cd.js",
+      "bytes": 50378,
+      "sha256": "6ae7be7faa6f977ee1c403e9f33bb60653218b11c8f4e02cc555dcf0545c8205"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1200,7 +1205,7 @@
     {
       "path": "site/index.html",
       "bytes": 10851,
-      "sha256": "f5f9d7ad6600b9dbe27969d14c4877b05f46a8f459ce116fa28320b916b0c92c"
+      "sha256": "bbacfca96e649a42a3ad069757a9bd29255d87edda95cd42faa7b8ca183b0212"
     },
     {
       "path": "src/__init__.py",

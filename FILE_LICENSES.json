@@ -279,6 +279,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/print-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -1388,7 +1394,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.c06f7967.js": {
+  "site/_import/components/atlas.b9e307cd.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
