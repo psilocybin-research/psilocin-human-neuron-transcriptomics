@@ -1,0 +1,6 @@
+Publisher brand assets
+
+The unmodified eLife and Zenodo logos are supplied by their respective organisations for identifying and linking to their services. Copyright and trademark rights remain with eLife Sciences Publications Ltd and CERN respectively. No project-wide software or documentation licence overrides those rights.
+
+eLife resources and usage guide: https://elifesciences.org/resources and https://elife-cdn.s3.amazonaws.com/documents/eLife-logo-guide.pdf . Use official unaltered artwork with the prescribed clear space and minimum web width of 80 pixels.
+Zenodo assets: https://about.zenodo.org/#icon . Zenodo and its logo are CERN trademarks.

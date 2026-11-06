@@ -19,3 +19,7 @@ Direct Reactome database annotations redistributed in `metadata/reactome_*` are 
 ## Software dependencies
 
 Python, R, Bioconductor, Observable Framework and other dependencies retain their own licenses. Lock files identify the resolved versions; inclusion in a lock file does not place a dependency under this repository's licenses.
+
+## Publisher identity marks
+
+The header uses unmodified official eLife artwork from <https://elifesciences.org/resources> and the blue Zenodo icon from <https://about.zenodo.org/#icon> to link to the original article and software archive. eLife is displayed at its recommended minimum web width of 80 pixels. Marks remain the property of eLife Sciences Publications Ltd and CERN; see `LICENSES/LicenseRef-Publisher-Branding.txt`. Their appearance identifies the linked resources and does not imply endorsement.

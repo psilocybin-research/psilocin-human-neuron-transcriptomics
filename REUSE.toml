@@ -107,3 +107,15 @@ path = "requirements.bayes.lock.txt"
 precedence = "override"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["explorer/src/assets/elife-logo.svg", "site/_file/assets/elife-logo.*"]
+precedence = "override"
+SPDX-FileCopyrightText = "eLife Sciences Publications Ltd"
+SPDX-License-Identifier = "LicenseRef-Publisher-Branding"
+
+[[annotations]]
+path = ["explorer/src/assets/zenodo-icon.svg", "site/_file/assets/zenodo-icon.*"]
+precedence = "override"
+SPDX-FileCopyrightText = "CERN"
+SPDX-License-Identifier = "LicenseRef-Publisher-Branding"

@@ -54,7 +54,7 @@ function enhancePlots(scope){
  }
 }
 
-export function createAtlas(data,provenance,loadGenes){
+export function createAtlas(data,provenance,loadGenes,branding={}){
  const root=el('div','atlas');let genesPromise;const getGenes=()=>genesPromise??=(loadGenes());
  const landscapeMap=new Map(data.landscape.map(g=>[g.gene,g]));
  const profileMap=new Map(data.landscape.map(g=>[g.gene,data.profiles.filter(p=>p.gene===g.gene)]));
@@ -74,9 +74,9 @@ export function createAtlas(data,provenance,loadGenes){
  author.append(authorLink,orcid);
  const affiliation=el('div','affiliation','Faculty of Health, School of Medicine, University of Witten/Herdecke');identity.append(author,affiliation);
  const citations=el('div','header-citations');
- const sourceCitation=el('div','header-citation');sourceCitation.append(el('span','citation-label','Source study'));
+ const sourceCitation=el('div','header-citation');const sourceLabel=el('div','citation-brand');const elifeLink=el('a','elife-brand');elifeLink.href='https://doi.org/10.7554/eLife.104006.3';elifeLink.target='_blank';elifeLink.rel='noopener';elifeLink.setAttribute('aria-label','Read the source study in eLife');const elifeLogo=el('img','elife-logo');elifeLogo.src=branding.elife;elifeLogo.alt='eLife';elifeLogo.width=80;elifeLink.append(elifeLogo);sourceLabel.append(elifeLink,el('span','citation-label','Source study'));sourceCitation.append(sourceLabel);
  const sourceStudy=el('a','citation-text','Schmidt M, Hoffrichter A, Davoudi M, et al. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife 14:RP104006. doi:10.7554/eLife.104006.3');sourceStudy.href='https://doi.org/10.7554/eLife.104006.3';sourceStudy.target='_blank';sourceStudy.rel='noopener';sourceCitation.append(sourceStudy);
- const archiveCitation=el('div','header-citation');archiveCitation.append(el('span','citation-label','Software · atlas'));
+ const archiveCitation=el('div','header-citation');const archiveLabel=el('div','citation-brand');const zenodoLink=el('a','zenodo-brand');zenodoLink.href='https://doi.org/10.5281/zenodo.23283595';zenodoLink.target='_blank';zenodoLink.rel='noopener';zenodoLink.setAttribute('aria-label','View the software archive on Zenodo');const zenodoLogo=el('img','zenodo-icon');zenodoLogo.src=branding.zenodo;zenodoLogo.alt='Zenodo';zenodoLogo.width=22;zenodoLogo.height=22;zenodoLink.append(zenodoLogo);archiveLabel.append(zenodoLink,el('span','citation-label','Software · atlas'));archiveCitation.append(archiveLabel);
  const archive=el('a','citation-text','Germann CB (2026). Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons (Version 1.2.0) [Computer software]. Zenodo. doi:10.5281/zenodo.23283595');archive.href='https://doi.org/10.5281/zenodo.23283595';archive.target='_blank';archive.rel='noopener';archiveCitation.append(archive);
  citations.append(sourceCitation,archiveCitation);
  const headerActions=el('div','header-actions');

@@ -6,12 +6,12 @@
 <meta name="generator" content="Observable Framework v1.13.4">
 <title>Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons | Psilocin · transcriptomic atlas</title>
 
-<link rel="preload" as="style" href="./_import/style.0329fd8d.css">
-<link rel="stylesheet" type="text/css" href="./_import/style.0329fd8d.css">
+<link rel="preload" as="style" href="./_import/style.8397348b.css">
+<link rel="stylesheet" type="text/css" href="./_import/style.8397348b.css">
 <link rel="modulepreload" href="./_observablehq/client.4a52a1f6.js">
 <link rel="modulepreload" href="./_observablehq/runtime.fa9f71c0.js">
 <link rel="modulepreload" href="./_observablehq/stdlib.bc967ff7.js">
-<link rel="modulepreload" href="./_import/components/atlas.b9e307cd.js">
+<link rel="modulepreload" href="./_import/components/atlas.741abbd6.js">
 <link rel="modulepreload" href="./_import/components/format.0a1392e2.js">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2032%2032%22%3E%3Crect%20width=%2232%22%20height=%2232%22%20rx=%226%22%20fill=%22%2523245b50%22/%3E%3Ctext%20x=%2216%22%20y=%2223%22%20text-anchor=%22middle%22%20fill=%22white%22%20font-size=%2223%22%3EP%3C/text%3E%3C/svg%3E">
@@ -57,17 +57,20 @@
 import {define} from "./_observablehq/client.4a52a1f6.js";
 import {registerFile} from "./_observablehq/stdlib.bc967ff7.js";
 
+registerFile("./assets/elife-logo.svg", {"name":"./assets/elife-logo.svg","mimeType":"image/svg+xml","path":"./_file/assets/elife-logo.5bd57d9b.svg","lastModified":1793950194166,"size":7861});
+registerFile("./assets/zenodo-icon.svg", {"name":"./assets/zenodo-icon.svg","mimeType":"image/svg+xml","path":"./_file/assets/zenodo-icon.b1658b9e.svg","lastModified":1793950194399,"size":2309});
 registerFile("./data/atlas.json", {"name":"./data/atlas.json","mimeType":"application/json","path":"./_file/data/atlas.8326664d.json","lastModified":1789850454074,"size":1750263});
 registerFile("./data/genes.json", {"name":"./data/genes.json","mimeType":"application/json","path":"./_file/data/genes.592821e0.json","lastModified":1789850454036,"size":12273096});
 registerFile("./data/provenance.json", {"name":"./data/provenance.json","mimeType":"application/json","path":"./_file/data/provenance.58e853b3.json","lastModified":1789850454088,"size":16725});
 
-define({id: "32be5789", inputs: ["FileAttachment","display"], outputs: ["createAtlas","atlas","provenance","geneFile"], body: async (FileAttachment,display) => {
-const {createAtlas} = await import("./_import/components/atlas.b9e307cd.js");
+define({id: "f1948966", inputs: ["FileAttachment","display"], outputs: ["createAtlas","atlas","provenance","geneFile","branding"], body: async (FileAttachment,display) => {
+const {createAtlas} = await import("./_import/components/atlas.741abbd6.js");
 const atlas = await FileAttachment("./data/atlas.json").json();
 const provenance = await FileAttachment("./data/provenance.json").json();
 const geneFile = FileAttachment("./data/genes.json");
-display(createAtlas(atlas, provenance, () => geneFile.json()));
-return {createAtlas,atlas,provenance,geneFile};
+const branding = {elife: await FileAttachment("./assets/elife-logo.svg").url(), zenodo: await FileAttachment("./assets/zenodo-icon.svg").url()};
+display(createAtlas(atlas, provenance, () => geneFile.json(), branding));
+return {createAtlas,atlas,provenance,geneFile,branding};
 }});
 
 </script>
@@ -75,7 +78,7 @@ return {createAtlas,atlas,provenance,geneFile};
 <body>
 <div id="observablehq-center">
 <main id="observablehq-main" class="observablehq">
-<div class="observablehq observablehq--block"><!--:32be5789:--></div>
+<div class="observablehq observablehq--block"><!--:f1948966:--></div>
 <p><noscript>This atlas requires JavaScript. All numerical results are also available as downloadable tables in the public repository and archived release.</noscript></p>
 </main>
 </div>

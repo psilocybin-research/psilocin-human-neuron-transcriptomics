@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 423,
-  "total_bytes": 246083905,
+  "file_count": 428,
+  "total_bytes": 246113412,
   "status": "pass",
   "failures": [],
   "files": [
@@ -49,8 +49,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 62163,
-      "sha256": "6ec64236cf5c5be3123dbe3b6fa428350d269580d626a92b4f5445f778ad85ee"
+      "bytes": 62753,
+      "sha256": "fce374501634a7e2fc4dff11f3d1ba92f9e4e714e5ea7e5892d21e0782f86c84"
     },
     {
       "path": "LICENSE.md",
@@ -73,6 +73,11 @@
       "sha256": "521c6f0ed8e64736684f89843d16a4df6b4b7449acbcfc6ca6630a3037ca8c53"
     },
     {
+      "path": "LICENSES/LicenseRef-Publisher-Branding.txt",
+      "bytes": 658,
+      "sha256": "028d00c1f0b28193582b3245717a0170639a3caa4fec88040cd18807d09c8d02"
+    },
+    {
       "path": "LICENSES/MIT.txt",
       "bytes": 1078,
       "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5"
@@ -89,13 +94,13 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 4036,
-      "sha256": "8df4386a518be4381900a20091237513e4643f101465b7f01362815f8bcf22fb"
+      "bytes": 4487,
+      "sha256": "38a33096fbd2c41bc15492f5265d3307d83cec8fde0e56b686721be95218fd98"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2101,
-      "sha256": "4c5d1b0218f5cafad3dbf78d9fee6e8e85a32843d1f060253decac3505e3904f"
+      "bytes": 2613,
+      "sha256": "f2267f39634c5096f8b217ffe9ed0c42e2b2b2e106aa5aab9ae85ee74365623e"
     },
     {
       "path": "config/analysis.yaml",
@@ -194,13 +199,23 @@
     },
     {
       "path": "explorer/screenshots/landscape.png",
-      "bytes": 244398,
-      "sha256": "46a65b9d84c0e29f7e7144466b2ef69260da4064d9578b0775115793b54c0495"
+      "bytes": 247318,
+      "sha256": "a20f8cbe445ddfae713f1b5317105f9fedfa25ed78682db3a44947ec7fb45b08"
+    },
+    {
+      "path": "explorer/src/assets/elife-logo.svg",
+      "bytes": 7861,
+      "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
+    },
+    {
+      "path": "explorer/src/assets/zenodo-icon.svg",
+      "bytes": 2309,
+      "sha256": "b1658b9e4fbfedde0a29fef2241d7359b9355bd684b574384a60428092a3b862"
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 50369,
-      "sha256": "9642632347967a52e12f84a9b4de11123a8cc9a239bb5599ab5d38d9e323794d"
+      "bytes": 51305,
+      "sha256": "739e89b7cb8e7b605bf275928130e9d9a30e948741c42358526593e0efc14ef6"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -224,18 +239,18 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 601,
-      "sha256": "a95559492b2b4bf4ffa062afc215a24cfc39b9751649b0563f6da3824b7c2601"
+      "bytes": 756,
+      "sha256": "efbe112b084cbd1d3bd764b0d9ed4be325c32a8f04253cc2d86246f23b2ca9b4"
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 17710,
-      "sha256": "bc521c0722edb3cfd03db545bd9929a28082c29106fa1cb70828f9fec66d7513"
+      "bytes": 18372,
+      "sha256": "ece685a83509de89af68ecb307c4291a006badcbfdc558147764389ddd7d4ceb"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12569,
-      "sha256": "7cbd509decde69ecadd372104e4e51acfb951efa18ebd8cab85817c1102c07f0"
+      "bytes": 12692,
+      "sha256": "12d2e1924946995693e0e979e8be88804797d09ccf5e49131ddc73905cce1738"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -1158,6 +1173,16 @@
       "sha256": "4f37e24b0a6aeed3c7879bda535e920ffa56d938d7cb6803cbeb6596a3a2b2d4"
     },
     {
+      "path": "site/_file/assets/elife-logo.5bd57d9b.svg",
+      "bytes": 7861,
+      "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
+    },
+    {
+      "path": "site/_file/assets/zenodo-icon.b1658b9e.svg",
+      "bytes": 2309,
+      "sha256": "b1658b9e4fbfedde0a29fef2241d7359b9355bd684b574384a60428092a3b862"
+    },
+    {
       "path": "site/_file/data/atlas.8326664d.json",
       "bytes": 1750263,
       "sha256": "8326664da0d1156bfb5172be2429a6d16a6e81936cedb1aa7eb634cbd6d78230"
@@ -1173,9 +1198,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.b9e307cd.js",
-      "bytes": 50378,
-      "sha256": "6ae7be7faa6f977ee1c403e9f33bb60653218b11c8f4e02cc555dcf0545c8205"
+      "path": "site/_import/components/atlas.741abbd6.js",
+      "bytes": 51314,
+      "sha256": "32faa784521a19ac36d43d3be40850ee62ceca309526a2ad31678d6222cc545b"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1183,9 +1208,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.0329fd8d.css",
-      "bytes": 40104,
-      "sha256": "0329fd8d6f1c9765d6e0d091137b0441b282f9bcc3b2934ff936606fbc7fb9c8"
+      "path": "site/_import/style.8397348b.css",
+      "bytes": 40764,
+      "sha256": "8397348b25d0db11aeb27c4dee1b6d96de68c2ab0581e3d135b4a8c0d782fd7c"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1204,8 +1229,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 10851,
-      "sha256": "bbacfca96e649a42a3ad069757a9bd29255d87edda95cd42faa7b8ca183b0212"
+      "bytes": 11415,
+      "sha256": "4d91721413a116bceef78ca3d5705d6bdb5930de7e0a2c50a871bbd259c72497"
     },
     {
       "path": "src/__init__.py",

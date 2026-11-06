@@ -217,6 +217,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/assets/elife-logo.svg": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "eLife Sciences Publications Ltd"
+    ]
+  },
+  "explorer/src/assets/zenodo-icon.svg": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "CERN"
+    ]
+  },
   "explorer/src/components/atlas.js": {
     "spdx": "MIT",
     "copyright": [
@@ -1374,6 +1386,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "site/_file/assets/elife-logo.5bd57d9b.svg": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "eLife Sciences Publications Ltd"
+    ]
+  },
+  "site/_file/assets/zenodo-icon.b1658b9e.svg": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "CERN"
+    ]
+  },
   "site/_file/data/atlas.8326664d.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -1394,7 +1418,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.b9e307cd.js": {
+  "site/_import/components/atlas.741abbd6.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -1406,7 +1430,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.0329fd8d.css": {
+  "site/_import/style.8397348b.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
