@@ -71,3 +71,5 @@ body{background:#fff;color:#17312f}.atlas{color:#17312f}.wordmark{color:#17312f!
 .tabs button{display:inline-flex;align-items:center;gap:7px;flex:none}.tabs .tab-icon{width:17px;height:17px;flex:none;fill:none}
 
 .footer-links{display:flex;flex-wrap:wrap;gap:6px 0;margin-top:12px}.footer-links a{display:inline-block;text-decoration:none;font-weight:600;line-height:1.4;padding:0 12px;border-left:1px solid #cdd8d3}.footer-links a:first-child{padding-left:0;border-left:0}.footer-links a:hover{text-decoration:underline}@media(max-width:600px){.footer-links{gap:8px 16px}.footer-links a{padding:0;border:0}}
+
+.repository-details{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;min-width:0;text-align:left}.repository-citation .citation-label{letter-spacing:.08em}

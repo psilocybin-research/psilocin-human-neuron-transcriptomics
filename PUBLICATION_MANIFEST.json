@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 430,
-  "total_bytes": 246167983,
+  "total_bytes": 246178502,
   "status": "pass",
   "failures": [],
   "files": [
@@ -50,7 +50,7 @@
     {
       "path": "FILE_LICENSES.json",
       "bytes": 63022,
-      "sha256": "c011bddde72fafa825d329c3883d71210220073ea3af7f0007ad8acb373cfffc"
+      "sha256": "33f1c2615548eff006f836044a6ca1bf4d80a08b9d774f46d4b7ff83e8792d33"
     },
     {
       "path": "LICENSE.md",
@@ -199,8 +199,8 @@
     },
     {
       "path": "explorer/screenshots/landscape.png",
-      "bytes": 257585,
-      "sha256": "03ac496ee20ad051ff7754f5e5e3438b522cd77df36c8b5266cb9f78a7bcda65"
+      "bytes": 266694,
+      "sha256": "ac68c3b699ebb1d6a95ac7af1c5629e48e11aa2e958eb1c6646f53090444cdbe"
     },
     {
       "path": "explorer/src/assets/dryad-logo.png",
@@ -219,8 +219,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 53822,
-      "sha256": "12cf17a9d632ce1539d25568af1f6300a6b15da1dcf915b481ec8b26c2d4baf0"
+      "bytes": 54360,
+      "sha256": "4b0a71771a125c95c629a89e87232279b461761950bc030f1ef50a6a47a9af36"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -249,13 +249,13 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 19087,
-      "sha256": "1b049556534984c3446b6873299deb7fdf7dd2e26895a251a3a0d178bda56c43"
+      "bytes": 19255,
+      "sha256": "d089ab48181f5ba4d806c9af7145ee07bf1956f41c16747e2cc05827e5516758"
     },
     {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 12692,
-      "sha256": "659b182cf846f458e8c77e62aef6a40e0c08b42f8a90d750897aa12ff4228ebf"
+      "sha256": "da06298c672b4a24d4a6b319bec4004b8bfef219c5ea51428cc6bc1203b0837c"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -1208,9 +1208,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.825c8b38.js",
-      "bytes": 53831,
-      "sha256": "62e3897fcd9e7e5cf32a71b08ad213fa67001ae9fce572d2db680bbc79fb4e18"
+      "path": "site/_import/components/atlas.f8b59c33.js",
+      "bytes": 54369,
+      "sha256": "01b43998632914cd710b1a6f3dc17cf9f16b37ce0f626774b8b08b8ed5c139c2"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1218,9 +1218,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.8e2bcd9c.css",
-      "bytes": 41473,
-      "sha256": "8e2bcd9ca9fe7398dac5901f2c5106ef1a7a2e03831f0e944005c0721d7964b0"
+      "path": "site/_import/style.d49b9527.css",
+      "bytes": 41639,
+      "sha256": "d49b952730ddafb6bd06e8f24262c786c54e316f46e699144b9b0fdff540d4a8"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1240,7 +1240,7 @@
     {
       "path": "site/index.html",
       "bytes": 11667,
-      "sha256": "4a250a1e6d306958ee27691ff44f775f4c23ddcafb4ee72340cc92311d548608"
+      "sha256": "001f2a872548b9f528a64658dd0954232101ca8ce384443834f8267b55207733"
     },
     {
       "path": "src/__init__.py",
