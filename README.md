@@ -94,7 +94,7 @@ The quick start uses base R to inspect and export frozen derived results; it doe
 
 1. [Fork this repository](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/fork) into your GitHub account.
 2. In your fork, open **Actions** and enable workflows if prompted.
-3. Select **Run R quick start → Run workflow → Run workflow**.
+3. Select **Run R quick start**, open **Run workflow**, and confirm the run.
 4. Open the completed run for the results summary; download the CSV tables and R session information under **Artifacts**.
 
 The workflow uses R 4.6.1. Running it in this original repository requires write access; other researchers can run it in their own fork.

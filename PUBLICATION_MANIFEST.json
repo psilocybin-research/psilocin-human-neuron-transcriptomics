@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 437,
-  "total_bytes": 246493907,
+  "total_bytes": 246493917,
   "status": "pass",
   "failures": [],
   "files": [
@@ -114,8 +114,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 17243,
-      "sha256": "89131687317c7770486e339d938eb5195bcaab264270ab485610a878644b58a8"
+      "bytes": 17253,
+      "sha256": "237c94a57d0cc03ed5c7736cb775f88ab53d736af80d9ec3e3652ef3f2f9a61d"
     },
     {
       "path": "REUSE.toml",
