@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 430,
-  "total_bytes": 246167917,
+  "total_bytes": 246167983,
   "status": "pass",
   "failures": [],
   "files": [
@@ -50,7 +50,7 @@
     {
       "path": "FILE_LICENSES.json",
       "bytes": 63022,
-      "sha256": "d0fa888632a8bdbb49cbc157973208677f03a00876ac51f133a32ef5727b717e"
+      "sha256": "c011bddde72fafa825d329c3883d71210220073ea3af7f0007ad8acb373cfffc"
     },
     {
       "path": "LICENSE.md",
@@ -219,8 +219,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 53789,
-      "sha256": "9797dd007a9b1c8385f36e9ea402c30ad708bc878d680ab072523280be447f87"
+      "bytes": 53822,
+      "sha256": "12cf17a9d632ce1539d25568af1f6300a6b15da1dcf915b481ec8b26c2d4baf0"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -1208,9 +1208,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.1de4b2f6.js",
-      "bytes": 53798,
-      "sha256": "a44057d310404b5f2eefd4501adcdb4aa028cefc37ef0511c89820b2e0536986"
+      "path": "site/_import/components/atlas.825c8b38.js",
+      "bytes": 53831,
+      "sha256": "62e3897fcd9e7e5cf32a71b08ad213fa67001ae9fce572d2db680bbc79fb4e18"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1240,7 +1240,7 @@
     {
       "path": "site/index.html",
       "bytes": 11667,
-      "sha256": "86849b2fa1cbd670393597768a01896a5d0ceeb51a9f430e470b27b195a1cb7a"
+      "sha256": "4a250a1e6d306958ee27691ff44f775f4c23ddcafb4ee72340cc92311d548608"
     },
     {
       "path": "src/__init__.py",
