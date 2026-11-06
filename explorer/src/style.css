@@ -126,3 +126,5 @@ body{padding-top:env(safe-area-inset-top,0px)}
  .masthead{padding-top:38px}.wordmark{padding-right:42px}
  .atlas-share{margin-top:12px}
 }
+
+@media(max-width:850px){.atlas-body{scroll-margin-top:76px}}
