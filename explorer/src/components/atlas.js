@@ -7,6 +7,19 @@ function text(s,x,y,t,attrs={}){s.append(svgNode('text',{x,y,...attrs},t));}
 function line(s,x1,y1,x2,y2,attrs={}){s.append(svgNode('line',{x1,y1,x2,y2,stroke:'#d7dedf',...attrs}));}
 function button(t,fn,cls=''){const b=el('button',cls,t);b.type='button';b.onclick=fn;return b;}
 function icon(kind){const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});if(kind==='share'){s.append(svgNode('circle',{cx:18,cy:5,r:2.5}),svgNode('circle',{cx:6,cy:12,r:2.5}),svgNode('circle',{cx:18,cy:19,r:2.5}),svgNode('path',{d:'M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round'}));}else if(kind==='fullscreen'){s.append(svgNode('path',{d:'M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'}));}else if(kind==='print'){s.append(svgNode('path',{d:'M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7z',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linejoin':'round'}),svgNode('circle',{cx:17,cy:11.5,r:1,fill:'currentColor'}));}else if(kind==='github'){s.append(svgNode('path',{d:'M12 2.7a9.3 9.3 0 0 0-2.94 18.12c.47.09.64-.2.64-.45v-1.75c-2.61.57-3.16-1.11-3.16-1.11-.43-1.08-1.04-1.36-1.04-1.36-.85-.58.06-.57.06-.57.94.07 1.43.96 1.43.96.84 1.43 2.2 1.02 2.74.78.08-.6.33-1.02.6-1.26-2.08-.24-4.27-1.04-4.27-4.64 0-1.03.37-1.87.97-2.53-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.56.97A8.9 8.9 0 0 1 12 6.36c.79 0 1.58.11 2.32.31 1.77-1.22 2.55-.97 2.55-.97.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.53 0 3.61-2.2 4.4-4.29 4.63.34.29.64.84.64 1.7v2.53c0 .25.17.54.65.45A9.3 9.3 0 0 0 12 2.7Z',fill:'currentColor'}));}else{s.append(svgNode('circle',{cx:12,cy:12,r:10,fill:'#a6ce39'}),svgNode('text',{x:12,y:16,'text-anchor':'middle',fill:'#fff','font-size':11,'font-weight':700},'iD'));}return s;}
+function tabIcon(kind){
+ const paths={
+  overview:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+  landscape:'M4 3v18h17M8 15V9m5 6V5m5 10v-4',
+  genes:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM15 15l6 6M7 8h6M7 12h4',
+  pathways:'M5 5h6v6M11 5l-6 6M11 5h6v12h-6M17 17h4M5 11v6h6',
+  robustness:'M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7l-9-4ZM8 12l3 3 5-6',
+  dna:'M7 3c0 9 10 9 10 18M17 3c0 9-10 9-10 18M8 5h8M9 9h6M9 15h6M8 19h8',
+  methods:'M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1v15M6 8h3M6 12h3M15 8h3M15 12h3'
+ };
+ const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false',class:'tab-icon'});
+ s.append(svgNode('path',{d:paths[kind],fill:'none',stroke:'currentColor','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round'}));return s;
+}
 function iconButton(textValue,kind,fn,cls){const b=button('',fn,cls);b.append(icon(kind),document.createTextNode(textValue));return b;}
 function download(filename,content,type='text/csv'){const url=URL.createObjectURL(new Blob([content],{type}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function downloadButton(rows,name){return button('Download CSV',()=>download(name,csvText(rows)),'secondary');}
@@ -93,7 +106,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  root.append(top,nav,shareRow,body,footer);
  const toTop=button('↑',()=>window.scrollTo({top:0,behavior:'smooth'}),'scroll-top');toTop.setAttribute('aria-label','Scroll to top');toTop.title='Scroll to top';toTop.hidden=true;root.append(toTop);const updateScrollProgress=()=>{const range=document.documentElement.scrollHeight-innerHeight;const progress=range>0?Math.min(1,Math.max(0,scrollY/range)):0;toTop.style.setProperty('--scroll-progress',`${progress*360}deg`);toTop.hidden=progress<.06;};addEventListener('scroll',updateScrollProgress,{passive:true});addEventListener('resize',updateScrollProgress);updateScrollProgress();
  function go(next,gene){tab=next;if(gene)selected=gene;syncLocation();render();}
- for(const [id,t]of tabs)nav.append(button(t,()=>go(id)));
+ for(const [id,t]of tabs){const item=button('',()=>go(id));item.append(tabIcon(id),el('span','',t));nav.append(item);}
  function render(){syncLocation();[...nav.children].forEach((b,i)=>{b.classList.toggle('active',tabs[i][0]===tab);b.setAttribute('aria-current',tabs[i][0]===tab?'page':'false');});body.replaceChildren();({overview,landscape,genesView,pathways,robustness,dna:dnaView,methods}[tab==='genes'?'genesView':tab])();enhancePlots(body);}
  function cameraNotice(){
   const card=el('aside','method-card camera-qualification');card.append(el('h3','','Correlation-aware statistical support'),el('p','','The matrix presents the prespecified fgsea analysis. Post hoc limma-voom CAMERA retained upward OXPHOS direction at both days but gave q=0.587 at each day with estimated inter-gene correlation; none of its 15 tests passed q<0.05. The documented fixed correlation 0.01 yielded both q=5.84e-8. These settings change both variance inflation and the parametric reference distribution (4 versus 21,096 reference df); residual model df remains four. Statistical support is therefore sensitive to the inferential framework, rather than method-independent.'),el('p','','Full-set Bayesian expression-shift magnitude also remains uncertain, especially at Day 3. Three differentiation blocks from two genetic backgrounds and unknown control harvest composition limit biological generalizability and treatment attribution at either day.'));
