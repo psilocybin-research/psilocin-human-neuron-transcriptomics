@@ -18,6 +18,8 @@ Original documentation, figures, metadata created for this analysis, and derived
 - Observable Framework code included in the frozen static atlas retains its ISC license and Observable, Inc. copyright. Original package notices are preserved in `third_party_licenses/`.
 - Selected sample and gene-annotation metadata derived from the pinned Schmidt repository retain Anne Hoffrichter's MIT notice alongside the license for the project's additions.
 
+The R convenience bundle under `data/derived/` combines derived tables and attributed upstream metadata. Its combined MIT, CC BY 4.0 and CC0 provenance is recorded in `REUSE.toml` and `FILE_LICENSES.json`; it does not change the licences of its source files.
+
 ## Scope
 
 No repository-wide license overrides these file-level assignments. This project does not claim Christopher B. Germann copyright over MSigDB, Reactome, HGNC, Observable, or Schmidt source material. Their applicable terms and attribution are described in `THIRD_PARTY_NOTICES.md`, `ATLAS_THIRD_PARTY_NOTICES.md`, `REUSE.toml` and the source provenance records.

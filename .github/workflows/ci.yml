@@ -22,6 +22,8 @@ jobs:
         with:
           r-version: '4.6.1'
       - run: Rscript tests/test_transcriptomics.R
+      - name: Verify R results bundle
+        run: Rscript tests/test_r_results_bundle.R
       - run: reuse lint
       - uses: actions/setup-node@v6
         with:

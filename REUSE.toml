@@ -125,3 +125,9 @@ path = ["explorer/src/assets/dryad-logo.png", "site/_file/assets/dryad-logo.*"]
 precedence = "override"
 SPDX-FileCopyrightText = "Dryad"
 SPDX-License-Identifier = "LicenseRef-Publisher-Branding"
+
+[[annotations]]
+path = "data/derived/psilocin_results.rds"
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2026 Anne Hoffrichter", "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California", "HGNC 2026"]
+SPDX-License-Identifier = "MIT AND CC-BY-4.0 AND CC0-1.0"

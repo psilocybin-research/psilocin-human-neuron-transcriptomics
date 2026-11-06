@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 437,
-  "total_bytes": 246493917,
+  "file_count": 442,
+  "total_bytes": 251139915,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 1521,
-      "sha256": "549042cb535f036243790a82d2f48a0b8c0ea86e9e1c6a2bbe94a465a1ab4734"
+      "bytes": 1610,
+      "sha256": "3d23a31d93cf295dff07dcfe18c0d3fd6badcf3b5d028d6f0b02ab0767dcc665"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -74,13 +74,13 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 63914,
-      "sha256": "ba2672b4489f9b9714d38ade2952ffcbaf4827ff9f3f56166b8906baa428b69f"
+      "bytes": 64715,
+      "sha256": "ccb88892cc809edea94784bffdf9805972b46b490766a8a7fed1dd03d592294e"
     },
     {
       "path": "LICENSE.md",
-      "bytes": 1735,
-      "sha256": "5dba23703e59e39157a9d65fad75eacd6610f6c0203a877c61015d8d332579f2"
+      "bytes": 1995,
+      "sha256": "98f96d4d46689bafcfc8bdbc39896b22fa2031868e5aea9ac368b2dd5d8fec75"
     },
     {
       "path": "LICENSES/CC-BY-4.0.txt",
@@ -114,13 +114,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 17253,
-      "sha256": "237c94a57d0cc03ed5c7736cb775f88ab53d736af80d9ec3e3652ef3f2f9a61d"
+      "bytes": 17760,
+      "sha256": "a21ab3aa668011366ed8ed268d4052f0bc4ef4ea9eab965a4ab7f9e9ed171f2b"
     },
     {
       "path": "REUSE.toml",
-      "bytes": 4699,
-      "sha256": "0a8ac26793d2e40fbc2aff1e8d9645e2fbd668058c3b83bd2fb49301e984fe38"
+      "bytes": 5055,
+      "sha256": "d3bf2a774797bf2573c150f0bf17ce3b80f470ae32b41d93ec950cd2a8c3ced6"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -174,8 +174,18 @@
     },
     {
       "path": "data/README.md",
-      "bytes": 380,
-      "sha256": "d16e7d3cfb3022862542398c52aa08df5a31defa04886161391032c305335a0b"
+      "bytes": 587,
+      "sha256": "f70e1cf21dc37558e95c1e5a83e11a364d16d0fb46c5167c156777f54a5c8eb5"
+    },
+    {
+      "path": "data/derived/README.md",
+      "bytes": 374,
+      "sha256": "971e85c0f8257c1b7c7801844f5502fdfeb7ec34570f0d2ef4aa31173cec4ef2"
+    },
+    {
+      "path": "data/derived/psilocin_results.rds",
+      "bytes": 4629144,
+      "sha256": "dd41aafefbd66e78d534b80704409cfb81c9310bf791bcc430d5ff7572c38a76"
     },
     {
       "path": "data/processed/schmidt/core_block_condition_counts.tsv.gz",
@@ -201,6 +211,11 @@
       "path": "docs/images/social-preview.png",
       "bytes": 308229,
       "sha256": "e54d3ba7ad31e19e82bee49e9a14b39478a75464e21cf3c1ce21327e3d84e375"
+    },
+    {
+      "path": "docs/r-results.md",
+      "bytes": 3382,
+      "sha256": "08823cbf7710984fbabcfabc4517f472436c8865235fda644f489eb1a683a28d"
     },
     {
       "path": "docs/social-preview.html",
@@ -1343,6 +1358,11 @@
       "sha256": "d41838605fd677f5e706be6e60ceeb8ca9f7eb98d971278869f57c570cb6cfa3"
     },
     {
+      "path": "src/export_r_results.R",
+      "bytes": 7705,
+      "sha256": "1e6da55b42c2747948d6dd33b0170525329ac95ccfb28fe16ce96cb962a4da67"
+    },
+    {
       "path": "src/figures/audit_explorer_runtime.py",
       "bytes": 1393,
       "sha256": "a99e0d957aed21a38449641e4acf1bd779197c5c2f4da4c7cf8222bf72bdb382"
@@ -2161,6 +2181,11 @@
       "path": "tests/test_provenance.py",
       "bytes": 2192,
       "sha256": "48f88488ca6d2259961b7c7f53f316ed458493460f32dff72fd5944fcf28e292"
+    },
+    {
+      "path": "tests/test_r_results_bundle.R",
+      "bytes": 3173,
+      "sha256": "7c4c6d8e8c0e1dc063ba3e939e558bd47b3b09bdbc062433914c608b98591808"
     },
     {
       "path": "tests/test_reporting.py",

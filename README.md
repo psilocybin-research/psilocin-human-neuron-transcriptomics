@@ -29,7 +29,7 @@ The interactive atlas provides the pathway matrix, the 113-gene OXPHOS landscape
 ## Start here
 
 - **Explore:** [interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/) · [OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
-- **Download:** [result tables](tables/) · [figures](figures/) · [fixed v1.2.0 archive](https://doi.org/10.5281/zenodo.23283595)
+- **Download:** [result tables](tables/) · [RDS bundle](docs/r-results.md) · [figures](figures/) · [fixed v1.2.0 archive](https://doi.org/10.5281/zenodo.23283595)
 - **Reproduce:** [R quick start](#quick-start-in-r) · [full analysis](#reproduce-the-analysis)
 
 ## What this project provides
@@ -83,6 +83,17 @@ Open the **[live interactive atlas](https://psilocybin-research.github.io/psiloc
 - [Methods, sources and checksums](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)
 
 The [`site/`](site/) directory contains the static atlas build for the checked-out revision.
+
+## R results bundle
+
+A [compact RDS bundle](docs/r-results.md) provides primary gene results, pathway sensitivities, both CAMERA settings, Bayesian summaries and sample/design metadata, with source checksums and a column dictionary. Read it using base R:
+
+```r
+results <- readRDS("data/derived/psilocin_results.rds")
+results$tables$transcriptomics$primary_day1_vs_control_genes
+```
+
+CSV/TSV files remain the canonical results. [Download and contents](docs/r-results.md).
 
 ## Quick start in R
 
