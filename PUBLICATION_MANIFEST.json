@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 430,
-  "total_bytes": 246164977,
+  "total_bytes": 246164981,
   "status": "pass",
   "failures": [],
   "files": [
@@ -50,7 +50,7 @@
     {
       "path": "FILE_LICENSES.json",
       "bytes": 63022,
-      "sha256": "77c34c14c1b4e9abcbb38062252cbcfe31bee408f676864bb4c9c158e6831d86"
+      "sha256": "1c6b2e93b46212804d428c4061d6ff754134bf7a81e59cf1ccda2f2d7e96fb29"
     },
     {
       "path": "LICENSE.md",
@@ -249,8 +249,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 18688,
-      "sha256": "0c5a744e7734c38863613f5b322c443c24c4c9e653fdd788e87718c4487ab84d"
+      "bytes": 18690,
+      "sha256": "92d674d8d65630f091e1fde3213b688da1e9fed314819ab7ed467ca09fea1306"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -1218,9 +1218,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.9a4ed2f4.css",
-      "bytes": 41076,
-      "sha256": "9a4ed2f4cb0e2f3dd472c72af8881b439fc78d21e72ddaffe13549760c824f75"
+      "path": "site/_import/style.15440b16.css",
+      "bytes": 41078,
+      "sha256": "15440b16ffc570a66ce3e2bd9e4eeaeca92a09d8f60e451962dabf50091a42a0"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1240,7 +1240,7 @@
     {
       "path": "site/index.html",
       "bytes": 11667,
-      "sha256": "493ba7b4491c1ea1a79fd1a6013223274849a01f0d06541107680a1d16692cf3"
+      "sha256": "33055502c74b831e5695dd8fc9c6536b77582fb50973fc371aa936c91b786def"
     },
     {
       "path": "src/__init__.py",
