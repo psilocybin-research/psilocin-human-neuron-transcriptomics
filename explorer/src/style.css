@@ -79,3 +79,25 @@ body{padding-top:env(safe-area-inset-top,0px)}
 .scroll-top{right:max(24px,calc(env(safe-area-inset-right,0px) + 12px));bottom:max(24px,calc(env(safe-area-inset-bottom,0px) + 12px))}
 @media(max-width:850px){#observablehq-main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.scroll-top{right:max(16px,calc(env(safe-area-inset-right,0px) + 12px));bottom:max(16px,calc(env(safe-area-inset-bottom,0px) + 12px))}}
 @media(max-width:850px),(pointer:coarse){.atlas button,.atlas select,.atlas input{min-height:44px}.figure-fullscreen,.figure-print{width:44px;height:44px}.figure-toolbar{gap:8px}.native-share{padding:8px 12px}.scroll-top{width:44px;height:44px}.atlas select,.atlas input{font-size:16px}.figure-shell:fullscreen,.figure-shell:-webkit-full-screen{height:100dvh;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}}
+
+.plot-viewport{min-width:0}
+.figure-shell:fullscreen .plot-viewport,.figure-shell:-webkit-full-screen .plot-viewport{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain}
+.figure-shell:fullscreen .plot-viewport>svg,.figure-shell:-webkit-full-screen .plot-viewport>svg{width:100%;height:100%;max-width:none}
+.figure-shell:fullscreen .landscape-layout,.figure-shell:-webkit-full-screen .landscape-layout{grid-template-rows:minmax(0,1fr);overflow:hidden;align-items:stretch}
+.figure-shell:fullscreen .landscape-layout>.heatmap-scroll,.figure-shell:-webkit-full-screen .landscape-layout>.heatmap-scroll,.figure-shell:fullscreen .landscape-layout>.dna-map-scroll,.figure-shell:-webkit-full-screen .landscape-layout>.dna-map-scroll,.figure-shell:fullscreen .landscape-layout>.gene-detail,.figure-shell:-webkit-full-screen .landscape-layout>.gene-detail{height:100%;min-height:0;max-height:none;overflow:auto;align-self:stretch;overscroll-behavior:contain;scrollbar-gutter:stable}
+@media(max-width:850px),(pointer:coarse){
+ .figure-shell:fullscreen,.figure-shell:-webkit-full-screen{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:10px 12px}
+ .figure-shell:fullscreen>.figure-toolbar,.figure-shell:-webkit-full-screen>.figure-toolbar{grid-column:1;grid-row:1;margin:0;align-self:start}
+ .figure-shell:fullscreen>.figure-context,.figure-shell:-webkit-full-screen>.figure-context{grid-column:2;grid-row:1;gap:2px;padding:0;margin:0;min-width:0;align-self:center}
+ .figure-shell:fullscreen>.figure-context strong,.figure-shell:-webkit-full-screen>.figure-context strong{font-size:15px;line-height:1.25}
+ .figure-shell:fullscreen>.figure-context span,.figure-shell:-webkit-full-screen>.figure-context span{font-size:11px;line-height:1.35}
+ .figure-shell:fullscreen>:last-child,.figure-shell:-webkit-full-screen>:last-child{grid-column:1/-1;grid-row:2;min-height:0;min-width:0}
+ .figure-shell:fullscreen .landscape-layout,.figure-shell:-webkit-full-screen .landscape-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,3fr) minmax(0,2fr);gap:12px}
+ .figure-shell:fullscreen .gene-detail,.figure-shell:-webkit-full-screen .gene-detail{padding:12px}
+ .figure-shell:fullscreen .heatmap,.figure-shell:-webkit-full-screen .heatmap{min-width:680px}
+ .figure-shell:fullscreen .plot-viewport>svg,.figure-shell:-webkit-full-screen .plot-viewport>svg{width:max(100%,var(--plot-width));height:auto}
+}
+@media(min-width:650px) and (max-width:850px),(min-width:650px) and (pointer:coarse){
+ .figure-shell:fullscreen .landscape-layout,.figure-shell:-webkit-full-screen .landscape-layout{grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr);grid-template-rows:minmax(0,1fr)}
+ .figure-shell:fullscreen .plot-viewport>svg,.figure-shell:-webkit-full-screen .plot-viewport>svg{width:100%;height:100%}
+}

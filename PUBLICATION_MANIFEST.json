@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 457,
-  "total_bytes": 252246407,
+  "file_count": 458,
+  "total_bytes": 252258551,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 66629,
-      "sha256": "0cd494045fb26cdb5d73964031203ad8ae9e43d7bb5fee825d7f544d54bb7a62"
+      "bytes": 66756,
+      "sha256": "82053f7907d255839d8e8d6c17186643e6b0759ac3f4795d1006641a84bb4ce7"
     },
     {
       "path": "LICENSE.md",
@@ -244,8 +244,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 536,
-      "sha256": "15481c79febe308795752c8085896bb37728b09f9474548341763bc6b6164676"
+      "bytes": 593,
+      "sha256": "d832fe911d42b9840c20226c5699a78600a661b1bbdcd80fe1fdac770b33c812"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -309,8 +309,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 54278,
-      "sha256": "a74336955ce704d69ccb88aaac4a14ccbfedbc94299d406538d90428acaaf99c"
+      "bytes": 54745,
+      "sha256": "49a64315b63fb2403b0b6cf3e6a5dc264c05dd2c4d894bc69efe413cb880da3c"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -339,8 +339,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 20431,
-      "sha256": "ac7ac1a83cf27db4696b9330ca2bfd17d42f1c4645e43b2f10997b0cee5582d8"
+      "bytes": 23290,
+      "sha256": "7e8ecd5a89ea003267ed05ae8917c1202c46a1ccbf53e9716e05d521a62b156b"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -351,6 +351,11 @@
       "path": "explorer/test/data.test.js",
       "bytes": 3645,
       "sha256": "852c24279d1e2ba44432267b6da80b5fb792a69485a59f4d4c53b9ec980e5d37"
+    },
+    {
+      "path": "explorer/test/fullscreen-check.mjs",
+      "bytes": 5344,
+      "sha256": "fe97e6eef4700716b6971d5ebd1956976629169955504b4a59ce64f42f1b30f4"
     },
     {
       "path": "explorer/test/metadata.test.js",
@@ -1298,9 +1303,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.65ac6eaf.js",
-      "bytes": 54287,
-      "sha256": "bed94ebc9511f6170f0a46179dcb6ae27a6211b0b515e1c300bb1cb2e29ecd55"
+      "path": "site/_import/components/atlas.428dd70a.js",
+      "bytes": 54754,
+      "sha256": "7025138aedf3cda2236eff5c1474e9d1c5163e29428fc2e9c3fada2908eea8e3"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1308,9 +1313,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.d0436800.css",
-      "bytes": 42809,
-      "sha256": "d0436800590ddc35ce183e5fa09512b171e8c972a2240aa98c7434eb44322695"
+      "path": "site/_import/style.3b84968c.css",
+      "bytes": 45632,
+      "sha256": "3b84968ce4c16f5cedc3db2fd3bf84656aefdd952763f26047f9699d3b3caf3b"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1355,7 +1360,7 @@
     {
       "path": "site/index.html",
       "bytes": 11948,
-      "sha256": "c653439de830ad5e6f9261cb80480dc4d534f1d3198c65b2679d23594d0ba892"
+      "sha256": "61192ab044d7acf1a24abeba6cd5451d5e0175f33a0ff38d75119f14ac101858"
     },
     {
       "path": "site/site.webmanifest",

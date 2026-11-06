@@ -43,7 +43,7 @@ function printFigure(shell,title){
   win.addEventListener('afterprint',()=>frame.remove(),{once:true});
   win.focus();win.print();
  };
- frame.srcdoc=`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}.atlas svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`;
+ frame.srcdoc=`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll,.plot-viewport{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`;
  document.body.append(frame);
 }
 function enhancePlots(scope){
@@ -52,10 +52,11 @@ function enhancePlots(scope){
  if(!requestName||!exitName)return;
  const candidates=[...scope.querySelectorAll('[data-fullscreen-title],svg[aria-label]')];
  for(const plot of candidates){
-  const host=plot.closest('[data-fullscreen-host]')|| (plot.matches('svg')&&plot.parentElement?.matches('.heatmap-scroll,.dna-map-scroll')?plot.parentElement:plot);
+  let host=plot.closest('[data-fullscreen-host]')|| (plot.matches('svg')&&plot.parentElement?.matches('.heatmap-scroll,.dna-map-scroll')?plot.parentElement:plot);
   if(host.closest('.figure-shell'))continue;
   const title=host.dataset.fullscreenTitle||plot.getAttribute('aria-label')||'Scientific visualization';
   const info=host.dataset.fullscreenInfo||title;
+  if(host===plot&&plot.matches('svg')){const viewport=el('div','plot-viewport');viewport.style.setProperty('--plot-width',`${plot.viewBox.baseVal.width||640}px`);plot.before(viewport);viewport.append(plot);host=viewport;}
   const shell=el('figure','figure-shell');shell.setAttribute('aria-label',`${title} with fullscreen control`);
   const toolbar=el('div','figure-toolbar');
   const context=el('figcaption','figure-context');context.append(el('strong','',title),el('span','',info));
@@ -216,11 +217,11 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
    const rows=data.dna.decomposition.filter(g=>dnaFilter==='All genes'||g.modules.split(';').includes(dnaFilter));const s=svg(680,108+rows.length*22,'Telomere leading-edge genes, model effects and overlapping descriptive annotations');s.classList.add('dna-map');
    const columns=[['D1/Ctrl',137],['D3/Ctrl',197],['LE D1',265],['LE D3',310],['DNA',365],['Protect',425],['RNP',479],['C-strand',541],['TERRA',611]];
    columns.forEach(([v,x])=>text(s,x,38,v,{'text-anchor':'middle','font-size':11}));text(s,8,72,'Gene',{'font-weight':600});
-   rows.forEach((g,i)=>{const y=86+i*22,r=svgNode('g',{role:'button',tabindex:0,'aria-label':`Inspect DNA-maintenance gene ${g.gene}`});r.classList.add('dna-row');r.append(svgNode('text',{x:8,y:y+15},g.gene));
+   rows.forEach((g,i)=>{const y=86+i*22,r=svgNode('g',{role:'button',tabindex:0,'aria-label':`Inspect DNA-maintenance gene ${g.gene}`});r.classList.add('dna-row');r.append(svgNode('rect',{x:0,y,width:670,height:22,fill:g.gene===dnaGene?'#edf3f1':'transparent'}),svgNode('text',{x:8,y:y+15},g.gene));
     [g.day1_log2fc,g.day3_log2fc].forEach((v,j)=>{const c=svgNode('rect',{x:110+j*60,y,width:54,height:21,fill:color(v,1.5)});c.append(svgNode('title',{},`${g.gene} · ${j?'Day 3':'Day 1'} log₂FC ${fmt(v,5)}`));r.append(c);});
     const bits=[g.day1_le,g.day3_le,g.dna_member,g.modules.includes('Packaging'),g.reaction_ids.includes('R-HSA-164616'),g.modules.includes('C-strand'),g.reaction_ids.includes('R-HSA-9670149')];
     bits.forEach((hit,j)=>{const c=svgNode('rect',{x:columns[j+2][1]-8,y:y+3,width:16,height:16,fill:hit?'#365c53':'#edf0ed'});c.append(svgNode('title',{},`${columns[j+2][0]}: ${hit?'member':'not annotated'}`));r.append(c);});
-    const choose=()=>{dnaGene=g.gene;syncLocation();geneDetail(detail,dnaGene);};r.onclick=choose;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};s.append(r);
+    const choose=()=>{dnaGene=g.gene;syncLocation();geneDetail(detail,dnaGene);mapHost.querySelectorAll('.dna-row > rect:first-child').forEach(n=>n.setAttribute('fill','transparent'));r.firstChild.setAttribute('fill','#edf3f1');};r.onclick=choose;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};s.append(r);
    });mapHost.replaceChildren(s);
   }
   draw();geneDetail(detail,dnaGene);
