@@ -1,13 +1,16 @@
-import {chromium} from '@playwright/test';
+import {chromium,firefox,webkit} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 
-const browser=await chromium.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
+const engine=process.env.ATLAS_BROWSER||'chromium';
+const browserType={chromium,firefox,webkit}[engine];
+assert.ok(browserType,'Supported browser engine required');
+const browser=await browserType.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
 const base=process.env.ATLAS_URL||'http://127.0.0.1:4173';
-const output=new URL('../../artifacts/fullscreen-check/',import.meta.url);
+const output=new URL(`../../artifacts/fullscreen-check/${engine}/`,import.meta.url);
 await mkdir(output,{recursive:true});
-const results=[];
+const results=[],skipped=[];
 try{
  for(const screen of [
   {name:'desktop',width:1920,height:1080,touch:false},
@@ -16,9 +19,10 @@ try{
   {name:'landscape',width:844,height:390,touch:true},
   {name:'tablet',width:768,height:1024,touch:true}
  ]){
-  const context=await browser.newContext({viewport:{width:screen.width,height:screen.height},isMobile:screen.touch,hasTouch:screen.touch});
+  const context=await browser.newContext({viewport:{width:screen.width,height:screen.height},isMobile:engine==='firefox'?false:screen.touch,hasTouch:engine==='firefox'?false:screen.touch});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base);await page.locator('.atlas-navigation').waitFor();
+  if(!await page.evaluate(()=>typeof document.documentElement.requestFullscreen==='function'||typeof document.documentElement.webkitRequestFullscreen==='function')){skipped.push(screen.name);await context.close();continue;}
   for(const tab of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance']){
    const menu=page.getByRole('button',{name:'Open section menu',exact:true});if(await menu.isVisible())await menu.click();
    await page.getByRole('button',{name:tab,exact:true}).click();
@@ -46,7 +50,9 @@ try{
      assert.ok(lastVisible,`${screen.name}: ${tab} last row unreachable`);
      await map.evaluate(n=>n.scrollLeft=0);
      const label=await last.getAttribute('aria-label'),gene=label.replace(/^Inspect (?:DNA-maintenance gene )?/,'').split(',')[0];
-     await last.click({position:{x:40,y:8}});
+     const point=await last.evaluate(n=>{const r=n.getBoundingClientRect(),x=r.left+Math.min(40,r.width/2),y=(r.top+r.bottom)/2;return{x,y,reachable:document.elementFromPoint(x,y)?.closest('.gene-row,.dna-row')===n};});
+     assert.ok(point.reachable,`${screen.name}: ${tab} last row not hit-testable`);
+     await page.mouse.click(point.x,point.y);
      await page.waitForFunction(g=>document.fullscreenElement.querySelector('.gene-symbol')?.textContent===g,gene);
      if(dimensions.sw>dimensions.w+1){await map.evaluate(n=>n.scrollLeft=n.scrollWidth);assert.ok(await map.evaluate(n=>n.scrollLeft)>0,`${screen.name}: horizontal map scroll`);}
      if(await detail.evaluate(n=>n.scrollHeight>n.clientHeight+1)){await detail.evaluate(n=>n.scrollTop=n.scrollHeight);assert.ok(await detail.evaluate(n=>n.scrollTop)>0,`${screen.name}: detail scroll`);}
@@ -66,5 +72,5 @@ try{
   assert.deepEqual(errors,[]);await context.close();
  }
  await writeFile(new URL('results.json',output),JSON.stringify(results,null,2));
- console.log(`Fullscreen checks passed: ${results.length} plots across desktop, portrait, landscape and tablet layouts; map ends, selection and pane scrolling verified.`);
+ console.log(`Fullscreen checks passed (${engine}): ${results.length} plots across supported viewport configurations; map ends, selection and pane scrolling verified. Fullscreen unavailable: ${skipped.join(', ')||'none'}.`);
 }finally{await browser.close();}

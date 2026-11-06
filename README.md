@@ -30,18 +30,8 @@ The interactive atlas provides the pathway matrix, the 113-gene OXPHOS landscape
 
 - **Explore:** [interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/) · [OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
 - **Download:** [result tables](tables/) · [RDS bundle](docs/r-results.md) · [figures](figures/) · [fixed v1.2.0 archive](https://doi.org/10.5281/zenodo.23283595)
-- **Query with an AI client:** [read-only MCP access](https://psilocybin-research.com/docs/transcriptomics-mcp.md) · [snapshot provenance](https://psilocybin-research.com/transcriptomics-manifest.php). The hosted queries use the fixed Zenodo v1.2.0 results, including both CAMERA settings and all ten Bayesian model summaries.
+- **Query with MCP:** MCP server `https://psilocybin-research.com/mcp` · [access guide](https://psilocybin-research.com/docs/transcriptomics-mcp.md) · [snapshot provenance](https://psilocybin-research.com/transcriptomics-manifest.php). The hosted queries use the fixed Zenodo v1.2.0 results, including both CAMERA settings and all ten Bayesian model summaries.
 - **Reproduce:** [R quick start](#quick-start-in-r) · [full analysis](#reproduce-the-analysis)
-
-## What this project provides
-
-| Area | What is available |
-| --- | --- |
-| Interactive evidence | A public atlas with overview, gene, pathway, robustness, DNA-maintenance and methods views |
-| Complete results | Gene-level estimates, pathway tables, leading edges, sensitivity variants and null/untestable results |
-| Reproducibility | Frozen plans, executable Python/R code, locked environments, checksums and session information |
-| Scientific context | Explicit experimental units, multiplicity families, temporal limits and interpretation boundaries |
-| Persistent archive | Versioned Zenodo software record with a checksum-verified release archive |
 
 ## Main result
 
@@ -71,19 +61,9 @@ A separate post hoc Bayesian analysis estimates full-set OXPHOS expression shift
 
 See the [results](reports/bayesian_oxphos_results.md), [methods](reports/bayesian_oxphos_methods.md) and [reproduction instructions](reports/bayesian_oxphos_reproduction.md). The archive includes all ten declared models, original and remedial diagnostics, complete posterior/predictive draws and verified derived inputs. The interactive atlas retains its gene/pathway scope.
 
-## Start with the atlas
+## Atlas views
 
-Open the **[live interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/)**. Useful entry points include:
-
-- [Overview and complete primary pathway matrix](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=overview)
-- [113-gene OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
-- [Searchable gene explorer](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=genes)
-- [All pathway tiers and contrasts](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=pathways)
-- [Prespecified robustness checks](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=robustness)
-- [Bounded DNA-maintenance follow-up](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=dna)
-- [Methods, sources and checksums](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)
-
-The [`site/`](site/) directory contains the static atlas build for the checked-out revision.
+[Genes](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=genes) · [Pathways](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=pathways) · [Robustness](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=robustness) · [DNA maintenance](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=dna) · [Methods & sources](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)
 
 ## R results bundle
 
@@ -98,9 +78,7 @@ CSV/TSV files remain the canonical results. [Download and contents](docs/r-resul
 
 ## Quick start in R
 
-The complete derived tables are public, so readers can inspect the primary results without downloading raw RNA-seq inputs or rebuilding the analysis.
-
-The quick start uses base R to inspect and export frozen derived results; it does not refit the RNA-seq models.
+Inspect and export archived derived results using base R, without downloading source inputs or refitting models.
 
 **Run on GitHub:**
 
@@ -215,14 +193,8 @@ Then open `http://127.0.0.1:4173/`.
 | [`explorer/`](explorer/) | Atlas source, tests and frozen display data |
 | [`site/`](site/) | Static atlas build for this revision |
 | [`reports/`](reports/) | Frozen plan and complete scientific result reports |
-| [`docs/`](docs/) | Public analysis chronology and README images |
+| [`docs/`](docs/) | [Analysis chronology](docs/analysis_history.md), access guides and figures |
 | [`provenance/`](provenance/) | Freeze records, session information and checksums |
-
-## Statistical scope
-
-The primary model conservatively aggregates raw counts from 23 libraries into nine condition profiles across three differentiation blocks and two genetic backgrounds. Competitive pathway p-values describe concentration within ranked genes; they are not biological-replicate p-values. “Robust” denotes the frozen within-dataset directional criterion in [`reports/analysis_plan_frozen.md`](reports/analysis_plan_frozen.md).
-
-Exploratory DNA-repair and telomere-maintenance findings and their post hoc decomposition are clearly separated from the primary metabolic and redox analysis. See [`docs/analysis_history.md`](docs/analysis_history.md).
 
 ## Citation
 
@@ -232,7 +204,7 @@ Use GitHub’s **Cite this repository** control or [`CITATION.cff`](CITATION.cff
 
 ## Data availability
 
-Source RNA-seq data are available from the [Schmidt author repository](https://github.com/ahoffrichter/Schmidt_et_al_2025) and associated [Dryad record](https://doi.org/10.5061/dryad.xsj3tx9w3). Raw source files are not redistributed; acquisition scripts restore and checksum-verify the pinned public inputs.
+Source RNA-seq data and code are available from the [Schmidt author repository](https://github.com/ahoffrichter/Schmidt_et_al_2025); associated phenotype data are on [Dryad](https://doi.org/10.5061/dryad.xsj3tx9w3). Acquisition scripts restore and checksum-verify the pinned public inputs.
 
 ## Code availability
 
@@ -250,6 +222,6 @@ Christopher B. Germann, Faculty of Health, School of Medicine, University of Wit
 
 ## Integrity and licensing
 
-`make validate-release` checks the curated package; `SHA256SUMS` and `PUBLICATION_MANIFEST.json` describe the archived tree.
+`make validate-release` checks the curated package; `SHA256SUMS` and `PUBLICATION_MANIFEST.json` describe the checked-out revision.
 
 Original software is MIT licensed. Original documentation, figures and derived result tables are CC BY 4.0; upstream components retain their original terms. See [`LICENSE.md`](LICENSE.md), [`FILE_LICENSES.json`](FILE_LICENSES.json), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and [`metadata/gene_set_redistribution_review.json`](metadata/gene_set_redistribution_review.json).
