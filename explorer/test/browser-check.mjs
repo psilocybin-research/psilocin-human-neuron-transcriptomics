@@ -30,7 +30,7 @@ assert.deepEqual(headerIcons.github,[30,30]);assert.deepEqual(headerIcons.orcid,
 assert.equal(await page.locator('.native-share').count(),1);
 assert.equal(await page.locator('.native-share').getAttribute('aria-label'),'Share the current atlas analysis');
 assert.equal(await page.locator('.native-share svg').count(),1);
-assert.equal(await page.locator('.tabs + .atlas-share .native-share').count(),1);
+assert.equal(await page.locator('.atlas-navigation + .atlas-share .native-share').count(),1);
 assert.equal(await page.locator('.boundary').count(),1);
 assert.match(await page.locator('.boundary').innerText(),/^Interpretation boundary/);
 const boundaryOrder=await page.evaluate(()=>{const boundary=document.querySelector('.boundary'),exploratory=[...document.querySelectorAll('.section-heading h2')].find(node=>node.textContent==='Exploratory DNA-maintenance evidence')?.closest('.section-heading');return Boolean(boundary&&exploratory&&(exploratory.compareDocumentPosition(boundary)&Node.DOCUMENT_POSITION_FOLLOWING));});
@@ -113,6 +113,7 @@ await page.getByRole('button',{name:'Methods & sources',exact:true}).click();
 assert.match(await page.locator('.hash-record').innerText(),/2026-09-18T07:56:56/);
 await page.setViewportSize({width:390,height:844});
 for(const name of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance','Methods & sources']){
+ await page.getByRole('button',{name:'Open section menu',exact:true}).click();
  await page.getByRole('button',{name,exact:true}).click();
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`Mobile overflow in ${name}`);
 }

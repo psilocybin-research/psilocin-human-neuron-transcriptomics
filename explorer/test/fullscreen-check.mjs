@@ -18,8 +18,9 @@ try{
  ]){
   const context=await browser.newContext({viewport:{width:screen.width,height:screen.height},isMobile:screen.touch,hasTouch:screen.touch});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base);
+  await page.goto(base);await page.locator('.atlas-navigation').waitFor();
   for(const tab of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance']){
+   const menu=page.getByRole('button',{name:'Open section menu',exact:true});if(await menu.isVisible())await menu.click();
    await page.getByRole('button',{name:tab,exact:true}).click();
    const buttons=page.locator('.figure-fullscreen');await buttons.first().waitFor({state:'visible'});
    const count=await buttons.count();assert.ok(count>0,`${screen.name}: ${tab} has fullscreen controls`);
