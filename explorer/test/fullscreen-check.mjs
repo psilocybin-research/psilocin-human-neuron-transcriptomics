@@ -31,7 +31,7 @@ try{
    for(let i=0;i<count;i++){
     await buttons.nth(i).click();await page.waitForFunction(()=>Boolean(document.fullscreenElement||document.webkitFullscreenElement));
     const shell=page.locator('.figure-shell:fullscreen');
-    const box=await shell.evaluate(f=>({width:f.clientWidth,height:f.clientHeight,scrollWidth:f.scrollWidth,scrollHeight:f.scrollHeight,title:f.getAttribute('aria-label'),panes:[...f.children].map(n=>({height:n.clientHeight,bottom:n.getBoundingClientRect().bottom})),bottom:f.getBoundingClientRect().bottom}));
+    const box=await shell.evaluate(f=>({width:f.clientWidth,height:f.clientHeight,scrollWidth:f.scrollWidth,scrollHeight:f.scrollHeight,title:f.getAttribute('aria-label'),panes:[...f.children].filter(n=>!n.matches('.figure-scrollbar')).map(n=>({height:n.clientHeight,bottom:n.getBoundingClientRect().bottom})),bottom:f.getBoundingClientRect().bottom}));
     assert.ok(box.scrollWidth<=box.width+1&&box.scrollHeight<=box.height+1,`${screen.name}: ${tab} outer overflow`);
     assert.ok(box.panes.at(-1).height>100,`${screen.name}: ${tab} collapsed plot`);
     assert.ok(box.panes.every(n=>n.bottom<=box.bottom+1),`${screen.name}: ${tab} clipped pane`);
@@ -41,6 +41,10 @@ try{
      assert.ok(dimensions.h>100,`${screen.name}: ${tab} map collapsed`);
      const detail=shell.locator('.gene-detail');assert.ok(await detail.evaluate(n=>n.clientHeight)>80,`${screen.name}: detail collapsed`);
      if(dimensions.sh>dimensions.h+1){
+      const rail=shell.getByRole('slider',{name:'Heatmap vertical scroll position',exact:true});
+      await rail.waitFor({state:'visible'});await rail.focus();await page.keyboard.press('End');
+      await page.waitForFunction(()=>{const m=document.fullscreenElement.querySelector('.heatmap-scroll,.dna-map-scroll');return m.scrollTop>=m.scrollHeight-m.clientHeight-1;});
+      await page.keyboard.press('Home');
       await map.hover();await page.mouse.wheel(0,350);
       await page.waitForFunction(()=>document.fullscreenElement.querySelector('.heatmap-scroll,.dna-map-scroll').scrollTop>0);
       await map.evaluate(n=>n.scrollTop=n.scrollHeight);

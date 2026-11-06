@@ -31,7 +31,7 @@ function table(rows,cols){const w=el('div','table-scroll'),t=el('table'),head=el
 function status(s){return el('span',`status ${s==='robust'?'stable':s==='unsupported'?'unsupported':'mixed'}`,s==='robust'?'directionally stable':s||'Not classified');}
 function scaleKey(limit,title){const box=el('div','scale-key');box.append(el('span','',title),el('i','gradient'),el('span','',`−${limit}  ·  0  ·  +${limit}`));return box;}
 function printFigure(shell,title){
- const copy=shell.cloneNode(true);copy.querySelector('.figure-toolbar')?.remove();
+ const copy=shell.cloneNode(true);copy.querySelectorAll('.figure-toolbar,.figure-scrollbar').forEach(node=>node.remove());
  const frame=el('iframe','figure-print-frame');frame.title=`Printable ${title}`;frame.setAttribute('aria-hidden','true');
  let printed=false;
  frame.onload=async()=>{
@@ -46,6 +46,44 @@ function printFigure(shell,title){
  frame.srcdoc=`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll,.plot-viewport{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`;
  document.body.append(frame);
 }
+let scrollPaneSequence=0;
+function enhanceScrollbars(shell,host){
+ const panes=host.matches('.landscape-layout')?[...host.querySelectorAll(':scope>.heatmap-scroll,:scope>.dna-map-scroll,:scope>.gene-detail')]:[host];
+ const controls=[];let frame=0;
+ for(const pane of panes){
+  pane.dataset.figureScrollPane='';pane.id||=`figure-scroll-pane-${++scrollPaneSequence}`;
+  const name=pane.matches('.gene-detail')?'Gene detail':pane.matches('.heatmap-scroll,.dna-map-scroll')?'Heatmap':'Plot';
+  for(const axis of ['y','x']){
+   const rail=el('input','figure-scrollbar');rail.type='range';rail.min='0';rail.max='1';rail.step='1';rail.value='0';rail.hidden=true;rail.dataset.axis=axis;
+   rail.setAttribute('aria-label',`${name} ${axis==='y'?'vertical':'horizontal'} scroll position`);rail.setAttribute('aria-controls',pane.id);rail.setAttribute('aria-orientation',axis==='y'?'vertical':'horizontal');
+   const move=value=>{if(axis==='y')pane.scrollTop=value;else pane.scrollLeft=value;};
+   rail.oninput=()=>move(Number(rail.value));
+   rail.onkeydown=event=>{const size=axis==='y'?pane.clientHeight:pane.clientWidth,maximum=Number(rail.max),value=Number(rail.value);let next;
+    if(event.key==='Home')next=0;else if(event.key==='End')next=maximum;else if(event.key==='PageDown')next=value+size*.8;else if(event.key==='PageUp')next=value-size*.8;else if(event.key===(axis==='y'?'ArrowDown':'ArrowRight'))next=value+40;else if(event.key===(axis==='y'?'ArrowUp':'ArrowLeft'))next=value-40;else return;
+    event.preventDefault();move(Math.max(0,Math.min(maximum,next)));
+   };
+   shell.append(rail);controls.push({pane,rail,axis});
+  }
+  pane.addEventListener('scroll',schedule,{passive:true});
+ }
+ function schedule(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;update();});}
+ function update(){
+  if(!shell.isConnected){resize.disconnect();mutation.disconnect();return;}
+  const active=(document.fullscreenElement||document.webkitFullscreenElement)===shell,outer=shell.getBoundingClientRect();
+  for(const{pane,rail,axis}of controls){
+   const vertical=axis==='y',size=vertical?pane.clientHeight:pane.clientWidth,total=vertical?pane.scrollHeight:pane.scrollWidth,maximum=Math.max(0,total-size);
+   rail.hidden=!active||maximum<=1;if(rail.hidden)continue;
+   const box=pane.getBoundingClientRect(),length=Math.max(24,(vertical?box.height:box.width)-24),thumb=Math.max(24,Math.min(length,length*size/total));
+   rail.max=String(Math.ceil(maximum));rail.value=String(vertical?pane.scrollTop:pane.scrollLeft);rail.setAttribute('aria-valuetext',`${Math.round(Number(rail.value)/maximum*100)}%`);
+   Object.assign(rail.style,vertical?{left:`${box.right-outer.left-16}px`,top:`${box.top-outer.top+8}px`,height:`${length}px`,width:'12px'}:{left:`${box.left-outer.left+8}px`,top:`${box.bottom-outer.top-16}px`,width:`${length}px`,height:'12px'});
+   rail.style.setProperty('--thumb-width',`${vertical?12:thumb}px`);rail.style.setProperty('--thumb-height',`${vertical?thumb:12}px`);
+  }
+ }
+ const resize=new ResizeObserver(schedule);resize.observe(host);for(const pane of panes)resize.observe(pane);
+ const mutation=new MutationObserver(schedule);mutation.observe(host,{childList:true,subtree:true});
+ shell.addEventListener('fullscreenchange',schedule);shell.addEventListener('webkitfullscreenchange',schedule);schedule();
+}
+
 function enhancePlots(scope){
  const requestName=['requestFullscreen','webkitRequestFullscreen'].find(name=>typeof document.documentElement[name]==='function');
  const exitName=['exitFullscreen','webkitExitFullscreen'].find(name=>typeof document[name]==='function');
@@ -65,7 +103,7 @@ function enhancePlots(scope){
   full.setAttribute('aria-label',`View ${title} in full screen`);full.title='View plot and information in full screen';
   const update=()=>{const active=(document.fullscreenElement||document.webkitFullscreenElement)===shell;full.setAttribute('aria-label',active?'Exit full screen':`View ${title} in full screen`);full.title=active?'Exit full screen':'View plot and information in full screen';};
   shell.addEventListener('fullscreenchange',update);shell.addEventListener('webkitfullscreenchange',update);
-  print.setAttribute('aria-label',`Print ${title}`);print.title='Print this plot and its visible information';toolbar.append(full,print);host.before(shell);shell.append(toolbar,context,host);
+  print.setAttribute('aria-label',`Print ${title}`);print.title='Print this plot and its visible information';toolbar.append(full,print);host.before(shell);host.dataset.figureContent='';shell.append(toolbar,context,host);enhanceScrollbars(shell,host);
  }
 }
 
