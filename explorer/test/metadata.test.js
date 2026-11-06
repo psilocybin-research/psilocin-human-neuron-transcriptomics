@@ -25,7 +25,7 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.doesNotMatch(atlasSource, /bioRxiv/i);
   assert.doesNotMatch(atlasSource, /BIORXIV\/2026\/752941/);
   assert.match(atlasSource, /Zenodo\. doi:10\.5281\/zenodo\.23283595/);
-  assert.match(atlasSource, /Original source data · Dryad/);
+  assert.match(atlasSource, /Original source data on Dryad/);
   assert.match(atlasSource, /https:\/\/doi\.org\/10\.5061\/dryad\.xsj3tx9w3/);
   assert.match(atlasSource, /OXPHOS and targeted redox results/);
   assert.match(atlasSource, /did not support a coordinated NRF2–glutathione–pentose-phosphate response/);
