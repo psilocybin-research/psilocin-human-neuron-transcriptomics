@@ -21,7 +21,7 @@ assert.equal(await page.locator('.header-citation').nth(0).locator('a.citation-t
 assert.match(await page.locator('.header-citation').nth(2).innerText(),/Zenodo\. doi:10\.5281\/zenodo\.23283595/);
 assert.equal(await page.locator('.header-citation').nth(2).locator('a.citation-text').getAttribute('href'),'https://doi.org/10.5281/zenodo.23283595');
 assert.equal(await page.locator('.header-citation').filter({hasText:/bioRxiv/i}).count(),0);
-assert.match(await page.locator('.author-line').innerText(),/Germann, Christopher B\./);
+assert.match(await page.locator('.author-line').innerText(),/Christopher B\. Germann/);
 assert.equal(await page.locator('.orcid').getAttribute('href'),'https://orcid.org/0000-0002-1573-4651');
 assert.equal(await page.locator('.author-line sup').count(),0);
 assert.doesNotMatch(await page.locator('.affiliation').innerText(),/^¹/);

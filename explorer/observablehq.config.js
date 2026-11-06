@@ -75,7 +75,16 @@ const structuredData = {
 };
 
 const head = `
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23245b50%22/%3E%3Ctext x=%2216%22 y=%2223%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2223%22%3EP%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48 64x64" href="${url}icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="${url}icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="${url}icons/apple-touch-icon.png">
+<link rel="manifest" href="${url}site.webmanifest">
+<meta name="theme-color" content="#235780">
+<meta name="color-scheme" content="light">
+<meta name="application-name" content="Psilocin atlas">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Psilocin atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="canonical" href="${url}">
 <link rel="cite-as" href="https://doi.org/10.5281/zenodo.23283595">
 <link rel="describedby" type="application/vnd.datacite.datacite+json" href="https://api.datacite.org/dois/10.5281/zenodo.23283595">

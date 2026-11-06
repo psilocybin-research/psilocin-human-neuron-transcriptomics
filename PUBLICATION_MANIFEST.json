@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 444,
-  "total_bytes": 251448904,
+  "file_count": 457,
+  "total_bytes": 252246407,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 64970,
-      "sha256": "cb8dc45ddbf24871b2e14ab81244e9f6e22959ffbccbca07f0b6c18c351201c3"
+      "bytes": 66629,
+      "sha256": "0cd494045fb26cdb5d73964031203ad8ae9e43d7bb5fee825d7f544d54bb7a62"
     },
     {
       "path": "LICENSE.md",
@@ -96,6 +96,11 @@
       "path": "LICENSES/ISC.txt",
       "bytes": 737,
       "sha256": "521c6f0ed8e64736684f89843d16a4df6b4b7449acbcfc6ca6630a3037ca8c53"
+    },
+    {
+      "path": "LICENSES/LicenseRef-Project-Branding.txt",
+      "bytes": 308,
+      "sha256": "2532888889796871b682bc2440648132ab780cc101fe4b06728702d99b218900"
     },
     {
       "path": "LICENSES/LicenseRef-Publisher-Branding.txt",
@@ -119,8 +124,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 5078,
-      "sha256": "a3b76238155e3175351cb60d3f4059d2988a54713d6245cd71a9cd6a3e3a495b"
+      "bytes": 5313,
+      "sha256": "71c619e47863c37d6a25592a82b85cea5cadd40924cdee763fcb17c934759f1f"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -229,8 +234,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7444,
-      "sha256": "50d8b7514f4ea75960c33e37665dab961f6ea11e6beb672ec697cc0244c1a2bf"
+      "bytes": 7796,
+      "sha256": "adc99e1e03e3bdcbcf0d665ff42efeb919a60357e1b5052654596bb3be485f5b"
     },
     {
       "path": "explorer/package-lock.json",
@@ -239,8 +244,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 543,
-      "sha256": "1c18f900fd10dbc4d0bb7a4b556db07eec7f573d12d69cb021d9a912fe09cbc4"
+      "bytes": 536,
+      "sha256": "15481c79febe308795752c8085896bb37728b09f9474548341763bc6b6164676"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -249,13 +254,43 @@
     },
     {
       "path": "explorer/screenshots/landscape.png",
-      "bytes": 266694,
-      "sha256": "ac68c3b699ebb1d6a95ac7af1c5629e48e11aa2e958eb1c6646f53090444cdbe"
+      "bytes": 266555,
+      "sha256": "c3d63fb2f42efa20dbb7515031cb667a135f989051b32a7fafed960fd8f57088"
     },
     {
-      "path": "explorer/scripts/copy-social-preview.mjs",
-      "bytes": 268,
-      "sha256": "e9f9675199f593a427f52cb46581114afe596ab004de1fe5010b38696b0e4346"
+      "path": "explorer/scripts/prepare-site.mjs",
+      "bytes": 1325,
+      "sha256": "20cfe7bb67af597dce46e940a9715f53e01826b0327ceb6634ac2c8400259670"
+    },
+    {
+      "path": "explorer/src/assets/app/apple-touch-icon.png",
+      "bytes": 38361,
+      "sha256": "6238f1a3a00c0ce4de989a9c4065eb746661facc9dd9c191778b1985cc353420"
+    },
+    {
+      "path": "explorer/src/assets/app/favicon.ico",
+      "bytes": 32038,
+      "sha256": "4e44eba478f026531034a7adf30567f7f825f86f009a34593328b26b2f9c51a8"
+    },
+    {
+      "path": "explorer/src/assets/app/icon-192.png",
+      "bytes": 42165,
+      "sha256": "937b858c618719797fcbb7ce8cc73c9ce35c15762b1c4222db978597e6db5441"
+    },
+    {
+      "path": "explorer/src/assets/app/icon-512.png",
+      "bytes": 141130,
+      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+    },
+    {
+      "path": "explorer/src/assets/app/maskable-512.png",
+      "bytes": 141130,
+      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+    },
+    {
+      "path": "explorer/src/assets/app/site.webmanifest",
+      "bytes": 864,
+      "sha256": "faf131147ca4c3ea7947785fe78a008617d08257f9ced636002528e551baaa4c"
     },
     {
       "path": "explorer/src/assets/dryad-logo.png",
@@ -274,8 +309,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 54279,
-      "sha256": "1ba2da16ae19e21a520b689db586023ac02821e0019ae14a448245857977c269"
+      "bytes": 54278,
+      "sha256": "a74336955ce704d69ccb88aaac4a14ccbfedbc94299d406538d90428acaaf99c"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -304,13 +339,13 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 19255,
-      "sha256": "d089ab48181f5ba4d806c9af7145ee07bf1956f41c16747e2cc05827e5516758"
+      "bytes": 20431,
+      "sha256": "ac7ac1a83cf27db4696b9330ca2bfd17d42f1c4645e43b2f10997b0cee5582d8"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12692,
-      "sha256": "da06298c672b4a24d4a6b319bec4004b8bfef219c5ea51428cc6bc1203b0837c"
+      "bytes": 12691,
+      "sha256": "e11966fa264fbea341b3b97cc823bd9a74fb6cd4abfbfe31b5d784da2c72a9af"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -1263,9 +1298,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.196146e9.js",
-      "bytes": 54288,
-      "sha256": "7c27dfe7501e319e975dee8a21765afbfda43ad383a90138bf17117d66cc350a"
+      "path": "site/_import/components/atlas.65ac6eaf.js",
+      "bytes": 54287,
+      "sha256": "bed94ebc9511f6170f0a46179dcb6ae27a6211b0b515e1c300bb1cb2e29ecd55"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1273,9 +1308,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.d49b9527.css",
-      "bytes": 41639,
-      "sha256": "d49b952730ddafb6bd06e8f24262c786c54e316f46e699144b9b0fdff540d4a8"
+      "path": "site/_import/style.d0436800.css",
+      "bytes": 42809,
+      "sha256": "d0436800590ddc35ce183e5fa09512b171e8c972a2240aa98c7434eb44322695"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1293,9 +1328,39 @@
       "sha256": "d83f9670048ef9ff3e722d0db5ed43c3a083af66e6ba7600eba37b8e31875619"
     },
     {
+      "path": "site/icons/apple-touch-icon.png",
+      "bytes": 38361,
+      "sha256": "6238f1a3a00c0ce4de989a9c4065eb746661facc9dd9c191778b1985cc353420"
+    },
+    {
+      "path": "site/icons/favicon.ico",
+      "bytes": 32038,
+      "sha256": "4e44eba478f026531034a7adf30567f7f825f86f009a34593328b26b2f9c51a8"
+    },
+    {
+      "path": "site/icons/icon-192.png",
+      "bytes": 42165,
+      "sha256": "937b858c618719797fcbb7ce8cc73c9ce35c15762b1c4222db978597e6db5441"
+    },
+    {
+      "path": "site/icons/icon-512.png",
+      "bytes": 141130,
+      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+    },
+    {
+      "path": "site/icons/maskable-512.png",
+      "bytes": 141130,
+      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+    },
+    {
       "path": "site/index.html",
-      "bytes": 11629,
-      "sha256": "c32ba6913f4e4a2c46278ef1ceed803228c3370fd99e11a3c0fe47eaaf6f5294"
+      "bytes": 11948,
+      "sha256": "c653439de830ad5e6f9261cb80480dc4d534f1d3198c65b2679d23594d0ba892"
+    },
+    {
+      "path": "site/site.webmanifest",
+      "bytes": 864,
+      "sha256": "faf131147ca4c3ea7947785fe78a008617d08257f9ced636002528e551baaa4c"
     },
     {
       "path": "site/social-preview.png",

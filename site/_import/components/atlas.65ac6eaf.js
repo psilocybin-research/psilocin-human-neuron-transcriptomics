@@ -83,7 +83,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  const meta=el('div','masthead-meta');
  const identity=el('div','academic-identity');
  const author=el('div','author-line');
- const authorLink=el('a','','Germann, Christopher B.');authorLink.href='https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Germann,+Christopher+B.%22';authorLink.target='_blank';authorLink.rel='noopener';
+ const authorLink=el('a','','Christopher B. Germann');authorLink.href='https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Germann,+Christopher+B.%22';authorLink.target='_blank';authorLink.rel='noopener';
  const orcid=el('a','orcid');orcid.href='https://orcid.org/0000-0002-1573-4651';orcid.target='_blank';orcid.rel='noopener';orcid.append(icon('orcid'),document.createTextNode('ORCID 0000-0002-1573-4651'));
  author.append(authorLink,orcid);
  const affiliation=el('div','affiliation','Faculty of Health, School of Medicine, University of Witten/Herdecke');identity.append(author,affiliation);

@@ -131,3 +131,9 @@ path = "data/derived/psilocin_results.rds"
 precedence = "override"
 SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "2026 Anne Hoffrichter", "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California", "HGNC 2026"]
 SPDX-License-Identifier = "MIT AND CC-BY-4.0 AND CC0-1.0"
+
+[[annotations]]
+path = ["explorer/src/assets/app/*.png", "explorer/src/assets/app/*.ico", "site/icons/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "Psilocybin Research"
+SPDX-License-Identifier = "LicenseRef-Project-Branding"

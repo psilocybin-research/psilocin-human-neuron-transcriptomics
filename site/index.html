@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="generator" content="Observable Framework v1.13.4">
 <title>Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons | Psilocin · transcriptomic atlas</title>
 
-<link rel="preload" as="style" href="./_import/style.d49b9527.css">
-<link rel="stylesheet" type="text/css" href="./_import/style.d49b9527.css">
+<link rel="preload" as="style" href="./_import/style.d0436800.css">
+<link rel="stylesheet" type="text/css" href="./_import/style.d0436800.css">
 <link rel="modulepreload" href="./_observablehq/client.4a52a1f6.js">
 <link rel="modulepreload" href="./_observablehq/runtime.fa9f71c0.js">
 <link rel="modulepreload" href="./_observablehq/stdlib.bc967ff7.js">
-<link rel="modulepreload" href="./_import/components/atlas.196146e9.js">
+<link rel="modulepreload" href="./_import/components/atlas.65ac6eaf.js">
 <link rel="modulepreload" href="./_import/components/format.0a1392e2.js">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2032%2032%22%3E%3Crect%20width=%2232%22%20height=%2232%22%20rx=%226%22%20fill=%22%2523245b50%22/%3E%3Ctext%20x=%2216%22%20y=%2223%22%20text-anchor=%22middle%22%20fill=%22white%22%20font-size=%2223%22%3EP%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48 64x64" href="./icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+<link rel="manifest" href="./site.webmanifest">
+<meta name="theme-color" content="#235780">
+<meta name="color-scheme" content="light">
+<meta name="application-name" content="Psilocin atlas">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Psilocin atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="canonical" href="https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/">
 <link rel="cite-as" href="https://doi.org/10.5281/zenodo.23283595">
 <link rel="describedby" type="application/vnd.datacite.datacite+json" href="https://api.datacite.org/dois/10.5281/zenodo.23283595">
@@ -69,7 +78,7 @@ registerFile("./data/genes.json", {"name":"./data/genes.json","mimeType":"applic
 registerFile("./data/provenance.json", {"name":"./data/provenance.json","mimeType":"application/json","path":"./_file/data/provenance.58e853b3.json","lastModified":1789850454088,"size":16725});
 
 define({id: "4a1c96ae", inputs: ["FileAttachment","display"], outputs: ["createAtlas","atlas","provenance","geneFile","branding"], body: async (FileAttachment,display) => {
-const {createAtlas} = await import("./_import/components/atlas.196146e9.js");
+const {createAtlas} = await import("./_import/components/atlas.65ac6eaf.js");
 const atlas = await FileAttachment("./data/atlas.json").json();
 const provenance = await FileAttachment("./data/provenance.json").json();
 const geneFile = FileAttachment("./data/genes.json");

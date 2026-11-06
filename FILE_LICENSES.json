@@ -280,8 +280,44 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "explorer/scripts/copy-social-preview.mjs": {
+  "explorer/scripts/prepare-site.mjs": {
     "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/app/apple-touch-icon.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "explorer/src/assets/app/favicon.ico": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "explorer/src/assets/app/icon-192.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "explorer/src/assets/app/icon-512.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "explorer/src/assets/app/maskable-512.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "explorer/src/assets/app/site.webmanifest": {
+    "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
@@ -1499,7 +1535,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.196146e9.js": {
+  "site/_import/components/atlas.65ac6eaf.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -1511,7 +1547,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.d49b9527.css": {
+  "site/_import/style.d0436800.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -1535,11 +1571,47 @@
       "2018-2024 Observable, Inc."
     ]
   },
+  "site/icons/apple-touch-icon.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "site/icons/favicon.ico": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "site/icons/icon-192.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "site/icons/icon-512.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
+  "site/icons/maskable-512.png": {
+    "spdx": "LicenseRef-Project-Branding",
+    "copyright": [
+      "Psilocybin Research"
+    ]
+  },
   "site/index.html": {
     "spdx": "MIT AND ISC",
     "copyright": [
       "2026 Christopher B. Germann",
       "2018-2024 Observable, Inc."
+    ]
+  },
+  "site/site.webmanifest": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
     ]
   },
   "site/social-preview.png": {
