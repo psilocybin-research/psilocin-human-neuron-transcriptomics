@@ -30,6 +30,7 @@ The interactive atlas provides the pathway matrix, the 113-gene OXPHOS landscape
 
 - **Explore:** [interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/) · [OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
 - **Download:** [result tables](tables/) · [RDS bundle](docs/r-results.md) · [figures](figures/) · [fixed v1.2.0 archive](https://doi.org/10.5281/zenodo.23283595)
+- **Query with an AI client:** [read-only MCP access](https://psilocybin-research.com/docs/transcriptomics-mcp.md) · [snapshot provenance](https://psilocybin-research.com/transcriptomics-manifest.php). The hosted queries use the fixed Zenodo v1.2.0 results, including both CAMERA settings and all ten Bayesian model summaries.
 - **Reproduce:** [R quick start](#quick-start-in-r) · [full analysis](#reproduce-the-analysis)
 
 ## What this project provides
