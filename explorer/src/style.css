@@ -128,3 +128,7 @@ body{padding-top:env(safe-area-inset-top,0px)}
 }
 
 @media(max-width:850px){.atlas-body{scroll-margin-top:76px}}
+
+@media(max-width:850px){.atlas-navigation.menu-open .tabs{animation:section-menu-in .15s ease-out;transform-origin:top right}.section-menu-toggle{transition:background-color .15s,border-color .15s,box-shadow .15s}.section-menu-toggle:active{background:#e6edf3;box-shadow:0 1px 5px #20383718}.atlas-body h2:focus,.atlas-body h3:focus{outline:none}}
+@keyframes section-menu-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.atlas-navigation.menu-open .tabs{animation:none}.section-menu-toggle{transition:none}}

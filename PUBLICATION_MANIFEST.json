@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 458,
-  "total_bytes": 252266953,
+  "total_bytes": 252268947,
   "status": "pass",
   "failures": [],
   "files": [
@@ -75,7 +75,7 @@
     {
       "path": "FILE_LICENSES.json",
       "bytes": 66756,
-      "sha256": "6fdf7c0c253fb8f3840dcd3c487acd35c3031a2c5cfd91868d6fc93b4ac17898"
+      "sha256": "55a78a34a83544d2610159f786ae4327f7991cc95231b2bf8575e72a4b81d6d3"
     },
     {
       "path": "LICENSE.md",
@@ -309,8 +309,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 56525,
-      "sha256": "aefb33a5ad5cf74c35e08c4f61ac25cba2612d37bd47e51aa79d0ea927b65b42"
+      "bytes": 56942,
+      "sha256": "7bac20e47661ca5441a747190c2af34d76ee6b5d5dd7f043cf0c8d59c3bbb849"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -339,8 +339,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 25601,
-      "sha256": "ad5f3bd21c3490a237e822c28e3fdd8cb91b4c8553718f178fd1bd323181854c"
+      "bytes": 26184,
+      "sha256": "35357027c3a409b445136c3a9ec9cd2fa5e52e82cc6728871b95f6e4ab376657"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -1303,9 +1303,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.2d75bae4.js",
-      "bytes": 56534,
-      "sha256": "fa6ced5e68928ea9f3d7f2c4f626b0b65549e6f196818ef6bf41eb7bfbe3fe79"
+      "path": "site/_import/components/atlas.401bf19c.js",
+      "bytes": 56951,
+      "sha256": "a3d30783f642fc96c14eae13deefcb4a870beb2e03153bd7948c88063f62bd8a"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1313,9 +1313,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.4d463029.css",
-      "bytes": 47899,
-      "sha256": "4d4630295d4ddcd4d3e82b1138541b6496f165b00632c38f0fc61febc1913211"
+      "path": "site/_import/style.9a0ba202.css",
+      "bytes": 48476,
+      "sha256": "9a0ba2022d8c8a0764e6cd1e077c70e392ecff38ee768ff7f569534bf4fd82ed"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1360,7 +1360,7 @@
     {
       "path": "site/index.html",
       "bytes": 11948,
-      "sha256": "cd11b13b504ac9beee2cf0a8b77882ac8a8688c5262ac06e9f6ea9145b2b62cf"
+      "sha256": "a0cbe1f36e9864206178115d92d34a2fe6f5b830f9b17e57bab1d2c8e11839cd"
     },
     {
       "path": "site/site.webmanifest",
