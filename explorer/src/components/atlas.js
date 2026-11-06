@@ -104,7 +104,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  const navigation=el('div','atlas-navigation');nav.id='atlas-section-links';
  const menuIcon=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});menuIcon.append(svgNode('path',{d:'M4 6h16M4 12h16M4 18h16',fill:'none',stroke:'currentColor','stroke-width':1.7,'stroke-linecap':'round'}));
  const currentSection=el('span','current-section');const menuToggle=button('',()=>setMenu(!navigation.classList.contains('menu-open')),'section-menu-toggle');menuToggle.append(menuIcon,el('span','menu-caption','Menu'),currentSection);menuToggle.setAttribute('aria-controls',nav.id);menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open section menu');
- function setMenu(open){navigation.classList.toggle('menu-open',open);menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close section menu':'Open section menu');}
+ function setMenu(open){menuIcon.firstChild.setAttribute('d',open?'M6 6l12 12M18 6 6 18':'M4 6h16M4 12h16M4 18h16');navigation.classList.toggle('menu-open',open);menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close section menu':'Open section menu');}
  navigation.append(menuToggle,nav);
  navigation.addEventListener('keydown',event=>{if(event.key==='Escape'&&navigation.classList.contains('menu-open')){event.preventDefault();setMenu(false);menuToggle.focus();}});
  document.addEventListener('click',event=>{if(!navigation.contains(event.target))setMenu(false);});
