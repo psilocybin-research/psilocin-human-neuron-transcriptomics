@@ -10,7 +10,7 @@ function icon(kind){const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'tr
 function tabIcon(kind){
  const paths={
   overview:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
-  landscape:'M4 3v18h17M8 15V9m5 6V5m5 10v-4',
+  landscape:'M4 3h16v18H4zM9.3 3v18M14.7 3v18M4 7.5h16M4 12h16M4 16.5h16',
   genes:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM15 15l6 6M7 8h6M7 12h4',
   pathways:'M9 6h6M7.5 8.5l3 7M16.5 8.5l-3 7M9 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM21 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM15 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
   robustness:'M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7l-9-4ZM8 12l3 3 5-6',
@@ -18,6 +18,7 @@ function tabIcon(kind){
   methods:'M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1v15M6 8h3M6 12h3M15 8h3M15 12h3'
  };
  const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false',class:'tab-icon'});
+ if(kind==='landscape'){for(const [x,y,opacity]of [[4,3,.1],[9.3,3,.5],[14.7,3,.25],[4,7.5,.35],[9.3,7.5,.15],[14.7,7.5,.6],[4,12,.6],[9.3,12,.35],[14.7,12,.1],[4,16.5,.2],[9.3,16.5,.55],[14.7,16.5,.35]])s.append(svgNode('rect',{x,y,width:5.3,height:4.5,fill:'currentColor',opacity}));}
  s.append(svgNode('path',{d:paths[kind],fill:'none',stroke:'currentColor','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round'}));return s;
 }
 function iconButton(textValue,kind,fn,cls){const b=button('',fn,cls);b.append(icon(kind),document.createTextNode(textValue));return b;}
