@@ -1,0 +1,24 @@
+name: Reproduction failure
+description: Report a problem running or reproducing the analysis.
+title: '[Reproduction] '
+body:
+- type: input
+  id: revision
+  attributes:
+    label: Release or commit
+    description: For example, v1.2.0 or the commit SHA.
+  validations:
+    required: true
+- type: textarea
+  id: command
+  attributes:
+    label: Command and failure
+    description: Include the command, relevant error output and expected result. Remove credentials or
+      private data.
+  validations:
+    required: true
+- type: textarea
+  id: environment
+  attributes:
+    label: Environment
+    description: Operating system and relevant R/Python/package versions.

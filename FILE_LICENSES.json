@@ -1,4 +1,28 @@
 {
+  ".github/ISSUE_TEMPLATE/atlas-bug.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/ISSUE_TEMPLATE/config.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/ISSUE_TEMPLATE/reproduction.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/ISSUE_TEMPLATE/scientific-question.yml": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   ".github/workflows/ci.yml": {
     "spdx": "MIT",
     "copyright": [
@@ -42,6 +66,12 @@
     ]
   },
   "CITATION.cff": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "CONTRIBUTING.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -176,6 +206,18 @@
     ]
   },
   "docs/images/atlas-overview.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "docs/images/social-preview.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "docs/social-preview.html": {
     "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"

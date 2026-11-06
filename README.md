@@ -26,6 +26,12 @@
 
 The interactive atlas provides the pathway matrix, the 113-gene OXPHOS landscape, transcriptome-wide gene estimates, every frozen sensitivity analysis, bounded DNA-maintenance follow-up, downloadable CSV files, and exact provenance. The browser only selects and displays archived outputs; it does not refit models or create new tests.
 
+## Start here
+
+- **Explore:** [interactive atlas](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/) · [OXPHOS landscape](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=landscape)
+- **Download:** [result tables](tables/) · [figures](figures/) · [fixed v1.2.0 archive](https://doi.org/10.5281/zenodo.23283595)
+- **Reproduce:** [R quick start](#quick-start-in-r) · [full analysis](#reproduce-the-analysis)
+
 ## What this project provides
 
 | Area | What is available |
@@ -76,15 +82,24 @@ Open the **[live interactive atlas](https://psilocybin-research.github.io/psiloc
 - [Bounded DNA-maintenance follow-up](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=dna)
 - [Methods, sources and checksums](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)
 
-The release also retains a frozen static atlas under [`site/`](site/).
+The [`site/`](site/) directory contains the static atlas build for the checked-out revision.
 
 ## Quick start in R
 
 The complete derived tables are public, so readers can inspect the primary results without downloading raw RNA-seq inputs or rebuilding the analysis.
 
-**[Run the R example on GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/actions/workflows/reproduce-r.yml)**
+The quick start uses base R to inspect and export frozen derived results; it does not refit the RNA-seq models.
 
-The manual workflow runs [`src/quick_start.R`](src/quick_start.R) with R 4.6.1, presents the key results in the GitHub run summary, and provides the reproduced CSV tables plus complete R session information as a downloadable artifact. It uses base R and the repository's frozen derived tables; the locked environments remain available for full analytical reproduction.
+**Run on GitHub:**
+
+1. [Fork this repository](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/fork) into your GitHub account.
+2. In your fork, open **Actions** and enable workflows if prompted.
+3. Select **Run R quick start → Run workflow → Run workflow**.
+4. Open the completed run for the results summary; download the CSV tables and R session information under **Artifacts**.
+
+The workflow uses R 4.6.1. Running it in this original repository requires write access; other researchers can run it in their own fork.
+
+**Run locally:** from a repository checkout, run `Rscript src/quick_start.R`. Outputs are written to `artifacts/r-quick-start/`. The [full analysis](#reproduce-the-analysis) uses the locked environments.
 
 ```r
 base <- paste0(
@@ -186,7 +201,7 @@ Then open `http://127.0.0.1:4173/`.
 | [`tables/`](tables/) | Complete derived gene, pathway and sensitivity results |
 | [`figures/`](figures/) | Publication figures and QC summaries in reusable formats |
 | [`explorer/`](explorer/) | Atlas source, tests and frozen display data |
-| [`site/`](site/) | Frozen static atlas build |
+| [`site/`](site/) | Static atlas build for this revision |
 | [`reports/`](reports/) | Frozen plan and complete scientific result reports |
 | [`docs/`](docs/) | Public analysis chronology and README images |
 | [`provenance/`](provenance/) | Freeze records, session information and checksums |
@@ -211,7 +226,11 @@ Source RNA-seq data are available from the [Schmidt author repository](https://g
 
 Code, frozen specifications, derived results, and the static atlas are archived as [Zenodo version 1.2.0](https://doi.org/10.5281/zenodo.23283595); the maintained source is on [GitHub](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics).
 
-Version 1.2.0 contains documentation and interpretation clarifications; analytical results are unchanged from version 1.0.0.
+Version 1.2.0 adds the CAMERA sensitivity analysis and interpretation clarifications; the original primary analysis is unchanged. The DOI identifies that fixed release. GitHub `main` and the live atlas receive subsequent maintenance updates.
+
+## Questions and corrections
+
+Use the [issue forms](https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/issues/new/choose) for reproduction failures, scientific questions or atlas bugs. See [CONTRIBUTING.md](CONTRIBUTING.md) for proposing corrections.
 
 ## Contact
 

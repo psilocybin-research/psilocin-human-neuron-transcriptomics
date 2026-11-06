@@ -1,0 +1,23 @@
+name: Atlas bug
+description: Report an interface, download, navigation or printing problem.
+title: '[Atlas] '
+body:
+- type: input
+  id: view
+  attributes:
+    label: Atlas URL or view
+    description: Include a gene or pathway selection if relevant.
+  validations:
+    required: true
+- type: textarea
+  id: problem
+  attributes:
+    label: Steps and observed behaviour
+    description: Describe what you did, what happened and what you expected. Screenshots are welcome.
+  validations:
+    required: true
+- type: input
+  id: browser
+  attributes:
+    label: Browser and device
+    description: For example, Firefox on Linux or Safari on iPhone.

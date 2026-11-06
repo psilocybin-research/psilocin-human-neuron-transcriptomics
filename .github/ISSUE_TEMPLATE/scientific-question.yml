@@ -1,0 +1,23 @@
+name: Data or statistical question
+description: Ask about a result, method or interpretation, or propose a correction.
+title: '[Scientific question] '
+body:
+- type: input
+  id: reference
+  attributes:
+    label: Result or method
+    description: Link the table, report, atlas view or source passage.
+  validations:
+    required: true
+- type: textarea
+  id: question
+  attributes:
+    label: Question or proposed correction
+    description: Explain the issue and cite supporting evidence where relevant.
+  validations:
+    required: true
+- type: input
+  id: revision
+  attributes:
+    label: Release or commit
+    description: If known.

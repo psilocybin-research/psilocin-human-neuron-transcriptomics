@@ -2,11 +2,31 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 430,
-  "total_bytes": 246178340,
+  "file_count": 437,
+  "total_bytes": 246493907,
   "status": "pass",
   "failures": [],
   "files": [
+    {
+      "path": ".github/ISSUE_TEMPLATE/atlas-bug.yml",
+      "bytes": 645,
+      "sha256": "80bbfee79588c5685739a8391a1e0d88777962bc674f4a344237d5704ec418fa"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/config.yml",
+      "bytes": 27,
+      "sha256": "13064e7bea658e01e718b414fbb7b3b244f36411fe25ee2055c151f7b534547a"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/reproduction.yml",
+      "bytes": 666,
+      "sha256": "fd9da2ecdcd6e1ee98a820f4a4633d4102391b891e7a7fe5584b2b1aa5449aed"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/scientific-question.yml",
+      "bytes": 636,
+      "sha256": "f331dfc76bf4642fd87bc17efc9a1c5ab97d1740cf8e37372677a87961d68f5c"
+    },
     {
       "path": ".github/workflows/ci.yml",
       "bytes": 1521,
@@ -48,9 +68,14 @@
       "sha256": "bddbc31d28e2e07e99d5d2b73c26b2f9e8952d016e14ea5c8e3c546e7fd7ec8a"
     },
     {
+      "path": "CONTRIBUTING.md",
+      "bytes": 1360,
+      "sha256": "d464c6efc1088e4bec175cbbd2dd9971470ced6ae390d270d724f29f85832367"
+    },
+    {
       "path": "FILE_LICENSES.json",
-      "bytes": 63022,
-      "sha256": "d3effe77b80498bb470bb9c0195bb437108cbd5763addd980fe5618f193ead2b"
+      "bytes": 63914,
+      "sha256": "ba2672b4489f9b9714d38ade2952ffcbaf4827ff9f3f56166b8906baa428b69f"
     },
     {
       "path": "LICENSE.md",
@@ -89,8 +114,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 15992,
-      "sha256": "63ccb5b2d400afd5fd0dd574c70074dd8b335d5c2536e37dc3c2b3adf7a15c65"
+      "bytes": 17243,
+      "sha256": "89131687317c7770486e339d938eb5195bcaab264270ab485610a878644b58a8"
     },
     {
       "path": "REUSE.toml",
@@ -171,6 +196,16 @@
       "path": "docs/images/atlas-overview.png",
       "bytes": 149500,
       "sha256": "20190b498de4bf23ea47cf1c5d2af832493d026837ef926384c0606adf96c5dc"
+    },
+    {
+      "path": "docs/images/social-preview.png",
+      "bytes": 308229,
+      "sha256": "e54d3ba7ad31e19e82bee49e9a14b39478a75464e21cf3c1ce21327e3d84e375"
+    },
+    {
+      "path": "docs/social-preview.html",
+      "bytes": 1861,
+      "sha256": "ed817cda7d8972811012719dc62603b4196b31c2bbf6367607fc63a81c78e5f0"
     },
     {
       "path": "explorer/README.md",
