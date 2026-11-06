@@ -12,7 +12,7 @@ function tabIcon(kind){
   overview:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
   landscape:'M4 3v18h17M8 15V9m5 6V5m5 10v-4',
   genes:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM15 15l6 6M7 8h6M7 12h4',
-  pathways:'M5 5h6v6M11 5l-6 6M11 5h6v12h-6M17 17h4M5 11v6h6',
+  pathways:'M9 6h6M7.5 8.5l3 7M16.5 8.5l-3 7M9 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM21 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM15 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
   robustness:'M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7l-9-4ZM8 12l3 3 5-6',
   dna:'M7 3c0 9 10 9 10 18M17 3c0 9-10 9-10 18M8 5h8M9 9h6M9 15h6M8 19h8',
   methods:'M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1v15M6 8h3M6 12h3M15 8h3M15 12h3'
