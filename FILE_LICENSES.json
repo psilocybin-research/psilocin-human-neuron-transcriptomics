@@ -217,6 +217,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/assets/dryad-logo.png": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "Dryad"
+    ]
+  },
   "explorer/src/assets/elife-logo.svg": {
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
@@ -1386,6 +1392,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "site/_file/assets/dryad-logo.b63b80e8.png": {
+    "spdx": "LicenseRef-Publisher-Branding",
+    "copyright": [
+      "Dryad"
+    ]
+  },
   "site/_file/assets/elife-logo.5bd57d9b.svg": {
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
@@ -1418,7 +1430,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/components/atlas.741abbd6.js": {
+  "site/_import/components/atlas.0eac63b9.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -1430,7 +1442,7 @@
       "2026 Christopher B. Germann"
     ]
   },
-  "site/_import/style.8397348b.css": {
+  "site/_import/style.8e44400b.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

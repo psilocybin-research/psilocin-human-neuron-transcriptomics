@@ -23,3 +23,5 @@ Python, R, Bioconductor, Observable Framework and other dependencies retain thei
 ## Publisher identity marks
 
 The header uses unmodified official eLife artwork from <https://elifesciences.org/resources> and the blue Zenodo icon from <https://about.zenodo.org/#icon> to link to the original article and software archive. eLife is displayed at its recommended minimum web width of 80 pixels. Marks remain the property of eLife Sciences Publications Ltd and CERN; see `LICENSES/LicenseRef-Publisher-Branding.txt`. Their appearance identifies the linked resources and does not imply endorsement.
+
+The source-data link uses the official, unmodified Dryad logo from <https://datadryad.org/>. Dryad permits informational logo use under <https://datadryad.org/terms>; no endorsement or affiliation is implied.

@@ -4,3 +4,5 @@ The unmodified eLife and Zenodo logos are supplied by their respective organisat
 
 eLife resources and usage guide: https://elifesciences.org/resources and https://elife-cdn.s3.amazonaws.com/documents/eLife-logo-guide.pdf . Use official unaltered artwork with the prescribed clear space and minimum web width of 80 pixels.
 Zenodo assets: https://about.zenodo.org/#icon . Zenodo and its logo are CERN trademarks.
+
+Dryad logo: unmodified artwork from https://datadryad.org/ . Informational use permitted under https://datadryad.org/terms (section 5); copyright and trademarks remain with Dryad. This use identifies the linked source-data repository and does not imply endorsement.

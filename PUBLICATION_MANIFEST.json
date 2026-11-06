@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 428,
-  "total_bytes": 246113412,
+  "file_count": 430,
+  "total_bytes": 246155021,
   "status": "pass",
   "failures": [],
   "files": [
@@ -49,8 +49,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 62753,
-      "sha256": "fce374501634a7e2fc4dff11f3d1ba92f9e4e714e5ea7e5892d21e0782f86c84"
+      "bytes": 63022,
+      "sha256": "0652fddeecebc1d28e3769ce18a06a57022e63f99c95e2c083fc464a56362c95"
     },
     {
       "path": "LICENSE.md",
@@ -74,8 +74,8 @@
     },
     {
       "path": "LICENSES/LicenseRef-Publisher-Branding.txt",
-      "bytes": 658,
-      "sha256": "028d00c1f0b28193582b3245717a0170639a3caa4fec88040cd18807d09c8d02"
+      "bytes": 925,
+      "sha256": "22570d724d9c85ab1d9009602ad75f4f7e3d5d0fc0f646af72a1230000b7196d"
     },
     {
       "path": "LICENSES/MIT.txt",
@@ -94,13 +94,13 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 4487,
-      "sha256": "38a33096fbd2c41bc15492f5265d3307d83cec8fde0e56b686721be95218fd98"
+      "bytes": 4699,
+      "sha256": "0a8ac26793d2e40fbc2aff1e8d9645e2fbd668058c3b83bd2fb49301e984fe38"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2613,
-      "sha256": "f2267f39634c5096f8b217ffe9ed0c42e2b2b2e106aa5aab9ae85ee74365623e"
+      "bytes": 2823,
+      "sha256": "aef5cf5b261ebb4f7ccb10778bb1e20e46a6212d767a2062d47a20176813aadb"
     },
     {
       "path": "config/analysis.yaml",
@@ -199,8 +199,13 @@
     },
     {
       "path": "explorer/screenshots/landscape.png",
-      "bytes": 247318,
-      "sha256": "a20f8cbe445ddfae713f1b5317105f9fedfa25ed78682db3a44947ec7fb45b08"
+      "bytes": 250479,
+      "sha256": "2ea135442b229179432da9513da55a24483b13bd27bd75f6a2ba56a575bef17c"
+    },
+    {
+      "path": "explorer/src/assets/dryad-logo.png",
+      "bytes": 18287,
+      "sha256": "b63b80e8fdc94e79fe893976701a292b54840f9f288be4367fa67b6e208ddd0f"
     },
     {
       "path": "explorer/src/assets/elife-logo.svg",
@@ -214,8 +219,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 51305,
-      "sha256": "739e89b7cb8e7b605bf275928130e9d9a30e948741c42358526593e0efc14ef6"
+      "bytes": 51449,
+      "sha256": "d794289351be61599b5a6f47a14e3b5fc0d95484a0017b2aa36b38043c29edd0"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -239,13 +244,13 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 756,
-      "sha256": "efbe112b084cbd1d3bd764b0d9ed4be325c32a8f04253cc2d86246f23b2ca9b4"
+      "bytes": 818,
+      "sha256": "3fa74b0e3dcd7dd3668d3506530bbd5c0307d6a11b12b72b604e813a4a636ad2"
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 18372,
-      "sha256": "ece685a83509de89af68ecb307c4291a006badcbfdc558147764389ddd7d4ceb"
+      "bytes": 18530,
+      "sha256": "27bfd76230baa0301ac4ce0f4acd6f3f861de8315ddc13afb2b41c24d256870d"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -1173,6 +1178,11 @@
       "sha256": "4f37e24b0a6aeed3c7879bda535e920ffa56d938d7cb6803cbeb6596a3a2b2d4"
     },
     {
+      "path": "site/_file/assets/dryad-logo.b63b80e8.png",
+      "bytes": 18287,
+      "sha256": "b63b80e8fdc94e79fe893976701a292b54840f9f288be4367fa67b6e208ddd0f"
+    },
+    {
       "path": "site/_file/assets/elife-logo.5bd57d9b.svg",
       "bytes": 7861,
       "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
@@ -1198,9 +1208,9 @@
       "sha256": "58e853b306289992d62ec77ec6c9048c959a3f98bf5aaaa7e3f920680b785a6f"
     },
     {
-      "path": "site/_import/components/atlas.741abbd6.js",
-      "bytes": 51314,
-      "sha256": "32faa784521a19ac36d43d3be40850ee62ceca309526a2ad31678d6222cc545b"
+      "path": "site/_import/components/atlas.0eac63b9.js",
+      "bytes": 51458,
+      "sha256": "1949ef3993e92cdb88846564a0cb93b3af42b7fa4a4b0c6ca6054f2c7596f6af"
     },
     {
       "path": "site/_import/components/format.0a1392e2.js",
@@ -1208,9 +1218,9 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
-      "path": "site/_import/style.8397348b.css",
-      "bytes": 40764,
-      "sha256": "8397348b25d0db11aeb27c4dee1b6d96de68c2ab0581e3d135b4a8c0d782fd7c"
+      "path": "site/_import/style.8e44400b.css",
+      "bytes": 40920,
+      "sha256": "8e44400b2da18300c2a0bca585f45b84c1778661bc8b9076dcb6b6a8b5055cd8"
     },
     {
       "path": "site/_observablehq/client.4a52a1f6.js",
@@ -1229,8 +1239,8 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 11415,
-      "sha256": "4d91721413a116bceef78ca3d5705d6bdb5930de7e0a2c50a871bbd259c72497"
+      "bytes": 11667,
+      "sha256": "46c24b779dce9d79bfa8c9fb864f0358d71cf0a27df8bb012f07ed3f8ec55e7c"
     },
     {
       "path": "src/__init__.py",

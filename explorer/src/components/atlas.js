@@ -81,7 +81,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  citations.append(sourceCitation,archiveCitation);
  const headerActions=el('div','header-actions');
  const repository=el('a','header-repository');repository.href='https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics';repository.target='_blank';repository.rel='noopener';repository.title='Open the public GitHub repository';repository.append(icon('github'),el('span','repository-full','github.com/psilocybin-research/psilocin-human-neuron-transcriptomics'),el('span','repository-short','GitHub repository'));
- const sourceData=el('a','header-source','Original source data · Dryad ↗');sourceData.href='https://doi.org/10.5061/dryad.xsj3tx9w3';sourceData.target='_blank';sourceData.rel='noopener';
+ const sourceData=el('a','header-source');const dryadLogo=el('img','dryad-logo');dryadLogo.src=branding.dryad;dryadLogo.alt='Dryad';sourceData.append(dryadLogo,document.createTextNode('Original source data · Dryad ↗'));sourceData.href='https://doi.org/10.5061/dryad.xsj3tx9w3';sourceData.target='_blank';sourceData.rel='noopener';
  headerActions.append(repository,el('span','release','v1.2.0'),sourceData);
  const share=iconButton('Share','share',shareCurrent,'native-share');share.setAttribute('aria-label','Share the current atlas analysis');share.title=typeof navigator.share==='function'?'Share the current view':'Share the current view by email';
  meta.append(identity,citations,headerActions);top.append(home,meta);

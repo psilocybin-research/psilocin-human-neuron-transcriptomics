@@ -119,3 +119,9 @@ path = ["explorer/src/assets/zenodo-icon.svg", "site/_file/assets/zenodo-icon.*"
 precedence = "override"
 SPDX-FileCopyrightText = "CERN"
 SPDX-License-Identifier = "LicenseRef-Publisher-Branding"
+
+[[annotations]]
+path = ["explorer/src/assets/dryad-logo.png", "site/_file/assets/dryad-logo.*"]
+precedence = "override"
+SPDX-FileCopyrightText = "Dryad"
+SPDX-License-Identifier = "LicenseRef-Publisher-Branding"
