@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "observable preview --host 127.0.0.1",
-    "build": "observable build",
+    "build": "observable build && node scripts/copy-social-preview.mjs",
     "test": "node --test test/*.test.js",
     "test:browser": "node test/browser-check.mjs",
     "test:print": "node test/print-check.mjs"

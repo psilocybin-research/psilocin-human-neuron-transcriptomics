@@ -13,7 +13,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = [".github/**", "Makefile", "requirements.txt", "requirements.figures.txt", "requirements.release.txt", "src/**", "tests/**", "explorer/package.json", "explorer/observablehq.config.js", "explorer/test/**", "explorer/src/components/**", "explorer/src/style.css"]
+path = [".github/**", "Makefile", "requirements.txt", "requirements.figures.txt", "requirements.release.txt", "src/**", "tests/**", "explorer/package.json", "explorer/observablehq.config.js", "explorer/test/**", "explorer/scripts/**", "explorer/src/components/**", "explorer/src/style.css"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Christopher B. Germann"
 SPDX-License-Identifier = "MIT"

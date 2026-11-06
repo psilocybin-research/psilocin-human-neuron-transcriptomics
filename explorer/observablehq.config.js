@@ -1,7 +1,9 @@
 const url = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/";
-const image = "https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/docs/images/atlas-overview.png";
+const image = `${url}social-preview.png`;
+const socialTitle = "Psilocin transcriptomic atlas";
+const imageAlt = "Psilocin transcriptomic atlas: OXPHOS heatmap and gene-level estimates from the independent reanalysis by Christopher B. Germann.";
 const title = "Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons";
-const description = "Gene-level estimates, metabolic and redox pathway enrichment, and sensitivity analyses from an independent secondary analysis of human cortical-neuron RNA-seq after brief psilocin exposure.";
+const description = "Independent reanalysis of psilocin-exposed human iPSC-derived cortical neurons: gene-level estimates, pathway enrichment and sensitivity analyses.";
 const sourceAuthors = [
   "Malin Schmidt", "Anne Hoffrichter", "Mahnaz Davoudi", "Sandra Horschitz",
   "Thorsten Lau", "Marcus W. Meinhardt", "Rainer Spanagel", "Julia Ladewig",
@@ -101,15 +103,19 @@ const head = `
 <meta name="dcterms.license" content="https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Psilocybin Research">
-<meta property="og:title" content="${title}">
+<meta property="og:title" content="${socialTitle}">
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${image}">
-<meta property="og:image:alt" content="Overview of the interactive psilocin human-neuron transcriptomic atlas">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="${imageAlt}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${title}">
+<meta name="twitter:title" content="${socialTitle}">
 <meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${image}">
+<meta name="twitter:image:alt" content="${imageAlt}">
 <script type="application/ld+json">${JSON.stringify(structuredData)}</script>`;
 
 export default {

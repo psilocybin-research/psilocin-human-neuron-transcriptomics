@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 442,
-  "total_bytes": 251139915,
+  "file_count": 444,
+  "total_bytes": 251448904,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 64715,
-      "sha256": "ccb88892cc809edea94784bffdf9805972b46b490766a8a7fed1dd03d592294e"
+      "bytes": 64970,
+      "sha256": "cb8dc45ddbf24871b2e14ab81244e9f6e22959ffbccbca07f0b6c18c351201c3"
     },
     {
       "path": "LICENSE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 5055,
-      "sha256": "d3bf2a774797bf2573c150f0bf17ce3b80f470ae32b41d93ec950cd2a8c3ced6"
+      "bytes": 5078,
+      "sha256": "a3b76238155e3175351cb60d3f4059d2988a54713d6245cd71a9cd6a3e3a495b"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -229,8 +229,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7232,
-      "sha256": "85db3e65b437815c9ae3877785106999b56b5531203f2581b1e3c9501e06ed4a"
+      "bytes": 7444,
+      "sha256": "50d8b7514f4ea75960c33e37665dab961f6ea11e6beb672ec697cc0244c1a2bf"
     },
     {
       "path": "explorer/package-lock.json",
@@ -239,8 +239,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 503,
-      "sha256": "ebebed62fde516349b64de76fd555194ac48923a0e500eb5fa4e6e9d0c96ceb7"
+      "bytes": 543,
+      "sha256": "1c18f900fd10dbc4d0bb7a4b556db07eec7f573d12d69cb021d9a912fe09cbc4"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -251,6 +251,11 @@
       "path": "explorer/screenshots/landscape.png",
       "bytes": 266694,
       "sha256": "ac68c3b699ebb1d6a95ac7af1c5629e48e11aa2e958eb1c6646f53090444cdbe"
+    },
+    {
+      "path": "explorer/scripts/copy-social-preview.mjs",
+      "bytes": 268,
+      "sha256": "e9f9675199f593a427f52cb46581114afe596ab004de1fe5010b38696b0e4346"
     },
     {
       "path": "explorer/src/assets/dryad-logo.png",
@@ -1289,8 +1294,13 @@
     },
     {
       "path": "site/index.html",
-      "bytes": 11667,
-      "sha256": "87217674e3cec35c217138c3840575c898f54d23e6ce45efe937ec77ee1f13e9"
+      "bytes": 11629,
+      "sha256": "c32ba6913f4e4a2c46278ef1ceed803228c3370fd99e11a3c0fe47eaaf6f5294"
+    },
+    {
+      "path": "site/social-preview.png",
+      "bytes": 308229,
+      "sha256": "e54d3ba7ad31e19e82bee49e9a14b39478a75464e21cf3c1ce21327e3d84e375"
     },
     {
       "path": "src/__init__.py",

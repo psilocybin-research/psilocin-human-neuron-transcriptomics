@@ -280,6 +280,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/copy-social-preview.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/assets/dryad-logo.png": {
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
@@ -1534,6 +1540,12 @@
     "copyright": [
       "2026 Christopher B. Germann",
       "2018-2024 Observable, Inc."
+    ]
+  },
+  "site/social-preview.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
     ]
   },
   "src/__init__.py": {
