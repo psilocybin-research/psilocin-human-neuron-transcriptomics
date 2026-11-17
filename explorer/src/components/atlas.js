@@ -1468,6 +1468,19 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       genes.find((g) => g.symbol === selected) ||
       genes.find((g) => (aliases.get(g.id) || []).includes(selected));
     if (search.value === selected) search.value = current?.symbol || selected;
+    function viewEvidence() {
+      if (matchMedia("(max-width: 850px)").matches) {
+        showResearchEvidence(detail, "Gene evidence");
+        return;
+      }
+      detail.focus({ preventScroll: true });
+      detail.scrollIntoView({
+        block: "nearest",
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
+    }
     function updateSelection() {
       const g = genes.find((g) => g.id === selected) || current;
       if (!g) return;
@@ -1477,9 +1490,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         el("span", "identifier", g.id),
         button(
           "View evidence ↓",
-          () => {
-            showResearchEvidence(detail, "Gene evidence");
-          },
+          viewEvidence,
           "gene-view-evidence",
         ),
       );
@@ -1491,7 +1502,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       updateSelection();
       for (const [i, o] of options.entries())
         o.setAttribute("aria-selected", String(found[i].id === selected));
-      showResearchEvidence(detail, "Gene evidence");
+      if (matchMedia("(max-width: 850px)").matches) viewEvidence();
     }
     function activate(index) {
       active = index;

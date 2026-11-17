@@ -42,6 +42,26 @@ try {
    await page.waitForFunction(()=>document.querySelector('.landscape-layout .gene-symbol')?.textContent==='NDUFA2');
    assert.equal(await sheet.isVisible(),false);
   }
+  await page.goto(base+'#view=genes&gene=ENSG00000184752.8');
+  await page.locator('.gene-explorer-layout .gene-detail .figure-toolbar').first().waitFor();
+  await page.getByRole('button',{name:/View evidence/}).click();
+  if(width<=850) {
+   await page.waitForFunction(()=>document.querySelector('.research-evidence-sheet').dataset.shellModalReady==='true');
+   assert.ok(await sheet.locator('.gene-detail .figure-toolbar').count());
+   await sheet.getByRole('button',{name:'Done',exact:true}).click();
+   await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
+  } else {
+   assert.equal(await sheet.isVisible(),false,'desktop Gene explorer keeps evidence inline');
+  }
+  await page.locator('#gene-search-input').fill('GPX4');
+  await page.getByRole('option',{name:/GPX4/}).first().click();
+  if(width<=850) {
+   await sheet.locator('.gene-symbol').waitFor();
+   assert.equal(await sheet.locator('.gene-symbol').innerText(),'GPX4');
+  } else {
+   await page.waitForFunction(()=>document.querySelector('.gene-explorer-layout .gene-symbol')?.textContent==='GPX4');
+   assert.equal(await sheet.isVisible(),false,'desktop gene selection stays inline');
+  }
   assert.deepEqual(errors,[]);await page.close();
  }
  console.log('Native push evidence, Done/Escape, restored panels and one expanded navigation group passed on mobile/desktop.');
