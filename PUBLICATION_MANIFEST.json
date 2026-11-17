@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 535,
-  "total_bytes": 252924098,
+  "total_bytes": 252925505,
   "status": "pass",
   "failures": [],
   "files": [
@@ -364,8 +364,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 41789,
-      "sha256": "a8037f67eea533adee9e5bc3f89d109417a0eb6a6096c193ed7a6de9d4fd2cbd"
+      "bytes": 41899,
+      "sha256": "83e012028f848e039b3add04d49d0cb5415877354b3afe130a0b83654595a462"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -374,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 95547,
-      "sha256": "2e3ff5d3a931dce3c33593e60fc523a32553b441f66041009b0cba85a7720d83"
+      "bytes": 95585,
+      "sha256": "fc74ea35e258fbb19cede04597db45cf04556455854b78a9175f81c849330c2c"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
-      "bytes": 2428,
-      "sha256": "d123d6849d3f33bf670867c3c48e0af0237d627cf3d9f9882c7076025d74918a"
+      "bytes": 2470,
+      "sha256": "06dcef09038450e3dfd062335ce97c6ebfb1c53be052a27fa450b408e77c7ea2"
     },
     {
       "path": "explorer/src/components/expression-comparisons.js",
@@ -579,8 +579,8 @@
     },
     {
       "path": "explorer/test/evidence-sheet-browser-check.mjs",
-      "bytes": 2789,
-      "sha256": "703c18767558bc73aa16fb739319058e268379124810a35d03ad70a16793937f"
+      "bytes": 4006,
+      "sha256": "16143722cfe04186d9eb7b887fe60620c04a604d61d843dbe74c5d1f4ce486c8"
     },
     {
       "path": "explorer/test/figure-controls-browser-check.mjs",

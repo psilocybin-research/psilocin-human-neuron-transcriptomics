@@ -3,7 +3,7 @@ import { uiIcon } from "./icons.js";
 
 // Move the live evidence panel, preserving listeners, asynchronous results and
 // linked selection. Closing restores the same node to its original position.
-export function createEvidenceSheet({ root, getApp }) {
+export function createEvidenceSheet({ root, getApp, preparePanel }) {
   const sheet = node("section", "sheet-modal research-evidence-sheet");
   sheet.setAttribute("aria-label", "Selected evidence");
   const handle = node("div", "sheet-handle"),
@@ -41,6 +41,7 @@ export function createEvidenceSheet({ root, getApp }) {
     placeholder = document.createComment("Selected evidence");
     target.before(placeholder);
     content.append(target);
+    preparePanel?.(target);
     content.scrollTop = 0;
     const container =
       document.fullscreenElement || document.webkitFullscreenElement || root;

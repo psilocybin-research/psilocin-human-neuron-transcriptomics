@@ -23,7 +23,19 @@ try {
    assert.equal(await buttons.evaluateAll(nodes=>nodes.every(n=>n.classList.contains('button')&&n.classList.contains('button-tonal'))),true,'async evidence plots receive shared F7 controls');
    assert.equal(await buttons.last().evaluate(n=>n.classList.contains('figure-fullscreen')),true,'fullscreen stays outermost right');
   }
-  await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');assert.equal(await page.locator('.comparison-evidence .gene-symbol').innerText(),'GPX4');assert.deepEqual(errors,[]);await page.close();
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');assert.equal(await page.locator('.comparison-evidence .gene-symbol').innerText(),'GPX4');assert.deepEqual(errors,[]);
+  await page.goto(base+'#view=landscape&gene=NDUFA1');
+  await page.locator('.landscape-layout .gene-detail svg[role=img]').first().waitFor();
+  await page.locator('.landscape-layout .gene-detail').evaluate(panel=>{window.evidencePlot=panel.querySelector('svg[role=img]');});
+  await page.getByRole('button',{name:/^Inspect NDUFA1,/}).click();
+  await page.waitForFunction(()=>document.querySelector('.research-evidence-sheet').dataset.shellModalReady==='true');
+  assert.equal(await sheet.evaluate(panel=>panel.querySelector('svg[role=img]')===window.evidencePlot),true,'opening selected landscape gene preserves the rendered plot');
+  assert.equal(await sheet.locator('.figure-shell').count(),2,'both landscape evidence plots have shared controls before opening');
+  assert.ok(Math.abs((await sheet.boundingBox()).y)<2);
+  await sheet.getByRole('button',{name:'Done',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
+  assert.equal(await page.locator('.landscape-layout .gene-detail').evaluate(panel=>panel.querySelector('svg[role=img]')===window.evidencePlot),true,'closing restores the original evidence');
+  assert.deepEqual(errors,[]);await page.close();
  }
  console.log('Native push evidence, Done/Escape, restored panels and one expanded navigation group passed on mobile/desktop.');
 }finally{await browser.close();}

@@ -987,7 +987,14 @@ export function createAppShell({
     tourPopup.open(!reduced());
     scheduleEnhance();
   }
-  const evidenceSheet = createEvidenceSheet({ root, getApp: () => app });
+  const evidenceSheet = createEvidenceSheet({
+    root,
+    getApp: () => app,
+    preparePanel(panel) {
+      enhanceFigures?.(panel);
+      themeScientificPlots(panel);
+    },
+  });
   const observer = new MutationObserver(scheduleEnhance);
   observer.observe(body, { childList: true, subtree: true });
   const appearanceObserver = new MutationObserver(scheduleEnhance);

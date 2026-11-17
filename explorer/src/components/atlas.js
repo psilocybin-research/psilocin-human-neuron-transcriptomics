@@ -1133,7 +1133,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         const choose = () => {
           selected = g.gene;
           syncLocation();
-          geneDetail(detail, selected);
+          if (detail.dataset.gene !== selected) geneDetail(detail, selected);
           showResearchEvidence(detail, "Gene evidence");
           heat
             .querySelectorAll(".gene-row > rect:first-child")
