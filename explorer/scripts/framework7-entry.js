@@ -15,5 +15,6 @@ import Accordion from 'framework7/components/accordion';
 import Toggle from 'framework7/components/toggle';
 import Range from 'framework7/components/range';
 import Card from 'framework7/components/card';
-Framework7.use([TouchHighlight,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card]);
+import Fab from 'framework7/components/fab';
+Framework7.use([TouchHighlight,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card,Fab]);
 export default Framework7;

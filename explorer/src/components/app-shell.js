@@ -1,89 +1,1143 @@
-import {themeScientificPlots} from './plot-theme.js';
-import {createAtlasTour} from './atlas-tour.js';
+import { createAnalysisLauncher } from "./analysis-launcher.js";
+import {
+  createElement as node,
+  readPreference as stored,
+  writePreference as remember,
+  escapeHTML,
+} from "./interface-utils.js";
+import { createResearchNavigation } from "./research-navigation.js";
+import { createPathwayAutocomplete } from "./pathway-autocomplete.js";
+import { uiIcon } from "./icons.js";
+import { themeScientificPlots } from "./plot-theme.js";
+import { createAtlasTour } from "./atlas-tour.js";
 // Framework7 owns interface components; scientific views retain their own data state.
-function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
-function action(text,fn,cls='button button-tonal'){const b=node('button',cls,text);b.type='button';b.onclick=fn;return b;}
-function glyph(path){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');const p=document.createElementNS(s.namespaceURI,'path');p.setAttribute('d',path);p.setAttribute('fill','none');p.setAttribute('stroke','currentColor');p.setAttribute('stroke-width','1.7');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');s.append(p);return s;}
-const symbols={share:'M8 12l8-7M8 12l8 7M18 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4M6 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4M18 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4',appearance:'M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z',sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5',menu:'M4 6h16M4 12h16M4 18h16',search:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14M15 15l6 6',controls:'M3 7h18M3 17h18M8 4v6M16 14v6',close:'M6 6l12 12M18 6 6 18',back:'m14 5-7 7 7 7',info:'M12 10v7M12 6h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0'};
-function iconAction(title,key,fn){const b=action('',fn,'button button-round shell-icon');b.setAttribute('aria-label',title);b.title=title;b.append(glyph(symbols[key]));return b;}
-const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion');
-function stored(key,fallback){try{return localStorage.getItem(key)||fallback;}catch{return fallback;}}
-function remember(key,value){try{localStorage.setItem(key,value);}catch{}}
-function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function action(text, fn, cls = "button button-tonal", iconKind) {
+  const b = node("button", cls, text);
+  b.type = "button";
+  b.onclick = fn;
+  if (iconKind) {
+    b.replaceChildren(uiIcon(iconKind), node("span", "", text));
+    b.classList.add("labelled-icon-action");
+  }
+  return b;
+}
+function iconAction(title, key, fn) {
+  const b = action("", fn, "button button-round shell-icon");
+  b.setAttribute("aria-label", title);
+  b.title = title;
+  b.append(uiIcon(key));
+  return b;
+}
+const reduced = () =>
+  matchMedia("(prefers-reduced-motion: reduce)").matches ||
+  document.documentElement.classList.contains("atlas-reduced-motion");
 
-export function createAppShell({root,Framework7,top,nav,body,footer,share,menuToggle,tabs,go,getGenes,data,notices,initial,enhanceFigures}){
- root.id='psilocin-app';root.classList.add('research-app');
- const panel=node('aside','panel panel-left panel-floating research-sidebar');panel.id='research-sidebar';panel.setAttribute('aria-label','Research navigation');
- const sidebarHead=node('div','sidebar-brand');sidebarHead.append(node('span','brand-symbol','ψ'),node('div','sidebar-brand-text','Psilocin atlas'));
- const sidebarSub=node('p','sidebar-subtitle','Human-neuron transcriptomics');
- let app,view,panelInstance,controlsSheet,sourcePopup,autocomplete,tourPopup,sharePopover;
- function safeClose(instance){if(instance)instance.close(!reduced()&&instance.el?.dataset.shellModalReady==='true');}
- function toggleNavigation(){if(!panelInstance)return;root.dataset.sidebarAnimated='true';panelInstance.toggle(!reduced());if(app.width>=1180){remember('atlas-sidebar',panelInstance.visibleBreakpointDisabled?'collapsed':'expanded');if(panelInstance.visibleBreakpointDisabled)menuToggle.focus({preventScroll:true});}}
- const closeNav=iconAction('Close navigation','close',toggleNavigation);sidebarHead.append(closeNav);
- nav.className='list menu-list research-nav';nav.setAttribute('aria-label','Explorer sections');
- const navList=node('ul');const groups={overview:'Study context',landscape:'Molecular evidence',pathways:'Pathways & comparisons',robustness:'Confidence & interpretation',methods:'Documentation'};
- const originalButtons=[...nav.children];
- for(const id of ['overview','landscape','genes','pathways','comparison','robustness','dna','methods']){if(groups[id]){const divider=node('li','item-divider',groups[id]);divider.dataset.navDivider='';navList.append(divider);}const b=originalButtons[tabs.findIndex(t=>t[0]===id)];b.dataset.section=id;b.className='item-link item-content';const media=node('span','item-media'),inner=node('span','item-inner'),title=node('span','item-title');media.append(b.firstChild);title.append(b.lastChild);inner.append(title);b.append(media,inner);const li=node('li');li.dataset.sectionItem=id;li.append(b);navList.append(li);}nav.append(navList);
- const sidebarNote=node('div','sidebar-note');sidebarNote.append(node('span','badge','Fixed results · v1.2.0'),node('p','','Independent reanalysis of Schmidt et al. (2026).'),node('p','sidebar-boundary','Gene expression and enrichment support descriptive molecular interpretation; they do not establish cellular function.'));
- const sidebarFoot=node('div','sidebar-footer');sidebarFoot.append(action('Atlas tour',openTour,'button button-tonal'),action('Sources & citation',()=>sourcePopup?.open(!reduced()),'button button-tonal'),node('span','','Christopher B. Germann · UW/H'));
- panel.append(sidebarHead,sidebarSub,nav,sidebarNote,sidebarFoot);
- const views=node('div','views research-views'),main=node('div','view view-main research-main'),page=node('div','page page-current research-page');page.dataset.name='atlas';
- const navbar=node('header','navbar research-navbar'),navbg=node('div','navbar-bg'),navinner=node('div','navbar-inner');
- const left=node('div','left');menuToggle.className='button button-round shell-icon';menuToggle.replaceChildren(glyph(symbols.menu));menuToggle.onclick=toggleNavigation;menuToggle.setAttribute('aria-controls',panel.id);menuToggle.setAttribute('aria-label','Open section menu');menuToggle.setAttribute('aria-expanded','false');
- const back=iconAction('Previous research view','back',()=>history.back());back.hidden=true;left.append(menuToggle,back);
- const titles=node('div','title research-navbar-title'),sectionTitle=node('span','',''),subtitle=node('small','','Psilocin · human cortical neurons');titles.append(sectionTitle,subtitle);
- const right=node('div','right');const find=iconAction('Find a gene','search',()=>autocomplete?.open());find.classList.add('desktop-gene-finder');const controlButton=iconAction('Analysis controls','controls',openControls);const appearanceButton=iconAction('Dark mode','appearance',toggleAppearance);appearanceButton.classList.add('desktop-appearance','appearance-toggle');appearanceButton.setAttribute('role','switch');const sourcesButton=iconAction('Sources','info',()=>sourcePopup?.open(!reduced()));const shareControl=iconAction('Share analysis','share',()=>sharePopover?.open(shareControl,!reduced()));shareControl.setAttribute('aria-haspopup','dialog');right.append(find,controlButton,appearanceButton,shareControl,sourcesButton);navinner.append(left,titles,right);navbar.append(navbg,navinner);
- const scroll=node('div','page-content research-scroll');scroll.setAttribute('role','region');scroll.setAttribute('aria-label','Scientific evidence workspace');scroll.id='research-content';const content=node('div','research-content-inner');content.append(body,footer);scroll.append(content);
- const bottom=node('nav','toolbar toolbar-bottom tabbar tabbar-labels research-tabbar');bottom.setAttribute('aria-label','Quick research navigation');const bottomInner=node('div','toolbar-inner');
- const quick=[];for(const [id,title]of [['genes','Genes'],['pathways','Pathways'],['comparison','Compare'],['appearance','Appearance']]){const b=action('',()=>id==='appearance'?toggleAppearance():go(id),'tab-link');b.setAttribute('aria-label',id==='appearance'?'Dark mode':`Open ${tabs.find(t=>t[0]===id)[1]}`);if(id==='appearance'){b.classList.add('appearance-toggle');b.setAttribute('role','switch');}const source=id==='appearance'?glyph(symbols.appearance):nav.querySelector(`[data-section="${id}"] svg`).cloneNode(true);b.append(source,node('span','tabbar-label',title));b.dataset.quick=id;bottomInner.append(b);quick.push(b);}bottom.append(bottomInner);
- page.append(navbar,scroll,bottom);main.append(page);views.append(main);root.replaceChildren(panel,views);
- const source=node('div','popup research-sources');source.setAttribute('aria-label','Sources and citation');const sourcePage=node('div','sources-layout');const sourceBar=node('header','sources-header');const sourceClose=action('',()=>safeClose(sourcePopup),'button button-tonal sources-close');sourceClose.setAttribute('aria-label','Close sources');sourceClose.append(glyph(symbols.close),node('span','','Close'));sourceBar.append(node('h2','','Sources & citation'),sourceClose);const sourceScroll=node('div','sources-content');sourceScroll.append(top);const license=node('a','external ui-license','Interface runtime licences');license.href=notices;license.target='_blank';license.rel='noopener';sourceScroll.append(license);sourcePage.append(sourceBar,sourceScroll);source.append(sourcePage);root.append(source);
- const sheet=node('div','sheet-modal analysis-control-sheet');sheet.setAttribute('aria-label','Analysis controls');const handle=node('div','sheet-handle');const sheetBar=node('div','toolbar'),sheetInner=node('div','toolbar-inner');sheetInner.append(node('strong','','Analysis controls'),action('Done',()=>safeClose(controlsSheet),'button button-tonal'));sheetBar.append(sheetInner);const sheetContent=node('div','sheet-modal-inner'),sheetBody=node('div','analysis-sheet-body');sheetContent.append(sheetBody);sheet.append(handle,sheetBar,sheetContent);root.append(sheet);
- const shareButton=share;shareButton.className='button button-tonal native-share';const copyLink=action('Copy analysis link',async()=>{sharePopover?.close(false);try{await navigator.clipboard.writeText(location.href);app.toast.create({text:'Analysis link copied.',position:'bottom',closeTimeout:2200,destroyOnClose:true}).open();}catch{app.dialog.alert('Your browser could not copy the link. Use Share or copy the address from the address bar.','Analysis link');}},'button button-tonal');
- const shareMenu=node('div','popover share-popover');shareMenu.setAttribute('aria-label','Share analysis');const shareInner=node('div','popover-inner');shareInner.append(node('h3','','Share analysis'),shareButton,copyLink,action('Done',()=>safeClose(sharePopover),'button button-tonal'));shareMenu.append(shareInner);root.append(shareMenu);const nativeShareHandler=shareButton.onclick;shareButton.onclick=event=>{sharePopover?.close(false);nativeShareHandler?.call(shareButton,event);};
- function syncAppearance(){const dark=Boolean(app?.darkMode);for(const b of [appearanceButton,...quick.filter(b=>b.dataset.quick==='appearance')]){b.title=`Switch to ${dark?'light':'dark'} mode`;b.setAttribute('aria-checked',String(dark));b.querySelector('svg')?.replaceWith(glyph(dark?symbols.sun:symbols.appearance));const label=b.querySelector('.tabbar-label');if(label)label.textContent=dark?'Light mode':'Dark mode';}}
- function toggleAppearance(){if(!app)return;const dark=!app.darkMode;remember('atlas-appearance',dark?'dark':'light');app.setDarkMode(dark);syncAppearance();}
- const motionRow=node('label','interface-motion');motionRow.append(node('span','','Reduce interface motion'));const toggle=node('span','toggle toggle-init'),motion=node('input');motion.type='checkbox';motion.checked=stored('atlas-motion','full')==='reduced';motion.setAttribute('aria-label','Reduce interface motion');motion.onchange=()=>{remember('atlas-motion',motion.checked?'reduced':'full');document.documentElement.classList.toggle('atlas-reduced-motion',motion.checked);root.dataset.reducedMotion=String(reduced());if(app){for(const name of ['popup','popover','sheet'])app.params[name].animate=!reduced();}};toggle.append(motion,node('span','toggle-icon'));motionRow.append(toggle);sidebarFoot.insertBefore(motionRow,sidebarFoot.lastChild);
- document.documentElement.classList.toggle('atlas-reduced-motion',stored('atlas-motion','full')==='reduced');
- let disposed=false,lastTab=initial,trail=0,controlMoves=[],enhanceFrame,querySequence=0;const smartInstances=new Set(),smartNodes=new WeakMap(),modalStack=[],returnFocus=new WeakMap();
- function closeControls(){for(const {element,placeholder}of controlMoves){if(placeholder.isConnected)placeholder.replaceWith(element);}controlMoves=[];sheetBody.replaceChildren();}
- function openControls(){if(!app)return;closeControls();const candidates=[...body.querySelectorAll(':scope>.controls,:scope>.comparison-controls,.comparative-views>.comparison-controls,.pathway-explorer .tree-toolbar')];if(!candidates.length){app.toast.create({text:'Controls are located beside the relevant figure.',closeTimeout:2500,position:'bottom',destroyOnClose:true}).open();return;}for(const element of candidates){const placeholder=node('div','controls-placeholder');element.before(placeholder);sheetBody.append(element);controlMoves.push({element,placeholder});}controlsSheet.open(!reduced());}
- function update(tab){if(tab!==lastTab){trail++;lastTab=tab;back.hidden=trail<1;scroll.scrollTop=0;}sectionTitle.textContent=tabs.find(t=>t[0]===tab)?.[1]||'Atlas';for(const b of quick){const active=b.dataset.quick===tab;b.classList.toggle('tab-link-active',active);b.setAttribute('aria-current',active?'page':'false');}if(panelInstance?.opened&&!panel.classList.contains('panel-in-breakpoint'))safeClose(panelInstance);scheduleEnhance();}
- function scheduleEnhance(){if(enhanceFrame)return;enhanceFrame=requestAnimationFrame(()=>{enhanceFrame=0;enhance();});}
- function enhance(){if(!app)return;enhanceFigures?.(body);themeScientificPlots(body);root.dataset.reducedMotion=String(reduced());for(const el of root.querySelectorAll('button:not(.matrix-cell),.overview-source-link,summary.tree-focus,.research-smart-select,.item-radio,.item-checkbox')){el.classList.add('f7-press');if(getComputedStyle(el).position==='static')el.classList.add('f7-press-anchor');}for(const instance of smartInstances){if(!instance.el?.isConnected&&!instance.opened){instance.destroy();smartInstances.delete(instance);}}
-  for(const select of [...body.querySelectorAll('select'),...sheetBody.querySelectorAll('select')]){if(smartNodes.has(select)||select.multiple)continue;const hadFocus=document.activeElement===select;const title=select.getAttribute('aria-label')||select.closest('label')?.querySelector('span')?.textContent||'Select an option';const wrap=node('span','smart-select item-link research-smart-select');wrap.tabIndex=select.disabled?-1:0;wrap.classList.toggle('disabled',select.disabled);wrap.setAttribute('aria-disabled',String(select.disabled));wrap.setAttribute('role','button');wrap.setAttribute('aria-label',`Choose ${title}`);wrap.setAttribute('aria-haspopup','dialog');select.before(wrap);wrap.append(select);select.tabIndex=-1;select.setAttribute('aria-hidden','true');const item=node('span','item-content'),inner=node('span','item-inner'),text=node('span','item-title',select.selectedOptions[0]?.textContent||'Choose');inner.append(text);item.append(inner);wrap.append(item);const instance=app.smartSelect.create({el:wrap,view,openIn:matchMedia('(max-width:700px)').matches?'sheet':'popover',pageTitle:title,searchbar:select.options.length>7,searchbarPlaceholder:`Search ${title.toLowerCase()}`,searchbarDisableText:'Cancel',sheetCloseLinkText:'Done',popupCloseLinkText:'Done',sheetBackdrop:true,sheetSwipeToClose:true,closeOnSelect:true,scrollToSelectedItem:true,virtualList:select.options.length>60,routableModals:false,cssClass:'research-choice-modal',formatValueText:values=>values.join(', '),on:{beforeOpen(ss){ss.params.openIn=matchMedia('(max-width:700px)').matches?'sheet':'popover';},open(ss){const modal=ss.$containerEl?.[0];if(modal){modal.setAttribute('aria-label',title);const left=modal.querySelector('.toolbar-inner .left');if(left&&!left.textContent)left.append(node('strong','research-choice-heading',title));if(modal.matches('.popover')){const header=node('header','choice-header');header.append(node('strong','',title),action('Done',()=>ss.close(),'button button-tonal choice-close'));modal.querySelector('.popover-inner').prepend(header);}}}}});wrap.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();instance.open();}});smartNodes.set(select,instance);smartInstances.add(instance);if(hadFocus)wrap.focus({preventScroll:true});select.addEventListener('change',()=>{text.textContent=select.selectedOptions[0]?.textContent||'Choose';});}
-  for(const b of body.querySelectorAll('button:not([data-science-button])')){b.dataset.scienceButton='';if(!b.matches('.matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene')){b.classList.add('button');if(b.matches('.primary'))b.classList.add('button-fill');else b.classList.add('button-tonal');}}
-  for(const b of body.querySelectorAll('button[aria-pressed]'))b.classList.toggle('button-active',b.getAttribute('aria-pressed')==='true');
-  for(const list of body.querySelectorAll('.tree-view-toggle,.network-view-toggle'))list.classList.add('segmented','segmented-strong');
-  for(const table of body.querySelectorAll('.table-scroll,.network-table-scroll'))table.classList.add('data-table');
-  for(const badge of body.querySelectorAll('.status'))badge.classList.add('badge');
-  const primaryControls=body.querySelector('.controls,.comparison-controls')||controlMoves.map(m=>m.element).find(el=>el.matches('.controls,.comparison-controls'));
-  if(primaryControls){primaryControls.dataset.shellControls='';let summary=body.querySelector('.mobile-analysis-summary');if(!summary){summary=action('',openControls,'mobile-analysis-summary');summary.setAttribute('aria-label','Edit analysis settings');primaryControls.before(summary);}const values=[...primaryControls.querySelectorAll('select')].filter(s=>!s.disabled).slice(0,4).map(s=>s.selectedOptions[0]?.textContent).filter(Boolean).join(' · ');if(summary.dataset.value!==values){summary.dataset.value=values;summary.replaceChildren(node('span','','Analysis settings'),node('strong','',values),glyph(symbols.controls));}}
-  if(controlsSheet?.opened&&!controlMoves.length)openControls();
-  controlButton.disabled=!body.querySelector('.controls,.comparison-controls,.tree-toolbar')&&!controlMoves.length;
- }
- function focusables(el){return [...el.querySelectorAll('button,a[href],input,select,[tabindex="0"]')].filter(n=>!n.disabled&&n.getAttribute('aria-hidden')!=='true'&&n.getClientRects().length);}
- function modalOpen(e){const el=e.target;el.dataset.shellModalReady='false';if(!el.matches('.popup,.sheet-modal,.popover,.panel'))return;if(el===panel&&panel.classList.contains('panel-in-breakpoint'))return;returnFocus.set(el,document.activeElement);el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');for(const a of el.querySelectorAll('a:not([href])')){a.setAttribute('role','button');a.tabIndex=0;a.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();a.click();}});}if(!el.getAttribute('aria-label'))el.setAttribute('aria-label',el.querySelector('.title,.toolbar-inner strong')?.textContent||'Research options');if(!modalStack.includes(el))modalStack.push(el);}
- function modalOpened(e){const el=e.target;el.dataset.shellModalReady='true';if(!modalStack.includes(el))return;const first=focusables(el)[0];first?.focus({preventScroll:true});}
- function modalClosed(e){const el=e.target;const index=modalStack.indexOf(el);if(index<0)return;modalStack.splice(index,1);el.removeAttribute('aria-modal');if(el===panel)el.setAttribute('role','navigation');const target=returnFocus.get(el);if(target?.isConnected)target.focus({preventScroll:true});else{const title=target?.getAttribute('aria-label');if(title)[...root.querySelectorAll('[aria-label]')].find(n=>n.getAttribute('aria-label')===title&&n.getClientRects().length)?.focus({preventScroll:true});}scheduleEnhance();}
- const onModalKeydown=event=>{const modal=[...modalStack].reverse().find(el=>el.isConnected&&(el.classList.contains('modal-in')||el.classList.contains('panel-in')));if(!modal)return;if(event.key==='Escape'){event.preventDefault();event.stopPropagation();if(modal===panel)safeClose(panelInstance);else safeClose(modal.f7Modal);}else if(event.key==='Tab'){const options=focusables(modal);if(!options.length){event.preventDefault();return;}const first=options[0],last=options.at(-1);if(event.shiftKey&&(document.activeElement===first||!modal.contains(document.activeElement))){event.preventDefault();last.focus();}else if(!event.shiftKey&&(document.activeElement===last||!modal.contains(document.activeElement))){event.preventDefault();first.focus();}}};document.addEventListener('keydown',onModalKeydown);
- for(const type of ['panel','popup','sheet','popover']){root.addEventListener(`${type}:open`,modalOpen);root.addEventListener(`${type}:opened`,modalOpened);root.addEventListener(`${type}:closed`,modalClosed);}
- root.addEventListener('click',event=>{const link=event.target.closest('.sheet-close,.popup-close,.popover-close');if(!link)return;const modal=link.closest('.sheet-modal,.popup,.popover');if(modal&&modal.dataset.shellModalReady!=='true'){event.preventDefault();event.stopPropagation();modal.f7Modal?.close(false);}},true);
- let mousePress;
- function movePress(event){if(!mousePress)return;const rect=mousePress.getBoundingClientRect();mousePress.style.setProperty('--press-x',`${event.clientX-rect.left}px`);mousePress.style.setProperty('--press-y',`${event.clientY-rect.top}px`);}
- function startPress(event){if(event.pointerType!=='mouse'||event.button!==0||reduced())return;const target=event.target.closest('.f7-press');if(!target||target.disabled)return;mousePress=target;mousePress.dataset.mousePressed='true';movePress(event);}
- const endPress=event=>{if(mousePress){delete mousePress.dataset.mousePressed;mousePress=null;}for(const el of root.querySelectorAll('.f7-press[style]')){if(el.style.scale)el.dispatchEvent(new PointerEvent('pointerleave',{pointerType:event.pointerType||'touch'}));}};
- root.addEventListener('pointerdown',startPress);root.addEventListener('pointermove',movePress);document.addEventListener('pointerup',endPress);document.addEventListener('pointercancel',endPress);
- const tour=createAtlasTour({node,action,onClose:()=>safeClose(tourPopup),onRender:scheduleEnhance});root.append(tour.element);
- function openTour(){if(!tourPopup)return;sourcePopup?.close(false);sharePopover?.close(false);if(panelInstance?.opened&&!panel.classList.contains('panel-in-breakpoint'))panelInstance.close(false);tour.reset();tourPopup.open(!reduced());scheduleEnhance();}
- const observer=new MutationObserver(scheduleEnhance);observer.observe(body,{childList:true,subtree:true});const appearanceObserver=new MutationObserver(scheduleEnhance);appearanceObserver.observe(document.documentElement,{attributes:true,attributeFilter:['class']});
- function initialize(){if(disposed)return;if(!root.isConnected){requestAnimationFrame(initialize);return;}app=new Framework7({el:root,name:'Psilocin transcriptomic atlas',theme:'ios',darkMode:stored('atlas-appearance','light')==='dark',colors:{primary:'#235780'},iosTranslucentBars:true,iosTranslucentModals:true,touch:{activeState:true,touchRipple:false,touchHighlight:true,touchHighlightElements:'#psilocin-app:not([data-reduced-motion=true]) .f7-press'},panel:{swipe:false},sheet:{closeOnEscape:false,animate:!reduced()},popover:{closeOnEscape:false,animate:!reduced()},popup:{closeOnEscape:false,animate:!reduced()},view:{browserHistory:false}});view=app.views.create(main,{router:false});panelInstance=app.panel.create({el:panel,visibleBreakpoint:1180,effect:'floating',side:'left',swipe:true,swipeOnlyClose:true,on:{open:()=>menuToggle.setAttribute('aria-expanded','true'),closed:()=>menuToggle.setAttribute('aria-expanded','false')}});controlsSheet=app.sheet.create({el:sheet,backdrop:true,swipeToClose:true,swipeHandler:handle,closeOnEscape:false,on:{closed:closeControls}});sourcePopup=app.popup.create({el:source,closeOnEscape:false,closeByBackdropClick:true,swipeToClose:'to-bottom',swipeHandler:'.sources-header'});tourPopup=app.popup.create({el:tour.element,closeOnEscape:false,closeByBackdropClick:true});sharePopover=app.popover.create({el:shareMenu,closeOnEscape:false,closeByBackdropClick:true,closeByOutsideClick:true});
-  if(stored('atlas-sidebar','expanded')==='collapsed')panelInstance.disableVisibleBreakpoint();
-  autocomplete=app.autocomplete.create({view,openerEl:find,openIn:'popup',pageTitle:'Find a gene',popupCloseLinkText:'Done',searchbarPlaceholder:'Symbol, Ensembl ID or verified alias',searchbarDisableText:'Cancel',closeOnSelect:true,valueProperty:'id',textProperty:'text',limit:100,renderItem(item){const parts=item.text.split(' · ');return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected?'checked':''}><i class="icon icon-radio"></i><div class="item-inner"><div class="item-title"><strong>${escapeHTML(parts[0])}</strong></div><div class="item-subtitle gene-finder-id">${escapeHTML(parts[1]||'')}</div>${parts.length>2?`<div class="item-text">${escapeHTML(parts.slice(2).join(' · '))}</div>`:''}</div></label></li>`;},notFoundText:'No matching filtered gene. Absence is not a null result.',source(query,render){const sequence=++querySequence;getGenes().then(genes=>{if(sequence!==querySequence)return;const q=query.trim().toUpperCase();if(!q){render([]);return;}const aliases=new Map(data.aliases.filter(a=>a.current_symbol.toUpperCase().includes(q)).map(a=>[a.selected_gene_id,a.current_symbol]));const found=genes.filter(g=>g.symbol.toUpperCase().includes(q)||g.id.toUpperCase().includes(q)||aliases.has(g.id));const score=g=>g.symbol.toUpperCase()===q||g.id.toUpperCase()===q?0:aliases.get(g.id)===q?1:g.symbol.toUpperCase().startsWith(q)?2:3;found.sort((a,b)=>score(a)-score(b)||a.symbol.localeCompare(b.symbol)||Number(b.selected)-Number(a.selected));render(found.slice(0,100).map(g=>({id:g.id,text:`${g.symbol} · ${g.id}${aliases.has(g.id)?` · alias ${aliases.get(g.id)}`:''}${g.selected?'':' · additional gene ID'}`})));}).catch(()=>render([]));},on:{change(values){if(values[0])go('genes',values[0].id);}}});
-  if(matchMedia('(pointer:fine)').matches)for(const b of root.querySelectorAll('.shell-icon'))app.tooltip.create({targetEl:b,text:b.getAttribute('aria-label'),trigger:'hover'});
-  const syncNavigation=()=>closeNav.setAttribute('aria-label',app.width>=1180?'Collapse navigation':'Close navigation');app.on('resize',syncNavigation);syncNavigation();if(stored('atlas-appearance','light')!=='dark')remember('atlas-appearance','light');syncAppearance();root.dataset.framework7='9.3.0';update(initial);enhance();
- }
- const skip=action('Skip to scientific content',()=>{const heading=body.querySelector('h1,h2');if(heading){heading.tabIndex=-1;heading.focus();}},'research-skip');root.prepend(skip);
- requestAnimationFrame(initialize);update(initial);
- return{update,scroll,beforeRender(){if(controlsSheet?.opened)closeControls();},closeOverlays(){sharePopover?.close(false);tourPopup?.close(false);controlsSheet?.close(false);closeControls();},destroy(){disposed=true;document.removeEventListener('keydown',onModalKeydown);observer.disconnect();appearanceObserver.disconnect();root.removeEventListener('pointerdown',startPress);root.removeEventListener('pointermove',movePress);document.removeEventListener('pointerup',endPress);document.removeEventListener('pointercancel',endPress);cancelAnimationFrame(enhanceFrame);app?.destroy();}};
+export function createAppShell({
+  root,
+  Framework7,
+  top,
+  nav,
+  body,
+  footer,
+  share,
+  menuToggle,
+  tabs,
+  go,
+  getGenes,
+  data,
+  notices,
+  initial,
+  enhanceFigures,
+}) {
+  root.id = "psilocin-app";
+  root.classList.add("research-app");
+  const panel = node("aside", "panel panel-left panel-cover research-sidebar");
+  panel.id = "research-sidebar";
+  panel.setAttribute("aria-label", "Research navigation");
+  const sidebarHead = node("div", "sidebar-brand");
+  sidebarHead.append(
+    node("span", "brand-symbol", "ψ"),
+    node("div", "sidebar-brand-text", "Psilocin atlas"),
+  );
+  const brandSymbol = sidebarHead.querySelector(".brand-symbol");
+  brandSymbol.textContent = "";
+  brandSymbol.innerHTML =
+    '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 5v22M6 7c1 1 1 3 1 6v2c0 8 18 8 18 0v-2c0-3 0-5 1-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const sidebarSub = node(
+    "p",
+    "sidebar-subtitle",
+    "Human-neuron transcriptomics",
+  );
+  let app,
+    view,
+    panelInstance,
+    controlsSheet,
+    sourcePopup,
+    autocomplete,
+    tourPopup,
+    sharePopover;
+  function safeClose(instance) {
+    if (instance)
+      instance.close(
+        !reduced() && instance.el?.dataset.shellModalReady === "true",
+      );
+  }
+  function toggleNavigation() {
+    if (!panelInstance) return;
+    root.dataset.sidebarAnimated = "true";
+    panelInstance.toggle(!reduced());
+    if (app.width >= 1180) {
+      remember(
+        "atlas-sidebar",
+        panelInstance.visibleBreakpointDisabled ? "collapsed" : "expanded",
+      );
+      if (panelInstance.visibleBreakpointDisabled)
+        menuToggle.focus({ preventScroll: true });
+    }
+  }
+  const closeNav = iconAction("Close navigation", "close", toggleNavigation);
+  sidebarHead.append(closeNav);
+  nav.className = "list menu-list research-nav";
+  nav.setAttribute("aria-label", "Explorer sections");
+  const navigation = createResearchNavigation({ nav, tabs, initial });
+
+  const sidebarNote = node("div", "sidebar-note");
+  sidebarNote.append(
+    node("span", "badge", "Fixed results · v1.2.0"),
+    node("p", "", "Independent reanalysis of Schmidt et al. (2026)."),
+  );
+  const sidebarFoot = node("div", "sidebar-footer");
+  sidebarFoot.append(
+    action("Atlas tour", openTour, "button button-tonal"),
+    action(
+      "Sources & citation",
+      () => sourcePopup?.open(!reduced()),
+      "button button-tonal",
+    ),
+  );
+  panel.append(sidebarHead, sidebarSub, nav, sidebarNote, sidebarFoot);
+  const views = node("div", "views research-views"),
+    main = node("div", "view view-main research-main"),
+    page = node("div", "page page-current research-page");
+  page.dataset.name = "atlas";
+  const navbar = node("header", "navbar research-navbar"),
+    navbg = node("div", "navbar-bg"),
+    navinner = node("div", "navbar-inner");
+  const left = node("div", "left");
+  menuToggle.className = "button button-round shell-icon";
+  menuToggle.replaceChildren(uiIcon("menu"));
+  menuToggle.onclick = toggleNavigation;
+  menuToggle.setAttribute("aria-controls", panel.id);
+  menuToggle.setAttribute("aria-label", "Open section menu");
+  menuToggle.setAttribute("aria-expanded", "false");
+  const back = iconAction("Previous research view", "back", () =>
+    history.back(),
+  );
+  back.hidden = true;
+  left.append(menuToggle, back);
+  const titles = node("div", "title research-navbar-title"),
+    sectionTitle = node("span", "", ""),
+    subtitle = node("small", "", "Psilocin · human cortical neurons");
+  titles.append(sectionTitle, subtitle);
+  const right = node("div", "right");
+  const find = iconAction("Find a gene", "search", () => autocomplete?.open());
+  find.classList.add("desktop-gene-finder");
+  const controlButton = iconAction(
+    "Analysis controls",
+    "controls",
+    openControls,
+  );
+  controlButton.hidden = true;
+  const appearanceButton = iconAction(
+    "Dark mode",
+    "appearance",
+    toggleAppearance,
+  );
+  appearanceButton.classList.add("desktop-appearance", "appearance-toggle");
+  appearanceButton.setAttribute("role", "switch");
+  const sourcesButton = iconAction("Sources", "book", () =>
+    sourcePopup?.open(!reduced()),
+  );
+  const shareControl = iconAction("Share analysis", "share", () =>
+    sharePopover?.open(shareControl, !reduced()),
+  );
+  shareControl.setAttribute("aria-haspopup", "dialog");
+  const fullscreenButton = iconAction(
+    "Enter fullscreen",
+    "fullscreen",
+    async () => {
+      try {
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          if (document.exitFullscreen) await document.exitFullscreen();
+          else document.webkitExitFullscreen?.();
+        } else if (root.requestFullscreen) await root.requestFullscreen();
+        else root.webkitRequestFullscreen?.();
+      } catch {
+        app?.toast
+          .create({
+            text: "Fullscreen is unavailable in this browser window.",
+            closeTimeout: 3000,
+          })
+          .open();
+      }
+    },
+  );
+  fullscreenButton.classList.add("app-fullscreen-toggle");
+  fullscreenButton.hidden = !(
+    (document.fullscreenEnabled && root.requestFullscreen) ||
+    (document.webkitFullscreenEnabled && root.webkitRequestFullscreen)
+  );
+  function syncFullscreenButton() {
+    const active = Boolean(
+      document.fullscreenElement || document.webkitFullscreenElement,
+    );
+    fullscreenButton.setAttribute(
+      "aria-label",
+      active ? "Exit fullscreen" : "Enter fullscreen",
+    );
+    fullscreenButton.setAttribute("aria-pressed", String(active));
+    fullscreenButton.title = active ? "Exit fullscreen" : "Enter fullscreen";
+    fullscreenButton.replaceChildren(
+      uiIcon(active ? "fullscreenExit" : "fullscreen"),
+    );
+  }
+  document.addEventListener("fullscreenchange", syncFullscreenButton);
+  document.addEventListener("webkitfullscreenchange", syncFullscreenButton);
+  syncFullscreenButton();
+  right.append(
+    controlButton,
+    find,
+    appearanceButton,
+    shareControl,
+    fullscreenButton,
+    sourcesButton,
+  );
+  navinner.append(left, titles, right);
+  navbar.append(navbg, navinner);
+  const scroll = node("div", "page-content research-scroll");
+  scroll.setAttribute("role", "region");
+  scroll.setAttribute("aria-label", "Scientific evidence workspace");
+  scroll.id = "research-content";
+  const content = node("div", "research-content-inner");
+  content.append(body, footer);
+  scroll.append(content);
+  const bottom = node(
+    "nav",
+    "toolbar toolbar-bottom tabbar tabbar-labels research-tabbar",
+  );
+  bottom.setAttribute("aria-label", "Quick research navigation");
+  const bottomInner = node("div", "toolbar-inner"),
+    bottomPane = node("div", "toolbar-pane");
+  bottomInner.append(bottomPane);
+  const quick = [];
+  for (const [id, title] of [
+    ["genes", "Genes"],
+    ["pathways", "Pathways"],
+    ["comparison", "Compare"],
+    ["appearance", "Appearance"],
+  ]) {
+    const b = action(
+      "",
+      () => (id === "appearance" ? toggleAppearance() : go(id)),
+      "tab-link",
+    );
+    b.setAttribute(
+      "aria-label",
+      id === "appearance"
+        ? "Dark mode"
+        : `Open ${tabs.find((t) => t[0] === id)[1]}`,
+    );
+    if (id === "appearance") {
+      b.classList.add("appearance-toggle");
+      b.setAttribute("role", "switch");
+    }
+    const source =
+      id === "appearance"
+        ? uiIcon("appearance")
+        : nav.querySelector(`[data-section="${id}"] svg`).cloneNode(true);
+    b.append(source, node("span", "tabbar-label", title));
+    b.dataset.quick = id;
+    bottomPane.append(b);
+    quick.push(b);
+  }
+  bottom.append(bottomInner);
+  page.append(navbar, scroll, bottom);
+  main.append(page);
+  views.append(main);
+  root.replaceChildren(panel, views);
+  const analysisLauncher = createAnalysisLauncher({
+    root,
+    desktopButton: controlButton,
+    openControls,
+    getApp: () => app,
+    prepareControls,
+    restoreControls: closeControls,
+    onOpen: (el, opener) => {
+      modalOpen({ target: el });
+      returnFocus.set(el, opener);
+    },
+    onOpened: (el) => modalOpened({ target: el }),
+    onClosed: (el) => modalClosed({ target: el }),
+  });
+  const source = node("div", "popup research-sources");
+  source.setAttribute("aria-label", "Sources and citation");
+  const sourcePage = node("div", "sources-layout");
+  const sourceBar = node("header", "sources-header");
+  const sourceClose = action(
+    "",
+    () => safeClose(sourcePopup),
+    "button button-tonal sources-close",
+  );
+  sourceClose.setAttribute("aria-label", "Close sources");
+  sourceClose.append(uiIcon("close"), node("span", "", "Close"));
+  sourceBar.append(node("h2", "", "Sources & citation"), sourceClose);
+  const sourceScroll = node("div", "sources-content");
+  sourceScroll.append(top);
+  const license = node(
+    "a",
+    "external ui-license",
+    "Interface runtime licences",
+  );
+  license.href = notices;
+  license.target = "_blank";
+  license.rel = "noopener";
+  sourceScroll.append(license);
+  sourcePage.append(sourceBar, sourceScroll);
+  source.append(sourcePage);
+  root.append(source);
+  const sheet = node("div", "sheet-modal analysis-control-sheet");
+  sheet.id = "analysis-controls-sheet";
+  sheet.setAttribute("aria-label", "Analysis controls");
+  const handle = node("div", "sheet-handle");
+  const sheetBar = node("div", "toolbar"),
+    sheetInner = node("div", "toolbar-inner");
+  sheetInner.append(
+    node("strong", "", "Analysis controls"),
+    action(
+      "Done",
+      () => safeClose(controlsSheet),
+      "button button-tonal",
+      "done",
+    ),
+  );
+  sheetBar.append(sheetInner);
+  const sheetContent = node("div", "sheet-modal-inner"),
+    sheetBody = node("div", "analysis-sheet-body");
+  sheetContent.append(sheetBody);
+  sheet.append(handle, sheetBar, sheetContent);
+  root.append(sheet);
+  const shareButton = share;
+  shareButton.className = "button button-tonal native-share";
+  const copyLink = action(
+    "Copy analysis link",
+    async () => {
+      sharePopover?.close(false);
+      try {
+        await navigator.clipboard.writeText(location.href);
+        app.toast
+          .create({
+            text: "Analysis link copied.",
+            position: "bottom",
+            closeTimeout: 2200,
+            destroyOnClose: true,
+          })
+          .open();
+      } catch {
+        app.dialog.alert(
+          "Your browser could not copy the link. Use Share or copy the address from the address bar.",
+          "Analysis link",
+        );
+      }
+    },
+    "button button-tonal",
+    "copy",
+  );
+  const shareMenu = node("div", "popover share-popover");
+  shareMenu.setAttribute("aria-label", "Share analysis");
+  const shareInner = node("div", "popover-inner");
+  shareInner.append(
+    node("h3", "", "Share analysis"),
+    shareButton,
+    copyLink,
+    action(
+      "Done",
+      () => safeClose(sharePopover),
+      "button button-tonal",
+      "done",
+    ),
+  );
+  shareMenu.append(shareInner);
+  root.append(shareMenu);
+  const nativeShareHandler = shareButton.onclick;
+  shareButton.onclick = (event) => {
+    sharePopover?.close(false);
+    nativeShareHandler?.call(shareButton, event);
+  };
+  function syncAppearance() {
+    const dark = Boolean(app?.darkMode);
+    for (const b of [
+      appearanceButton,
+      ...quick.filter((b) => b.dataset.quick === "appearance"),
+    ]) {
+      b.title = `Switch to ${dark ? "light" : "dark"} mode`;
+      b.setAttribute("aria-checked", String(dark));
+      b.querySelector("svg")?.replaceWith(uiIcon(dark ? "sun" : "appearance"));
+      const label = b.querySelector(".tabbar-label");
+      if (label) label.textContent = dark ? "Light mode" : "Dark mode";
+    }
+  }
+  function toggleAppearance() {
+    if (!app) return;
+    const dark = !app.darkMode;
+    remember("atlas-appearance", dark ? "dark" : "light");
+    app.setDarkMode(dark);
+    syncAppearance();
+  }
+  const motionRow = node("label", "interface-motion");
+  motionRow.append(node("span", "", "Reduce interface motion"));
+  const toggle = node("span", "toggle toggle-init"),
+    motion = node("input");
+  motion.type = "checkbox";
+  motion.checked = stored("atlas-motion", "full") === "reduced";
+  motion.setAttribute("aria-label", "Reduce interface motion");
+  motion.onchange = () => {
+    remember("atlas-motion", motion.checked ? "reduced" : "full");
+    document.documentElement.classList.toggle(
+      "atlas-reduced-motion",
+      motion.checked,
+    );
+    root.dataset.reducedMotion = String(reduced());
+    if (app) {
+      for (const name of ["popup", "popover", "sheet"])
+        app.params[name].animate = !reduced();
+    }
+  };
+  toggle.append(motion, node("span", "toggle-icon"));
+  motionRow.append(toggle);
+  sidebarFoot.append(motionRow);
+  document.documentElement.classList.toggle(
+    "atlas-reduced-motion",
+    stored("atlas-motion", "full") === "reduced",
+  );
+  let disposed = false,
+    lastTab = initial,
+    trail = 0,
+    controlMoves = [],
+    enhanceFrame,
+    querySequence = 0,
+    resultScrollPending = false;
+  const pathwaySuggestions = new Set(),
+    suggestionInputs = new WeakSet();
+  const smartInstances = new Set(),
+    smartNodes = new WeakMap(),
+    modalStack = [],
+    returnFocus = new WeakMap();
+  function closeControls() {
+    for (const { element, placeholder } of controlMoves) {
+      if (placeholder.isConnected) placeholder.replaceWith(element);
+    }
+    controlMoves = [];
+    sheetBody.replaceChildren();
+  }
+  function prepareControls(host) {
+    closeControls();
+    const candidates = [
+      ...body.querySelectorAll(
+        ":scope>.controls,:scope>.comparison-controls,.comparative-views>.comparison-controls,.pathway-explorer .tree-toolbar",
+      ),
+    ];
+    if (!candidates.length) {
+      app.toast
+        .create({
+          text: "Controls are located beside the relevant figure.",
+          closeTimeout: 2500,
+          position: "bottom",
+          destroyOnClose: true,
+        })
+        .open();
+      return false;
+    }
+    for (const element of candidates) {
+      const placeholder = node("div", "controls-placeholder");
+      element.before(placeholder);
+      host.append(element);
+      controlMoves.push({ element, placeholder });
+    }
+    return true;
+  }
+  function openControls(event) {
+    if (!app) return;
+    if (analysisLauncher.open(event)) return;
+    if (app.width < 1180) return;
+    const opener =
+      event?.currentTarget instanceof HTMLElement
+        ? event.currentTarget
+        : document.activeElement;
+    if (!prepareControls(sheetBody)) return;
+    controlsSheet.open(!reduced());
+    returnFocus.set(sheet, opener);
+  }
+  function update(tab) {
+    navigation.activate(tab, app);
+    if (tab !== lastTab) {
+      trail++;
+      lastTab = tab;
+      back.hidden = trail < 1;
+      scroll.scrollTop = 0;
+    }
+    sectionTitle.textContent = tabs.find((t) => t[0] === tab)?.[1] || "Atlas";
+    for (const b of quick) {
+      const active = b.dataset.quick === tab;
+      b.classList.toggle("tab-link-active", active);
+      b.setAttribute("aria-current", active ? "page" : "false");
+    }
+    if (
+      panelInstance?.opened &&
+      !panel.classList.contains("panel-in-breakpoint")
+    )
+      safeClose(panelInstance);
+    scheduleEnhance();
+  }
+  function scrollToUpdatedResult() {
+    if (!resultScrollPending || modalStack.length || !body.isConnected) return;
+    const target = body.querySelector(
+      ".figure-shell, .tree-canvas, .gene-detail, .comparison-plot, .plot-viewport",
+    );
+    if (!target || !target.getClientRects().length) return;
+    resultScrollPending = false;
+    requestAnimationFrame(() => {
+      if (target.isConnected)
+        target.scrollIntoView({
+          block: "start",
+          behavior: reduced() ? "instant" : "smooth",
+        });
+    });
+  }
+  function analysisControlChanged(event) {
+    const target = event.target;
+    if (
+      !(target instanceof HTMLElement) ||
+      !target.matches(
+        "select,input[type=radio],input[type=checkbox],input[type=range]",
+      ) ||
+      !target.closest(".controls,.comparison-controls,.tree-toolbar")
+    )
+      return;
+    resultScrollPending = true;
+    queueMicrotask(() => {
+      analysisLauncher.close();
+      if (controlsSheet?.opened) controlsSheet.close(!reduced());
+      scheduleEnhance();
+    });
+  }
+  root.addEventListener("change", analysisControlChanged, true);
+  function scheduleEnhance() {
+    if (enhanceFrame) return;
+    enhanceFrame = requestAnimationFrame(() => {
+      enhanceFrame = 0;
+      enhance();
+      scrollToUpdatedResult();
+    });
+  }
+  function enhance() {
+    if (!app) return;
+    enhanceFigures?.(body);
+    themeScientificPlots(body);
+    root.dataset.reducedMotion = String(reduced());
+    for (const el of root.querySelectorAll(
+      "button:not(.matrix-cell),.overview-source-link,summary.tree-focus,.research-smart-select,.item-radio,.item-checkbox",
+    )) {
+      el.classList.add("f7-press");
+      if (getComputedStyle(el).position === "static")
+        el.classList.add("f7-press-anchor");
+    }
+    for (const instance of smartInstances) {
+      if (!instance.el?.isConnected && !instance.opened) {
+        instance.destroy();
+        smartInstances.delete(instance);
+      }
+    }
+    for (const controller of pathwaySuggestions)
+      if (!controller.input.isConnected) {
+        controller.destroy();
+        pathwaySuggestions.delete(controller);
+      }
+    for (const input of [
+      ...body.querySelectorAll(".tree-search input"),
+      ...sheetBody.querySelectorAll(".tree-search input"),
+      ...analysisLauncher.body.querySelectorAll(".tree-search input"),
+    ])
+      if (!suggestionInputs.has(input)) {
+        suggestionInputs.add(input);
+        pathwaySuggestions.add(
+          createPathwayAutocomplete({ app, input, data, getGenes, root }),
+        );
+      }
+    for (const select of [
+      ...body.querySelectorAll("select"),
+      ...sheetBody.querySelectorAll("select"),
+      ...analysisLauncher.body.querySelectorAll("select"),
+    ]) {
+      if (smartNodes.has(select) || select.multiple) continue;
+      const hadFocus = document.activeElement === select;
+      const title =
+        select.getAttribute("aria-label") ||
+        select.closest("label")?.querySelector("span")?.textContent ||
+        "Select an option";
+      const wrap = node("span", "smart-select item-link research-smart-select");
+      wrap.tabIndex = select.disabled ? -1 : 0;
+      wrap.classList.toggle("disabled", select.disabled);
+      wrap.setAttribute("aria-disabled", String(select.disabled));
+      wrap.setAttribute("role", "button");
+      wrap.setAttribute("aria-label", `Choose ${title}`);
+      wrap.setAttribute("aria-haspopup", "dialog");
+      select.before(wrap);
+      wrap.append(select);
+      select.tabIndex = -1;
+      select.setAttribute("aria-hidden", "true");
+      const item = node("span", "item-content"),
+        inner = node("span", "item-inner"),
+        text = node(
+          "span",
+          "item-title",
+          select.selectedOptions[0]?.textContent || "Choose",
+        );
+      inner.append(text);
+      item.append(inner);
+      wrap.append(item);
+      const instance = app.smartSelect.create({
+        el: wrap,
+        view,
+        openIn: matchMedia("(max-width:700px)").matches ? "sheet" : "popover",
+        pageTitle: title,
+        searchbar: select.options.length > 7,
+        searchbarPlaceholder: `Search ${title.toLowerCase()}`,
+        searchbarDisableText: "Cancel",
+        sheetCloseLinkText: "Done",
+        popupCloseLinkText: "Done",
+        sheetBackdrop: true,
+        sheetSwipeToClose: true,
+        closeOnSelect: true,
+        scrollToSelectedItem: true,
+        virtualList: select.options.length > 60,
+        routableModals: false,
+        cssClass: "research-choice-modal",
+        formatValueText: (values) => values.join(", "),
+        on: {
+          beforeOpen(ss) {
+            ss.params.openIn = matchMedia("(max-width:700px)").matches
+              ? "sheet"
+              : "popover";
+          },
+          open(ss) {
+            const modal = ss.$containerEl?.[0];
+            if (modal) {
+              modal.setAttribute("aria-label", title);
+              const left = modal.querySelector(".toolbar-inner .left");
+              if (left && !left.textContent)
+                left.append(node("strong", "research-choice-heading", title));
+              if (modal.matches(".popover")) {
+                const header = node("header", "choice-header");
+                header.append(
+                  node("strong", "", title),
+                  action(
+                    "Done",
+                    () => ss.close(),
+                    "button button-tonal choice-close",
+                    "done",
+                  ),
+                );
+                modal.querySelector(".popover-inner").prepend(header);
+              }
+            }
+          },
+        },
+      });
+      wrap.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          instance.open();
+        }
+      });
+      smartNodes.set(select, instance);
+      smartInstances.add(instance);
+      if (hadFocus) wrap.focus({ preventScroll: true });
+      select.addEventListener("change", () => {
+        text.textContent = select.selectedOptions[0]?.textContent || "Choose";
+      });
+    }
+    for (const b of body.querySelectorAll(
+      "button:not([data-science-button])",
+    )) {
+      b.dataset.scienceButton = "";
+      if (
+        !b.matches(
+          ".matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene",
+        )
+      ) {
+        b.classList.add("button");
+        if (b.matches(".primary")) b.classList.add("button-fill");
+        else b.classList.add("button-tonal");
+      }
+    }
+    for (const b of body.querySelectorAll("button[aria-pressed]"))
+      b.classList.toggle(
+        "button-active",
+        b.getAttribute("aria-pressed") === "true",
+      );
+    for (const list of body.querySelectorAll(
+      ".tree-view-toggle,.network-view-toggle",
+    ))
+      list.classList.add("segmented", "segmented-strong");
+    for (const table of body.querySelectorAll(
+      ".table-scroll,.network-table-scroll",
+    ))
+      table.classList.add("data-table");
+    for (const badge of body.querySelectorAll(".status"))
+      badge.classList.add("badge");
+    const primaryControls =
+      body.querySelector(".controls,.comparison-controls") ||
+      controlMoves
+        .map((m) => m.element)
+        .find((el) => el.matches(".controls,.comparison-controls"));
+    if (primaryControls) {
+      primaryControls.dataset.shellControls = "";
+      let summary = body.querySelector(".mobile-analysis-summary");
+      if (!summary) {
+        summary = action("", openControls, "mobile-analysis-summary");
+        summary.setAttribute("aria-label", "Edit analysis settings");
+        primaryControls.before(summary);
+      }
+      const values = [...primaryControls.querySelectorAll("select")]
+        .filter((s) => !s.disabled)
+        .slice(0, 4)
+        .map((s) => s.selectedOptions[0]?.textContent)
+        .filter(Boolean)
+        .join(" · ");
+      if (summary.dataset.value !== values) {
+        summary.dataset.value = values;
+        summary.replaceChildren(
+          node("span", "", "Analysis settings"),
+          node("strong", "", values),
+          uiIcon("controls"),
+        );
+      }
+    }
+    if (controlsSheet?.opened && !controlMoves.length) openControls();
+    analysisLauncher.setAvailable(
+      Boolean(
+        body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||
+          controlMoves.length,
+      ),
+    );
+  }
+  function focusables(el) {
+    return [
+      ...el.querySelectorAll('button,a[href],input,select,[tabindex="0"]'),
+    ].filter(
+      (n) =>
+        !n.disabled &&
+        n.getAttribute("aria-hidden") !== "true" &&
+        n.getClientRects().length,
+    );
+  }
+  function modalOpen(e) {
+    const el = e.target;
+    el.dataset.shellModalReady = "false";
+    if (
+      !el.matches(".popup,.sheet-modal,.popover,.panel,.analysis-morph-panel")
+    )
+      return;
+    if (el === panel && panel.classList.contains("panel-in-breakpoint")) return;
+    returnFocus.set(el, document.activeElement);
+    el.setAttribute("role", "dialog");
+    el.setAttribute("aria-modal", "true");
+    for (const a of el.querySelectorAll("a:not([href])")) {
+      a.setAttribute("role", "button");
+      a.tabIndex = 0;
+      a.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          a.click();
+        }
+      });
+    }
+    if (!el.getAttribute("aria-label"))
+      el.setAttribute(
+        "aria-label",
+        el.querySelector(".title,.toolbar-inner strong")?.textContent ||
+          "Research options",
+      );
+    if (!modalStack.includes(el)) modalStack.push(el);
+    views.inert = true;
+    root.dataset.modalOpen = "true";
+    analysisLauncher.sync();
+  }
+  function modalOpened(e) {
+    const el = e.target;
+    el.dataset.shellModalReady = "true";
+    if (!modalStack.includes(el)) return;
+    const first = focusables(el)[0];
+    first?.focus({ preventScroll: true });
+  }
+  function modalClosed(e) {
+    const el = e.target;
+    const index = modalStack.indexOf(el);
+    if (index < 0) return;
+    modalStack.splice(index, 1);
+    views.inert = modalStack.length > 0;
+    root.dataset.modalOpen = String(views.inert);
+    analysisLauncher.sync();
+    scheduleEnhance();
+    el.removeAttribute("aria-modal");
+    if (el === panel) el.setAttribute("role", "navigation");
+    const target = returnFocus.get(el);
+    if (
+      target?.isConnected &&
+      target.getClientRects().length &&
+      getComputedStyle(target).visibility !== "hidden" &&
+      !target.closest("[inert]")
+    )
+      target.focus({ preventScroll: true });
+    else {
+      const title = target?.getAttribute("aria-label");
+      if (title)
+        [...root.querySelectorAll("[aria-label]")]
+          .find(
+            (n) =>
+              n.getAttribute("aria-label") === title &&
+              n.getClientRects().length,
+          )
+          ?.focus({ preventScroll: true });
+    }
+    scheduleEnhance();
+  }
+  const onModalKeydown = (event) => {
+    const modal = [...modalStack]
+      .reverse()
+      .find(
+        (el) =>
+          el.isConnected &&
+          (el.classList.contains("modal-in") ||
+            el.classList.contains("panel-in")),
+      );
+    if (!modal) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      if (modal === panel) safeClose(panelInstance);
+      else safeClose(modal.f7Modal);
+    } else if (event.key === "Tab") {
+      const options = focusables(modal);
+      if (!options.length) {
+        event.preventDefault();
+        return;
+      }
+      const first = options[0],
+        last = options.at(-1);
+      if (
+        event.shiftKey &&
+        (document.activeElement === first ||
+          !modal.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        last.focus();
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last ||
+          !modal.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  };
+  document.addEventListener("keydown", onModalKeydown);
+  for (const type of ["panel", "popup", "sheet", "popover"]) {
+    root.addEventListener(`${type}:open`, modalOpen);
+    root.addEventListener(`${type}:opened`, modalOpened);
+    root.addEventListener(`${type}:closed`, modalClosed);
+  }
+  root.addEventListener(
+    "click",
+    (event) => {
+      const link = event.target.closest(
+        ".sheet-close,.popup-close,.popover-close",
+      );
+      if (!link) return;
+      const modal = link.closest(".sheet-modal,.popup,.popover");
+      if (modal && modal.dataset.shellModalReady !== "true") {
+        event.preventDefault();
+        event.stopPropagation();
+        modal.f7Modal?.close(false);
+      }
+    },
+    true,
+  );
+  let mousePress;
+  function movePress(event) {
+    if (!mousePress) return;
+    const rect = mousePress.getBoundingClientRect();
+    mousePress.style.setProperty("--press-x", `${event.clientX - rect.left}px`);
+    mousePress.style.setProperty("--press-y", `${event.clientY - rect.top}px`);
+  }
+  function startPress(event) {
+    if (event.pointerType !== "mouse" || event.button !== 0 || reduced())
+      return;
+    const target = event.target.closest(".f7-press");
+    if (!target || target.disabled) return;
+    mousePress = target;
+    mousePress.dataset.mousePressed = "true";
+    movePress(event);
+  }
+  const endPress = (event) => {
+    if (mousePress) {
+      delete mousePress.dataset.mousePressed;
+      mousePress = null;
+    }
+    for (const el of root.querySelectorAll(".f7-press[style]")) {
+      if (el.style.scale)
+        el.dispatchEvent(
+          new PointerEvent("pointerleave", {
+            pointerType: event.pointerType || "touch",
+          }),
+        );
+    }
+  };
+  root.addEventListener("pointerdown", startPress);
+  root.addEventListener("pointermove", movePress);
+  document.addEventListener("pointerup", endPress);
+  document.addEventListener("pointercancel", endPress);
+  const tour = createAtlasTour({
+    node,
+    action,
+    onClose: () => safeClose(tourPopup),
+    onRender: scheduleEnhance,
+  });
+  root.append(tour.element);
+  function openTour() {
+    if (!tourPopup) return;
+    sourcePopup?.close(false);
+    sharePopover?.close(false);
+    if (
+      panelInstance?.opened &&
+      !panel.classList.contains("panel-in-breakpoint")
+    )
+      panelInstance.close(false);
+    tour.reset();
+    tourPopup.open(!reduced());
+    scheduleEnhance();
+  }
+  const observer = new MutationObserver(scheduleEnhance);
+  observer.observe(body, { childList: true, subtree: true });
+  const appearanceObserver = new MutationObserver(scheduleEnhance);
+  appearanceObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  function initialize() {
+    if (disposed) return;
+    if (!root.isConnected) {
+      requestAnimationFrame(initialize);
+      return;
+    }
+    app = new Framework7({
+      el: root,
+      name: "Psilocin transcriptomic atlas",
+      theme: "ios",
+      darkMode: stored("atlas-appearance", "light") === "dark",
+      colors: { primary: "#235780" },
+      iosTranslucentBars: true,
+      iosTranslucentModals: true,
+      touch: {
+        activeState: true,
+        touchRipple: false,
+        touchHighlight: true,
+        touchHighlightElements:
+          "#psilocin-app:not([data-reduced-motion=true]) .f7-press",
+      },
+      panel: { swipe: false },
+      sheet: { closeOnEscape: false, animate: !reduced() },
+      popover: { closeOnEscape: false, animate: !reduced() },
+      popup: { closeOnEscape: false, animate: !reduced() },
+      view: { browserHistory: false },
+    });
+    view = app.views.create(main, { router: false });
+    panelInstance = app.panel.create({
+      el: panel,
+      visibleBreakpoint: 1180,
+      effect: "cover",
+      side: "left",
+      swipe: true,
+      swipeOnlyClose: true,
+      on: {
+        open: () => menuToggle.setAttribute("aria-expanded", "true"),
+        closed: () => menuToggle.setAttribute("aria-expanded", "false"),
+      },
+    });
+    controlsSheet = app.sheet.create({
+      el: sheet,
+      backdrop: true,
+      swipeToClose: true,
+      swipeHandler: handle,
+      closeOnEscape: false,
+      on: { closed: closeControls },
+    });
+    sourcePopup = app.popup.create({
+      el: source,
+      closeOnEscape: false,
+      closeByBackdropClick: true,
+      swipeToClose: "to-bottom",
+      swipeHandler: ".sources-header",
+    });
+    tourPopup = app.popup.create({
+      el: tour.element,
+      closeOnEscape: false,
+      closeByBackdropClick: true,
+    });
+    sharePopover = app.popover.create({
+      el: shareMenu,
+      closeOnEscape: false,
+      closeByBackdropClick: true,
+      closeByOutsideClick: true,
+    });
+    if (stored("atlas-sidebar", "expanded") === "collapsed")
+      panelInstance.disableVisibleBreakpoint();
+    autocomplete = app.autocomplete.create({
+      view,
+      openerEl: find,
+      openIn: "popup",
+      pageTitle: "Find a gene",
+      popupCloseLinkText: "Done",
+      searchbarPlaceholder: "Symbol, Ensembl ID or verified alias",
+      searchbarDisableText: "Cancel",
+      closeOnSelect: true,
+      valueProperty: "id",
+      textProperty: "text",
+      limit: 100,
+      renderItem(item) {
+        const parts = item.text.split(" · ");
+        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i><div class="item-inner"><div class="item-title"><strong>${escapeHTML(parts[0])}</strong></div><div class="item-subtitle gene-finder-id">${escapeHTML(parts[1] || "")}</div>${parts.length > 2 ? `<div class="item-text">${escapeHTML(parts.slice(2).join(" · "))}</div>` : ""}</div></label></li>`;
+      },
+      notFoundText: "No matching filtered gene. Absence is not a null result.",
+      source(query, render) {
+        const sequence = ++querySequence;
+        getGenes()
+          .then((genes) => {
+            if (sequence !== querySequence) return;
+            const q = query.trim().toUpperCase();
+            if (!q) {
+              render([]);
+              return;
+            }
+            const aliases = new Map(
+              data.aliases
+                .filter((a) => a.current_symbol.toUpperCase().includes(q))
+                .map((a) => [a.selected_gene_id, a.current_symbol]),
+            );
+            const found = genes.filter(
+              (g) =>
+                g.symbol.toUpperCase().includes(q) ||
+                g.id.toUpperCase().includes(q) ||
+                aliases.has(g.id),
+            );
+            const score = (g) =>
+              g.symbol.toUpperCase() === q || g.id.toUpperCase() === q
+                ? 0
+                : aliases.get(g.id) === q
+                  ? 1
+                  : g.symbol.toUpperCase().startsWith(q)
+                    ? 2
+                    : 3;
+            found.sort(
+              (a, b) =>
+                score(a) - score(b) ||
+                a.symbol.localeCompare(b.symbol) ||
+                Number(b.selected) - Number(a.selected),
+            );
+            render(
+              found.slice(0, 100).map((g) => ({
+                id: g.id,
+                text: `${g.symbol} · ${g.id}${aliases.has(g.id) ? ` · alias ${aliases.get(g.id)}` : ""}${g.selected ? "" : " · additional gene ID"}`,
+              })),
+            );
+          })
+          .catch(() => render([]));
+      },
+      on: {
+        change(values) {
+          if (values[0]) go("genes", values[0].id);
+        },
+      },
+    });
+    if (matchMedia("(pointer:fine)").matches)
+      for (const b of root.querySelectorAll(".shell-icon"))
+        app.tooltip.create({
+          targetEl: b,
+          text: b.getAttribute("aria-label"),
+          trigger: "hover",
+        });
+    const syncNavigation = () =>
+      closeNav.setAttribute(
+        "aria-label",
+        app.width >= 1180 ? "Collapse navigation" : "Close navigation",
+      );
+    app.on("resize", syncNavigation);
+    syncNavigation();
+    if (stored("atlas-appearance", "light") !== "dark")
+      remember("atlas-appearance", "light");
+    syncAppearance();
+    root.dataset.framework7 = "9.3.0";
+    update(initial);
+    enhance();
+  }
+  const skip = action(
+    "Skip to scientific content",
+    () => {
+      const heading = body.querySelector("h1,h2");
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus();
+      }
+    },
+    "research-skip",
+  );
+  root.prepend(skip);
+  requestAnimationFrame(initialize);
+  update(initial);
+  return {
+    update,
+    scroll,
+    beforeRender() {
+      analysisLauncher.close(false);
+      if (controlsSheet?.opened) closeControls();
+    },
+    closeOverlays() {
+      analysisLauncher.close(false);
+      sharePopover?.close(false);
+      tourPopup?.close(false);
+      controlsSheet?.close(false);
+      closeControls();
+    },
+    destroy() {
+      disposed = true;
+      analysisLauncher.destroy();
+      document.removeEventListener("fullscreenchange", syncFullscreenButton);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        syncFullscreenButton,
+      );
+      for (const controller of pathwaySuggestions) controller.destroy();
+      document.removeEventListener("keydown", onModalKeydown);
+      observer.disconnect();
+      appearanceObserver.disconnect();
+      root.removeEventListener("change", analysisControlChanged, true);
+      root.removeEventListener("pointerdown", startPress);
+      root.removeEventListener("pointermove", movePress);
+      document.removeEventListener("pointerup", endPress);
+      document.removeEventListener("pointercancel", endPress);
+      cancelAnimationFrame(enhanceFrame);
+      app?.destroy();
+    },
+  };
 }

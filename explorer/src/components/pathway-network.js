@@ -1,3 +1,4 @@
+import {uiIcon} from './icons.js';
 import {plotPalette,themeScientificSVG} from './plot-theme.js';
 import {ribbon} from 'npm:d3-chord@3.0.1';
 import {arc} from 'npm:d3-shape@3.2.0';
@@ -7,7 +8,7 @@ import {label, fmt, sci, color, csvText, contrasts} from './format.js';
 const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, cls, text) => {const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n;};
 const svgEl = (tag, attrs = {}, text) => {const n = document.createElementNS(NS, tag); for (const [k,v] of Object.entries(attrs)) n.setAttribute(k,v); if (text !== undefined) n.textContent = text; return n;};
-const button = (text, fn, cls = 'secondary') => {const b = el('button', cls, text); b.type = 'button'; b.onclick = fn; return b;};
+const button = (text, fn, cls = 'secondary') => {const b = el('button', cls, text); b.type = 'button'; b.onclick = fn;if(text==='+'||text==='−'){b.textContent='';b.append(uiIcon(text==='+'?'plus':'minus'));}return b;};
 function save(name, text, type) {const url = URL.createObjectURL(new Blob([text], {type})); const a = el('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);}
 const tierLetters = {primary:'P', secondary:'S', exploratory:'E'};
 
@@ -74,6 +75,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   b.setAttribute('aria-label',`Inspect overlap: ${label(p.source)} and ${label(p.target)}`);return b;
  }
  function drawPairs() {
+  content.dataset.fullscreenHost='';content.dataset.fullscreenTitle='Pairwise gene-set overlap table';content.dataset.fullscreenInfo='Shared membership and Jaccard overlap for the selected annotation scope.';
   const scroll=el('div','network-table-scroll');scroll.tabIndex=0;scroll.setAttribute('aria-label','All pairwise overlaps');
   const table=el('table','overlap-table'),head=el('thead'),tr=el('tr');
   for(const name of ['Gene-set pair','Members A / B','Shared','Jaccard','Connection shown'])tr.append(el('th','',name));head.append(tr);table.append(head);
@@ -126,7 +128,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   function downloadChord(){const copy=s.cloneNode(true);copy.setAttribute('width','820');copy.setAttribute('height','780');copy.querySelectorAll('[role="button"]').forEach(n=>{n.removeAttribute('role');n.removeAttribute('tabindex');});themeScientificSVG(copy,plotPalette(root));save('pathway-overlap-chord.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');}
  }
  function drawGraph() {
-  const controls=el('div','network-map-controls');const scroll=el('div','network-map');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable pathway network');
+  const controls=el('div','network-map-controls');const scroll=el('div','network-map plot-viewport');scroll.style.setProperty('--plot-width','820px');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable pathway network');
   content.dataset.fullscreenHost='';content.dataset.fullscreenTitle='Pathway membership overlap network';content.dataset.fullscreenInfo='Connections encode shared annotated membership; positions and distances have no biological meaning.';
   const svg=svgEl('svg',{viewBox:'0 0 820 780',role:'group','aria-labelledby':'overlap-map-title','aria-describedby':'overlap-map-description',xmlns:NS});
   svg.append(svgEl('title',{id:'overlap-map-title'},'Pathway membership overlap network'),svgEl('desc',{id:'overlap-map-description'},'Undirected connections show shared annotated genes. Node colour is the archived NES. Distances have no scientific meaning. Equivalent exact values are in the overlap table and matrix.'));
@@ -171,7 +173,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   });
   function position(){for(const{n,g}of nodeElements)g.setAttribute('transform',`translate(${n.x},${n.y})`);for(const{p,visible,hit}of edgeElements){const a=byId.get(p.source),b=byId.get(p.target);for(const l of [visible,hit]){l.setAttribute('x1',a.x);l.setAttribute('y1',a.y);l.setAttribute('x2',b.x);l.setAttribute('y2',b.y);}}}
   position();let zoom=1;const zoomLabel=el('span','network-zoom-label','100%');zoomLabel.setAttribute('role','status');
-  function setZoom(value){zoom=Math.max(.5,Math.min(2,value));svg.style.width=`${zoom*100}%`;svg.style.minWidth=`${640*zoom}px`;zoomLabel.textContent=`${Math.round(zoom*100)}%`;}
+  function setZoom(value){zoom=Math.max(.5,Math.min(2,value));scroll.style.setProperty('--network-zoom',String(zoom));svg.style.removeProperty('width');svg.style.removeProperty('min-width');zoomLabel.textContent=`${Math.round(zoom*100)}%`;}
   const move=button('Move nodes',()=>{moving=!moving;move.setAttribute('aria-pressed',String(moving));scroll.classList.toggle('move-nodes',moving);});move.setAttribute('aria-pressed','false');
   controls.append(button('−',()=>setZoom(zoom-.25)),zoomLabel,button('+',()=>setZoom(zoom+.25)),button('Reset layout',()=>{for(const n of nodes)Object.assign(n,original.get(n.id));position();setZoom(1);}),move);
   controls.children[0].setAttribute('aria-label','Zoom out network');controls.children[2].setAttribute('aria-label','Zoom in network');

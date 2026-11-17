@@ -69,7 +69,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   const tableButton = action('Table', () => setView('table'));
   const networkButton = action('Pathway overlap', () => setView('network'));
   view.append(treeButton, tableButton, networkButton);
-  const searchLabel = node('label', 'tree-search');
+  const searchLabel = node('div', 'tree-search');
   searchLabel.append(node('span', '', 'Search pathways and genes'));
   const search = node('input'); search.type = 'search'; search.placeholder = 'Gene symbol, alias, Ensembl ID or pathway';
   search.setAttribute('aria-label', 'Search pathways and genes'); search.value = state.query;
@@ -95,10 +95,10 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   canvas.setAttribute('aria-label', 'Scrollable pathway explorer');
   const downloads = node('div', 'tree-actions');
   root.append(toolbar, explanation, legend, shortcuts, notice, tools, canvas, downloads);
-  let genes, branches = [], loadError = false, drawToken = 0, networkMount;
+  let genes, branches = [], loadError = false, drawToken = 0, networkMount;let scrollToDisplay=Boolean(state.scrollToPlot);state.scrollToPlot=false;
   const loadStatus = node('p', 'note', 'Loading archived gene estimates…'); canvas.append(loadStatus);
   const notify = () => onState();
-  function setView(value) {state.view = value; notify(); draw(); onMembershipChange?.(); (value === 'tree' ? treeButton : value === 'network' ? networkButton : tableButton).focus();}
+  function setView(value) {scrollToDisplay=true;state.view = value; notify(); draw(); onMembershipChange?.(); (value === 'tree' ? treeButton : value === 'network' ? networkButton : tableButton).focus();}
   search.oninput = () => {state.query = search.value; notify(); draw();};
   member.onchange = () => {if(state.view==='network'){state.networkMembers=member.value;state.gene='';}else state.members = member.value; state.limits.clear(); notify(); draw(); onMembershipChange?.();};
   function selectPathway(id, scroll = true) {
@@ -161,8 +161,8 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
         networkMount=createPathwayNetwork({data,provenance,genes,state,contrast,tier,selectedPathway,
           onPathway:id=>selectPathway(id,true),
           onEdge:pair=>{selectedPathway=pair.source;onOverlap(pair);},
-          onState:(redraw,focusSelector)=>{onState();if(redraw)draw(focusSelector);}});
-        canvas.replaceChildren(networkMount);if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
+          onState:(redraw,focusSelector)=>{onState();if(redraw){if(focusSelector?.startsWith('[data-overlap-view='))scrollToDisplay=true;draw(focusSelector);}}});
+        canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion')?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
       }).catch(()=>{if(token===drawToken){canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
       return;
     }
@@ -199,6 +199,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
       }
       canvas.append(forest);
     }
+    if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>{if(canvas.isConnected)canvas.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion')?'instant':'smooth'});});}
     downloads.append(action('Download memberships CSV', () => save('pathway-tree-memberships.csv', csvText(exportMembershipRows(branches, contrast)), 'text/csv')),
       action('Download view provenance', () => save('pathway-tree-provenance.json', JSON.stringify({
         resource: 'Psilocin human-neuron transcriptomic atlas', view_url: location.href,

@@ -17,14 +17,19 @@
     "test:app": "node test/app-shell-browser-check.mjs",
     "test:tour": "node test/tour-browser-check.mjs",
     "test:plot-theme": "node test/plot-theme-browser-check.mjs",
-    "test:figures": "node test/figure-controls-browser-check.mjs"
+    "test:figures": "node test/figure-controls-browser-check.mjs",
+    "test:icons": "node test/icon-ui-browser-check.mjs",
+    "test:suggestions": "node test/pathway-autocomplete-browser-check.mjs",
+    "test:analysis-fab": "node test/analysis-fab-browser-check.mjs",
+    "test:plot-coverage": "node test/plot-coverage-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",
     "d3-chord": "3.0.1",
     "d3-force": "3.0.0",
     "d3-shape": "3.2.0",
-    "framework7": "9.3.0"
+    "framework7": "9.3.0",
+    "framework7-icons": "5.0.5"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
