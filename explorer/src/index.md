@@ -12,12 +12,14 @@ stylesheet.rel = "stylesheet";
 stylesheet.href = uiStyles;
 const styleReady = new Promise((resolve, reject) => { stylesheet.onload = resolve; stylesheet.onerror = reject; });
 document.head.prepend(stylesheet);
-await styleReady;
-const {default: Framework7} = await import(await FileAttachment("./assets/vendor/framework7.js").url());
+const [,{default: Framework7}, atlas, provenance] = await Promise.all([
+  styleReady,
+  FileAttachment("./assets/vendor/framework7.js").url().then((url) => import(url)),
+  FileAttachment("./data/atlas.json").json(),
+  FileAttachment("./data/provenance.json").json()
+]);
 const uiNotices = await FileAttachment("./assets/vendor/framework7.NOTICES.txt").url();
 const plotNotices = await FileAttachment("./assets/vendor/observable-plot.NOTICES.txt").url();
-const atlas = await FileAttachment("./data/atlas.json").json();
-const provenance = await FileAttachment("./data/provenance.json").json();
 const geneFile = FileAttachment("./data/genes.json");
 const branding = {Framework7, uiNotices, plotNotices, elife: await FileAttachment("./assets/elife-logo.svg").url(), zenodo: await FileAttachment("./assets/zenodo-icon.svg").url(), dryad: await FileAttachment("./assets/dryad-logo.png").url()};
 const application = createAtlas(atlas, provenance, () => geneFile.json(), branding);

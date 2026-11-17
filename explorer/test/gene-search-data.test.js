@@ -40,3 +40,25 @@ test("exact symbols precede prefixes and initial suggestions honor the selected 
 test("unknown identifiers return no fabricated matches", () => {
   assert.deepEqual(geneSuggestions(genes, aliases, "not-a-gene"), []);
 });
+test("cached searches retain the top twenty and isolate datasets and returned aliases", () => {
+  const many = Array.from({ length: 80 }, (_, i) => ({
+    id: `ID${i}`,
+    symbol: `GENE${String(i).padStart(2, "0")}`,
+    selected: i % 2 === 0,
+  }));
+  const preferred = ["ID79", "ID33"];
+  const initial = geneSuggestions(many, aliases, "", preferred);
+  assert.equal(initial.length, 20);
+  assert.deepEqual(
+    initial.slice(0, 2).map((g) => g.id),
+    preferred,
+  );
+  assert.equal(geneSuggestions(many, aliases, "GENE79")[0].id, "ID79");
+  const aliasResult = geneSuggestions(genes, aliases, "ATP5F1A");
+  aliasResult[0].aliases.push("FAKE");
+  assert.equal(
+    geneSuggestions(genes, aliases, "ATP5F1A")[0].aliases.includes("FAKE"),
+    false,
+  );
+  assert.deepEqual(geneSuggestions(genes, [], "ATP5F1A"), []);
+});

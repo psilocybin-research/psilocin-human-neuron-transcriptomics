@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 535,
-  "total_bytes": 252922239,
+  "total_bytes": 252924098,
   "status": "pass",
   "failures": [],
   "files": [
@@ -374,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 95565,
-      "sha256": "c5324f8437567ae3f9091ba35f8826df789f5895aca2b060a2af81fa58195498"
+      "bytes": 95547,
+      "sha256": "2e3ff5d3a931dce3c33593e60fc523a32553b441f66041009b0cba85a7720d83"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -424,8 +424,8 @@
     },
     {
       "path": "explorer/src/components/gene-search-data.js",
-      "bytes": 1426,
-      "sha256": "08b29a656e02990b79ae6b971705be933622d185db155c60612da7c717914aa3"
+      "bytes": 2469,
+      "sha256": "8ed1bd77032f9505b7d26772a332b450f27c16cd7c85725bffd83cdf362a0acd"
     },
     {
       "path": "explorer/src/components/gene-suggestions.js",
@@ -519,8 +519,8 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 1900,
-      "sha256": "7dfe0a39d2f28021bc63c9b195c567ac48f71f1e203a3eb66497f15a998322ca"
+      "bytes": 1909,
+      "sha256": "5bf58a9dfb7dd03102538d4cab5cab83d01e22971115ea436af41f4d7253697e"
     },
     {
       "path": "explorer/src/style.css",
@@ -594,8 +594,8 @@
     },
     {
       "path": "explorer/test/gene-search-data.test.js",
-      "bytes": 1424,
-      "sha256": "3155bd714acf9750134c853896f1375c910b98cadb96465f9d438bad488f4066"
+      "bytes": 2249,
+      "sha256": "734fd835532bd43ca818fd7884a52fced8d8afe312f9df234e855990db143924"
     },
     {
       "path": "explorer/test/icon-ui-browser-check.mjs",

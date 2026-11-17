@@ -1,4 +1,7 @@
-import { showResearchEvidence } from "./interface-utils.js";
+import {
+  createElement as el,
+  showResearchEvidence,
+} from "./interface-utils.js";
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import {
   downloadFile as download,
@@ -23,12 +26,6 @@ import {
   csvText,
 } from "./format.js";
 const NS = "http://www.w3.org/2000/svg";
-function el(tag, cls, text) {
-  const n = document.createElement(tag);
-  if (cls) n.className = cls;
-  if (text !== undefined) n.textContent = text;
-  return n;
-}
 function svgNode(tag, attrs = {}, text) {
   const n = document.createElementNS(NS, tag);
   for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
@@ -166,7 +163,8 @@ function scaleKey(limit, title) {
 export function createAtlas(data, provenance, loadGenes, branding = {}) {
   let shell;
   const root = el("div", "atlas");
-  addEventListener("hashchange", () => location.reload());
+  const reloadFromLocation = () => location.reload();
+  addEventListener("hashchange", reloadFromLocation);
   let genesPromise;
   const getGenes = () =>
     (genesPromise ??= trackActivity(
@@ -2718,6 +2716,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     enhanceFigures: enhancePlots,
   });
   render();
-  root.destroy = () => shell.destroy();
+  root.destroy = () => {
+    removeEventListener("hashchange", reloadFromLocation);
+    shell.destroy();
+  };
   return root;
 }
