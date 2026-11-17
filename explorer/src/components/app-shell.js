@@ -758,6 +758,7 @@ export function createAppShell({
   }
   function modalOpen(e) {
     const el = e.target;
+    if (el === source) root.dataset.sourcesOpen = "true";
     el.dataset.shellModalReady = "false";
     if (
       !el.matches(".popup,.sheet-modal,.popover,.panel,.analysis-morph-panel")
@@ -797,6 +798,7 @@ export function createAppShell({
   }
   function modalClosed(e) {
     const el = e.target;
+    if (el === source) root.dataset.sourcesOpen = "false";
     const index = modalStack.indexOf(el);
     if (index < 0) return;
     modalStack.splice(index, 1);

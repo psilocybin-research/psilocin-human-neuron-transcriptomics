@@ -3407,3 +3407,22 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Sources rises above a recessed workspace; the modal keeps its native F7 motion. */
+#psilocin-app { perspective: 1200px; }
+#psilocin-app .research-views {
+  transform-origin: center center;
+  transition: transform 320ms cubic-bezier(.2,.8,.2,1), opacity 260ms ease;
+}
+#psilocin-app[data-sources-open="true"] .research-views {
+  transform: translateZ(-110px) scale(.96);
+  opacity: .58;
+  border-radius: 22px;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  #psilocin-app .research-views { transition: none; }
+  #psilocin-app[data-sources-open="true"] .research-views { transform: none; }
+}
+#psilocin-app[data-reduced-motion="true"] .research-views { transition: none; }
+#psilocin-app[data-reduced-motion="true"][data-sources-open="true"] .research-views { transform: none; }

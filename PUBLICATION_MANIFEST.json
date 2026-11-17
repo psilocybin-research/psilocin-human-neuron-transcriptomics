@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 505,
-  "total_bytes": 252728347,
+  "total_bytes": 252729260,
   "status": "pass",
   "failures": [],
   "files": [
@@ -279,8 +279,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 82629,
-      "sha256": "87a3a2928d7916821cd3b2fbbb70298d71e2ebcb3e244502ed1061557d03242a"
+      "bytes": 83425,
+      "sha256": "5446a59c7248b773554e08433b92ce114c1558fca17c44697fbb08595a007b86"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -334,8 +334,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 40362,
-      "sha256": "16b52439c79df215b37f040e10f74fb19a63217449eb6f8e2bdddd79106f1ee9"
+      "bytes": 40479,
+      "sha256": "54a3f14571079028e63b6e57633a8b1ec2c4ec4f26acf3da8f41b44596fd0a5c"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
