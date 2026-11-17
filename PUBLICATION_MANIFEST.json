@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 535,
-  "total_bytes": 252927477,
+  "total_bytes": 252927745,
   "status": "pass",
   "failures": [],
   "files": [
@@ -404,8 +404,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 13450,
-      "sha256": "39d39b8fece7bc564a100f822b2c11e8578164a3a398efdea2fec2b6bd5c3e4b"
+      "bytes": 13718,
+      "sha256": "923dad9aadcd544dd6bf64cd63f55aad68d2e4d3ed8547f719ca323431233f8d"
     },
     {
       "path": "explorer/src/components/file-download.js",

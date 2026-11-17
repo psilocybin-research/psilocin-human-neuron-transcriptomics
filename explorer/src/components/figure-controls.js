@@ -279,7 +279,7 @@ export function enhancePlots(scope) {
     let scaleViewport = host.matches(".plot-viewport")
       ? host
       : host.querySelector(".plot-viewport");
-    if (scaleViewport || host.matches(".overlap-figure")) {
+    if (scaleViewport?.matches(".network-map") || host.matches(".overlap-figure")) {
       let graphic = scaleViewport?.querySelector("svg");
       const readable = button(
         "",
@@ -304,16 +304,21 @@ export function enhancePlots(scope) {
       hint.hidden = true;
       pane.append(readable);
       toolbar.append(hint);
+      function updateReadingAvailability() {
+        const naturalWidth = graphic?.viewBox?.baseVal.width || 0;
+        readable.hidden =
+          !scaleViewport?.matches(".network-map") ||
+          (!scaleViewport.classList.contains("readable") &&
+            scaleViewport.clientWidth >= naturalWidth * (2 / 3));
+      }
       const resize = new ResizeObserver(() => {
         if (!shell.isConnected) {
           resize.disconnect();
           return;
         }
-        readable.hidden =
-          !scaleViewport ||
-          scaleViewport.clientWidth >=
-            (graphic?.viewBox?.baseVal.width || 0) - 8;
+        updateReadingAvailability();
       });
+      updateReadingAvailability();
       if (scaleViewport) resize.observe(scaleViewport);
       else readable.hidden = true;
       host.addEventListener("figure:contentchange", () => {
@@ -323,7 +328,7 @@ export function enhancePlots(scope) {
         readable.setAttribute("aria-pressed", "false");
         readable.title = "Read labels";
         hint.hidden = true;
-        readable.hidden = !scaleViewport;
+        updateReadingAvailability();
         if (scaleViewport) resize.observe(scaleViewport);
       });
     }
