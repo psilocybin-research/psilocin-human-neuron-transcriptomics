@@ -3310,10 +3310,11 @@ body {
   min-height: 44px;
   padding: 6px 12px;
   border-radius: 16px;
-  background: var(--f7-glass-bg-color);
-  box-shadow: var(--f7-glass-shadow);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 #psilocin-app .research-title-glass small {
   margin-top: 3px;
@@ -3331,13 +3332,6 @@ body {
   animation: f7-dive-next-to-current var(--f7-page-dive-transition-duration)
     ease-out both;
   transform-origin: top center;
-}
-@media (prefers-reduced-transparency: reduce) {
-  #psilocin-app .research-title-glass {
-    background: var(--research-glass-solid);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   #psilocin-app .research-view-enter {
