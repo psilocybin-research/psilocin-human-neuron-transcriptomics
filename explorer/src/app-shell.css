@@ -712,19 +712,6 @@ body {
 #psilocin-app .autocomplete-popup .list {
   margin-top: 18px;
 }
-#psilocin-app .research-content-inner > .atlas-body {
-  animation: research-arrive 0.18s ease-out;
-}
-@keyframes research-arrive {
-  from {
-    opacity: 0.75;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 @media (min-width: 1180px) {
   #psilocin-app .research-sidebar {
     border-radius: 0;
