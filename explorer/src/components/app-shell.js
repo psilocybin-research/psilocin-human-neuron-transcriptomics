@@ -153,11 +153,12 @@ export function createAppShell({
     "appearance",
     toggleAppearance,
   );
-  appearanceButton.classList.add("desktop-appearance", "appearance-toggle");
+  appearanceButton.classList.add("appearance-toggle");
   appearanceButton.setAttribute("role", "switch");
   const sourcesButton = iconAction("Sources", "book", () =>
     sourcePopup?.open(!reduced()),
   );
+  sourcesButton.classList.add("desktop-sources");
   const shareControl = iconAction("Share analysis", "share", () =>
     sharePopover?.open(shareControl, !reduced()),
   );
@@ -231,30 +232,25 @@ export function createAppShell({
   bottomInner.append(bottomPane);
   const quick = [];
   for (const [id, title] of [
+    ["sources", "Sources"],
     ["genes", "Genes"],
     ["pathways", "Pathways"],
     ["comparison", "Compare"],
-    ["appearance", "Appearance"],
   ]) {
     const b = action(
       "",
-      () => (id === "appearance" ? toggleAppearance() : go(id)),
+      () => (id === "sources" ? sourcePopup?.open(!reduced()) : go(id)),
       "tab-link",
     );
     b.setAttribute(
       "aria-label",
-      id === "appearance"
-        ? "Dark mode"
-        : `Open ${tabs.find((t) => t[0] === id)[1]}`,
+      id === "sources" ? "Sources" : `Open ${tabs.find((t) => t[0] === id)[1]}`,
     );
-    if (id === "appearance") {
-      b.classList.add("appearance-toggle");
-      b.setAttribute("role", "switch");
-    }
     const source =
-      id === "appearance"
-        ? uiIcon("appearance")
+      id === "sources"
+        ? uiIcon("book")
         : nav.querySelector(`[data-section="${id}"] svg`).cloneNode(true);
+    if (id === "sources") b.setAttribute("aria-haspopup", "dialog");
     b.append(source, node("span", "tabbar-label", title));
     b.dataset.quick = id;
     bottomPane.append(b);
@@ -375,17 +371,13 @@ export function createAppShell({
   };
   function syncAppearance() {
     const dark = Boolean(app?.darkMode);
-    for (const b of [
-      appearanceButton,
-      ...quick.filter((b) => b.dataset.quick === "appearance"),
-    ]) {
-      b.title = `Switch to ${dark ? "light" : "dark"} mode`;
-      b.setAttribute("aria-checked", String(dark));
-      b.querySelector("svg")?.replaceWith(uiIcon(dark ? "sun" : "appearance"));
-      const label = b.querySelector(".tabbar-label");
-      if (label) label.textContent = dark ? "Light mode" : "Dark mode";
-    }
+    appearanceButton.title = `Switch to ${dark ? "light" : "dark"} mode`;
+    appearanceButton.setAttribute("aria-checked", String(dark));
+    appearanceButton
+      .querySelector("svg")
+      ?.replaceWith(uiIcon(dark ? "sun" : "appearance"));
   }
+
   function toggleAppearance() {
     if (!app) return;
     const dark = !app.darkMode;

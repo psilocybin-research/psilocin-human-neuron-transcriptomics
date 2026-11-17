@@ -1873,9 +1873,9 @@ body {
   }
 }
 
-/* Appearance is in the mobile toolbar and desktop header. */
+/* Mobile Sources lives in the bottom bar; appearance stays in the header. */
 @media (max-width: 1179px) {
-  #psilocin-app .research-navbar .desktop-appearance {
+  #psilocin-app .research-navbar .desktop-sources {
     display: none;
   }
 }
