@@ -22,7 +22,7 @@ html = html.replace(/<meta name="viewport"[^>]*>/,
 await writeFile(index, html);
 
 // Retain original ISC notices alongside redistributed D3 runtime code.
-for (const name of ['d3-force@3.0.0', 'd3-quadtree@3.0.2', 'd3-dispatch@3.0.2', 'd3-timer@3.0.2']) {
+for (const name of ['d3-force@3.0.0', 'd3-quadtree@3.0.2', 'd3-dispatch@3.0.2', 'd3-timer@3.0.2', 'd3-chord@3.0.1', 'd3-shape@3.2.0', 'd3-path@3.1.1']) {
   const directory = new URL(`_npm/${name}/`, output);
   const notice = await readFile(new URL(`../../third_party_licenses/${name.replace('@', '-')}.txt`, import.meta.url), 'utf8');
   for (const file of await readdir(directory)) {

@@ -346,6 +346,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/comparative-views.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/comparison-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/format.js": {
     "spdx": "MIT",
     "copyright": [
@@ -403,6 +415,18 @@
     ]
   },
   "explorer/test/browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/comparison-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/comparison-data.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -2760,6 +2784,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "third_party_licenses/d3-chord-3.0.1.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2021 Mike Bostock"
+    ]
+  },
   "third_party_licenses/d3-dispatch-3.0.2.txt": {
     "spdx": "ISC",
     "copyright": [
@@ -2772,10 +2802,22 @@
       "2010-2021 Mike Bostock"
     ]
   },
+  "third_party_licenses/d3-path-3.1.1.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2015-2026 Mike Bostock"
+    ]
+  },
   "third_party_licenses/d3-quadtree-3.0.2.txt": {
     "spdx": "ISC",
     "copyright": [
       "2010-2026 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-shape-3.2.0.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2022 Mike Bostock"
     ]
   },
   "third_party_licenses/d3-timer-3.0.2.txt": {

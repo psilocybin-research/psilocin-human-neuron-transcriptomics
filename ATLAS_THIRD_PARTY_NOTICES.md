@@ -13,3 +13,5 @@ The package lock contains other development and build dependencies that are not 
 ## Pathway-overlap layout
 
 The interactive overlap view uses d3-force 3.0.0, d3-quadtree 3.0.2, d3-dispatch 3.0.2 and d3-timer 3.0.2 under the ISC License, copyright Mike Bostock (years are preserved in each original notice). The original notices are retained in `third_party_licenses/d3-*.txt`. Runtime modules are served locally with the atlas. The force layout is a display arrangement; it does not estimate biological relationships or distances.
+
+The optional chord view additionally uses d3-chord 3.0.1, d3-shape 3.2.0 and d3-path 3.1.1 under ISC; original Mike Bostock copyright and permission notices are retained in the corresponding `third_party_licenses/` files and built runtime modules.

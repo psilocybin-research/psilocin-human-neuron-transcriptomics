@@ -1,3 +1,5 @@
+import {ribbon} from 'npm:d3-chord@3.0.1';
+import {arc} from 'npm:d3-shape@3.2.0';
 import {forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY} from 'npm:d3-force@3.0.0';
 import {overlapGraph, overlapRows} from './pathway-overlap.js';
 import {label, fmt, sci, color, csvText, contrasts} from './format.js';
@@ -23,7 +25,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  for (const v of [0, .05, .1, .2]) {const option = el('option', '', v === 0 ? '0 · show every nonzero overlap' : String(v)); option.value = String(v); thresholdSelect.append(option);}
  thresholdSelect.value = String(threshold); thresholdSelect.onchange = () => {state.threshold = +thresholdSelect.value; onState(true,'[aria-label="Minimum Jaccard"]');}; thresholdLabel.append(thresholdSelect);
  const views = el('div', 'network-view-toggle'); views.setAttribute('aria-label', 'Overlap display');
- for (const [value, name] of [['graph','Network'],['pairs','Overlap table'],['matrix','Matrix']]) {
+ for (const [value, name] of [['graph','Network'],['pairs','Overlap table'],['matrix','Matrix'],['chord','Chord']]) {
   const b = button(name, () => {state.networkView = value; onState(true,`[data-overlap-view="${value}"]`);}); b.dataset.overlapView=value;b.setAttribute('aria-pressed', String(state.networkView === value)); views.append(b);
  }
  options.append(thresholdLabel, views);
@@ -46,12 +48,13 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  const exports = el('div','tree-actions network-downloads');
  if (state.networkView === 'pairs') drawPairs();
  else if (state.networkView === 'matrix') drawMatrix();
+ else if (state.networkView === 'chord') drawChord();
  else drawGraph();
  exports.append(button('Download overlap CSV',()=>save('pathway-overlap.csv',csvText(overlapRows(graph,contrast,state.networkMembers,threshold)),'text/csv')),
   button('Download network provenance',()=>save('pathway-overlap-provenance.json',JSON.stringify({
    view_url:location.href, contrast, membership:state.networkMembers, tier, minimum_jaccard:threshold, search:state.query,
-   selected_pair:state.edge||null, selected_gene:state.gene||null, nodes:graph.nodes.map(n=>({id:n.id,tier:n.row.tier,members:n.size,available:n.available})),
-   pairs:graph.pairs.length, shown_connections:connections.length, data_sha256:provenance.outputs,
+   chord_sets:state.chordSets||null,selected_pair:state.edge||null, selected_gene:state.gene||null, nodes:graph.nodes.map(n=>({id:n.id,tier:n.row.tier,members:n.size,available:n.available})),
+   pairs:graph.pairs.length, shown_connections:state.networkView==='chord'?connections.filter(p=>state.chordSets?.includes(p.source)&&state.chordSets?.includes(p.target)).length:connections.length,node_inventory_scope:'all sets in selected analysis tier; chord subset listed separately', data_sha256:provenance.outputs,
    archived_release:'https://doi.org/10.5281/zenodo.23283595',
    definition:'Jaccard = |A intersection B| / |A union B|; literal frozen symbols, no alias expansion. All pairs exported including zero and unavailable overlaps. Search does not change denominators. The display threshold does not alter the exported inventory.',
    interpretation:'Descriptive annotation overlap, not gene interaction, co-expression, independent confirmation or causal evidence. Force-layout distances are arbitrary. No new statistical tests.'
@@ -93,6 +96,33 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
     else{const p=graph.pairs.find(p=>p.source===a.id&&p.target===b.id||p.source===b.id&&p.target===a.id);const btt=edgeButton(p,p.jaccard===null?'NA':p.jaccard>0&&p.jaccard<.01?'<0.01':fmt(p.jaccard,2));btt.style.background=p.jaccard===null?'#e3e6e8':`rgba(35,87,128,${p.jaccard*.75})`;btt.title=`${a.label} / ${b.label}: ${p.shared??'unavailable'} shared; Jaccard ${p.jaccard===null?'unavailable':fmt(p.jaccard,4)}`;td.append(btt);}tr.append(td);
    });body.append(tr);
   });table.append(body);scroll.append(table);content.append(el('p','note','All pairwise values, including zero, remain visible regardless of the graph threshold. NA = unavailable; diagonal self-comparisons are omitted.'),scroll);
+ }
+ function drawChord(){
+  const preferred=['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_RESPIRATORY_ELECTRON_TRANSPORT','HALLMARK_REACTIVE_OXYGEN_SPECIES_PATHWAY','HALLMARK_GLYCOLYSIS','HALLMARK_DNA_REPAIR','REACTOME_TELOMERE_MAINTENANCE'];
+  let ids=(state.chordSets?.length?state.chordSets:preferred).filter(id=>graph.nodes.some(n=>n.id===id)).slice(0,6);
+  if(!ids.length)ids=graph.nodes.slice(0,6).map(n=>n.id);
+  state.chordSets=ids;
+  const picker=el('fieldset','chord-set-picker');picker.append(el('legend','','Gene sets in chord view · maximum six'));
+  for(const n of graph.nodes){const l=el('label');const input=el('input');input.type='checkbox';input.checked=ids.includes(n.id);input.disabled=!input.checked&&ids.length>=6;input.dataset.chordSet=n.id;input.setAttribute('aria-label',`Chord gene set: ${n.label}`);input.onchange=()=>{state.chordSets=input.checked?[...ids,n.id]:ids.filter(id=>id!==n.id);onState(true,`[data-chord-set="${n.id}"]`);};l.append(input,document.createTextNode(n.short));picker.append(l);}content.append(picker);
+  content.append(el('p','note','Undirected ribbons encode pairwise shared-symbol counts. Equal angular sectors identify gene sets; ribbon endpoint widths use one common count scale. Unused sector space is not the number of unshared genes. A gene shared by more than two sets contributes to multiple ribbons.'));
+  if(ids.length<2){content.append(el('p','note','Select at least two gene sets for the chord view.'));return;}
+  const chosen=graph.nodes.filter(n=>ids.includes(n.id)),pairs=graph.pairs.filter(p=>ids.includes(p.source)&&ids.includes(p.target));
+  count.textContent=`${graph.nodes.length} available sets · ${chosen.length} selected sectors · ${pairs.filter(p=>p.shared>0&&p.jaccard>=threshold).length} displayed ribbons · ${pairs.filter(p=>!p.available).length} unavailable selected pairs.`;legend.textContent='Sector fill: archived NES, blue negative / rust positive / grey untestable (scale −3.6 to +3.6). Equal angular sectors. Ribbons show shared annotated symbols; select a ribbon for exact counts and gene-level evidence.';
+  const totals=new Map(chosen.map(n=>[n.id,pairs.filter(p=>p.source===n.id||p.target===n.id).reduce((sum,p)=>sum+(p.shared||0),0)]));
+  const span=Math.PI*2/chosen.length,padding=.12,maxTotal=Math.max(1,...totals.values()),unit=(span-padding)/maxTotal;
+  const starts=new Map(chosen.map((n,i)=>[n.id,i*span+padding/2])),sectors=new Map(chosen.map((n,i)=>[n.id,{startAngle:i*span+padding/2,endAngle:(i+1)*span-padding/2}]));
+  const scroll=el('div','network-map chord-map');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable chord diagram');
+  const s=svgEl('svg',{viewBox:'0 0 820 780',role:'group','aria-label':'Pairwise gene-set overlap chord diagram',xmlns:NS});const g=svgEl('g',{transform:'translate(410,370)'});s.append(g);
+  for(const p of pairs){if(!p.shared)continue;const a=starts.get(p.source),b=starts.get(p.target),width=p.shared*unit;starts.set(p.source,a+width);starts.set(p.target,b+width);
+   if(p.jaccard<threshold)continue;
+   const path=svgEl('path',{d:ribbon().radius(245)({source:{startAngle:a,endAngle:a+width},target:{startAngle:b,endAngle:b+width}}),fill:'#688aa3','fill-opacity':.42,stroke:'#fff','stroke-width':1,role:'button',tabindex:0,'class':'chord-ribbon','data-network-pair':p.key,'aria-label':`Inspect overlap: ${label(p.source)} and ${label(p.target)}, ${p.shared} shared genes`});path.append(svgEl('title',{},`${p.shared} shared symbols; Jaccard ${fmt(p.jaccard,4)}`));path.addEventListener('click',()=>chooseEdge(p));path.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseEdge(p);}});g.append(path);
+  }
+  chosen.forEach((n,i)=>{const sector=sectors.get(n.id),angle=(sector.startAngle+sector.endAngle)/2;const path=svgEl('path',{d:arc().innerRadius(250).outerRadius(268)(sector),fill:color(n.row.NES,3.6),stroke:'#425e73','stroke-width':1.5,role:'button',tabindex:0,'class':'chord-sector','data-network-node':n.id,'aria-label':`Inspect pathway: ${n.label}`});path.append(svgEl('title',{},`${n.label}: ${n.size??'unavailable'} members; NES ${fmt(n.row.NES)}, q ${sci(n.row.family_fdr)}`));path.addEventListener('click',()=>chooseNode(n.id));path.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseNode(n.id);}});g.append(path);
+   const x=Math.sin(angle)*310,y=-Math.cos(angle)*310;const text=svgEl('text',{x,y,'text-anchor':'middle','class':'chord-label','font-size':13,fill:'#203d50'});const lines=[''];for(const word of n.short.split(' ')){if((lines.at(-1)+' '+word).trim().length>17)lines.push(word);else lines[lines.length-1]=(lines.at(-1)+' '+word).trim();}lines.forEach((line,index)=>text.append(svgEl('tspan',{x,dy:index?16:0},line)));g.append(text);
+  });
+  s.append(svgEl('text',{x:16,y:745,'font-size':12,fill:'#203d50'},`${state.networkMembers==='all'?'Full frozen annotations':'Contrast-specific leading edges'} · ${contrasts[contrast]}`),svgEl('text',{x:16,y:767,'font-size':11,fill:'#203d50'},`Pairwise annotation overlap; no biological flux or temporal transitions. Jaccard display threshold ${threshold}.`));scroll.append(s);content.append(scroll);
+  exports.append(button('Download chord SVG',()=>downloadChord()));
+  function downloadChord(){const copy=s.cloneNode(true);copy.setAttribute('width','820');copy.setAttribute('height','780');copy.querySelectorAll('[role="button"]').forEach(n=>{n.removeAttribute('role');n.removeAttribute('tabindex');});save('pathway-overlap-chord.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');}
  }
  function drawGraph() {
   const controls=el('div','network-map-controls');const scroll=el('div','network-map');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable pathway network');

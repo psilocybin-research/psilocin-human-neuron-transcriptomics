@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 469,
-  "total_bytes": 252378917,
+  "file_count": 476,
+  "total_bytes": 252454119,
   "status": "pass",
   "failures": [],
   "files": [
@@ -59,8 +59,8 @@
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
-      "bytes": 1577,
-      "sha256": "217a13c7feac4c97c455c2c0af2413b108fca168a8ecf7630bc0a53ed4cd3880"
+      "bytes": 1826,
+      "sha256": "c0a67e682cc9729c9a7132bfb727e2397cfcfa7c317d1acb29a38190482a758e"
     },
     {
       "path": "CITATION.cff",
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 68190,
-      "sha256": "7314d8a9c078574ff17a4826bbe645e3f26330ed7f108d367b4742244125da87"
+      "bytes": 69107,
+      "sha256": "1c4f99071e4f11cd9ce0b76f61758b1032c690b37335a9bdeff3e8615dfc5b8d"
     },
     {
       "path": "LICENSE.md",
@@ -124,8 +124,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 6007,
-      "sha256": "dfa61f21ca72c6c24e95a15c5722aac8ab43918e4b7eb668bf65ff617ac40b77"
+      "bytes": 6522,
+      "sha256": "8016d384f3f77a7529ccd4d55fece53b73f72533d0f0a3a4a79a79172e149c2b"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -229,8 +229,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 2139,
-      "sha256": "29c6da130959b9135d42849ec66037f147c66e06eaacd800f9d67c8f98fd9a71"
+      "bytes": 4821,
+      "sha256": "90796e9363a9c01e8270045507503e7bcf131cf29d590802775619462ac0dc84"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -239,13 +239,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 154529,
-      "sha256": "113342b3c8d6383bb6ec7a7cef26d23aeab84a8aee91aab6a0cfc13e371231d7"
+      "bytes": 155707,
+      "sha256": "f0c57d1be10039a14d16ed6bcdb081a80650d29dd20388489e078e65653f19e2"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 730,
-      "sha256": "455d25a37e5cbb85aeacf66972485962abc0e2e8ea6881cb9b2f299066b298b0"
+      "bytes": 845,
+      "sha256": "fbd946681524fd42558cca0e605a3c24bd0d27d6ad643ed0258a24c07187e696"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -259,8 +259,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 1966,
-      "sha256": "675eff777ca2fd7905167354dcc708a45bcf11daf5ed57a3e01e71306cdefe3a"
+      "bytes": 2019,
+      "sha256": "3a1f2de5562827fa3bbdbdf4caef0ade15a339b166ebf60b395969b42815d797"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -309,8 +309,18 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 71165,
-      "sha256": "fc2af5014dc3f5b2370f989a306b7af188e6c7551da943b8bc8e2ef433d1700a"
+      "bytes": 73615,
+      "sha256": "e96b5687f444f8ec471267e85c743850392e5197ebcd91c2c6f60f1f4ec29f49"
+    },
+    {
+      "path": "explorer/src/components/comparative-views.js",
+      "bytes": 38654,
+      "sha256": "3ab1aa231614b56d4e260a308d5066dcdd2b4ab030c64a90226d954f5cd6ae94"
+    },
+    {
+      "path": "explorer/src/components/comparison-data.js",
+      "bytes": 1598,
+      "sha256": "3c9abe6330383420a1e7a15c183518a2c99aead166c5a42475e2d033e2af46df"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -319,8 +329,8 @@
     },
     {
       "path": "explorer/src/components/pathway-network.js",
-      "bytes": 19383,
-      "sha256": "382c45411183e9ebf72696957917dec7b94be262adfb67b94a445e6e73670d4b"
+      "bytes": 25384,
+      "sha256": "ebaa1b391feb79bfa0cb0729766e74080656e6e93523c1f73f43f9924fbf224a"
     },
     {
       "path": "explorer/src/components/pathway-overlap.js",
@@ -354,13 +364,23 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 40625,
-      "sha256": "7eea4fdf69ccc0fee988ba16a60f9ab0166cc4c4ac636eef0366880039f0099b"
+      "bytes": 47233,
+      "sha256": "293ae0a4c406da355963ca67dccca9af14a087adcee107db0bbe9e22570193f6"
     },
     {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 12829,
       "sha256": "f95acd197eb1466ff6029de7078e8d5b1db77d1297689ad8950e5c2f7acc9f23"
+    },
+    {
+      "path": "explorer/test/comparison-browser-check.mjs",
+      "bytes": 9298,
+      "sha256": "fe5203751fffe39cc1165bf6e13d74b37e96de84f77d8d19c8f1b182c57358de"
+    },
+    {
+      "path": "explorer/test/comparison-data.test.js",
+      "bytes": 2691,
+      "sha256": "b49be1d7304a0350c5dd4a7e4f5e5ad1c82924361bb7fc7884f15d09744be4ef"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -2318,6 +2338,11 @@
       "sha256": "4245f65e5dc988096551927935665ca6adf14dfc3092a8ad5c05c1f23d6e95bb"
     },
     {
+      "path": "third_party_licenses/d3-chord-3.0.1.txt",
+      "bytes": 731,
+      "sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+    },
+    {
       "path": "third_party_licenses/d3-dispatch-3.0.2.txt",
       "bytes": 731,
       "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
@@ -2328,9 +2353,19 @@
       "sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
     },
     {
+      "path": "third_party_licenses/d3-path-3.1.1.txt",
+      "bytes": 731,
+      "sha256": "f5dff44740d51a1849b4d16b657eccf60577fb5d28d8ee46d33dcc780a11f94a"
+    },
+    {
       "path": "third_party_licenses/d3-quadtree-3.0.2.txt",
       "bytes": 731,
       "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
+    },
+    {
+      "path": "third_party_licenses/d3-shape-3.2.0.txt",
+      "bytes": 731,
+      "sha256": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884"
     },
     {
       "path": "third_party_licenses/d3-timer-3.0.2.txt",
