@@ -212,7 +212,11 @@ try {
       await page.locator(".gene-diagnostics svg[data-plot-renderer]").count(),
       2,
     );
-    assert.ok(await page.locator('.gene-diagnostics [role=button][aria-label^="Inspect "]').count() > 0);
+    assert.ok(
+      (await page
+        .locator('.gene-diagnostics [role=button][aria-label^="Inspect "]')
+        .count()) > 0,
+    );
     await page.goto(base + "#view=dna");
     await page
       .getByText("Canonical gene panel · includes absent and mixed results", {
@@ -238,6 +242,10 @@ try {
         name: "View public gene and protein context",
         exact: true,
       })
+      .click();
+    await page
+      .locator(".gene-connection-confirmation")
+      .getByRole("button", { name: "Connect", exact: true })
       .click();
     await page.locator(".gene-information-sheet.modal-in").waitFor();
     await page.close();

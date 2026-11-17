@@ -1,4 +1,9 @@
-import { createElement as el, loadingMessage } from "./interface-utils.js";
+import {
+  createElement as el,
+  loadingMessage,
+  escapeHTML,
+  createAccordion,
+} from "./interface-utils.js";
 import {
   createAnnotationClient,
   ensemblIdentity,
@@ -59,10 +64,82 @@ async function annotation(gene) {
     );
   return result;
 }
+// Confirm each new information session before sending identifiers to providers.
+function confirmConnection(app, gene) {
+  if (app.el.querySelector(".gene-connection-confirmation"))
+    return Promise.resolve(false);
+  return new Promise((resolve) => {
+    let accepted = false;
+    const label = (icon, text) =>
+      `${uiIcon(icon).outerHTML}<span>${text}</span>`;
+    const container =
+      document.fullscreenElement || document.webkitFullscreenElement || app.el;
+    const dialog = app.dialog.create({
+      containerEl: container,
+      title: label("information", "Connect to public databases?"),
+      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded.</p>`,
+      cssClass: "research-message-dialog gene-connection-confirmation",
+      closeByBackdropClick: true,
+      destroyOnClose: true,
+      buttons: [
+        { text: label("close", "Cancel") },
+        {
+          text: label("done", "Connect"),
+          strong: true,
+          onClick: () => {
+            accepted = true;
+          },
+        },
+      ],
+      on: {
+        closed() {
+          if (container !== app.el && dialog.backdropEl)
+            app.el.append(dialog.backdropEl);
+          resolve(accepted);
+        },
+      },
+    });
+    const details = createAccordion(
+      "Connection details",
+      "gene-connection-details",
+    );
+    const stableId = ensemblIdentity(gene.id).stableId;
+    for (const [title, text] of [
+      [
+        "Ensembl · rest.ensembl.org",
+        `Gene tab: sends ${stableId}; requests description, biotype, assembly, coordinates, strand and annotation version.`,
+      ],
+      [
+        "UniProt · rest.uniprot.org",
+        `Protein or 3D tab: searches human Ensembl cross-references for ${stableId}; requests protein accessions, names, sequences, features and structure references (up to 25 records).`,
+      ],
+      [
+        "RCSB PDB · files.rcsb.org",
+        "3D tab: the first linked PDB model opens automatically. Sends its PDB ID to download atomic coordinates; other models load when selected.",
+      ],
+      [
+        "AlphaFold · alphafold.ebi.ac.uk",
+        "Only when you choose prediction lookup: sends the selected UniProt accession; requests model metadata and downloads coordinates when opened. Sequence matching happens locally.",
+      ],
+    ])
+      details.body.append(el("strong", "", title), el("p", "", text));
+    details.body.append(
+      el(
+        "p",
+        "",
+        "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection; reopening this information sheet asks again. Provider links open external sites only when clicked.",
+      ),
+    );
+    dialog.el.querySelector(".dialog-inner").append(details.element);
+    if (container !== app.el && dialog.backdropEl)
+      container.append(dialog.backdropEl);
+    dialog.open(!matchMedia("(prefers-reduced-motion: reduce)").matches);
+  });
+}
 // Public information has its own native F7 sheet; archived evidence stays in place.
 export function geneAnnotation(gene) {
   return {
-    open(initial = "gene") {
+    async open(initial = "gene") {
       const root = document.querySelector("#psilocin-app"),
         app = root?.f7;
       if (!app) return;
@@ -70,6 +147,7 @@ export function geneAnnotation(gene) {
         active.select(initial);
         return;
       }
+      if (!(await confirmConnection(app, gene))) return;
       active?.close();
       const id = `gene-information-${++sequence}`;
       const sheet = el(
@@ -158,8 +236,21 @@ export function geneAnnotation(gene) {
         document.fullscreenElement || document.webkitFullscreenElement || root;
       container.append(sheet);
       let closed = false;
+      function openInitialStructure(key, pane) {
+        if (key !== "structures" || pane.hidden || pane.dataset.modelOpened)
+          return;
+        const button = pane.querySelector(
+          ".protein-structure-access [data-open-structure]",
+        );
+        if (!button) return;
+        pane.dataset.modelOpened = "true";
+        button.click();
+      }
       async function load(key) {
-        if (loaded.has(key)) return;
+        if (loaded.has(key)) {
+          openInitialStructure(key, panes.get(key));
+          return;
+        }
         loaded.add(key);
         const pane = panes.get(key);
         pane.setAttribute("aria-busy", "true");
@@ -188,6 +279,7 @@ export function geneAnnotation(gene) {
           if (closed) return;
           pane.replaceChildren(result);
           enhancePlots(pane, { nested: true });
+          openInitialStructure(key, pane);
         } catch (error) {
           if (closed) return;
           loaded.delete(key);

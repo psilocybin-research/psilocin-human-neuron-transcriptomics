@@ -96,7 +96,15 @@ try {
     page.on("pageerror", (e) => errors.push(e.message));
     let requests = 0;
     await page.route("https://rest.ensembl.org/**", (route) =>
-      route.fulfill({ json: { id: "ENSG00000167468", species: "homo_sapiens", object_type: "Gene", version: 12, display_name: "GPX4" } }),
+      route.fulfill({
+        json: {
+          id: "ENSG00000167468",
+          species: "homo_sapiens",
+          object_type: "Gene",
+          version: 12,
+          display_name: "GPX4",
+        },
+      }),
     );
     await page.route("https://rest.uniprot.org/**", async (route) => {
       requests++;
@@ -113,7 +121,10 @@ try {
     );
     await page.goto(base + "#view=genes&gene=GPX4");
     await page
-      .getByRole("button", { name: "View public gene and protein context", exact: true })
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
       .waitFor();
     assert.equal(requests, 0);
     if (width < 851) {
@@ -134,14 +145,26 @@ try {
       "molecular runtime absent at startup",
     );
     await page
-      .getByRole("button", { name: "View public gene and protein context", exact: true })
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
       .click();
-    assert.equal(await page.getByRole("button", { name: "Find 3D structures", exact: true }).count(), 0);
+    await page
+      .locator(".gene-connection-confirmation")
+      .getByRole("button", { name: "Connect", exact: true })
+      .click();
+    assert.equal(
+      await page
+        .getByRole("button", { name: "Find 3D structures", exact: true })
+        .count(),
+      0,
+    );
     await page.getByRole("tab", { name: "3D structures", exact: true }).click();
     await page.locator(".protein-record").first().waitFor();
     assert.equal(requests, 1);
     await page
-      .locator(".protein-structure-access [data-open-structure]")
+      .locator(".protein-structure-access [data-structure-rendered=true]")
       .waitFor();
     assert.equal(
       await page.locator(".protein-features svg").count(),
@@ -152,7 +175,12 @@ try {
       .getByRole("tab", { name: "Protein features", exact: true })
       .click();
     await page.locator(".protein-features svg[data-plot-renderer]").waitFor();
-    assert.equal(await page.getByRole('tab',{name:'Protein features',exact:true}).getAttribute('aria-selected'),'true');
+    assert.equal(
+      await page
+        .getByRole("tab", { name: "Protein features", exact: true })
+        .getAttribute("aria-selected"),
+      "true",
+    );
     await page.screenshot({ path: `/tmp/atlas-protein-sheet-${width}.png` });
     await page
       .getByRole("button", {
@@ -175,12 +203,13 @@ try {
     assert.equal(exported.protein.accession, "P36969");
     assert.ok(exported.retrieved_utc);
     await page.getByRole("tab", { name: "3D structures", exact: true }).click();
-    assert.equal(await page.getByRole('tab',{name:'3D structures',exact:true}).getAttribute('aria-selected'),'true');
+    assert.equal(
+      await page
+        .getByRole("tab", { name: "3D structures", exact: true })
+        .getAttribute("aria-selected"),
+      "true",
+    );
     assert.equal(requests, 1, "protein mapping shared across tabs");
-    await page
-      .getByRole("button", { name: "Open 3D structure", exact: true })
-      .first()
-      .click();
     await page.locator("[data-structure-rendered=true]").waitFor();
     assert.equal(await page.locator(".molecular-stage canvas").count(), 1);
     const notices = await page
@@ -202,6 +231,10 @@ try {
     );
     const fullscreen = figure.locator(".figure-fullscreen");
     assert.equal(await fullscreen.innerText(), "Fullscreen");
+    assert.ok(
+      await fullscreen.evaluate((n) => n.scrollWidth <= n.clientWidth),
+      "fullscreen label fits without clipping",
+    );
     const before = await page.locator(".molecular-stage").boundingBox();
     await fullscreen.click();
     await page.waitForFunction(() => Boolean(document.fullscreenElement));

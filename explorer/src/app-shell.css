@@ -3073,6 +3073,12 @@ body {
 #psilocin-app .network-content > .network-map.plot-viewport {
   scrollbar-gutter: auto;
 }
+/* Bundling is a fitted diagram; the page owns its vertical scrolling. */
+#psilocin-app .network-content .bundled-map.plot-viewport {
+  max-height: none;
+  overflow: visible;
+  scrollbar-gutter: auto;
+}
 
 #psilocin-app .analysis-fab-backdrop {
   z-index: 9999;
@@ -4134,11 +4140,13 @@ body {
   border-radius: 12px;
   background: var(--research-surface);
 }
-#psilocin-app .figure-fullscreen-labelled {
+#psilocin-app .figure-shell .figure-toolbar .toolbar-pane .figure-fullscreen-labelled {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  flex: 0 0 auto;
   width: auto;
+  white-space: nowrap;
   padding-inline: 10px;
 }
 #psilocin-app .figure-fullscreen-labelled span {
@@ -4238,4 +4246,21 @@ body {
 #psilocin-app .gene-information-pane .gene-annotation-body > .button {
   justify-self: start;
   width: auto;
+}
+
+#psilocin-app .gene-connection-confirmation .dialog-inner {
+  max-height: calc(100dvh - 140px);
+  overflow-y: auto;
+}
+#psilocin-app .gene-connection-details {
+  margin: 12px 0 0;
+  text-align: left;
+  font-size: 12px;
+}
+#psilocin-app .gene-connection-details .gene-annotation-body {
+  padding: 12px;
+  overflow-wrap: anywhere;
+}
+#psilocin-app .gene-connection-details .item-title {
+  white-space: normal;
 }

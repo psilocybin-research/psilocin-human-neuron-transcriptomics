@@ -47,6 +47,30 @@ try {
     await page
       .getByRole("button", { name: "View public gene and protein context" })
       .click();
+    const confirmation = page.locator(".gene-connection-confirmation");
+    await confirmation
+      .getByRole("button", { name: /Connection details/ })
+      .click();
+    await confirmation
+      .getByText("Ensembl · rest.ensembl.org", { exact: true })
+      .waitFor();
+    assert.equal(calls, 0, "details do not connect to providers");
+    await confirmation
+      .getByRole("button", { name: "Cancel", exact: true })
+      .click();
+    await confirmation.waitFor({ state: "detached" });
+    assert.equal(calls, 0, "cancel makes no external request");
+    assert.equal(await panel.count(), 0);
+    await page
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
+      .click();
+    await page
+      .locator(".gene-connection-confirmation")
+      .getByRole("button", { name: "Connect", exact: true })
+      .click();
     await panel.waitFor();
     await page
       .locator(".gene-information-sheet[data-shell-modal-ready=true]")
@@ -100,6 +124,10 @@ try {
         exact: true,
       })
       .click();
+    await page
+      .locator(".gene-connection-confirmation")
+      .getByRole("button", { name: "Connect", exact: true })
+      .click();
     await panel.locator(".gene-annotation-fields").waitFor();
     await page.keyboard.press("Escape");
     await panel.waitFor({ state: "detached" });
@@ -120,6 +148,10 @@ try {
       name: "View public gene and protein context",
       exact: true,
     })
+    .click();
+  await page
+    .locator(".gene-connection-confirmation")
+    .getByRole("button", { name: "Connect", exact: true })
     .click();
   await page
     .getByText(
