@@ -50,6 +50,7 @@ export function createAppShell({
   enhanceFigures,
 }) {
   root.id = "psilocin-app";
+  root.dataset.inputModality = "pointer";
   root.classList.add("research-app");
   const panel = node("aside", "panel panel-left panel-cover research-sidebar");
   panel.id = "research-sidebar";
@@ -95,8 +96,6 @@ export function createAppShell({
         menuToggle.focus({ preventScroll: true });
     }
   }
-  const closeNav = iconAction("Close navigation", "close", toggleNavigation);
-  sidebarHead.append(closeNav);
   nav.className = "list menu-list research-nav";
   nav.setAttribute("aria-label", "Explorer sections");
   const navigation = createResearchNavigation({ nav, tabs, initial });
@@ -130,15 +129,13 @@ export function createAppShell({
   menuToggle.setAttribute("aria-controls", panel.id);
   menuToggle.setAttribute("aria-label", "Open section menu");
   menuToggle.setAttribute("aria-expanded", "false");
-  const back = iconAction("Previous research view", "back", () =>
-    history.back(),
-  );
-  back.hidden = true;
-  left.append(menuToggle, back);
+  left.append(menuToggle);
   const titles = node("div", "title research-navbar-title"),
     sectionTitle = node("span", "", ""),
     subtitle = node("small", "", "Psilocin · human cortical neurons");
-  titles.append(sectionTitle, subtitle);
+  const titleGlass = node("div", "research-title-glass");
+  titleGlass.append(sectionTitle, subtitle);
+  titles.append(titleGlass);
   const right = node("div", "right");
   const find = iconAction("Find a gene", "search", () => autocomplete?.open());
   find.classList.add("desktop-gene-finder");
@@ -413,7 +410,7 @@ export function createAppShell({
   );
   let disposed = false,
     lastTab = initial,
-    trail = 0,
+    viewTransitionPending = false,
     controlMoves = [],
     enhanceFrame,
     querySequence = 0,
@@ -472,9 +469,8 @@ export function createAppShell({
   function update(tab) {
     navigation.activate(tab, app);
     if (tab !== lastTab) {
-      trail++;
       lastTab = tab;
-      back.hidden = trail < 1;
+      viewTransitionPending = Boolean(app) && !reduced();
       scroll.scrollTop = 0;
     }
     sectionTitle.textContent = tabs.find((t) => t[0] === tab)?.[1] || "Atlas";
@@ -492,17 +488,42 @@ export function createAppShell({
   }
   function scrollToUpdatedResult() {
     if (!resultScrollPending || modalStack.length || !body.isConnected) return;
-    const target = body.querySelector(
-      ".figure-shell, .tree-canvas, .gene-detail, .comparison-plot, .plot-viewport",
-    );
+    const network = body.querySelector(".overlap-network .network-content");
+    const target =
+      network?.closest(".figure-shell") ||
+      network?.querySelector(".figure-shell") ||
+      body.querySelector(".comparative-views .figure-shell") ||
+      body.querySelector(".figure-shell") ||
+      body.querySelector(
+        ".tree-canvas,.gene-detail,.comparison-plot,.plot-viewport",
+      );
     if (!target || !target.getClientRects().length) return;
-    resultScrollPending = false;
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      resultScrollPending = false;
+      return;
+    }
+    const rect = target.getBoundingClientRect();
+    const top = navbar.getBoundingClientRect().bottom + 8;
+    const bottomEdge = bottom.getClientRects().length
+      ? bottom.getBoundingClientRect().top
+      : innerHeight;
+    if (
+      rect.top >= top &&
+      rect.top < top + 120 &&
+      Math.min(rect.bottom, rect.top + 200) <= bottomEdge
+    ) {
+      resultScrollPending = false;
+      return;
+    }
     requestAnimationFrame(() => {
-      if (target.isConnected)
-        target.scrollIntoView({
-          block: "start",
-          behavior: reduced() ? "instant" : "smooth",
-        });
+      if (!target.isConnected) {
+        scheduleEnhance();
+        return;
+      }
+      resultScrollPending = false;
+      target.scrollIntoView({ block: "start", behavior: "instant" });
+      const offset = target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom - 12;
+      scroll.scrollTo({ top: scroll.scrollTop + offset, behavior: reduced() ? "instant" : "smooth" });
     });
   }
   function analysisControlChanged(event) {
@@ -512,7 +533,9 @@ export function createAppShell({
       !target.matches(
         "select,input[type=radio],input[type=checkbox],input[type=range]",
       ) ||
-      !target.closest(".controls,.comparison-controls,.tree-toolbar")
+      !target.closest(
+        ".controls,.comparison-controls,.tree-toolbar,.network-options,.chord-set-picker,.comparison-plot .control",
+      )
     )
       return;
     resultScrollPending = true;
@@ -805,6 +828,7 @@ export function createAppShell({
     scheduleEnhance();
   }
   const onModalKeydown = (event) => {
+    if (event.key === "Tab") root.dataset.inputModality = "keyboard";
     const modal = [...modalStack]
       .reverse()
       .find(
@@ -874,6 +898,7 @@ export function createAppShell({
     mousePress.style.setProperty("--press-y", `${event.clientY - rect.top}px`);
   }
   function startPress(event) {
+    root.dataset.inputModality = "pointer";
     if (event.pointerType !== "mouse" || event.button !== 0 || reduced())
       return;
     const target = event.target.closest(".f7-press");
@@ -963,8 +988,18 @@ export function createAppShell({
       swipe: true,
       swipeOnlyClose: true,
       on: {
-        open: () => menuToggle.setAttribute("aria-expanded", "true"),
-        closed: () => menuToggle.setAttribute("aria-expanded", "false"),
+        open: () => {
+          menuToggle.setAttribute("aria-expanded", "true");
+          if (app.width < 1180) {
+            sidebarHead.append(menuToggle);
+            menuToggle.setAttribute("aria-label", "Close navigation");
+          }
+        },
+        closed: () => {
+          menuToggle.setAttribute("aria-expanded", "false");
+          left.append(menuToggle);
+          menuToggle.setAttribute("aria-label", "Open section menu");
+        },
       },
     });
     controlsSheet = app.sheet.create({
@@ -1069,11 +1104,14 @@ export function createAppShell({
           text: b.getAttribute("aria-label"),
           trigger: "hover",
         });
-    const syncNavigation = () =>
-      closeNav.setAttribute(
+    const syncNavigation = () => {
+      const inDrawer = app.width < 1180 && panelInstance.opened;
+      (inDrawer ? sidebarHead : left).append(menuToggle);
+      menuToggle.setAttribute(
         "aria-label",
-        app.width >= 1180 ? "Collapse navigation" : "Close navigation",
+        inDrawer ? "Close navigation" : "Open section menu",
       );
+    };
     app.on("resize", syncNavigation);
     syncNavigation();
     if (stored("atlas-appearance", "light") !== "dark")
@@ -1097,10 +1135,22 @@ export function createAppShell({
   root.prepend(skip);
   requestAnimationFrame(initialize);
   update(initial);
+  function finishViewTransition(event) {
+    if (event.target === body) body.classList.remove("research-view-enter");
+  }
+  body.addEventListener("animationend", finishViewTransition);
   return {
     update,
     scroll,
+    afterRender() {
+      if (!viewTransitionPending || reduced()) return;
+      viewTransitionPending = false;
+      body.classList.remove("research-view-enter");
+      void body.offsetWidth;
+      body.classList.add("research-view-enter");
+    },
     beforeRender() {
+      body.classList.remove("research-view-enter");
       analysisLauncher.close(false);
       if (controlsSheet?.opened) closeControls();
     },
@@ -1113,6 +1163,7 @@ export function createAppShell({
     },
     destroy() {
       disposed = true;
+      body.removeEventListener("animationend", finishViewTransition);
       analysisLauncher.destroy();
       document.removeEventListener("fullscreenchange", syncFullscreenButton);
       document.removeEventListener(

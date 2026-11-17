@@ -161,7 +161,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
         networkMount=createPathwayNetwork({data,provenance,genes,state,contrast,tier,selectedPathway,
           onPathway:id=>selectPathway(id,true),
           onEdge:pair=>{selectedPathway=pair.source;onOverlap(pair);},
-          onState:(redraw,focusSelector)=>{onState();if(redraw){if(focusSelector?.startsWith('[data-overlap-view='))scrollToDisplay=true;draw(focusSelector);}}});
+          onState:(redraw,focusSelector)=>{onState();if(redraw){scrollToDisplay=true;draw(focusSelector);}}});
         canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion')?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
       }).catch(()=>{if(token===drawToken){canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
       return;

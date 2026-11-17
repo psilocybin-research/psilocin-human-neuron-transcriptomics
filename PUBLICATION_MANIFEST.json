@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 505,
-  "total_bytes": 252723292,
+  "total_bytes": 252728849,
   "status": "pass",
   "failures": [],
   "files": [
@@ -274,13 +274,13 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 2980,
-      "sha256": "2a37ccbca6e2dabb34fb16f67334f852751eff044eb2b938515800816d973586"
+      "bytes": 3001,
+      "sha256": "467fedaecfbdd00d20a916a94e4b2c3bb4e5d1c828996a387d6e20718a360036"
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 80183,
-      "sha256": "1c061e2a8f50e7b8fd67d92b2a237a9736ee219f471fa3441927406387b75a40"
+      "bytes": 83131,
+      "sha256": "175d6107e565bf1013bce5797e3948325b9a5e82cf50096fcbcd643091194ee6"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -329,13 +329,13 @@
     },
     {
       "path": "explorer/src/components/analysis-launcher.js",
-      "bytes": 7376,
-      "sha256": "11623f73248cc35ebd8e615fd7f2fbc8ffd7473365d2358d6ea1ab23a93e3854"
+      "bytes": 7378,
+      "sha256": "ede70df603027a05aa4b85824bc0b75b32d2705b9318cc93b8ad1ee793618098"
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 38226,
-      "sha256": "fd20ca4142c1ec7a12d2486576a1f0f4055a0a98167f51434a96a7b666c178c0"
+      "bytes": 40362,
+      "sha256": "16b52439c79df215b37f040e10f74fb19a63217449eb6f8e2bdddd79106f1ee9"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -344,8 +344,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 69085,
-      "sha256": "3f1f21bc17ee40389245078d3ab891bf987e8f27ed7d27d754f9e3f13e605b6e"
+      "bytes": 69106,
+      "sha256": "af7c87916e45eb209ad2373186246d67e59ec7e2f6eb771513e5bbf0d6912f83"
     },
     {
       "path": "explorer/src/components/comparative-views.js",
@@ -359,8 +359,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 12756,
-      "sha256": "800a57632f768da80309848dfbbc1bda6c96a6a202dc5d8947b3f0acdc8f1a3d"
+      "bytes": 12816,
+      "sha256": "84cbc028df3f272c86bca9fa3d82b4a07a445c0ea1c70b127040c8a029a6c2e5"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -369,8 +369,8 @@
     },
     {
       "path": "explorer/src/components/icons.js",
-      "bytes": 2252,
-      "sha256": "ed0223e5f605caf01c334517e5ee228fccceb1d1aea00f5cdbfe6fe42f79ae5b"
+      "bytes": 2281,
+      "sha256": "3f96b962ec9de23950ce27129376e22efa9dcc2f4c756ae2bed90653ccdc73d0"
     },
     {
       "path": "explorer/src/components/interface-utils.js",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/pathway-network.js",
-      "bytes": 26694,
-      "sha256": "f38f42c1e7d766c1a122369051342b8e7aa3ad77c2213b94bf1ec4d17b8acec5"
+      "bytes": 27086,
+      "sha256": "81459d7d8048cde9e270d4f76248ab1a5f2869e2e80ea3d1fa2b5022453d403d"
     },
     {
       "path": "explorer/src/components/pathway-overlap.js",
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/components/pathway-tree.js",
-      "bytes": 20902,
-      "sha256": "aaecabde16d0d2b46d9bf9bcab468ad2dbf91ead573b7e5500c5c87197e8fa77"
+      "bytes": 20850,
+      "sha256": "3dd95bd2ffa5ebf50a5352913cec5c3c6917669bca6309dd6c6f063344925f2b"
     },
     {
       "path": "explorer/src/components/plot-theme.js",

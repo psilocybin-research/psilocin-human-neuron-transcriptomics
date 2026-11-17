@@ -69,6 +69,7 @@ const iconNames = [
   "xmark",
   "chevron_left",
   "printer",
+  "textformat_size",
   "arrow_up_left_arrow_down_right",
   "arrow_down_right_arrow_up_left",
   "arrow_up",

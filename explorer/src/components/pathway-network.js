@@ -105,8 +105,11 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   let ids=(state.chordSets?.length?state.chordSets:preferred).filter(id=>graph.nodes.some(n=>n.id===id)).slice(0,6);
   if(!ids.length)ids=graph.nodes.slice(0,6).map(n=>n.id);
   state.chordSets=ids;
-  const picker=el('fieldset','chord-set-picker');picker.append(el('legend','','Gene sets in chord view · maximum six'));
-  for(const n of graph.nodes){const l=el('label');const input=el('input');input.type='checkbox';input.checked=ids.includes(n.id);input.disabled=!input.checked&&ids.length>=6;input.dataset.chordSet=n.id;input.setAttribute('aria-label',`Chord gene set: ${n.label}`);input.onchange=()=>{state.chordSets=input.checked?[...ids,n.id]:ids.filter(id=>id!==n.id);onState(true,`[data-chord-set="${n.id}"]`);};l.append(input,document.createTextNode(n.short));picker.append(l);}content.append(picker);
+  const picker=el('div','chord-set-picker list accordion-list');
+  const accordion=el('div','accordion-item'),toggle=el('a','item-link item-content f7-press');toggle.href='#';toggle.setAttribute('aria-label','Choose chord gene sets');
+  const toggleInner=el('div','item-inner');toggleInner.append(el('div','item-title','Chord gene sets'),el('div','item-after',`${ids.length} of 6`));toggle.append(toggleInner);
+  const panel=el('div','accordion-item-content'),choices=el('div','list chord-set-list');panel.append(choices);accordion.append(toggle,panel);picker.append(accordion);
+  for(const n of graph.nodes){const l=el('label','item-checkbox item-content');const input=el('input');input.type='checkbox';input.checked=ids.includes(n.id);input.disabled=!input.checked&&ids.length>=6;input.dataset.chordSet=n.id;input.setAttribute('aria-label',`Chord gene set: ${n.label}`);input.onchange=()=>{state.chordSets=input.checked?[...ids,n.id]:ids.filter(id=>id!==n.id);onState(true,`[data-chord-set="${n.id}"]`);};const inner=el('div','item-inner');inner.append(el('div','item-title',n.short));const check=el('i','icon icon-checkbox');l.append(input,check,inner);choices.append(l);}content.append(picker);
   content.append(el('p','note','Undirected ribbons encode pairwise shared-symbol counts. Equal angular sectors identify gene sets; ribbon endpoint widths use one common count scale. Unused sector space is not the number of unshared genes. A gene shared by more than two sets contributes to multiple ribbons.'));
   if(ids.length<2){content.append(el('p','note','Select at least two gene sets for the chord view.'));return;}
   const chosen=graph.nodes.filter(n=>ids.includes(n.id)),pairs=graph.pairs.filter(p=>ids.includes(p.source)&&ids.includes(p.target));
@@ -189,7 +192,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
    caption.forEach((text,i)=>copy.append(svgEl('text',{x:16,y:794+i*22,'font-size':13,'font-family':'system-ui, sans-serif',fill:'#203d50'},text)));
    themeScientificSVG(copy,plotPalette(root));save('pathway-overlap.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');
   }));
-  content.append(controls,el('p','note','The deterministic layout is static. Scroll to pan and use +/− to zoom. Node repositioning is optional; disable it to restore selection. Outlined nodes indicate search matches.'),scroll);scroll.append(svg);setZoom(1);
+  content.append(controls,scroll);scroll.append(svg);setZoom(1);
  }
  root.refreshSelection=id=>{if(id)selectedPathway=id;highlight();};root.focusSelection=()=>{const selected=[...root.querySelectorAll('[data-network-pair],[data-network-node]')].find(n=>n.dataset.networkPair===state.edge||!state.edge&&n.dataset.networkNode===selectedPathway);selected?.focus();};
  highlight();return root;

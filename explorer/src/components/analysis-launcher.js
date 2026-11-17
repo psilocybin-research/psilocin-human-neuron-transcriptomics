@@ -95,7 +95,7 @@ export function createAnalysisLauncher({
     desktopButton.hidden = false;
     desktopButton.disabled = !available;
     desktopButton.dataset.available = String(available);
-    desktopButton.setAttribute("aria-hidden", String(!available));
+    desktopButton.setAttribute("aria-disabled", String(!available));
     root.dataset.analysisAvailable = String(available);
     if (!mobile.matches && state !== "closed") close(false);
   }

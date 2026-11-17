@@ -283,15 +283,17 @@ export function enhancePlots(scope) {
     if (scaleViewport) {
       const graphic = scaleViewport.querySelector("svg");
       const readable = button(
-        "Read labels",
+        "",
         () => {
           const active = scaleViewport.classList.toggle("readable");
           readable.setAttribute("aria-pressed", String(active));
-          readable.textContent = active ? "Fit figure" : "Read labels";
+          readable.title = active ? "Fit figure" : "Read labels";
           hint.hidden = !active;
         },
         "secondary figure-reading",
       );
+      readable.append(icon("labels"));
+      readable.title = "Read labels";
       readable.setAttribute("aria-pressed", "false");
       readable.setAttribute("aria-label", `Toggle readable scale for ${title}`);
       const hint = el(

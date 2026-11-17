@@ -69,7 +69,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  function go(next,gene){shell?.closeOverlays();const previous=location.href,changed=next!==tab;tab=next;if(gene)selected=gene;syncLocation();const target=location.href;if(changed){history.replaceState(null,'',previous);history.pushState(null,'',target);}render();}
 
  for(const [id,t]of tabs){const item=button('',()=>go(id));item.append(uiIcon(id,'tab-icon'),el('span','',t));nav.append(item);}
- function render(){shell?.beforeRender();syncLocation();[...nav.querySelectorAll('[data-section]')].forEach(b=>{b.classList.toggle('active',b.dataset.section===tab);b.setAttribute('aria-current',b.dataset.section===tab?'page':'false');});shell?.update(tab);body.replaceChildren();({overview,landscape,genesView,pathways,robustness,dna:dnaView,comparison:comparisonView,methods}[tab==='genes'?'genesView':tab])();enhancePlots(body);}
+ function render(){shell?.beforeRender();syncLocation();[...nav.querySelectorAll('[data-section]')].forEach(b=>{b.classList.toggle('active',b.dataset.section===tab);b.setAttribute('aria-current',b.dataset.section===tab?'page':'false');});shell?.update(tab);body.replaceChildren();({overview,landscape,genesView,pathways,robustness,dna:dnaView,comparison:comparisonView,methods}[tab==='genes'?'genesView':tab])();enhancePlots(body);shell?.afterRender();}
  function comparisonView(){
   const host=el('div');body.append(host);host.append(note('Loading comparative views…'));
   import('./comparative-views.js').then(({createComparativeViews})=>{
