@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 550,
-  "total_bytes": 253039246,
+  "total_bytes": 253041218,
   "status": "pass",
   "failures": [],
   "files": [
@@ -244,8 +244,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 9011,
-      "sha256": "763de60255d30dc4be448c1315a6b0df063c812a12f5bd456ff214b5c1dd90c4"
+      "bytes": 9172,
+      "sha256": "cc33c660d35497f300d51f7513bb672cf0c956363ac2bd6bb72188e59cc350ca"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -434,8 +434,8 @@
     },
     {
       "path": "explorer/src/components/gene-annotation.js",
-      "bytes": 12649,
-      "sha256": "8b4589ae9501ddc5908aea24ef8cd91e371a92017bb827726948243ba90abb8e"
+      "bytes": 13605,
+      "sha256": "860b17f14acc297e5363b1659ffff9ee004ada8cae5fac69fcf95590e3d280fc"
     },
     {
       "path": "explorer/src/components/gene-diagnostics.js",
@@ -634,8 +634,8 @@
     },
     {
       "path": "explorer/test/gene-annotation-browser-check.mjs",
-      "bytes": 6103,
-      "sha256": "8c80cd685b6525c98ea915922deed93bb97dfc9e2f198bdfc9d0a8e6b44dda14"
+      "bytes": 6958,
+      "sha256": "ff36dc8b27ea4a8ea6a7353f86e5fab1030a5861f8c5309d54e0479f5e91693b"
     },
     {
       "path": "explorer/test/gene-annotation.test.js",

@@ -124,14 +124,43 @@ try {
         exact: true,
       })
       .click();
-    await page
-      .locator(".gene-connection-confirmation")
-      .getByRole("button", { name: "Connect", exact: true })
-      .click();
+    assert.equal(
+      await page.locator(".gene-connection-confirmation").count(),
+      0,
+      "same databases reuse approval",
+    );
     await panel.locator(".gene-annotation-fields").waitFor();
     await page.keyboard.press("Escape");
     await panel.waitFor({ state: "detached" });
     assert.equal(calls, 1);
+    await page.reload();
+    await page
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
+      .click();
+    await panel.locator(".gene-annotation-fields").waitFor();
+    assert.equal(
+      await page.locator(".gene-connection-confirmation").count(),
+      0,
+      "approval survives reload",
+    );
+    await panel.getByRole("button", { name: "Done", exact: true }).click();
+    await panel.waitFor({ state: "detached" });
+    await page.goto(base + "#view=genes&gene=NDUFA1");
+    await page
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
+      .click();
+    await panel.waitFor();
+    assert.equal(
+      await page.locator(".gene-connection-confirmation").count(),
+      0,
+      "approval covers another gene",
+    );
     assert.deepEqual(errors, []);
     await page.close();
   }

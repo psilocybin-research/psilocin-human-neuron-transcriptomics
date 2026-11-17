@@ -64,8 +64,29 @@ async function annotation(gene) {
     );
   return result;
 }
-// Confirm each new information session before sending identifiers to providers.
+// Consent covers this exact provider set across genes and visits.
+// Changing a provider hostname changes the key and requires fresh confirmation.
+const connectionConsentKey =
+  "atlas-public-context-consent:" +
+  [
+    "rest.ensembl.org",
+    "rest.uniprot.org",
+    "files.rcsb.org",
+    "alphafold.ebi.ac.uk",
+  ]
+    .sort()
+    .join(",");
+let connectionAccepted = false;
+function hasConnectionConsent() {
+  if (connectionAccepted) return true;
+  try {
+    return localStorage.getItem(connectionConsentKey) === "accepted";
+  } catch {
+    return false;
+  }
+}
 function confirmConnection(app, gene) {
+  if (hasConnectionConsent()) return Promise.resolve(true);
   if (app.el.querySelector(".gene-connection-confirmation"))
     return Promise.resolve(false);
   return new Promise((resolve) => {
@@ -77,7 +98,7 @@ function confirmConnection(app, gene) {
     const dialog = app.dialog.create({
       containerEl: container,
       title: label("information", "Connect to public databases?"),
-      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded.</p>`,
+      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded. Your approval is remembered for these databases across genes and visits.</p>`,
       cssClass: "research-message-dialog gene-connection-confirmation",
       closeByBackdropClick: true,
       destroyOnClose: true,
@@ -88,6 +109,12 @@ function confirmConnection(app, gene) {
           strong: true,
           onClick: () => {
             accepted = true;
+            connectionAccepted = true;
+            try {
+              localStorage.setItem(connectionConsentKey, "accepted");
+            } catch {
+              // Retain consent in memory when browser storage is unavailable.
+            }
           },
         },
       ],
@@ -127,7 +154,7 @@ function confirmConnection(app, gene) {
       el(
         "p",
         "",
-        "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection; reopening this information sheet asks again. Provider links open external sites only when clicked.",
+        "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection. Approval applies to these four databases; a changed provider set requires confirmation again. Clearing browser storage removes this approval. Provider links open external sites only when clicked.",
       ),
     );
     dialog.el.querySelector(".dialog-inner").append(details.element);
