@@ -9,7 +9,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
     navGroups = new Map();
   let groupChoices;
   try {
-    groupChoices = JSON.parse(stored("atlas-navigation-groups", "{}"));
+    groupChoices = JSON.parse(stored("atlas-navigation-groups-v2", "{}"));
   } catch {
     groupChoices = {};
   }
@@ -42,7 +42,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
     ["pathways", "Pathways & comparisons", ["pathways", "comparison"]],
     ["confidence", "Confidence & interpretation", ["robustness", "dna"]],
   ]) {
-    const opened = sections.includes(initial) || groupChoices[key] !== false,
+    const opened = groupChoices[key] ?? key === "molecular",
       li = node(
         "li",
         `accordion-item${opened ? " accordion-item-opened" : ""}`,
@@ -74,7 +74,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
       toggle.setAttribute("aria-expanded", String(expanded));
       content.inert = !expanded;
       groupChoices[key] = expanded;
-      remember("atlas-navigation-groups", JSON.stringify(groupChoices));
+      remember("atlas-navigation-groups-v2", JSON.stringify(groupChoices));
     };
     content.inert = !opened;
     li.addEventListener("accordion:open", () => syncExpanded(true));
@@ -84,10 +84,10 @@ export function createResearchNavigation({ nav, tabs, initial }) {
   nav.append(navList);
 
   return {
-    activate(section, app) {
+    activate(section) {
       const group = navGroups.get(section);
-      if (app && group && !group.classList.contains("accordion-item-opened"))
-        app.accordion.open(group);
+      for (const item of new Set(navGroups.values()))
+        item.classList.toggle("nav-group-current", item === group);
     },
   };
 }

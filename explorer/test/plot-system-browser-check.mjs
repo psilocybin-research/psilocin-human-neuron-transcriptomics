@@ -35,6 +35,8 @@ try {
       await page.locator(".comparison-evidence .gene-symbol").innerText(),
       "GPX4",
     );
+    await page.locator('.research-evidence-sheet').getByRole('button',{name:'Done',exact:true}).click();
+    await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
     for (const mode of [
       "forest",
       "volcano",

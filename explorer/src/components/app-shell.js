@@ -1,3 +1,4 @@
+import { createEvidenceSheet } from "./evidence-sheet.js";
 import { analysisOptions } from "./analysis-options.js";
 import { showInformation } from "./file-download.js";
 import { createAppProgress } from "./app-progress.js";
@@ -986,6 +987,7 @@ export function createAppShell({
     tourPopup.open(!reduced());
     scheduleEnhance();
   }
+  const evidenceSheet = createEvidenceSheet({ root, getApp: () => app });
   const observer = new MutationObserver(scheduleEnhance);
   observer.observe(body, { childList: true, subtree: true });
   const appearanceObserver = new MutationObserver(scheduleEnhance);
@@ -1187,6 +1189,7 @@ export function createAppShell({
       body.classList.add("research-view-enter");
     },
     beforeRender() {
+      evidenceSheet.close(false);
       finishRendering?.();
       finishRendering = beginActivity("Opening research view");
       body.classList.remove("research-view-enter");
@@ -1194,6 +1197,7 @@ export function createAppShell({
       if (controlsSheet?.opened) closeControls();
     },
     closeOverlays() {
+      evidenceSheet.close(false);
       analysisLauncher.close(false);
       sharePopover?.close(false);
       tourPopup?.close(false);
@@ -1201,6 +1205,7 @@ export function createAppShell({
       closeControls();
     },
     destroy() {
+      evidenceSheet.destroy();
       disposed = true;
       finishRendering?.();
       progress.destroy();

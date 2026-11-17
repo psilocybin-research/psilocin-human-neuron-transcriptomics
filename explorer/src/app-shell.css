@@ -3872,3 +3872,71 @@ body {
   grid-template-columns: minmax(0, 1fr);
   max-width: 760px;
 }
+
+#psilocin-app .research-evidence-sheet {
+  height: min(85dvh, 900px);
+  background: var(--research-surface);
+  --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
+  display: none;
+  flex-direction: column;
+}
+#psilocin-app .research-evidence-sheet:is(.modal-in, .modal-out) {
+  display: flex;
+}
+#psilocin-app .evidence-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 24px 16px;
+  border-bottom: 1px solid var(--research-border);
+  background: var(--f7-glass-bg-color);
+}
+#psilocin-app .evidence-sheet-header h2 {
+  font-size: 17px;
+  margin: 0;
+}
+#psilocin-app .evidence-sheet-header .button {
+  width: auto;
+  min-height: 44px;
+}
+#psilocin-app .evidence-sheet-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 22px 24px calc(24px + env(safe-area-inset-bottom));
+}
+#psilocin-app .evidence-sheet-content > * {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+#psilocin-app .evidence-sheet-content .comparison-evidence {
+  position: static;
+}
+#psilocin-app .evidence-sheet-content :is(.tree-return, .comparison-return) {
+  display: none;
+}
+
+#psilocin-app .evidence-sheet-content .gene-detail {
+  max-height: none;
+  overflow: visible;
+}
+
+#psilocin-app .research-nav .nav-group-toggle {
+  background: var(--research-surface-high);
+  border-radius: 10px;
+  margin-block: 10px 5px;
+  min-height: 46px;
+}
+#psilocin-app .research-nav .nav-group-toggle .item-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--research-text);
+}
+#psilocin-app .research-nav .nav-group-current > .nav-group-toggle .item-title {
+  color: var(--f7-theme-color);
+}

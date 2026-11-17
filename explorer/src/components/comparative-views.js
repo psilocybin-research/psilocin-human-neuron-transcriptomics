@@ -1,3 +1,4 @@
+import { showResearchEvidence } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 import {
   Plot,
@@ -171,11 +172,7 @@ export function createComparativeViews({
     else if (updateDensityHighlights) updateDensityHighlights();
     else renderPlot();
     renderSelection();
-    if (matchMedia("(max-width:1100px)").matches) {
-      detail.tabIndex = -1;
-      detail.focus({ preventScroll: true });
-      detail.scrollIntoView({ block: "start", behavior: "instant" });
-    }
+    showResearchEvidence(detail, "Gene comparison evidence");
   }
   function render() {
     if (!genes) return;

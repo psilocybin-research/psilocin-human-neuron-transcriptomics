@@ -1,3 +1,4 @@
+import { showResearchEvidence } from "./interface-utils.js";
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import {
   downloadFile as download,
@@ -1135,6 +1136,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           selected = g.gene;
           syncLocation();
           geneDetail(detail, selected);
+          showResearchEvidence(detail, "Gene evidence");
           heat
             .querySelectorAll(".gene-row > rect:first-child")
             .forEach((x) => x.setAttribute("fill", "transparent"));
@@ -1477,8 +1479,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         button(
           "View evidence ↓",
           () => {
-            detail.scrollIntoView({ behavior: "smooth", block: "start" });
-            detail.focus({ preventScroll: true });
+            showResearchEvidence(detail, "Gene evidence");
           },
           "gene-view-evidence",
         ),
@@ -1491,10 +1492,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       updateSelection();
       for (const [i, o] of options.entries())
         o.setAttribute("aria-selected", String(found[i].id === selected));
-      if (matchMedia("(max-width:850px)").matches) {
-        detail.scrollIntoView({ behavior: "smooth", block: "start" });
-        detail.focus({ preventScroll: true });
-      }
+      showResearchEvidence(detail, "Gene evidence");
     }
     function activate(index) {
       active = index;
@@ -1959,15 +1957,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       source.append(archive);
       evidence.append(source);
       enhancePlots(evidence);
-      if (scroll && matchMedia("(max-width:1000px)").matches) {
-        title.focus({ preventScroll: true });
-        evidence.scrollIntoView({
-          block: "start",
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "instant"
-            : "smooth",
-        });
-      }
+      if (scroll) showResearchEvidence(evidence, "Pathway evidence");
     }
     function showSharedEvidence() {
       const graph = overlapGraph(data, contrast, {
@@ -2403,6 +2393,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           dnaGene = g.gene;
           syncLocation();
           geneDetail(detail, dnaGene);
+          showResearchEvidence(detail, "Gene evidence");
           mapHost
             .querySelectorAll(".dna-row > rect:first-child")
             .forEach((n) => n.setAttribute("fill", "transparent"));

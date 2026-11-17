@@ -26,3 +26,12 @@ export function escapeHTML(value) {
       ],
   );
 }
+
+export function showResearchEvidence(target, title) {
+  target.dispatchEvent(
+    new CustomEvent("atlas:inspect", {
+      bubbles: true,
+      detail: { target, title },
+    }),
+  );
+}
