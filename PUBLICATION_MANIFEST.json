@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 537,
-  "total_bytes": 252939475,
+  "total_bytes": 252939424,
   "status": "pass",
   "failures": [],
   "files": [
@@ -294,8 +294,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 96805,
-      "sha256": "37659ea1ffe0aaa5585d08c7e2c3ba58d7d91bbfed41fd5aba50a35e498bd1bb"
+      "bytes": 96776,
+      "sha256": "397a0f8b1dd0122b9bfe54045beba0638aedfe02b428cda96f97da8b200f9dbd"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -344,8 +344,8 @@
     },
     {
       "path": "explorer/src/components/analysis-launcher.js",
-      "bytes": 7378,
-      "sha256": "ede70df603027a05aa4b85824bc0b75b32d2705b9318cc93b8ad1ee793618098"
+      "bytes": 7356,
+      "sha256": "5fcd51cec6ee5e713ad6fd4eb74b7bb6fe71baaf8b86fca9380268c23135035f"
     },
     {
       "path": "explorer/src/components/analysis-options.js",

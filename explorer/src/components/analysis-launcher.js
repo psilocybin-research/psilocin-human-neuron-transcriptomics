@@ -74,7 +74,6 @@ export function createAnalysisLauncher({
   };
   const showing = () =>
     available &&
-    mobile.matches &&
     !fullscreen() &&
     (root.dataset.modalOpen !== "true" || state !== "closed");
   function sync() {

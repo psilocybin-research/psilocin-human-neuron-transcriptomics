@@ -2993,56 +2993,57 @@ body {
   #psilocin-app .desktop-analysis-controls {
     display: none;
   }
-  #psilocin-app .analysis-fab {
-    display: block;
-    position: absolute;
-    left: auto;
-    width: 52px;
-    height: 52px;
-    right: 20px;
-    bottom: calc(84px + env(safe-area-inset-bottom));
-    z-index: 10000;
-    visibility: hidden;
-    opacity: 0;
-    translate: -10px 0;
-    transition:
-      transform 250ms ease,
-      border-radius 250ms ease,
-      opacity 180ms ease,
-      translate 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      bottom 240ms ease,
-      visibility 0s 240ms;
-    --f7-fab-extended-size: 52px;
-    --f7-fab-border-radius: 50%;
+}
 
-    backdrop-filter: saturate(180%) blur(16px);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
-  }
-  #psilocin-app .analysis-fab[data-visible="true"] {
-    visibility: visible;
-    opacity: 1;
-    translate: 0 0;
-    transition-delay: 0s;
-  }
-  #psilocin-app .analysis-fab-action {
-    gap: 8px;
-    padding: 0;
-    width: 52px;
-    min-width: 52px;
-    height: 52px;
-    margin: 0;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 44px;
-    color: inherit;
-  }
-  #psilocin-app .analysis-fab .f7-icon-svg {
-    width: 20px;
-    height: 20px;
-  }
-  #psilocin-app[data-analysis-available="true"] .research-content-inner {
-    padding-bottom: 92px;
-  }
+#psilocin-app .analysis-fab {
+  display: block;
+  position: absolute;
+  left: auto;
+  width: 52px;
+  height: 52px;
+  right: 20px;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  z-index: 10000;
+  visibility: hidden;
+  opacity: 0;
+  translate: -10px 0;
+  transition:
+    transform 250ms ease,
+    border-radius 250ms ease,
+    opacity 180ms ease,
+    translate 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    bottom 240ms ease,
+    visibility 0s 240ms;
+  --f7-fab-extended-size: 52px;
+  --f7-fab-border-radius: 50%;
+
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+}
+#psilocin-app .analysis-fab[data-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+#psilocin-app .analysis-fab-action {
+  gap: 8px;
+  padding: 0;
+  width: 52px;
+  min-width: 52px;
+  height: 52px;
+  margin: 0;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  color: inherit;
+}
+#psilocin-app .analysis-fab .f7-icon-svg {
+  width: 20px;
+  height: 20px;
+}
+#psilocin-app[data-analysis-available="true"] .research-content-inner {
+  padding-bottom: 92px;
 }
 @media (prefers-reduced-transparency: reduce) {
   #psilocin-app
@@ -3124,39 +3125,38 @@ body {
 }
 
 /* The native morph surface carries the same glass tint as the bottom toolbar. */
-@media (max-width: 1179px) {
-  #psilocin-app .analysis-fab {
-    --f7-fab-bg-color: var(--f7-glass-bg-color);
-    --f7-fab-pressed-bg-color: var(--research-selected);
-    --f7-fab-text-color: var(--research-accent);
-    color: var(--research-accent);
-    border: 1px solid color-mix(in srgb, var(--research-text) 26%, transparent);
-    box-sizing: border-box;
-    background: var(--f7-fab-bg-color);
-    box-shadow: none;
-    backdrop-filter: saturate(180%) blur(24px);
-    -webkit-backdrop-filter: saturate(180%) blur(24px);
-  }
-  #psilocin-app .analysis-fab > .analysis-fab-action {
-    height: 100%;
-    min-width: 0;
-    color: var(--research-accent);
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  #psilocin-app .analysis-fab:has(> a:is(:active, .active-state)),
-  #psilocin-app .analysis-fab.fab-opened {
-    border-color: transparent;
-  }
-  #psilocin-app .analysis-fab .f7-icon-svg {
-    color: var(--research-accent);
-    fill: currentColor;
-    filter: none;
-    opacity: 1;
-    flex: 0 0 20px;
-  }
+#psilocin-app .analysis-fab {
+  --f7-fab-bg-color: var(--f7-glass-bg-color);
+  --f7-fab-pressed-bg-color: var(--research-selected);
+  --f7-fab-text-color: var(--research-accent);
+  color: var(--research-accent);
+  border: 1px solid color-mix(in srgb, var(--research-text) 26%, transparent);
+  box-sizing: border-box;
+  background: var(--f7-fab-bg-color);
+  box-shadow: none;
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
 }
+#psilocin-app .analysis-fab > .analysis-fab-action {
+  height: 100%;
+  min-width: 0;
+  color: var(--research-accent);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#psilocin-app .analysis-fab:has(> a:is(:active, .active-state)),
+#psilocin-app .analysis-fab.fab-opened {
+  border-color: transparent;
+}
+#psilocin-app .analysis-fab .f7-icon-svg {
+  color: var(--research-accent);
+  fill: currentColor;
+  filter: none;
+  opacity: 1;
+  flex: 0 0 20px;
+}
+
 @media (forced-colors: active) {
   #psilocin-app .analysis-fab {
     background: ButtonFace;
@@ -3985,4 +3985,13 @@ body {
 #psilocin-app .comparison-axis-controls .research-smart-select {
   height: 44px;
   min-height: 44px;
+}
+
+@media (min-width: 1180px) {
+  #psilocin-app .analysis-fab {
+    bottom: 24px;
+  }
+  #psilocin-app[data-at-end="true"] .analysis-fab {
+    bottom: 86px;
+  }
 }
