@@ -42,6 +42,20 @@ try {
    await page.waitForFunction(()=>document.querySelector('.landscape-layout .gene-symbol')?.textContent==='NDUFA2');
    assert.equal(await sheet.isVisible(),false);
   }
+  await page.goto(base+'#view=dna&gene=ACD');
+  await page.locator('.dna-map .dna-row').first().waitFor();
+  const dnaRow=page.locator('.dna-map .dna-row').first();
+  const dnaSymbol=(await dnaRow.getAttribute('aria-label')).replace('Inspect DNA-maintenance gene ','');
+  await dnaRow.click();
+  if(width<=850) {
+   await page.waitForFunction(()=>document.querySelector('.research-evidence-sheet').dataset.shellModalReady==='true');
+   await page.waitForFunction(symbol=>document.querySelector('.research-evidence-sheet .gene-symbol')?.textContent===symbol,dnaSymbol);
+   await sheet.getByRole('button',{name:'Done',exact:true}).click();
+   await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
+  } else {
+   await page.waitForFunction(symbol=>document.querySelector('.landscape-layout .gene-symbol')?.textContent===symbol,dnaSymbol);
+   assert.equal(await sheet.isVisible(),false,'desktop DNA maintenance keeps evidence beside the heatmap');
+  }
   await page.goto(base+'#view=genes&gene=ENSG00000184752.8');
   await page.locator('.gene-explorer-layout .gene-detail .figure-toolbar').first().waitFor();
   await page.getByRole('button',{name:/View evidence/}).click();

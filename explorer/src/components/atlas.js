@@ -2402,8 +2402,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         const choose = () => {
           dnaGene = g.gene;
           syncLocation();
-          geneDetail(detail, dnaGene);
-          showResearchEvidence(detail, "Gene evidence");
+          if (detail.dataset.gene !== dnaGene) geneDetail(detail, dnaGene);
+          if (matchMedia("(max-width: 850px)").matches)
+            showResearchEvidence(detail, "Gene evidence");
           mapHost
             .querySelectorAll(".dna-row > rect:first-child")
             .forEach((n) => n.setAttribute("fill", "transparent"));

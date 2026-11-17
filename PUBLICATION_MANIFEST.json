@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 535,
-  "total_bytes": 252927745,
+  "total_bytes": 252928834,
   "status": "pass",
   "failures": [],
   "files": [
@@ -374,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 95989,
-      "sha256": "cb46d570b35c4062c42db3e733decf2637f7a290cdf6ad3a125cfd611bbf87c4"
+      "bytes": 96084,
+      "sha256": "5e33939fbdd259123a01fb8473528b0e11ac2d2192bc4c784e32bded225d6550"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -579,8 +579,8 @@
     },
     {
       "path": "explorer/test/evidence-sheet-browser-check.mjs",
-      "bytes": 5574,
-      "sha256": "8bbf78524c141da05c215c14a462a66b2828d79336a0a40ca7bd8e768d8a3778"
+      "bytes": 6568,
+      "sha256": "4c735a9403cbe8ce9255e471e4aff77c5e40360bca3a33c4552510659167a712"
     },
     {
       "path": "explorer/test/figure-controls-browser-check.mjs",
