@@ -3450,6 +3450,7 @@ body {
 }
 #psilocin-app .app-loading-progress[data-visible="true"] {
   opacity: 1;
+  transition: none;
 }
 #psilocin-app .app-loading-status {
   position: absolute;

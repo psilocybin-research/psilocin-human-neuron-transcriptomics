@@ -37,7 +37,6 @@ export function createAppProgress({
     });
   page.append(loading, status, topButton);
   let frame,
-    showTimer,
     destroyed = false;
   function updateReading() {
     frame = undefined;
@@ -69,14 +68,9 @@ export function createAppProgress({
   const unsubscribe = observeActivity(({ busy, label }) => {
     scroll.setAttribute("aria-busy", String(busy));
     root.dataset.loading = String(busy);
-    clearTimeout(showTimer);
     if (busy) {
-      if (loading.dataset.visible === "true") status.textContent = label;
-      else
-        showTimer = setTimeout(() => {
-          loading.dataset.visible = "true";
-          status.textContent = label;
-        }, 120);
+      loading.dataset.visible = "true";
+      status.textContent = label;
     } else {
       loading.dataset.visible = "false";
       status.textContent = "";
@@ -106,7 +100,6 @@ export function createAppProgress({
       document.removeEventListener("webkitfullscreenchange", schedule);
       scroll.removeEventListener("scroll", schedule);
       cancelAnimationFrame(frame);
-      clearTimeout(showTimer);
     },
   };
 }
