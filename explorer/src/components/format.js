@@ -14,3 +14,6 @@ export function csvText(rows){
   const fields=Object.keys(rows[0]);const quote=v=>'"'+String(v??"").replaceAll('"','""')+'"';
   return [fields,...rows.map(r=>fields.map(k=>typeof r[k]==="object"?JSON.stringify(r[k]):r[k]))].map(r=>r.map(quote).join(",")).join("\n");
 }
+
+// Leading-edge categories match the manuscript's descriptive OXPHOS figure.
+export const leadingEdgeColors = {'Day 1 only':'#56b4e9',Shared:'#222222','Day 3 only':'#d55e00',Other:'#9aa7b1'};

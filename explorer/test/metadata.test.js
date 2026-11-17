@@ -45,13 +45,9 @@ test('atlas progressively enhances sharing and plot fullscreen controls', () => 
   assert.match(atlasSource, /mailto:\?subject=/);
   assert.match(atlasSource, /shareDetails/);
   assert.match(atlasSource, /syncLocation/);
-  assert.match(atlasSource, /requestFullscreen/);
-  assert.match(atlasSource, /webkitRequestFullscreen/);
-  assert.match(atlasSource, /figure-toolbar/);
-  assert.match(atlasSource, /shell\.append\(toolbar,context,host\)/);
-  assert.match(atlasSource, /View .* in full screen/);
-  assert.match(atlasSource, /function printFigure/);
-  assert.match(atlasSource, /frame\.contentWindow/);
+  assert.match(atlasSource, /enhancePlots/);
+  // Browser checks exercise fullscreen, print and populated canvas exports.
+
 });
 
 test('JSON-LD distinguishes this creator from source-study creators', () => {

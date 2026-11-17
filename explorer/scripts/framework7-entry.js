@@ -1,4 +1,5 @@
 import Framework7 from 'framework7';
+import TouchHighlight from '../node_modules/framework7/components/touch-highlight/touch-highlight.js';
 import Panel from 'framework7/components/panel';
 import Popup from 'framework7/components/popup';
 import Sheet from 'framework7/components/sheet';
@@ -14,5 +15,5 @@ import Accordion from 'framework7/components/accordion';
 import Toggle from 'framework7/components/toggle';
 import Range from 'framework7/components/range';
 import Card from 'framework7/components/card';
-Framework7.use([Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card]);
+Framework7.use([TouchHighlight,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card]);
 export default Framework7;

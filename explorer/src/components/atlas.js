@@ -1,3 +1,5 @@
+import {enhancePlots} from './figure-controls.js';
+import {leadingEdgeColors} from './format.js';
 import {createAppShell} from './app-shell.js';
 import {overlapGraph} from './pathway-overlap.js';
 import {createPathwayTree, families} from './pathway-tree.js';
@@ -9,7 +11,7 @@ function svg(w,h,title){const n=svgNode('svg',{viewBox:`0 0 ${w} ${h}`,role:'img
 function text(s,x,y,t,attrs={}){s.append(svgNode('text',{x,y,...attrs},t));}
 function line(s,x1,y1,x2,y2,attrs={}){s.append(svgNode('line',{x1,y1,x2,y2,stroke:'#d7dedf',...attrs}));}
 function button(t,fn,cls=''){const b=el('button',cls,t);b.type='button';b.onclick=fn;return b;}
-function icon(kind){const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});if(kind==='share'){s.append(svgNode('circle',{cx:18,cy:5,r:2.5}),svgNode('circle',{cx:6,cy:12,r:2.5}),svgNode('circle',{cx:18,cy:19,r:2.5}),svgNode('path',{d:'M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round'}));}else if(kind==='fullscreen'){s.append(svgNode('path',{d:'M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'}));}else if(kind==='print'){s.append(svgNode('path',{d:'M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7z',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linejoin':'round'}),svgNode('circle',{cx:17,cy:11.5,r:1,fill:'currentColor'}));}else if(kind==='github'){s.append(svgNode('path',{d:'M12 2.7a9.3 9.3 0 0 0-2.94 18.12c.47.09.64-.2.64-.45v-1.75c-2.61.57-3.16-1.11-3.16-1.11-.43-1.08-1.04-1.36-1.04-1.36-.85-.58.06-.57.06-.57.94.07 1.43.96 1.43.96.84 1.43 2.2 1.02 2.74.78.08-.6.33-1.02.6-1.26-2.08-.24-4.27-1.04-4.27-4.64 0-1.03.37-1.87.97-2.53-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.56.97A8.9 8.9 0 0 1 12 6.36c.79 0 1.58.11 2.32.31 1.77-1.22 2.55-.97 2.55-.97.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.53 0 3.61-2.2 4.4-4.29 4.63.34.29.64.84.64 1.7v2.53c0 .25.17.54.65.45A9.3 9.3 0 0 0 12 2.7Z',fill:'currentColor'}));}else{s.append(svgNode('circle',{cx:12,cy:12,r:10,fill:'#a6ce39'}),svgNode('text',{x:12,y:16,'text-anchor':'middle',fill:'#fff','font-size':11,'font-weight':700},'iD'));}return s;}
+function icon(kind){const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});if(kind==='share'){s.append(svgNode('circle',{cx:18,cy:5,r:2.5}),svgNode('circle',{cx:6,cy:12,r:2.5}),svgNode('circle',{cx:18,cy:19,r:2.5}),svgNode('path',{d:'M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6',fill:'none',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round'}));}else if(kind==='github'){s.append(svgNode('path',{d:'M12 2.7a9.3 9.3 0 0 0-2.94 18.12c.47.09.64-.2.64-.45v-1.75c-2.61.57-3.16-1.11-3.16-1.11-.43-1.08-1.04-1.36-1.04-1.36-.85-.58.06-.57.06-.57.94.07 1.43.96 1.43.96.84 1.43 2.2 1.02 2.74.78.08-.6.33-1.02.6-1.26-2.08-.24-4.27-1.04-4.27-4.64 0-1.03.37-1.87.97-2.53-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.56.97A8.9 8.9 0 0 1 12 6.36c.79 0 1.58.11 2.32.31 1.77-1.22 2.55-.97 2.55-.97.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.53 0 3.61-2.2 4.4-4.29 4.63.34.29.64.84.64 1.7v2.53c0 .25.17.54.65.45A9.3 9.3 0 0 0 12 2.7Z',fill:'currentColor'}));}else{s.append(svgNode('circle',{cx:12,cy:12,r:10,fill:'#a6ce39'}),svgNode('text',{x:12,y:16,'text-anchor':'middle',fill:'#fff','font-size':11,'font-weight':700},'iD'));}return s;}
 function tabIcon(kind){
  const paths={
   overview:'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12ZM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
@@ -34,85 +36,6 @@ function select(title,values,current,fn){const wrap=el('label','control');wrap.a
 function table(rows,cols){const w=el('div','table-scroll'),t=el('table'),head=el('thead'),tr=el('tr');for(const [,name]of cols)tr.append(el('th','',name));head.append(tr);t.append(head);const body=el('tbody');for(const r of rows){const row=el('tr');for(const[k,,format]of cols){const cell=el('td',typeof r[k]==='number'?'numeric':k==='gene'?'gene-symbol-cell':'',format?format(r[k],r):r[k]??'Not estimable');row.append(cell);}body.append(row);}t.append(body);w.append(t);return w;}
 function status(s){return el('span',`status ${s==='robust'?'stable':s==='unsupported'?'unsupported':'mixed'}`,s==='robust'?'directionally stable':s||'Not classified');}
 function scaleKey(limit,title){const box=el('div','scale-key');box.append(el('span','',title),el('i','gradient'),el('span','',`−${limit}  ·  0  ·  +${limit}`));return box;}
-function printFigure(shell,title){
- const copy=shell.cloneNode(true);copy.querySelectorAll('.figure-toolbar,.figure-scrollbar').forEach(node=>node.remove());
- const frame=el('iframe','figure-print-frame');frame.title=`Printable ${title}`;frame.setAttribute('aria-hidden','true');
- let printed=false;
- frame.onload=async()=>{
-  const win=frame.contentWindow,doc=frame.contentDocument;
-  if(printed||!win||!doc?.querySelector('.figure-shell'))return;
-  printed=true;
-  await doc.fonts?.ready;
-  await new Promise(resolve=>win.requestAnimationFrame(()=>win.requestAnimationFrame(resolve)));
-  win.addEventListener('afterprint',()=>frame.remove(),{once:true});
-  win.focus();win.print();
- };
- frame.srcdoc=`<!doctype html><title>${title}</title><style>body{margin:24px;color:#17312f;font:13px system-ui,sans-serif}.figure-shell{width:100%;margin:0}.figure-context{display:block;margin:0 0 16px}.figure-context strong,.figure-context span{display:block}.figure-context strong{font-size:18px}.figure-context span{margin-top:4px;color:#40564e}.heatmap-scroll,.dna-map-scroll,.matrix-scroll,.plot-viewport{max-height:none!important;overflow:visible!important;background:#fff!important}.landscape-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:20px}svg{display:block;width:100%;height:auto}button{display:none}@page{margin:12mm}</style>${copy.outerHTML}`;
- document.body.append(frame);
-}
-let scrollPaneSequence=0;
-function enhanceScrollbars(shell,host){
- const panes=host.matches('.landscape-layout')?[...host.querySelectorAll(':scope>.heatmap-scroll,:scope>.dna-map-scroll,:scope>.gene-detail')]:[host];
- const controls=[];let frame=0;
- for(const pane of panes){
-  pane.dataset.figureScrollPane='';pane.id||=`figure-scroll-pane-${++scrollPaneSequence}`;
-  const name=pane.matches('.gene-detail')?'Gene detail':pane.matches('.heatmap-scroll,.dna-map-scroll')?'Heatmap':'Plot';
-  for(const axis of ['y','x']){
-   const rail=el('input','figure-scrollbar');rail.type='range';rail.min='0';rail.max='1';rail.step='1';rail.value='0';rail.hidden=true;rail.dataset.axis=axis;
-   rail.setAttribute('aria-label',`${name} ${axis==='y'?'vertical':'horizontal'} scroll position`);rail.setAttribute('aria-controls',pane.id);rail.setAttribute('aria-orientation',axis==='y'?'vertical':'horizontal');
-   const move=value=>{if(axis==='y')pane.scrollTop=value;else pane.scrollLeft=value;};
-   rail.oninput=()=>move(Number(rail.value));
-   rail.onkeydown=event=>{const size=axis==='y'?pane.clientHeight:pane.clientWidth,maximum=Number(rail.max),value=Number(rail.value);let next;
-    if(event.key==='Home')next=0;else if(event.key==='End')next=maximum;else if(event.key==='PageDown')next=value+size*.8;else if(event.key==='PageUp')next=value-size*.8;else if(event.key===(axis==='y'?'ArrowDown':'ArrowRight'))next=value+40;else if(event.key===(axis==='y'?'ArrowUp':'ArrowLeft'))next=value-40;else return;
-    event.preventDefault();move(Math.max(0,Math.min(maximum,next)));
-   };
-   shell.append(rail);controls.push({pane,rail,axis});
-  }
-  pane.addEventListener('scroll',schedule,{passive:true});
- }
- function schedule(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;update();});}
- function update(){
-  if(!shell.isConnected){resize.disconnect();mutation.disconnect();return;}
-  const active=(document.fullscreenElement||document.webkitFullscreenElement)===shell,outer=shell.getBoundingClientRect();
-  for(const{pane,rail,axis}of controls){
-   const vertical=axis==='y',size=vertical?pane.clientHeight:pane.clientWidth,total=vertical?pane.scrollHeight:pane.scrollWidth,maximum=Math.max(0,total-size);
-   rail.hidden=!active||maximum<=1;if(rail.hidden)continue;
-   const box=pane.getBoundingClientRect(),length=Math.max(24,(vertical?box.height:box.width)-24),thumb=Math.max(24,Math.min(length,length*size/total));
-   rail.max=String(Math.ceil(maximum));rail.value=String(vertical?pane.scrollTop:pane.scrollLeft);rail.setAttribute('aria-valuetext',`${Math.round(Number(rail.value)/maximum*100)}%`);
-   Object.assign(rail.style,vertical?{left:`${box.right-outer.left-16}px`,top:`${box.top-outer.top+8}px`,height:`${length}px`,width:'12px'}:{left:`${box.left-outer.left+8}px`,top:`${box.bottom-outer.top-16}px`,width:`${length}px`,height:'12px'});
-   rail.style.setProperty('--thumb-width',`${vertical?12:thumb}px`);rail.style.setProperty('--thumb-height',`${vertical?thumb:12}px`);
-  }
- }
- const resize=new ResizeObserver(schedule);resize.observe(host);for(const pane of panes)resize.observe(pane);
- const mutation=new MutationObserver(schedule);mutation.observe(host,{childList:true,subtree:true});
- shell.addEventListener('fullscreenchange',schedule);shell.addEventListener('webkitfullscreenchange',schedule);schedule();
-}
-
-function enhancePlots(scope){
- const requestName=['requestFullscreen','webkitRequestFullscreen'].find(name=>typeof document.documentElement[name]==='function');
- const exitName=['exitFullscreen','webkitExitFullscreen'].find(name=>typeof document[name]==='function');
- if(!requestName||!exitName)return;
- const candidates=[...scope.querySelectorAll('[data-fullscreen-title],svg[aria-label]')];
- for(const plot of candidates){
-  let host=plot.closest('[data-fullscreen-host]')|| (plot.matches('svg')&&plot.parentElement?.matches('.heatmap-scroll,.dna-map-scroll')?plot.parentElement:plot);
-  if(host.closest('.figure-shell'))continue;
-  const title=host.dataset.fullscreenTitle||plot.getAttribute('aria-label')||'Scientific visualization';
-  const info=host.dataset.fullscreenInfo||title;
-  if(host===plot&&plot.matches('svg')){const viewport=el('div','plot-viewport');viewport.tabIndex=0;viewport.setAttribute('aria-label',`${title}. Scroll horizontally when needed.`);viewport.style.setProperty('--plot-width',`${plot.viewBox.baseVal.width||640}px`);plot.before(viewport);viewport.append(plot);host=viewport;}
-  const shell=el('figure','figure-shell');shell.setAttribute('aria-label',`${title} with fullscreen control`);
-  const toolbar=el('div','figure-toolbar');
-  const context=el('figcaption','figure-context');context.append(el('strong','',title),el('span','',info));
-  const full=button('',async()=>{try{if((document.fullscreenElement||document.webkitFullscreenElement)===shell)await document[exitName]();else await shell[requestName]();}catch(error){if(error?.name!=='NotAllowedError')console.warn('Fullscreen request failed',error);}},'figure-fullscreen');full.append(icon('fullscreen'));
-  const print=button('',()=>printFigure(shell,title),'figure-print');print.append(icon('print'));
-  full.setAttribute('aria-label',`View ${title} in full screen`);full.title='View plot and information in full screen';
-  const update=()=>{const active=(document.fullscreenElement||document.webkitFullscreenElement)===shell;full.setAttribute('aria-label',active?'Exit full screen':`View ${title} in full screen`);full.title=active?'Exit full screen':'View plot and information in full screen';};
-  shell.addEventListener('fullscreenchange',update);shell.addEventListener('webkitfullscreenchange',update);
-  print.setAttribute('aria-label',`Print ${title}`);print.title='Print this plot and its visible information';toolbar.append(full,print);host.before(shell);host.dataset.figureContent='';shell.append(toolbar,context,host);enhanceScrollbars(shell,host);
-  if(host.matches('.plot-viewport')){const readable=button('Read labels',()=>{const active=host.classList.toggle('readable');readable.setAttribute('aria-pressed',String(active));readable.textContent=active?'Fit figure':'Read labels';hint.hidden=!active;},'secondary figure-reading');readable.setAttribute('aria-pressed','false');readable.setAttribute('aria-label',`Toggle readable scale for ${title}`);const hint=el('span','figure-scroll-hint','Scroll horizontally to inspect.');hint.hidden=true;toolbar.append(readable,hint);const resize=new ResizeObserver(()=>{if(!shell.isConnected){resize.disconnect();return;}readable.hidden=host.clientWidth>=(plot.viewBox?.baseVal.width||0)-8;});resize.observe(host);}
-
- }
-}
-
 export function createAtlas(data,provenance,loadGenes,branding={}){
  let shell;const root=el('div','atlas');addEventListener('hashchange',()=>location.reload());let genesPromise;const getGenes=()=>genesPromise??=loadGenes().catch(error=>{genesPromise=undefined;throw error;});
  const landscapeMap=new Map(data.landscape.map(g=>[g.gene,g]));
@@ -151,6 +74,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  const citationDisclosure=el('details','citation-disclosure');citationDisclosure.open=true;citationDisclosure.append(el('summary','','Sources & citation'),citations);meta.append(identity,citationDisclosure);top.append(home,meta);
  const nav=el('nav');nav.id='atlas-section-links';const menuToggle=button('',()=>{});
  const body=el('div','atlas-body');
+
  const footer=el('footer','source-footer');footer.append(el('span','', 'Source study · Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife, 14, RP104006. '));const doi=el('a','','https://doi.org/10.7554/eLife.104006.3');doi.href='https://doi.org/10.7554/eLife.104006.3';doi.target='_blank';doi.rel='noopener';footer.append(doi);
  const footerLinks=el('nav','footer-links');footerLinks.setAttribute('aria-label','Research resources');for(const [title,url]of [['Source data · Dryad','https://doi.org/10.5061/dryad.xsj3tx9w3'],['Source analysis code','https://github.com/ahoffrichter/Schmidt_et_al_2025/tree/c565709affafbea09406bd7b42fe494f08db6cce'],['Software Heritage archive','https://archive.softwareheritage.org/swh:1:dir:c847a8a51074c59d651e3258cf1355936e921048/'],['Reanalysis · GitHub','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics'],['Archived release · Zenodo','https://doi.org/10.5281/zenodo.23283595']]){const link=el('a','',title);link.href=url;link.target='_blank';link.rel='noopener';footerLinks.append(link);}footer.append(footerLinks);const datasets=el('p','dataset-directory');datasets.append(document.createTextNode('More open datasets: '));const datasetLink=el('a','','https://psilocybin-research.com/open-datasets.php');datasetLink.href=datasetLink.textContent;datasetLink.target='_blank';datasetLink.rel='noopener';datasetLink.style.overflowWrap='anywhere';datasets.append(datasetLink);footer.append(datasets);
  root.append(top,body,footer);
@@ -170,7 +94,9 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   for(const[t,u]of [['Complete CAMERA results','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_results.md'],['Download all 30 CAMERA tests','https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/tables/camera_sensitivity/all_tests.csv'],['Methods and runtime diagnostics','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_methods.md']]){const a=el('a','source-link',t+' ↗');a.href=u;a.target='_blank';a.rel='noopener';card.append(a);}body.append(card);
  }
  function overview(){
-  const hero=el('section','hero');const intro=el('div');intro.append(el('div','eyebrow','HUMAN CORTICAL NEURONS · BULK RNA SEQUENCING'),el('h1','','Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons'),el('p','standfirst','Secondary analysis of RNA-sequencing data from human iPSC-derived cortical neurons sampled one and three days after a 10-minute psilocin exposure and washout. The atlas presents gene-level estimates, pathway enrichment and sensitivity analyses against the available common controls.'),button('View OXPHOS gene-level results',()=>go('landscape'),'primary'));
+  const logos=el('nav','overview-source-logos');logos.setAttribute('aria-label','Source study, data, archive and repository');
+  for(const [original,name]of [[elifeLink,'Source study on eLife'],[sourceData,'Original source data on Dryad'],[zenodoLink,'Software archive on Zenodo'],[repository,'Reanalysis repository on GitHub']]){const link=original.cloneNode(true);link.className='overview-source-link';link.setAttribute('aria-label',`${name} (opens in a new tab)`);link.title=name;link.target='_blank';link.rel='noopener noreferrer';logos.append(link);}body.append(logos);
+  const hero=el('section','hero');const intro=el('div');intro.append(el('div','eyebrow','HUMAN CORTICAL NEURONS · BULK RNA SEQUENCING'),el('h1','','Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons'),el('p','standfirst','Secondary analysis of RNA-sequencing data from human iPSC-derived cortical neurons sampled one and three days after a 10-minute psilocin exposure and washout. The atlas presents gene-level estimates, pathway enrichment and sensitivity analyses against the available common controls.'),button('View OXPHOS gene-level results',()=>go('landscape'),'primary'),button('Compare gene-set overlap',()=>{pathwayTier='all';treeState.view='network';treeState.networkView='chord';go('pathways');},'secondary overview-chord-link'));
   const metrics=el('div','metrics');for(const [v,t]of [['3','differentiation blocks · two genetic backgrounds'],['9','aggregated block-by-condition profiles'],['113','genes in the OXPHOS leading-edge union']]){const m=el('div');m.append(el('strong','',v),el('span','',t));metrics.append(m);}hero.append(intro,metrics);body.append(hero);
   const timeline=el('div','timeline');for(const [a,b]of [['10 min','10 µM psilocin'],['Washout','Exposure ends'],['Day 1 & Day 3','Later RNA sampling']]){const n=el('div');n.append(el('strong','',a),el('span','',b));timeline.append(n);}body.append(timeline);
   const source=el('section','source-study');source.append(el('h2','','Source study'),el('p','','Independent secondary analysis of Schmidt M, Hoffrichter A, Davoudi M, Horschitz S, Lau T, Meinhardt MW, Spanagel R, Ladewig J, Köhr G, Koch P. (2026). Psilocin fosters neuroplasticity in iPSC-derived human cortical neurons. eLife, 14, RP104006.'));const article=el('a','source-link','Read the article ↗');article.href='https://doi.org/10.7554/eLife.104006.3';article.target='_blank';article.rel='noopener';source.append(article);body.append(source);
@@ -198,11 +124,11 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
    let groupOffset=0;rows.forEach((g,i)=>{if(i===0||g.functional_group!==rows[i-1].functional_group){text(s,8,59+i*15+groupOffset,g.functional_group,{'font-size':10,'font-weight':600});groupOffset+=22;}const y=46+i*15+groupOffset;const r=svgNode('g',{tabindex:0,role:'button','aria-label':`Inspect ${g.gene}, ${g.functional_group}`});r.classList.add('gene-row');r.append(svgNode('rect',{x:0,y,width:670,height:15,fill:g.gene===selected?'#edf3f1':'transparent'}));r.append(svgNode('text',{x:114,y:y+11,'text-anchor':'end'},g.gene));
     profileMap.get(g.gene).forEach((p,j)=>{const c=svgNode('rect',{x:profileX+j*cell+Math.floor(j/3)*4,y,width:cell-.4,height:14.5,fill:color(p.row_z)});c.append(svgNode('title',{},`${g.gene} · ${p.block} · ${p.condition}\nVST ${fmt(p.vst,4)} · row z ${fmt(p.row_z,4)}\nMean RIN ${fmt(p.RIN_mean)} · ${p.libraries_n} source libraries`));r.append(c);});
     [g.day1_log2fc,g.day3_log2fc,g.day3_minus_day1_log2fc].forEach((v,j)=>{const c=svgNode('rect',{x:fx+j*45,y,width:44.5,height:14.5,fill:color(v,1.5)});c.append(svgNode('title',{},`${g.gene} · ${contrasts[data.contrasts[j]]}\nlog₂ fold change ${fmt(v,5)}`));r.append(c);});
-    r.append(svgNode('rect',{x:594,y,width:12,height:14,fill:g.leading_edge==='Shared'?'#243c3c':g.leading_edge==='Day 1 only'?'#56b4e9':'#d55e00'}));
+    r.append(svgNode('rect',{x:594,y,width:12,height:14,fill:leadingEdgeColors[g.leading_edge]}));
     const choose=()=>{selected=g.gene;syncLocation();geneDetail(detail,selected);heat.querySelectorAll('.gene-row > rect:first-child').forEach(x=>x.setAttribute('fill','transparent'));r.firstChild.setAttribute('fill','#edf3f1');};r.onclick=choose;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};s.append(r);
    });heat.append(s);geneDetail(detail,selected);
   }
-  landscapeRender();body.append(note('LE: charcoal = shared; blue = Day 1 only; orange = Day 3 only. VST uses blind=FALSE. Row z-scores are scaled across all nine profiles and colors saturate at ±2.5; effect colors saturate at ±1.5. Functional filtering does not recalculate scaling or fit a model. Leading-edge selection makes this a descriptive view.'),downloadButton(data.profiles,'oxphos-nine-profile-expression.csv'),button('Download heatmap SVG',()=>download('oxphos-landscape.svg',new XMLSerializer().serializeToString(heat.querySelector('svg')),'image/svg+xml'),'secondary'));
+  landscapeRender();body.append(note('LE: neutral grey = shared; blue = Day 1 only; orange = Day 3 only. Shared-category luminance follows the display appearance. VST uses blind=FALSE. Row z-scores are scaled across all nine profiles and colors saturate at ±2.5; effect colors saturate at ±1.5. Functional filtering does not recalculate scaling or fit a model. Leading-edge selection makes this a descriptive view.'),downloadButton(data.profiles,'oxphos-nine-profile-expression.csv'),button('Download heatmap SVG',()=>download('oxphos-landscape.svg',new XMLSerializer().serializeToString(heat.querySelector('svg')),'image/svg+xml'),'secondary'));
  }
  async function geneDetail(container,symbol){
   container.replaceChildren(el('div','eyebrow','GENE DETAIL'),el('h3','gene-symbol',symbol),note('Loading archived estimates…'));const token=symbol;container.dataset.gene=token;
@@ -217,7 +143,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   const effects=gene.effects.map((e,i)=>({...e,contrast:contrasts[data.contrasts[i]]}));
   const s=svg(340,174,`${gene.symbol} model estimates and approximate 95% Wald intervals`);const limit=Math.max(.5,...effects.filter(e=>e.log2FoldChange!==null&&e.lfcSE!==null).map(e=>Math.abs(e.log2FoldChange)+1.96*e.lfcSE));const x=v=>172+v/limit*148;
   line(s,x(0),20,x(0),134,{stroke:'#879998','stroke-dasharray':'3 3'});
-  effects.forEach((e,i)=>{const y=40+i*42;text(s,4,y-10,['D1 / control','D3 / control','D3 / D1'][i]);if(e.log2FoldChange!==null&&e.lfcSE!==null){line(s,x(e.log2FoldChange-1.96*e.lfcSE),y,x(e.log2FoldChange+1.96*e.lfcSE),y,{stroke:'#236461','stroke-width':2});s.append(svgNode('circle',{cx:x(e.log2FoldChange),cy:y,r:4,fill:'#236461'}));}});
+  effects.forEach((e,i)=>{const y=40+i*42;text(s,4,y-10,['D1 / control','D3 / control','D3 / D1'][i]);if(e.log2FoldChange!==null&&e.lfcSE!==null){line(s,x(e.log2FoldChange-1.96*e.lfcSE),y,x(e.log2FoldChange+1.96*e.lfcSE),y,{stroke:'#235780','stroke-width':2});s.append(svgNode('circle',{cx:x(e.log2FoldChange),cy:y,r:4,fill:'#235780'}));}});
   [-limit,0,limit].forEach(v=>text(s,x(v),152,fmt(v),{'text-anchor':'middle'}));text(s,172,171,'log₂ fold change · approximate 95% Wald interval',{'text-anchor':'middle','font-size':10});container.append(s);
   container.append(table(effects,[['contrast','Contrast'],['log2FoldChange','log₂FC',v=>fmt(v,3)],['lfcSE','SE',v=>fmt(v,3)],['padj','Gene FDR',sci]]));
   const profiles=profileMap.get(gene.symbol);if(profiles){const ps=svg(340,174,`${gene.symbol} variance-stabilized expression across nine pooled profiles`);const lo=Math.min(...profiles.map(p=>p.vst))-.2,hi=Math.max(...profiles.map(p=>p.vst))+.2;const y=v=>130-(v-lo)/(hi-lo)*105;
@@ -395,7 +321,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   const links=el('p');for(const[t,u]of [['Original article',provenance.article],['Author RNA-seq repository',provenance.source],['Dryad phenotype record','https://doi.org/10.5061/dryad.xsj3tx9w3'],['Archived reanalysis','https://doi.org/10.5281/zenodo.23283595']]){const a=el('a','source-link',t+' ↗');a.href=u;a.target='_blank';a.rel='noopener';links.append(a);}body.append(links);const mcp=el('p','mcp-access');mcp.append(document.createTextNode('MCP server: '));const endpoint=el('code','','https://psilocybin-research.com/mcp/transcriptomics');endpoint.style.overflowWrap='anywhere';endpoint.style.whiteSpace='normal';mcp.append(endpoint,document.createTextNode(' · '));const mcpLink=el('a','','Connection guide ↗');mcpLink.href='https://psilocybin-research.com/docs/transcriptomics-mcp.md';mcpLink.target='_blank';mcpLink.rel='noopener';mcp.append(mcpLink,document.createTextNode('. Read-only queries of the fixed v1.2.0 results, with source citations and direct atlas links.'));body.append(mcp,el('h3','','Frozen plan record'));
   const pre=el('pre','hash-record',JSON.stringify(provenance.freeze,null,2));body.append(pre,el('h3','','Exact input checksums'),table(Object.entries(provenance.inputs).map(([path,sha256])=>({path,sha256})),[['path','Source file'],['sha256','SHA-256']]),button('↓ Download provenance JSON',()=>download('provenance.json',JSON.stringify(provenance,null,2),'application/json'),'secondary'),button('↓ Download complete atlas JSON',()=>download('atlas.json',JSON.stringify(data),'application/json'),'secondary'));
  }
- shell=createAppShell({root,Framework7:branding.Framework7,top,nav,body,footer,share,menuToggle,tabs,go,getGenes,data,notices:branding.uiNotices,initial:tab});
+ shell=createAppShell({root,Framework7:branding.Framework7,top,nav,body,footer,share,menuToggle,tabs,go,getGenes,data,notices:branding.uiNotices,initial:tab,enhanceFigures:enhancePlots});
  shell.scroll.parentElement.append(toTop);shell.scroll.addEventListener('scroll',updateScrollProgress,{passive:true});
  render();root.destroy=()=>shell.destroy();return root;
 }

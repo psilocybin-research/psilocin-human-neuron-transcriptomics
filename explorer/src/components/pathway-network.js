@@ -1,3 +1,4 @@
+import {plotPalette,themeScientificSVG} from './plot-theme.js';
 import {ribbon} from 'npm:d3-chord@3.0.1';
 import {arc} from 'npm:d3-shape@3.2.0';
 import {forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY} from 'npm:d3-force@3.0.0';
@@ -60,7 +61,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
    interpretation:'Descriptive annotation overlap, not gene interaction, co-expression, independent confirmation or causal evidence. Force-layout distances are arbitrary. No new statistical tests.'
   },null,2),'application/json')));
  root.append(exports);
- function revealEvidence(fn){if(document.fullscreenElement===root)document.exitFullscreen().then(fn);else fn();}
+ function revealEvidence(fn){const current=document.fullscreenElement||document.webkitFullscreenElement;if(current&&(root.contains(current)||current.contains(root))){const exit=document.exitFullscreen||document.webkitExitFullscreen;exit.call(document).then(fn);}else fn();}
  function chooseEdge(pair) {state.edge=pair.key; state.gene=''; revealEvidence(()=>onEdge(pair)); highlight();}
  function chooseNode(id) {state.edge=''; state.gene=''; selectedPathway=id; revealEvidence(()=>onPathway(id)); highlight();}
  function highlight() {
@@ -85,7 +86,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   table.append(body);scroll.append(table);content.append(scroll);
  }
  function drawMatrix() {
-  const scroll=el('div','network-table-scroll');scroll.tabIndex=0;scroll.setAttribute('aria-label','Jaccard overlap matrix');
+  const scroll=el('div','network-table-scroll');scroll.tabIndex=0;scroll.setAttribute('aria-label','Jaccard overlap matrix');scroll.dataset.fullscreenTitle='Jaccard gene-set overlap matrix';scroll.dataset.fullscreenInfo='All frozen gene sets; NA denotes unavailable membership and diagonal self-comparisons are omitted.';
   const table=el('table','overlap-matrix'),head=el('thead'),hr=el('tr');hr.append(el('th','','Gene set'));
   graph.nodes.forEach((n,i)=>{const h=el('th','',String(i+1));h.title=n.label;hr.append(h);});head.append(hr);table.append(head);
   const body=el('tbody');
@@ -111,7 +112,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   const totals=new Map(chosen.map(n=>[n.id,pairs.filter(p=>p.source===n.id||p.target===n.id).reduce((sum,p)=>sum+(p.shared||0),0)]));
   const span=Math.PI*2/chosen.length,padding=.12,maxTotal=Math.max(1,...totals.values()),unit=(span-padding)/maxTotal;
   const starts=new Map(chosen.map((n,i)=>[n.id,i*span+padding/2])),sectors=new Map(chosen.map((n,i)=>[n.id,{startAngle:i*span+padding/2,endAngle:(i+1)*span-padding/2}]));
-  const scroll=el('div','network-map chord-map');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable chord diagram');
+  const scroll=el('div','network-map chord-map plot-viewport');scroll.style.setProperty('--plot-width','820px');scroll.tabIndex=0;scroll.dataset.fullscreenHost='';scroll.dataset.fullscreenTitle='Pairwise gene-set overlap chord diagram';scroll.dataset.fullscreenInfo='Undirected ribbons show pairwise shared-symbol counts. Equal sectors identify gene sets; overlap is descriptive, not biological flux.';scroll.setAttribute('aria-label','Scrollable chord diagram');
   const s=svgEl('svg',{viewBox:'0 0 820 780',role:'group','aria-label':'Pairwise gene-set overlap chord diagram',xmlns:NS});const g=svgEl('g',{transform:'translate(410,370)'});s.append(g);
   for(const p of pairs){if(!p.shared)continue;const a=starts.get(p.source),b=starts.get(p.target),width=p.shared*unit;starts.set(p.source,a+width);starts.set(p.target,b+width);
    if(p.jaccard<threshold)continue;
@@ -122,10 +123,11 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   });
   s.append(svgEl('text',{x:16,y:745,'font-size':12,fill:'#203d50'},`${state.networkMembers==='all'?'Full frozen annotations':'Contrast-specific leading edges'} · ${contrasts[contrast]}`),svgEl('text',{x:16,y:767,'font-size':11,fill:'#203d50'},`Pairwise annotation overlap; no biological flux or temporal transitions. Jaccard display threshold ${threshold}.`));scroll.append(s);content.append(scroll);
   exports.append(button('Download chord SVG',()=>downloadChord()));
-  function downloadChord(){const copy=s.cloneNode(true);copy.setAttribute('width','820');copy.setAttribute('height','780');copy.querySelectorAll('[role="button"]').forEach(n=>{n.removeAttribute('role');n.removeAttribute('tabindex');});save('pathway-overlap-chord.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');}
+  function downloadChord(){const copy=s.cloneNode(true);copy.setAttribute('width','820');copy.setAttribute('height','780');copy.querySelectorAll('[role="button"]').forEach(n=>{n.removeAttribute('role');n.removeAttribute('tabindex');});themeScientificSVG(copy,plotPalette(root));save('pathway-overlap-chord.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');}
  }
  function drawGraph() {
   const controls=el('div','network-map-controls');const scroll=el('div','network-map');scroll.tabIndex=0;scroll.setAttribute('aria-label','Scrollable pathway network');
+  content.dataset.fullscreenHost='';content.dataset.fullscreenTitle='Pathway membership overlap network';content.dataset.fullscreenInfo='Connections encode shared annotated membership; positions and distances have no biological meaning.';
   const svg=svgEl('svg',{viewBox:'0 0 820 780',role:'group','aria-labelledby':'overlap-map-title','aria-describedby':'overlap-map-description',xmlns:NS});
   svg.append(svgEl('title',{id:'overlap-map-title'},'Pathway membership overlap network'),svgEl('desc',{id:'overlap-map-description'},'Undirected connections show shared annotated genes. Node colour is the archived NES. Distances have no scientific meaning. Equivalent exact values are in the overlap table and matrix.'));
   const width=820,height=780;
@@ -135,7 +137,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
    .force('link',forceLink(links).id(n=>n.id).distance(p=>200-180*p.jaccard).strength(.06))
    .force('collide',forceCollide(76).iterations(3)).force('x',forceX(width/2).strength(.035)).force('y',forceY(height/2).strength(.035));
   simulation.tick(360);simulation.stop();
-  // Separate label rectangles as well as the circular nodes; deterministic and bounded.
+  // Keep label extents separated around circular nodes; deterministic and bounded.
   for(let tick=0;tick<160;tick++){
    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
     const a=nodes[i],b=nodes[j],dx=b.x-a.x,dy=b.y-a.y,ox=174-Math.abs(dx),oy=106-Math.abs(dy);
@@ -173,18 +175,17 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   const move=button('Move nodes',()=>{moving=!moving;move.setAttribute('aria-pressed',String(moving));scroll.classList.toggle('move-nodes',moving);});move.setAttribute('aria-pressed','false');
   controls.append(button('−',()=>setZoom(zoom-.25)),zoomLabel,button('+',()=>setZoom(zoom+.25)),button('Reset layout',()=>{for(const n of nodes)Object.assign(n,original.get(n.id));position();setZoom(1);}),move);
   controls.children[0].setAttribute('aria-label','Zoom out network');controls.children[2].setAttribute('aria-label','Zoom in network');
-  const full=button('Full screen',async()=>{if(document.fullscreenElement===root)await document.exitFullscreen();else await root.requestFullscreen();});
-  if(document.fullscreenEnabled&&root.requestFullscreen)controls.append(full);
+
   exports.append(button('Download network SVG',()=>{
    const copy=svg.cloneNode(true);copy.removeAttribute('style');copy.setAttribute('width','820');copy.setAttribute('height','880');copy.setAttribute('viewBox','0 0 820 880');
    copy.querySelectorAll('.network-link-hit').forEach(n=>n.remove());copy.querySelectorAll('[tabindex], [role="button"]').forEach(n=>{n.removeAttribute('tabindex');n.removeAttribute('role');});
-   const style=svgEl('style',{},'.network-node-label,.network-tier{font:14px system-ui,sans-serif;fill:#203d50}.network-node-label{paint-order:stroke;stroke:white;stroke-width:4px}.network-node-hit{fill:white;fill-opacity:.9;stroke:#d7e1e8}.network-edge[aria-pressed=true] .network-link{stroke:#183e5b;stroke-width:8}.search-match circle{stroke:#946c20;stroke-width:4}');copy.prepend(style);
+   const style=svgEl('style',{},'.network-node-label,.network-tier{font:14px system-ui,sans-serif;fill:#203d50}.network-node-label{paint-order:stroke;stroke:white;stroke-width:4px}.network-node-hit{fill:transparent;stroke:none;pointer-events:all}.network-edge[aria-pressed=true] .network-link{stroke:#183e5b;stroke-width:8}.search-match circle{stroke:#946c20;stroke-width:4}');copy.prepend(style);
    const caption=[`${contrasts[contrast]} · ${state.networkMembers==='all'?'Full frozen annotations':'Contrast-specific leading edges'}`,
     `Jaccard ≥ ${threshold}; ${connections.length} shown connections. P primary / S secondary / E exploratory.`,
     'NES fill: blue negative / rust positive / grey untestable; fixed scale ±3.6. Equal node sizes.',
     'Annotation overlap only. Distances are arbitrary. DOI: 10.5281/zenodo.23283595'];
    caption.forEach((text,i)=>copy.append(svgEl('text',{x:16,y:794+i*22,'font-size':13,'font-family':'system-ui, sans-serif',fill:'#203d50'},text)));
-   save('pathway-overlap.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');
+   themeScientificSVG(copy,plotPalette(root));save('pathway-overlap.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');
   }));
   content.append(controls,el('p','note','The deterministic layout is static. Scroll to pan and use +/− to zoom. Node repositioning is optional; disable it to restore selection. Outlined nodes indicate search matches.'),scroll);scroll.append(svg);setZoom(1);
  }

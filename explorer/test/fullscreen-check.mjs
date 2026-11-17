@@ -24,12 +24,13 @@ try{
   await page.goto(base);await page.locator('[data-framework7]').waitFor();
   if(!await page.evaluate(()=>typeof document.documentElement.requestFullscreen==='function'||typeof document.documentElement.webkitRequestFullscreen==='function')){skipped.push(screen.name);await context.close();continue;}
   for(const tab of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance']){
-   const menu=page.getByRole('button',{name:'Open section menu',exact:true});if(await menu.isVisible())await menu.click();
+   const menu=page.getByRole('button',{name:'Open section menu',exact:true});if(await menu.getAttribute('aria-expanded')!=='true')await menu.click();
    await page.getByRole('button',{name:tab,exact:true}).click();
    const buttons=page.locator('.figure-fullscreen');await buttons.first().waitFor({state:'visible'});
    const count=await buttons.count();assert.ok(count>0,`${screen.name}: ${tab} has fullscreen controls`);
    for(let i=0;i<count;i++){
     await buttons.nth(i).click();await page.waitForFunction(()=>Boolean(document.fullscreenElement||document.webkitFullscreenElement));
+    const close=page.getByRole('button',{name:'Exit full screen',exact:true});await close.waitFor();await close.click({trial:true});assert.equal(await close.innerText(),'Close');assert.equal(await close.evaluate(n=>{const r=n.getBoundingClientRect();return Math.round(r.width)>=88&&Math.round(r.height)>=44&&r.top>=0&&r.bottom<=innerHeight;}),true);
     const shell=page.locator('.figure-shell:fullscreen');
     const box=await shell.evaluate(f=>({width:f.clientWidth,height:f.clientHeight,scrollWidth:f.scrollWidth,scrollHeight:f.scrollHeight,title:f.getAttribute('aria-label'),panes:[...f.children].filter(n=>!n.matches('.figure-scrollbar')).map(n=>({height:n.clientHeight,bottom:n.getBoundingClientRect().bottom})),bottom:f.getBoundingClientRect().bottom}));
     assert.ok(box.scrollWidth<=box.width+1&&box.scrollHeight<=box.height+1,`${screen.name}: ${tab} outer overflow`);

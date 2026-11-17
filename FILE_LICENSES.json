@@ -364,6 +364,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/atlas-tour.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/atlas.js": {
     "spdx": "MIT",
     "copyright": [
@@ -377,6 +383,12 @@
     ]
   },
   "explorer/src/components/comparison-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/figure-controls.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -401,6 +413,12 @@
     ]
   },
   "explorer/src/components/pathway-tree.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/plot-theme.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -468,6 +486,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/figure-controls-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/fullscreen-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -498,7 +522,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/plot-theme-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/print-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/tour-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

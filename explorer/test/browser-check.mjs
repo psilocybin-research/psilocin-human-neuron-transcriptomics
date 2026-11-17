@@ -13,8 +13,7 @@ page.on('requestfailed',r=>failedRequests.push({url:r.url(),failure:r.failure()}
 page.on('response',r=>{if(r.status()>=400)failedRequests.push({url:r.url(),status:r.status()})});
 await page.goto(atlasURL);
 await page.locator('[data-framework7]').waitFor();
-await page.getByRole('button',{name:'Interface options',exact:true}).click();
-await page.locator('.interface-popover').getByRole('button',{name:'Sources & citation',exact:true}).click();
+await page.getByRole('button',{name:'Sources',exact:true}).click();
 await page.locator('.research-sources.modal-in').waitFor();
 await page.getByRole('button',{name:'OXPHOS landscape',exact:true}).waitFor();
 assert.equal(await page.locator('.header-repository').getAttribute('href'),'https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics');
@@ -34,7 +33,7 @@ assert.deepEqual(headerIcons.github,[30,30]);assert.deepEqual(headerIcons.orcid,
 assert.equal(await page.locator('.native-share').count(),1);
 assert.equal(await page.locator('.native-share').getAttribute('aria-label'),'Share the current atlas analysis');
 assert.equal(await page.locator('.native-share svg').count(),1);
-assert.equal(await page.locator('.interface-popover .native-share').count(),1);
+assert.equal(await page.locator('.share-popover .native-share').count(),1);
 assert.equal(await page.locator('.boundary').count(),1);
 assert.match(await page.locator('.boundary').innerText(),/^Interpretation boundary/);
 const boundaryOrder=await page.evaluate(()=>{const boundary=document.querySelector('.boundary'),exploratory=[...document.querySelectorAll('.section-heading h2')].find(node=>node.textContent==='Exploratory DNA-maintenance evidence')?.closest('.section-heading');return Boolean(boundary&&exploratory&&(exploratory.compareDocumentPosition(boundary)&Node.DOCUMENT_POSITION_FOLLOWING));});
@@ -70,7 +69,7 @@ assert.equal(await page.locator('.gene-row').count(),113);
 await page.getByRole('button',{name:'Inspect NDUFB7, Respiratory complex I',exact:true}).click();
 await page.waitForFunction(()=>document.querySelector('.gene-symbol')?.textContent==='NDUFB7'&&document.querySelector('.gene-detail')?.textContent.includes('ENSG'));
 assert.match(await page.locator('.gene-detail').innerText(),/2\.507/);
-await page.getByRole('button',{name:'Interface options',exact:true}).click();await page.locator('.interface-popover.modal-in').waitFor();await page.locator('.native-share').click();await page.keyboard.press('Escape');
+await page.getByRole('button',{name:'Share analysis',exact:true}).click();await page.locator('.share-popover.modal-in').waitFor();await page.locator('.native-share').click();await page.keyboard.press('Escape');
 const sharedLandscape=await page.evaluate(()=>window.__lastSharedPayload);
 assert.match(sharedLandscape.title,/OXPHOS landscape · Gene: NDUFB7/);
 assert.match(sharedLandscape.url,/#view=landscape&gene=NDUFB7/);

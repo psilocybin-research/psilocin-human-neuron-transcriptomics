@@ -28,7 +28,7 @@ await page.getByLabel('Gene membership',{exact:true}).selectOption('leading',{fo
 await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING'].sort().join('|'),{force:true});assert.match(await page.locator('.pathway-evidence-panel').innerText(),/unavailable overlap, not zero overlap/);
 await page.getByLabel('Gene membership',{exact:true}).selectOption('all',{force:true});await page.getByRole('button',{name:'Network',exact:true}).click();await page.locator('.network-node').first().waitFor();
 await page.getByRole('button',{name:'Reset search',exact:true}).click();await page.locator('.network-node').first().waitFor();
-const node=page.locator('.network-node').first();await node.focus();await page.keyboard.press('Enter');assert.equal(await node.getAttribute('aria-pressed'),'true');
+const node=page.locator('.network-node').first();await node.focus();await page.keyboard.press('Enter');assert.equal(await node.getAttribute('aria-pressed'),'true');assert.equal(await node.locator('.network-node-hit').evaluate(n=>getComputedStyle(n).stroke),'none');
 await page.getByRole('button',{name:'Zoom in network',exact:true}).click();assert.equal(await page.locator('.network-zoom-label').innerText(),'125%');
 await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.equal(await page.locator('.network-zoom-label').innerText(),'100%');
 // Explicit node movement and settled reset; no autonomous animation.
@@ -38,8 +38,8 @@ const beforeMove=await node.getAttribute('transform');await node.scrollIntoViewI
 await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+25,box.y+box.height/2+25,{steps:4});await page.mouse.up();
 assert.notEqual(await node.getAttribute('transform'),beforeMove);
 await page.getByRole('button',{name:'Move nodes',exact:true}).click();await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.equal(await node.getAttribute('transform'),beforeMove);
-if(await page.getByRole('button',{name:'Full screen',exact:true}).count()){
- await page.getByRole('button',{name:'Full screen',exact:true}).click();await page.waitForFunction(()=>Boolean(document.fullscreenElement));
+if(await page.getByRole('button',{name:'View overlap network in full screen',exact:true}).count()){
+ await page.getByRole('button',{name:'View overlap network in full screen',exact:true}).click();await page.waitForFunction(()=>Boolean(document.fullscreenElement));
  await page.locator('.network-node').first().focus();await page.keyboard.press('Enter');await page.waitForFunction(()=>!document.fullscreenElement);
 }
 const svgDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download network SVG',exact:true}).click();const sd=await svgDownload;const svg=await readFile(await sd.path(),'utf8');assert.match(svg,/Jaccard/);assert.match(svg,/10\.5281\/zenodo\.23283595/);assert.doesNotMatch(svg,/network-link-hit/);

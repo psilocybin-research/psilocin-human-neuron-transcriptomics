@@ -25,7 +25,7 @@ await page.screenshot({path: `${output}/desktop.png`, fullPage: true});
 const ox = page.locator(`[data-pathway="${pathway}"]`);
 await ox.locator('summary').click();
 await ox.locator('.tree-gene').first().waitFor();
-assert.equal(await ox.locator('.tree-gene').count(), 30);
+assert.equal(await ox.locator('.tree-gene').count(), 30);assert.equal(await ox.locator('.tree-gene.button').count(),0);assert.equal(await ox.locator('.tree-gene').first().evaluate(n=>n.getBoundingClientRect().width>=n.parentElement.clientWidth-2),true);
 await ox.locator('.tree-more').click();
 assert.equal(await ox.locator('.tree-gene').count(), 60);
 assert.equal(await page.evaluate(() => document.activeElement?.classList.contains('tree-gene')), true);

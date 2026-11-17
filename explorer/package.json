@@ -14,7 +14,10 @@
     "test:comparison": "node test/comparison-browser-check.mjs",
     "prebuild": "node scripts/prepare-ui.mjs",
     "predev": "node scripts/prepare-ui.mjs",
-    "test:app": "node test/app-shell-browser-check.mjs"
+    "test:app": "node test/app-shell-browser-check.mjs",
+    "test:tour": "node test/tour-browser-check.mjs",
+    "test:plot-theme": "node test/plot-theme-browser-check.mjs",
+    "test:figures": "node test/figure-controls-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",

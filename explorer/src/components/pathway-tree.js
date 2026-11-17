@@ -90,10 +90,11 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   tools.append(action('Collapse gene branches', () => {
     state.open.clear(); root.querySelectorAll('.tree-pathway').forEach(d => {d.open = false;});
   }), action('Reset search', () => {search.value = ''; state.query = ''; onState(); draw(); search.focus();}));
+  const shortcuts=node('div','pathway-shortcuts');const chordShortcut=action('Chord comparison',()=>{state.networkView='chord';setView('network');chordShortcut.focus({preventScroll:true});});chordShortcut.title='Compare shared gene membership among up to six frozen gene sets';shortcuts.append(chordShortcut,node('span','note','Compare gene-set overlap with linked gene-level evidence.'));
   const canvas = node('div', 'tree-canvas'); canvas.tabIndex = 0;
   canvas.setAttribute('aria-label', 'Scrollable pathway explorer');
   const downloads = node('div', 'tree-actions');
-  root.append(toolbar, explanation, legend, notice, tools, canvas, downloads);
+  root.append(toolbar, explanation, legend, shortcuts, notice, tools, canvas, downloads);
   let genes, branches = [], loadError = false, drawToken = 0, networkMount;
   const loadStatus = node('p', 'note', 'Loading archived gene estimates…'); canvas.append(loadStatus);
   const notify = () => onState();
@@ -121,7 +122,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     if (g.memberships.length > 1) {const badge = node('small', 'tree-overlap', `${g.memberships.length} sets`); badge.title = 'Overlapping annotation; not independent evidence'; name.append(badge);}
     const metrics = node('span', 'tree-gene-metrics');
     const swatch = node('i', 'tree-swatch'); swatch.style.background = color(g.effect?.log2FoldChange, 1.5); swatch.setAttribute('aria-hidden', 'true');
-    metrics.append(swatch, node('span', '', g.gene ? `log₂FC ${fmt(g.effect?.log2FoldChange)} · FDR ${sci(g.effect?.padj)}` : 'No literal-symbol match'));
+    metrics.append(swatch);if(g.gene)metrics.append(node('span','tree-gene-effect',`log₂FC ${fmt(g.effect?.log2FoldChange)}`),node('span','tree-gene-fdr',`FDR ${sci(g.effect?.padj)}`));else metrics.append(node('span','','No literal-symbol match'));
     if (state.members === 'all') metrics.append(node('small', '', g.leading ? 'Leading edge' : 'Outside leading edge'));
     b.append(name, metrics); return b;
   }
@@ -141,7 +142,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   function draw(focusSelector) {
     const token = ++drawToken;networkMount=undefined;
     const isNetwork=state.view==='network';root.classList.toggle('network-mode',isNetwork);
-    networkButton.setAttribute('aria-pressed',String(isNetwork));
+    networkButton.setAttribute('aria-pressed',String(isNetwork));chordShortcut.setAttribute('aria-pressed',String(isNetwork&&state.networkView==='chord'));
     member.value=isNetwork?state.networkMembers:state.members;
     explanation.textContent=isNetwork?'Pairwise overlap of frozen gene-set annotations or contrast-specific leading edges. Network, table and matrix share identical membership definitions and Jaccard denominators.':'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.';
     tools.firstChild.hidden=isNetwork;legend.hidden=isNetwork;
