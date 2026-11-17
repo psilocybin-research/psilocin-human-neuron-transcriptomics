@@ -27,7 +27,8 @@
     "test:downloads": "node test/download-confirmation-browser-check.mjs",
     "test:navigation-touch": "node test/navigation-touch-browser-check.mjs",
     "test:plot-system": "node test/plot-system-browser-check.mjs",
-    "test:evidence": "node test/evidence-sheet-browser-check.mjs"
+    "test:evidence": "node test/evidence-sheet-browser-check.mjs",
+    "test:choices": "node test/smart-select-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",

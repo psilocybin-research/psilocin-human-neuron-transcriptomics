@@ -756,6 +756,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/smart-select-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/synopsis-data.test.js": {
     "spdx": "MIT",
     "copyright": [

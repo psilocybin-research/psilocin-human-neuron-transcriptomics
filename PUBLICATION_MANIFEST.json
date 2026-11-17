@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 535,
-  "total_bytes": 252928834,
+  "file_count": 536,
+  "total_bytes": 252932988,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 76774,
-      "sha256": "79bf31be20e2f9e36092d360fddfcd6cd09319cab89e9ce8b69091180368588b"
+      "bytes": 76911,
+      "sha256": "ddcb6cfbc03bee60df3f9cd7f0d00767f9d75e166518b13970df75d58f975909"
     },
     {
       "path": "LICENSE.md",
@@ -254,8 +254,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 2128,
-      "sha256": "a5da6e399bfd6fc211a0d70b310db5f3c1a2c338aefa0a9de9d30559d9277306"
+      "bytes": 2192,
+      "sha256": "adf6f9a73dbefebf5e2c7c5dc455bf35346bc7dbea135bdc2d30528fb19a3979"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -364,8 +364,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 41899,
-      "sha256": "83e012028f848e039b3add04d49d0cb5415877354b3afe130a0b83654595a462"
+      "bytes": 42101,
+      "sha256": "9d03357c774b922bac3bb1454cc621feebcdabf1b29870b87fa9bfcbb941ecf0"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -661,6 +661,11 @@
       "path": "explorer/test/research-additions-browser-check.mjs",
       "bytes": 5773,
       "sha256": "1ebbf32a1e9381ce69f80de4d72df41ebdf5d11dbbe6f6a65bae66534cfc862a"
+    },
+    {
+      "path": "explorer/test/smart-select-browser-check.mjs",
+      "bytes": 3751,
+      "sha256": "5429a70ee165f8fe25a59a9aecdc4ab44ac40d7651f6d88e4b06572c93b3faf4"
     },
     {
       "path": "explorer/test/synopsis-data.test.js",

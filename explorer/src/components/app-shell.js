@@ -658,10 +658,17 @@ export function createAppShell({
       inner.append(text);
       item.append(inner);
       wrap.append(item);
+      // Virtual lists require a page-content scroller, which popovers do not have.
+      const choicePresentation = () =>
+        select.options.length > 60
+          ? "popup"
+          : matchMedia("(max-width:700px)").matches
+            ? "sheet"
+            : "popover";
       const instance = app.smartSelect.create({
         el: wrap,
         view,
-        openIn: matchMedia("(max-width:700px)").matches ? "sheet" : "popover",
+        openIn: choicePresentation(),
         pageTitle: title,
         searchbar: select.options.length > 7,
         searchbarPlaceholder: `Search ${title.toLowerCase()}`,
@@ -673,14 +680,13 @@ export function createAppShell({
         closeOnSelect: true,
         scrollToSelectedItem: true,
         virtualList: select.options.length > 60,
+        virtualListHeight: "auto",
         routableModals: false,
         cssClass: "research-choice-modal",
         formatValueText: (values) => values.join(", "),
         on: {
           beforeOpen(ss) {
-            ss.params.openIn = matchMedia("(max-width:700px)").matches
-              ? "sheet"
-              : "popover";
+            ss.params.openIn = choicePresentation();
           },
           open(ss) {
             const modal = ss.$containerEl?.[0];
