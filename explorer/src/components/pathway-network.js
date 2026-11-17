@@ -13,8 +13,8 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  const graph = overlapGraph(data, contrast, {tier, members: state.networkMembers});
  const threshold = state.threshold;
  const connections = graph.pairs.filter(p => p.shared > 0 && p.jaccard >= threshold);
- const title = el('h3', '', 'Where findings share genes');
- const description = el('p', 'note', 'Connections indicate shared gene-set membership. Thickness represents Jaccard similarity: shared genes ÷ unique genes in the two sets. Position and distance have no biological meaning. No significance filter is applied.');
+ const title = el('h3', '', 'Gene-set overlap');
+ const description = el('p', 'note', 'Connections indicate shared gene-set membership. Thickness represents Jaccard similarity: shared genes ÷ unique genes in the two sets. Position and distance have no biological meaning. All gene sets are included irrespective of statistical significance.');
  const count = el('p', 'network-summary'); count.setAttribute('role', 'status');
  count.textContent = `${graph.nodes.length} sets · ${connections.length} shown connections · ${graph.pairs.filter(p=>p.shared>0).length} pairs with shared genes · ${graph.pairs.filter(p=>!p.available).length} unavailable pairs.`;
  const options = el('div', 'network-options');
@@ -34,7 +34,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  const matches = new Set(graph.nodes.filter(n=>q&&(n.id.includes(q)||n.label.toUpperCase().includes(q)||n.symbols?.some(s=>s.toUpperCase().includes(q)||aliases.has(s)||matchedSymbols.has(s)))).map(n=>n.id));
  searchInfo.textContent = q ? `${matches.size} sets match this search. Search highlights membership; it never changes overlap values or removes sets.` : 'Search highlights matching sets while preserving the complete comparison.';
  root.append(title, description, count, options, searchInfo);
- const legend = el('p','network-legend','Node fill: NES, blue negative / rust positive / grey untestable (scale −3.6 to +3.6). Equal node sizes. P = primary, S = secondary, E = exploratory. Select a set for evidence or a connection for shared genes.'); root.append(legend);
+ const legend = el('p','network-legend','Node fill: NES, blue negative / rust positive / grey untestable (scale −3.6 to +3.6). Equal node sizes. P = primary, S = secondary, E = exploratory. Select a gene set to inspect archived evidence or a connection to inspect the shared gene membership.'); root.append(legend);
  const empty = graph.pairs.filter(p=>p.shared>0).length - connections.length;
  if (empty || graph.nodes.some(n=>!n.available)) root.append(el('p','note',`${empty} nonzero overlaps are hidden by the display threshold. Isolated nodes remain visible. Missing connections do not imply biological independence; unavailable leading edges are not measured zero overlap.`));
  const pairLabel=el('label','control network-pair-picker');pairLabel.append(el('span','','Inspect a gene-set pair'));
@@ -156,7 +156,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
    caption.forEach((text,i)=>copy.append(svgEl('text',{x:16,y:794+i*22,'font-size':13,'font-family':'system-ui, sans-serif',fill:'#203d50'},text)));
    save('pathway-overlap.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');
   }));
-  content.append(controls,el('p','note','Layout is settled and does not animate. Swipe/scroll to pan; use +/− to zoom. Enable Move nodes to reposition them, then turn it off to select. Search rings highlight matching sets.'),scroll);scroll.append(svg);setZoom(1);
+  content.append(controls,el('p','note','The deterministic layout is static. Scroll to pan and use +/− to zoom. Node repositioning is optional; disable it to restore selection. Outlined nodes indicate search matches.'),scroll);scroll.append(svg);setZoom(1);
  }
  root.refreshSelection=id=>{if(id)selectedPathway=id;highlight();};root.focusSelection=()=>{const selected=[...root.querySelectorAll('[data-network-pair],[data-network-node]')].find(n=>n.dataset.networkPair===state.edge||!state.edge&&n.dataset.networkNode===selectedPathway);selected?.focus();};
  highlight();return root;

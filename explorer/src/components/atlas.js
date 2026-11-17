@@ -233,7 +233,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   search.oninput=searchResults;searchResults();
  }
  function pathways(){
-  body.append(heading('Pathway evidence','Follow the analysis families into gene sets and their contributing genes. Inspect archived enrichment, gene estimates and sensitivity evidence without changing the underlying analyses.'));
+  body.append(heading('Pathway evidence','Frozen primary, secondary and exploratory gene sets, with archived enrichment statistics, gene-level estimates and sensitivity analyses.'));
   const eligible=data.pathways.filter(p=>pathwayTier==='all'||p.tier===pathwayTier);
   if(!eligible.some(p=>p.pathway===pathway))pathway=eligible[0].pathway;syncLocation();
   const choices=[...new Map(eligible.map(p=>[p.pathway,[p.pathway,`${label(p.pathway)} · ${p.tier}`]])).values()];
@@ -261,7 +261,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
     const back=button(treeState.edge&&treeState.view==='network'?'← Shared genes':'← Pathway evidence',()=>{treeState.gene='';explorer.refreshSelection();syncLocation();showEvidence();},'secondary');
     const geneHost=el('div','gene-detail tree-gene-detail');evidence.append(back,geneHost);geneDetail(geneHost,treeState.gene).then(()=>{if(geneHost.isConnected)enhancePlots(geneHost);});
     const membership=Object.entries(data.membership).filter(([,genes])=>genes.includes(treeState.gene));
-    evidence.append(el('h4','','Also annotated in the frozen sets'));
+    evidence.append(el('h4','','Frozen gene-set membership'));
     const links=el('div','tree-membership-links');for(const[id]of membership)links.append(button(label(id),()=>{pathwayTier='all';pathway=id;treeState.open.add(id);render();},'secondary'));evidence.append(links,note('Shared membership is annotation overlap, not independent confirmation. Gene estimates retain their original transcriptome-wide FDR.'));
     evidence.append(button('Open in Gene explorer',()=>go('genes',treeState.gene),'secondary'));
    }else{
@@ -309,7 +309,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   showEvidence();
  }
  function robustness(){
-  body.append(heading('What “directionally stable” means here','Direction agreement across the frozen block omissions and RNA-quality checks. Significance in every small subset was not required.'));
+  body.append(heading('Directional stability and sensitivity analyses','Direction agreement across the frozen block omissions and RNA-quality checks. Significance in every small subset was not required.'));
   const choices=[...new Map(data.pathways.map(p=>[p.pathway,[p.pathway,`${label(p.pathway)} · ${p.tier}`]])).values()];
   const controls=el('div','controls');controls.append(select('Pathway',choices,pathway,v=>{pathway=v;render();}),select('Contrast',Object.entries(contrasts),contrast,v=>{contrast=v;render();}));body.append(controls);
   const rows=data.sensitivities.filter(r=>r.pathway===pathway&&r.contrast===contrast);const all=Math.max(1,...rows.filter(r=>r.NES!==null).map(r=>Math.abs(r.NES)));const s=svg(900,rows.length*30+62,'Pathway normalized enrichment score across all archived variants');const x=v=>550+v/(all+.3)*300;
@@ -323,7 +323,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   body.append(el('aside','boundary','Transcriptional enrichment ≠ DNA repair activity or telomere preservation. Cell-cycle context and shared pathway membership complicate specificity.'));
   const frozen=data.pathways.filter(p=>p.tier==='exploratory');
   body.append(el('h3','','Frozen exploratory family · 6 tests'),table(frozen,[['pathway','Pathway',label],['contrast','Contrast',v=>contrasts[v]],['NES','NES',v=>fmt(v,3)],['family_fdr','6-test q',sci],['robustness','Direction class',v=>v==='robust'?'directionally stable':v]]),downloadButton(frozen,'frozen-exploratory-6-tests.csv'));
-  body.append(heading('Which genes carry the telomere signal?','All 30 genes in the two-day leading-edge union: 27 at Day 1, 25 at Day 3, 22 shared. Functional annotations overlap; they are not additional enrichment tests.'));
+  body.append(heading('Telomere-associated leading-edge genes','All 30 genes in the two-day leading-edge union: 27 at Day 1, 25 at Day 3, 22 shared. Functional annotations overlap; they are not additional enrichment tests.'));
   const controls=el('div','controls');const mapHost=el('div','dna-map-scroll'),detail=el('aside','gene-detail');
   controls.append(select('Telomere annotation',[['All genes','All genes'],['Packaging / protection','Packaging / protection'],['Telomerase extension / RNP','Telomerase extension / RNP'],['C-strand synthesis','C-strand synthesis'],['Recombination / chromatin / TERRA','Recombination / chromatin / TERRA']],dnaFilter,v=>{dnaFilter=v;syncLocation();draw();}),scaleKey(1.5,'Effect · log₂ fold change'));
   body.append(controls);const layout=el('div','landscape-layout');layout.dataset.fullscreenHost='true';layout.dataset.fullscreenTitle='Telomere leading-edge gene map';layout.dataset.fullscreenInfo='Select a gene row to retain its associated archived estimates alongside the map.';layout.append(mapHost,detail);body.append(layout);

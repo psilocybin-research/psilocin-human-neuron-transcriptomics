@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 469,
-  "total_bytes": 252378894,
+  "total_bytes": 252378917,
   "status": "pass",
   "failures": [],
   "files": [
@@ -309,8 +309,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 71216,
-      "sha256": "7b9b53cf67c211b796f775fff2551d4ba907932b4db86e4ea092c05c09551a52"
+      "bytes": 71165,
+      "sha256": "fc2af5014dc3f5b2370f989a306b7af188e6c7551da943b8bc8e2ef433d1700a"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -319,8 +319,8 @@
     },
     {
       "path": "explorer/src/components/pathway-network.js",
-      "bytes": 19323,
-      "sha256": "52c07bfa9cd0eaf6acc4f3abe691b90a5d5a92fab396849b922e93b56781cb96"
+      "bytes": 19383,
+      "sha256": "382c45411183e9ebf72696957917dec7b94be262adfb67b94a445e6e73670d4b"
     },
     {
       "path": "explorer/src/components/pathway-overlap.js",
@@ -329,8 +329,8 @@
     },
     {
       "path": "explorer/src/components/pathway-tree.js",
-      "bytes": 19331,
-      "sha256": "b3593e2e5f93062319a22a465a3b3aa0b79a7a8506e77313896620ca41ebc045"
+      "bytes": 19327,
+      "sha256": "9b69222161d80bbd1ee33e16dd1671d50c6e4832152735fcb6b6020102671e63"
     },
     {
       "path": "explorer/src/data/atlas.json",
@@ -379,8 +379,8 @@
     },
     {
       "path": "explorer/test/network-browser-check.mjs",
-      "bytes": 8746,
-      "sha256": "269d14e35e12cba78a0b190d116b5f4baf31d708ac639dc0c985ac0d16b12e14"
+      "bytes": 8749,
+      "sha256": "dae51e60105d4e973b3af834bf3c8cb548ecd85443e2156fe8bf1e680ad7d4ae"
     },
     {
       "path": "explorer/test/pathway-overlap.test.js",
@@ -399,8 +399,8 @@
     },
     {
       "path": "explorer/test/tree-browser-check.mjs",
-      "bytes": 9220,
-      "sha256": "aa357d10850699911fe9b3e791b76d0f9ddf4ef4add01e9d8abb5a0e8f0c85df"
+      "bytes": 9235,
+      "sha256": "4dd2944b349a352a5c76ae17bce1d2e72004b98a9b6afbb875d4da38095b5a69"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",

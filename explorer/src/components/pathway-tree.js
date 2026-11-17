@@ -70,9 +70,9 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   const networkButton = action('Pathway overlap', () => setView('network'));
   view.append(treeButton, tableButton, networkButton);
   const searchLabel = node('label', 'tree-search');
-  searchLabel.append(node('span', '', 'Find a pathway or gene'));
+  searchLabel.append(node('span', '', 'Search pathways and genes'));
   const search = node('input'); search.type = 'search'; search.placeholder = 'Gene symbol, alias, Ensembl ID or pathway';
-  search.setAttribute('aria-label', 'Find a pathway or gene'); search.value = state.query;
+  search.setAttribute('aria-label', 'Search pathways and genes'); search.value = state.query;
   searchLabel.append(search);
   const memberLabel = node('label', 'tree-member-control');
   memberLabel.append(node('span', '', 'Gene membership'));
@@ -143,7 +143,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     const isNetwork=state.view==='network';root.classList.toggle('network-mode',isNetwork);
     networkButton.setAttribute('aria-pressed',String(isNetwork));
     member.value=isNetwork?state.networkMembers:state.members;
-    explanation.textContent=isNetwork?'Compare shared membership across frozen gene sets. The network, pairwise table and matrix use the same explicit denominators; search highlights matches without changing overlap values.':'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.';
+    explanation.textContent=isNetwork?'Pairwise overlap of frozen gene-set annotations or contrast-specific leading edges. Network, table and matrix share identical membership definitions and Jaccard denominators.':'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.';
     tools.firstChild.hidden=isNetwork;legend.hidden=isNetwork;
     treeButton.setAttribute('aria-pressed', String(state.view === 'tree')); tableButton.setAttribute('aria-pressed', String(state.view === 'table'));
     if (!genes) return;
