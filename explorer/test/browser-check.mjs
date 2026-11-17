@@ -5,6 +5,7 @@ import {mkdir,writeFile} from 'node:fs/promises';
 const browser=await chromium.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 await page.addInitScript(()=>{Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{window.__lastSharedPayload=payload;}});});
+await page.addInitScript(()=>localStorage.setItem('atlas-appearance','light'));
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 const atlasURL=process.env.ATLAS_URL||'http://127.0.0.1:4173';
 const origin=new URL(atlasURL).origin,externalRequests=[],failedRequests=[],requests=[];

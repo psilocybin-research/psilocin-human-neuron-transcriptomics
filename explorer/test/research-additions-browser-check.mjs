@@ -32,7 +32,7 @@ try {
         .click();
       await page.locator(".synopsis-dotplot svg[role=img]").waitFor();
       assert.equal(
-        await page.locator(".synopsis-dotplot g[role=button]").count(),
+        await page.locator(".synopsis-dotplot [role=button]").count(),
         15,
       );
       await page.screenshot({ path: `${output}/${width}-${dark}-dot.png` });

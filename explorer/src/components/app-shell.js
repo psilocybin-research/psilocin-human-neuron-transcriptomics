@@ -9,6 +9,7 @@ import {
   escapeHTML,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
+import { createGeneAutocomplete, geneSuggestions } from "./gene-suggestions.js";
 import { createPathwayAutocomplete } from "./pathway-autocomplete.js";
 import { uiIcon } from "./icons.js";
 import { themeScientificPlots } from "./plot-theme.js";
@@ -48,6 +49,7 @@ export function createAppShell({
   getGenes,
   data,
   notices,
+  plotNotices,
   initial,
   enhanceFigures,
 }) {
@@ -306,6 +308,15 @@ export function createAppShell({
   license.target = "_blank";
   license.rel = "noopener";
   sourceScroll.append(license);
+  const plotLicense = node(
+    "a",
+    "external ui-license",
+    "Scientific plotting runtime licences",
+  );
+  plotLicense.href = plotNotices;
+  plotLicense.target = "_blank";
+  plotLicense.rel = "noopener";
+  sourceScroll.append(plotLicense);
   sourcePage.append(sourceBar, sourceScroll);
   source.append(sourcePage);
   root.append(source);
@@ -588,6 +599,11 @@ export function createAppShell({
         pathwaySuggestions.add(
           createPathwayAutocomplete({ app, input, data, getGenes, root }),
         );
+      }
+    for (const input of body.querySelectorAll("input[data-gene-suggestions]"))
+      if (input.atlasGeneSuggestions && !suggestionInputs.has(input)) {
+        suggestionInputs.add(input);
+        pathwaySuggestions.add(createGeneAutocomplete({ app, input, data }));
       }
     for (const select of [
       ...body.querySelectorAll("select"),
@@ -967,7 +983,9 @@ export function createAppShell({
       el: root,
       name: "Psilocin transcriptomic atlas",
       theme: "ios",
-      darkMode: stored("atlas-appearance", "light") === "dark",
+      darkMode: stored("atlas-appearance", "")
+        ? stored("atlas-appearance", "") === "dark"
+        : "auto",
       colors: { primary: "#235780" },
       iosTranslucentBars: true,
       iosTranslucentModals: true,
@@ -979,9 +997,9 @@ export function createAppShell({
           "#psilocin-app:not([data-reduced-motion=true]) .f7-press",
       },
       panel: { swipe: false },
-      sheet: { closeOnEscape: false, animate: !reduced() },
+      sheet: { closeOnEscape: false, animate: !reduced(), push: true },
       popover: { closeOnEscape: false, animate: !reduced() },
-      popup: { closeOnEscape: false, animate: !reduced() },
+      popup: { closeOnEscape: false, animate: !reduced(), push: true },
       view: { browserHistory: false },
     });
     view = app.views.create(main, { router: false });
@@ -1040,6 +1058,9 @@ export function createAppShell({
       openerEl: find,
       openIn: "popup",
       pageTitle: "Find a gene",
+      popupPush: true,
+      popupSwipeToClose: "to-bottom",
+      requestSourceOnOpen: true,
       popupCloseLinkText: "Done",
       searchbarPlaceholder: "Symbol, Ensembl ID or verified alias",
       searchbarDisableText: "Cancel",
@@ -1058,35 +1079,18 @@ export function createAppShell({
           .then((genes) => {
             if (sequence !== querySequence) return;
             const q = query.trim().toUpperCase();
-            if (!q) {
-              render([]);
-              return;
-            }
+
             const aliases = new Map(
               data.aliases
                 .filter((a) => a.current_symbol.toUpperCase().includes(q))
                 .map((a) => [a.selected_gene_id, a.current_symbol]),
             );
-            const found = genes.filter(
-              (g) =>
-                g.symbol.toUpperCase().includes(q) ||
-                g.id.toUpperCase().includes(q) ||
-                aliases.has(g.id),
-            );
-            const score = (g) =>
-              g.symbol.toUpperCase() === q || g.id.toUpperCase() === q
-                ? 0
-                : aliases.get(g.id) === q
-                  ? 1
-                  : g.symbol.toUpperCase().startsWith(q)
-                    ? 2
-                    : 3;
-            found.sort(
-              (a, b) =>
-                score(a) - score(b) ||
-                a.symbol.localeCompare(b.symbol) ||
-                Number(b.selected) - Number(a.selected),
-            );
+            const preferred = data.landscape
+              .map(
+                (g) => genes.find((r) => r.selected && r.symbol === g.gene)?.id,
+              )
+              .filter(Boolean);
+            const found = geneSuggestions(genes, data.aliases, q, preferred);
             render(
               found.slice(0, 100).map((g) => ({
                 id: g.id,
@@ -1117,10 +1121,9 @@ export function createAppShell({
         inDrawer ? "Close navigation" : "Open section menu",
       );
     };
+    app.on("darkModeChange", syncAppearance);
     app.on("resize", syncNavigation);
     syncNavigation();
-    if (stored("atlas-appearance", "light") !== "dark")
-      remember("atlas-appearance", "light");
     syncAppearance();
     root.dataset.framework7 = "9.3.0";
     update(initial);

@@ -31,16 +31,16 @@ test('atlas foregrounds source data and the principal positive finding', () => {
   assert.match(atlasSource, /did not support a coordinated NRF2–glutathione–pentose-phosphate response/);
   assert.match(atlasSource, /Exploratory DNA-maintenance evidence/);
   assert.match(atlasSource, /Study design and interpretation/);
-  assert.ok(atlasSource.indexOf("heading('Study design and interpretation'") > atlasSource.indexOf("heading('Exploratory DNA-maintenance evidence'"));
+  assert.ok(atlasSource.indexOf("Study design and interpretation") > atlasSource.indexOf("Exploratory DNA-maintenance evidence"));
   assert.match(atlasSource, /leave specificity unresolved/);
   assert.match(atlasSource, /do not demonstrate DNA-repair activity, telomere maintenance or proliferation/);
   assert.doesNotMatch(atlasSource, /el\('sup'/);
   assert.doesNotMatch(atlasSource, /¹ Faculty of Health/);
-  assert.match(atlasSource, /el\('div','header-citations'\)/);
+  assert.match(atlasSource, /el\(["']div["'],\s*["']header-citations["']\)/);
 });
 
 test('atlas progressively enhances sharing and plot fullscreen controls', () => {
-  assert.match(atlasSource, /typeof navigator\.share==='function'/);
+  assert.match(atlasSource, /typeof navigator\.share\s*===\s*["']function["']/);
   assert.match(atlasSource, /navigator\.share\(/);
   assert.match(atlasSource, /mailto:\?subject=/);
   assert.match(atlasSource, /shareDetails/);

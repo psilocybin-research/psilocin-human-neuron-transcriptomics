@@ -227,3 +227,9 @@ path = "third_party_licenses/d3-hierarchy-3.1.2.txt"
 precedence = "override"
 SPDX-FileCopyrightText = "2010-2021 Mike Bostock"
 SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = "third_party_licenses/observable-plot-0.6.19.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2020-2025 Observable, Inc."
+SPDX-License-Identifier = "ISC"

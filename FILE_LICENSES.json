@@ -286,6 +286,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/observable-plot-entry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/prepare-plots.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-site.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -442,6 +454,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/gene-search-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/gene-suggestions.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/hexbin-plot.js": {
     "spdx": "MIT",
     "copyright": [
@@ -497,6 +521,12 @@
     ]
   },
   "explorer/src/components/research-navigation.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/scientific-plot.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -624,6 +654,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/gene-search-data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/icon-ui-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -637,6 +673,12 @@
     ]
   },
   "explorer/test/navigation-glass-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/navigation-touch-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -667,6 +709,12 @@
     ]
   },
   "explorer/test/plot-coverage-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/plot-system-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -3094,6 +3142,12 @@
     "spdx": "ISC",
     "copyright": [
       "2018-2024 Observable, Inc."
+    ]
+  },
+  "third_party_licenses/observable-plot-0.6.19.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2020-2025 Observable, Inc."
     ]
   },
   "third_party_licenses/observable-runtime-6.0.1.txt": {

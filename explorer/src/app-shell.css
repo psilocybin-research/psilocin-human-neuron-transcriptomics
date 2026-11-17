@@ -534,14 +534,15 @@ body {
 #psilocin-app .data-table table {
   border: 0;
 }
-#psilocin-app .data-table th {
+#psilocin-app table th {
   background: var(--research-surface);
 }
-#psilocin-app .data-table td {
+#psilocin-app table td {
   height: auto;
 }
 #psilocin-app .analysis-control-sheet {
-  height: min(82dvh, 780px);
+  height: min(78dvh, 680px);
+  --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
   background: var(--research-surface);
   border-radius: 26px 26px 0 0;
   overflow: hidden;
@@ -571,19 +572,22 @@ body {
   overscroll-behavior: contain;
 }
 #psilocin-app .analysis-sheet-body {
-  padding: 12px 22px calc(28px + env(safe-area-inset-bottom));
+  padding: 20px 24px calc(28px + env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
 }
 #psilocin-app .analysis-sheet-body .controls,
 #psilocin-app .analysis-sheet-body .comparison-controls,
 #psilocin-app .analysis-sheet-body .tree-toolbar {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
   margin: 0;
   padding: 0;
   background: transparent;
   border: 0;
-  gap: 18px;
+  gap: 22px 24px;
 }
 #psilocin-app .analysis-sheet-body .control,
 #psilocin-app .analysis-sheet-body .tree-search,
@@ -1446,11 +1450,11 @@ body {
   background: var(--research-page);
   border-color: var(--research-border);
 }
-#psilocin-app .data-table th {
+#psilocin-app table th {
   background: var(--research-surface);
   color: var(--research-muted);
 }
-#psilocin-app .data-table td {
+#psilocin-app table td {
   color: var(--research-text);
   border-color: var(--research-border);
 }
@@ -3310,38 +3314,6 @@ body {
   }
 }
 
-/* Sources rises above a recessed workspace; the modal keeps its native F7 motion. */
-#psilocin-app {
-  perspective: 1200px;
-}
-#psilocin-app .research-views {
-  transform-origin: center center;
-  transition:
-    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 260ms ease;
-}
-#psilocin-app[data-sources-open="true"] .research-views {
-  transform: translateZ(-110px) scale(0.96);
-  opacity: 0.58;
-  border-radius: 22px;
-  overflow: hidden;
-}
-@media (prefers-reduced-motion: reduce) {
-  #psilocin-app .research-views {
-    transition: none;
-  }
-  #psilocin-app[data-sources-open="true"] .research-views {
-    transform: none;
-  }
-}
-#psilocin-app[data-reduced-motion="true"] .research-views {
-  transition: none;
-}
-#psilocin-app[data-reduced-motion="true"][data-sources-open="true"]
-  .research-views {
-  transform: none;
-}
-
 #psilocin-app .synopsis-tabs {
   display: flex;
   width: fit-content;
@@ -3666,5 +3638,180 @@ body {
       .app-loading-status
     ) {
     display: none !important;
+  }
+}
+/* F7 compares touch-start and click targets. Keep decorative button contents
+   from becoming separate targets when native press highlighting scales them. */
+#psilocin-app :is(button, .analysis-fab-action, .overview-source-link) > * {
+  pointer-events: none;
+}
+
+/* Controls use the same field geometry in sheets and the native FAB morph. */
+#psilocin-app .analysis-control-sheet .toolbar-inner {
+  position: relative;
+  left: auto;
+  right: auto;
+  height: 56px;
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 24px;
+}
+#psilocin-app .analysis-sheet-body :is(.tree-search, .tree-member-control) {
+  grid-column: 1 / -1;
+}
+#psilocin-app .analysis-sheet-body .control > .segmented {
+  align-self: stretch;
+  width: 100%;
+  margin: 0;
+}
+#psilocin-app .analysis-sheet-body .control {
+  min-width: 0;
+}
+#psilocin-app .sheet-modal {
+  --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
+}
+#psilocin-app .methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 28px;
+  margin-block: 22px 30px;
+}
+#psilocin-app .methods-grid .method-card {
+  max-width: none;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid var(--research-outline);
+  border-radius: 14px;
+  background: var(--research-surface);
+}
+#psilocin-app .methods-grid .camera-qualification {
+  grid-column: 1 / -1;
+}
+#psilocin-app .methods-grid p {
+  max-width: 85ch;
+}
+#psilocin-app .autocomplete-popup .searchbar {
+  margin: 12px 16px;
+  padding: 0;
+  height: 48px;
+}
+#psilocin-app .autocomplete-popup .searchbar input {
+  min-height: 44px;
+  font-size: 15px;
+}
+#psilocin-app .autocomplete-popup .searchbar-disable-button {
+  min-height: 44px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+@media (max-width: 700px) {
+  #psilocin-app
+    .analysis-sheet-body
+    :is(.controls, .comparison-controls, .tree-toolbar) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  #psilocin-app .methods-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+#psilocin-app .gene-autocomplete-host {
+  position: relative;
+}
+#psilocin-app .gene-autocomplete-host .gene-suggestions {
+  top: 100%;
+}
+#psilocin-app .gene-suggestions .item-text {
+  color: var(--research-muted);
+  font-size: 11px;
+}
+
+/* Row interaction never reintroduces a light-only table substrate. */
+#psilocin-app table tbody tr:is(:hover, :focus-within, [aria-selected="true"]) {
+  background: var(--research-surface-high);
+  color: var(--research-text);
+}
+#psilocin-app
+  table
+  tbody
+  tr:is(:hover, :focus-within, [aria-selected="true"])
+  :is(td, th, strong, a) {
+  color: var(--research-text);
+}
+#psilocin-app
+  table
+  tbody
+  tr:is(:hover, :focus-within, [aria-selected="true"])
+  :is(small, .note, .tree-tier) {
+  color: var(--research-muted);
+}
+#psilocin-app .comparison-gene-plot.brushing {
+  touch-action: none;
+  cursor: crosshair;
+}
+
+#psilocin-app .popup {
+  --f7-popup-push-offset: max(24px, env(safe-area-inset-top));
+}
+
+#psilocin-app .analysis-sheet-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 22px 24px;
+}
+#psilocin-app
+  .analysis-sheet-body
+  > :is(.controls, .comparison-controls, .tree-toolbar) {
+  display: contents !important;
+}
+#psilocin-app .analysis-sheet-body .tree-view-toggle {
+  width: 100%;
+  max-width: none;
+  align-self: stretch;
+  height: 46px;
+  margin: 0;
+}
+#psilocin-app .analysis-sheet-body .tree-view-toggle .button {
+  min-height: 38px;
+  height: 38px;
+  white-space: nowrap;
+  padding: 6px 10px;
+}
+@media (max-width: 700px) {
+  #psilocin-app .analysis-sheet-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+
+#psilocin-app table small {
+  color: var(--research-muted);
+}
+
+/* Recess the workspace behind the native FAB morph as behind F7 push sheets. */
+#psilocin-app > .research-views {
+  transform-origin: center top;
+  transition: transform var(--f7-sheet-transition-duration, 300ms)
+    var(--f7-sheet-transition-timing-function, ease);
+}
+#psilocin-app:has(> .analysis-fab.fab-opened) > .research-views {
+  transform: translate3d(0, 20px, 0) scale(0.94);
+  border-radius: var(--f7-sheet-push-border-radius, 32px);
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  #psilocin-app > .research-views {
+    transition: none;
+  }
+  #psilocin-app:has(> .analysis-fab.fab-opened) > .research-views {
+    transform: none;
   }
 }

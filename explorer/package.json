@@ -12,8 +12,8 @@
     "test:tree": "node test/tree-browser-check.mjs",
     "test:network": "node test/network-browser-check.mjs",
     "test:comparison": "node test/comparison-browser-check.mjs",
-    "prebuild": "node scripts/prepare-ui.mjs",
-    "predev": "node scripts/prepare-ui.mjs",
+    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs",
+    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs",
     "test:app": "node test/app-shell-browser-check.mjs",
     "test:tour": "node test/tour-browser-check.mjs",
     "test:plot-theme": "node test/plot-theme-browser-check.mjs",
@@ -24,10 +24,13 @@
     "test:plot-coverage": "node test/plot-coverage-browser-check.mjs",
     "test:research-additions": "node test/research-additions-browser-check.mjs",
     "test:progress": "node test/app-progress-browser-check.mjs",
-    "test:downloads": "node test/download-confirmation-browser-check.mjs"
+    "test:downloads": "node test/download-confirmation-browser-check.mjs",
+    "test:navigation-touch": "node test/navigation-touch-browser-check.mjs",
+    "test:plot-system": "node test/plot-system-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",
+    "@observablehq/plot": "0.6.19",
     "d3-chord": "3.0.1",
     "d3-force": "3.0.0",
     "d3-hexbin": "0.2.2",

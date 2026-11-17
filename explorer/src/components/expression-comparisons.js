@@ -1,3 +1,4 @@
+import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { createElement as el } from "./interface-utils.js";
 import { leadingEdgeColors, fmt } from "./format.js";
 const NS = "http://www.w3.org/2000/svg";
@@ -102,76 +103,57 @@ export function mirroredBeeswarm(data, genes, onInspect) {
     );
   host.dataset.fullscreenInfo =
     "All OXPHOS leading-edge-union genes, grouped descriptively by function. Day 1 coefficients above each baseline; Day 3 below. Horizontal position encodes archived log2 fold change; vertical offsets only separate genes. Shared common controls and genes are dependent.";
-  for (let i = 0; i <= 4; i++) {
-    const v = -extent + (2 * extent * i) / 4;
-    svg.append(
-      sn("line", {
-        x1: x(v),
-        x2: x(v),
-        y1: 20,
-        y2: height - 55,
-        stroke: v === 0 ? "#7b92a4" : "#d7dedf",
-        "stroke-dasharray": "3 4",
-      }),
-      sn(
-        "text",
-        { x: x(v), y: height - 32, "text-anchor": "middle" },
-        fmt(v, 1),
-      ),
-    );
-  }
-  for (const plan of plans) {
-    svg.append(
-      sn(
-        "text",
-        { x: 12, y: plan.top, "font-weight": 650, "font-size": 10 },
-        `${plan.group} · ${plan.n} genes`,
-      ),
-      sn("line", {
-        x1: left,
-        x2: right,
-        y1: plan.center,
-        y2: plan.center,
-        stroke: "#d7dedf",
-      }),
-    );
-    plan.series.forEach((points, j) => {
-      for (const p of points) {
-        const py = plan.center + (j === 0 ? -1 : 1) * (7 + p.lane * 7),
-          point = sn("circle", {
-            cx: p.px,
-            cy: py,
-            r: 3.2,
-            fill: leadingEdgeColors[j === 0 ? "Day 1 only" : "Day 3 only"],
-            role: "button",
-            tabindex: 0,
-            "aria-label": `${p.symbol}, Day ${j === 0 ? "1" : "3"}, log2 fold change ${fmt(p.value, 3)}. Inspect gene.`,
-          });
-        point.append(
-          sn(
-            "title",
-            {},
-            `${p.symbol} · Day ${j === 0 ? "1" : "3"} · log₂FC ${fmt(p.value, 4)}`,
-          ),
-        );
-        point.onclick = () => onInspect(p.gene);
-        point.onkeydown = (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onInspect(p.gene);
-          }
-        };
-        svg.append(point);
-      }
-    });
-  }
-  svg.append(
-    sn(
-      "text",
-      { x: width / 2, y: height - 8, "text-anchor": "middle" },
-      "Archived gene-level log₂ fold change",
+  const dots = plans.flatMap((plan) =>
+    plan.series.flatMap((points, j) =>
+      points.map((p) => ({
+        ...p,
+        y: plan.center + (j === 0 ? -1 : 1) * (7 + p.lane * 7),
+        day: j === 0 ? 1 : 3,
+        color: leadingEdgeColors[j === 0 ? "Day 1 only" : "Day 3 only"],
+      })),
     ),
   );
+  const describe = (p) =>
+    `${p.symbol}, Day ${p.day}, log₂ fold change ${fmt(p.value, 3)}. Inspect gene.`;
+  const chart = scientificPlot({
+    title: "Mirrored OXPHOS gene-effect beeswarm",
+    width,
+    height,
+    marginLeft: left,
+    marginRight: 20,
+    marginTop: 20,
+    marginBottom: 55,
+    x: {
+      domain: [-extent, extent],
+      grid: true,
+      label: "Archived gene-level log₂ fold change",
+    },
+    y: { domain: [height - 55, 20], axis: null },
+    marks: [
+      Plot.ruleX([0], { stroke: "#7b92a4", strokeDasharray: "3 4" }),
+      Plot.ruleY(
+        plans.map((p) => p.center),
+        { stroke: "#d7dedf" },
+      ),
+      Plot.text(plans, {
+        x: -extent,
+        y: "top",
+        text: (p) => `${p.group} · ${p.n} genes`,
+        textAnchor: "start",
+        fontWeight: 650,
+        fontSize: 10,
+      }),
+      Plot.dot(dots, {
+        x: "value",
+        y: "y",
+        r: 3.2,
+        fill: "color",
+        title: describe,
+        render: interactiveMark(dots, (p) => onInspect(p.gene), describe),
+      }),
+    ],
+  });
+  host.replaceChildren(chart);
   const root = el("section");
   root.append(
     el(
@@ -186,7 +168,7 @@ export function mirroredBeeswarm(data, genes, onInspect) {
       `${exported.length} gene–contrast estimates displayed · ${missing} unavailable. All 113 genes in the OXPHOS leading-edge union are retained, including genes outside one day’s leading edge. This selected union is descriptive; genes are not biological replicates.`,
     ),
   );
-  return { element: root, svg, rows: exported };
+  return { element: root, svg: chart, rows: exported };
 }
 export function expressionMatrix(data, genes, state, onSelect) {
   const samples = [
@@ -282,17 +264,12 @@ export function expressionMatrix(data, genes, state, onSelect) {
           a = m.get(samples[col].id),
           b = m.get(samples[row].id);
         if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
-        const gene = bySymbol.get(symbol),
-          point = sn("circle", {
-            cx: coord(a, xx),
-            cy: yy + cell - coord(b, 0),
-            r: 1.7,
-            fill: "#235780",
-            "fill-opacity": 0.4,
-          });
-        point.dataset.profileGene = gene?.id || "";
-        marks.push(point);
-        svg.append(point);
+        const gene = bySymbol.get(symbol);
+        marks.push({
+          x: coord(a, xx),
+          y: yy + cell - coord(b, 0),
+          id: gene?.id,
+        });
       }
     }
   samples.forEach((s, i) => {
@@ -381,16 +358,28 @@ export function expressionMatrix(data, genes, state, onSelect) {
     start = null;
     brush.setAttribute("visibility", "hidden");
   };
+  const ordinary = sn("path", {
+      fill: "#235780",
+      "fill-opacity": 0.3,
+      "data-profile-points": "unselected",
+    }),
+    selectedPath = sn("path", {
+      fill: "var(--plot-highlight, #a07321)",
+      "data-profile-points": "selected",
+    });
+  svg.insertBefore(ordinary, brush);
+  svg.insertBefore(selectedPath, brush);
   function update() {
+    const paths = [[], []];
     for (const mark of marks) {
-      const selected = state.selection.has(mark.dataset.profileGene);
-      mark.setAttribute("r", selected ? 3 : 1.7);
-      mark.setAttribute("fill-opacity", selected ? "1" : ".3");
-      mark.setAttribute(
-        "fill",
-        selected ? "var(--plot-highlight, #a07321)" : "#235780",
+      const selected = state.selection.has(mark.id),
+        r = selected ? 3 : 1.7;
+      paths[selected ? 1 : 0].push(
+        `M${mark.x - r},${mark.y}a${r},${r} 0 1,0 ${r * 2},0a${r},${r} 0 1,0 ${-r * 2},0`,
       );
     }
+    ordinary.setAttribute("d", paths[0].join(""));
+    selectedPath.setAttribute("d", paths[1].join(""));
   }
   const root = el("section", "expression-matrix");
   const tools = el("details", "comparison-bounds");

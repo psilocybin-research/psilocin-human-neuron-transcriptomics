@@ -1,29 +1,14 @@
+import { Plot, scientificPlot } from "./scientific-plot.js";
 import { downloadFile } from "./file-download.js";
 import { createElement as el } from "./interface-utils.js";
 import { contrasts, fmt, csvText } from "./format.js";
-const NS = "http://www.w3.org/2000/svg";
-const sn = (tag, a = {}, t) => {
-  const n = document.createElementNS(NS, tag);
-  for (const [k, v] of Object.entries(a)) n.setAttribute(k, v);
-  if (t !== undefined) n.textContent = t;
-  return n;
-};
 function frame(title) {
-  const width = Math.max(320, Math.min(680, innerWidth - 100)),
-    height = 420,
+  const width = Math.max(300, Math.min(760, innerWidth - 80)),
     host = el("div", "plot-viewport synopsis-viewport");
   host.tabIndex = 0;
   host.style.setProperty("--plot-width", `${width}px`);
   host.dataset.fullscreenTitle = title;
-  const svg = sn("svg", {
-    viewBox: `0 0 ${width} ${height}`,
-    role: "img",
-    "aria-label": title,
-    style: "font:11px system-ui,sans-serif",
-  });
-  svg.append(sn("title", {}, title));
-  host.append(svg);
-  return { host, svg, width, height };
+  return { host, width };
 }
 function save(name, rows) {
   return downloadFile(name, csvText(rows));
@@ -67,10 +52,6 @@ export function geneDiagnostics(data, genes, initial) {
             a.id.localeCompare(b.id),
         );
     const h = frame("Archived gene-effect histogram"),
-      left = 52,
-      right = h.width - 20,
-      top = 35,
-      bottom = 330,
       lo = Math.min(0, ...values),
       hi = Math.max(1, ...values),
       count = 40,
@@ -82,70 +63,34 @@ export function geneDiagnostics(data, genes, initial) {
       }));
     for (const v of values)
       bins[Math.min(count - 1, Math.floor((v - lo) / step))].count++;
-    const peak = Math.max(1, ...bins.map((b) => b.count));
     h.host.dataset.fullscreenInfo =
-      "Forty equal-width bins of archived unshrunken gene log2 fold changes among original symbol-ranking representatives. Full coefficient range; no significance selection. Genes are dependent observations, not biological samples.";
-    bins.forEach((b, i) => {
-      const x = left + (i / count) * (right - left),
-        height = (b.count / peak) * (bottom - top),
-        r = sn("rect", {
-          x,
-          y: bottom - height,
-          width: (right - left) / count - 1,
-          height,
+      "Forty equal-width bins of archived unshrunken coefficients among original symbol-ranking representatives. Full coefficient range; no significance selection. Genes are not biological samples.";
+    const histogram = scientificPlot({
+      title: "Archived gene-effect histogram",
+      width: h.width,
+      height: 420,
+      x: { domain: [lo, hi], label: "Archived log₂ fold change" },
+      y: { grid: true, label: "Gene count" },
+      marks: [
+        Plot.rectY(bins, {
+          x1: "lower",
+          x2: "upper",
+          y: "count",
           fill: "#235780",
-        });
-      r.append(
-        sn(
-          "title",
-          {},
-          `${fmt(b.lower, 3)} to ${fmt(b.upper, 3)}: ${b.count} genes`,
-        ),
-      );
-      h.svg.append(r);
+          insetLeft: 0.5,
+          insetRight: 0.5,
+          title: (b) =>
+            `${fmt(b.lower, 3)} to ${fmt(b.upper, 3)}: ${b.count} genes`,
+        }),
+        Plot.ruleY([0]),
+      ],
     });
-    for (let i = 0; i <= 4; i++) {
-      const v = lo + ((hi - lo) * i) / 4;
-      h.svg.append(
-        sn(
-          "text",
-          {
-            x: left + (i / 4) * (right - left),
-            y: 350,
-            "text-anchor": "middle",
-          },
-          fmt(v, 1),
-        ),
-        sn(
-          "text",
-          {
-            x: left - 8,
-            y: bottom - (i / 4) * (bottom - top) + 4,
-            "text-anchor": "end",
-          },
-          String(Math.round((peak * i) / 4)),
-        ),
-      );
-    }
-    h.svg.append(
-      sn(
-        "text",
-        { x: (left + right) / 2, y: 380, "text-anchor": "middle" },
-        "Archived log₂ fold change",
-      ),
-      sn(
-        "text",
-        { x: left, y: 407, "font-size": 10 },
-        `${values.length.toLocaleString()} estimated · ${cohort.length - values.length} unavailable`,
-      ),
-    );
+    h.host.replaceChildren(histogram);
     const q = frame("Nominal gene p-value Q–Q diagnostic"),
       extent = Math.max(
         1,
         Math.ceil(-Math.log10(0.5 / Math.max(1, pvalues.length))),
-      ),
-      x = (v) => left + (v / extent) * (q.width - 20 - left),
-      y = (v) => bottom - (v / 50) * (bottom - top);
+      );
     q.host.dataset.fullscreenInfo =
       "Expected −log10 uniform plotting positions versus observed −log10 nominal DESeq2 Wald p-values. A mixture of null and non-null genes and gene dependence is expected. This plot does not validate calibration, independence, model fit or causal attribution. Observed display caps at 50, including numerical zero.";
     const ranks = [
@@ -172,67 +117,45 @@ export function geneDiagnostics(data, genes, initial) {
           : -Math.log10(g.effects[index].pvalue),
       numerical_zero: g.effects[index].pvalue === 0,
     }));
-    q.svg.append(
-      sn("line", {
-        x1: x(0),
-        y1: y(0),
-        x2: x(extent),
-        y2: y(extent),
-        stroke: "#7b92a4",
-        "stroke-dasharray": "4 4",
+    const displayed = ranks.map((rank) => ({
+      ...exported[rank],
+      display_y:
+        exported[rank].observed_neglog10 === null
+          ? 50
+          : Math.min(50, exported[rank].observed_neglog10),
+    }));
+    q.host.replaceChildren(
+      scientificPlot({
+        title: "Nominal gene p-value Q–Q diagnostic",
+        width: q.width,
+        height: 420,
+        x: {
+          domain: [0, extent],
+          label: "Expected −log₁₀ uniform plotting position",
+        },
+        y: { domain: [0, 50], grid: true, label: "Observed −log₁₀ nominal p" },
+        marks: [
+          Plot.line(
+            [
+              { x: 0, y: 0 },
+              { x: extent, y: extent },
+            ],
+            { x: "x", y: "y", stroke: "#7b92a4", strokeDasharray: "4 4" },
+          ),
+          Plot.dot(displayed, {
+            x: "expected_neglog10",
+            y: "display_y",
+            r: 2,
+            fill: "#235780",
+            symbol: (r) =>
+              r.numerical_zero || r.observed_neglog10 > 50
+                ? "triangle"
+                : "circle",
+            title: (r) =>
+              `${r.symbol} · p ${r.nominal_pvalue} · rank ${r.rank}`,
+          }),
+        ],
       }),
-    );
-    for (const rank of ranks) {
-      const row = exported[rank],
-        observed =
-          row.observed_neglog10 === null
-            ? 50
-            : Math.min(50, row.observed_neglog10),
-        point = sn("circle", {
-          cx: x(row.expected_neglog10),
-          cy: y(observed),
-          r: 2,
-          fill: "#235780",
-        });
-      point.append(
-        sn(
-          "title",
-          {},
-          `${row.symbol} · p ${row.nominal_pvalue} · rank ${row.rank}`,
-        ),
-      );
-      q.svg.append(point);
-    }
-    for (let i = 0; i <= 4; i++) {
-      q.svg.append(
-        sn(
-          "text",
-          { x: x((extent * i) / 4), y: 350, "text-anchor": "middle" },
-          fmt((extent * i) / 4, 1),
-        ),
-        sn(
-          "text",
-          { x: left - 8, y: y((50 * i) / 4) + 4, "text-anchor": "end" },
-          fmt((50 * i) / 4, 0),
-        ),
-      );
-    }
-    q.svg.append(
-      sn(
-        "text",
-        { x: q.width / 2, y: 380, "text-anchor": "middle" },
-        "Expected −log₁₀ uniform plotting position",
-      ),
-      sn(
-        "text",
-        { transform: "translate(13,185) rotate(-90)", "text-anchor": "middle" },
-        "Observed −log₁₀ nominal p",
-      ),
-      sn(
-        "text",
-        { x: left, y: 407, "font-size": 10 },
-        `${pvalues.length.toLocaleString()} p-values · ${ranks.length} representative ranks shown`,
-      ),
     );
     const exports = el("div", "tree-actions");
     for (const [name, rows] of [

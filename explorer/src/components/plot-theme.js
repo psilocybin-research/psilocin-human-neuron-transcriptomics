@@ -14,7 +14,7 @@ export function themeScientificSVG(svg,palette=plotPalette()){
  const scope=`svg[data-plot-theme-id="${svg.dataset.plotThemeId}"]`;
  const neutrals=['#d7dedf','#e1e7eb','#d3dfe7','#edf0f0','#dce3e8','#d7e1e8','#e1e6e1','#e6ebe8'];
  const axes=['#879998','#647d8f','#7b92a4','#8ca298','#94a7b4','#7a8b85'];
- const rules=`${scope}{background:${palette.background};color:${palette.text};fill:${palette.text}}
+ const rules=`${scope}{background:${palette.background};color:${palette.text};fill:${palette.text};--plot-shared:${palette.shared};--plot-highlight:${palette.highlight};--plot-background:${palette.background};--plot-text:${palette.text};--plot-axis:${palette.axis}}
 ${scope} text:not([fill="#fff"]):not([fill="white"]):not(.category-count):not(.network-tier){fill:${palette.text}}
 ${neutrals.map(value=>`${scope} line[stroke="${value}"]`).join(',')}{stroke:${palette.grid}}
 ${axes.map(value=>`${scope} line[stroke="${value}"]`).join(',')}{stroke:${palette.axis}}
