@@ -28,6 +28,7 @@ try {
   await page.locator('.landscape-layout .gene-detail svg[role=img]').first().waitFor();
   await page.locator('.landscape-layout .gene-detail').evaluate(panel=>{window.evidencePlot=panel.querySelector('svg[role=img]');});
   await page.getByRole('button',{name:/^Inspect NDUFA1,/}).click();
+  if(width<=850) {
   await page.waitForFunction(()=>document.querySelector('.research-evidence-sheet').dataset.shellModalReady==='true');
   assert.equal(await sheet.evaluate(panel=>panel.querySelector('svg[role=img]')===window.evidencePlot),true,'opening selected landscape gene preserves the rendered plot');
   assert.equal(await sheet.locator('.figure-shell').count(),2,'both landscape evidence plots have shared controls before opening');
@@ -35,6 +36,12 @@ try {
   await sheet.getByRole('button',{name:'Done',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
   assert.equal(await page.locator('.landscape-layout .gene-detail').evaluate(panel=>panel.querySelector('svg[role=img]')===window.evidencePlot),true,'closing restores the original evidence');
+  } else {
+   assert.equal(await sheet.isVisible(),false,'desktop OXPHOS selection stays beside the heatmap');
+   await page.getByRole('button',{name:/^Inspect NDUFA2,/}).click();
+   await page.waitForFunction(()=>document.querySelector('.landscape-layout .gene-symbol')?.textContent==='NDUFA2');
+   assert.equal(await sheet.isVisible(),false);
+  }
   assert.deepEqual(errors,[]);await page.close();
  }
  console.log('Native push evidence, Done/Escape, restored panels and one expanded navigation group passed on mobile/desktop.');

@@ -1134,7 +1134,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           selected = g.gene;
           syncLocation();
           if (detail.dataset.gene !== selected) geneDetail(detail, selected);
-          showResearchEvidence(detail, "Gene evidence");
+          if (matchMedia("(max-width: 850px)").matches)
+            showResearchEvidence(detail, "Gene evidence");
           heat
             .querySelectorAll(".gene-row > rect:first-child")
             .forEach((x) => x.setAttribute("fill", "transparent"));
