@@ -1,9 +1,12 @@
 import { trackActivity } from "./app-activity.js";
 import { escapeHTML } from "./interface-utils.js";
-import { uiIcon } from "./icons.js";
 
-const iconLabel = (kind, text) =>
-  `${uiIcon(kind).outerHTML}<span>${escapeHTML(text)}</span>`;
+async function iconLabels() {
+  // Keep scientific data helpers importable before browser assets are generated.
+  const { uiIcon } = await import("./icons.js");
+  return (kind, text) =>
+    `${uiIcon(kind).outerHTML}<span>${escapeHTML(text)}</span>`;
+}
 
 function openDialog(app, params) {
   const fullscreen =
@@ -26,9 +29,10 @@ function openDialog(app, params) {
   return dialog;
 }
 
-export function confirmDownload(filename) {
+export async function confirmDownload(filename) {
   const app = document.querySelector("#psilocin-app")?.f7;
   if (!app) return Promise.resolve(false);
+  const iconLabel = await iconLabels();
   // Only one decision at a time; repeated taps never queue duplicate files.
   if (app.el.querySelector(".download-confirmation"))
     return Promise.resolve(false);
@@ -78,7 +82,8 @@ export async function downloadURL(filename, href) {
   saveURL(filename, href);
   return true;
 }
-export function showInformation(app, title, text) {
+export async function showInformation(app, title, text) {
+  const iconLabel = await iconLabels();
   return openDialog(app, {
     title: iconLabel("information", title),
     text: escapeHTML(text),
