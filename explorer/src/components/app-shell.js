@@ -1,3 +1,5 @@
+import { createAppProgress } from "./app-progress.js";
+import { beginActivity, afterPaint } from "./app-activity.js";
 import { createAnalysisLauncher } from "./analysis-launcher.js";
 import {
   createElement as node,
@@ -28,9 +30,8 @@ function iconAction(title, key, fn) {
   b.append(uiIcon(key));
   return b;
 }
-const reduced = () =>
-  matchMedia("(prefers-reduced-motion: reduce)").matches ||
-  document.documentElement.classList.contains("atlas-reduced-motion");
+const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+const reduced = () => motionPreference.matches;
 
 export function createAppShell({
   root,
@@ -255,6 +256,15 @@ export function createAppShell({
   }
   bottom.append(bottomInner);
   page.append(navbar, scroll, bottom);
+  const progress = createAppProgress({
+    root,
+    page,
+    navbar,
+    scroll,
+    content,
+    getApp: () => app,
+  });
+  let finishRendering;
   main.append(page);
   views.append(main);
   root.replaceChildren(panel, views);
@@ -382,32 +392,13 @@ export function createAppShell({
     app.setDarkMode(dark);
     syncAppearance();
   }
-  const motionRow = node("label", "interface-motion");
-  motionRow.append(node("span", "", "Reduce interface motion"));
-  const toggle = node("span", "toggle toggle-init"),
-    motion = node("input");
-  motion.type = "checkbox";
-  motion.checked = stored("atlas-motion", "full") === "reduced";
-  motion.setAttribute("aria-label", "Reduce interface motion");
-  motion.onchange = () => {
-    remember("atlas-motion", motion.checked ? "reduced" : "full");
-    document.documentElement.classList.toggle(
-      "atlas-reduced-motion",
-      motion.checked,
-    );
+  const syncMotion = () => {
     root.dataset.reducedMotion = String(reduced());
-    if (app) {
+    if (app)
       for (const name of ["popup", "popover", "sheet"])
         app.params[name].animate = !reduced();
-    }
   };
-  toggle.append(motion, node("span", "toggle-icon"));
-  motionRow.append(toggle);
-  sidebarFoot.append(motionRow);
-  document.documentElement.classList.toggle(
-    "atlas-reduced-motion",
-    stored("atlas-motion", "full") === "reduced",
-  );
+  motionPreference.addEventListener("change", syncMotion);
   let disposed = false,
     lastTab = initial,
     viewTransitionPending = false,
@@ -522,8 +513,14 @@ export function createAppShell({
       }
       resultScrollPending = false;
       target.scrollIntoView({ block: "start", behavior: "instant" });
-      const offset = target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom - 12;
-      scroll.scrollTo({ top: scroll.scrollTop + offset, behavior: reduced() ? "instant" : "smooth" });
+      const offset =
+        target.getBoundingClientRect().top -
+        navbar.getBoundingClientRect().bottom -
+        12;
+      scroll.scrollTo({
+        top: scroll.scrollTop + offset,
+        behavior: reduced() ? "instant" : "smooth",
+      });
     });
   }
   function analysisControlChanged(event) {
@@ -538,6 +535,8 @@ export function createAppShell({
       )
     )
       return;
+    const finish = beginActivity("Updating analysis");
+    afterPaint(finish);
     resultScrollPending = true;
     queueMicrotask(() => {
       analysisLauncher.close();
@@ -1138,20 +1137,31 @@ export function createAppShell({
   requestAnimationFrame(initialize);
   update(initial);
   function finishViewTransition(event) {
-    if (event.target === body) body.classList.remove("research-view-enter");
+    if (event.target === body) {
+      body.classList.remove("research-view-enter");
+      finishRendering?.();
+      finishRendering = undefined;
+    }
   }
   body.addEventListener("animationend", finishViewTransition);
   return {
     update,
     scroll,
     afterRender() {
-      if (!viewTransitionPending || reduced()) return;
+      progress.update();
+      if (!viewTransitionPending || reduced()) {
+        if (finishRendering) afterPaint(finishRendering);
+        finishRendering = undefined;
+        return;
+      }
       viewTransitionPending = false;
       body.classList.remove("research-view-enter");
       void body.offsetWidth;
       body.classList.add("research-view-enter");
     },
     beforeRender() {
+      finishRendering?.();
+      finishRendering = beginActivity("Opening research view");
       body.classList.remove("research-view-enter");
       analysisLauncher.close(false);
       if (controlsSheet?.opened) closeControls();
@@ -1165,6 +1175,9 @@ export function createAppShell({
     },
     destroy() {
       disposed = true;
+      finishRendering?.();
+      progress.destroy();
+      motionPreference.removeEventListener("change", syncMotion);
       body.removeEventListener("animationend", finishViewTransition);
       analysisLauncher.destroy();
       document.removeEventListener("fullscreenchange", syncFullscreenButton);

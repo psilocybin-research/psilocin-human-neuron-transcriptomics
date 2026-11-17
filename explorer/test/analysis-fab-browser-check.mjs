@@ -73,31 +73,17 @@ try {
         await page
           .locator(".research-scroll")
           .evaluate((n) => (n.scrollTop = n.scrollHeight));
-        await page
-          .getByRole("button", { name: "Scroll to top", exact: true })
-          .waitFor();
-        assert.equal(
-          overlaps(
-            await fab.evaluate((n) => n.getBoundingClientRect().toJSON()),
-            await page
-              .locator(".scroll-top")
-              .evaluate((n) => n.getBoundingClientRect().toJSON()),
-          ),
-          false,
-          "FAB clears scroll to top",
-        );
-        const top = await page.locator(".scroll-top").boundingBox();
-        assert.ok(
-          Math.abs(f.x + f.width / 2 - top.x - top.width / 2) < 1,
-          "Floating actions align vertically",
-        );
-        assert.ok(
-          f.y + f.height + 10 <= top.y,
-          "Controls clears Scroll to top",
-        );
+        assert.equal(await page.locator(".scroll-top").count(), 0);
         assert.equal(
           await fab.evaluate((n) => getComputedStyle(n).mixBlendMode),
-          "difference",
+          "normal",
+        );
+        assert.ok(
+          Number(
+            await page
+              .locator(".app-reading-progress")
+              .getAttribute("aria-valuenow"),
+          ) > 95,
         );
         await trigger.focus();
         await page.keyboard.press("Enter");

@@ -422,18 +422,6 @@ body {
   width: 17px;
   height: 17px;
 }
-#psilocin-app .scroll-top {
-  right: 22px;
-  bottom: 22px;
-  width: 42px;
-  height: 42px;
-  background: #f6f9fd;
-  color: var(--f7-theme-color);
-  border: 1px solid var(--research-outline);
-  box-shadow: 0 4px 18px #23486516;
-  mix-blend-mode: normal;
-  z-index: 230;
-}
 #psilocin-app .research-smart-select {
   display: block;
   position: relative;
@@ -646,17 +634,6 @@ body {
   border-radius: 10px;
   border-color: var(--research-outline);
 }
-#psilocin-app .interface-motion {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  gap: 12px;
-  padding: 8px 0;
-}
-#psilocin-app .interface-motion .toggle input {
-  padding: 0;
-}
 #psilocin-app .research-sources .page-content {
   padding: 96px 28px 36px;
   background: white;
@@ -784,9 +761,6 @@ body {
   #psilocin-app .research-content-inner {
     padding: 20px 24px 32px;
   }
-  #psilocin-app .scroll-top {
-    bottom: calc(82px + env(safe-area-inset-bottom));
-  }
 }
 @media (max-width: 700px) {
   #psilocin-app {
@@ -886,13 +860,7 @@ body {
     scroll-behavior: auto !important;
   }
 }
-.atlas-reduced-motion #psilocin-app *,
-.atlas-reduced-motion #psilocin-app *::before,
-.atlas-reduced-motion #psilocin-app *::after {
-  animation-duration: 0.001ms !important;
-  transition-duration: 0.001ms !important;
-  scroll-behavior: auto !important;
-}
+
 @media print {
   #psilocin-app {
     position: static;
@@ -1101,9 +1069,7 @@ body {
   max-width: 100%;
   border-radius: 10px;
 }
-.dark #psilocin-app .interface-motion {
-  color: var(--f7-text-color);
-}
+
 #psilocin-app .plot-viewport {
   overflow: auto;
   max-width: 100%;
@@ -1561,10 +1527,6 @@ body {
   color: var(--research-muted);
 }
 #psilocin-app .research-tabbar .tab-link-active {
-  color: var(--research-accent);
-}
-#psilocin-app .scroll-top {
-  background: var(--research-surface);
   color: var(--research-accent);
 }
 #psilocin-app
@@ -2622,55 +2584,6 @@ body {
   width: 18px;
   height: 18px;
 }
-/* A quiet inversion glyph avoids an opaque disk over scientific content. */
-#psilocin-app .scroll-top {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 11px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff3;
-  box-shadow: none;
-  mix-blend-mode: difference;
-  opacity: 0.8;
-  transition: opacity 0.15s ease;
-}
-#psilocin-app .scroll-top .f7-icon-svg {
-  width: 20px;
-  height: 20px;
-  filter: drop-shadow(0 0 1px #0005) drop-shadow(0 0 1px #fff5);
-}
-#psilocin-app .scroll-top::after {
-  display: none;
-}
-#psilocin-app .scroll-top:is(:focus-visible, :active) {
-  mix-blend-mode: normal;
-  opacity: 1;
-  background: var(--research-surface);
-  color: var(--research-accent);
-  border-color: var(--research-outline);
-  outline-color: var(--research-accent);
-}
-@media (hover: hover) {
-  #psilocin-app .scroll-top:hover {
-    mix-blend-mode: normal;
-    opacity: 1;
-    background: var(--research-surface);
-    color: var(--research-accent);
-    border-color: var(--research-outline);
-  }
-}
-@media (prefers-contrast: more), (forced-colors: active) {
-  #psilocin-app .scroll-top {
-    mix-blend-mode: normal;
-    opacity: 1;
-    background: Canvas;
-    color: CanvasText;
-    border-color: CanvasText;
-  }
-}
 
 /* Native F7 autocomplete lists remain anchored to the field in page and sheet layouts. */
 #psilocin-app .tree-search {
@@ -2898,7 +2811,8 @@ body {
 }
 @media (max-width: 1179px) {
   #psilocin-app .research-navbar .navbar-inner > .right,
-  #psilocin-app .research-tabbar .toolbar-pane {
+  #psilocin-app .research-tabbar .toolbar-pane,
+  #psilocin-app .analysis-fab {
     --f7-glass-bg-color: rgba(224, 239, 251, 0.64);
     background-color: var(--f7-glass-bg-color);
     backdrop-filter: saturate(180%) blur(24px);
@@ -2906,7 +2820,8 @@ body {
     box-shadow: var(--f7-glass-shadow);
   }
   .dark #psilocin-app .research-navbar .navbar-inner > .right,
-  .dark #psilocin-app .research-tabbar .toolbar-pane {
+  .dark #psilocin-app .research-tabbar .toolbar-pane,
+  .dark #psilocin-app .analysis-fab {
     --f7-glass-bg-color: rgba(25, 45, 65, 0.68);
   }
 }
@@ -3066,10 +2981,10 @@ body {
     display: block;
     position: absolute;
     left: auto;
-    width: 44px;
-    height: 44px;
-    right: 22px;
-    bottom: calc(138px + env(safe-area-inset-bottom));
+    width: 52px;
+    height: 52px;
+    right: 20px;
+    bottom: calc(84px + env(safe-area-inset-bottom));
     z-index: 10000;
     visibility: hidden;
     opacity: 0;
@@ -3080,27 +2995,25 @@ body {
       opacity 180ms ease,
       translate 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
       visibility 0s 240ms;
-    --f7-fab-extended-size: 44px;
+    --f7-fab-extended-size: 52px;
     --f7-fab-border-radius: 50%;
-    --f7-fab-bg-color: var(--f7-glass-bg-color);
-    --f7-fab-pressed-bg-color: var(--research-glass-solid);
-    --f7-fab-box-shadow: none;
-    --f7-glass-shadow-fab: none;
+
     backdrop-filter: saturate(180%) blur(16px);
     -webkit-backdrop-filter: saturate(180%) blur(16px);
   }
   #psilocin-app .analysis-fab[data-visible="true"] {
     visibility: visible;
-    opacity: 0.8;
+    opacity: 1;
     translate: 0 0;
     transition-delay: 0s;
   }
   #psilocin-app .analysis-fab-action {
     gap: 8px;
     padding: 0;
-    width: 44px;
-    min-width: 44px;
-    margin: -1px;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    margin: 0;
     justify-content: center;
     box-sizing: border-box;
     min-height: 44px;
@@ -3193,50 +3106,45 @@ body {
   translate: none;
 }
 
-/* The two quiet floating actions share a vertical alignment and blend treatment. */
+/* The native morph surface carries the same glass tint as the bottom toolbar. */
 @media (max-width: 1179px) {
-  #psilocin-app .analysis-fab:not(.fab-opened) {
+  #psilocin-app .analysis-fab {
+    --f7-fab-bg-color: var(--f7-glass-bg-color);
+    --f7-fab-pressed-bg-color: var(--research-selected);
+    --f7-fab-text-color: var(--research-accent);
+    color: var(--research-accent);
+    border: 1px solid color-mix(in srgb, var(--research-text) 26%, transparent);
     box-sizing: border-box;
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff3;
+    background: var(--f7-fab-bg-color);
     box-shadow: none;
-    mix-blend-mode: difference;
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+  }
+  #psilocin-app .analysis-fab > .analysis-fab-action {
+    height: 100%;
+    min-width: 0;
+    color: var(--research-accent);
+    box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  #psilocin-app .analysis-fab-action {
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+  #psilocin-app .analysis-fab:has(> a:is(:active, .active-state)),
+  #psilocin-app .analysis-fab.fab-opened {
+    border-color: transparent;
   }
   #psilocin-app .analysis-fab .f7-icon-svg {
-    filter: drop-shadow(0 0 1px #0005) drop-shadow(0 0 1px #fff5);
-  }
-  #psilocin-app .analysis-fab:not(.fab-opened):is(:focus-within, :active) {
-    opacity: 1;
-    mix-blend-mode: normal;
-    background: var(--research-surface);
     color: var(--research-accent);
-    border-color: var(--research-outline);
+    fill: currentColor;
+    filter: none;
+    opacity: 1;
+    flex: 0 0 20px;
   }
 }
-@media (prefers-contrast: more), (forced-colors: active) {
-  #psilocin-app .analysis-fab:not(.fab-opened) {
-    mix-blend-mode: normal;
-    background: Canvas;
-    color: CanvasText;
-    border-color: CanvasText;
-  }
-}
-
-@media (hover: hover) {
-  #psilocin-app .analysis-fab:not(.fab-opened):hover {
-    mix-blend-mode: normal;
-    opacity: 1;
-    background: var(--research-surface);
-    color: var(--research-accent);
-    border-color: var(--research-outline);
+@media (forced-colors: active) {
+  #psilocin-app .analysis-fab {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
   }
 }
 
@@ -3246,7 +3154,7 @@ body {
     translate: 10px 0;
   }
   to {
-    opacity: 0.8;
+    opacity: 1;
     translate: 0 0;
   }
 }
@@ -3262,32 +3170,6 @@ body {
   animation: none;
 }
 
-/* Scroll to top enters upward and leaves downward; Controls moves horizontally. */
-#psilocin-app .scroll-top {
-  transition:
-    opacity 180ms ease,
-    translate 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    visibility 0s;
-  translate: 0 0;
-  visibility: visible;
-}
-#psilocin-app .scroll-top[data-visible="false"] {
-  opacity: 0;
-  translate: 0 10px;
-  visibility: hidden;
-  pointer-events: none;
-  transition-delay: 0s, 0s, 240ms;
-}
-@media (prefers-reduced-motion: reduce) {
-  #psilocin-app .scroll-top {
-    transition: none;
-    translate: none;
-  }
-}
-#psilocin-app[data-reduced-motion="true"] .scroll-top {
-  transition: none;
-  translate: none;
-}
 @media (forced-colors: active) {
   #psilocin-app,
   #psilocin-app * {
@@ -3301,7 +3183,6 @@ body {
   transition-duration: 250ms;
   transition-delay: 0s;
   animation: none;
-  mix-blend-mode: normal;
 }
 
 /* Quiet pointer focus; retain a theme-consistent keyboard focus indicator. */
@@ -3423,40 +3304,204 @@ body {
 }
 
 /* Sources rises above a recessed workspace; the modal keeps its native F7 motion. */
-#psilocin-app { perspective: 1200px; }
+#psilocin-app {
+  perspective: 1200px;
+}
 #psilocin-app .research-views {
   transform-origin: center center;
-  transition: transform 320ms cubic-bezier(.2,.8,.2,1), opacity 260ms ease;
+  transition:
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 260ms ease;
 }
 #psilocin-app[data-sources-open="true"] .research-views {
-  transform: translateZ(-110px) scale(.96);
-  opacity: .58;
+  transform: translateZ(-110px) scale(0.96);
+  opacity: 0.58;
   border-radius: 22px;
   overflow: hidden;
 }
 @media (prefers-reduced-motion: reduce) {
-  #psilocin-app .research-views { transition: none; }
-  #psilocin-app[data-sources-open="true"] .research-views { transform: none; }
+  #psilocin-app .research-views {
+    transition: none;
+  }
+  #psilocin-app[data-sources-open="true"] .research-views {
+    transform: none;
+  }
 }
-#psilocin-app[data-reduced-motion="true"] .research-views { transition: none; }
-#psilocin-app[data-reduced-motion="true"][data-sources-open="true"] .research-views { transform: none; }
+#psilocin-app[data-reduced-motion="true"] .research-views {
+  transition: none;
+}
+#psilocin-app[data-reduced-motion="true"][data-sources-open="true"]
+  .research-views {
+  transform: none;
+}
 
-#psilocin-app .synopsis-tabs { display: flex; width: fit-content; margin: 16px 0; }
-#psilocin-app .synopsis-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0; font-size: 12px; }
-#psilocin-app .synopsis-legend span { display: inline-flex; gap: 7px; align-items: center; }
-#psilocin-app .synopsis-legend i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
-#psilocin-app .synopsis-viewport { overflow: auto; max-width: 100%; }
-#psilocin-app .synopsis-viewport > svg { width: 100%; height: auto; display: block; }
-#psilocin-app .synopsis-viewport.readable > svg { width: max(100%, var(--plot-width)); }
-#psilocin-app .synopsis-viewport g[role=button]:hover circle { stroke-width: 4; }
-#psilocin-app .synopsis-viewport g[role=button]:focus-visible { outline: 2px solid var(--f7-theme-color); }
-#psilocin-app .intersection-gene-list { display:flex; flex-wrap:wrap; gap:8px 14px; max-height:320px; overflow:auto; padding:12px; }
-#psilocin-app .intersection-gene-list a { min-height:40px; padding:8px; }
-#psilocin-app .profile-legend { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px 24px; font-size:12px; }
-#psilocin-app .expression-matrix .synopsis-viewport > svg { min-width:850px; }
-#psilocin-app .bundle-edge[aria-pressed=true] > path:first-child, #psilocin-app .bundle-edge:hover > path:first-child { stroke:var(--plot-highlight); stroke-opacity:1; }
-#psilocin-app .bundle-node[aria-pressed=true] circle, #psilocin-app .bundle-node:focus-visible circle { stroke:var(--plot-highlight); stroke-width:3px; }
-#psilocin-app .gene-diagnostic-disclosure { margin:24px 0; padding:16px; border:1px solid var(--research-border); border-radius:12px; }
-#psilocin-app .gene-diagnostic-disclosure > summary { cursor:pointer; font-weight:600; }
-#psilocin-app .gene-diagnostics .plot-viewport { margin:16px 0; }
-@media(max-width:600px){ #psilocin-app .profile-legend { grid-template-columns:1fr; } }
+#psilocin-app .synopsis-tabs {
+  display: flex;
+  width: fit-content;
+  margin: 16px 0;
+}
+#psilocin-app .synopsis-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 12px 0;
+  font-size: 12px;
+}
+#psilocin-app .synopsis-legend span {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+}
+#psilocin-app .synopsis-legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+#psilocin-app .synopsis-viewport {
+  overflow: auto;
+  max-width: 100%;
+}
+#psilocin-app .synopsis-viewport > svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#psilocin-app .synopsis-viewport.readable > svg {
+  width: max(100%, var(--plot-width));
+}
+#psilocin-app .synopsis-viewport g[role="button"]:hover circle {
+  stroke-width: 4;
+}
+#psilocin-app .synopsis-viewport g[role="button"]:focus-visible {
+  outline: 2px solid var(--f7-theme-color);
+}
+#psilocin-app .intersection-gene-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  max-height: 320px;
+  overflow: auto;
+  padding: 12px;
+}
+#psilocin-app .intersection-gene-list a {
+  min-height: 40px;
+  padding: 8px;
+}
+#psilocin-app .profile-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 24px;
+  font-size: 12px;
+}
+#psilocin-app .expression-matrix .synopsis-viewport > svg {
+  min-width: 850px;
+}
+#psilocin-app .bundle-edge[aria-pressed="true"] > path:first-child,
+#psilocin-app .bundle-edge:hover > path:first-child {
+  stroke: var(--plot-highlight);
+  stroke-opacity: 1;
+}
+#psilocin-app .bundle-node[aria-pressed="true"] circle,
+#psilocin-app .bundle-node:focus-visible circle {
+  stroke: var(--plot-highlight);
+  stroke-width: 3px;
+}
+#psilocin-app .gene-diagnostic-disclosure {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid var(--research-border);
+  border-radius: 12px;
+}
+#psilocin-app .gene-diagnostic-disclosure > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+#psilocin-app .gene-diagnostics .plot-viewport {
+  margin: 16px 0;
+}
+@media (max-width: 600px) {
+  #psilocin-app .profile-legend {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Native F7 progressbars: reading position above content, activity at the bottom. */
+#psilocin-app .app-reading-progress {
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  --f7-progressbar-progress-color: var(--research-accent);
+  --f7-progressbar-bg-color: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+#psilocin-app .app-reading-progress[data-scrollable="true"] {
+  opacity: 0.75;
+}
+#psilocin-app .app-loading-progress {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 221;
+  --f7-progressbar-bg-color: transparent;
+  --f7-progressbar-progress-color: var(--research-accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+#psilocin-app .app-loading-progress::before {
+  animation-play-state: paused;
+}
+#psilocin-app .app-loading-progress[data-visible="true"]::before {
+  animation-play-state: running;
+}
+#psilocin-app .app-loading-progress[data-visible="true"] {
+  opacity: 1;
+}
+#psilocin-app .app-loading-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 1179px) {
+  #psilocin-app .app-loading-progress {
+    bottom: calc(66px + env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #psilocin-app :is(.app-reading-progress, .app-loading-progress) {
+    transition: none;
+  }
+  #psilocin-app .app-loading-progress::before {
+    animation: none;
+    transform: none;
+  }
+}
+#psilocin-app[data-reduced-motion="true"]
+  :is(.app-reading-progress, .app-loading-progress) {
+  transition: none;
+}
+#psilocin-app[data-reduced-motion="true"] .app-loading-progress::before {
+  animation: none;
+  transform: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  #psilocin-app .analysis-fab {
+    background: var(--research-glass-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

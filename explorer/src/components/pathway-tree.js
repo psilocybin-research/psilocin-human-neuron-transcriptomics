@@ -1,3 +1,4 @@
+import {trackActivity} from './app-activity.js';
 import {label, fmt, sci, color, edgeGenes, csvText, contrasts} from './format.js';
 
 export const families = {
@@ -156,13 +157,13 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     canvas.replaceChildren(); downloads.replaceChildren();
     if(isNetwork){
       notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. Loading overlap view…`;
-      import('./pathway-network.js').then(({createPathwayNetwork})=>{
+      trackActivity(import('./pathway-network.js'),'Loading pathway overlap').then(({createPathwayNetwork})=>{
         if(token!==drawToken||!root.isConnected)return;
         networkMount=createPathwayNetwork({data,provenance,genes,state,contrast,tier,selectedPathway,
           onPathway:id=>selectPathway(id,true),
           onEdge:pair=>{selectedPathway=pair.source;onOverlap(pair);},
           onState:(redraw,focusSelector)=>{onState();if(redraw){scrollToDisplay=true;draw(focusSelector);}}});
-        canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion')?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
+        canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
       }).catch(()=>{if(token===drawToken){canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
       return;
     }
@@ -199,7 +200,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
       }
       canvas.append(forest);
     }
-    if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>{if(canvas.isConnected)canvas.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('atlas-reduced-motion')?'instant':'smooth'});});}
+    if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>{if(canvas.isConnected)canvas.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});}
     downloads.append(action('Download memberships CSV', () => save('pathway-tree-memberships.csv', csvText(exportMembershipRows(branches, contrast)), 'text/csv')),
       action('Download view provenance', () => save('pathway-tree-provenance.json', JSON.stringify({
         resource: 'Psilocin human-neuron transcriptomic atlas', view_url: location.href,
