@@ -10,7 +10,7 @@ await page.goto(url+'#view=pathways&display=network');await page.locator('.netwo
 assert.equal(await page.locator('.network-node').count(),14);assert.equal(await page.locator('.network-edge').count(),46);assert.equal(await page.getByLabel('Gene membership',{exact:true}).inputValue(),'all');
 const original=await page.locator('.network-node').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform')));
 const pair=['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_RESPIRATORY_ELECTRON_TRANSPORT'].sort().join('|');
-await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(pair);
+await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(pair,{force:true});
 await page.locator('[data-shared-gene]').first().waitFor();
 assert.equal(await page.locator('[data-shared-gene]').count(),71);assert.match(await page.locator('.result-summary').innerText(),/71 shared genes.*0\.2465/s);
 const sharedDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download shared genes CSV',exact:true}).click();const shared=await sharedDownload;const sharedCSV=await readFile(await shared.path(),'utf8');assert.equal(sharedCSV.split('\n').length,72);assert.match(sharedCSV,/"gene_fdr"/);
@@ -19,14 +19,14 @@ assert.match(page.url(),/pair=/);assert.match(page.url(),/gene=/);
 await page.getByRole('button',{name:'← Shared genes',exact:true}).click();await page.locator('[data-shared-gene]').first().waitFor();
 await page.reload();await page.locator('[data-shared-gene]').first().waitFor();assert.equal(await page.locator('[data-shared-gene]').count(),71);
 await page.getByLabel('Search pathways and genes',{exact:true}).fill('GPX4');await page.locator('.network-search-status').filter({hasText:/sets match/}).waitFor();assert.equal(await page.locator('.network-edge').count(),46);assert.ok(await page.locator('.network-node.search-match').count()>1);
-await page.getByLabel('Minimum Jaccard',{exact:true}).selectOption('.2'.replace(/^\./,'0.'));await page.waitForFunction(()=>document.querySelectorAll('.network-edge').length===2);assert.equal(await page.locator('.network-node').count(),14);assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),'Minimum Jaccard');
+await page.getByLabel('Minimum Jaccard',{exact:true}).selectOption('.2'.replace(/^\./,'0.'),{force:true});await page.waitForFunction(()=>document.querySelectorAll('.network-edge').length===2);assert.equal(await page.locator('.network-node').count(),14);assert.match(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),/^(Choose )?Minimum Jaccard$/);
 assert.deepEqual(await page.locator('.network-node').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform'))),original);
 const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download overlap CSV',exact:true}).click();const d=await download;const csv=await readFile(await d.path(),'utf8');assert.equal(csv.split('\n').length,92);assert.match(csv,/"jaccard"/);assert.match(csv,/"0\.2"/);
 await page.getByRole('button',{name:'Overlap table',exact:true}).click();await page.locator('.overlap-table').waitFor();assert.equal(await page.locator('.overlap-table tbody tr').count(),91);assert.match(await page.locator('.overlap-table').innerText(),/Zero overlap/);
 await page.getByRole('button',{name:'Matrix',exact:true}).click();await page.locator('.overlap-matrix').waitFor();assert.equal(await page.locator('.overlap-matrix tbody tr').count(),14);assert.equal(await page.locator('.overlap-matrix button').count(),182);
-await page.getByLabel('Gene membership',{exact:true}).selectOption('leading');await page.waitForFunction(()=>document.querySelector('.network-summary')?.textContent.includes('13 unavailable pairs'));assert.match(await page.locator('.overlap-matrix').innerText(),/NA/);
-await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING'].sort().join('|'));assert.match(await page.locator('.pathway-evidence-panel').innerText(),/unavailable overlap, not zero overlap/);
-await page.getByLabel('Gene membership',{exact:true}).selectOption('all');await page.getByRole('button',{name:'Network',exact:true}).click();await page.locator('.network-node').first().waitFor();
+await page.getByLabel('Gene membership',{exact:true}).selectOption('leading',{force:true});await page.waitForFunction(()=>document.querySelector('.network-summary')?.textContent.includes('13 unavailable pairs'));assert.match(await page.locator('.overlap-matrix').innerText(),/NA/);
+await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING'].sort().join('|'),{force:true});assert.match(await page.locator('.pathway-evidence-panel').innerText(),/unavailable overlap, not zero overlap/);
+await page.getByLabel('Gene membership',{exact:true}).selectOption('all',{force:true});await page.getByRole('button',{name:'Network',exact:true}).click();await page.locator('.network-node').first().waitFor();
 await page.getByRole('button',{name:'Reset search',exact:true}).click();await page.locator('.network-node').first().waitFor();
 const node=page.locator('.network-node').first();await node.focus();await page.keyboard.press('Enter');assert.equal(await node.getAttribute('aria-pressed'),'true');
 await page.getByRole('button',{name:'Zoom in network',exact:true}).click();assert.equal(await page.locator('.network-zoom-label').innerText(),'125%');
@@ -34,7 +34,7 @@ await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.e
 // Explicit node movement and settled reset; no autonomous animation.
 await page.setViewportSize({width:1440,height:1000});
 await page.getByRole('button',{name:'Move nodes',exact:true}).click();
-const beforeMove=await node.getAttribute('transform');const box=await node.boundingBox();
+const beforeMove=await node.getAttribute('transform');await node.scrollIntoViewIfNeeded();const box=await node.boundingBox();
 await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+25,box.y+box.height/2+25,{steps:4});await page.mouse.up();
 assert.notEqual(await node.getAttribute('transform'),beforeMove);
 await page.getByRole('button',{name:'Move nodes',exact:true}).click();await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.equal(await node.getAttribute('transform'),beforeMove);

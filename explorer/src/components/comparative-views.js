@@ -39,7 +39,7 @@ export function createComparativeViews({data,provenance,getGenes,state,onState,i
   controls.querySelector('[aria-label="OXPHOS functional group"]').disabled=['membership','enrichment'].includes(state.mode);
   const tools=el('div','comparison-search');const l=el('label','control');l.append(el('span','','Search gene symbols or identifiers'));const input=el('input');input.type='search';input.value=search;input.placeholder='Source symbol, verified alias or Ensembl ID';input.setAttribute('aria-label','Search comparison genes');l.append(input);tools.append(l);
   input.oninput=()=>{search=input.value;if(canvas)paint();renderSelection();};
-  tools.append(btn('Clear gene selection',()=>{state.selection.clear();state.active='';update();render();}));controls.append(tools);
+  tools.append(btn('Clear gene selection',()=>{state.selection.clear();state.active='';update();render();}));root.querySelector(':scope>.comparison-search')?.remove();root.insertBefore(tools,status);
   renderPlot();renderDetail();renderSelection();
  }
  function renderPlot(){

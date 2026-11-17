@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 476,
-  "total_bytes": 252462864,
+  "file_count": 487,
+  "total_bytes": 252569516,
   "status": "pass",
   "failures": [],
   "files": [
@@ -49,8 +49,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 278,
-      "sha256": "c4b57b01d2d5a5ee5ec9110b49de08ce03e70353f7dca2233f9d75f5910fbaea"
+      "bytes": 376,
+      "sha256": "0c972912b8ae29531606d1089bd8fc35222c7a111d591ce71c4092472bc61d9f"
     },
     {
       "path": ".zenodo.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
-      "bytes": 1826,
-      "sha256": "c0a67e682cc9729c9a7132bfb727e2397cfcfa7c317d1acb29a38190482a758e"
+      "bytes": 2404,
+      "sha256": "531071058e73d7be74869a40eeb2bd614401cf05641181d940593ce1ad3256d0"
     },
     {
       "path": "CITATION.cff",
@@ -74,13 +74,18 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 69107,
-      "sha256": "1c4f99071e4f11cd9ce0b76f61758b1032c690b37335a9bdeff3e8615dfc5b8d"
+      "bytes": 70407,
+      "sha256": "da22fe75c678221f3c3cb97ed0e773c3bb04a03566fe0302324b8648f923d123"
     },
     {
       "path": "LICENSE.md",
       "bytes": 1995,
       "sha256": "98f96d4d46689bafcfc8bdbc39896b22fa2031868e5aea9ac368b2dd5d8fec75"
+    },
+    {
+      "path": "LICENSES/Apache-2.0.txt",
+      "bytes": 11341,
+      "sha256": "740725f7252e750af735d0028cc534970772f513331e9f68150fede8fb3ce00f"
     },
     {
       "path": "LICENSES/CC-BY-4.0.txt",
@@ -124,8 +129,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 6522,
-      "sha256": "8016d384f3f77a7529ccd4d55fece53b73f72533d0f0a3a4a79a79172e149c2b"
+      "bytes": 7576,
+      "sha256": "9d106c30e2880f52837f555cc43f504413d34026c666434bfcf13d75ff284093"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -239,13 +244,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 155707,
-      "sha256": "f0c57d1be10039a14d16ed6bcdb081a80650d29dd20388489e078e65653f19e2"
+      "bytes": 158771,
+      "sha256": "254b6ada5489ec3cb36f4bc82ed1a594cf07c399fc507548ff7e28550c58c793"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 845,
-      "sha256": "fbd946681524fd42558cca0e605a3c24bd0d27d6ad643ed0258a24c07187e696"
+      "bytes": 1046,
+      "sha256": "01e6e5d7fa190ced97c1c7d46fec79a6d4808d9be5113ae4df277e188929095c"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -258,9 +263,24 @@
       "sha256": "c3d63fb2f42efa20dbb7515031cb667a135f989051b32a7fafed960fd8f57088"
     },
     {
+      "path": "explorer/scripts/framework7-entry.js",
+      "bytes": 1006,
+      "sha256": "7e40d896cc4c874c0f7a4e642fd388dbee861f6463a5f51cb5f385527a71e3cb"
+    },
+    {
       "path": "explorer/scripts/prepare-site.mjs",
       "bytes": 2019,
       "sha256": "3a1f2de5562827fa3bbdbdf4caef0ade15a339b166ebf60b395969b42815d797"
+    },
+    {
+      "path": "explorer/scripts/prepare-ui.mjs",
+      "bytes": 1550,
+      "sha256": "de01d9056b3378812f5b41450ac6ee6393c37ef0435abad8c322b4c55b8a0cf8"
+    },
+    {
+      "path": "explorer/src/app-shell.css",
+      "bytes": 34835,
+      "sha256": "21ac86cc292f433d337b798bb52c3bdfd8f122b8173f078b2e416e57ab378281"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -308,14 +328,19 @@
       "sha256": "b1658b9e4fbfedde0a29fef2241d7359b9355bd684b574384a60428092a3b862"
     },
     {
+      "path": "explorer/src/components/app-shell.js",
+      "bytes": 24993,
+      "sha256": "024816dbf2e396c1d14e28e94ead153f1e8cea83e5ee13e16f0715c2f0dd1425"
+    },
+    {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 78931,
-      "sha256": "adc746921f66a496a99e4c9b752c2c98e073449799854824ad02311dfe1b5071"
+      "bytes": 78300,
+      "sha256": "e72e6d98488c1138f4359e5868abd0c8c7bbf00e93c2dd85ec01b60c5147d731"
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 38654,
-      "sha256": "3ab1aa231614b56d4e260a308d5066dcdd2b4ab030c64a90226d954f5cd6ae94"
+      "bytes": 38721,
+      "sha256": "3dce6e4d14ad75d0ec57c4bbfed64eb0a792775a6f024e1ebd068b22719780e7"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
@@ -359,23 +384,28 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 818,
-      "sha256": "3fa74b0e3dcd7dd3668d3506530bbd5c0307d6a11b12b72b604e813a4a636ad2"
+      "bytes": 1499,
+      "sha256": "99a308c64deb14927d0067ba3f2613b18ae26c12eef91d5328e2af504c1d8df4"
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 50662,
-      "sha256": "e41a505471ee853eed7238ba6fe60879d403bcdce50ed696478a06b0ec996186"
+      "bytes": 50689,
+      "sha256": "14298e2b3d7e4dda9116aa60819cb9d31846fa951c2743313c166811591dcc84"
+    },
+    {
+      "path": "explorer/test/app-shell-browser-check.mjs",
+      "bytes": 9562,
+      "sha256": "ca83b723c4db89672a3c37d6417fb35a8dbfc5616a5e264f6eb7bf458cc477c9"
     },
     {
       "path": "explorer/test/browser-check.mjs",
-      "bytes": 12829,
-      "sha256": "4252e4f89a943f5abef7b7720847eb4c3d2ea6ae6ee913ee4f6171385b7e36d2"
+      "bytes": 13656,
+      "sha256": "65f8dada6d2c9a34efbef2cfa66fb67035430ed856336e402a601c5d42bb9efb"
     },
     {
       "path": "explorer/test/comparison-browser-check.mjs",
-      "bytes": 9298,
-      "sha256": "fe5203751fffe39cc1165bf6e13d74b37e96de84f77d8d19c8f1b182c57358de"
+      "bytes": 9454,
+      "sha256": "cb425d9e919472709565b6c25653d1dea81ec582fe45661b5e8242245ca8db1f"
     },
     {
       "path": "explorer/test/comparison-data.test.js",
@@ -390,7 +420,7 @@
     {
       "path": "explorer/test/fullscreen-check.mjs",
       "bytes": 6808,
-      "sha256": "d18c1bb0aab131ef36bfbc4aaa7d647ba8fe17054e1d9b3471a7ac2a471ae311"
+      "sha256": "0913bf16a5271e8cec462586ec47c6da5b0e6f7181c1638928ed7d47535db9e1"
     },
     {
       "path": "explorer/test/metadata.test.js",
@@ -399,8 +429,8 @@
     },
     {
       "path": "explorer/test/network-browser-check.mjs",
-      "bytes": 8749,
-      "sha256": "dae51e60105d4e973b3af834bf3c8cb548ecd85443e2156fe8bf1e680ad7d4ae"
+      "bytes": 8862,
+      "sha256": "db78bf545b4cc43e1ca865ad71549885ddaee87197243f69e72037766a70479f"
     },
     {
       "path": "explorer/test/pathway-overlap.test.js",
@@ -419,8 +449,8 @@
     },
     {
       "path": "explorer/test/tree-browser-check.mjs",
-      "bytes": 9235,
-      "sha256": "4dd2944b349a352a5c76ae17bce1d2e72004b98a9b6afbb875d4da38095b5a69"
+      "bytes": 9349,
+      "sha256": "1d53c4282908a0c74c9fbd8750fabdf61b38a0662c71e135e14719fa4d08c520"
     },
     {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
@@ -1644,8 +1674,8 @@
     },
     {
       "path": "src/validate_release.py",
-      "bytes": 13949,
-      "sha256": "4c8b1612447b619e9c0270262eb80da7138481ecf089a152bddce923d839effb"
+      "bytes": 13980,
+      "sha256": "27b8d83d3de8fe210d80e7829f67c7bd4bde5da66803e4c5f402197bf0cb90c4"
     },
     {
       "path": "src/zenodo_release.py",
@@ -2373,6 +2403,21 @@
       "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
     },
     {
+      "path": "third_party_licenses/dom7-4.0.6.txt",
+      "bytes": 1077,
+      "sha256": "d3a872d7e699d3c4409583abc70c5bdfc3d9332837a33334879b0175fe858752"
+    },
+    {
+      "path": "third_party_licenses/framework7-9.3.0.txt",
+      "bytes": 1087,
+      "sha256": "1c115994b4470862e1fa6d694a326f5d745dd8e77027a5ab18e7c285b05fa59e"
+    },
+    {
+      "path": "third_party_licenses/htm-3.1.1.txt",
+      "bytes": 11341,
+      "sha256": "740725f7252e750af735d0028cc534970772f513331e9f68150fede8fb3ce00f"
+    },
+    {
       "path": "third_party_licenses/observable-framework-1.13.4.txt",
       "bytes": 735,
       "sha256": "33a25191a182e33b31d86ad87a1b338934cefd1268d783d95785b2190d4fce7f"
@@ -2386,6 +2431,16 @@
       "path": "third_party_licenses/observable-runtime-6.0.1.txt",
       "bytes": 735,
       "sha256": "bf1f93ce78130e8d63ec6b4d3d1f2fc35a749ac46350013236e0e732f46453c5"
+    },
+    {
+      "path": "third_party_licenses/path-to-regexp-6.3.0.txt",
+      "bytes": 1103,
+      "sha256": "4eeb3271453a891df609e5a9f4ee79a68307f730c13417a3bfeffa604ac8cf25"
+    },
+    {
+      "path": "third_party_licenses/ssr-window-5.0.1.txt",
+      "bytes": 1077,
+      "sha256": "584c59575e2a05f4f525ef584c89a6d41ca0e454eeeed4ef4ce04becd5dff1c1"
     }
   ]
 }

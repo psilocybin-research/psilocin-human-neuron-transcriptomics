@@ -280,7 +280,25 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/framework7-entry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-site.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/prepare-ui.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/app-shell.css": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -338,6 +356,12 @@
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
       "CERN"
+    ]
+  },
+  "explorer/src/components/app-shell.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
     ]
   },
   "explorer/src/components/atlas.js": {
@@ -409,6 +433,12 @@
     ]
   },
   "explorer/src/style.css": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/app-shell-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -2826,6 +2856,24 @@
       "2010-2026 Mike Bostock"
     ]
   },
+  "third_party_licenses/dom7-4.0.6.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2017 Vladimir Kharlampidi"
+    ]
+  },
+  "third_party_licenses/framework7-9.3.0.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2014 Vladimir Kharlampidi"
+    ]
+  },
+  "third_party_licenses/htm-3.1.1.txt": {
+    "spdx": "Apache-2.0",
+    "copyright": [
+      "2018 Google Inc."
+    ]
+  },
   "third_party_licenses/observable-framework-1.13.4.txt": {
     "spdx": "ISC",
     "copyright": [
@@ -2842,6 +2890,18 @@
     "spdx": "ISC",
     "copyright": [
       "2018-2024 Observable, Inc."
+    ]
+  },
+  "third_party_licenses/path-to-regexp-6.3.0.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2014 Blake Embrey (hello@blakeembrey.com)"
+    ]
+  },
+  "third_party_licenses/ssr-window-5.0.1.txt": {
+    "spdx": "MIT",
+    "copyright": [
+      "2018 Vladimir Kharlampidi"
     ]
   }
 }

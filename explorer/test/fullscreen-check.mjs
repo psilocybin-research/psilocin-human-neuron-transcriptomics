@@ -21,7 +21,7 @@ try{
  ]){
   const context=await browser.newContext({viewport:{width:screen.width,height:screen.height},isMobile:engine==='firefox'?false:screen.touch,hasTouch:engine==='firefox'?false:screen.touch});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base);await page.locator('.atlas-navigation').waitFor();
+  await page.goto(base);await page.locator('[data-framework7]').waitFor();
   if(!await page.evaluate(()=>typeof document.documentElement.requestFullscreen==='function'||typeof document.documentElement.webkitRequestFullscreen==='function')){skipped.push(screen.name);await context.close();continue;}
   for(const tab of ['Overview','OXPHOS landscape','Gene explorer','Pathways','Robustness','DNA maintenance']){
    const menu=page.getByRole('button',{name:'Open section menu',exact:true});if(await menu.isVisible())await menu.click();

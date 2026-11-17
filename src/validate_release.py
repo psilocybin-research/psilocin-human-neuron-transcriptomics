@@ -19,7 +19,7 @@ INTEGRITY_FILES = {"PUBLICATION_MANIFEST.json", "SHA256SUMS"}
 RUNTIME_PREFIXES = (
     ".git/", ".venv/", ".Rlib/", "renv/library/", "renv/staging/",
     "node_modules/", "explorer/node_modules/", "explorer/dist/",
-    "explorer/src/.observablehq/", "artifacts/", "data/raw/",
+    "explorer/src/.observablehq/", "explorer/src/assets/vendor/", "artifacts/", "data/raw/",
     "data/interim/", "data/processed/",
 )
 RUNTIME_NAMES = {".Rhistory", ".RData", ".env", ".curated-public-repository"}

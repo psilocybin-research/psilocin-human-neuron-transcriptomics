@@ -15,3 +15,7 @@ The package lock contains other development and build dependencies that are not 
 The interactive overlap view uses d3-force 3.0.0, d3-quadtree 3.0.2, d3-dispatch 3.0.2 and d3-timer 3.0.2 under the ISC License, copyright Mike Bostock (years are preserved in each original notice). The original notices are retained in `third_party_licenses/d3-*.txt`. Runtime modules are served locally with the atlas. The force layout is a display arrangement; it does not estimate biological relationships or distances.
 
 The optional chord view additionally uses d3-chord 3.0.1, d3-shape 3.2.0 and d3-path 3.1.1 under ISC; original Mike Bostock copyright and permission notices are retained in the corresponding `third_party_licenses/` files and built runtime modules.
+
+## Research application interface
+
+The rolling atlas uses Framework7 9.3.0 for the application interface. Its selected component runtime includes dom7 4.0.6, ssr-window 5.0.1 and path-to-regexp 6.3.0 under MIT, and htm 3.1.1 under Apache-2.0 (copyright Google Inc.). Original notices are retained in `third_party_licenses/`. The reproducible interface build embeds the runtime notices and serves a separate licence file with the application. Observable/D3 continue to render the scientific figures; interface themes do not change statistical estimates or figure colour scales.

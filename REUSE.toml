@@ -179,3 +179,39 @@ path = "third_party_licenses/d3-path-3.1.1.txt"
 precedence = "override"
 SPDX-FileCopyrightText = "2015-2026 Mike Bostock"
 SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = "third_party_licenses/framework7-9.3.0.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2014 Vladimir Kharlampidi"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "third_party_licenses/dom7-4.0.6.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 Vladimir Kharlampidi"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "third_party_licenses/htm-3.1.1.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2018 Google Inc."
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "third_party_licenses/path-to-regexp-6.3.0.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2014 Blake Embrey (hello@blakeembrey.com)"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "third_party_licenses/ssr-window-5.0.1.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "2018 Vladimir Kharlampidi"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "explorer/src/app-shell.css"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "MIT"
