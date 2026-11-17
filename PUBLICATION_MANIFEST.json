@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 532,
-  "total_bytes": 252909240,
+  "file_count": 533,
+  "total_bytes": 252913343,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 76365,
-      "sha256": "75b5ac3150d92749093775d5ee6f65509be98c14a832aee73e2438003fd8377f"
+      "bytes": 76501,
+      "sha256": "78ceed896007a8d2a4332e9bd55f89f854e7974334e60d335ba1af44a65525b2"
     },
     {
       "path": "LICENSE.md",
@@ -289,13 +289,13 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 3042,
-      "sha256": "62d8a3c4ba2a358439213f58ae22935fb19c5ecac08fc776540b3c6208b42622"
+      "bytes": 3058,
+      "sha256": "2db78d088f4f696deb09a8bd0f1aa10c3cabcf6a54a503611d6188a6fe9f5407"
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 92714,
-      "sha256": "bb93a723fab40d2af57ca5317126d9500a081541673e0d0439dbf6ebec5c2a49"
+      "bytes": 93989,
+      "sha256": "9274ab76a8b00cc729657ad53f4875b0a6b212ec70fb1dcb25ce799007410d68"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -348,6 +348,11 @@
       "sha256": "ede70df603027a05aa4b85824bc0b75b32d2705b9318cc93b8ad1ee793618098"
     },
     {
+      "path": "explorer/src/components/analysis-options.js",
+      "bytes": 1593,
+      "sha256": "ecdf3ed99833d96079afcf3c801745908f212828c063356b3515cc52699f6d47"
+    },
+    {
       "path": "explorer/src/components/app-activity.js",
       "bytes": 995,
       "sha256": "b1412174d9616aa7b4a1976bf277f1d3e7a7a146cbe820386ee96f4198af5115"
@@ -359,8 +364,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 40917,
-      "sha256": "2bc1159012948807c6e0f06afc66063e2a0c97388c7626e83dc204db7fe9f125"
+      "bytes": 41557,
+      "sha256": "2658cab2fbc724dc44f72ec317d88712be3a63c111d062cf86b27b65f1a33616"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -369,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 95803,
-      "sha256": "fb5c339e3f0400541ccea8231eddfb2f7c69dfcaff1c997ca95c4ffb04f0f67a"
+      "bytes": 95826,
+      "sha256": "5fcf6466b095699076a2198d95ffe3f2d395fa88a85ce7e30e6a9c92c83198de"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -379,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 56526,
-      "sha256": "6487dbd6f9b1269ba90adce96e193396d91ab6484afd388b853344c3f5a7d66d"
+      "bytes": 56946,
+      "sha256": "1eac084760a73d5f6316f3258cd118745450ce5901f93d8a770b35ce4f75c663"
     },
     {
       "path": "explorer/src/components/comparison-data.js",

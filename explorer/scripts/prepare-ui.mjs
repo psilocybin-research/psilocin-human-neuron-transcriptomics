@@ -55,6 +55,7 @@ console.log(
 // Ship only the official SVG glyphs used by this interface; no icon font or CDN.
 const iconNames = [
   "eye",
+  "viewfinder",
   "square_grid_3x2",
   "doc_text_search",
   "arrow_branch",

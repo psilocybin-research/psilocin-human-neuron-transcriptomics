@@ -1,3 +1,4 @@
+import { analysisOptions } from "./analysis-options.js";
 import { showInformation } from "./file-download.js";
 import { createAppProgress } from "./app-progress.js";
 import { beginActivity, afterPaint } from "./app-activity.js";
@@ -426,7 +427,10 @@ export function createAppShell({
     modalStack = [],
     returnFocus = new WeakMap();
   function closeControls() {
-    for (const { element, placeholder } of controlMoves) {
+    for (const { element, placeholder, inline } of [
+      ...controlMoves,
+    ].reverse()) {
+      if (inline) element.hidden = false;
       if (placeholder.isConnected) placeholder.replaceWith(element);
     }
     controlMoves = [];
@@ -455,6 +459,22 @@ export function createAppShell({
       element.before(placeholder);
       host.append(element);
       controlMoves.push({ element, placeholder });
+    }
+    host.classList.toggle(
+      "analysis-options-single",
+      host.querySelectorAll("select").length === 1,
+    );
+    for (const select of host.querySelectorAll("select")) {
+      const original = select.closest(".control,.tree-member-control");
+      if (!original) continue;
+      const options = analysisOptions(select);
+      original.before(options);
+      original.hidden = true;
+      controlMoves.push({
+        element: original,
+        placeholder: options,
+        inline: true,
+      });
     }
     return true;
   }
@@ -553,7 +573,7 @@ export function createAppShell({
     resultScrollPending = true;
     queueMicrotask(() => {
       analysisLauncher.close();
-      if (controlsSheet?.opened) controlsSheet.close(!reduced());
+      if (controlsSheet?.opened) safeClose(controlsSheet);
       scheduleEnhance();
     });
   }

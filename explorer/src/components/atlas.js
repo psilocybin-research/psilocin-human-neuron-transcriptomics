@@ -1249,9 +1249,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     );
     const s = scientificPlot({
       title: `${gene.symbol} model estimates and approximate 95% Wald intervals`,
-      width: 420,
+      width: 480,
       height: 220,
-      marginLeft: 120,
+      marginLeft: 168,
+      marginRight: 24,
       x: {
         domain: [-limit, limit],
         grid: true,

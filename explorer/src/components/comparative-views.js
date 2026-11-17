@@ -1,3 +1,4 @@
+import { uiIcon } from "./icons.js";
 import {
   Plot,
   scientificPlot,
@@ -494,12 +495,27 @@ export function createComparativeViews({
       () => {
         state.brushing = !state.brushing;
         brush.setAttribute("aria-pressed", String(state.brushing));
-        brush.textContent = state.brushing
-          ? "Finish rectangular selection"
+        brush.querySelector("span").textContent = state.brushing
+          ? "Finish selection"
           : "Rectangular selection";
         genePlot?.classList.toggle("brushing", state.brushing);
       },
     );
+    brush.classList.add(
+      "comparison-brush-toggle",
+      "button",
+      "button-tonal",
+      "labelled-icon-action",
+    );
+    brush.replaceChildren(
+      uiIcon("viewfinder"),
+      el(
+        "span",
+        "",
+        state.brushing ? "Finish selection" : "Rectangular selection",
+      ),
+    );
+    axisControls.classList.add("comparison-axis-controls");
     brush.setAttribute("aria-pressed", String(state.brushing));
     if (!distribution) axisControls.append(brush);
     plot.append(axisControls);

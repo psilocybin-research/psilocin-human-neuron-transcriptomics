@@ -541,7 +541,8 @@ body {
   height: auto;
 }
 #psilocin-app .analysis-control-sheet {
-  height: min(78dvh, 680px);
+  height: auto;
+  max-height: 82dvh;
   --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
   background: var(--research-surface);
   border-radius: 26px 26px 0 0;
@@ -567,7 +568,8 @@ body {
   font-size: 17px;
 }
 #psilocin-app .analysis-control-sheet .sheet-modal-inner {
-  height: calc(100% - 85px);
+  height: auto;
+  max-height: calc(82dvh - 100px);
   overflow: auto;
   overscroll-behavior: contain;
 }
@@ -3814,4 +3816,59 @@ body {
   #psilocin-app:has(> .analysis-fab.fab-opened) > .research-views {
     transform: none;
   }
+}
+
+#psilocin-app .analysis-sheet-body .scale-key {
+  display: none;
+}
+#psilocin-app .analysis-option-field {
+  min-width: 0;
+}
+#psilocin-app .analysis-option-field h3 {
+  font-size: 13px;
+  margin: 0 0 10px;
+  color: var(--research-text);
+}
+#psilocin-app .analysis-option-list {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  --f7-list-item-title-white-space: normal;
+}
+#psilocin-app .analysis-option-list .item-content {
+  min-height: 44px;
+}
+#psilocin-app .analysis-option-list .item-title {
+  white-space: normal;
+  font-size: 13px;
+}
+#psilocin-app .analysis-option-list .item-inner {
+  min-height: 44px;
+  padding-block: 10px;
+}
+#psilocin-app .analysis-morph-panel {
+  top: auto;
+  height: auto;
+  max-height: min(82dvh, 760px);
+}
+#psilocin-app .analysis-sheet-body .analysis-option-field:only-child {
+  grid-column: 1 / -1;
+}
+
+#psilocin-app .comparison-axis-controls {
+  align-items: flex-end;
+  gap: 8px;
+}
+#psilocin-app .comparison-axis-controls .comparison-brush-toggle {
+  align-self: flex-end;
+  flex: 0 0 auto;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  margin: 0;
+  line-height: 1.2;
+}
+#psilocin-app .analysis-sheet-body.analysis-options-single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 760px;
 }
