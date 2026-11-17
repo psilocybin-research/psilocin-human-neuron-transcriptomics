@@ -370,7 +370,7 @@
     {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 12829,
-      "sha256": "f95acd197eb1466ff6029de7078e8d5b1db77d1297689ad8950e5c2f7acc9f23"
+      "sha256": "4252e4f89a943f5abef7b7720847eb4c3d2ea6ae6ee913ee4f6171385b7e36d2"
     },
     {
       "path": "explorer/test/comparison-browser-check.mjs",

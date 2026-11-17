@@ -78,7 +78,7 @@ await page.getByLabel('Functional group',{exact:true}).selectOption('Respiratory
 assert.equal(await page.locator('.gene-row').count(),3);
 await page.getByRole('button',{name:'Gene explorer',exact:true}).click();
 await page.getByLabel('Search genes').fill('ATP5F1A');
-await page.getByRole('button',{name:/ATP5A1/}).click();
+await page.getByRole('option',{name:/ATP5A1/}).click();
 await page.waitForFunction(()=>document.querySelector('.gene-symbol')?.textContent==='ATP5A1');
 assert.match(await page.locator('.gene-detail').innerText(),/Alias sensitivity/);
 await page.getByLabel('Search genes').fill('no-such-gene-xyz');
