@@ -1250,15 +1250,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "aria-label",
       "View public gene and protein context",
     );
-    const structureShortcut = iconButton(
-      "3D structures",
-      "landscape",
-      () => information.open("structures"),
-      "button button-tonal labelled-icon-action gene-context-shortcut",
-    );
-    structureShortcut.setAttribute("aria-label", "Find 3D structures");
     const contextActions = el("div", "gene-context-actions");
-    contextActions.append(contextShortcut, structureShortcut);
+    contextActions.append(contextShortcut);
     container.append(contextActions);
     const info = landscapeMap.get(gene.symbol);
     if (info)

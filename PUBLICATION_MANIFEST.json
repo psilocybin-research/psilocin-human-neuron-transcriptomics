@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 550,
-  "total_bytes": 253032692,
+  "total_bytes": 253032739,
   "status": "pass",
   "failures": [],
   "files": [
@@ -244,8 +244,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 8731,
-      "sha256": "9d18bcda4c73f2761f8d91a6d805596fd762c6a8fc38faac5097f599b6b3e605"
+      "bytes": 8644,
+      "sha256": "a27f84e2f261b119eb8421e3acfe2f8dc74f76358b8258cbb52dad4dd66cd5c6"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 98337,
-      "sha256": "a465cd8a5590e0ea3a3bd8ef74c44abd73691c238a7c2cac7a3f4bed8d0fee30"
+      "bytes": 98039,
+      "sha256": "8a79289b4868120f70f10f8e6862547fc9dc56a57097868069705ecfc0906cc2"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -714,8 +714,8 @@
     },
     {
       "path": "explorer/test/protein-context-browser-check.mjs",
-      "bytes": 9588,
-      "sha256": "818544a582d53891c83be5c17b3918e716cd1f4ad1cf7824f1b901576c4a43dd"
+      "bytes": 10020,
+      "sha256": "b3e44be5b22ce53d0affebe19ddc322ff2da25b8a89cf19de5203fdccdbcda9d"
     },
     {
       "path": "explorer/test/protein-data.test.js",

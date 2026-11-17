@@ -95,6 +95,9 @@ try {
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     let requests = 0;
+    await page.route("https://rest.ensembl.org/**", (route) =>
+      route.fulfill({ json: { id: "ENSG00000167468", species: "homo_sapiens", object_type: "Gene", version: 12, display_name: "GPX4" } }),
+    );
     await page.route("https://rest.uniprot.org/**", async (route) => {
       requests++;
       await route.fulfill({ json: { results: [protein] } });
@@ -110,7 +113,7 @@ try {
     );
     await page.goto(base + "#view=genes&gene=GPX4");
     await page
-      .getByRole("button", { name: "Find 3D structures", exact: true })
+      .getByRole("button", { name: "View public gene and protein context", exact: true })
       .waitFor();
     assert.equal(requests, 0);
     if (width < 851) {
@@ -131,8 +134,10 @@ try {
       "molecular runtime absent at startup",
     );
     await page
-      .getByRole("button", { name: "Find 3D structures", exact: true })
+      .getByRole("button", { name: "View public gene and protein context", exact: true })
       .click();
+    assert.equal(await page.getByRole("button", { name: "Find 3D structures", exact: true }).count(), 0);
+    await page.getByRole("tab", { name: "3D structures", exact: true }).click();
     await page.locator(".protein-record").first().waitFor();
     assert.equal(requests, 1);
     await page
