@@ -35,3 +35,14 @@ export function showResearchEvidence(target, title) {
     }),
   );
 }
+
+export function prepareExternalLinks(root) {
+  for (const link of root.querySelectorAll("a[href]")) {
+    const url = new URL(link.href, location.href);
+    if (!/^https?:$/.test(url.protocol) || url.origin === location.origin)
+      continue;
+    link.target = "_blank";
+    link.relList.add("noopener", "noreferrer");
+    link.classList.add("external");
+  }
+}

@@ -732,6 +732,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/plot-layout-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/plot-system-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [

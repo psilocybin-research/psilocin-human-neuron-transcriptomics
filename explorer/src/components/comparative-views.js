@@ -3,6 +3,8 @@ import { uiIcon } from "./icons.js";
 import {
   Plot,
   scientificPlot,
+  plotWidth,
+  labelMargin,
   interactiveMark,
   batchDenseCircles,
 } from "./scientific-plot.js";
@@ -1056,15 +1058,32 @@ export function createComparativeViews({
       missing = values.filter((r) => !r.valid);
     const describe = (r) =>
       `${r.symbol}, ${r.contrast}: log₂FC ${fmt(r.log2FoldChange, 4)}, SE ${fmt(r.lfcSE, 4)}, original gene FDR ${sci(r.padj)}. Inspect gene evidence.`;
+    const width = plotWidth(960),
+      stacked = width < 600;
+    const facetChannel = stacked ? { fy: "contrast" } : { fx: "contrast" };
     const chart = scientificPlot({
       title:
         "Archived gene coefficients and approximate 95% Wald intervals across three contrasts",
-      width: 960,
-      height: Math.max(260, 100 + shown.length * 42),
-      marginLeft: 82,
+      width,
+      height: stacked
+        ? 3 * (shown.length * 26 + 70)
+        : Math.max(260, 100 + shown.length * 42),
+      marginLeft: labelMargin(shown.map((gene) => gene.symbol)),
       marginTop: 52,
-      facet: { data: values, x: "contrast" },
-      fx: { domain: data.contrasts.map((c) => contrasts[c]), label: null },
+      facet: {
+        data: values,
+        ...(stacked ? { y: "contrast" } : { x: "contrast" }),
+      },
+      ...(stacked
+        ? {
+            fy: { domain: data.contrasts.map((c) => contrasts[c]), axis: null },
+          }
+        : {
+            fx: {
+              domain: data.contrasts.map((c) => contrasts[c]),
+              label: null,
+            },
+          }),
       x: {
         domain: [-limit, limit],
         grid: true,
@@ -1072,19 +1091,35 @@ export function createComparativeViews({
       },
       y: { domain: shown.map((g) => g.symbol), label: null },
       marks: [
+        ...(stacked
+          ? [
+              Plot.text(
+                values.filter((row) => row.gene === shown[0]),
+                {
+                  x: -limit,
+                  y: "symbol",
+                  fy: "contrast",
+                  text: "contrast",
+                  textAnchor: "start",
+                  dy: -24,
+                  fontWeight: 600,
+                },
+              ),
+            ]
+          : []),
         Plot.ruleX([0], { stroke: "#7b92a4", strokeDasharray: "3 3" }),
         Plot.ruleY(valid, {
           x1: (r) => r.log2FoldChange - 1.96 * r.lfcSE,
           x2: (r) => r.log2FoldChange + 1.96 * r.lfcSE,
           y: "symbol",
-          fx: "contrast",
+          ...facetChannel,
           stroke: "color",
           strokeWidth: 2,
         }),
         Plot.dot(valid, {
           x: "log2FoldChange",
           y: "symbol",
-          fx: "contrast",
+          ...facetChannel,
           fill: "color",
           r: 4,
           title: describe,
@@ -1093,7 +1128,7 @@ export function createComparativeViews({
         Plot.text(missing, {
           x: 0,
           y: "symbol",
-          fx: "contrast",
+          ...facetChannel,
           text: () => "Not estimable",
           fontSize: 10,
         }),
@@ -1101,7 +1136,7 @@ export function createComparativeViews({
     });
     const viewport = el("div", "plot-viewport comparison-svg-scroll");
     viewport.tabIndex = 0;
-    viewport.style.setProperty("--plot-width", "960px");
+    viewport.style.setProperty("--plot-width", `${width}px`);
     viewport.dataset.fullscreenTitle = "Gene-effect intervals";
     viewport.append(chart);
     plot.append(viewport);

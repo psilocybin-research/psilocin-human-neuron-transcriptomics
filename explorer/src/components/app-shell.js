@@ -9,6 +9,7 @@ import {
   readPreference as stored,
   writePreference as remember,
   escapeHTML,
+  prepareExternalLinks,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
 import { createGeneAutocomplete, geneSuggestions } from "./gene-suggestions.js";
@@ -589,6 +590,7 @@ export function createAppShell({
   }
   function enhance() {
     if (!app) return;
+    prepareExternalLinks(root);
     enhanceFigures?.(body);
     themeScientificPlots(body);
     root.dataset.reducedMotion = String(reduced());

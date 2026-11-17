@@ -2,7 +2,13 @@ import {
   createElement as el,
   showResearchEvidence,
 } from "./interface-utils.js";
-import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
+import {
+  Plot,
+  scientificPlot,
+  interactiveMark,
+  plotWidth,
+  rowPlotLayout,
+} from "./scientific-plot.js";
 import {
   downloadFile as download,
   downloadRemoteFile,
@@ -1248,19 +1254,37 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       0.5,
       ...validEffects.map((e) => Math.abs(e.log2FoldChange) + 1.96 * e.lfcSE),
     );
+    const { inlineLabels, ...intervalLayout } = rowPlotLayout(
+      effects.map((e) => e.contrast),
+      { width: 480 },
+    );
     const s = scientificPlot({
       title: `${gene.symbol} model estimates and approximate 95% Wald intervals`,
-      width: 480,
-      height: 220,
-      marginLeft: 168,
-      marginRight: 24,
+      ...intervalLayout,
       x: {
         domain: [-limit, limit],
         grid: true,
-        label: "log₂ fold change · approximate 95% Wald interval",
+        label: inlineLabels
+          ? "log₂ fold change · 95% interval"
+          : "log₂ fold change · approximate 95% Wald interval",
       },
-      y: { domain: effects.map((e) => e.contrast), label: null },
+      y: {
+        domain: effects.map((e) => e.contrast),
+        label: null,
+        axis: inlineLabels ? null : "left",
+      },
       marks: [
+        ...(inlineLabels
+          ? [
+              Plot.text(effects, {
+                x: -limit,
+                y: "contrast",
+                text: "contrast",
+                textAnchor: "start",
+                dy: -15,
+              }),
+            ]
+          : []),
         Plot.ruleX([0], { stroke: "#879998", strokeDasharray: "3 3" }),
         Plot.ruleY(validEffects, {
           x1: (e) => e.log2FoldChange - 1.96 * e.lfcSE,
@@ -1301,8 +1325,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       }));
       const ps = scientificPlot({
         title: `${gene.symbol} variance-stabilized expression across nine pooled profiles`,
-        width: 420,
-        height: 250,
+        width: plotWidth(420),
+        height: 280,
         x: { domain: ["Control", "Day 1", "Day 3"], label: null },
         y: { grid: true, label: "VST expression", zero: false },
         color: {
@@ -1488,11 +1512,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         el("span", "", "Selected gene"),
         el("strong", "", g.symbol),
         el("span", "identifier", g.id),
-        button(
-          "View evidence ↓",
-          viewEvidence,
-          "gene-view-evidence",
-        ),
+        button("View evidence ↓", viewEvidence, "gene-view-evidence"),
       );
     }
     function choose(g) {
@@ -1846,7 +1866,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
             high = Math.max(0, ...points.map((p) => p.value)) + 0.04;
           const s = scientificPlot({
             title: `${label(pathway)} weighted running enrichment`,
-            width: 900,
+            width: plotWidth(900),
             height: 300,
             x: {
               domain: [0, 100],
@@ -2143,11 +2163,15 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       1,
       ...rows.filter((r) => r.NES !== null).map((r) => Math.abs(r.NES)),
     );
+    const variantLabel = (value) =>
+      value.replaceAll("__", " / ").replaceAll("_", " ");
+    const { inlineLabels, ...stabilityLayout } = rowPlotLayout(
+      rows.map((row) => variantLabel(row.variant)),
+      { width: 900, minHeight: 240, rowHeight: 30 },
+    );
     const s = scientificPlot({
       title: "Pathway normalized enrichment score across all archived variants",
-      width: 900,
-      height: Math.max(240, rows.length * 30 + 80),
-      marginLeft: 300,
+      ...stabilityLayout,
       x: {
         domain: [-all - 0.3, all + 0.3],
         grid: true,
@@ -2155,10 +2179,22 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       },
       y: {
         domain: rows.map((r) => r.variant),
-        tickFormat: (v) => v.replaceAll("__", " / ").replaceAll("_", " "),
+        tickFormat: variantLabel,
         label: null,
+        axis: inlineLabels ? null : "left",
       },
       marks: [
+        ...(inlineLabels
+          ? [
+              Plot.text(rows, {
+                x: -all - 0.3,
+                y: "variant",
+                text: (row) => variantLabel(row.variant),
+                textAnchor: "start",
+                dy: -15,
+              }),
+            ]
+          : []),
         Plot.ruleX([0], { stroke: "#647d7d", strokeDasharray: "4 4" }),
         Plot.dot(
           rows.filter((r) => Number.isFinite(r.NES)),
@@ -2515,7 +2551,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       );
     const plot = scientificPlot({
       title: "Day-1 and Day-3 DNA-maintenance leading-edge gene effects",
-      width: 640,
+      width: plotWidth(640),
       height: 420,
       x: {
         domain: [-lim, lim],

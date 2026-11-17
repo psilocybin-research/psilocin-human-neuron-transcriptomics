@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 536,
-  "total_bytes": 252932988,
+  "file_count": 537,
+  "total_bytes": 252939475,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 76911,
-      "sha256": "ddcb6cfbc03bee60df3f9cd7f0d00767f9d75e166518b13970df75d58f975909"
+      "bytes": 77047,
+      "sha256": "04158a69d4fcd23a6f17828dee4c2cb3f5a41dcccca304baabb8b59a102ac893"
     },
     {
       "path": "LICENSE.md",
@@ -254,8 +254,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 2192,
-      "sha256": "adf6f9a73dbefebf5e2c7c5dc455bf35346bc7dbea135bdc2d30528fb19a3979"
+      "bytes": 2254,
+      "sha256": "4a76fba8c2effe2b4b7bf609246a304e7a4294fb1ebbc326f84fef3a5d3efe8a"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -364,8 +364,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 42101,
-      "sha256": "9d03357c774b922bac3bb1454cc621feebcdabf1b29870b87fa9bfcbb941ecf0"
+      "bytes": 42157,
+      "sha256": "a2f943045903fd8d03a1cb9b44c6cbc068ce3c8cfb464459e554b5661b16dacf"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -374,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 96084,
-      "sha256": "5e33939fbdd259123a01fb8473528b0e11ac2d2192bc4c784e32bded225d6550"
+      "bytes": 97110,
+      "sha256": "e2116609aac01649bd57b05933d39e2d2f699dd5724a68792499ae7275f6bf7f"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 56868,
-      "sha256": "9095773eca267a78ec3f8b2d32aba4a0cd562b7132feca254287a57406580b69"
+      "bytes": 57834,
+      "sha256": "de4086fbd4f6085345ddc3e011d966703b654964927e8671c2aa23f75df5792a"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/components/interface-utils.js",
-      "bytes": 922,
-      "sha256": "ab0b68591ab11548911e8fc88e7eeedaf3e2e1d7a34f4fac5fd40200f31ab248"
+      "bytes": 1285,
+      "sha256": "3027d9ea4d2ffc26ccba5440cdfc40cd9279b86855c22922015527cf15fa2b2b"
     },
     {
       "path": "explorer/src/components/intersection-data.js",
@@ -484,8 +484,8 @@
     },
     {
       "path": "explorer/src/components/scientific-plot.js",
-      "bytes": 3310,
-      "sha256": "ee20ccfbdc347cfdce38c99767b8c8ca1513fb02959b621f535a72d82db635d7"
+      "bytes": 4368,
+      "sha256": "5c7c6db0b4a4f1937592ffd4a1051d6a2ece50122d609678e53827f431aea164"
     },
     {
       "path": "explorer/src/components/synopsis-data.js",
@@ -641,6 +641,11 @@
       "path": "explorer/test/plot-coverage-browser-check.mjs",
       "bytes": 4610,
       "sha256": "347b9326bd8b29f59b5d92cb8fff97c8bdc91d42ec6ab1a186ce2b9777f82cc0"
+    },
+    {
+      "path": "explorer/test/plot-layout-browser-check.mjs",
+      "bytes": 2820,
+      "sha256": "52ae24ddfdb96aad0f7387d97d65599bfbac0cce1859c9b5ad3dc2a56c83498e"
     },
     {
       "path": "explorer/test/plot-system-browser-check.mjs",

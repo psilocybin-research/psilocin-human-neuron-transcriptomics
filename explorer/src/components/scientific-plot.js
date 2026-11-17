@@ -2,6 +2,45 @@ import * as Plot from "../assets/vendor/observable-plot.js";
 import { themeScientificSVG } from "./plot-theme.js";
 export { Plot };
 
+export function plotWidth(preferred = 760) {
+  return Math.max(280, Math.min(preferred, globalThis.innerWidth - 80));
+}
+
+let labelContext;
+export function labelMargin(labels) {
+  labelContext ||= document.createElement("canvas").getContext("2d");
+  labelContext.font = "12px system-ui,sans-serif";
+  return (
+    Math.ceil(
+      Math.max(
+        0,
+        ...labels.map((label) => labelContext.measureText(label).width),
+      ),
+    ) + 18
+  );
+}
+
+// Put long row labels above their marks on narrow screens instead of reserving
+// a large, mostly empty gutter. Desktop gutters follow the actual text width.
+export function rowPlotLayout(
+  labels,
+  { width = 760, minHeight = 220, rowHeight = 32 } = {},
+) {
+  width = plotWidth(width);
+  const gutter = labelMargin(labels);
+  const inlineLabels = width < 440 && gutter > width * 0.3;
+  return {
+    inlineLabels,
+    width,
+    height: Math.max(
+      minHeight,
+      labels.length * (inlineLabels ? 44 : rowHeight) + 80,
+    ),
+    marginLeft: inlineLabels ? 18 : gutter,
+    marginRight: 24,
+  };
+}
+
 // All statistical charts share a portable, accessible SVG rendering contract.
 // Scientific values, density estimates and selection state remain caller-owned.
 export function scientificPlot({ title, description, ...options }) {
