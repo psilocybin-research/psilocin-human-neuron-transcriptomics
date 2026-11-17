@@ -515,6 +515,10 @@ export function createAppShell({
     scheduleEnhance();
   }
   function scrollToUpdatedResult() {
+    if (["robustness", "comparison", "pathways"].includes(lastTab)) {
+      resultScrollPending = false;
+      return;
+    }
     if (!resultScrollPending || modalStack.length || !body.isConnected) return;
     const network = body.querySelector(".overlap-network .network-content");
     const target =
@@ -572,13 +576,26 @@ export function createAppShell({
       )
     )
       return;
+    const preservePosition = ["robustness", "comparison", "pathways"].includes(
+      lastTab,
+    );
+    const previousPosition = scroll.scrollTop,
+      previousTab = lastTab;
+    const restorePosition = () => {
+      if (preservePosition && lastTab === previousTab)
+        scroll.scrollTop = previousPosition;
+    };
     const finish = beginActivity("Updating analysis");
-    afterPaint(finish);
-    resultScrollPending = true;
+    afterPaint(() => {
+      restorePosition();
+      finish();
+    });
+    resultScrollPending = !preservePosition;
     queueMicrotask(() => {
       analysisLauncher.close();
       if (controlsSheet?.opened) safeClose(controlsSheet);
       scheduleEnhance();
+      restorePosition();
     });
   }
   root.addEventListener("change", analysisControlChanged, true);

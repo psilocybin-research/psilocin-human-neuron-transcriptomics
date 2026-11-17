@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1148,
-  "total_bytes": 593732482,
+  "file_count": 1149,
+  "total_bytes": 593734864,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 225671,
-      "sha256": "c45391c30bbadddd7333538b2e20a09b62a938ec652289ebb01f71bc4a9c60bb"
+      "bytes": 225811,
+      "sha256": "fadd2b24bdb58a397ad9ca9b67ad57fae21cfab43069df2ed67ebe1557136f2d"
     },
     {
       "path": "LICENSE.md",
@@ -3324,8 +3324,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 43363,
-      "sha256": "b480bf97c160fd1ddb4af1e9d3fa18c0a8435c2f0329dc148287f46d2d7e0e99"
+      "bytes": 43895,
+      "sha256": "d06eb4180c1420e9138ee9a1272d854bd6c431e3c62b1fd6588b80cc3c1f5b14"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3716,6 +3716,11 @@
       "path": "explorer/test/research-tables-browser-check.mjs",
       "bytes": 3103,
       "sha256": "b95c1024cb0dbf9672ed8dcb43ef1dd2b07bcafdd00a05d466eeb0e0057ffb89"
+    },
+    {
+      "path": "explorer/test/settings-scroll-browser-check.mjs",
+      "bytes": 1710,
+      "sha256": "10d175b4e0732497f5a27e2a4ba1711770da3ba8c4548710896f59b114413b12"
     },
     {
       "path": "explorer/test/smart-select-browser-check.mjs",
