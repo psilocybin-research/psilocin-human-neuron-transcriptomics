@@ -107,7 +107,7 @@ await page.getByLabel('Telomere annotation').selectOption('All genes');
 await page.getByLabel('DNA follow-up contrast').selectOption('day3_vs_control');
 assert.match(await page.locator('.atlas-body').innerText(),/1.395/);
 await page.getByText('Inspect all 240 follow-up results',{exact:true}).click();
-assert.equal(await page.locator('details').first().locator('tbody tr').count(),240);
+assert.equal(await page.getByText('Inspect all 240 follow-up results',{exact:true}).locator('..').locator('tbody tr').count(),240);
 await page.getByText('Inspect all 240 follow-up results',{exact:true}).click();
 await page.getByRole('button',{name:'Methods & sources',exact:true}).click();
 assert.match(await page.locator('.hash-record').innerText(),/2026-09-18T07:56:56/);

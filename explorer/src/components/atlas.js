@@ -1,3 +1,4 @@
+import {createPathwayTree, families} from './pathway-tree.js';
 import {contrasts,names,label,fmt,sci,color,edgeGenes,csvText} from './format.js';
 const NS='http://www.w3.org/2000/svg';
 function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
@@ -108,14 +109,16 @@ function enhancePlots(scope){
 }
 
 export function createAtlas(data,provenance,loadGenes,branding={}){
- const root=el('div','atlas');let genesPromise;const getGenes=()=>genesPromise??=(loadGenes());
+ const root=el('div','atlas');let genesPromise;const getGenes=()=>genesPromise??=loadGenes().catch(error=>{genesPromise=undefined;throw error;});
  const landscapeMap=new Map(data.landscape.map(g=>[g.gene,g]));
  const profileMap=new Map(data.landscape.map(g=>[g.gene,data.profiles.filter(p=>p.gene===g.gene)]));
  const tabs=[['overview','Overview'],['landscape','OXPHOS landscape'],['genes','Gene explorer'],['pathways','Pathways'],['robustness','Robustness'],['dna','DNA maintenance'],['methods','Methods & sources']];
  let tab='overview',selected='GPX4',pathway='HALLMARK_OXIDATIVE_PHOSPHORYLATION',contrast='day1_vs_control',group='All functions',pathwayTier='all',dnaGene='ACD',dnaContrast='day1_vs_control',dnaFilter='All genes';
  const params=new URLSearchParams(location.hash.slice(1));if(tabs.some(x=>x[0]===params.get('view')))tab=params.get('view');selected=params.get('gene')||selected;pathway=params.get('pathway')||pathway;if(contrasts[params.get('contrast')])contrast=params.get('contrast');if(['all','primary','secondary','exploratory'].includes(params.get('tier')))pathwayTier=params.get('tier');group=params.get('group')||group;if(tab==='dna'){dnaGene=params.get('gene')||dnaGene;if(contrasts[params.get('contrast')])dnaContrast=params.get('contrast');dnaFilter=params.get('annotation')||dnaFilter;}
- function syncLocation(){const q=new URLSearchParams({view:tab});if(tab==='genes'||tab==='landscape')q.set('gene',selected);if(tab==='landscape'&&group!=='All functions')q.set('group',group);if(tab==='pathways'||tab==='robustness'){q.set('pathway',pathway);q.set('contrast',contrast);}if(tab==='pathways'&&pathwayTier!=='all')q.set('tier',pathwayTier);if(tab==='dna'){q.set('gene',dnaGene);q.set('contrast',dnaContrast);if(dnaFilter!=='All genes')q.set('annotation',dnaFilter);}history.replaceState(null,'',`#${q}`);return location.href;}
- function shareDetails(){const section=tabs.find(([id])=>id===tab)?.[1]||'Atlas',displayGene=body.querySelector('.gene-symbol')?.textContent||selected;let focus='';if(tab==='genes'||tab==='landscape')focus=`Gene: ${displayGene}`;else if(tab==='pathways'||tab==='robustness')focus=`${label(pathway)} · ${contrasts[contrast]}`;else if(tab==='dna')focus=`Gene: ${displayGene} · ${contrasts[dnaContrast]}${dnaFilter!=='All genes'?` · ${dnaFilter}`:''}`;const title=`Psilocin transcriptomic atlas · ${section}${focus?` · ${focus}`:''}`;return{title,text:`${title}. Germann reanalysis of Schmidt et al. (2026).`,url:syncLocation()};}
+ const treeState={view:params.get('display')==='table'?'table':'tree',query:params.get('search')||'',members:params.get('members')==='all'?'all':'leading',gene:tab==='pathways'?(params.get('gene')||''):'',open:new Set(),closed:new Set(),limits:new Map()};
+ if(treeState.gene)treeState.open.add(pathway);
+ function syncLocation(){const q=new URLSearchParams({view:tab});if(tab==='genes'||tab==='landscape')q.set('gene',selected);if(tab==='landscape'&&group!=='All functions')q.set('group',group);if(tab==='pathways'||tab==='robustness'){q.set('pathway',pathway);q.set('contrast',contrast);}if(tab==='pathways'){q.set('display',treeState.view);if(pathwayTier!=='all')q.set('tier',pathwayTier);if(treeState.query)q.set('search',treeState.query);if(treeState.members==='all')q.set('members','all');if(treeState.gene)q.set('gene',treeState.gene);}if(tab==='dna'){q.set('gene',dnaGene);q.set('contrast',dnaContrast);if(dnaFilter!=='All genes')q.set('annotation',dnaFilter);}history.replaceState(null,'',`#${q}`);return location.href;}
+ function shareDetails(){const section=tabs.find(([id])=>id===tab)?.[1]||'Atlas',displayGene=body.querySelector('.gene-symbol')?.textContent||selected;let focus='';if(tab==='genes'||tab==='landscape')focus=`Gene: ${displayGene}`;else if(tab==='pathways'||tab==='robustness')focus=`${label(pathway)} · ${contrasts[contrast]}${tab==='pathways'&&treeState.gene?` · Gene: ${treeState.gene}`:''}`;else if(tab==='dna')focus=`Gene: ${displayGene} · ${contrasts[dnaContrast]}${dnaFilter!=='All genes'?` · ${dnaFilter}`:''}`;const title=`Psilocin transcriptomic atlas · ${section}${focus?` · ${focus}`:''}`;return{title,text:`${title}. Germann reanalysis of Schmidt et al. (2026).`,url:syncLocation()};}
  async function shareCurrent(){const payload=shareDetails();if(typeof navigator.share==='function'){try{await navigator.share(payload);return;}catch(error){if(error?.name==='AbortError')return;console.warn('Native share request failed; opening email instead',error);}}location.href=`mailto:?subject=${encodeURIComponent(payload.title)}&body=${encodeURIComponent(`${payload.text}\n\n${payload.url}`)}`;}
  const top=el('header','masthead');
  const home=el('a','wordmark','Psilocin transcriptomic atlas');home.href='https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/';
@@ -228,18 +231,57 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   search.oninput=searchResults;searchResults();
  }
  function pathways(){
-  body.append(heading('Pathway evidence','Browse frozen primary, secondary and exploratory sets. Curves reconstruct the archived weighted ranking score; q-values and classifications come directly from the result tables.'));
-  const eligible=data.pathways.filter(p=>pathwayTier==='all'||p.tier===pathwayTier);if(!eligible.some(p=>p.pathway===pathway))pathway=eligible[0].pathway;const choices=[...new Map(eligible.map(p=>[p.pathway,[p.pathway,`${label(p.pathway)} · ${p.tier}`]])).values()];
-  const controls=el('div','controls');controls.append(select('Evidence tier',[['all','All frozen tiers'],['primary','Primary · 15 tests'],['secondary','Secondary · 21 tests'],['exploratory','Exploratory · 6 tests']],pathwayTier,v=>{pathwayTier=v;render();}),select('Pathway',choices,pathway,v=>{pathway=v;render();}),select('Contrast',Object.entries(contrasts),contrast,v=>{contrast=v;render();}));body.append(controls);
-  cameraNotice();
-  const row=eligible.find(p=>p.pathway===pathway&&p.contrast===contrast);if(!row)return;
-  const summary=el('div','result-summary');summary.append(el('strong','',`NES ${fmt(row.NES)}`),el('span','',`${({primary:'15-test primary',secondary:'21-test secondary',exploratory:'6-test exploratory'})[row.tier]} q = ${sci(row.family_fdr)}`),status(row.robustness));body.append(summary);
-  const curve=data.curves[pathway+'|'+contrast];
-  if(curve){const s=svg(900,275,`${label(pathway)} weighted running enrichment`),points=curve.points;const low=Math.min(0,...points.map(p=>p[1]))-.04,high=Math.max(0,...points.map(p=>p[1]))+.04;const x=v=>60+v*8.05,y=v=>230-(v-low)/(high-low)*195;
-   line(s,60,y(0),865,y(0),{stroke:'#9aabaa'});[0,25,50,75,100].forEach(v=>{line(s,x(v),30,x(v),230);text(s,x(v),250,`${v}%`,{'text-anchor':'middle'});});for(let i=0;i<4;i++){const v=low+(high-low)*i/3;text(s,49,y(v)+4,fmt(v),{'text-anchor':'end'});}for(const h of curve.hits)line(s,x(h),232,x(h),238,{stroke:'#367393','stroke-opacity':.2});s.append(svgNode('polyline',{points:points.map(([a,b])=>`${x(a)},${y(b)}`).join(' '),fill:'none',stroke:'#a34850','stroke-width':2.3}));text(s,450,273,'Position in ranked transcriptome',{'text-anchor':'middle'});body.append(s,note(`${row.size} mapped genes; ${edgeGenes(row).length} leading-edge genes. The curve is sampled for display with both extrema retained; the exported q-value is unchanged.`));}
-  else body.append(note('Untestable under the frozen minimum set size of 15. A stored q=1 for this row is bookkeeping, not evidence for a biological null.'));
-  body.append(downloadButton([row],'pathway-result.csv'),el('h3','','Leading-edge genes'));
-  const chips=el('div','chips');for(const g of edgeGenes(row))chips.append(button(g,()=>go('genes',g)));body.append(chips,note('Gene overlap means pathway results are not independent confirmations. Choosing a contrast or gene here changes the display only.'));
+  body.append(heading('Pathway evidence','Follow the analysis families into gene sets and their contributing genes. Inspect archived enrichment, gene estimates and sensitivity evidence without changing the underlying analyses.'));
+  const eligible=data.pathways.filter(p=>pathwayTier==='all'||p.tier===pathwayTier);
+  if(!eligible.some(p=>p.pathway===pathway))pathway=eligible[0].pathway;syncLocation();
+  const choices=[...new Map(eligible.map(p=>[p.pathway,[p.pathway,`${label(p.pathway)} · ${p.tier}`]])).values()];
+  const controls=el('div','controls');
+  function changeControl(name,fn){fn();render();body.querySelector(`[aria-label="${name}"]`)?.focus({preventScroll:true});}
+  const pathwayControl=select('Pathway',choices,pathway,v=>explorer.selectPathway(v,false));
+  controls.append(select('Evidence tier',[['all','All frozen tiers'],['primary','Primary · 15 tests'],['secondary','Secondary · 21 tests'],['exploratory','Exploratory · 6 tests']],pathwayTier,v=>changeControl('Evidence tier',()=>{pathwayTier=v;treeState.gene='';})),pathwayControl,select('Contrast',Object.entries(contrasts),contrast,v=>changeControl('Contrast',()=>{contrast=v;})));body.append(controls);
+  const layout=el('div','pathway-research-layout');
+  const evidence=el('section','pathway-evidence-panel');evidence.id='pathway-selected-evidence';evidence.setAttribute('aria-label','Selected pathway and gene evidence');
+  const explorer=createPathwayTree({data,provenance,getGenes,state:treeState,contrast,tier:pathwayTier,selectedPathway:pathway,
+   onPathway:(id,scroll)=>{pathway=id;treeState.gene='';pathwayControl.querySelector('select').value=id;syncLocation();showEvidence(scroll);},
+   onGene:(symbol,id)=>{pathway=id;treeState.gene=symbol;pathwayControl.querySelector('select').value=id;syncLocation();showEvidence(true);},onState:syncLocation});
+  layout.append(explorer,evidence);body.append(layout);
+  function showEvidence(scroll=false){
+   evidence.replaceChildren();
+   const row=data.pathways.find(p=>p.pathway===pathway&&p.contrast===contrast);if(!row)return;
+   const meta=families[row.tier];
+   const title=el('h3','',label(pathway));title.tabIndex=-1;
+   evidence.append(button('↑ Back to pathway tree',()=>explorer.focusSelection(),'secondary tree-return'));
+   evidence.append(el('div','eyebrow',`${meta.title} · ${meta.tests}-test family`),title,note(contrasts[contrast]));
+   if(treeState.gene){
+    const back=button('← Pathway evidence',()=>{treeState.gene='';explorer.refreshSelection();syncLocation();showEvidence();},'secondary');
+    const geneHost=el('div','gene-detail tree-gene-detail');evidence.append(back,geneHost);geneDetail(geneHost,treeState.gene).then(()=>{if(geneHost.isConnected)enhancePlots(geneHost);});
+    const membership=Object.entries(data.membership).filter(([,genes])=>genes.includes(treeState.gene));
+    evidence.append(el('h4','','Also annotated in the frozen sets'));
+    const links=el('div','tree-membership-links');for(const[id]of membership)links.append(button(label(id),()=>{pathwayTier='all';pathway=id;treeState.open.add(id);render();},'secondary'));evidence.append(links,note('Shared membership is annotation overlap, not independent confirmation. Gene estimates retain their original transcriptome-wide FDR.'));
+    evidence.append(button('Open in Gene explorer',()=>go('genes',treeState.gene),'secondary'));
+   }else{
+    const summary=el('div','result-summary');summary.append(el('strong','',row.NES===null?'Untestable':`NES ${fmt(row.NES)}`),el('span','',`${meta.tests}-test ${row.tier} q = ${row.NES===null?'Not tested':sci(row.family_fdr)}`),status(row.robustness));evidence.append(summary);
+    const curve=data.curves[pathway+'|'+contrast];
+    if(curve){const s=svg(900,275,`${label(pathway)} weighted running enrichment`),points=curve.points;const low=Math.min(0,...points.map(p=>p[1]))-.04,high=Math.max(0,...points.map(p=>p[1]))+.04;const x=v=>60+v*8.05,y=v=>230-(v-low)/(high-low)*195;
+     line(s,60,y(0),865,y(0),{stroke:'#9aabaa'});[0,25,50,75,100].forEach(v=>{line(s,x(v),30,x(v),230);text(s,x(v),250,`${v}%`,{'text-anchor':'middle'});});for(let i=0;i<4;i++){const v=low+(high-low)*i/3;text(s,49,y(v)+4,fmt(v),{'text-anchor':'end'});}for(const h of curve.hits)line(s,x(h),232,x(h),238,{stroke:'#367393','stroke-opacity':.2});s.append(svgNode('polyline',{points:points.map(([a,b])=>`${x(a)},${y(b)}`).join(' '),fill:'none',stroke:'#a34850','stroke-width':2.3}));text(s,450,273,'Position in ranked transcriptome',{'text-anchor':'middle'});evidence.append(s,note(`${row.size} mapped genes; ${edgeGenes(row).length} leading-edge genes. The curve is sampled for display with both extrema retained; the exported q-value is unchanged.`));}
+    else evidence.append(note('Untestable under the frozen minimum set size of 15. A stored q=1 is bookkeeping, not evidence for a biological null.'));
+    evidence.append(note('NES describes competitive enrichment in the ranked transcriptome, not an effect size across biological samples. Family q and gene FDR answer different questions.'),downloadButton([row],'pathway-result.csv'),button('Inspect sensitivity analyses',()=>go('robustness'),'secondary'));
+    const rows=data.sensitivities.filter(r=>r.pathway===pathway&&r.contrast===contrast);
+    const variants=el('details','tree-sensitivity');variants.append(el('summary','',`Archived sensitivity results · ${rows.length} variants`),table(rows,[['variant','Variant'],['NES','NES',v=>fmt(v,3)],['family_fdr','Within-variant family q',sci]]),downloadButton(rows,'all-robustness-variants.csv'));evidence.append(variants);
+    const leading=el('details','tree-sensitivity');leading.append(el('summary','',`Leading-edge genes · ${edgeGenes(row).length}`));
+    const chips=el('div','chips');for(const g of edgeGenes(row))chips.append(button(g,()=>{treeState.gene=g;explorer.refreshSelection();syncLocation();showEvidence();}));leading.append(chips);evidence.append(leading);
+   }
+   if(pathway==='HALLMARK_OXIDATIVE_PHOSPHORYLATION'){
+    // Reuse the full existing qualification; keep it adjacent to the selected evidence.
+    cameraNotice();evidence.append(body.lastElementChild);
+   }
+   if(row.tier==='exploratory')evidence.append(note('Exploratory transcriptional enrichment does not establish DNA repair activity, telomere length or protection. The separately corrected post hoc decomposition is available in DNA maintenance.'),button('Inspect DNA-maintenance follow-up',()=>go('dna'),'secondary'));
+   const source=el('details','tree-sensitivity');source.append(el('summary','','Data provenance & interpretation'),note(`Frozen results: ${pathway}. Archived companion v1.2.0, DOI 10.5281/zenodo.23283595. No tests or q-values are recalculated by this explorer.`),note('Three differentiation blocks from two genetic backgrounds; common controls with unresolved harvest composition. Treated Day 3 / Day 1 is not a treatment-by-time interaction. Gene overlap is not independent evidence.'));
+   const archive=el('a','source-link','Archived analysis and source tables ↗');archive.href='https://doi.org/10.5281/zenodo.23283595';archive.target='_blank';archive.rel='noopener';source.append(archive);evidence.append(source);
+   enhancePlots(evidence);
+   if(scroll&&matchMedia('(max-width:1000px)').matches){title.focus({preventScroll:true});evidence.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+  }
+  showEvidence();
  }
  function robustness(){
   body.append(heading('What “directionally stable” means here','Direction agreement across the frozen block omissions and RNA-quality checks. Significance in every small subset was not required.'));

@@ -1,0 +1,230 @@
+import {label, fmt, sci, color, edgeGenes, csvText, contrasts} from './format.js';
+
+export const families = {
+  primary: {title: 'Primary analysis', tests: 15},
+  secondary: {title: 'Secondary analyses', tests: 21},
+  exploratory: {title: 'Exploratory analyses', tests: 6}
+};
+const count = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const node = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+};
+function action(text, fn, cls = 'secondary') {
+  const b = node('button', cls, text); b.type = 'button'; b.onclick = fn; return b;
+}
+function save(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], {type}));
+  const a = node('a'); a.href = url; a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// Literal frozen membership and the original symbol-ranking representatives only.
+// No inferred aliases, new test families, recalculated p-values or significance filters.
+export function pathwayBranches(data, genes, contrast, {tier = 'all', members = 'leading', query = ''} = {}) {
+  const representatives = new Map(genes.filter(g => g.selected).map(g => [g.symbol, g]));
+  const index = data.contrasts.indexOf(contrast);
+  if (index < 0) throw new Error('Unknown pathway contrast');
+  const q = query.trim().toUpperCase();
+  const aliases = new Map();
+  for (const a of data.aliases) {
+    const values = [a.current_symbol, a.source_symbol, a.selected_gene_id].filter(Boolean);
+    if (values.some(v => v.toUpperCase().includes(q))) {
+      for (const value of values) aliases.set(value, true);
+    }
+  }
+  return data.pathways.filter(r => r.contrast === contrast && (tier === 'all' || r.tier === tier)).map(row => {
+    const edge = new Set(edgeGenes(row));
+    const symbols = [...new Set(data.membership[row.pathway] || [])].sort();
+    const titleMatch = label(row.pathway).toUpperCase().includes(q) || row.pathway.includes(q);
+    const children = symbols.filter(symbol => members !== 'leading' || edge.has(symbol)).map(symbol => {
+      const gene = representatives.get(symbol);
+      return {symbol, gene, effect: gene?.effects[index], leading: edge.has(symbol),
+        memberships: Object.keys(data.membership).filter(id => data.membership[id].includes(symbol))};
+    }).filter(g => !q || titleMatch || g.symbol.toUpperCase().includes(q) || g.gene?.id.toUpperCase().includes(q) || aliases.has(g.symbol) || aliases.has(g.gene?.id));
+    return {row, children, titleMatch, measured: symbols.filter(s => representatives.has(s)).length,
+      annotated: symbols.length, leading: edge.size};
+  }).filter(b => !q || b.titleMatch || b.children.length);
+}
+
+export function exportMembershipRows(branches, contrast) {
+  return branches.flatMap(b => b.children.map(g => ({
+    pathway: b.row.pathway, tier: b.row.tier, contrast, symbol: g.symbol,
+    gene_id: g.gene?.id ?? null, availability: g.gene ? 'archived rank representative' : 'absent from filtered representative results',
+    leading_edge: g.leading, log2FoldChange: g.effect?.log2FoldChange ?? null,
+    gene_fdr: g.effect?.padj ?? null, pathway_NES: b.row.NES,
+    pathway_family_q: b.row.family_fdr, family_tests: families[b.row.tier].tests,
+    memberships: g.memberships.join(';')
+  })));
+}
+
+export function createPathwayTree({data, provenance, getGenes, state, contrast, tier, selectedPathway, onPathway, onGene, onState}) {
+  const root = node('section', 'pathway-explorer');
+  root.setAttribute('aria-label', 'Pathway and gene tree');
+  const toolbar = node('div', 'tree-toolbar');
+  const view = node('div', 'tree-view-toggle'); view.setAttribute('aria-label', 'Pathway display');
+  const treeButton = action('Tree', () => setView('tree'));
+  const tableButton = action('Table', () => setView('table'));
+  view.append(treeButton, tableButton);
+  const searchLabel = node('label', 'tree-search');
+  searchLabel.append(node('span', '', 'Find a pathway or gene'));
+  const search = node('input'); search.type = 'search'; search.placeholder = 'Gene symbol, alias, Ensembl ID or pathway';
+  search.setAttribute('aria-label', 'Find a pathway or gene'); search.value = state.query;
+  searchLabel.append(search);
+  const memberLabel = node('label', 'tree-member-control');
+  memberLabel.append(node('span', '', 'Gene membership'));
+  const member = node('select'); member.setAttribute('aria-label', 'Gene membership');
+  for (const [value, title] of [['leading', 'Leading edge (this contrast)'], ['all', 'All annotated members']]) {
+    const option = node('option', '', title); option.value = value; member.append(option);
+  }
+  member.value = state.members; memberLabel.append(member);
+  toolbar.append(view, searchLabel, memberLabel);
+  const explanation = node('p', 'tree-explanation', 'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.');
+  const legend = node('div', 'tree-legend');
+  legend.append(node('span', '', 'Pathway: NES · family q'), node('span', '', 'Gene: log₂FC · original gene FDR'), node('span', '', 'Blue = negative · rust = positive · grey = unavailable'));
+  const notice = node('p', 'tree-count'); notice.setAttribute('role', 'status'); notice.setAttribute('aria-live', 'polite');
+  const tools = node('div', 'tree-actions');
+  tools.append(action('Collapse gene branches', () => {
+    state.open.clear(); root.querySelectorAll('.tree-pathway').forEach(d => {d.open = false;});
+  }), action('Reset search', () => {search.value = ''; state.query = ''; onState(); draw(); search.focus();}));
+  const canvas = node('div', 'tree-canvas'); canvas.tabIndex = 0;
+  canvas.setAttribute('aria-label', 'Scrollable pathway explorer');
+  const downloads = node('div', 'tree-actions');
+  root.append(toolbar, explanation, legend, notice, tools, canvas, downloads);
+  let genes, branches = [], loadError = false;
+  const loadStatus = node('p', 'note', 'Loading archived gene estimates…'); canvas.append(loadStatus);
+  const notify = () => onState();
+  function setView(value) {state.view = value; notify(); draw(); (value === 'tree' ? treeButton : tableButton).focus();}
+  search.oninput = () => {state.query = search.value; notify(); draw();};
+  member.onchange = () => {state.members = member.value; state.limits.clear(); notify(); draw();};
+  function selectPathway(id, scroll = true) {
+    selectedPathway = id; state.gene = ''; onPathway(id, scroll); highlight();
+  }
+  function highlight() {
+    root.querySelectorAll('[data-pathway-select]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.pathwaySelect === selectedPathway)));
+    root.querySelectorAll('[data-gene-select]').forEach(b => {
+      const selected = Boolean(state.gene && b.dataset.geneSelect === state.gene);
+      b.setAttribute('aria-pressed', String(selected));
+    });
+  }
+  function geneButton(g, pathway) {
+    const b = action('', () => {
+      selectedPathway = pathway; state.gene = g.symbol; onGene(g.symbol, pathway); highlight();
+    }, 'tree-gene tree-focus');
+    b.dataset.geneSelect = g.symbol;
+    b.setAttribute('aria-label', `Inspect ${g.symbol} in ${label(pathway)}`);
+    const name = node('span', 'tree-gene-name', g.symbol);
+    if (g.memberships.length > 1) {const badge = node('small', 'tree-overlap', `${g.memberships.length} sets`); badge.title = 'Overlapping annotation; not independent evidence'; name.append(badge);}
+    const metrics = node('span', 'tree-gene-metrics');
+    const swatch = node('i', 'tree-swatch'); swatch.style.background = color(g.effect?.log2FoldChange, 1.5); swatch.setAttribute('aria-hidden', 'true');
+    metrics.append(swatch, node('span', '', g.gene ? `log₂FC ${fmt(g.effect?.log2FoldChange)} · FDR ${sci(g.effect?.padj)}` : 'No literal-symbol match'));
+    if (state.members === 'all') metrics.append(node('small', '', g.leading ? 'Leading edge' : 'Outside leading edge'));
+    b.append(name, metrics); return b;
+  }
+  function renderGenes(branch, list, details) {
+    list.replaceChildren();
+    const max = state.limits.get(branch.row.pathway) || 30;
+    for (const g of branch.children.slice(0, max)) {const li = node('li'); li.append(geneButton(g, branch.row.pathway)); list.append(li);}
+    if (branch.children.length > max) {
+      const li = node('li'); const more = action(`Show next ${Math.min(30, branch.children.length - max)} genes (${max} of ${branch.children.length} shown)`, () => {
+        state.limits.set(branch.row.pathway, max + 30); renderGenes(branch, list, details); highlight();
+        list.querySelectorAll('.tree-gene')[max]?.focus({preventScroll: true});
+      }, 'tree-more tree-focus'); li.append(more); list.append(li);
+    }
+    if (!branch.children.length) list.append(node('li', 'tree-empty', state.members === 'leading' ? 'No archived leading edge for this contrast. Choose all annotated members to inspect membership.' : 'No matching members.'));
+    details.dataset.loaded = 'true';
+  }
+  function draw() {
+    treeButton.setAttribute('aria-pressed', String(state.view === 'tree')); tableButton.setAttribute('aria-pressed', String(state.view === 'table'));
+    if (!genes) return;
+    const oldScroll = canvas.scrollTop;
+    branches = pathwayBranches(data, genes, contrast, {tier, members: state.members, query: state.query});
+    const unique = new Set(branches.flatMap(b => b.children.map(g => g.symbol)));
+    const occurrences = branches.reduce((n, b) => n + b.children.length, 0);
+    notice.textContent = `${count(branches.length, 'gene set')} · ${count(unique.size, 'unique gene')} · ${count(occurrences, 'membership')}${state.query ? ' matching this search' : ''}. Repeated genes are counted once in the unique total. ${contrasts[contrast]}.`;
+    canvas.replaceChildren(); downloads.replaceChildren();
+    if (!branches.length) canvas.append(node('p', 'tree-empty', 'No matching pathway or gene in this membership view. Try all annotated members, another contrast or another analysis tier.'));
+    else if (state.view === 'table') renderTable();
+    else {
+      const forest = node('ul', 'tree-forest');
+      for (const [family, meta] of Object.entries(families)) {
+        const children = branches.filter(b => b.row.tier === family); if (!children.length) continue;
+        const item = node('li', 'tree-family'); const details = node('details', 'tree-family-disclosure'); details.open = !state.closed.has(family) || Boolean(state.query);
+        const summary = node('summary', 'tree-focus'); summary.append(node('strong', '', meta.title), node('small', '', `${count(children.length, 'set')} · ${meta.tests}-test family`));
+        details.ontoggle = () => {if (!state.query) details.open ? state.closed.delete(family) : state.closed.add(family);};
+        const paths = node('ul', 'tree-paths');
+        for (const branch of children) {
+          const li = node('li'); const pathway = node('details', 'tree-pathway'); pathway.dataset.pathway = branch.row.pathway;
+          pathway.open = state.open.has(branch.row.pathway) || Boolean(state.query);
+          const head = node('summary', 'tree-focus');
+          head.setAttribute('aria-label', `Expand genes: ${label(branch.row.pathway)}`);
+          head.append(node('span', 'tree-path-name', label(branch.row.pathway)), node('small', 'tree-path-stats', `${branch.row.NES === null ? 'Untestable' : `NES ${fmt(branch.row.NES)} · q ${sci(branch.row.family_fdr)}`} · ${count(branch.children.length, 'gene')}`));
+          head.style.setProperty('--nes-color', color(branch.row.NES, 3.6));
+          head.addEventListener('click', () => selectPathway(branch.row.pathway, false));
+          const inspect = action('Inspect evidence', () => selectPathway(branch.row.pathway), 'tree-inspect tree-focus'); inspect.dataset.pathwaySelect = branch.row.pathway;
+          inspect.setAttribute('aria-label', `Inspect pathway evidence: ${label(branch.row.pathway)}`);
+          const list = node('ul', 'tree-genes');
+          pathway.append(head, inspect, list);
+          if (pathway.open) renderGenes(branch, list, pathway);
+          pathway.ontoggle = () => {
+            if (!state.query) pathway.open ? state.open.add(branch.row.pathway) : state.open.delete(branch.row.pathway);
+            if (pathway.open && !pathway.dataset.loaded) {renderGenes(branch, list, pathway); highlight();}
+          };
+          li.append(pathway); paths.append(li);
+        }
+        details.append(summary, paths); item.append(details); forest.append(item);
+      }
+      canvas.append(forest);
+    }
+    downloads.append(action('Download memberships CSV', () => save('pathway-tree-memberships.csv', csvText(exportMembershipRows(branches, contrast)), 'text/csv')),
+      action('Download view provenance', () => save('pathway-tree-provenance.json', JSON.stringify({
+        resource: 'Psilocin human-neuron transcriptomic atlas', view_url: location.href,
+        archived_release: 'https://doi.org/10.5281/zenodo.23283595', contrast,
+        membership_view: state.members, tier, search: state.query, selected_pathway: selectedPathway,
+        selected_gene: state.gene || null, unique_genes: unique.size, memberships: occurrences,
+        data_sha256: provenance.outputs, gene_sets: branches.map(b => b.row.pathway),
+        scope: 'Display selection of archived results; no new statistical tests. Literal frozen membership. Repeated memberships are not independent evidence. Absent filtered genes are not measured nulls.'
+      }, null, 2), 'application/json')));
+    canvas.scrollTop = oldScroll; highlight();
+  }
+  function renderTable() {
+    const table = node('table', 'tree-table'); const thead = node('thead'); const header = node('tr');
+    for (const name of ['Gene set / analysis family', 'NES', 'Family q', 'Genes in view', 'Evidence']) header.append(node('th', '', name));
+    thead.append(header); table.append(thead); const tbody = node('tbody');
+    for (const b of branches) {
+      const row = node('tr'); const name = node('td'); name.append(node('strong', '', label(b.row.pathway)), node('small', '', `${families[b.row.tier].title} · ${families[b.row.tier].tests} tests`)); row.append(name);
+      for (const value of [b.row.NES === null ? 'Untestable' : fmt(b.row.NES), b.row.NES === null ? 'Not tested' : sci(b.row.family_fdr), b.children.length]) row.append(node('td', 'numeric', value));
+      const cell = node('td'); const inspect = action('Inspect', () => selectPathway(b.row.pathway), 'tree-inspect'); inspect.dataset.pathwaySelect = b.row.pathway;
+      inspect.setAttribute('aria-label', `Inspect pathway evidence: ${label(b.row.pathway)}`); cell.append(inspect); row.append(cell); tbody.append(row);
+    }
+    table.append(tbody); canvas.append(table);
+  }
+  // Native summary/Enter/Space behavior, augmented with outline navigation.
+  canvas.addEventListener('keydown', event => {
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End', 'ArrowLeft', 'ArrowRight'].includes(event.key) || !event.target.matches('.tree-focus')) return;
+    const visible = [...canvas.querySelectorAll('.tree-focus')].filter(n => n.getClientRects().length);
+    const at = visible.indexOf(event.target); if (at < 0) return;
+    const details = event.target.closest('details'); let next;
+    if (event.key === 'ArrowDown') next = visible[Math.min(at + 1, visible.length - 1)];
+    if (event.key === 'ArrowUp') next = visible[Math.max(0, at - 1)];
+    if (event.key === 'Home') next = visible[0];
+    if (event.key === 'End') next = visible.at(-1);
+    if (event.key === 'ArrowRight' && event.target.tagName === 'SUMMARY') {details.open = true;}
+    if (event.key === 'ArrowLeft') {if (event.target.tagName === 'SUMMARY' && details.open) details.open = false; else next = event.target.tagName === 'SUMMARY' ? details?.parentElement.closest('details')?.querySelector(':scope > summary') : details?.querySelector(':scope > summary');}
+    event.preventDefault(); next?.focus();
+  });
+  root.selectPathway = selectPathway;
+  root.refreshSelection = highlight;
+  root.focusSelection = () => {
+    const selected = [...root.querySelectorAll('[data-gene-select]')].find(b => b.dataset.geneSelect === state.gene && b.getClientRects().length) || [...root.querySelectorAll('[data-pathway-select]')].find(b => b.dataset.pathwaySelect === selectedPathway && b.getClientRects().length) || root.querySelector('.tree-pathway > summary');
+    selected?.focus();
+  };
+  getGenes().then(value => {if (root.isConnected) {genes = value; draw();}}).catch(() => {
+    if (!root.isConnected || loadError) return; loadError = true;
+    canvas.replaceChildren(node('p', 'tree-empty', 'Archived gene estimates could not be loaded. Check your connection and retry.'));
+    canvas.append(action('Retry loading genes', () => {loadError = false; getGenes().then(value => {genes = value; draw();}).catch(() => {loadError = true;});}));
+  });
+  return root;
+}
