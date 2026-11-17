@@ -1,3 +1,4 @@
+import { downloadFile } from "./file-download.js";
 import { exclusiveIntersections } from "./intersection-data.js";
 import { createElement as el } from "./interface-utils.js";
 import { csvText } from "./format.js";
@@ -191,16 +192,8 @@ export function createUpSet({ nodes, genes }) {
     "button button-tonal",
     "Download exact intersections CSV",
   );
-  download.onclick = () => {
-    const url = URL.createObjectURL(
-      new Blob([csvText(rows)], { type: "text/csv" }),
-    );
-    const a = el("a");
-    a.href = url;
-    a.download = "exclusive-gene-set-intersections.csv";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
+  download.onclick = () =>
+    downloadFile("exclusive-gene-set-intersections.csv", csvText(rows));
   host.append(svg);
   root.append(
     picker,

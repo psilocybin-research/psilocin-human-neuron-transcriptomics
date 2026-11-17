@@ -89,7 +89,7 @@ await page.getByLabel('Contrast',{exact:true}).selectOption('day3_vs_day1',{forc
 assert.match(await page.locator('.result-summary').innerText(),/block-dependent/);
 await page.getByRole('button',{name:'Robustness',exact:true}).click();
 assert.equal(await page.locator('tbody').first().locator('tr').count(),10);
-const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Download CSV',exact:true}).first().click();assert.equal((await dl).suggestedFilename(),'all-robustness-variants.csv');
+const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Download CSV',exact:true}).first().click();await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();assert.equal((await dl).suggestedFilename(),'all-robustness-variants.csv');
 await page.getByRole('button',{name:'Pathways',exact:true}).click();
 await page.getByLabel('Evidence tier',{exact:true}).selectOption('exploratory',{force:true});
 assert.equal(await page.getByLabel('Pathway',{exact:true}).locator('option').count(),2);

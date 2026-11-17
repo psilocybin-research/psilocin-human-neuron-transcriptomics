@@ -6,7 +6,7 @@ await mkdir(output,{recursive:true});const browser=await ({chromium,firefox,webk
 const page=await browser.newPage({viewport:{width:1440,height:960}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 async function ready(){await page.locator('[data-framework7]').waitFor();}
 async function appearance(mode){const dark=mode==='dark';if(await page.evaluate(()=>document.documentElement.classList.contains('dark'))!==dark)await page.getByRole('switch',{name:'Dark mode',exact:true}).click();await page.waitForFunction(d=>document.documentElement.classList.contains('dark')===d,dark);}
-async function download(name){const pending=page.waitForEvent('download');await page.getByRole('button',{name,exact:true}).click();return readFile(await (await pending).path(),'utf8');}
+async function download(name){const pending=page.waitForEvent('download');await page.getByRole('button',{name,exact:true}).click();await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();return readFile(await (await pending).path(),'utf8');}
 try{
  await page.goto(url+'#view=landscape');await ready();await appearance('light');await page.locator('.heatmap svg[data-plot-theme-id],svg.heatmap[data-plot-theme-id]').first().waitFor();
  const dataFills=await page.locator('.gene-row rect').evaluateAll(ns=>ns.map(n=>n.getAttribute('fill')));assert.equal(await page.locator('.gene-row').count(),113);

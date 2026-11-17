@@ -66,6 +66,8 @@ const iconNames = [
   "line_horizontal_3",
   "search",
   "slider_horizontal_3",
+  "arrow_down_to_line",
+  "info_circle",
   "xmark",
   "chevron_left",
   "printer",

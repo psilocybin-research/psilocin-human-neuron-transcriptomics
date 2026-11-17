@@ -1,3 +1,4 @@
+import { downloadFile } from "./file-download.js";
 import { createElement as el } from "./interface-utils.js";
 import { contrasts, fmt, csvText } from "./format.js";
 const NS = "http://www.w3.org/2000/svg";
@@ -25,14 +26,7 @@ function frame(title) {
   return { host, svg, width, height };
 }
 function save(name, rows) {
-  const u = URL.createObjectURL(
-      new Blob([csvText(rows)], { type: "text/csv" }),
-    ),
-    a = el("a");
-  a.href = u;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(u), 1000);
+  return downloadFile(name, csvText(rows));
 }
 export function geneDiagnostics(data, genes, initial) {
   const root = el("section", "gene-diagnostics");

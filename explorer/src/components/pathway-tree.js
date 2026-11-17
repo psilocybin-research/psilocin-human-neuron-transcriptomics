@@ -1,3 +1,4 @@
+import {downloadFile as save} from './file-download.js';
 import {trackActivity} from './app-activity.js';
 import {label, fmt, sci, color, edgeGenes, csvText, contrasts} from './format.js';
 
@@ -16,11 +17,7 @@ const node = (tag, cls, text) => {
 function action(text, fn, cls = 'secondary') {
   const b = node('button', cls, text); b.type = 'button'; b.onclick = fn; return b;
 }
-function save(name, text, type) {
-  const url = URL.createObjectURL(new Blob([text], {type}));
-  const a = node('a'); a.href = url; a.download = name; a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
+
 
 // Literal frozen membership and the original symbol-ranking representatives only.
 // No inferred aliases, new test families, recalculated p-values or significance filters.
@@ -82,7 +79,9 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     const option = node('option', '', title); option.value = value; member.append(option);
   }
   member.value = state.members; memberLabel.append(member);
-  toolbar.append(view, searchLabel, memberLabel);
+  const displayControl = node('div', 'tree-display-control');
+  displayControl.append(node('span', '', 'Display'), view);
+  toolbar.append(displayControl, searchLabel, memberLabel);
   const explanation = node('p', 'tree-explanation', 'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.');
   const legend = node('div', 'tree-legend');
   legend.append(node('span', '', 'Pathway: NES · family q'), node('span', '', 'Gene: log₂FC · original gene FDR'), node('span', '', 'Blue = negative · rust = positive · grey = unavailable'));

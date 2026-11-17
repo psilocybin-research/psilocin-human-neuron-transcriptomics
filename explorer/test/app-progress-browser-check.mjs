@@ -36,6 +36,14 @@ try {
               .getAttribute("aria-valuenow"),
           ) >= 99,
       );
+      await page.locator('.app-scroll-top[data-visible="true"]').waitFor();
+      await page
+        .getByRole("button", { name: "Scroll to top", exact: true })
+        .click();
+      await page.waitForFunction(
+        () => document.querySelector(".research-scroll").scrollTop < 2,
+      );
+      await page.locator(".app-scroll-top").waitFor({ state: "hidden" });
       const geneNav = page.locator(
         width < 1180
           ? '.research-tabbar [data-quick="genes"]'
@@ -64,8 +72,8 @@ try {
       const reading = await page.locator(".app-reading-progress").boundingBox();
       const header = await page.locator(".research-navbar").boundingBox();
       assert.ok(
-        Math.abs(reading.y + reading.height - header.y - header.height) < 2,
-        "Reading indicator meets the header edge",
+        Math.abs(reading.y - header.y) < 2,
+        "Reading indicator meets the top edge",
       );
 
       await page.locator('#psilocin-app[data-loading="false"]').waitFor();

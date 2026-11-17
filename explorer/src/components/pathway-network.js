@@ -1,3 +1,4 @@
+import {downloadFile as save} from './file-download.js';
 import {createUpSet} from './upset-plot.js';
 import {bundledOverlapSVG} from './bundled-overlap.js';
 import {uiIcon} from './icons.js';
@@ -11,7 +12,7 @@ const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, cls, text) => {const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n;};
 const svgEl = (tag, attrs = {}, text) => {const n = document.createElementNS(NS, tag); for (const [k,v] of Object.entries(attrs)) n.setAttribute(k,v); if (text !== undefined) n.textContent = text; return n;};
 const button = (text, fn, cls = 'secondary') => {const b = el('button', cls, text); b.type = 'button'; b.onclick = fn;if(text==='+'||text==='−'){b.textContent='';b.append(uiIcon(text==='+'?'plus':'minus'));}return b;};
-function save(name, text, type) {const url = URL.createObjectURL(new Blob([text], {type})); const a = el('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);}
+
 const tierLetters = {primary:'P', secondary:'S', exploratory:'E'};
 
 export function createPathwayNetwork({data, provenance, genes, state, contrast, tier, selectedPathway, onPathway, onEdge, onState}) {
@@ -29,11 +30,11 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  for (const v of [0, .05, .1, .2]) {const option = el('option', '', v === 0 ? '0 · show every nonzero overlap' : String(v)); option.value = String(v); thresholdSelect.append(option);}
  thresholdSelect.value = String(threshold); thresholdSelect.onchange = () => {state.threshold = +thresholdSelect.value; onState(true,'[aria-label="Minimum Jaccard"]');}; thresholdLabel.append(thresholdSelect);
  const views = el('div', 'network-view-toggle'); views.setAttribute('aria-label', 'Overlap display');
- for (const [value, name] of [['graph','Network'],['pairs','Overlap table'],['matrix','Matrix'],['chord','Chord'],['bundled','Edge bundling'],['upset','Exact intersections']]) {
-  const b = button(name, () => {state.networkView = value; onState(true,`[data-overlap-view="${value}"]`);}); b.dataset.overlapView=value;b.setAttribute('aria-pressed', String(state.networkView === value)); views.append(b);
+ for (const [value, name] of [['graph','Network'],['chord','Chord'],['bundled','Edge bundling'],['upset','Exact intersections'],['pairs','Overlap table'],['matrix','Matrix']]) {
+  const b = button(name, () => {state.networkView = value; renderOverlap();}); b.dataset.overlapView=value;b.setAttribute('aria-pressed', String(state.networkView === value)); views.append(b);
  }
  thresholdSelect.disabled=state.networkView==='upset';
- options.append(thresholdLabel, views);
+ options.append(thresholdLabel);
  const searchInfo = el('p', 'network-search-status'); searchInfo.setAttribute('role', 'status');
  const q = state.query.trim().toUpperCase();
  const aliases = new Set(data.aliases.filter(a=>[a.source_symbol,a.current_symbol,a.selected_gene_id].some(v=>v?.toUpperCase().includes(q))).flatMap(a=>[a.source_symbol,a.current_symbol]));
@@ -49,14 +50,25 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  const placeholder=el('option','','Choose a pair to inspect shared genes');placeholder.value='';pairSelect.append(placeholder);
  for(const p of [...graph.pairs].sort((a,b)=>(b.jaccard??-1)-(a.jaccard??-1)||a.key.localeCompare(b.key))){const o=el('option','',`${graph.nodes.find(n=>n.id===p.source).short} ↔ ${graph.nodes.find(n=>n.id===p.target).short} · ${p.shared??'unavailable'} shared`);o.value=p.key;pairSelect.append(o);}
  pairSelect.value=state.edge;pairSelect.onchange=()=>{const p=graph.pairs.find(p=>p.key===pairSelect.value);if(p)chooseEdge(p);};pairLabel.append(pairSelect);root.append(pairLabel);
- const content = el('div', 'network-content'); root.append(content);
+ const content = el('div', 'network-content');
+ const viewOptions=el('div','overlap-view-options');const figure=el('div','overlap-figure');figure.dataset.fullscreenHost='';figure.dataset.fullscreenTitle='Gene-set overlap';figure.dataset.fullscreenInfo='Alternative views of literal frozen gene-set membership. Overlap does not establish biological interaction or independent statistical support.';figure.append(viewOptions,views,content);root.append(figure);
+ const defaultLegend=legend.textContent,defaultCount=count.textContent;
  const exports = el('div','tree-actions network-downloads');
+ renderOverlap(false);
+ function renderOverlap(sync=true){
+  content.replaceChildren();viewOptions.replaceChildren();exports.querySelectorAll('.network-image-export').forEach(n=>n.remove());
+  legend.textContent=defaultLegend;count.textContent=defaultCount;
+  thresholdSelect.disabled=state.networkView==='upset';
+  views.querySelectorAll('button').forEach(b=>{const active=b.dataset.overlapView===state.networkView;b.setAttribute('aria-pressed',String(active));b.classList.toggle('button-active',active);});
  if (state.networkView === 'pairs') drawPairs();
  else if (state.networkView === 'matrix') drawMatrix();
  else if (state.networkView === 'chord') drawChord();
  else if (state.networkView === 'bundled') drawBundled();
  else if (state.networkView === 'upset') drawUpSet();
  else drawGraph();
+  figure.dispatchEvent(new Event('figure:contentchange',{bubbles:true}));
+  if(sync)onState();
+ }
  exports.append(button('Download overlap CSV',()=>save('pathway-overlap.csv',csvText(overlapRows(graph,contrast,state.networkMembers,threshold)),'text/csv')),
   button('Download network provenance',()=>save('pathway-overlap-provenance.json',JSON.stringify({
    view_url:location.href,display:state.networkView,bundling_beta:state.networkView==='bundled'?.82:null, contrast, membership:state.networkMembers, tier, minimum_jaccard:threshold, search:state.query,
@@ -82,7 +94,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  function drawUpSet() {
   let ids=(state.intersectionSets?.length?state.intersectionSets:graph.nodes.filter(n=>n.row.tier==='primary'&&n.available).map(n=>n.id)).filter(id=>graph.nodes.some(n=>n.id===id&&n.available)).slice(0,6);if(!ids.length)ids=graph.nodes.filter(n=>n.available).slice(0,5).map(n=>n.id);state.intersectionSets=ids;
   const picker=el('div','list accordion-list chord-set-picker');const item=el('div','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('aria-label','Choose intersection gene sets');const inner=el('div','item-inner');inner.append(el('div','item-title','Intersection gene sets'),el('div','item-after',`${ids.length} of 6`));toggle.append(inner);const panel=el('div','accordion-item-content'),list=el('div','list chord-set-list');
-  for(const node of graph.nodes){const row=el('label','item-checkbox item-content'),input=el('input');input.type='checkbox';input.checked=ids.includes(node.id);input.disabled=!node.available||(!input.checked&&ids.length>=6);input.setAttribute('aria-label',`Intersection gene set: ${node.short}`);input.onchange=()=>{state.intersectionSets=input.checked?[...ids,node.id]:ids.filter(id=>id!==node.id);onState(true);};const details=el('div','item-inner');details.append(el('div','item-title',node.short));row.append(input,el('i','icon icon-checkbox'),details);list.append(row);}panel.append(list);item.append(toggle,panel);picker.append(item);content.append(picker,createUpSet({nodes:graph.nodes.filter(n=>ids.includes(n.id)),genes}));legend.textContent='Bars count exclusive symbol intersections among the selected sets, independent of the pairwise Jaccard display threshold. The universe is their union; no significance filtering is applied.';
+  for(const node of graph.nodes){const row=el('label','item-checkbox item-content'),input=el('input');input.type='checkbox';input.checked=ids.includes(node.id);input.disabled=!node.available||(!input.checked&&ids.length>=6);input.setAttribute('aria-label',`Intersection gene set: ${node.short}`);input.onchange=()=>{state.intersectionSets=input.checked?[...ids,node.id]:ids.filter(id=>id!==node.id);renderOverlap();};const details=el('div','item-inner');details.append(el('div','item-title',node.short));row.append(input,el('i','icon icon-checkbox'),details);list.append(row);}panel.append(list);item.append(toggle,panel);picker.append(item);viewOptions.append(picker);content.append(createUpSet({nodes:graph.nodes.filter(n=>ids.includes(n.id)),genes}));legend.textContent='Bars count exclusive symbol intersections among the selected sets, independent of the pairwise Jaccard display threshold. The universe is their union; no significance filtering is applied.';
  }
  function drawBundled() {
   const scroll=el('div','network-map plot-viewport bundled-map');scroll.tabIndex=0;scroll.style.setProperty('--plot-width','920px');scroll.dataset.fullscreenTitle='Gene-set overlap · hierarchical edge bundling';scroll.dataset.fullscreenInfo='Leaves are gene sets grouped by primary, secondary or exploratory analysis family. Link width encodes Jaccard overlap, not biological interaction. Search preserves the complete inventory.';
@@ -125,8 +137,8 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   const accordion=el('div','accordion-item'),toggle=el('a','item-link item-content f7-press');toggle.href='#';toggle.setAttribute('aria-label','Choose chord gene sets');
   const toggleInner=el('div','item-inner');toggleInner.append(el('div','item-title','Chord gene sets'),el('div','item-after',`${ids.length} of 6`));toggle.append(toggleInner);
   const panel=el('div','accordion-item-content'),choices=el('div','list chord-set-list');panel.append(choices);accordion.append(toggle,panel);picker.append(accordion);
-  for(const n of graph.nodes){const l=el('label','item-checkbox item-content');const input=el('input');input.type='checkbox';input.checked=ids.includes(n.id);input.disabled=!input.checked&&ids.length>=6;input.dataset.chordSet=n.id;input.setAttribute('aria-label',`Chord gene set: ${n.label}`);input.onchange=()=>{state.chordSets=input.checked?[...ids,n.id]:ids.filter(id=>id!==n.id);onState(true,`[data-chord-set="${n.id}"]`);};const inner=el('div','item-inner');inner.append(el('div','item-title',n.short));const check=el('i','icon icon-checkbox');l.append(input,check,inner);choices.append(l);}content.append(picker);
-  content.append(el('p','note','Undirected ribbons encode pairwise shared-symbol counts. Equal angular sectors identify gene sets; ribbon endpoint widths use one common count scale. Unused sector space is not the number of unshared genes. A gene shared by more than two sets contributes to multiple ribbons.'));
+  for(const n of graph.nodes){const l=el('label','item-checkbox item-content');const input=el('input');input.type='checkbox';input.checked=ids.includes(n.id);input.disabled=!input.checked&&ids.length>=6;input.dataset.chordSet=n.id;input.setAttribute('aria-label',`Chord gene set: ${n.label}`);input.onchange=()=>{state.chordSets=input.checked?[...ids,n.id]:ids.filter(id=>id!==n.id);renderOverlap();};const inner=el('div','item-inner');inner.append(el('div','item-title',n.short));const check=el('i','icon icon-checkbox');l.append(input,check,inner);choices.append(l);}viewOptions.append(picker);
+  viewOptions.append(el('p','note','Undirected ribbons encode pairwise shared-symbol counts. Equal angular sectors identify gene sets; ribbon endpoint widths use one common count scale. Unused sector space is not the number of unshared genes. A gene shared by more than two sets contributes to multiple ribbons.'));
   if(ids.length<2){content.append(el('p','note','Select at least two gene sets for the chord view.'));return;}
   const chosen=graph.nodes.filter(n=>ids.includes(n.id)),pairs=graph.pairs.filter(p=>ids.includes(p.source)&&ids.includes(p.target));
   count.textContent=`${graph.nodes.length} available sets · ${chosen.length} selected sectors · ${pairs.filter(p=>p.shared>0&&p.jaccard>=threshold).length} displayed ribbons · ${pairs.filter(p=>!p.available).length} unavailable selected pairs.`;legend.textContent='Sector fill: archived NES, blue negative / rust positive / grey untestable (scale −3.6 to +3.6). Equal angular sectors. Ribbons show shared annotated symbols; select a ribbon for exact counts and gene-level evidence.';
@@ -143,7 +155,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
    const x=Math.sin(angle)*310,y=-Math.cos(angle)*310;const text=svgEl('text',{x,y,'text-anchor':'middle','class':'chord-label','font-size':13,fill:'#203d50'});const lines=[''];for(const word of n.short.split(' ')){if((lines.at(-1)+' '+word).trim().length>17)lines.push(word);else lines[lines.length-1]=(lines.at(-1)+' '+word).trim();}lines.forEach((line,index)=>text.append(svgEl('tspan',{x,dy:index?16:0},line)));g.append(text);
   });
   s.append(svgEl('text',{x:16,y:745,'font-size':12,fill:'#203d50'},`${state.networkMembers==='all'?'Full frozen annotations':'Contrast-specific leading edges'} · ${contrasts[contrast]}`),svgEl('text',{x:16,y:767,'font-size':11,fill:'#203d50'},`Pairwise annotation overlap; no biological flux or temporal transitions. Jaccard display threshold ${threshold}.`));scroll.append(s);content.append(scroll);
-  exports.append(button('Download chord SVG',()=>downloadChord()));
+  exports.append(button('Download chord SVG',()=>downloadChord(),'secondary network-image-export'));
   function downloadChord(){const copy=s.cloneNode(true);copy.setAttribute('width','820');copy.setAttribute('height','780');copy.querySelectorAll('[role="button"]').forEach(n=>{n.removeAttribute('role');n.removeAttribute('tabindex');});themeScientificSVG(copy,plotPalette(root));save('pathway-overlap-chord.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');}
  }
  function drawGraph() {
@@ -207,8 +219,8 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
     'Annotation overlap only. Distances are arbitrary. DOI: 10.5281/zenodo.23283595'];
    caption.forEach((text,i)=>copy.append(svgEl('text',{x:16,y:794+i*22,'font-size':13,'font-family':'system-ui, sans-serif',fill:'#203d50'},text)));
    themeScientificSVG(copy,plotPalette(root));save('pathway-overlap.svg',new XMLSerializer().serializeToString(copy),'image/svg+xml');
-  }));
-  content.append(controls,scroll);scroll.append(svg);setZoom(1);
+  },'secondary network-image-export'));
+  viewOptions.append(controls);content.append(scroll);scroll.append(svg);setZoom(1);
  }
  root.refreshSelection=id=>{if(id)selectedPathway=id;highlight();};root.focusSelection=()=>{const selected=[...root.querySelectorAll('[data-network-pair],[data-network-node]')].find(n=>n.dataset.networkPair===state.edge||!state.edge&&n.dataset.networkNode===selectedPathway);selected?.focus();};
  highlight();return root;

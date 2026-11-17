@@ -97,6 +97,10 @@ try {
             exact: true,
           })
           .click();
+        await page
+          .locator(".download-confirmation")
+          .getByRole("button", { name: "Download", exact: true })
+          .click();
         const file = await download;
         assert.ok(file.suggestedFilename().endsWith(".csv"));
         await file.saveAs(`${output}/${width}-${dark}-${mode}.csv`);

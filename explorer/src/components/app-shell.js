@@ -1,3 +1,4 @@
+import { showInformation } from "./file-download.js";
 import { createAppProgress } from "./app-progress.js";
 import { beginActivity, afterPaint } from "./app-activity.js";
 import { createAnalysisLauncher } from "./analysis-launcher.js";
@@ -346,9 +347,10 @@ export function createAppShell({
           })
           .open();
       } catch {
-        app.dialog.alert(
-          "Your browser could not copy the link. Use Share or copy the address from the address bar.",
+        showInformation(
+          app,
           "Analysis link",
+          "Your browser could not copy the link. Use Share or copy the address from the address bar.",
         );
       }
     },
@@ -760,12 +762,14 @@ export function createAppShell({
     if (el === source) root.dataset.sourcesOpen = "true";
     el.dataset.shellModalReady = "false";
     if (
-      !el.matches(".popup,.sheet-modal,.popover,.panel,.analysis-morph-panel")
+      !el.matches(
+        ".popup,.sheet-modal,.popover,.panel,.analysis-morph-panel,.dialog",
+      )
     )
       return;
     if (el === panel && panel.classList.contains("panel-in-breakpoint")) return;
     returnFocus.set(el, document.activeElement);
-    el.setAttribute("role", "dialog");
+    el.setAttribute("role", el.matches(".dialog") ? "alertdialog" : "dialog");
     el.setAttribute("aria-modal", "true");
     for (const a of el.querySelectorAll("a:not([href])")) {
       a.setAttribute("role", "button");
@@ -780,11 +784,11 @@ export function createAppShell({
     if (!el.getAttribute("aria-label"))
       el.setAttribute(
         "aria-label",
-        el.querySelector(".title,.toolbar-inner strong")?.textContent ||
-          "Research options",
+        el.querySelector(".title,.toolbar-inner strong,.dialog-title")
+          ?.textContent || "Research options",
       );
     if (!modalStack.includes(el)) modalStack.push(el);
-    views.inert = true;
+    views.inert = !views.contains(el);
     root.dataset.modalOpen = "true";
     analysisLauncher.sync();
   }
@@ -870,7 +874,7 @@ export function createAppShell({
     }
   };
   document.addEventListener("keydown", onModalKeydown);
-  for (const type of ["panel", "popup", "sheet", "popover"]) {
+  for (const type of ["panel", "popup", "sheet", "popover", "dialog"]) {
     root.addEventListener(`${type}:open`, modalOpen);
     root.addEventListener(`${type}:opened`, modalOpened);
     root.addEventListener(`${type}:closed`, modalClosed);

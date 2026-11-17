@@ -15,6 +15,8 @@ const names = {
   menu: "line_horizontal_3",
   search: "search",
   controls: "slider_horizontal_3",
+  download: "arrow_down_to_line",
+  information: "info_circle",
   close: "xmark",
   back: "chevron_left",
   print: "printer",

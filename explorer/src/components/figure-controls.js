@@ -276,14 +276,15 @@ export function enhancePlots(scope) {
     host.dataset.figureContent = "";
     shell.append(toolbar, context, host);
     enhanceScrollbars(shell, host);
-    const scaleViewport = host.matches(".plot-viewport")
+    let scaleViewport = host.matches(".plot-viewport")
       ? host
       : host.querySelector(".plot-viewport");
-    if (scaleViewport) {
-      const graphic = scaleViewport.querySelector("svg");
+    if (scaleViewport || host.matches(".overlap-figure")) {
+      let graphic = scaleViewport?.querySelector("svg");
       const readable = button(
         "",
         () => {
+          if (!scaleViewport) return;
           const active = scaleViewport.classList.toggle("readable");
           readable.setAttribute("aria-pressed", String(active));
           readable.title = active ? "Fit figure" : "Read labels";
@@ -309,10 +310,22 @@ export function enhancePlots(scope) {
           return;
         }
         readable.hidden =
+          !scaleViewport ||
           scaleViewport.clientWidth >=
-          (graphic?.viewBox?.baseVal.width || 0) - 8;
+            (graphic?.viewBox?.baseVal.width || 0) - 8;
       });
-      resize.observe(scaleViewport);
+      if (scaleViewport) resize.observe(scaleViewport);
+      else readable.hidden = true;
+      host.addEventListener("figure:contentchange", () => {
+        resize.disconnect();
+        scaleViewport = host.querySelector(".plot-viewport");
+        graphic = scaleViewport?.querySelector("svg");
+        readable.setAttribute("aria-pressed", "false");
+        readable.title = "Read labels";
+        hint.hidden = true;
+        readable.hidden = !scaleViewport;
+        if (scaleViewport) resize.observe(scaleViewport);
+      });
     }
     if (requestName && exitName) pane.append(full);
   }

@@ -1,3 +1,4 @@
+import {downloadFile as download, downloadRemoteFile} from './file-download.js';
 import {trackActivity} from './app-activity.js';
 import {createNESDotPlot} from './synopsis-plots.js';
 import {uiIcon} from './icons.js';
@@ -16,7 +17,7 @@ function line(s,x1,y1,x2,y2,attrs={}){s.append(svgNode('line',{x1,y1,x2,y2,strok
 function button(t,fn,cls=''){const b=el('button',cls,t);b.type='button';b.onclick=fn;return b;}
 function icon(kind){if(kind!=='orcid')return uiIcon(kind);const s=svgNode('svg',{viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});s.append(svgNode('circle',{cx:12,cy:12,r:10,fill:'#a6ce39'}),svgNode('text',{x:12,y:16,'text-anchor':'middle',fill:'#fff','font-size':11,'font-weight':700},'iD'));return s;}
 function iconButton(textValue,kind,fn,cls){const b=button('',fn,cls);b.append(icon(kind),document.createTextNode(textValue));return b;}
-function download(filename,content,type='text/csv'){const url=URL.createObjectURL(new Blob([content],{type}));const a=el('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+
 function downloadButton(rows,name){return button('Download CSV',()=>download(name,csvText(rows)),'secondary');}
 function note(t){return el('p','note',t);}
 function heading(t,sub){const n=el('header','section-heading');n.append(el('h2','',t),el('p','',sub));return n;}
@@ -80,7 +81,7 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  }
  function cameraNotice(){
   const card=el('aside','method-card camera-qualification');card.append(el('h3','','Correlation-aware statistical support'),el('p','','The matrix presents the prespecified fgsea analysis. Post hoc limma-voom CAMERA retained upward OXPHOS direction at both days but gave q=0.587 at each day with estimated inter-gene correlation; none of its 15 tests passed q<0.05. The documented fixed correlation 0.01 yielded both q=5.84e-8. These settings change both variance inflation and the parametric reference distribution (4 versus 21,096 reference df); residual model df remains four. Statistical support is therefore sensitive to the inferential framework, rather than method-independent.'),el('p','','Full-set Bayesian expression-shift magnitude also remains uncertain, especially at Day 3. Three differentiation blocks from two genetic backgrounds and unknown control harvest composition limit biological generalizability and treatment attribution at either day.'));
-  for(const[t,u]of [['Complete CAMERA results','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_results.md'],['Download all 30 CAMERA tests','https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/tables/camera_sensitivity/all_tests.csv'],['Methods and runtime diagnostics','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_methods.md']]){const a=el('a','source-link',t+' ↗');a.href=u;a.target='_blank';a.rel='noopener';card.append(a);}body.append(card);
+  for(const[t,u]of [['Complete CAMERA results','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_results.md'],['Download all 30 CAMERA tests','https://raw.githubusercontent.com/psilocybin-research/psilocin-human-neuron-transcriptomics/main/tables/camera_sensitivity/all_tests.csv'],['Methods and runtime diagnostics','https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/reports/camera_sensitivity_methods.md']]){const a=el('a','source-link',t+' ↗');a.href=u;a.target='_blank';a.rel='noopener';if(t.startsWith('Download'))a.onclick=event=>{event.preventDefault();downloadRemoteFile(new URL(u).pathname.split('/').at(-1),u);};card.append(a);}body.append(card);
  }
  function sourceLogos(location){
   const logos=el('nav',`overview-source-logos ${location==='footer'?'footer-source-logos':''}`);logos.setAttribute('aria-label','Source study, data, archive and repository');

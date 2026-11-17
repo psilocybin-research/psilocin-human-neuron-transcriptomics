@@ -23,7 +23,8 @@
     "test:analysis-fab": "node test/analysis-fab-browser-check.mjs",
     "test:plot-coverage": "node test/plot-coverage-browser-check.mjs",
     "test:research-additions": "node test/research-additions-browser-check.mjs",
-    "test:progress": "node test/app-progress-browser-check.mjs"
+    "test:progress": "node test/app-progress-browser-check.mjs",
+    "test:downloads": "node test/download-confirmation-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",

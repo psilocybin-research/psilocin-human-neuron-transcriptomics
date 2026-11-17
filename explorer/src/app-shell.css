@@ -2119,6 +2119,12 @@ body {
   border-radius: 4px;
   padding: 4px;
 }
+#psilocin-app .research-sources .elife-logo {
+  min-width: 0;
+  padding-inline: 0;
+  object-fit: contain;
+  object-position: left center;
+}
 #psilocin-app .research-sources :is(.header-repository, .ui-license) {
   color: var(--research-accent);
 }
@@ -2994,6 +3000,7 @@ body {
       border-radius 250ms ease,
       opacity 180ms ease,
       translate 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      bottom 240ms ease,
       visibility 0s 240ms;
     --f7-fab-extended-size: 52px;
     --f7-fab-border-radius: 50%;
@@ -3429,10 +3436,10 @@ body {
 /* Native F7 progressbars: reading position above content, activity at the bottom. */
 #psilocin-app .app-reading-progress {
   position: absolute;
-  top: auto;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: auto;
   height: 2px;
   --f7-progressbar-progress-color: var(--research-accent);
   --f7-progressbar-bg-color: transparent;
@@ -3503,5 +3510,161 @@ body {
     background: var(--research-glass-solid);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+}
+
+/* Keep pathway display, search and membership controls on a common field grid. */
+#psilocin-app .pathway-explorer > .tree-toolbar {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: end;
+  gap: 16px;
+}
+#psilocin-app .tree-display-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--research-text);
+}
+#psilocin-app .tree-toolbar .tree-member-control {
+  grid-column: 1 / -1;
+}
+#psilocin-app .tree-toolbar .tree-view-toggle {
+  height: 44px;
+  box-sizing: border-box;
+  padding: 3px;
+  margin: 0;
+}
+#psilocin-app .tree-toolbar .tree-view-toggle .button {
+  min-height: 36px;
+}
+#psilocin-app .tree-toolbar .tree-search input {
+  height: 44px;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  #psilocin-app .pathway-explorer > .tree-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+#psilocin-app .research-message-dialog {
+  --f7-dialog-width: min(380px, calc(100vw - 32px));
+}
+#psilocin-app .research-message-dialog :is(.dialog-title, .dialog-button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+#psilocin-app .research-message-dialog .f7-icon-svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  fill: currentColor;
+}
+#psilocin-app .research-message-dialog .download-description {
+  margin: 12px 0 8px;
+}
+#psilocin-app .research-message-dialog .download-filename {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  padding: 12px;
+  margin: 0;
+  border-radius: 10px;
+  background: var(--research-selected);
+  color: var(--research-text);
+}
+#psilocin-app .overlap-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+}
+#psilocin-app .overlap-figure > .network-view-toggle {
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  margin: 0;
+}
+#psilocin-app
+  .figure-shell:is(:fullscreen, :-webkit-full-screen)
+  > .overlap-figure {
+  flex: 1;
+  overflow: auto;
+}
+@media print {
+  #psilocin-app .network-view-toggle {
+    display: none;
+  }
+}
+
+/* End-of-page return action; absent from the reading area until it is useful. */
+#psilocin-app .app-scroll-top {
+  position: absolute;
+  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 230;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 11px;
+  border: 1px solid color-mix(in srgb, var(--research-text) 26%, transparent);
+  color: var(--research-accent);
+  background: var(--f7-glass-bg-color);
+  box-shadow: none;
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 8px;
+  transition:
+    opacity 180ms ease,
+    translate 240ms ease,
+    visibility 0s 240ms;
+}
+#psilocin-app .app-scroll-top[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+#psilocin-app .app-scroll-top .f7-icon-svg {
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 1179px) {
+  #psilocin-app .app-scroll-top {
+    --f7-glass-bg-color: rgba(224, 239, 251, 0.64);
+    bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+  .dark #psilocin-app .app-scroll-top {
+    --f7-glass-bg-color: rgba(25, 45, 65, 0.68);
+  }
+  #psilocin-app[data-at-end="true"] .analysis-fab {
+    bottom: calc(146px + env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  #psilocin-app .app-scroll-top {
+    background: var(--research-glass-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media print {
+  #psilocin-app
+    :is(
+      .app-scroll-top,
+      .app-reading-progress,
+      .app-loading-progress,
+      .app-loading-status
+    ) {
+    display: none !important;
   }
 }
