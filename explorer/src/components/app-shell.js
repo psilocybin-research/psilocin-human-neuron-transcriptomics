@@ -127,7 +127,10 @@ export function createAppShell({
     nav.querySelector(":scope > ul").append(item);
     return button;
   }
-  utilityItem("Atlas tour", "information", openTour);
+  const tourItem = utilityItem("Atlas tour", "information", openTour);
+  nav
+    .querySelector('[data-section-item="overview"]')
+    .after(tourItem.parentElement);
   utilityItem("Sources & citation", "methods", () => {
     if (!panel.classList.contains("panel-in-breakpoint"))
       panelInstance?.close(false);

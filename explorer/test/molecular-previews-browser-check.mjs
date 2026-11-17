@@ -83,6 +83,19 @@ try {
       await page.locator(".gene-connection-confirmation").count(),
       0,
     );
+    assert.ok(
+      (await page
+        .locator(".gene-information-sheet")
+        .evaluate(
+          (sheet) =>
+            sheet.querySelector(".molecular-viewport").getBoundingClientRect()
+              .top -
+            sheet
+              .querySelector(".gene-information-content")
+              .getBoundingClientRect().top,
+        )) < 200,
+    );
+
     assert.deepEqual(errors, []);
     await page.close();
   }
@@ -92,6 +105,14 @@ try {
   await page.goto(base + "#view=landscape");
   await page.locator(".landscape-layout .gene-detail-identity").waitFor();
   assert.equal(await page.locator(".oxphos-context").count(), 0);
+  assert.equal(
+    await page
+      .locator("[data-section-item=overview] + li")
+      .getByRole("button", { name: "Atlas tour", exact: true })
+      .count(),
+    1,
+  );
+
   for (const title of ["Atlas tour", "Sources & citation", "Install app"])
     assert.equal(
       await page

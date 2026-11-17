@@ -163,7 +163,7 @@ function structureOption(parent, model, predicted = false, authorize) {
   });
   load.dataset.openStructure = "true";
   load.dataset.offlineAvailable = String(Boolean(model.offlineAvailable));
-  row.append(load, viewport);
+  row.firstElementChild.after(load, viewport);
   parent.append(row);
 }
 function proteinCard(
@@ -207,8 +207,8 @@ function proteinCard(
       ),
     );
     if (!structures) {
+      body.prepend(featurePlot(protein));
       body.append(
-        featurePlot(protein),
         link(
           "InterPro domain families ↗",
           `https://www.ebi.ac.uk/interpro/protein/uniprot/${protein.accession}/`,
@@ -376,6 +376,11 @@ export async function proteinContext(
         "The provider returned the first 25 matches. This list may be incomplete; use the full UniProt source query.",
       ),
     );
+  const provenance = createAccordion(
+    "Source and mapping details",
+    "protein-provenance",
+  );
+  if (result.proteins.length) provenance.body.append(...root.childNodes);
   const access = el("section", "protein-structure-access");
   access.tabIndex = -1;
   access.append(el("h4", "", "3D structures"));
@@ -410,7 +415,7 @@ export async function proteinContext(
             ),
           ),
         );
-        root.append(access);
+        root.append(access, provenance.element);
         return root;
       }
       if (preferredModel.provider === "AlphaFold") {
@@ -508,7 +513,9 @@ export async function proteinContext(
     root.append(
       proteinCard(protein, result, {
         structures,
-        opened: reviewed.length === 1 && (!structures || !available.length),
+        opened: !structures
+          ? protein === reviewed[0]
+          : reviewed.length === 1 && !available.length,
       }),
     );
   if (unreviewed.length) {
@@ -541,10 +548,11 @@ export async function proteinContext(
     );
     root.append(additional.element);
   }
-  root.append(
+  provenance.body.append(
     link("Full UniProt source query ↗", result.source),
     el("p", "note", `Retrieved ${result.retrievedAt}.`),
   );
+  root.append(provenance.element);
   requestAnimationFrame(() => enhancePlots(root));
   return root;
 }

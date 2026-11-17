@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1148,
-  "total_bytes": 593731238,
+  "total_bytes": 593732482,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3324,8 +3324,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 43251,
-      "sha256": "2a0c9f68771386fddd9b96ae664b804c11fe1b9bebb115a0d0edc4886b00b896"
+      "bytes": 43363,
+      "sha256": "b480bf97c160fd1ddb4af1e9d3fa18c0a8435c2f0329dc148287f46d2d7e0e99"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3389,8 +3389,8 @@
     },
     {
       "path": "explorer/src/components/gene-annotation.js",
-      "bytes": 15852,
-      "sha256": "b1410d69a6db1a2c1ec23baca1bbb42d2582b45aa0ded7a6ab6f35c016d34491"
+      "bytes": 15853,
+      "sha256": "3f09ecdb456963bbae9c18fff72ac56766a6a27df10837de9e73407027719c2e"
     },
     {
       "path": "explorer/src/components/gene-diagnostics.js",
@@ -3469,8 +3469,8 @@
     },
     {
       "path": "explorer/src/components/protein-context.js",
-      "bytes": 18084,
-      "sha256": "f7257503d0557ad4e7c32be5bbcbbe5966e761d0435b51b856910d2667273ee0"
+      "bytes": 18399,
+      "sha256": "7db58594b001595d4cef7f2f1d04a881a7c17df98429ad5516785e1d6d9a17ef"
     },
     {
       "path": "explorer/src/components/protein-data.js",
@@ -3629,8 +3629,8 @@
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
-      "bytes": 4010,
-      "sha256": "bc8485febf75ef040adfebd52ffa4a0b5161eefdb1f70b6fc03c5b3a1f80a6f9"
+      "bytes": 4549,
+      "sha256": "87eebd44949ad13533de30a0a69acd83363d8d56abfc8ce6ab87f3854fd576ce"
     },
     {
       "path": "explorer/test/molecular-previews.test.js",
@@ -3694,8 +3694,8 @@
     },
     {
       "path": "explorer/test/protein-context-browser-check.mjs",
-      "bytes": 10678,
-      "sha256": "dd4b3a508b4a2cbfbd1a20c4c0df9fb9642a595f47b6d987eb557496916a1604"
+      "bytes": 10955,
+      "sha256": "3d5f549811ede7c9320254a50581acedd48039d3ab94d49f97f5b68e0dd61d14"
     },
     {
       "path": "explorer/test/protein-data.test.js",

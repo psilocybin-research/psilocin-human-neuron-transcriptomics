@@ -305,7 +305,7 @@ export function geneAnnotation(gene) {
         };
       }
       navigation.append(el("span", "segmented-highlight"));
-      content.append(tabs);
+      content.prepend(tabs);
       sheet.append(handle, header, navigation, content);
       const container =
         document.fullscreenElement || document.webkitFullscreenElement || root;

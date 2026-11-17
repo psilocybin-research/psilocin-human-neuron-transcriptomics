@@ -177,6 +177,8 @@ try {
       .getByRole("tab", { name: "Protein features", exact: true })
       .click();
     await page.locator(".protein-features svg[data-plot-renderer]").waitFor();
+    assert.ok(await page.locator('.gene-information-pane:not([hidden]) .protein-features').evaluate(plot => plot.getBoundingClientRect().top - plot.closest('.gene-information-content').getBoundingClientRect().top) < 200, 'Protein feature plot opens at the top of its sheet');
+
     assert.equal(
       await page
         .getByRole("tab", { name: "Protein features", exact: true })
