@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 487,
-  "total_bytes": 252569516,
+  "total_bytes": 252569565,
   "status": "pass",
   "failures": [],
   "files": [
@@ -334,8 +334,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 78300,
-      "sha256": "e72e6d98488c1138f4359e5868abd0c8c7bbf00e93c2dd85ec01b60c5147d731"
+      "bytes": 78349,
+      "sha256": "726f61dc24e888fffe5a7836761bb6670b87ca24c7c0a0c2ffbbdbb6b93b489e"
     },
     {
       "path": "explorer/src/components/comparative-views.js",
