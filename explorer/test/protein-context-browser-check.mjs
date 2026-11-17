@@ -109,8 +109,18 @@ try {
       r.fulfill({ body: cif, contentType: "text/plain" }),
     );
     await page.goto(base + "#view=genes&gene=GPX4");
-    await page.locator(".gene-annotation-toggle").first().waitFor();
+    await page
+      .getByRole("button", { name: "Find 3D structures", exact: true })
+      .waitFor();
     assert.equal(requests, 0);
+    if (width < 851) {
+      await page
+        .getByRole("button", { name: "View evidence", exact: true })
+        .click();
+      await page
+        .locator(".research-evidence-sheet[data-shell-modal-ready=true]")
+        .waitFor();
+    }
     assert.equal(
       await page.evaluate(() =>
         performance
@@ -120,24 +130,30 @@ try {
       false,
       "molecular runtime absent at startup",
     );
-    await page.locator(".gene-annotation-toggle").first().click();
     await page
-      .getByRole("button", { name: "Explore protein domains and structures" })
+      .getByRole("button", { name: "Find 3D structures", exact: true })
       .click();
     await page.locator(".protein-record").first().waitFor();
     assert.equal(requests, 1);
+    await page
+      .locator(".protein-structure-access [data-open-structure]")
+      .waitFor();
     assert.equal(
       await page.locator(".protein-features svg").count(),
       0,
       "tracks stay lazy until protein opens",
     );
     await page
-      .locator(".protein-record .gene-annotation-toggle")
-      .first()
+      .getByRole("tab", { name: "Protein features", exact: true })
       .click();
     await page.locator(".protein-features svg[data-plot-renderer]").waitFor();
+    assert.equal(await page.getByRole('tab',{name:'Protein features',exact:true}).getAttribute('aria-selected'),'true');
+    await page.screenshot({ path: `/tmp/atlas-protein-sheet-${width}.png` });
     await page
-      .getByRole("button", { name: "Download public protein context JSON" })
+      .getByRole("button", {
+        name: "Download public protein context JSON",
+        exact: true,
+      })
       .click();
     const dialog = page.locator(".download-confirmation");
     await dialog.waitFor();
@@ -153,6 +169,9 @@ try {
     assert.equal(exported.provider, "UniProt");
     assert.equal(exported.protein.accession, "P36969");
     assert.ok(exported.retrieved_utc);
+    await page.getByRole("tab", { name: "3D structures", exact: true }).click();
+    assert.equal(await page.getByRole('tab',{name:'3D structures',exact:true}).getAttribute('aria-selected'),'true');
+    assert.equal(requests, 1, "protein mapping shared across tabs");
     await page
       .getByRole("button", { name: "Open 3D structure", exact: true })
       .first()
@@ -166,7 +185,9 @@ try {
       (await page.request.get(new URL(notices, page.url()).href)).status(),
       200,
     );
-    const figure = page.locator(".molecular-viewport").locator("..");
+    const figure = page
+      .locator(".molecular-viewport[data-structure-rendered=true]")
+      .locator("..");
     assert.equal(
       await figure
         .locator(".figure-toolbar button")
@@ -174,17 +195,49 @@ try {
         .evaluate((n) => n.classList.contains("figure-fullscreen")),
       true,
     );
+    const fullscreen = figure.locator(".figure-fullscreen");
+    assert.equal(await fullscreen.innerText(), "Fullscreen");
+    const before = await page.locator(".molecular-stage").boundingBox();
+    await fullscreen.click();
+    await page.waitForFunction(() => Boolean(document.fullscreenElement));
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".molecular-stage").getBoundingClientRect()
+          .height >=
+        innerHeight - 252,
+    );
+    assert.ok(
+      (await page.locator(".molecular-stage").boundingBox()).height >
+        before.height,
+    );
+    await page.screenshot({ path: `/tmp/atlas-3d-fullscreen-${width}.png` });
+    await fullscreen.click();
+    await page.waitForFunction(() => !document.fullscreenElement);
+    await page
+      .locator(
+        ".gene-information-pane.tab-active .protein-record .gene-annotation-toggle",
+      )
+      .first()
+      .click();
     await page
       .getByRole("button", { name: "Find sequence-matched AlphaFold models" })
       .click();
-    await page.locator(".protein-predictions .protein-model-option").waitFor();
+    await page
+      .locator(
+        ".gene-information-pane.tab-active .protein-predictions .protein-model-option",
+      )
+      .waitFor();
     assert.equal(
-      await page.locator(".protein-predictions .protein-model-option").count(),
+      await page
+        .locator(
+          ".gene-information-pane.tab-active .protein-predictions .protein-model-option",
+        )
+        .count(),
       1,
       "mismatched model excluded",
     );
     await page
-      .locator(".protein-predictions")
+      .locator(".gene-information-pane.tab-active .protein-predictions")
       .getByRole("button", { name: "Open 3D structure", exact: true })
       .click();
     await page
@@ -196,9 +249,11 @@ try {
       "only one active WebGL structure",
     );
     assert.ok(
-      (await page.locator(".protein-predictions").innerText()).includes(
-        "local pLDDT",
-      ),
+      (
+        await page
+          .locator(".gene-information-pane.tab-active .protein-predictions")
+          .innerText()
+      ).includes("local pLDDT"),
     );
     await page
       .getByRole("button", { name: "Close structure", exact: true })
@@ -206,6 +261,25 @@ try {
     await page.waitForFunction(
       () => !document.querySelector(".molecular-stage"),
     );
+    assert.equal(await page.locator(".molecular-stage canvas").count(), 0);
+    await page
+      .locator(".gene-information-sheet")
+      .getByRole("button", { name: "Done", exact: true })
+      .click();
+    await page
+      .locator(".gene-information-sheet")
+      .waitFor({ state: "detached" });
+    if (width < 851) {
+      const evidence = page.locator(
+        ".research-evidence-sheet:not(.gene-information-sheet)",
+      );
+      assert.equal(
+        await evidence.isVisible(),
+        true,
+        "public info returns to existing gene evidence",
+      );
+      await evidence.getByRole("button", { name: "Done", exact: true }).click();
+    }
     assert.equal(await page.locator(".molecular-stage canvas").count(), 0);
     assert.deepEqual(errors, []);
     await page.close();

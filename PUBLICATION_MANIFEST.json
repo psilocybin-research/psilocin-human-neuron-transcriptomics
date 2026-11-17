@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 550,
-  "total_bytes": 253020293,
+  "total_bytes": 253032692,
   "status": "pass",
   "failures": [],
   "files": [
@@ -244,8 +244,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 8575,
-      "sha256": "dbef86b36fb00557e97581d59b32d6b169de52a139c4a7acd159d3c92c597c7d"
+      "bytes": 8731,
+      "sha256": "9d18bcda4c73f2761f8d91a6d805596fd762c6a8fc38faac5097f599b6b3e605"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -274,8 +274,8 @@
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
-      "bytes": 1246,
-      "sha256": "4069bd901a73b7ba7b6c765fc38913846728056f0852723d6872e1d94ccd4ed0"
+      "bytes": 1298,
+      "sha256": "ea3eb6bc9e47392ac7e85b7c70b672746576802ad19f60f8f6daa684491d3f6d"
     },
     {
       "path": "explorer/scripts/observable-plot-entry.js",
@@ -304,8 +304,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 99761,
-      "sha256": "2e4f552685e6e9b4c39525b2a180305175b321c9c10292c4e27dc17ed38ca20d"
+      "bytes": 102637,
+      "sha256": "12d96738add1652f5691664894f3c700856ba98f8224431ef33f338a8c2a2fa2"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 98278,
-      "sha256": "67b6b590eaab41115fe038902aa7acf1e645b1e19443949d6e65bd987ca126fe"
+      "bytes": 98337,
+      "sha256": "a465cd8a5590e0ea3a3bd8ef74c44abd73691c238a7c2cac7a3f4bed8d0fee30"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -414,8 +414,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 13833,
-      "sha256": "be81b559509240c7d81e9138698b3981aeceea0fbef0d19d08f2cadc16391e93"
+      "bytes": 14112,
+      "sha256": "319a282d811a9b072f43a292c400ae4e44f3c8f91c79e7f55c699b2e845fae60"
     },
     {
       "path": "explorer/src/components/file-download.js",
@@ -434,8 +434,8 @@
     },
     {
       "path": "explorer/src/components/gene-annotation.js",
-      "bytes": 4627,
-      "sha256": "08965f08815452c16116736aefa7d3392e37bf6006837ac7b5c423f406cf7269"
+      "bytes": 8956,
+      "sha256": "61c6610b579160650bf72702e5af9eabe1426eb958a7c5ca93a02c0fc2f8e0da"
     },
     {
       "path": "explorer/src/components/gene-diagnostics.js",
@@ -509,8 +509,8 @@
     },
     {
       "path": "explorer/src/components/protein-context.js",
-      "bytes": 11492,
-      "sha256": "68efdf413a992000f44bbb6b5df73bb393f2afef5d96dc94d3c57f122fb090ea"
+      "bytes": 13387,
+      "sha256": "457c6be723f0f117edd6e3e883787776fb502de88bfaffaded46127c8cb2639d"
     },
     {
       "path": "explorer/src/components/protein-data.js",
@@ -564,8 +564,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 48584,
-      "sha256": "df065939eb608f67dc4df49f5a2ad0267a298d9e2a40f8feeb74b5be70ee9a18"
+      "bytes": 48245,
+      "sha256": "38d7adb07c761180536142eb5fb384625708c2cc04ed039c21319fd5d4870a78"
     },
     {
       "path": "explorer/test/analysis-fab-browser-check.mjs",
@@ -634,8 +634,8 @@
     },
     {
       "path": "explorer/test/gene-annotation-browser-check.mjs",
-      "bytes": 4498,
-      "sha256": "3948b6c91f97b94c712324e98060c710b7068171df3a351899d87e7ad26654e4"
+      "bytes": 4944,
+      "sha256": "bb33c40f71788ba84a26b7a507d217c22f79624c01f4a652c400f61f1c2441a7"
     },
     {
       "path": "explorer/test/gene-annotation.test.js",
@@ -699,8 +699,8 @@
     },
     {
       "path": "explorer/test/plot-system-browser-check.mjs",
-      "bytes": 8290,
-      "sha256": "9b0ad4a4b336e945584544a3738d2d626f9ccccae0d2383f028557f3a3d30580"
+      "bytes": 8283,
+      "sha256": "1473b2bcf105e8793903c38acad3b8f920fbb07254cf7af4b88bbac1e2db609b"
     },
     {
       "path": "explorer/test/plot-theme-browser-check.mjs",
@@ -714,8 +714,8 @@
     },
     {
       "path": "explorer/test/protein-context-browser-check.mjs",
-      "bytes": 6935,
-      "sha256": "2c239568b4f3c7f58dfbac8e73ad65b35f35fb106fd3db246deb641abd098ed8"
+      "bytes": 9588,
+      "sha256": "818544a582d53891c83be5c17b3918e716cd1f4ad1cf7824f1b901576c4a43dd"
     },
     {
       "path": "explorer/test/protein-data.test.js",

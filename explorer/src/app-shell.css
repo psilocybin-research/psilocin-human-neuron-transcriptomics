@@ -3888,7 +3888,7 @@ body {
   flex-direction: column;
 }
 #psilocin-app .research-evidence-sheet:is(.modal-in, .modal-out) {
-  display: flex;
+  display: flex !important;
 }
 #psilocin-app .evidence-sheet-header {
   display: flex;
@@ -3996,11 +3996,6 @@ body {
 }
 
 /* External context is an optional disclosure shared by every gene-evidence view. */
-#psilocin-app .gene-annotation {
-  margin-top: 20px;
-  border-top: 1px solid var(--research-border);
-  padding-top: 12px;
-}
 #psilocin-app .gene-annotation-toggle {
   cursor: pointer;
   color: var(--research-accent);
@@ -4126,4 +4121,121 @@ body {
 #psilocin-app .comparison-context {
   border-radius: 12px;
   margin-block: 14px;
+}
+
+#psilocin-app .gene-context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#psilocin-app .protein-structure-access {
+  padding: 14px;
+  border: 1px solid var(--research-border);
+  border-radius: 12px;
+  background: var(--research-surface);
+}
+#psilocin-app .figure-fullscreen-labelled {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  padding-inline: 10px;
+}
+#psilocin-app .figure-fullscreen-labelled span {
+  font-size: 12px;
+}
+#psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) {
+  display: flex;
+  flex-direction: column;
+}
+#psilocin-app .figure-shell:is(:fullscreen, :-webkit-full-screen) > .molecular-viewport {
+  width: 100%;
+}
+#psilocin-app .figure-shell:is(:fullscreen, :-webkit-full-screen) > .molecular-viewport .molecular-stage {
+  height: max(260px, calc(100dvh - 250px));
+}
+
+#psilocin-app .gene-information-sheet.gene-annotation {
+  margin: 0;
+  border: 0;
+  padding-top: env(safe-area-inset-top);
+}
+#psilocin-app .gene-information-identity {
+  min-width: 0;
+}
+#psilocin-app .gene-information-identity .identifier {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+  color: var(--research-muted);
+}
+#psilocin-app .gene-information-tabs {
+  flex: none;
+  width: min(760px, calc(100% - 32px));
+  margin: 12px auto;
+}
+#psilocin-app .gene-information-tabs .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  height: auto;
+  line-height: 1.3;
+  white-space: normal;
+  padding: 8px;
+}
+#psilocin-app .gene-information-tabs svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+#psilocin-app .gene-information-content .gene-information-pane {
+  min-width: 0;
+}
+#psilocin-app .gene-information-pane > .protein-context {
+  max-width: none;
+}
+#psilocin-app .gene-information-scope {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--research-surface-high);
+}
+#psilocin-app .gene-information-pane .gene-annotation-fields {
+  margin-top: 20px;
+}
+#psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) > .figure-toolbar {
+  align-self: flex-end;
+}
+@media (max-width: 500px) {
+  #psilocin-app .gene-information-tabs .button {
+    flex-direction: column;
+    font-size: 12px;
+  }
+}
+#psilocin-app .gene-context-actions > .button {
+  margin: 0 0 12px;
+  padding-inline: 10px;
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #psilocin-app .gene-information-tabs .segmented-highlight {
+    transition: none;
+  }
+}
+#psilocin-app .gene-information-pane .list,
+#psilocin-app .gene-information-pane .list > ul {
+  width: 100%;
+  max-width: none;
+}
+#psilocin-app .gene-information-tabs [aria-selected="true"] {
+  color: var(--research-accent);
+  font-weight: 600;
+}
+#psilocin-app .gene-information-tabs [aria-selected="false"] {
+  color: var(--research-text);
+  font-weight: 400;
+}
+#psilocin-app .gene-information-pane .gene-annotation-body > .button {
+  justify-self: start;
+  width: auto;
 }

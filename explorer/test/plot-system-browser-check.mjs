@@ -239,7 +239,7 @@ try {
         exact: true,
       })
       .click();
-    await page.locator(".gene-annotation .accordion-item-opened").waitFor();
+    await page.locator(".gene-information-sheet.modal-in").waitFor();
     await page.close();
   }
   assert.deepEqual(errors, []);

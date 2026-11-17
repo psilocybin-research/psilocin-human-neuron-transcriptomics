@@ -249,6 +249,10 @@ export function enhancePlots(scope, { nested = false } = {}) {
       "figure-fullscreen",
     );
     full.append(icon("fullscreen"));
+    if (host.dataset.fullscreenLabel) {
+      full.classList.add("figure-fullscreen-labelled");
+      full.append(el("span", "", host.dataset.fullscreenLabel));
+    }
     const print = button("", () => printFigure(shell, title), "figure-print");
     print.append(icon("print"));
     full.setAttribute("aria-label", `View ${title} in full screen`);
@@ -267,6 +271,8 @@ export function enhancePlots(scope, { nested = false } = {}) {
       full.classList.toggle("figure-fullscreen-exit", active);
       full.replaceChildren(icon(active ? "close" : "fullscreen"));
       if (active) full.append(el("span", "", "Close"));
+      else if (host.dataset.fullscreenLabel)
+        full.append(el("span", "", host.dataset.fullscreenLabel));
     };
     shell.addEventListener("fullscreenchange", update);
     shell.addEventListener("webkitfullscreenchange", update);

@@ -1239,26 +1239,27 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       return;
     }
     container.append(el("p", "identifier", gene.id));
-    const publicContext = geneAnnotation(gene);
+    const information = geneAnnotation(gene);
     const contextShortcut = iconButton(
-      "View public gene and protein context",
+      "Gene & protein info",
       "information",
-      () => {
-        const item = publicContext.querySelector(".accordion-item");
-        root.f7?.accordion.open(item);
-        publicContext.scrollIntoView({
-          block: "start",
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "instant"
-            : "smooth",
-        });
-        publicContext
-          .querySelector(".gene-annotation-toggle")
-          ?.focus({ preventScroll: true });
-      },
+      () => information.open("gene"),
       "button button-tonal labelled-icon-action gene-context-shortcut",
     );
-    container.append(contextShortcut);
+    contextShortcut.setAttribute(
+      "aria-label",
+      "View public gene and protein context",
+    );
+    const structureShortcut = iconButton(
+      "3D structures",
+      "landscape",
+      () => information.open("structures"),
+      "button button-tonal labelled-icon-action gene-context-shortcut",
+    );
+    structureShortcut.setAttribute("aria-label", "Find 3D structures");
+    const contextActions = el("div", "gene-context-actions");
+    contextActions.append(contextShortcut, structureShortcut);
+    container.append(contextActions);
     const info = landscapeMap.get(gene.symbol);
     if (info)
       container.append(
@@ -1404,7 +1405,6 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "Intervals use the archived unshrunken coefficient ±1.96 × SE. Gene FDR is distinct from pathway-family q. Three blocks limit generalization.",
       ),
       downloadButton(effects, `${gene.symbol}-model-estimates.csv`),
-      publicContext,
     );
     enhancePlots(container);
   }
