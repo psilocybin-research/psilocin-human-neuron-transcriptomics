@@ -51,14 +51,23 @@ export function createAnnotationClient({
   fetcher = (...args) => fetch(...args),
   now = () => new Date(),
   timeout = 10000,
+  localLookup,
 } = {}) {
   const cache = new Map();
   return {
-    lookup(id) {
+    lookup(id, {live = false} = {}) {
       const identity = ensemblIdentity(id);
-      if (cache.has(identity.stableId)) return cache.get(identity.stableId);
+      const key = `${identity.stableId}:${live}`;
+      if (cache.has(key)) return cache.get(key);
       const source = `${server}/lookup/id/${identity.stableId}?content-type=application/json`;
       const request = (async () => {
+        if (!live && localLookup) {
+          const local = await localLookup(id);
+          if (local) {
+            if (!local.gene) throw new Error(`This archived ID has no current Ensembl gene record in the local snapshot (${local.metadata.retrievedAt}). It may have been retired; archived results remain unchanged.`);
+            return {...local.gene, snapshot: true};
+          }
+        }
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeout);
         try {
@@ -79,7 +88,7 @@ export function createAnnotationClient({
           );
           return { ...annotation, source, retrievedAt: now().toISOString() };
         } catch (error) {
-          cache.delete(identity.stableId);
+          cache.delete(key);
           if (error.name === "AbortError")
             throw new Error(
               "Ensembl did not respond in time. Try again later.",
@@ -88,8 +97,8 @@ export function createAnnotationClient({
         } finally {
           clearTimeout(timer);
         }
-      })();
-      cache.set(identity.stableId, request);
+      })().catch(error => { cache.delete(key); throw error; });
+      cache.set(key, request);
       if (cache.size > 100) cache.delete(cache.keys().next().value);
       return request;
     },

@@ -25,3 +25,9 @@ Python, R, Bioconductor, Observable Framework and other dependencies retain thei
 The header uses unmodified official eLife artwork from <https://elifesciences.org/resources> and the blue Zenodo icon from <https://about.zenodo.org/#icon> to link to the original article and software archive. eLife is displayed at its recommended minimum web width of 80 pixels. Marks remain the property of eLife Sciences Publications Ltd and CERN; see `LICENSES/LicenseRef-Publisher-Branding.txt`. Their appearance identifies the linked resources and does not imply endorsement.
 
 The source-data link uses the official, unmodified Dryad logo from <https://datadryad.org/>. Dryad permits informational logo use under <https://datadryad.org/terms>; no endorsement or affiliation is implied.
+
+## Dated public molecular context
+
+Ensembl / EMBL-EBI gene descriptions, genomic coordinates and biotypes follow [Ensembl data-use terms](https://www.ensembl.org/info/about/legal/disclaimer.html); source-description attributions are retained. [UniProt Consortium annotations](https://www.uniprot.org/help/license) and [AlphaFold DB predictions](https://alphafold.ebi.ac.uk/faq) are CC BY 4.0. [PDB coordinate models](https://www.rcsb.org/pages/policies) are CC0 1.0, with original deposit citations retained in their files. No experimental estimates are replaced by these annotations.
+
+Exact queries, retrieval timestamps, provider releases where supplied, and coordinate SHA-256 identities are recorded in `explorer/src/assets/public-context/index.json`. `previews.json` identifies the coordinate source, mapped accession, sequence version, rendered chains and licence for each generated OXPHOS preview. AlphaFold previews use exact canonical sequence matches and local pLDDT colours; PDB previews isolate mapped chains and use sequence-position colours. These are structural context, not measurements of protein abundance, activity or a psilocin response.

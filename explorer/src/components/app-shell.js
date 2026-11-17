@@ -1,3 +1,6 @@
+import { genePreviewMarkup } from "./structure-preview.js";
+import { createResearchTables } from "./research-tables.js";
+import { createPwa } from "./app-pwa.js";
 import { showToast } from "./app-toast.js";
 import { createEvidenceSheet } from "./evidence-sheet.js";
 import { analysisOptions } from "./analysis-options.js";
@@ -80,6 +83,8 @@ export function createAppShell({
     "Human-neuron transcriptomics",
   );
   let app,
+    pwa,
+    researchTables,
     view,
     panelInstance,
     controlsSheet,
@@ -110,16 +115,27 @@ export function createAppShell({
   nav.setAttribute("aria-label", "Explorer sections");
   const navigation = createResearchNavigation({ nav, tabs, initial });
 
-  const sidebarFoot = node("div", "sidebar-footer");
-  sidebarFoot.append(
-    action("Atlas tour", openTour, "button button-tonal"),
-    action(
-      "Sources & citation",
-      () => sourcePopup?.open(!reduced()),
-      "button button-tonal",
-    ),
-  );
-  panel.append(sidebarHead, sidebarSub, nav, sidebarFoot);
+  function utilityItem(text, icon, handler) {
+    const item = node("li", "sidebar-utility-item");
+    const button = action("", handler, "item-link item-content");
+    const media = node("span", "item-media");
+    media.append(uiIcon(icon));
+    const inner = node("span", "item-inner");
+    inner.append(node("span", "item-title", text));
+    button.append(media, inner);
+    item.append(button);
+    nav.querySelector(":scope > ul").append(item);
+    return button;
+  }
+  utilityItem("Atlas tour", "information", openTour);
+  utilityItem("Sources & citation", "methods", () => {
+    if (!panel.classList.contains("panel-in-breakpoint"))
+      panelInstance?.close(false);
+    sourcePopup?.open(!reduced());
+  });
+  const installButton = utilityItem("Install app", "download", () => {});
+  installButton.disabled = true;
+  panel.append(sidebarHead, sidebarSub, nav);
   const views = node("div", "views research-views"),
     main = node("div", "view view-main research-main"),
     page = node("div", "page page-current research-page");
@@ -716,7 +732,7 @@ export function createAppShell({
       b.dataset.scienceButton = "";
       if (
         !b.matches(
-          ".matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene,.gene-annotation-toggle",
+          ".gene-structure-action,.table-sort-button,.matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene,.gene-annotation-toggle",
         )
       ) {
         b.classList.add("button");
@@ -1031,6 +1047,8 @@ export function createAppShell({
       view: { browserHistory: false },
     });
     view = app.views.create(main, { router: false });
+    pwa = createPwa({ root, app, installButton });
+    researchTables = createResearchTables({ root, app });
     panelInstance = app.panel.create({
       el: panel,
       visibleBreakpoint: 1180,
@@ -1098,7 +1116,7 @@ export function createAppShell({
       limit: 100,
       renderItem(item) {
         const parts = item.text.split(" · ");
-        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i><div class="item-inner"><div class="item-title"><strong>${escapeHTML(parts[0])}</strong></div><div class="item-subtitle gene-finder-id">${escapeHTML(parts[1] || "")}</div>${parts.length > 2 ? `<div class="item-text">${escapeHTML(parts.slice(2).join(" · "))}</div>` : ""}</div></label></li>`;
+        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${genePreviewMarkup({ id: parts[1] || "" }) ? `<div class="item-media">${genePreviewMarkup({ id: parts[1] })}</div>` : ""}<div class="item-inner"><div class="item-title"><strong>${escapeHTML(parts[0])}</strong></div><div class="item-subtitle gene-finder-id">${escapeHTML(parts[1] || "")}</div>${parts.length > 2 ? `<div class="item-text">${escapeHTML(parts.slice(2).join(" · "))}</div>` : ""}</div></label></li>`;
       },
       notFoundText: "No matching filtered gene. Absence is not a null result.",
       source(query, render) {
@@ -1220,6 +1238,8 @@ export function createAppShell({
       closeControls();
     },
     destroy() {
+      pwa?.destroy();
+      researchTables?.destroy();
       evidenceSheet.destroy();
       disposed = true;
       finishRendering?.();

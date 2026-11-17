@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "observable preview --host 127.0.0.1",
-    "build": "observable build && node scripts/prepare-site.mjs",
+    "build": "observable build && node scripts/prepare-site.mjs && node scripts/prepare-offline.mjs",
     "test": "node --test test/*.test.js",
     "test:browser": "node test/browser-check.mjs",
     "test:print": "node test/print-check.mjs",
@@ -31,7 +31,10 @@
     "test:choices": "node test/smart-select-browser-check.mjs",
     "test:layout": "node test/plot-layout-browser-check.mjs",
     "test:annotations": "node test/gene-annotation-browser-check.mjs",
-    "test:proteins": "node test/protein-context-browser-check.mjs"
+    "test:proteins": "node test/protein-context-browser-check.mjs",
+    "test:pwa": "node test/pwa-browser-check.mjs",
+    "test:tables": "node test/research-tables-browser-check.mjs",
+    "test:molecular-previews": "node test/molecular-previews-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",

@@ -17,6 +17,7 @@ import Range from 'framework7/components/range';
 import Card from 'framework7/components/card';
 import Fab from 'framework7/components/fab';
 import Progressbar from 'framework7/components/progressbar';
+import DataTable from 'framework7/components/data-table';
 import Tabs from 'framework7/components/tabs';
-Framework7.use([TouchHighlight,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card,Fab,Progressbar,Tabs]);
+Framework7.use([TouchHighlight,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card,Fab,Progressbar,DataTable,Tabs]);
 export default Framework7;

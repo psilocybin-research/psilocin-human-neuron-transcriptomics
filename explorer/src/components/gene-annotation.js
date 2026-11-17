@@ -1,3 +1,4 @@
+import { loadLocalContext } from "./local-public-context.js";
 import {
   createElement as el,
   loadingMessage,
@@ -13,7 +14,7 @@ import {
 import { trackActivity } from "./app-activity.js";
 import { uiIcon } from "./icons.js";
 import { enhancePlots } from "./figure-controls.js";
-const client = createAnnotationClient();
+const client = createAnnotationClient({ localLookup: loadLocalContext });
 let sequence = 0,
   active;
 function sourceLink(text, href) {
@@ -23,8 +24,8 @@ function sourceLink(text, href) {
   link.rel = "noopener noreferrer";
   return link;
 }
-async function annotation(gene) {
-  const record = await client.lookup(gene.id),
+async function annotation(gene, { live = false } = {}) {
+  const record = await client.lookup(gene.id, { live }),
     identity = ensemblIdentity(gene.id);
   const result = el("section", "gene-annotation-result"),
     fields = el("dl", "gene-annotation-fields");
@@ -42,7 +43,7 @@ async function annotation(gene) {
     ["Coordinates", record.location],
     ["Strand", record.strand],
     [
-      "Current gene version",
+      "Gene version at retrieval",
       record.version === null
         ? "Not supplied"
         : `${record.id}.${record.version}`,
@@ -51,6 +52,15 @@ async function annotation(gene) {
     ["Retrieved (UTC)", record.retrievedAt],
   ])
     fields.append(el("dt", "", name), el("dd", "", String(value)));
+  result.append(
+    el(
+      "p",
+      "note",
+      record.snapshot
+        ? "Dated local Ensembl snapshot · available offline. Source descriptions and attribution are retained; this is external context, not an experimental result."
+        : "Live Ensembl response · external context.",
+    ),
+  );
   result.append(fields, sourceLink("Ensembl API source ↗", record.source));
   if (
     identity.archivedVersion !== null &&
@@ -178,15 +188,16 @@ function confirmConnection(app, gene) {
 // Public information has its own native F7 sheet; archived evidence stays in place.
 export function geneAnnotation(gene) {
   return {
-    async open(initial = "gene") {
+    async open(initial = "gene", preferredModel) {
       const root = document.querySelector("#psilocin-app"),
         app = root?.f7;
       if (!app) return;
-      if (active?.gene === gene.id) {
+      if (active?.gene === gene.id && !preferredModel) {
         active.select(initial);
         return;
       }
-      if (!(await confirmConnection(app, gene))) return;
+      const local = await loadLocalContext(gene.id);
+      if (!local && !(await confirmConnection(app, gene))) return;
       active?.close();
       const id = `gene-information-${++sequence}`;
       const sheet = el(
@@ -222,13 +233,38 @@ export function geneAnnotation(gene) {
         el(
           "p",
           "note gene-information-scope",
-          "Current public annotations and structural models are external context, not measurements of a psilocin response. Archived expression estimates and pathway memberships remain unchanged.",
+          "Dated public annotations and structural models are external context, not measurements of a psilocin response. Archived expression estimates and pathway memberships remain unchanged.",
         ),
       );
+      let live = false,
+        authorized = !local;
+      async function authorizeSession() {
+        if (authorized) return true;
+        authorized = await confirmConnection(app, gene);
+        return authorized;
+      }
+      const refresh = el("button", "button button-tonal labelled-icon-action");
+      refresh.type = "button";
+      refresh.disabled = !navigator.onLine;
+      refresh.append(
+        uiIcon("share"),
+        el("span", "", "Load live database updates"),
+      );
+      content.append(refresh);
       const tabs = el("div", "tabs"),
         panes = new Map(),
         buttons = new Map(),
         loaded = new Set();
+      refresh.onclick = async () => {
+        if (!(await authorizeSession())) return;
+        live = true;
+        loaded.clear();
+        const key =
+          [...buttons].find(
+            ([, button]) => button.getAttribute("aria-selected") === "true",
+          )?.[0] || "gene";
+        select(key);
+      };
       const entries = [
         ["gene", "Gene annotation", "information"],
         ["protein", "Protein features", "landscape"],
@@ -279,7 +315,9 @@ export function geneAnnotation(gene) {
         if (key !== "structures" || pane.hidden || pane.dataset.modelOpened)
           return;
         const button = pane.querySelector(
-          ".protein-structure-access [data-open-structure]",
+          local && !live
+            ? ".protein-structure-access [data-open-structure][data-offline-available=true]"
+            : ".protein-structure-access [data-open-structure]",
         );
         if (!button) return;
         pane.dataset.modelOpened = "true";
@@ -309,9 +347,14 @@ export function geneAnnotation(gene) {
         try {
           const result = await trackActivity(
             key === "gene"
-              ? annotation(gene)
+              ? annotation(gene, { live })
               : import("./protein-context.js").then(({ proteinContext }) =>
-                  proteinContext(gene, { view: key }),
+                  proteinContext(gene, {
+                    view: key,
+                    live,
+                    authorize: authorizeSession,
+                    preferredModel,
+                  }),
                 ),
             "Loading public gene information",
           );

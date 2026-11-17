@@ -601,12 +601,19 @@ export function createComparativeViews({
     frame.append(genePlot);
     plot.append(frame);
     const observedPlot = genePlot;
-    const resize = new ResizeObserver(() => {
+    let resizeFrame, previousWidth;
+    const resize = new ResizeObserver(([entry]) => {
       if (!observedPlot.isConnected) {
         resize.disconnect();
+        cancelAnimationFrame(resizeFrame);
         return;
       }
-      if (genePlot === observedPlot) renderGeneMarks();
+      if (previousWidth === entry.contentRect.width) return;
+      previousWidth = entry.contentRect.width;
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        if (observedPlot.isConnected && genePlot === observedPlot) renderGeneMarks();
+      });
     });
     resize.observe(frame);
     const legend = el("div", "comparison-legend");
@@ -641,7 +648,7 @@ export function createComparativeViews({
       el(
         "summary",
         "",
-        "Numerical region selection and accessible plot values",
+        "Select by coordinates",
       ),
     );
     const fields = el("div", "comparison-bound-fields");
@@ -708,13 +715,7 @@ export function createComparativeViews({
         feedback.textContent = `${state.selection.size} genes selected. Original FDR values are unchanged.`;
       }),
     );
-    bounds.append(
-      fields,
-      feedback,
-      note(
-        "Search results and selected genes below provide keyboard-accessible links to the archived numerical estimates. The displayed-data CSV contains all valid points, including observations outside the current axis window.",
-      ),
-    );
+    bounds.append(fields, feedback);
     plot.append(bounds);
     rowsForExport = points.map((p) => ({
       gene_id: p.gene.id,

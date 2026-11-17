@@ -4,10 +4,14 @@ import { confidenceColor, publicRequest } from "./protein-data.js";
 import { plotPalette } from "./plot-theme.js";
 let active;
 // The WebGL runtime and coordinates load only after a specific model is chosen.
-export async function molecularViewer(host, model, { predicted = false } = {}) {
+export async function molecularViewer(
+  host,
+  model,
+  { predicted = false, authorize } = {},
+) {
   const [{ createViewer }, coordinates, noticeUrl] = await Promise.all([
     import("../assets/vendor/3dmol.js"),
-    publicRequest(model.url, { text: true }),
+    publicRequest(model.url, { text: true, authorize }),
     FileAttachment("../assets/vendor/3dmol.NOTICES.txt").url(),
   ]);
   if (!host.isConnected) return;
@@ -35,17 +39,19 @@ export async function molecularViewer(host, model, { predicted = false } = {}) {
     );
     return;
   }
+  let selection = {};
   try {
     const parsed = viewer.addModel(coordinates.value, "cif");
-    if (!parsed.selectedAtoms({}).length)
+    if (model.previewChains?.length) selection = { chain: model.previewChains };
+    if (!parsed.selectedAtoms(selection).length)
       throw new Error("No atoms could be read from this structure.");
+    viewer.setStyle({}, {});
     if (predicted)
-      viewer.setStyle(
-        {},
-        { cartoon: { colorfunc: (atom) => confidenceColor(atom.b) } },
-      );
-    else viewer.setStyle({}, { cartoon: { color: "spectrum" } });
-    viewer.zoomTo();
+      viewer.setStyle(selection, {
+        cartoon: { colorfunc: (atom) => confidenceColor(atom.b) },
+      });
+    else viewer.setStyle(selection, { cartoon: { color: "spectrum" } });
+    viewer.zoomTo(selection);
     viewer.render();
   } catch (error) {
     releaseViewer();
@@ -56,7 +62,7 @@ export async function molecularViewer(host, model, { predicted = false } = {}) {
   const reset = el("button", "button button-tonal", "Reset view");
   reset.type = "button";
   reset.onclick = () => {
-    viewer.zoomTo();
+    viewer.zoomTo(selection);
     viewer.render();
   };
   const turn = el("button", "button button-tonal", "Rotate left");
@@ -86,7 +92,7 @@ export async function molecularViewer(host, model, { predicted = false } = {}) {
     el(
       "p",
       "note",
-      `${predicted ? "Predicted model · colour shows local pLDDT: blue ≥90; cyan 70–90; yellow 50–70; orange <50. Local confidence does not validate the relative orientation of domains or cellular activity." : "Deposited PDB coordinate model · rainbow colours distinguish sequence positions, not confidence. The model may contain partners, fragments or engineered sequences."} Coordinates retrieved ${coordinates.retrievedAt}. 3Dmol.js 2.5.5.`,
+      `${predicted ? "Predicted model · colour shows local pLDDT: blue ≥90; cyan 70–90; yellow 50–70; orange <50. Local confidence does not validate the relative orientation of domains or cellular activity." : "Deposited PDB coordinate model · rainbow colours distinguish sequence positions, not confidence. The model may contain partners, fragments or engineered sequences."} Coordinates retrieved ${coordinates.retrievedAt}${coordinates.snapshot ? " · stored copy, available offline" : ""}. ${predicted ? "AlphaFold DB · Google DeepMind / EMBL-EBI · CC BY 4.0." : "Original PDB depositors / wwPDB · CC0 1.0; deposited citations retained in the coordinate file."} 3Dmol.js 2.5.5.`,
     ),
   );
   const notices = el("a", "external", "Molecular viewer licences");
@@ -94,11 +100,15 @@ export async function molecularViewer(host, model, { predicted = false } = {}) {
   notices.target = "_blank";
   notices.rel = "noopener noreferrer";
   host.append(notices);
+  let resizeFrame;
   const resize = new ResizeObserver(() => {
-    if (stage.isConnected) {
-      viewer.resize();
-      viewer.render();
-    }
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => {
+      if (stage.isConnected) {
+        viewer.resize();
+        viewer.render();
+      }
+    });
   });
   resize.observe(stage);
   const app = host.closest("#psilocin-app");
@@ -113,6 +123,7 @@ export async function molecularViewer(host, model, { predicted = false } = {}) {
   const detach = new MutationObserver(() => {
     if (!stage.isConnected) {
       resize.disconnect();
+      cancelAnimationFrame(resizeFrame);
       appearance.disconnect();
       detach.disconnect();
       releaseViewer();

@@ -1,3 +1,4 @@
+import { genePreviewMarkup } from "./structure-preview.js";
 import { escapeHTML } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 let sequence = 0;
@@ -39,7 +40,7 @@ export function createGeneAutocomplete({ app, input, data }) {
     },
     renderItem(item, index) {
       const gene = this.items[index];
-      return `<li role="option" id="${id}-${index}" aria-selected="false"><label class="item-radio item-content" data-value="${escapeHTML(gene.id)}"><div class="item-media">${uiIcon("genes").outerHTML}</div><div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(gene.aliases.length ? `Verified alias: ${gene.aliases.join(", ")}` : gene.selected ? "Archived rank representative" : "Additional filtered gene ID")}</div></div></label></li>`;
+      return `<li role="option" id="${id}-${index}" aria-selected="false"><label class="item-radio item-content" data-value="${escapeHTML(gene.id)}"><div class="item-media">${genePreviewMarkup(gene) || uiIcon("genes").outerHTML}</div><div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(gene.aliases.length ? `Verified alias: ${gene.aliases.join(", ")}` : gene.selected ? "Archived rank representative" : "Additional filtered gene ID")}</div></div></label></li>`;
     },
     on: {
       change(values) {

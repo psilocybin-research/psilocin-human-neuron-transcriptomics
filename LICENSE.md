@@ -14,6 +14,7 @@ Original documentation, figures, metadata created for this analysis, and derived
 
 - MSigDB memberships are CC BY 4.0 with upstream attribution and collection-specific restriction review recorded in `metadata/gene_set_redistribution_review.json`.
 - Direct Reactome database annotations are CC0 1.0.
+- Dated Ensembl annotations follow Ensembl unrestricted data-use terms, with source descriptions and attribution retained. UniProt annotations and AlphaFold models are CC BY 4.0. PDB coordinate files retain CC0 1.0. OXPHOS model previews are CC BY 4.0, with per-model source and licence provenance in `explorer/src/assets/public-context/previews.json`.
 - HGNC-derived alias mappings are CC0 1.0; attribution is retained as requested by HGNC.
 - Observable Framework code included in the frozen static atlas retains its ISC license and Observable, Inc. copyright. Original package notices are preserved in `third_party_licenses/`.
 - Selected sample and gene-annotation metadata derived from the pinned Schmidt repository retain Anne Hoffrichter's MIT notice alongside the license for the project's additions.

@@ -91,7 +91,7 @@ const cif =
   "\n#\n";
 try {
   for (const width of [390, 1440]) {
-    const page = await browser.newPage({ viewport: { width, height: 960 } });
+    const page = await browser.newPage({ serviceWorkers: "block", viewport: { width, height: 960 } });
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     let requests = 0;
@@ -119,6 +119,8 @@ try {
     await page.route("https://files.rcsb.org/**", (r) =>
       r.fulfill({ body: cif, contentType: "text/plain" }),
     );
+    // Exercise the explicit live-provider path independently of the bundled snapshot.
+    await page.route("**/public-context/index.json", route => route.fulfill({status:404,body:"Not bundled in this fixture"}));
     await page.goto(base + "#view=genes&gene=GPX4");
     await page
       .getByRole("button", {

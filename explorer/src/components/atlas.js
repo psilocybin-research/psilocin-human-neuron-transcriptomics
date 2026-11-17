@@ -1,3 +1,4 @@
+import { createGenePreview, genePreviewMarkup } from "./structure-preview.js";
 import { createGeneRecords } from "./gene-records.js";
 import { geneAnnotation } from "./gene-annotation.js";
 import {
@@ -129,7 +130,14 @@ function table(rows, cols, { onGene } = {}) {
     t = el("table"),
     head = el("thead"),
     tr = el("tr");
-  for (const [, name] of cols) tr.append(el("th", "", name));
+  t.dataset.sortable = "true";
+  for (const [key, name] of cols) {
+    const th = el("th", "", name);
+    th.dataset.sortType = rows.some((row) => typeof row[key] === "number")
+      ? "number"
+      : "text";
+    tr.append(th);
+  }
   head.append(tr);
   t.append(head);
   const body = el("tbody");
@@ -145,6 +153,10 @@ function table(rows, cols, { onGene } = {}) {
             : "",
         format ? format(r[k], r) : (r[k] ?? "Not estimable"),
       );
+      cell.dataset.sortValue =
+        r[k] == null || (typeof r[k] === "number" && !Number.isFinite(r[k]))
+          ? ""
+          : String(r[k]);
       if (k === "gene" && r[k] && onGene) {
         const link = el("a", "link external gene-context-link", r[k]);
         link.href = `#view=genes&gene=${encodeURIComponent(r[k])}`;
@@ -1240,6 +1252,19 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     }
     container.append(el("p", "identifier", gene.id));
     const information = geneAnnotation(gene);
+    const preview = createGenePreview(gene, (model) =>
+      information.open("structures", model),
+    );
+    if (preview) {
+      const identity = el("div", "gene-detail-identity");
+      const text = el("div");
+      text.append(
+        container.querySelector(".gene-symbol"),
+        container.querySelector(".identifier"),
+      );
+      identity.append(preview, text);
+      container.append(identity);
+    }
     const contextShortcut = iconButton(
       "Gene & protein info",
       "information",
@@ -1603,6 +1628,14 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           ),
         );
         o.tabIndex = -1;
+        const preview = genePreviewMarkup(g);
+        if (preview) {
+          const image = el("span", "gene-hit-preview");
+          image.innerHTML = preview;
+          image.setAttribute("aria-hidden", "true");
+          o.append(image);
+          o.classList.add("has-structure-preview");
+        }
         const title = el("div", "gene-hit-title");
         title.append(el("strong", "", g.symbol));
         if (g.symbol.toUpperCase() === q || g.id.toUpperCase() === q)

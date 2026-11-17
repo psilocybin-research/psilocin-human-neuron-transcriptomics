@@ -1,6 +1,6 @@
 import { transform } from "esbuild";
 import { minify as minifyHTML } from "html-minifier-terser";
-import {copyFile, mkdir, readFile, writeFile, readdir} from 'node:fs/promises';
+import {copyFile, mkdir, readFile, writeFile, readdir, cp, rm} from 'node:fs/promises';
 
 const output = new URL('../dist/', import.meta.url);
 const assets = new URL('../src/assets/app/', import.meta.url);
@@ -65,3 +65,7 @@ await Promise.all((await readdir(componentDirectory)).filter(name => name.endsWi
   const result = await transform(source, { loader: 'js', format: 'esm', target: ['es2022'], minify: true, legalComments: 'inline' });
   await writeFile(file, result.code);
 }));
+
+// Dated public context is separate from the immutable study archive.
+await rm(new URL('public-context/', output), {recursive:true,force:true});
+await cp(new URL('../src/assets/public-context/', import.meta.url), new URL('public-context/', output), {recursive:true});

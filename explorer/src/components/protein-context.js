@@ -1,3 +1,5 @@
+import { genePreviewMarkup } from "./structure-preview.js";
+import { contextIndex, cachedContextFile } from "./local-public-context.js";
 import { downloadFile } from "./file-download.js";
 import {
   createElement as el,
@@ -98,7 +100,7 @@ function featurePlot(protein) {
   block.append(details);
   return block;
 }
-function structureOption(parent, model, predicted = false) {
+function structureOption(parent, model, predicted = false, authorize) {
   const row = el("div", "protein-model-option");
   row.append(
     el("strong", "", `${predicted ? "Predicted" : "PDB"} · ${model.id}`),
@@ -134,7 +136,7 @@ function structureOption(parent, model, predicted = false) {
     try {
       await trackActivity(
         import("./molecular-viewer.js").then(({ molecularViewer }) =>
-          molecularViewer(viewport, model, { predicted }),
+          molecularViewer(viewport, model, { predicted, authorize }),
         ),
         "Loading molecular structure",
       );
@@ -160,6 +162,7 @@ function structureOption(parent, model, predicted = false) {
     }
   });
   load.dataset.openStructure = "true";
+  load.dataset.offlineAvailable = String(Boolean(model.offlineAvailable));
   row.append(load, viewport);
   parent.append(row);
 }
@@ -221,10 +224,15 @@ function proteinCard(
     const more = action("Show more PDB structures", append);
     function append() {
       for (const model of protein.pdb.slice(count, count + 5))
-        structureOption(pdbList, {
-          ...model,
-          url: `https://files.rcsb.org/download/${model.id}.cif`,
-        });
+        structureOption(
+          pdbList,
+          {
+            ...model,
+            url: `https://files.rcsb.org/download/${model.id}.cif`,
+          },
+          false,
+          result.authorize,
+        );
       count += 5;
       more.hidden = count >= protein.pdb.length;
       pdbList.append(more);
@@ -248,6 +256,7 @@ function proteinCard(
         const response = await trackActivity(
           publicRequest(
             `https://alphafold.ebi.ac.uk/api/prediction/${protein.accession}`,
+            { authorize: result.authorize },
           ),
           "Finding predicted protein structures",
         );
@@ -267,6 +276,7 @@ function proteinCard(
             predicted,
             { ...model, accession: protein.accession },
             true,
+            result.authorize,
           );
         predicted.append(
           link("AlphaFold API source ↗", response.source),
@@ -309,15 +319,30 @@ function proteinCard(
   } else item.addEventListener("accordion:beforeopen", build, { once: true });
   return element;
 }
-export async function proteinContext(gene, { view = "protein" } = {}) {
+export async function proteinContext(
+  gene,
+  { view = "protein", live = false, authorize, preferredModel } = {},
+) {
   const structures = view === "structures";
-  const result = await lookupProteins(gene.id),
+  const result = await lookupProteins(gene.id, {
+      live,
+      compact: Boolean(preferredModel),
+    }),
     root = el("section", "protein-context");
+  result.authorize = authorize;
+  if (result.snapshot)
+    root.append(
+      el(
+        "p",
+        "note",
+        `Local UniProt snapshot · ${result.retrievedAt}. ${result.scope} UniProt Consortium · CC BY 4.0. Available offline.`,
+      ),
+    );
   root.append(
     el(
       "p",
       "note",
-      "Current human protein records are matched by exact Ensembl gene cross-reference. Choose a protein accession before interpreting domains or structures. These are external annotations, not measured protein changes.",
+      "Human protein records are matched by exact Ensembl gene cross-reference. Choose a protein accession before interpreting domains or structures. These are external annotations, not measured protein changes.",
     ),
   );
   if (!result.proteins.length)
@@ -328,6 +353,21 @@ export async function proteinContext(gene, { view = "protein" } = {}) {
         "No verified human protein cross-reference was returned for this gene. Noncoding or retired gene records may not have a protein structure.",
       ),
     );
+  if (result.compact) {
+    const manage = action("Manage offline molecular library", () =>
+      root.dispatchEvent(
+        new CustomEvent("atlas:offline-open", { bubbles: true }),
+      ),
+    );
+    root.append(
+      el(
+        "p",
+        "note",
+        "Compact offline protein context. Additional protein records and the representative 3D library require the optional molecular download.",
+      ),
+      manage,
+    );
+  }
   if (result.limited)
     root.append(
       el(
@@ -339,8 +379,71 @@ export async function proteinContext(gene, { view = "protein" } = {}) {
   const access = el("section", "protein-structure-access");
   access.tabIndex = -1;
   access.append(el("h4", "", "3D structures"));
+  const resourceIndex = await contextIndex();
   const available = result.proteins.filter((protein) => protein.pdb.length);
-  if (available.length) {
+  let preferred;
+  if (structures && preferredModel && !live) {
+    const protein = result.proteins.find(
+      (p) => p.accession === preferredModel.accession,
+    );
+    const resource =
+      resourceIndex?.resources?.[preferredModel.coordinateSource];
+    if (protein && resource) {
+      if (!navigator.onLine && !(await cachedContextFile(resource.path))) {
+        const preview = el("div", "offline-structure-preview");
+        preview.innerHTML = genePreviewMarkup(gene);
+        access.append(
+          preview,
+          el(
+            "p",
+            "note",
+            `${preferredModel.provider} · ${preferredModel.accession} · ${preferredModel.model}. ${preferredModel.scope}`,
+          ),
+          el(
+            "p",
+            "note",
+            "The preview is saved. Interactive coordinates require the optional molecular download. Connect to download it under Install app.",
+          ),
+          action("Manage offline molecular library", () =>
+            root.dispatchEvent(
+              new CustomEvent("atlas:offline-open", { bubbles: true }),
+            ),
+          ),
+        );
+        root.append(access);
+        return root;
+      }
+      if (preferredModel.provider === "AlphaFold") {
+        const response = await publicRequest(
+          `https://alphafold.ebi.ac.uk/api/prediction/${protein.accession}`,
+          { authorize },
+        );
+        preferred = verifiedModels(response.value, protein).find(
+          (m) => m.url === preferredModel.coordinateSource,
+        );
+      } else preferred = protein.pdb.find((m) => m.id === preferredModel.model);
+      if (preferred) {
+        access.append(
+          el("strong", "", `${protein.accession} · Previewed model`),
+        );
+        structureOption(
+          access,
+          {
+            ...preferred,
+            accession: protein.accession,
+            url: preferredModel.coordinateSource,
+            previewChains: preferredModel.chains,
+            offlineAvailable:
+              navigator.onLine ||
+              Boolean(await cachedContextFile(resource.path)),
+          },
+          preferredModel.provider === "AlphaFold",
+          authorize,
+        );
+      }
+    }
+  }
+  if (!preferred && available.length) {
     access.append(
       el(
         "p",
@@ -356,13 +459,38 @@ export async function proteinContext(gene, { view = "protein" } = {}) {
           `${protein.accession} · ${protein.reviewed ? "Reviewed" : "Unreviewed"} protein`,
         ),
       );
-      const model = protein.pdb[0];
-      structureOption(access, {
-        ...model,
-        url: `https://files.rcsb.org/download/${model.id}.cif`,
-      });
+      const model =
+        protein.pdb.find(
+          (model) =>
+            resourceIndex?.resources?.[
+              `https://files.rcsb.org/download/${model.id}.cif`
+            ],
+        ) || protein.pdb[0];
+      structureOption(
+        access,
+        {
+          ...model,
+          offlineAvailable:
+            Boolean(
+              resourceIndex?.resources?.[
+                `https://files.rcsb.org/download/${model.id}.cif`
+              ],
+            ) &&
+            (navigator.onLine ||
+              Boolean(
+                await cachedContextFile(
+                  resourceIndex.resources[
+                    `https://files.rcsb.org/download/${model.id}.cif`
+                  ].path,
+                ),
+              )),
+          url: `https://files.rcsb.org/download/${model.id}.cif`,
+        },
+        false,
+        result.authorize,
+      );
     }
-  } else {
+  } else if (!preferred) {
     access.append(
       el(
         "p",
@@ -395,8 +523,22 @@ export async function proteinContext(gene, { view = "protein" } = {}) {
         "These records are unreviewed UniProt entries. They may describe alternative predicted products; none is identified here as the protein expressed in these cultures.",
       ),
     );
-    for (const protein of unreviewed)
-      additional.body.append(proteinCard(protein, result, { structures }));
+    let shown = 0;
+    const more = action("Show more unreviewed proteins", appendUnreviewed);
+    function appendUnreviewed() {
+      const batch = unreviewed.slice(shown, shown + 20);
+      for (const protein of batch)
+        additional.body.append(proteinCard(protein, result, { structures }));
+      shown += batch.length;
+      more.hidden = shown >= unreviewed.length;
+      more.textContent = `Show more unreviewed proteins · ${shown} of ${unreviewed.length}`;
+      additional.body.append(more);
+    }
+    additional.element.addEventListener(
+      "accordion:beforeopen",
+      appendUnreviewed,
+      { once: true },
+    );
     root.append(additional.element);
   }
   root.append(

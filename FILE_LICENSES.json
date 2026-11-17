@@ -286,7 +286,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/normalize-public-context.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/observable-plot-entry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/offline-worker.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -304,6 +316,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/prepare-offline.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-plots.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -316,7 +334,25 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/prepare-structure-previews.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-ui.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/snapshot-public-context.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/snapshot-structures.py": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -376,6 +412,3908 @@
       "eLife Sciences Publications Ltd"
     ]
   },
+  "explorer/src/assets/public-context/00-7362e986eae43ad2.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/01-b9f659eee943d270.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/02-dad8f9fc26326b16.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/03-1c55af6fa7cb93ff.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/04-d9f97edb261fb71a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/05-74befaacddb76c15.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/06-a33344793e827ec2.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/07-8fff8d1d3f6ee8ef.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/08-d2fffa07521bc205.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/09-f78f4dc3ee32481b.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/10-740678430829f362.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/11-fbe08c8dc36bde49.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/12-f66d11c5d5aece4b.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/13-af589ba6c67ab586.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/14-108faf999fbbaac6.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/15-36fc9cfdb2815c82.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/16-e27220d598776ac5.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/17-3addd45bfa48a9ca.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/18-8cc22558abc5636e.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/19-68c5fcfb6a393cdc.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/20-95174f006644f5f5.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/21-a76ff99f987bf57b.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/22-a0521c8cb828e8c9.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/23-e3e73a6720db4f9f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/24-d380ae578a0eb31a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/25-41e50f13d2957731.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/26-480029b3b7d09e75.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/27-15099f36e333fe41.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/28-cfb42e83c241a3f7.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/29-f08e1032cc0ee73a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/30-7bc4f29452fcc714.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/31-26f4f5cf4726287d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/32-22158ea5cb501919.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/33-f5e52de9a853f2c6.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/34-dec1078b495cde2d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/35-a2a02eace587bb44.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/36-a5f9fd465b24af45.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/37-423f26fc83622fe7.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/38-69c5cdba16e7ce7a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/39-4df7d4ef05fc993f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/40-782556358f63ba3b.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/41-33ec38ecf7f9a949.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/42-71cf879f92f24b59.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/43-4767a493674023c7.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/44-d88edcf5792191db.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/45-87e6e402fdcd5d10.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/46-eaac785fd2ba05ce.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/47-0b26471e997758d9.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/48-69b2954cac91e205.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/49-65df8ebe758fb7c4.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/50-56ae58754ec252b5.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/51-be1e7d330cb36f90.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/52-3cdbe73ac0eee2f5.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/53-65fa7716c1e7077f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/54-d98bb69209d57858.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/55-0fcc63f9501b3ee0.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/56-14b2730d6f2d682f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/57-b78eb2729826e423.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/58-bbd29f3a24b40c7f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/59-332d7fa33b144234.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/60-35a461e17a059c41.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/61-14067cfc289e6e5d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/62-f7f990298e6061fd.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/63-cc32ae7395f70b30.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/64-f07b6c6779140cd9.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/65-2545e88f051430da.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/66-cc5daa5c30b19a52.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/67-2d137fbdb62420aa.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/68-2e7c9e39bba5e2a4.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/69-f1d8e10e3baff2cb.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/70-097987cee45534c4.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/71-9113678c10cad468.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/72-49f9dce95e25a722.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/73-31c2d69a3fc0159e.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/74-d52d0fef5bce6cd2.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/75-6ec88578dd4c028f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/76-3534e51b583df306.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/77-5e20f54d62ea397a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/78-c1f502cd73ca903d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/79-016c97224faf435a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/80-b2141b13ed69296a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/81-2e1fc6b11f91d2b1.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/82-e8fb45f744fb8846.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/83-60adf70b596eab7a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/84-cd519b225fba6c6a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/85-3e33ceba0ee2bff6.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/86-60274ff162331f1a.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/87-8c601c0adad8205f.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/88-988337b6abc8aa72.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/89-65d82bdf474ab3cd.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/90-4e38b2cf713fb674.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/91-acf4b582ca85c504.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/92-21b39440246a0c7d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/93-6992a9627ac5c5e5.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/94-33438940a0c61734.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/95-0b78007e3a914ded.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/96-616963fe031b93e2.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/97-a9008212dad9a10c.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/98-59ea8f133235cd1d.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/99-804f7036539d915c.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/00-5bf66791745ea8fb.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/01-6cad372a0e0e66c9.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/02-a934c58b78aeab95.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/03-b73f1d49d59d9dc3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/04-aaa38b83960017f7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/05-e5d8bdb72fae85e7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/06-2bf6be93bb81ba0c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/07-8da32acf7e61b2d2.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/08-027022c94195d935.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/09-36e16586c0997079.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/10-d33af212d1c1125c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/11-0da94dc37d0bb3eb.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/12-85d659aa3c5163e2.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/13-d01e277ea1eee82e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/14-0ebc2b858bad4dca.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/15-9f04ff7424d077b1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/16-9b076f392e601641.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/17-25fab04ee630f203.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/18-91378dae7ba44779.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/19-f47dab339c1afa44.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/20-d75c931fa8b9ea79.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/21-3073dd408980315c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/22-dc9abb5e584d127c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/23-1c53b8e86fcaccc4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/24-e6ae40fde93fbf4c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/25-1d334fcdf4934a2f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/26-db1617694dd6928d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/27-568b509480ae7ebb.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/28-d3f7858aa63ba91e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/29-70d637e9853d4b54.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/30-1db752c41abe0bff.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/31-d6974ec4d4b37f7e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/32-e94f3806d73e5996.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/33-c4e5b6f9032fdb0b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/34-d2eccbad259bd3c6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/35-3e340aacbab72f58.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/36-d0308d873e9e232a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/37-6f02e5b58718daf6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/38-14843954279dbd73.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/39-b7eea5e826acab0b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/40-9181fd086b31e47d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/41-ded1b7cc7582357f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/42-d8c9f9c8be5f87ca.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/43-b0b876684a01e553.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/44-d199f4e5b2287f24.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/45-4d5ada1cc5615403.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/46-d6cf0bf6ab03a612.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/47-db66b134259f7f6c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/48-20b6d4d12d92cbea.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/49-33282af5145037b0.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/50-ae22e5b8fae8980d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/51-aa462365456414a9.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/52-0e011c6205beab9d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/53-5d864766779075b2.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/54-13dd493d1e2e2c77.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/55-6514eaf7e37498b0.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/56-0372db99be1c8841.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/57-c6b05f6296d07e77.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/58-61508d578a0985fd.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/59-3f3d8134dbd47ddd.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/60-65cee4760120e4a6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/61-5ed94c82af517ba4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/62-0cfb5af78549e8cb.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/63-d955bd67a320daf8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/64-fc0b43f192ce303f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/65-a53717c4a4f180ce.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/66-1ede779e8912ea13.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/67-9d08ad1ed6f4e8c9.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/68-63649a1f74286eaa.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/69-9591033a0cbe5f4b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/70-628d7e87ccbcc5d6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/71-6ae94f78149ce423.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/72-b75dad3029e536c7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/73-396b0407d86699dd.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/74-5d8c8a8a5a7975b3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/75-2c7e1228a9e44f53.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/76-186059694fa3ecf7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/77-690ea3ce6bf0747f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/78-a7a5372adfd776dd.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/79-dc0c6d3c757faadb.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/80-357ed990be0bfabd.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/81-85bc5c171678f548.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/82-d0cf94eecf345b71.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/83-1814d1ae0a19cd36.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/84-f77c793e25ec7468.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/85-6e32bfafbc326605.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/86-93777ba96ee49fe5.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/87-926909070db6b1b1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/88-74eb8e277d3b433c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/89-338fa74b2013ad10.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/90-de4f57deb9fc8649.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/91-eaeccd2b8e83bb82.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/92-bcb32f3d8f2eb3cf.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/93-1e16f7b50d852d2d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/94-4e369de2a895e4e8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/95-b8bd1821cf03679b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/96-77411759a21aa3e6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/97-d89d4c790af44442.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/98-df0e15176554adc3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/extended/99-ee2070c173caa3ab.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/index.json": {
+    "spdx": "LicenseRef-Ensembl-Data AND CC-BY-4.0",
+    "copyright": [
+      "2026 EMBL-EBI / Ensembl and attributed source databases",
+      "2026 UniProt Consortium",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/public-context/models/0f139bf5c52bf8f4b8c2de6b.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/0f6bdcd8728b4cfd20184d33.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/14e1ebc32902cfe27149a7a6.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/1d58c1038dd19a9d197d2f75.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/1eebdacf25c03e33e5eb688f.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/1ef1c78d608663a4fdacac37.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/20254bb80a3ade4363e41cad.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/21bc6643722c1c48158abfd0.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/21d9009f82c235e5034f322f.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/25b63ab2246480e8a2e79b35.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/2889201a8dcaa841102fca10.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/2daafe97179293a3de6e75d5.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/328406731909675d5ba760fd.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/352ed234feaeec805fa58add.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/4d554aa9b3c9c64bc34f8a77.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/5719d2fad1c30b069d3754a5.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/5807215b3f4406fbc7153d58.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/5fd18ffb97048eee0724a7d1.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/6247e751701b1b4cea3a14a6.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/629ed0034a77c6f101486bf8.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/62fdbd09ff26996ba5ee1c06.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/654f6200fd04959152c1ada9.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/65f826081fcf495ea8ee4086.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/6e6ded5572f12cf7e499a82e.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/742f823299489227837cfc65.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/7490e357fbf43ac39ec521b1.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/77c6466b4f84691400c3b3ed.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/8185296f54337c2435e7acf1.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/84a40cbe97e828ff26904748.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/85606e01a3ae3364d52da101.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/9122a131b28304615ce7ba41.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/96cc551bc4a5012512b2cc6a.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/9f22e8314888235a2743d7b6.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/a2a41173441b182f21f96db9.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/ab3767d34950af48f6481364.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/ad6940b1db880ed47be4ed11.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/b09e1c97bb876136d30e3f9e.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/b161c93a1c0a7717ba329ede.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/b4d25d3d1f2ebed60cd42737.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/b9f353c4f4c07f66d34c230f.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/c580b1989e901ce5e50b4306.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/c836403261d47f43e64f87fb.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/c9401e6cbf48cb0fd0cc8df2.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/cafbd6495609deabb32841de.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/d63d02caf26008436452f97c.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/df921973b345b67073512ac1.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/e7008e3e8f0054c8646c6dfe.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/eac64d878c19609d282bea7d.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/f6247cc0b44c7cebc27bc292.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/f741e30fef07bc999f21b57b.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/f896e5b679c592f9337d8fb4.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/fd1e68f74447c33bab23a7d4.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/ff9fada879195794a93dc4d7.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/models/ffd5a12889bb329ed7cff3e6.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/03454c9ce0b4ea6f35883f4c.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/03a6569cae3ea1ab5b8a21ef.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/04ca2ce8fde3bab858ca0df4.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/05febd74cbcb67ab8a7491fd.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/07f450dc27df7ec3ea4336e5.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/0af2f32f99ac8164c68218e0.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/0b4f476b05f18e4543f87a35.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/0e15a2672126dd2a2942421b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/0fadde940f515dcb62fe9ef1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/11eb8645a6ac58282b53980b.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/13a543ddab6db4c79a2d3727.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/13cc66ac81743013effde608.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/13e753d855b1a3f8f6cd71fc.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/15f699f237713c6c1d67bc2c.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/17c958f571b30b8b135b3df8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/19837e4f860e5ed748b170de.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/1b362151493585adb5dd5522.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/1ee56bd2094dd334ff958fb1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/1fa977691ceb19f97826a1d4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/1fcb219404bd664f09c25474.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/22a77e33508f4b748d15d6c3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/22c2ede71bc629c709398b69.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/24915a6f449976680058104c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/25cf69233fba9b492bff809b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/25f84fb26cd724629107fbf6.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/26557627c82093e95d7ebff4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/26a8f39cd158b4088ac4c86a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/27184502172243d4ad20f4d6.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/27d34c8318715e055476dff4.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2b9c923ed877184b61be9dd0.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2c96922895f741797c9e4f4d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2c9a2f2cd32aff4e7bf0e970.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2ce7e8f6069478c9053150e3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2e3911d680b636969599366e.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/2f7f99502ed10ecc0bbcc008.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/30c5b07c2d714e5946938ed5.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/367923a261514c07469eeaca.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/36c85ffdf9deaceca2f296ae.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/3a795b4da779ca249eff0125.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/3ba2c65ef7540d17c68e48f9.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/3bd1fbffbf1d3bb8fa357cbc.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/3c4ccc352d3a565349066ca5.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/3d55bd6f7d7c9fdf8adf5485.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4028120fe80794a7e54be30e.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/41335bf2760fc1327f4ddbbc.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/42949ec04ec8e6c07777b1e8.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/42f0086f07cc97614a910923.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/43f1af9e36f3a55025871c02.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/454650b00ca16a8bb4472092.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/465688073490b0ce5b5052a3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/465e41f7684d4bbf7bfbd29c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4994cce133cc77ff2d4604a3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4b0aef236bb518dfef38938a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4c925a1a2fa3265930021de8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4d5606a4bead78187179d2d9.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4def157bde47a0b1ea94e1b7.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/4f7094dc3d349d8a065ed451.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/514a14b70ae35fcd5447e40f.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/51d89e93c6ad7841279ef2ab.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/52d25f6941dfe6eaf2e69573.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5473ad243aa289d39259f664.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/578f60cd862f16ab67ba8b45.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/58132df986ba97b6dee598b8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/58f20fecad7c53f88bd79b9e.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5ab2e2dce0e6ddd2a06d7a60.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5af849671c0d0519dc0974c4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5c142d0e8fe2dca5d2e34984.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5d47fefa6deff522d2d734d3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5e3bfdfa253e9e38537262f3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5ecbb726513930bbb101a177.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/5f4e33ac919b3f0f8b53c1af.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/61350c6e25f4dc953aed3be6.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6363cfd74b197fb9670d890e.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/64c00e5ef5104bea3fdca40e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6515eca1e9f84e2a5ff0dc50.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6583fe5ca022568c7a3cf50a.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/667c7e0ec74b2ac0d6bc702f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/681463746b1e9452b324458e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6866174543db2ed5bb63cd2b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6b73ed9e6f520c1861fd0cf2.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6c01eb13f75077fd2e0c85b3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6cda1ffd92488dae9e0bdb7b.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6d81b05402b1233efd491e09.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6e7cf5027aeae04a98c63989.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/6f349f8cb68758cf25792ad4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7115ab9fb45286bf4d328328.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7332d5f64cfa729e3a47e067.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/741647525f27a9e95736f5ec.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7458a6761ef6551f5a7e2077.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/746d3e49094b0665a627a9fe.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/74c98fd7db9a4e52e427887d.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/76019569cf0bd50941ec1db8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/78922fedcd1ca100ca57c5c3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/79d8a3f53c022bd4a2e438a1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7b5ee1b4b32456f7ab6400b2.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7b6545e6fc85e1f25206997d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7c19b729338d9204ae7daa8d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7f105a4671d4b0d3dc42d542.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/7f7d292c480cb9dcb1df5687.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/804bb646084e6e0fc65e3111.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/81a5ce2fd39d6d415bc8b37f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/825c4742fc536f85dd3f8461.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/82f91bf0438060db2b5a3e1f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/836e70aaf57690cc031e142d.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/83ec36636460f7d4f84a0f61.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/857249d5acdd5ae8e1631c58.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/85792944ed7902073306b930.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/859f93f1614d201b1d0921cf.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/863e21f9d8be94ad5860248f.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/86c22bb738e2dad2323f9d43.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8742371aebb931f1e12f6cce.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/897b5d2dab61b3656f0ff2dd.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/89d5cfaa0217f4b5901beb83.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8b31dc8b13da8afabd799229.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8b5d036142f6d5fd3f845035.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8c22ce8a06dbda5b2486af88.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8c37fed3e7aa85b7f987f2b8.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/8f40e17cea358c46fbab7e25.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/91cd369d54991fb4de639736.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/91fd05ab8a00b88d072240af.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/9201cef37a44058381e5e80b.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/92416afbc083ff16193117f8.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/926a1b2f323c5f1d9126ff8a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/933dbdd2cc72b27b589d52bf.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/9443ea85c9754d383c585a6f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/94fba6d9b1102bec0732e319.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/98a9860373cbee1788d509d7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/991b1d6a1b1b77c6086e544f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/9a2c25d2b923cde4b2abf300.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a0425c562097511723a2445c.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a2b8cd44c38c4fd7ec81ed79.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a3d96b217d40f165355dcd58.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a3ddc1d9caf15166a089324a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a425328515b40fb082a35da5.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a558fa4fa029f505754a7bb3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a5afc5e3a49c90becb07db89.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/a8da278d70b8c0fa5078485d.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/aa67a47b3423ac640cff307a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/abc40bd92a5571a48f2d2de1.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ad8c7f5de8c700732555599f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/adf454d5fa64993344773497.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/af2c51f5b49606a4594e5697.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b0e183e6a99b8454dcdceb58.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b0f877c6f349544fee730c4e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b20a3bcc3a357bca2c7743e7.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b23fb2499c743b3bd2d79cf6.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b48385e475ca2f35209463c5.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b54bdcaf0bf761443fb0dfe3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b62541bdfda0e32d23888821.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b83a0458416876de7003ef17.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/b84508d74d04bcc282334d2d.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ba1ec5ed21d876c23cf6a48b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/bb4f79dd37838849043c0c51.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/bd93588f553a54cb598e64e6.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/bdd52313df059bdea8dafcad.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c0ac40001fbbe105124a5245.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c1f746ed0cef6115d74ca486.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c2f8c83a112fbb37346655a7.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c469c9550f58e1e1a13ac6e2.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c54163b6c003a6bdbf0d555b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c72f5201cee35447233c187f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c773a69879913ce882c9aae4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/c8e6fc2083fd52523608c732.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ca9d9a470fc5f7a0d281d900.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/cd18609d5ab62d0176ab166b.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/cdb91452da92755b587412a3.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/cdff4fb9102fd487a701a7ef.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d112c85845497aa4b9ae3314.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d157753b90f8f2f06a2a3ae9.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d1708746b2634f8784c7c828.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d2ce27b6a2398bb9920f1b92.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d300526eca232f587b9a1a57.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d35f2b7f831ba400e8809cbe.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d3d43408d4f92db00cccc700.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d3f33a3a3268d26a57d4b387.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d49dbfb00c55d1404d6edef8.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d53661a5f6a77d91d8427a45.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d67f3aa29c66178b7f14b2a3.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/d9e2de8072d1ea51503ae87d.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/dd4b38465f9c1a4b0d8912e6.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/de7e03c77cb321d537b92b64.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/def8c3106cc3ce789456e086.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/df1cde9d7de4e6af771d948c.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e26bcc9446d0fb1883f951da.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e448557df62c7302a9c7d49f.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e474dda3cb5ba416e4737d7a.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e4b6abce78b70022dddbda98.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e53db3a32aa8a27d2621400d.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e6c9546c553b8298353c0390.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e76068b7e40d40d7d7f25c0a.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e85929dea8d0eb4def846b6e.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/e8eeabc591188501cc4f2e21.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ea75c3e38b31d1340656fb7a.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ed70e5fd7c4e291edc9afac8.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ed8e6dcf4e93534048992f3c.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ef7944006f7c3fff6acc65e2.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f06bbce2d3d5544f909ff665.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f16387bb0b35e19c186ce4e4.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f1653cab1bb4b046948c2e9a.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f2334b23aa97584262abf53b.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f33dd394ed55d3ad28cd0216.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f4f9300e66497278963857a9.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f55e4ab8a67ef8fdbd25a6ad.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f75345360b37a996a57ebf21.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/f82af8eb04cf64cbf7186411.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fbea642fef7ac99bbabfa9ee.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fc466f75880c9dfdd5da9e4f.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fd0d5093529d2a923c5013d2.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fd716e02b9ca1207d2c7d2d4.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fde92e6c66e36196df0447da.cif": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/fea767c338e7963d37caa018.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/predictions/ff9226f427cc77c4a62f0efa.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+    ]
+  },
+  "explorer/src/assets/public-context/previews.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000004779-5d092f1f3b27.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000005022-ae073a45f2b3.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000006695-03b8d1afcf1b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000010256-e5c2fa7d0a23.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000023330-265e717546fb.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000047249-dcfebf5e1dae.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000060971-800099caa489.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000062485-3a6376ca5d4e.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000065518-5f6f93b0c1bb.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000067829-3e87be29eeb9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000071553-b439ef233056.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000072506-f1f2e1da5faf.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000073578-f65c3bdf2e8b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000075415-1fd967e57070.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000084754-ec960e42a4e5.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000087088-d96902583cc8.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000090266-2e079cdfbbe9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000091483-6d1e506b36d1.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000099795-40b73fec3d40.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000099800-4d5da3391c60.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000100142-e112841624e8.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000100216-a0584ca02a62.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000100243-c6281b8b36ff.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000100412-d84747238605.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000101365-ce7a73b408c5.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000104823-5e0046cd63c5.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000105197-440033a88959.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000105220-27af08bd79bc.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000105379-d060df1d7d91.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000105953-f93aaa608f79.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000107537-4458ef85fdcf.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000108528-23c5e50cef7c.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000109519-9963b1038e32.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000110717-e72038b9cd70.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000110719-68e53e3d0cf3.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000111716-827769472694.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000111775-0374631e6776.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000112695-b7dc1a84345f.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000115286-49f718289a46.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000115317-b16ccd5a1bd9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000115944-c170403d2561.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000116688-ccdb9810a2b8.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000116898-c3c34eda7cd4.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000117118-9bace987e5c4.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000117410-f6e549227d77.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000119013-87e0df630ded.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000119421-d64fe03543ee.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000119689-67e0a74ee44e.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000119711-89d883164df8.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000124588-34e7bf860358.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000125166-4ce07d195afe.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000125356-c43935dd077a.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000126267-d5eb11bfc14b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000127184-eb77fac577f9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000127540-88dd55eaf9f3.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000127884-90bf29ba5f10.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000127948-227cb27e7744.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000128524-45f37c6a536b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000128626-95f4728e8f18.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000130312-f7b4ce184f1c.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000131100-bd8289e6cd5a.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000131143-58ba30927fde.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000131174-9baf157fe253.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000131495-38ecc8744711.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000131828-d598a4db9b95.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000132305-0b48139a186e.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000132313-dad206b6b02f.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000134333-f06b0f0bfcf6.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000134809-cce305707f8d.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000135940-94d8a2b1f574.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000136888-70fbdfb33c0b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000137547-dcb77c854e0a.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000138413-13c57bec5f12.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000138495-234662259bbd.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000139180-9c930f586d70.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000140740-67b57f8f3cac.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000140983-a538a9f7cbc9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000141385-290e2988c216.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000143198-61b7903691be.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000143252-eb40e2809b6d.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000145494-e8b8082eac91.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000146701-17be9d49620b.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000148290-6ae01bf31448.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000150779-964dfd5b8abc.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000151729-9781ff5d4b15.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000158864-520316429dcc.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000164258-fe95761c07c6.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000164405-72379e68b5fb.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000164919-e88d3896b7e2.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000165060-5a78825d3e53.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000165264-90669c1280a9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000165688-8725f35e6c91.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000166136-446672efcab1.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000167468-9eb33dcc00d7.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000167792-ed9e278827bc.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000167969-ae72ac1b3672.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000169021-bd52a87204a4.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000169100-a27ce13aa145.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000170906-7af2887727e9.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000172115-f5551856bb18.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000173660-476aca1c0c88.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000174547-990954af9bc7.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000176340-8901b5c14b1f.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000178741-0d4c71c02288.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000179091-47baf1f39c27.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000182054-f319f77266ee.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000184076-4966a0f8b7d7.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000185883-4bdaf331b67f.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000213585-8be1224a9c8f.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000213619-27264e5b5685.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000215021-4540857a66ac.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/public-context/previews/ENSG00000267855-38a1461e621e.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
+  "explorer/src/assets/structure-previews.js": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
+    ]
+  },
   "explorer/src/assets/zenodo-icon.svg": {
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
@@ -401,6 +4339,12 @@
     ]
   },
   "explorer/src/components/app-progress.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/app-pwa.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -538,6 +4482,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/local-public-context.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/molecular-viewer.js": {
     "spdx": "MIT",
     "copyright": [
@@ -592,7 +4542,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/research-tables.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/scientific-plot.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/structure-preview.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -756,6 +4718,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/molecular-previews-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/molecular-previews.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/navigation-glass-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -834,7 +4808,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/pwa-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/research-additions-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/research-tables-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

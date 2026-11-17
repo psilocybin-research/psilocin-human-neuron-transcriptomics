@@ -1,15 +1,31 @@
+import {
+  loadLocalContext,
+  localResource,
+  savedPublicResource,
+  savePublicResource,
+} from "./local-public-context.js";
 import { ensemblIdentity } from "./gene-annotation-data.js";
 const accessionPattern =
   /^(?:[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9](?:[A-Z][A-Z0-9]{2}[0-9]){1,2})$/;
 const baseId = (value) => String(value).replace(/\.\d+$/, "");
 export async function publicRequest(
   url,
-  { text = false, timeout = 12000 } = {},
+  { text = false, timeout = 12000, authorize } = {},
 ) {
+  const cached = await savedPublicResource(url);
+  if (cached)
+    return { ...cached, value: text ? cached.value : JSON.parse(cached.value) };
+  const saved = await localResource(url);
+  if (!saved && !navigator.onLine)
+    throw new Error(
+      "This model is not included in the saved molecular library. Reconnect to retrieve it.",
+    );
+  if (!saved && authorize && !(await authorize()))
+    throw new Error("External connection cancelled.");
   const controller = new AbortController(),
     timer = setTimeout(() => controller.abort(), timeout);
   try {
-    const response = await fetch(url, {
+    const response = await fetch(saved?.url || url, {
       signal: controller.signal,
       credentials: "omit",
       referrerPolicy: "no-referrer",
@@ -23,9 +39,12 @@ export async function publicRequest(
     const content = await response.text();
     if (content.length > 10000000)
       throw new Error("Resource exceeds the compact viewer size limit.");
+    const retrievedAt = saved?.retrievedAt || new Date().toISOString();
+    if (!saved) await savePublicResource(url, content, retrievedAt);
     return {
       value: text ? content : JSON.parse(content),
-      retrievedAt: new Date().toISOString(),
+      retrievedAt,
+      snapshot: Boolean(saved),
       source: url,
     };
   } catch (error) {
@@ -154,7 +173,25 @@ export function mappedProteins(payload, stableId) {
     );
 }
 const proteinCache = new Map();
-export async function lookupProteins(id) {
+export async function lookupProteins(
+  id,
+  { live = false, compact = false } = {},
+) {
+  if (!live) {
+    const local = await loadLocalContext(id, { extended: !compact });
+    if (local)
+      return {
+        proteins: local.proteins,
+        retrievedAt: local.metadata.retrievedAt,
+        source: local.metadata.uniprotSource,
+        limited: false,
+        snapshot: true,
+        compact: local.compact,
+        scope: local.compact
+          ? local.metadata.compactScope
+          : local.metadata.scope,
+      };
+  }
   const { stableId } = ensemblIdentity(id);
   if (proteinCache.has(stableId)) return proteinCache.get(stableId);
   const url = new URL("https://rest.uniprot.org/uniprotkb/search");

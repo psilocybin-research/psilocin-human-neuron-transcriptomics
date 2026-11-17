@@ -23,7 +23,7 @@ const record = {
 };
 try {
   for (const width of [390, 1440]) {
-    const page = await browser.newPage({ viewport: { width, height: 960 } });
+    const page = await browser.newPage({ serviceWorkers: "block", viewport: { width, height: 960 } });
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     let calls = 0;
@@ -35,6 +35,8 @@ try {
         headers: { "access-control-allow-origin": "*" },
       });
     });
+    // Exercise the explicit live-provider path independently of the bundled snapshot.
+    await page.route("**/public-context/index.json", route => route.fulfill({status:404,body:"Not bundled in this fixture"}));
     await page.goto(base + "#view=genes&gene=GPX4");
     const panel = page.locator(".gene-annotation");
     await page.locator(".gene-context-shortcut").first().waitFor();
@@ -169,7 +171,8 @@ try {
     assert.deepEqual(errors, []);
     await page.close();
   }
-  const page = await browser.newPage();
+  const page = await browser.newPage({serviceWorkers:"block"});
+  await page.route("**/public-context/index.json", route=>route.fulfill({status:404,body:"Live fixture"}));
   let calls = 0;
   await page.route("https://rest.ensembl.org/**", async (route) => {
     calls++;

@@ -321,23 +321,6 @@ body {
   font-size: 10px;
   line-height: 1.6;
 }
-#psilocin-app .sidebar-footer {
-  margin-top: auto;
-  padding: 0 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-#psilocin-app .sidebar-footer > .button {
-  height: auto;
-  min-height: 42px;
-  font-size: 12px;
-  border-radius: 12px;
-}
-#psilocin-app .sidebar-footer > span {
-  font-size: 10px;
-  color: var(--research-muted);
-}
 #psilocin-app .research-tabbar {
   display: none;
 }
@@ -1264,7 +1247,6 @@ body {
     .research-navbar-title small,
     .sidebar-subtitle,
     .sidebar-note,
-    .sidebar-footer > span,
     .section-heading p,
     .standfirst,
     .note,
@@ -2709,17 +2691,6 @@ body {
 #psilocin-app .research-nav .item-content.active .item-title span {
   color: var(--research-on-selected);
 }
-#psilocin-app .sidebar-footer > .button {
-  border-radius: 6px;
-  justify-content: flex-start;
-  background: transparent;
-  border: 0;
-  padding-left: 12px;
-  color: var(--research-accent);
-}
-#psilocin-app .sidebar-footer > .button:hover {
-  background: var(--research-selected);
-}
 #psilocin-app .research-nav {
   --f7-menu-list-border-radius: 4px;
   --f7-list-inset-border-radius: 4px;
@@ -3890,9 +3861,13 @@ body {
 }
 
 #psilocin-app .comparison-axis-controls {
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: minmax(90px,112px) minmax(0,max-content);
+  align-items: end;
   gap: 8px;
 }
+#psilocin-app .comparison-axis-controls > .control { margin: 0; }
+#psilocin-app .comparison-axis-controls .comparison-brush-toggle span { white-space: normal; }
 #psilocin-app .comparison-axis-controls .comparison-brush-toggle {
   align-self: flex-end;
   flex: 0 0 auto;
@@ -4339,3 +4314,72 @@ body {
 #psilocin-app .toast .toast-button {
   min-height: 40px;
 }
+
+#psilocin-app .pwa-install[hidden] { display: none !important; }
+#psilocin-app .pwa-progress { font-size: 12px; padding: 8px; }
+#psilocin-app .pwa-dialog { max-height: calc(100dvh - 32px); overflow-y: auto; }
+#psilocin-app .pwa-offline-probe { position: fixed; width: 1024px; height: 768px; left: -12000px; top: 0; border: 0; pointer-events: none; }
+
+/* Readable F7 tables retain aligned labels, tabular numerals and contained scrolling. */
+#psilocin-app .data-table {
+  --f7-table-head-font-size: 13px;
+  --f7-table-body-font-size: 14px;
+  --f7-table-cell-padding-horizontal: 14px;
+  --f7-table-edge-cell-padding-horizontal: 14px;
+  --f7-table-cell-padding-vertical: 10px;
+  --f7-table-head-cell-height: 44px;
+  --f7-table-body-cell-height: 42px;
+  --f7-table-head-bg-color: var(--research-surface);
+  --f7-table-head-text-color: var(--research-text);
+  --f7-table-cell-border-color: var(--research-border);
+  --f7-table-selected-row-bg-color: var(--research-surface-high);
+  --f7-table-sortable-icon-color: var(--research-accent);
+  overflow-x: auto;
+}
+#psilocin-app .data-table table { width: 100%; min-width: 480px; table-layout: auto; }
+#psilocin-app .data-table :is(th,td) { padding: 10px 14px; font-size: 14px; line-height: 1.45; vertical-align: middle; }
+#psilocin-app .data-table th { font-size: 13px; font-weight: 600; color: var(--research-text); }
+#psilocin-app .data-table :is(.numeric,.numeric-cell) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+#psilocin-app .data-table .label-cell { text-align: left; }
+#psilocin-app .table-sort-button { appearance: none; border: 0; padding: 4px 0; margin: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; min-height: 32px; }
+#psilocin-app .table-sort-button:focus-visible { outline: 2px solid var(--research-accent); outline-offset: 3px; border-radius: 4px; }
+#psilocin-app .data-table tbody tr:hover :is(td,th) { background: var(--research-surface-high); color: var(--research-text); }
+
+#psilocin-app .pwa-options { display: grid; gap: 8px; margin-top: 16px; }
+#psilocin-app .pwa-options .button { white-space: normal; height: auto; min-height: 42px; line-height: 1.4; padding: 10px 12px; }
+#psilocin-app .pwa-work .progressbar { margin: 16px 0; }
+#psilocin-app .pwa-dialog .dialog-buttons { flex-wrap: wrap; }
+
+#psilocin-app .data-table :is(th,td).numeric-cell { min-width: 120px; }
+#psilocin-app .data-table thead th { overflow: visible; text-overflow: clip; }
+#psilocin-app .data-table .table-sort-button { width: auto; display: inline-block; min-width: 0; text-align: inherit; letter-spacing: normal; }
+
+/* Structure previews remain external context, outside dense scientific marks. */
+#psilocin-app .gene-structure-preview { display: inline-flex; flex-direction: column; align-items: center; width: 72px; flex: none; vertical-align: middle; }
+#psilocin-app .gene-structure-preview img { display: block; width: 72px; height: 54px; object-fit: contain; }
+#psilocin-app .gene-preview-source { font-size: 10px; line-height: 1.3; color: var(--research-muted); white-space: nowrap; }
+#psilocin-app .gene-detail-identity { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 8px 0 12px; }
+#psilocin-app .gene-detail-identity .gene-symbol { margin: 0; }
+#psilocin-app .gene-detail-identity .identifier { margin: 4px 0 0; }
+#psilocin-app .gene-structure-action { appearance: none; border: 0; border-radius: 0; padding: 0; background: transparent; box-shadow: none; cursor: pointer; flex: none; color: inherit; }
+#psilocin-app .gene-structure-action .gene-preview-source { color: var(--research-text); }
+#psilocin-app .gene-structure-action:focus-visible { outline: 2px solid var(--research-accent); outline-offset: 3px; }
+#psilocin-app .gene-structure-action .gene-structure-preview { width: 144px; }
+#psilocin-app .gene-structure-action img { width: 144px; height: 108px; }
+#psilocin-app .gene-structure-action:hover { background: transparent; }
+#psilocin-app .gene-hit.has-structure-preview { position: relative; padding-left: 96px; min-height: 82px; }
+#psilocin-app .gene-hit-preview { position: absolute; left: 10px; top: 8px; }
+#psilocin-app .research-nav > ul > li:not(.sidebar-utility-item) + .sidebar-utility-item { margin-top: 12px; }
+#psilocin-app .sidebar-utility-item[hidden] { display: none; }
+#psilocin-app .offline-structure-preview .gene-structure-preview,
+#psilocin-app .offline-structure-preview img { width: 256px; }
+#psilocin-app .offline-structure-preview img { height: 192px; }
+
+#psilocin-app .gene-structure-action { width: 144px; min-width: 144px; flex: 0 0 144px; }
+#psilocin-app .gene-detail-identity > div { min-width: 0; flex: 1; }
+#psilocin-app .gene-detail-identity .identifier { overflow-wrap: anywhere; }
+
+#psilocin-app .comparison-bound-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); max-width: 500px; align-items: end; }
+#psilocin-app .comparison-bound-fields > .control { margin: 0; min-width: 0; }
+#psilocin-app .comparison-bound-fields > .button { grid-column: 1 / -1; min-height: 44px; margin: 0; }
+#psilocin-app .comparison-bounds > .note:empty { display: none; }

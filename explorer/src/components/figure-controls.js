@@ -321,12 +321,16 @@ export function enhancePlots(scope, { nested = false } = {}) {
           (!scaleViewport.classList.contains("readable") &&
             scaleViewport.clientWidth >= naturalWidth * (2 / 3));
       }
+      let readingFrame;
       const resize = new ResizeObserver(() => {
+        cancelAnimationFrame(readingFrame);
         if (!shell.isConnected) {
           resize.disconnect();
           return;
         }
-        updateReadingAvailability();
+        readingFrame = requestAnimationFrame(() => {
+          if (shell.isConnected) updateReadingAvailability();
+        });
       });
       updateReadingAvailability();
       if (scaleViewport) resize.observe(scaleViewport);

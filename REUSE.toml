@@ -239,3 +239,33 @@ path = "third_party_licenses/3dmol-2.5.5.txt"
 precedence = "override"
 SPDX-FileCopyrightText = ["2014 University of Pittsburgh and contributors", "2011-2012 biochem_fan", "2010-2012 three.js Authors", "2011 John Resig", "2014-2017 Vitaly Puzrin and Andrei Tuputcyn", "2016 cheminfo", "2015 Michaël Zasso", "2017 Photopea"]
 SPDX-License-Identifier = "BSD-3-Clause AND MIT AND Zlib"
+
+[[annotations]]
+path = "explorer/src/assets/public-context/**"
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 EMBL-EBI / Ensembl and attributed source databases", "2026 UniProt Consortium", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "LicenseRef-Ensembl-Data AND CC-BY-4.0"
+
+[[annotations]]
+path = "explorer/src/assets/public-context/models/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Original PDB depositors, as identified in each coordinate file; wwPDB / RCSB PDB"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "explorer/src/assets/public-context/predictions/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "explorer/src/assets/public-context/extended/**"
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 UniProt Consortium", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["explorer/src/assets/public-context/previews/**", "explorer/src/assets/public-context/previews.json", "explorer/src/assets/structure-previews.js"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"]
+SPDX-License-Identifier = "CC-BY-4.0"

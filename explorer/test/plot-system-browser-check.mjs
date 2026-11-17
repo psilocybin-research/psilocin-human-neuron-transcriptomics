@@ -22,6 +22,11 @@ try {
     await page
       .locator(".comparison-gene-plot[data-plot-renderer=observable-plot]")
       .waitFor();
+    const axis = page.locator(".comparison-axis-controls");
+    const dropdown = await axis.locator(".research-smart-select").boundingBox();
+    const selection = await axis.locator(".comparison-brush-toggle").boundingBox();
+    assert.ok(Math.abs(dropdown.y - selection.y) <= 1, "axis controls align vertically");
+    assert.equal(dropdown.height, selection.height);
     assert.equal(
       await page.locator('select[aria-label="Visualization"] optgroup').count(),
       3,
@@ -243,10 +248,11 @@ try {
         exact: true,
       })
       .click();
-    await page
-      .locator(".gene-connection-confirmation")
-      .getByRole("button", { name: "Connect", exact: true })
-      .click();
+    assert.equal(
+      await page.locator(".gene-connection-confirmation").count(),
+      0,
+      "Bundled public context needs no provider connection",
+    );
     await page.locator(".gene-information-sheet.modal-in").waitFor();
     await page.close();
   }
