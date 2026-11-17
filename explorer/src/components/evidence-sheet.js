@@ -1,4 +1,8 @@
-import { createElement as node } from "./interface-utils.js";
+import {
+  createElement as node,
+  useModalPush,
+  destroySheet,
+} from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 
 // Move the live evidence panel, preserving listeners, asynchronous results and
@@ -36,7 +40,7 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
     title.textContent = event.detail.title || "Selected evidence";
     if (panel === target && instance?.opened) return;
     close(false);
-    instance?.destroy();
+    destroySheet(instance);
     panel = target;
     placeholder = document.createComment("Selected evidence");
     target.before(placeholder);
@@ -49,7 +53,7 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
       el: sheet,
       containerEl: container,
       backdrop: true,
-      push: true,
+      push: useModalPush(),
       swipeToClose: true,
       swipeHandler: handle,
       closeByBackdropClick: true,
@@ -62,7 +66,7 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
     close,
     destroy() {
       close(false);
-      instance?.destroy();
+      destroySheet(instance);
       root.removeEventListener("atlas:inspect", inspect);
       sheet.remove();
     },

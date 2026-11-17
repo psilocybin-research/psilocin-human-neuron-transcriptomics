@@ -197,7 +197,7 @@ try {
       .locator(
         width < 1180
           ? ".analysis-morph-panel[data-shell-modal-ready=true]"
-          : ".analysis-control-sheet.sheet-modal-push-in",
+          : ".analysis-control-sheet[data-shell-modal-ready=true]",
       )
       .waitFor();
     await page.screenshot({ path: `/tmp/atlas-controls-${width}.png` });

@@ -3249,7 +3249,32 @@ body {
     ease-out both;
   transform-origin: top center;
 }
+@media (min-width: 851px) {
+  #psilocin-app .research-view-enter {
+    --f7-page-fade-transition-duration: 200ms;
+    animation-name: f7-fade-in;
+    animation-duration: var(--f7-page-fade-transition-duration, 200ms);
+  }
+  #psilocin-app > .research-views {
+    transform: none !important;
+    border-radius: 0;
+  }
+  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
+    --f7-page-fade-transition-duration: 200ms;
+    transform: none !important;
+    transition-property: opacity;
+  }
+  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour).modal-in:not(.not-animated) {
+    animation: f7-fade-in var(--f7-page-fade-transition-duration, 200ms) both;
+  }
+  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour).modal-out:not(.not-animated) {
+    animation: f7-fade-out var(--f7-page-fade-transition-duration, 200ms) both;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
+    animation: none !important;
+  }
   #psilocin-app .research-view-enter {
     animation: none;
   }
@@ -4263,4 +4288,49 @@ body {
 }
 #psilocin-app .gene-connection-details .item-title {
   white-space: normal;
+}
+
+/* Sector selection changes its outline, preserving the NES colour encoding. */
+#psilocin-app .chord-sector[aria-pressed="true"],
+#psilocin-app .chord-sector:focus-visible {
+  stroke: var(--plot-highlight);
+  stroke-width: 4px;
+  vector-effect: non-scaling-stroke;
+}
+
+#psilocin-app .gene-connection-remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+}
+#psilocin-app .gene-connection-remember .checkbox {
+  flex: none;
+}
+
+#psilocin-app .gene-connection-remember .checkbox input {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+#psilocin-app .gene-connection-remember .checkbox:has(input:focus-visible) {
+  outline: 2px solid var(--research-accent);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+#psilocin-app[data-reduced-motion="true"] :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
+  animation: none !important;
+}
+#psilocin-app .toast .toast-button {
+  min-height: 40px;
 }

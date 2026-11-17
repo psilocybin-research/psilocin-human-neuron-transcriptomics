@@ -124,11 +124,16 @@ try {
         exact: true,
       })
       .click();
-    assert.equal(
-      await page.locator(".gene-connection-confirmation").count(),
-      0,
-      "same databases reuse approval",
-    );
+    const repeatConfirmation = page.locator(".gene-connection-confirmation");
+    await repeatConfirmation.waitFor();
+    const remember = repeatConfirmation.getByRole("checkbox", {
+      name: "Remember my choice for these databases",
+    });
+    assert.equal(await remember.isChecked(), false, "remembering is opt-in");
+    await remember.check();
+    await repeatConfirmation
+      .getByRole("button", { name: "Connect", exact: true })
+      .click();
     await panel.locator(".gene-annotation-fields").waitFor();
     await page.keyboard.press("Escape");
     await panel.waitFor({ state: "detached" });

@@ -3,6 +3,8 @@ import {
   loadingMessage,
   escapeHTML,
   createAccordion,
+  useModalPush,
+  destroySheet,
 } from "./interface-utils.js";
 import {
   createAnnotationClient,
@@ -67,7 +69,7 @@ async function annotation(gene) {
 // Consent covers this exact provider set across genes and visits.
 // Changing a provider hostname changes the key and requires fresh confirmation.
 const connectionConsentKey =
-  "atlas-public-context-consent:" +
+  "atlas-public-context-consent-v2:" +
   [
     "rest.ensembl.org",
     "rest.uniprot.org",
@@ -98,7 +100,7 @@ function confirmConnection(app, gene) {
     const dialog = app.dialog.create({
       containerEl: container,
       title: label("information", "Connect to public databases?"),
-      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded. Your approval is remembered for these databases across genes and visits.</p>`,
+      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded. </p><label class="gene-connection-remember"><span class="checkbox"><input type="checkbox" name="remember-public-databases"><i class="icon-checkbox" aria-hidden="true"></i></span><span>Remember my choice for these databases</span></label>`,
       cssClass: "research-message-dialog gene-connection-confirmation",
       closeByBackdropClick: true,
       destroyOnClose: true,
@@ -109,11 +111,16 @@ function confirmConnection(app, gene) {
           strong: true,
           onClick: () => {
             accepted = true;
-            connectionAccepted = true;
-            try {
-              localStorage.setItem(connectionConsentKey, "accepted");
-            } catch {
-              // Retain consent in memory when browser storage is unavailable.
+            if (
+              dialog.el.querySelector('[name="remember-public-databases"]')
+                .checked
+            ) {
+              connectionAccepted = true;
+              try {
+                localStorage.setItem(connectionConsentKey, "accepted");
+              } catch {
+                // Retain remembered consent for this visit when storage is unavailable.
+              }
             }
           },
         },
@@ -154,7 +161,7 @@ function confirmConnection(app, gene) {
       el(
         "p",
         "",
-        "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection. Approval applies to these four databases; a changed provider set requires confirmation again. Clearing browser storage removes this approval. Provider links open external sites only when clicked.",
+        "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection. When remembered, approval applies to these four databases; a changed provider set requires confirmation again. Clearing browser storage removes this approval. Provider links open external sites only when clicked.",
       ),
     );
     dialog.el.querySelector(".dialog-inner").append(details.element);
@@ -344,7 +351,7 @@ export function geneAnnotation(gene) {
         el: sheet,
         containerEl: container,
         backdrop: true,
-        push: true,
+        push: useModalPush(),
         swipeToClose: true,
         swipeHandler: handle,
         closeByBackdropClick: true,
@@ -354,7 +361,7 @@ export function geneAnnotation(gene) {
             if (active?.element === sheet) active = undefined;
             // Let the shell restore its modal stack and focus before removing the sheet.
             setTimeout(() => {
-              instance.destroy();
+              destroySheet(instance);
               sheet.remove();
             }, 0);
           },

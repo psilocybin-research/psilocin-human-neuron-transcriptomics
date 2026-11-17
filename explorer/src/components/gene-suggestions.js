@@ -20,7 +20,7 @@ export function createGeneAutocomplete({ app, input, data }) {
     inputEl: input,
     openIn: "dropdown",
     dropdownContainerEl: host,
-    valueProperty: "symbol",
+    valueProperty: "id",
     textProperty: "symbol",
     limit: 20,
     typeahead: false,
@@ -39,7 +39,7 @@ export function createGeneAutocomplete({ app, input, data }) {
     },
     renderItem(item, index) {
       const gene = this.items[index];
-      return `<li role="option" id="${id}-${index}" aria-selected="false"><label class="item-radio item-content" data-value="${escapeHTML(gene.symbol)}"><div class="item-media">${uiIcon("genes").outerHTML}</div><div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(gene.aliases.length ? `Verified alias: ${gene.aliases.join(", ")}` : gene.selected ? "Archived rank representative" : "Additional filtered gene ID")}</div></div></label></li>`;
+      return `<li role="option" id="${id}-${index}" aria-selected="false"><label class="item-radio item-content" data-value="${escapeHTML(gene.id)}"><div class="item-media">${uiIcon("genes").outerHTML}</div><div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(gene.aliases.length ? `Verified alias: ${gene.aliases.join(", ")}` : gene.selected ? "Archived rank representative" : "Additional filtered gene ID")}</div></div></label></li>`;
     },
     on: {
       change(values) {
@@ -77,6 +77,8 @@ export function createGeneAutocomplete({ app, input, data }) {
     });
   }
   input.addEventListener("keydown", key);
+  // The catalogue can finish loading after the user has already focused the field.
+  if (document.activeElement === input) instance.open();
   return {
     input,
     destroy() {

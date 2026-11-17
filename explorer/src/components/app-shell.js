@@ -1,3 +1,4 @@
+import { showToast } from "./app-toast.js";
 import { createEvidenceSheet } from "./evidence-sheet.js";
 import { analysisOptions } from "./analysis-options.js";
 import { showInformation } from "./file-download.js";
@@ -10,6 +11,8 @@ import {
   writePreference as remember,
   escapeHTML,
   prepareExternalLinks,
+  useModalPush,
+  destroySheet,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
 import { createGeneAutocomplete, geneSuggestions } from "./gene-suggestions.js";
@@ -107,11 +110,6 @@ export function createAppShell({
   nav.setAttribute("aria-label", "Explorer sections");
   const navigation = createResearchNavigation({ nav, tabs, initial });
 
-  const sidebarNote = node("div", "sidebar-note");
-  sidebarNote.append(
-    node("span", "badge", "Fixed results · v1.2.0"),
-    node("p", "", "Independent reanalysis of Schmidt et al. (2026)."),
-  );
   const sidebarFoot = node("div", "sidebar-footer");
   sidebarFoot.append(
     action("Atlas tour", openTour, "button button-tonal"),
@@ -121,7 +119,7 @@ export function createAppShell({
       "button button-tonal",
     ),
   );
-  panel.append(sidebarHead, sidebarSub, nav, sidebarNote, sidebarFoot);
+  panel.append(sidebarHead, sidebarSub, nav, sidebarFoot);
   const views = node("div", "views research-views"),
     main = node("div", "view view-main research-main"),
     page = node("div", "page page-current research-page");
@@ -178,12 +176,7 @@ export function createAppShell({
         } else if (root.requestFullscreen) await root.requestFullscreen();
         else root.webkitRequestFullscreen?.();
       } catch {
-        app?.toast
-          .create({
-            text: "Fullscreen is unavailable in this browser window.",
-            closeTimeout: 3000,
-          })
-          .open();
+        showToast("Fullscreen is unavailable in this browser window.");
       }
     },
   );
@@ -248,7 +241,9 @@ export function createAppShell({
     );
     b.setAttribute(
       "aria-label",
-      id === "sources" ? "Sources" : `Open ${tabs.find((t) => t[0] === id)[1]}`,
+      id === "sources"
+        ? "Sources"
+        : `${["genes", "comparison"].includes(id) ? `${title} · ` : ""}Open ${tabs.find((t) => t[0] === id)[1]}`,
     );
     const source =
       id === "sources"
@@ -352,14 +347,7 @@ export function createAppShell({
       sharePopover?.close(false);
       try {
         await navigator.clipboard.writeText(location.href);
-        app.toast
-          .create({
-            text: "Analysis link copied.",
-            position: "bottom",
-            closeTimeout: 2200,
-            destroyOnClose: true,
-          })
-          .open();
+        showToast("Analysis link copied.");
       } catch {
         showInformation(
           app,
@@ -446,14 +434,7 @@ export function createAppShell({
       ),
     ];
     if (!candidates.length) {
-      app.toast
-        .create({
-          text: "Controls are located beside the relevant figure.",
-          closeTimeout: 2500,
-          position: "bottom",
-          destroyOnClose: true,
-        })
-        .open();
+      showToast("Controls are located beside the relevant figure.");
       return false;
     }
     for (const element of candidates) {
@@ -790,7 +771,7 @@ export function createAppShell({
     analysisLauncher.setAvailable(
       Boolean(
         body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||
-        controlMoves.length,
+          controlMoves.length,
       ),
     );
   }
@@ -1036,9 +1017,17 @@ export function createAppShell({
           "#psilocin-app:not([data-reduced-motion=true]) .f7-press",
       },
       panel: { swipe: false },
-      sheet: { closeOnEscape: false, animate: !reduced(), push: true },
+      sheet: {
+        closeOnEscape: false,
+        animate: !reduced(),
+        push: useModalPush(),
+      },
       popover: { closeOnEscape: false, animate: !reduced() },
-      popup: { closeOnEscape: false, animate: !reduced(), push: true },
+      popup: {
+        closeOnEscape: false,
+        animate: !reduced(),
+        push: useModalPush(),
+      },
       view: { browserHistory: false },
     });
     view = app.views.create(main, { router: false });
@@ -1153,6 +1142,15 @@ export function createAppShell({
           trigger: "hover",
         });
     const syncNavigation = () => {
+      for (const modal of [controlsSheet, sourcePopup, tourPopup]) {
+        if (!modal || modal.opened) continue;
+        modal.push = useModalPush();
+        modal.params.push = modal.push;
+        modal.el.classList.toggle(
+          modal.type === "sheet" ? "sheet-modal-push" : "popup-push",
+          modal.push,
+        );
+      }
       const inDrawer = app.width < 1180 && panelInstance.opened;
       (inDrawer ? sidebarHead : left).append(menuToggle);
       menuToggle.setAttribute(

@@ -1,3 +1,4 @@
+import { showToast } from "./app-toast.js";
 import { trackActivity } from "./app-activity.js";
 import { escapeHTML } from "./interface-utils.js";
 
@@ -69,6 +70,7 @@ function saveURL(filename, href) {
   anchor.href = href;
   anchor.download = filename;
   anchor.click();
+  showToast(`Download started: ${filename}`);
 }
 export async function downloadFile(filename, content, type = "text/csv") {
   if (!(await confirmDownload(filename))) return false;

@@ -28,7 +28,27 @@ export function createUpSet({ nodes, genes }) {
     "aria-label": "Exclusive intersections of selected gene sets",
     style: "font:12px system-ui,sans-serif",
   });
-  svg.append(sn("title", {}, "Exclusive gene-set intersection counts"));
+  svg.append(
+    sn("title", {}, "Exclusive gene-set intersection counts"),
+    sn(
+      "style",
+      {},
+      `
+      [data-intersection] { cursor: pointer; }
+      .intersection-selection { fill: transparent; }
+      [data-intersection][aria-pressed="true"] .intersection-selection {
+        fill: var(--plot-selected, #edf3f8);
+      }
+      [data-intersection][aria-pressed="true"] text { font-weight: 750; }
+      [data-intersection][aria-pressed="true"] .intersection-bar {
+        fill: var(--plot-highlight, #a07321);
+      }
+      [data-selected-intersection] [data-intersection][aria-pressed="false"] {
+        opacity: .45;
+      }
+    `,
+    ),
+  );
   const output = el("section", "upset-members"),
     picker = el("label", "control");
   picker.append(el("span", "", "Inspect an exact intersection"));
@@ -43,6 +63,8 @@ export function createUpSet({ nodes, genes }) {
   );
   function inspect(i) {
     const group = groups[i];
+    if (!group) return;
+    svg.dataset.selectedIntersection = String(i);
     select.value = String(i);
     output.replaceChildren(
       el(
@@ -106,12 +128,14 @@ export function createUpSet({ nodes, genes }) {
         width: 25,
         height: 365,
         fill: "transparent",
+        class: "intersection-selection",
       }),
       sn("rect", {
         x: x - 10,
         y: 225 - (group.genes.length / max) * 165,
         width: 21,
         height: (group.genes.length / max) * 165,
+        class: "intersection-bar",
         fill: "#235780",
       }),
       sn(
@@ -165,6 +189,13 @@ export function createUpSet({ nodes, genes }) {
   });
   select.onchange = () => {
     if (select.value !== "") inspect(+select.value);
+    else {
+      delete svg.dataset.selectedIntersection;
+      svg
+        .querySelectorAll("[data-intersection]")
+        .forEach((column) => column.setAttribute("aria-pressed", "false"));
+      output.replaceChildren();
+    }
   };
   svg.append(
     sn(

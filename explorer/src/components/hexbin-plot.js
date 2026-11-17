@@ -128,14 +128,28 @@ export function createHexbinPlot({ genes, state, onSelect, matchGene }) {
   const blank = el("option", "", "Choose a bin by gene count");
   blank.value = "";
   select.append(blank);
+  function inspectBin(value) {
+    select.value = value;
+    marks.querySelectorAll("[data-density-bin]").forEach((path) => {
+      const selected = path.dataset.densityBin === value;
+      path.setAttribute("aria-pressed", String(selected));
+      path.setAttribute(
+        "stroke",
+        selected
+          ? "var(--plot-highlight, #a07321)"
+          : "var(--plot-background, #fff)",
+      );
+      path.setAttribute("stroke-width", selected ? 2.5 : 0.5);
+    });
+    onSelect(value === "" ? [] : bins[+value].map((p) => p.gene));
+    updateHighlights();
+  }
   bins.forEach((bin, i) => {
     const a = ((bin.x - left) / (right - left)) * 2 * extent - extent,
       b = ((bottom - bin.y) / (bottom - top)) * 2 * extent - extent;
     const title = `Bin ${i + 1}: ${bin.length} genes · centre Day 1 ${fmt(a, 2)}, Day 3 ${fmt(b, 2)}`;
     const activate = () => {
-      select.value = String(i);
-      onSelect(bin.map((p) => p.gene));
-      updateHighlights();
+      inspectBin(String(i));
     };
     const t = Math.log1p(bin.length) / Math.log1p(peak),
       fill = `rgb(${Math.round(226 - 195 * t)},${Math.round(241 - 157 * t)},${Math.round(251 - 111 * t)})`;
@@ -148,6 +162,8 @@ export function createHexbinPlot({ genes, state, onSelect, matchGene }) {
       role: "button",
       tabindex: -1,
       "aria-label": title,
+      "data-density-bin": i,
+      "aria-pressed": "false",
     });
     path.append(sn("title", {}, title));
     path.onclick = activate;
@@ -156,12 +172,7 @@ export function createHexbinPlot({ genes, state, onSelect, matchGene }) {
     option.value = String(i);
     select.append(option);
   });
-  select.onchange = () => {
-    if (select.value !== "") {
-      onSelect(bins[+select.value].map((p) => p.gene));
-      updateHighlights();
-    }
-  };
+  select.onchange = () => inspectBin(select.value);
   picker.append(select);
   svg.append(
     sn(

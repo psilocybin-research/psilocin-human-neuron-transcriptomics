@@ -150,6 +150,7 @@ export function createComparativeViews({
   let genes,
     cohort = [],
     points = [],
+    orderedPoints = [],
     screenPoints = [],
     genePlot,
     currentPlot,
@@ -167,19 +168,39 @@ export function createComparativeViews({
   const loading = loadingMessage("Loading archived gene estimates…");
   plot.append(loading);
   const update = () => onState();
-  const matchGene = (g) => {
-    const q = search.trim().toUpperCase();
-    if (!q) return false;
-    return (
-      g.symbol.toUpperCase().includes(q) ||
-      g.id.toUpperCase().includes(q) ||
-      data.aliases.some(
-        (a) =>
-          [a.current_symbol, a.source_symbol].some((v) =>
-            v?.toUpperCase().includes(q),
-          ) && a.selected_gene_id === g.id,
-      )
+  const aliasNames = new Map();
+  for (const alias of data.aliases) {
+    const names = aliasNames.get(alias.selected_gene_id) || [];
+    names.push(alias.current_symbol, alias.source_symbol);
+    aliasNames.set(
+      alias.selected_gene_id,
+      names.filter(Boolean).map((name) => name.toUpperCase()),
     );
+  }
+  const searchable = new WeakMap();
+  let lastSearch = "",
+    matchingIds = new Set();
+  const matchGene = (gene) => {
+    const query = search.trim().toUpperCase();
+    if (!query) return false;
+    if (query !== lastSearch) {
+      lastSearch = query;
+      matchingIds = new Set();
+      for (const candidate of genes) {
+        let names = searchable.get(candidate);
+        if (!names) {
+          names = [
+            candidate.symbol.toUpperCase(),
+            candidate.id.toUpperCase(),
+            ...(aliasNames.get(candidate.id) || []),
+          ];
+          searchable.set(candidate, names);
+        }
+        if (names.some((name) => name.includes(query)))
+          matchingIds.add(candidate.id);
+      }
+    }
+    return matchingIds.has(gene.id);
   };
   function change(key, value) {
     if (key === "mode") state.brushing = false;
@@ -517,6 +538,9 @@ export function createComparativeViews({
           .filter((g) => finite(g.effects[index].log2FoldChange))
           .map((g) => ({ gene: g, x: g.effects[index].log2FoldChange, y: 0 }))
       : comparisonPoints(cohort, state.mode, index);
+    orderedPoints = [...points].sort(
+      (a, b) => a.x - b.x || a.gene.id.localeCompare(b.gene.id),
+    );
     const axisControls = el("div", "tree-actions");
     axisControls.append(
       control(
@@ -828,9 +852,7 @@ export function createComparativeViews({
       dense = 0;
     const occupied = new Map(),
       spacing = points.length > 2000 ? 4 : 7;
-    for (const p of [...points].sort(
-      (a, b) => a.x - b.x || a.gene.id.localeCompare(b.gene.id),
-    )) {
+    for (const p of orderedPoints) {
       if (Math.abs(p.x) > extent || (scatter && Math.abs(p.y) > extent)) {
         excluded++;
         continue;

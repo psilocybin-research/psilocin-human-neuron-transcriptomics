@@ -30,11 +30,11 @@ const names = {
   copy: "doc_on_doc",
   done: "checkmark",
 };
-export function uiIcon(kind, cls = "") {
+function createIcon(kind) {
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("aria-hidden", "true");
   svg.setAttribute("focusable", "false");
-  svg.setAttribute("class", `f7-icon-svg ${cls}`.trim());
+  svg.setAttribute("class", "f7-icon-svg");
   if (kind === "share") {
     svg.setAttribute("viewBox", "0 0 56 56");
     svg.dataset.iconSource = "scientific-extension";
@@ -58,4 +58,13 @@ export function uiIcon(kind, cls = "") {
   svg.style.fill = "currentColor";
   svg.innerHTML = definition.body;
   return svg;
+}
+
+// Reuse parsed official glyphs; each caller receives an independent DOM clone.
+const templates = new Map();
+export function uiIcon(kind, cls = "") {
+  if (!templates.has(kind)) templates.set(kind, createIcon(kind));
+  const icon = templates.get(kind).cloneNode(true);
+  if (cls) icon.setAttribute("class", `f7-icon-svg ${cls}`);
+  return icon;
 }

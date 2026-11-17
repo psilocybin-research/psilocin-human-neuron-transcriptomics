@@ -12,8 +12,8 @@
     "test:tree": "node test/tree-browser-check.mjs",
     "test:network": "node test/network-browser-check.mjs",
     "test:comparison": "node test/comparison-browser-check.mjs",
-    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs",
-    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs",
+    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs",
+    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs",
     "test:app": "node test/app-shell-browser-check.mjs",
     "test:tour": "node test/tour-browser-check.mjs",
     "test:plot-theme": "node test/plot-theme-browser-check.mjs",
@@ -47,7 +47,8 @@
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.1",
+    "html-minifier-terser": "7.2.0"
   },
   "overrides": {
     "esbuild": "0.28.1"

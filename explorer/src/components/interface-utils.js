@@ -42,6 +42,19 @@ export function escapeHTML(value) {
   );
 }
 
+// F7 9.3 swipe listeners register cleanup on sheetDestroy, while the generic
+// modal destroy method emits sheetBeforeDestroy only. Release them first.
+export function destroySheet(instance) {
+  if (!instance || instance.destroyed) return;
+  instance.emit("sheetDestroy", instance);
+  instance.destroy();
+}
+
+// Desktop uses F7 fade; compact layouts retain native push motion.
+export function useModalPush() {
+  return matchMedia("(max-width: 850px)").matches;
+}
+
 export function showResearchEvidence(target, title) {
   target.dispatchEvent(
     new CustomEvent("atlas:inspect", {

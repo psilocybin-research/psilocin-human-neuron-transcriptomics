@@ -1503,6 +1503,34 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         aliases.set(a.selected_gene_id, values);
       }
     }
+    // Stable cohort arrays let native F7 autocomplete reuse its sorted index.
+    const scopedGenes = {
+      all: genes,
+      ranked: genes.filter((g) => g.selected),
+      oxphos: genes.filter((g) => landscapeMap.has(g.symbol)),
+    };
+    const preferredGenes = scopedGenes.oxphos
+      .filter((g) => g.selected)
+      .map((g) => g.id);
+    // Prepare normalized fields and tie order once, rather than sorting on each keystroke.
+    const catalogue = genes
+      .map((gene) => ({
+        gene,
+        symbol: gene.symbol.toUpperCase(),
+        id: gene.id.toUpperCase(),
+        aliases: (aliases.get(gene.id) || []).map((name) => name.toUpperCase()),
+      }))
+      .sort(
+        (a, b) =>
+          a.gene.symbol.localeCompare(b.gene.symbol) ||
+          Number(b.gene.selected) - Number(a.gene.selected) ||
+          a.gene.id.localeCompare(b.gene.id),
+      );
+    const catalogueScopes = {
+      all: catalogue,
+      ranked: catalogue.filter(({ gene }) => gene.selected),
+      oxphos: catalogue.filter(({ gene }) => landscapeMap.has(gene.symbol)),
+    };
     const current = geneRecords.resolve(selected);
     if (search.value === selected) search.value = current?.symbol || selected;
     function viewEvidence() {
@@ -1620,53 +1648,36 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     function searchResults() {
       limit = 60;
       const q = search.value.trim().toUpperCase();
-      const score = (g) => {
-        const symbol = g.symbol.toUpperCase(),
-          id = g.id.toUpperCase(),
-          aa = (aliases.get(g.id) || []).map((a) => a.toUpperCase());
-        return symbol === q || id === q
-          ? 0
-          : aa.includes(q)
-            ? 1
-            : symbol.startsWith(q)
-              ? 2
-              : id.startsWith(q)
-                ? 3
-                : 4;
-      };
-      found = genes.filter(
-        (g) =>
-          (scope !== "ranked" || g.selected) &&
-          (scope !== "oxphos" || landscapeMap.has(g.symbol)) &&
-          (!q ||
-            g.symbol.toUpperCase().includes(q) ||
-            g.id.toUpperCase().includes(q) ||
-            (aliases.get(g.id) || []).some((a) => a.toUpperCase().includes(q))),
-      );
-      found.sort(
-        (a, b) =>
-          score(a) - score(b) ||
-          a.symbol.localeCompare(b.symbol) ||
-          Number(b.selected) - Number(a.selected) ||
-          a.id.localeCompare(b.id),
-      );
+      const buckets = [[], [], [], [], []];
+      for (const entry of catalogueScopes[scope] || catalogue) {
+        const { gene, symbol, id, aliases } = entry;
+        if (
+          q &&
+          !symbol.includes(q) &&
+          !id.includes(q) &&
+          !aliases.some((name) => name.includes(q))
+        )
+          continue;
+        const score =
+          symbol === q || id === q
+            ? 0
+            : aliases.includes(q)
+              ? 1
+              : symbol.startsWith(q)
+                ? 2
+                : id.startsWith(q)
+                  ? 3
+                  : 4;
+        buckets[score].push(gene);
+      }
+      found = buckets.flat();
       drawResults();
     }
     search.oninput = searchResults;
     search.dataset.geneSuggestions = "true";
     search.atlasGeneSuggestions = {
-      genes: () =>
-        genes.filter(
-          (g) =>
-            (scope !== "ranked" || g.selected) &&
-            (scope !== "oxphos" || landscapeMap.has(g.symbol)),
-        ),
-      preferred: () => [
-        selected,
-        ...genes
-          .filter((g) => g.selected && landscapeMap.has(g.symbol))
-          .map((g) => g.id),
-      ],
+      genes: () => scopedGenes[scope] || genes,
+      preferred: () => [selected, ...preferredGenes],
       select: (g) => {
         search.value = g.symbol;
         searchResults();

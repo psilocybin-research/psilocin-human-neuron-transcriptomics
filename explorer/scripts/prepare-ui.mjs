@@ -1,5 +1,5 @@
-import { build } from "esbuild";
-import { mkdir, copyFile, readFile, writeFile } from "node:fs/promises";
+import { build, transform } from "esbuild";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 const root = new URL("../", import.meta.url),
   out = new URL("src/assets/vendor/", root);
@@ -14,10 +14,43 @@ const result = await build({
   legalComments: "inline",
   metafile: true,
 });
-await copyFile(
-  new URL("node_modules/framework7/framework7-bundle.css", root),
-  new URL("framework7.css", out),
+// Match CSS to the slim runtime, retaining CSS-only form/preloader dependencies.
+const runtimeEntry = await readFile(
+  new URL("scripts/framework7-entry.js", root),
+  "utf8",
 );
+const components = [
+  ...new Set([
+    ...[
+      ...runtimeEntry.matchAll(
+        /from ['"]framework7\/components\/([^'"]+)['"]/g,
+      ),
+    ].map((match) => match[1]),
+    "form",
+    "input",
+    "checkbox",
+    "radio",
+    "preloader",
+    "grid",
+  ]),
+];
+const stylesheet = (
+  await Promise.all(
+    [
+      "node_modules/framework7/framework7.css",
+      ...components.map(
+        (name) => `node_modules/framework7/components/${name}/${name}.css`,
+      ),
+    ].map((path) => readFile(new URL(path, root), "utf8")),
+  )
+).join("\n");
+const css = await transform(stylesheet, {
+  loader: "css",
+  minify: true,
+  legalComments: "inline",
+  target: ["es2022"],
+});
+await writeFile(new URL("framework7.css", out), css.code);
 const packages = [
   ...new Set(
     Object.keys(result.metafile.inputs)

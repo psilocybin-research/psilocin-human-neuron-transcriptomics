@@ -292,6 +292,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/prepare-atlas.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-molecules.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -401,6 +407,12 @@
     ]
   },
   "explorer/src/components/app-shell.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/app-toast.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

@@ -76,6 +76,18 @@ try {
             await page.locator(".comparison-selection").innerText(),
             /[1-9][0-9]* selected genes/,
           );
+          const selectedBin = page.locator(
+            '[data-density-bin][aria-pressed="true"]',
+          );
+          assert.equal(await selectedBin.count(), 1);
+          assert.equal(await selectedBin.getAttribute("data-density-bin"), "0");
+          assert.equal(await selectedBin.getAttribute("stroke-width"), "2.5");
+          await select.selectOption("");
+          assert.equal(await selectedBin.count(), 0);
+          assert.match(
+            await page.locator(".comparison-selection").innerText(),
+            /0 selected genes/,
+          );
         }
         if (mode === "profiles") {
           await page.locator(".comparison-bounds summary").first().click();
@@ -125,6 +137,25 @@ try {
               n.dispatchEvent(new Event("change", { bubbles: true }));
             });
           assert.ok(await page.locator(".intersection-gene-list").isVisible());
+          const intersectionPlot = page.locator(".upset-summary svg");
+          assert.equal(
+            await intersectionPlot.getAttribute("data-selected-intersection"),
+            "0",
+          );
+          assert.equal(
+            await intersectionPlot.locator('[aria-pressed="true"]').count(),
+            1,
+          );
+          const selectedBar = intersectionPlot.locator(
+            '[aria-pressed="true"] .intersection-bar',
+          );
+          const otherBar = intersectionPlot
+            .locator('[aria-pressed="false"] .intersection-bar')
+            .first();
+          assert.notEqual(
+            await selectedBar.evaluate((n) => getComputedStyle(n).fill),
+            await otherBar.evaluate((n) => getComputedStyle(n).fill),
+          );
         }
         await page
           .locator(".network-content")
