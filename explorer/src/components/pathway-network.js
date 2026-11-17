@@ -1,3 +1,5 @@
+import {createUpSet} from './upset-plot.js';
+import {bundledOverlapSVG} from './bundled-overlap.js';
 import {uiIcon} from './icons.js';
 import {plotPalette,themeScientificSVG} from './plot-theme.js';
 import {ribbon} from 'npm:d3-chord@3.0.1';
@@ -27,9 +29,10 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  for (const v of [0, .05, .1, .2]) {const option = el('option', '', v === 0 ? '0 · show every nonzero overlap' : String(v)); option.value = String(v); thresholdSelect.append(option);}
  thresholdSelect.value = String(threshold); thresholdSelect.onchange = () => {state.threshold = +thresholdSelect.value; onState(true,'[aria-label="Minimum Jaccard"]');}; thresholdLabel.append(thresholdSelect);
  const views = el('div', 'network-view-toggle'); views.setAttribute('aria-label', 'Overlap display');
- for (const [value, name] of [['graph','Network'],['pairs','Overlap table'],['matrix','Matrix'],['chord','Chord']]) {
+ for (const [value, name] of [['graph','Network'],['pairs','Overlap table'],['matrix','Matrix'],['chord','Chord'],['bundled','Edge bundling'],['upset','Exact intersections']]) {
   const b = button(name, () => {state.networkView = value; onState(true,`[data-overlap-view="${value}"]`);}); b.dataset.overlapView=value;b.setAttribute('aria-pressed', String(state.networkView === value)); views.append(b);
  }
+ thresholdSelect.disabled=state.networkView==='upset';
  options.append(thresholdLabel, views);
  const searchInfo = el('p', 'network-search-status'); searchInfo.setAttribute('role', 'status');
  const q = state.query.trim().toUpperCase();
@@ -51,11 +54,13 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  if (state.networkView === 'pairs') drawPairs();
  else if (state.networkView === 'matrix') drawMatrix();
  else if (state.networkView === 'chord') drawChord();
+ else if (state.networkView === 'bundled') drawBundled();
+ else if (state.networkView === 'upset') drawUpSet();
  else drawGraph();
  exports.append(button('Download overlap CSV',()=>save('pathway-overlap.csv',csvText(overlapRows(graph,contrast,state.networkMembers,threshold)),'text/csv')),
   button('Download network provenance',()=>save('pathway-overlap-provenance.json',JSON.stringify({
-   view_url:location.href, contrast, membership:state.networkMembers, tier, minimum_jaccard:threshold, search:state.query,
-   chord_sets:state.chordSets||null,selected_pair:state.edge||null, selected_gene:state.gene||null, nodes:graph.nodes.map(n=>({id:n.id,tier:n.row.tier,members:n.size,available:n.available})),
+   view_url:location.href,display:state.networkView,bundling_beta:state.networkView==='bundled'?.82:null, contrast, membership:state.networkMembers, tier, minimum_jaccard:threshold, search:state.query,
+   chord_sets:state.chordSets||null,intersection_sets:state.intersectionSets||null,selected_pair:state.edge||null, selected_gene:state.gene||null, nodes:graph.nodes.map(n=>({id:n.id,tier:n.row.tier,members:n.size,available:n.available})),
    pairs:graph.pairs.length, shown_connections:state.networkView==='chord'?connections.filter(p=>state.chordSets?.includes(p.source)&&state.chordSets?.includes(p.target)).length:connections.length,node_inventory_scope:'all sets in selected analysis tier; chord subset listed separately', data_sha256:provenance.outputs,
    archived_release:'https://doi.org/10.5281/zenodo.23283595',
    definition:'Jaccard = |A intersection B| / |A union B|; literal frozen symbols, no alias expansion. All pairs exported including zero and unavailable overlaps. Search does not change denominators. The display threshold does not alter the exported inventory.',
@@ -73,6 +78,17 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  function edgeButton(p, text) {
   const b=button(text,()=>chooseEdge(p),'network-pair-button');b.dataset.networkPair=p.key;
   b.setAttribute('aria-label',`Inspect overlap: ${label(p.source)} and ${label(p.target)}`);return b;
+ }
+ function drawUpSet() {
+  let ids=(state.intersectionSets?.length?state.intersectionSets:graph.nodes.filter(n=>n.row.tier==='primary'&&n.available).map(n=>n.id)).filter(id=>graph.nodes.some(n=>n.id===id&&n.available)).slice(0,6);if(!ids.length)ids=graph.nodes.filter(n=>n.available).slice(0,5).map(n=>n.id);state.intersectionSets=ids;
+  const picker=el('div','list accordion-list chord-set-picker');const item=el('div','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('aria-label','Choose intersection gene sets');const inner=el('div','item-inner');inner.append(el('div','item-title','Intersection gene sets'),el('div','item-after',`${ids.length} of 6`));toggle.append(inner);const panel=el('div','accordion-item-content'),list=el('div','list chord-set-list');
+  for(const node of graph.nodes){const row=el('label','item-checkbox item-content'),input=el('input');input.type='checkbox';input.checked=ids.includes(node.id);input.disabled=!node.available||(!input.checked&&ids.length>=6);input.setAttribute('aria-label',`Intersection gene set: ${node.short}`);input.onchange=()=>{state.intersectionSets=input.checked?[...ids,node.id]:ids.filter(id=>id!==node.id);onState(true);};const details=el('div','item-inner');details.append(el('div','item-title',node.short));row.append(input,el('i','icon icon-checkbox'),details);list.append(row);}panel.append(list);item.append(toggle,panel);picker.append(item);content.append(picker,createUpSet({nodes:graph.nodes.filter(n=>ids.includes(n.id)),genes}));legend.textContent='Bars count exclusive symbol intersections among the selected sets, independent of the pairwise Jaccard display threshold. The universe is their union; no significance filtering is applied.';
+ }
+ function drawBundled() {
+  const scroll=el('div','network-map plot-viewport bundled-map');scroll.tabIndex=0;scroll.style.setProperty('--plot-width','920px');scroll.dataset.fullscreenTitle='Gene-set overlap · hierarchical edge bundling';scroll.dataset.fullscreenInfo='Leaves are gene sets grouped by primary, secondary or exploratory analysis family. Link width encodes Jaccard overlap, not biological interaction. Search preserves the complete inventory.';
+  scroll.append(bundledOverlapSVG({graph,connections,selectedPathway,selectedPair:state.edge,matches,onNode:chooseNode,onEdge:chooseEdge}));
+  legend.textContent='Equal-sized leaves: gene sets; fill: archived NES (−3.6 to +3.6). Branch grouping: analysis family, not biological hierarchy. Bundled links: nonzero shared membership above the display threshold; width: Jaccard. Select a link for exact shared genes.';
+  content.append(scroll,el('p','note','Hover or focus a gene set to isolate its connections. Family grouping and curved routes organise annotations; angle, radius and bundle convergence have no biological meaning. The pair selector provides the same exact counts without navigating the diagram.'));highlight();
  }
  function drawPairs() {
   content.dataset.fullscreenHost='';content.dataset.fullscreenTitle='Pairwise gene-set overlap table';content.dataset.fullscreenInfo='Shared membership and Jaccard overlap for the selected annotation scope.';

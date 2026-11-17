@@ -207,8 +207,8 @@ export function createAppShell({
     find,
     appearanceButton,
     shareControl,
-    fullscreenButton,
     sourcesButton,
+    fullscreenButton,
   );
   navinner.append(left, titles, right);
   navbar.append(navbg, navinner);

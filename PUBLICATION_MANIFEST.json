@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 505,
-  "total_bytes": 252729260,
+  "file_count": 518,
+  "total_bytes": 252811492,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 72853,
-      "sha256": "ddc6e689220766b50fa33a0f529288359f19114d97919078683440683b70d346"
+      "bytes": 74470,
+      "sha256": "a0914d038d20c125d4eeb86b2c5768abf82bbcecf1c57f5adcfea0992fed2cca"
     },
     {
       "path": "LICENSE.md",
@@ -86,6 +86,11 @@
       "path": "LICENSES/Apache-2.0.txt",
       "bytes": 11341,
       "sha256": "740725f7252e750af735d0028cc534970772f513331e9f68150fede8fb3ce00f"
+    },
+    {
+      "path": "LICENSES/BSD-3-Clause.txt",
+      "bytes": 1459,
+      "sha256": "3cf06aba3588c41c514f6946bb2d757b413ff6491647d474800f55edca75dcb4"
     },
     {
       "path": "LICENSES/CC-BY-4.0.txt",
@@ -129,8 +134,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 7576,
-      "sha256": "9d106c30e2880f52837f555cc43f504413d34026c666434bfcf13d75ff284093"
+      "bytes": 7934,
+      "sha256": "bb5a6660030563a4d9644bcd81f1d7e74726fb0f4ca4fdf63a0d87bb483d2b42"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -244,13 +249,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 159171,
-      "sha256": "e96de50ee6151894a33873b914f3b35f640a37ca3ba4c6d9f88395e74f1112f6"
+      "bytes": 159529,
+      "sha256": "242cb0a651bb4b2d399cebbdf7c988f56a0548b078f1c819033f92b97f5defab"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 1537,
-      "sha256": "817adce961c035bada52dc83fb7a3834d19d66061016476dfaec5fe4a89aa11d"
+      "bytes": 1673,
+      "sha256": "213a5dc2db06e8d6c37e847299b925993b64209e6cd56334c1436e7c5932c8f7"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -269,8 +274,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 2019,
-      "sha256": "3a1f2de5562827fa3bbdbdf4caef0ade15a339b166ebf60b395969b42815d797"
+      "bytes": 2060,
+      "sha256": "a2995290b692bd479e7b9aa32544ef8ddf522a09c76595bcf2138d4c6486d3ed"
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
@@ -279,8 +284,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 83425,
-      "sha256": "5446a59c7248b773554e08433b92ce114c1558fca17c44697fbb08595a007b86"
+      "bytes": 85917,
+      "sha256": "64a287ea72a45eee3b4e628d6d92750b6d0a966fe459026e05774b94e210621d"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -335,7 +340,7 @@
     {
       "path": "explorer/src/components/app-shell.js",
       "bytes": 40479,
-      "sha256": "54a3f14571079028e63b6e57633a8b1ec2c4ec4f26acf3da8f41b44596fd0a5c"
+      "sha256": "45bcb9f2d8528f7b0801c626cf9f6dce1dabf3f91934faf68180a8d84685c24d"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -344,13 +349,18 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 69106,
-      "sha256": "af7c87916e45eb209ad2373186246d67e59ec7e2f6eb771513e5bbf0d6912f83"
+      "bytes": 72111,
+      "sha256": "365321d371158c5bf364b76b7d6dd4888b27427cd8424ed0a81badb95c4402c3"
+    },
+    {
+      "path": "explorer/src/components/bundled-overlap.js",
+      "bytes": 5215,
+      "sha256": "a33450bbcc91ad324ceefb679ad329cd7566a9f141529af16b363ec79e37593f"
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 39217,
-      "sha256": "ca85baefaf792037a6cc2120b96f53282d14d98d25a615bbef445377fcc71766"
+      "bytes": 42353,
+      "sha256": "428efe88fcd60a344c779c56f56471d6449836e79fe226870aa501ca3a77b81b"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
@@ -358,14 +368,29 @@
       "sha256": "3c9abe6330383420a1e7a15c183518a2c99aead166c5a42475e2d033e2af46df"
     },
     {
+      "path": "explorer/src/components/expression-comparisons.js",
+      "bytes": 15130,
+      "sha256": "8d725383cf9eaa586dd335e0719213f172c8a999ba5b9d2f47fb15a35214c3c5"
+    },
+    {
       "path": "explorer/src/components/figure-controls.js",
       "bytes": 12816,
-      "sha256": "84cbc028df3f272c86bca9fa3d82b4a07a445c0ea1c70b127040c8a029a6c2e5"
+      "sha256": "413498da8b42b5d205a34e90691c1663106498ef27f39b3945edc09c57ce6854"
     },
     {
       "path": "explorer/src/components/format.js",
       "bytes": 1697,
       "sha256": "0a0c27236590c39996c68241453be66b9557ac6c2a83dc58f7fa407f8c1f4099"
+    },
+    {
+      "path": "explorer/src/components/gene-diagnostics.js",
+      "bytes": 9124,
+      "sha256": "8e2cd64155cacba022dce55b0a5bf6045dffe41b17758bca4ca7b6cdd3a09af2"
+    },
+    {
+      "path": "explorer/src/components/hexbin-plot.js",
+      "bytes": 7265,
+      "sha256": "a45e8376502a976c310b0452279b3cc04978c9261279236ec5c723eb27c3f033"
     },
     {
       "path": "explorer/src/components/icons.js",
@@ -378,14 +403,19 @@
       "sha256": "f50db183dc30c71de18ad6c92fcf5b18265028522d48aed6bf0f6b3e389fc07f"
     },
     {
+      "path": "explorer/src/components/intersection-data.js",
+      "bytes": 731,
+      "sha256": "11178a7151c96891637efc277d4cafbeb0e16ef6c9903a01cd3ba11f9a890f3c"
+    },
+    {
       "path": "explorer/src/components/pathway-autocomplete.js",
       "bytes": 7928,
       "sha256": "ad1e1c99eb18aa7164c5015cab0d10ae6737deaf16c923bdf555c4de76568aa0"
     },
     {
       "path": "explorer/src/components/pathway-network.js",
-      "bytes": 27086,
-      "sha256": "81459d7d8048cde9e270d4f76248ab1a5f2869e2e80ea3d1fa2b5022453d403d"
+      "bytes": 30482,
+      "sha256": "e1f572ce6b24bbdbc13da02e84e87f6aa29a03c7523b3d56f3fb28ec0f2c53f6"
     },
     {
       "path": "explorer/src/components/pathway-overlap.js",
@@ -406,6 +436,21 @@
       "path": "explorer/src/components/research-navigation.js",
       "bytes": 3135,
       "sha256": "e140c6c52da29de37fcd819af1819a7f87c9690a2a81fa0608de83fe24de07d2"
+    },
+    {
+      "path": "explorer/src/components/synopsis-data.js",
+      "bytes": 1609,
+      "sha256": "db7c7652b281fba88fa70df4d4a831ec455e429e7aaf0d73b68e1037b8947659"
+    },
+    {
+      "path": "explorer/src/components/synopsis-plots.js",
+      "bytes": 9569,
+      "sha256": "c552bcfa3b5a613127b0aa32a700af6a9bc8a854cd9551845a3161b90ec303aa"
+    },
+    {
+      "path": "explorer/src/components/upset-plot.js",
+      "bytes": 6713,
+      "sha256": "1d0b35eedda507c56d8413e26b2555b56b731fa8e7c20ae0df882a4c777d2460"
     },
     {
       "path": "explorer/src/data/atlas.json",
@@ -531,6 +576,16 @@
       "path": "explorer/test/print-check.mjs",
       "bytes": 2693,
       "sha256": "0fbe819afa28bb5f18d2b776deb84634cb2014a4fff34b562a8d98c5da4d629b"
+    },
+    {
+      "path": "explorer/test/research-additions-browser-check.mjs",
+      "bytes": 5624,
+      "sha256": "0c32fe18d367693d172e758a92a27dc00b34a9cc13945ac35202a2c7efddae99"
+    },
+    {
+      "path": "explorer/test/synopsis-data.test.js",
+      "bytes": 3047,
+      "sha256": "1a456ed4e56e85d728b2078957a9e0fa80a945c7b2edeca50de13204dc2753f4"
     },
     {
       "path": "explorer/test/tour-browser-check.mjs",
@@ -2469,6 +2524,16 @@
     },
     {
       "path": "third_party_licenses/d3-force-3.0.0.txt",
+      "bytes": 731,
+      "sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+    },
+    {
+      "path": "third_party_licenses/d3-hexbin-0.2.2.txt",
+      "bytes": 1476,
+      "sha256": "9ae2b9fe1b61a313151f4ca9aa0f5c11d04aba157f469ec5690639dc0f1d401f"
+    },
+    {
+      "path": "third_party_licenses/d3-hierarchy-3.1.2.txt",
       "bytes": 731,
       "sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
     },

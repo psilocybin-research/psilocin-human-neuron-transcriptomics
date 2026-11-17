@@ -382,6 +382,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/bundled-overlap.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/comparative-views.js": {
     "spdx": "MIT",
     "copyright": [
@@ -389,6 +395,12 @@
     ]
   },
   "explorer/src/components/comparison-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/expression-comparisons.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -406,6 +418,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/gene-diagnostics.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/hexbin-plot.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/icons.js": {
     "spdx": "MIT",
     "copyright": [
@@ -413,6 +437,12 @@
     ]
   },
   "explorer/src/components/interface-utils.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/intersection-data.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -449,6 +479,24 @@
     ]
   },
   "explorer/src/components/research-navigation.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/synopsis-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/synopsis-plots.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/upset-plot.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -601,6 +649,18 @@
     ]
   },
   "explorer/test/print-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/research-additions-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/synopsis-data.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -2935,6 +2995,18 @@
     ]
   },
   "third_party_licenses/d3-force-3.0.0.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2021 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-hexbin-0.2.2.txt": {
+    "spdx": "BSD-3-Clause",
+    "copyright": [
+      "2012-2016 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-hierarchy-3.1.2.txt": {
     "spdx": "ISC",
     "copyright": [
       "2010-2021 Mike Bostock"

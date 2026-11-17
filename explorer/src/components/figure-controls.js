@@ -271,7 +271,6 @@ export function enhancePlots(scope) {
     shell.addEventListener("webkitfullscreenchange", update);
     print.setAttribute("aria-label", `Print ${title}`);
     print.title = "Print this plot and its visible information";
-    if (requestName && exitName) pane.append(full);
     pane.append(print);
     host.before(shell);
     host.dataset.figureContent = "";
@@ -315,5 +314,6 @@ export function enhancePlots(scope) {
       });
       resize.observe(scaleViewport);
     }
+    if (requestName && exitName) pane.append(full);
   }
 }
