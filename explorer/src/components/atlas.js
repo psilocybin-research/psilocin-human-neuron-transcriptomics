@@ -234,13 +234,41 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   container.append(note('Intervals use the archived unshrunken coefficient ±1.96 × SE. Gene FDR is distinct from pathway-family q. Three blocks limit generalization.'),downloadButton(effects,`${gene.symbol}-model-estimates.csv`));enhancePlots(container);
  }
  async function genesView(){
-  body.append(heading('Gene explorer','Search all 21,154 filtered gene IDs, including the 21,098 representatives used for symbol-based ranking. Verified ATP5 aliases resolve to their original identifiers.'));
-  const search=el('input');search.type='search';search.placeholder='Search symbol, Ensembl ID or verified alias…';search.setAttribute('aria-label','Search genes');search.value=selected;
-  const layout=el('div','gene-layout'),results=el('div','gene-results'),detail=el('article','gene-detail');body.append(search,layout);layout.append(results,detail);geneDetail(detail,selected);
+  body.append(heading('Gene explorer','Inspect archived gene-level estimates across all three contrasts. Search by source symbol, Ensembl identifier or verified ATP5 alias.'));
+  const panel=el('section','gene-picker');panel.setAttribute('aria-label','Gene selection');
+  const searchLabel=el('label','gene-search-label','Find a gene');searchLabel.htmlFor='gene-search-input';
+  const field=el('div','gene-search-field'),search=el('input');search.id='gene-search-input';search.type='search';search.placeholder='Symbol, Ensembl ID or verified alias';search.autocomplete='off';search.spellcheck=false;search.setAttribute('aria-label','Search genes');search.setAttribute('role','combobox');search.setAttribute('aria-autocomplete','list');search.setAttribute('aria-controls','gene-search-results');search.setAttribute('aria-expanded','true');search.setAttribute('aria-describedby','gene-search-help gene-search-count');
+  const clear=button('Clear',()=>{search.value='';searchResults();search.focus();},'gene-search-clear');clear.setAttribute('aria-label','Clear gene search');field.append(search,clear);
+  const help=el('p','gene-search-help','21,154 gene IDs · 21,098 rank representatives. Exact matches appear first. Use ↑ ↓ and Enter to select.');help.id='gene-search-help';
+  const controls=el('div','gene-picker-controls');
+  let scope='all',limit=60,active=-1,found=[],options=[];
+  const scopeControl=select('Search scope',[['all','All filtered genes'],['ranked','Rank representatives'],['oxphos','OXPHOS leading-edge genes']],scope,v=>{scope=v;searchResults();});
+  const selection=el('div','gene-current');selection.setAttribute('aria-live','polite');
+  const summary=el('p','gene-search-count');summary.id='gene-search-count';summary.setAttribute('role','status');
+  const layout=el('div','gene-layout gene-explorer-layout'),sidebar=el('section','gene-selector-results'),results=el('div','gene-results'),detail=el('article','gene-detail');detail.id='selected-gene-evidence';detail.tabIndex=-1;results.id='gene-search-results';results.setAttribute('role','listbox');results.setAttribute('aria-label','Matching genes');
+  const more=button('Show more genes',()=>{limit+=60;drawResults();},'secondary gene-show-more');
+  controls.append(scopeControl,selection);panel.append(searchLabel,field,help,controls);body.append(panel,layout);sidebar.append(summary,results,more);layout.append(sidebar,detail);geneDetail(detail,selected);
   const genes=await getGenes();if(!search.isConnected)return;
-  function searchResults(){const q=search.value.trim().toUpperCase();const aliasIds=new Set(data.aliases.filter(a=>a.current_symbol.includes(q)).map(a=>a.selected_gene_id));const found=genes.filter(g=>g.symbol.toUpperCase().includes(q)||g.id.toUpperCase().includes(q)||aliasIds.has(g.id));results.replaceChildren(note(`${found.length.toLocaleString()} matches${found.length>60?' · showing first 60 alphabetically':''}`));found.sort((a,b)=>a.symbol.localeCompare(b.symbol));for(const g of found.slice(0,60)){const b=button('',()=>{selected=g.id;geneDetail(detail,g.id);syncLocation();},'gene-hit');b.append(el('strong','',g.symbol),el('small','',g.id),el('small','',g.selected?'Rank representative':'Nonrepresentative duplicate'));results.append(b);}if(!found.length)results.append(note('No matching filtered gene. Try its source symbol or Ensembl ID.'));}
-  search.oninput=searchResults;searchResults();
+  const aliases=new Map();for(const a of data.aliases){if(a.selected_gene_id&&a.current_symbol){const values=aliases.get(a.selected_gene_id)||[];values.push(a.current_symbol);aliases.set(a.selected_gene_id,values);}}
+  const current=genes.find(g=>g.id===selected)||genes.find(g=>g.symbol===selected&&g.selected)||genes.find(g=>g.symbol===selected)||genes.find(g=>(aliases.get(g.id)||[]).includes(selected));
+  search.value=current?.symbol||selected;
+  function updateSelection(){const g=genes.find(g=>g.id===selected)||current;if(!g)return;selection.replaceChildren(el('span','','Selected gene'),el('strong','',g.symbol),el('span','identifier',g.id),button('View evidence ↓',()=>{detail.scrollIntoView({behavior:'smooth',block:'start'});detail.focus({preventScroll:true});},'gene-view-evidence'));}
+  function choose(g){selected=g.id;geneDetail(detail,g.id);syncLocation();updateSelection();for(const [i,o]of options.entries())o.setAttribute('aria-selected',String(found[i].id===selected));if(matchMedia('(max-width:850px)').matches){detail.scrollIntoView({behavior:'smooth',block:'start'});detail.focus({preventScroll:true});}}
+  function activate(index){active=index;for(const[i,o]of options.entries())o.classList.toggle('keyboard-active',i===active);if(options[active]){search.setAttribute('aria-activedescendant',options[active].id);options[active].scrollIntoView({block:'nearest'});}else search.removeAttribute('aria-activedescendant');}
+  function drawResults(){results.replaceChildren();options=[];active=-1;search.removeAttribute('aria-activedescendant');const q=search.value.trim().toUpperCase();
+   summary.textContent=`${found.length.toLocaleString()} matching gene${found.length===1?'':'s'}${found.length>limit?` · showing ${limit}`:''}`;clear.disabled=!search.value;more.hidden=found.length<=limit;
+   for(const g of found.slice(0,limit)){const alias=(aliases.get(g.id)||[]).filter(a=>q&&a.toUpperCase().includes(q));const o=el('div','gene-hit');o.id=`gene-option-${options.length}`;o.setAttribute('role','option');o.setAttribute('aria-selected',String(g.id===selected||g.id===current?.id&&selected===current.symbol));o.tabIndex=-1;
+    const title=el('div','gene-hit-title');title.append(el('strong','',g.symbol));if(g.symbol.toUpperCase()===q||g.id.toUpperCase()===q)title.append(el('span','gene-match-kind','Exact match'));else if(alias.some(a=>a.toUpperCase()===q))title.append(el('span','gene-match-kind','Verified alias'));
+    o.append(title,el('small','gene-hit-id',g.id),el('small','',g.selected?'Rank representative':'Additional gene ID · excluded from symbol-based ranking'));if(alias.length&&alias.some(a=>a!==g.symbol))o.append(el('small','gene-alias-match',`Alias: ${alias.join(', ')} → source symbol ${g.symbol}`));o.onclick=()=>choose(g);o.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose(g);}};options.push(o);results.append(o);
+   }
+   if(!found.length)results.append(note('No matching filtered gene in this scope. Try a source symbol, Ensembl identifier or a broader search scope. Absence does not indicate a null result.'));
+  }
+  function searchResults(){limit=60;const q=search.value.trim().toUpperCase();const score=g=>{const symbol=g.symbol.toUpperCase(),id=g.id.toUpperCase(),aa=(aliases.get(g.id)||[]).map(a=>a.toUpperCase());return symbol===q||id===q?0:aa.includes(q)?1:symbol.startsWith(q)?2:id.startsWith(q)?3:4;};found=genes.filter(g=>(scope!=='ranked'||g.selected)&&(scope!=='oxphos'||landscapeMap.has(g.symbol))&&(!q||g.symbol.toUpperCase().includes(q)||g.id.toUpperCase().includes(q)||(aliases.get(g.id)||[]).some(a=>a.toUpperCase().includes(q))));found.sort((a,b)=>score(a)-score(b)||a.symbol.localeCompare(b.symbol)||Number(b.selected)-Number(a.selected)||a.id.localeCompare(b.id));drawResults();}
+  search.oninput=searchResults;search.onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();activate(options.length?Math.max(0,Math.min(options.length-1,active+(e.key==='ArrowDown'?1:-1))):-1);}else if(e.key==='Enter'&&found.length){e.preventDefault();choose(found[Math.max(0,active)]);}else if(e.key==='Escape'){activate(-1);}};
+  results.onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();search.focus();activate(Math.max(0,Math.min(options.length-1,options.indexOf(e.target)+(e.key==='ArrowDown'?1:-1))));}};
+  updateSelection();searchResults();
  }
+
  function pathways(){
   body.append(heading('Pathway evidence','Frozen primary, secondary and exploratory gene sets, with archived enrichment statistics, gene-level estimates and sensitivity analyses.'));
   const eligible=data.pathways.filter(p=>pathwayTier==='all'||p.tier===pathwayTier);
