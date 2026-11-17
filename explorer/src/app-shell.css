@@ -4301,31 +4301,36 @@ body {
 #psilocin-app .gene-connection-remember {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 14px;
   margin-top: 16px;
+  min-height: 44px;
   text-align: left;
   font-size: 13px;
+  line-height: 1.4;
   cursor: pointer;
 }
-#psilocin-app .gene-connection-remember .checkbox {
+#psilocin-app .gene-connection-remember .toggle {
   flex: none;
+  --f7-toggle-inactive-border-color: color-mix(in srgb, var(--research-glass-solid) 78%, currentColor 22%);
+  --f7-toggle-inactive-knob-bg-color: var(--f7-glass-bg-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-
-#psilocin-app .gene-connection-remember .checkbox input {
-  display: block;
-  position: absolute;
+#psilocin-app .gene-connection-remember .toggle input {
   inset: 0;
   width: 100%;
   height: 100%;
-  margin: 0;
-  opacity: 0;
-  z-index: 1;
+  clip-path: none;
+  z-index: 2;
   cursor: pointer;
 }
-#psilocin-app .gene-connection-remember .checkbox:has(input:focus-visible) {
+#psilocin-app .gene-connection-remember .toggle-icon {
+  box-shadow: var(--f7-glass-shadow-thumb);
+}
+#psilocin-app .gene-connection-remember .toggle:has(input:focus-visible) {
   outline: 2px solid var(--research-accent);
   outline-offset: 3px;
-  border-radius: 50%;
 }
 
 #psilocin-app[data-reduced-motion="true"] :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {

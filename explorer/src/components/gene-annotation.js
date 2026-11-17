@@ -93,6 +93,7 @@ function confirmConnection(app, gene) {
     return Promise.resolve(false);
   return new Promise((resolve) => {
     let accepted = false;
+    let rememberToggle;
     const label = (icon, text) =>
       `${uiIcon(icon).outerHTML}<span>${text}</span>`;
     const container =
@@ -100,7 +101,7 @@ function confirmConnection(app, gene) {
     const dialog = app.dialog.create({
       containerEl: container,
       title: label("information", "Connect to public databases?"),
-      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded. </p><label class="gene-connection-remember"><span class="checkbox"><input type="checkbox" name="remember-public-databases"><i class="icon-checkbox" aria-hidden="true"></i></span><span>Remember my choice for these databases</span></label>`,
+      content: `<p>Retrieve public information for <strong>${escapeHTML(gene.symbol)}</strong> (${escapeHTML(gene.id)})?</p><p>External databases receive the identifier and your network address. Archived expression data are not uploaded. </p><label class="gene-connection-remember"><span>Remember my choice for these databases</span><span class="toggle"><input type="checkbox" role="switch" name="remember-public-databases"><span class="toggle-icon" aria-hidden="true"></span></span></label>`,
       cssClass: "research-message-dialog gene-connection-confirmation",
       closeByBackdropClick: true,
       destroyOnClose: true,
@@ -127,6 +128,7 @@ function confirmConnection(app, gene) {
       ],
       on: {
         closed() {
+          rememberToggle?.destroy();
           if (container !== app.el && dialog.backdropEl)
             app.el.append(dialog.backdropEl);
           resolve(accepted);
@@ -164,6 +166,9 @@ function confirmConnection(app, gene) {
         "Requests omit credentials and the page referrer. Information is reused in memory during this visit. Cancel makes no connection. When remembered, approval applies to these four databases; a changed provider set requires confirmation again. Clearing browser storage removes this approval. Provider links open external sites only when clicked.",
       ),
     );
+    rememberToggle = app.toggle.create({
+      el: dialog.el.querySelector(".gene-connection-remember .toggle"),
+    });
     dialog.el.querySelector(".dialog-inner").append(details.element);
     if (container !== app.el && dialog.backdropEl)
       container.append(dialog.backdropEl);

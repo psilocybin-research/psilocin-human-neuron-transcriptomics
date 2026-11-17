@@ -126,7 +126,7 @@ try {
       .click();
     const repeatConfirmation = page.locator(".gene-connection-confirmation");
     await repeatConfirmation.waitFor();
-    const remember = repeatConfirmation.getByRole("checkbox", {
+    const remember = repeatConfirmation.getByRole("switch", {
       name: "Remember my choice for these databases",
     });
     assert.equal(await remember.isChecked(), false, "remembering is opt-in");

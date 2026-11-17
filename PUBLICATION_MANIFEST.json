@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 552,
-  "total_bytes": 253051611,
+  "total_bytes": 253052147,
   "status": "pass",
   "failures": [],
   "files": [
@@ -309,8 +309,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 105556,
-      "sha256": "cdb4f684118b7fc50670fa510d2c618c1f33f5fc47d604fba785983468fe3a8b"
+      "bytes": 105896,
+      "sha256": "04fa28a36da0875d9e7bab0c199166f9f35aede476399fb0c04f27bfbc97fca1"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/components/gene-annotation.js",
-      "bytes": 14000,
-      "sha256": "d6471e3d22f9a59e8f35596c55bf6b7c616719a95ae274c69b5e064f037016f7"
+      "bytes": 14198,
+      "sha256": "dadef7ea9da67036e8db926777f8126eeedf636183b40ba99aec0730bd601a61"
     },
     {
       "path": "explorer/src/components/gene-diagnostics.js",
@@ -644,8 +644,8 @@
     },
     {
       "path": "explorer/test/gene-annotation-browser-check.mjs",
-      "bytes": 7274,
-      "sha256": "42f2dcf590802739d8319b8a78b279d539c5ae72f95c3edcb5ff69d3025213b7"
+      "bytes": 7272,
+      "sha256": "85e4ca14cc8886510ab252cc546204aef22e202124e81e3e969fb43078f6178c"
     },
     {
       "path": "explorer/test/gene-annotation.test.js",
