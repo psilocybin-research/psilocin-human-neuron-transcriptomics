@@ -1,5 +1,9 @@
 import { downloadFile } from "./file-download.js";
-import { createElement as el, createAccordion } from "./interface-utils.js";
+import {
+  createElement as el,
+  createAccordion,
+  loadingMessage,
+} from "./interface-utils.js";
 import {
   lookupProteins,
   publicRequest,
@@ -126,6 +130,7 @@ function structureOption(parent, model, predicted = false) {
   const viewport = el("div", "molecular-viewport");
   const load = action("Open 3D structure", async () => {
     load.disabled = true;
+    viewport.replaceChildren(loadingMessage("Loading molecular structure…"));
     try {
       await trackActivity(
         import("./molecular-viewer.js").then(({ molecularViewer }) =>
@@ -227,7 +232,7 @@ function proteinCard(protein, result) {
     const find = action("Find sequence-matched AlphaFold models", async () => {
       find.disabled = true;
       predicted.replaceChildren(
-        el("p", "note", "Checking public predicted models…"),
+        loadingMessage("Checking public predicted models…"),
       );
       try {
         const response = await trackActivity(

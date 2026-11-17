@@ -27,6 +27,15 @@ try {
       3,
     );
     assert.equal(await page.locator(".research-steps").count(), 0);
+    assert.equal(await page.locator(".comparison-evidence").isVisible(), false);
+    assert.equal(
+      await page
+        .locator(".comparison-stage")
+        .evaluate(
+          (n) => getComputedStyle(n).gridTemplateColumns.split(" ").length,
+        ),
+      1,
+    );
     const search = page.getByRole("combobox", {
       name: "Search comparison genes",
       exact: true,
@@ -203,6 +212,34 @@ try {
       await page.locator(".gene-diagnostics svg[data-plot-renderer]").count(),
       2,
     );
+    assert.ok(await page.locator('.gene-diagnostics [role=button][aria-label^="Inspect "]').count() > 0);
+    await page.goto(base + "#view=dna");
+    await page
+      .getByText("Canonical gene panel · includes absent and mixed results", {
+        exact: true,
+      })
+      .click();
+    await page
+      .getByRole("link", {
+        name: "Inspect BRCA1 gene evidence and public context",
+        exact: true,
+      })
+      .first()
+      .click();
+    await page
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
+      .waitFor();
+    assert.match(page.url(), /view=genes/);
+    await page
+      .getByRole("button", {
+        name: "View public gene and protein context",
+        exact: true,
+      })
+      .click();
+    await page.locator(".gene-annotation .accordion-item-opened").waitFor();
     await page.close();
   }
   assert.deepEqual(errors, []);

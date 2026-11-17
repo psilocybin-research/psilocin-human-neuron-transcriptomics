@@ -2,6 +2,7 @@ import { createGeneRecords } from "./gene-records.js";
 import { geneAnnotation } from "./gene-annotation.js";
 import {
   createElement as el,
+  loadingMessage,
   showResearchEvidence,
 } from "./interface-utils.js";
 import {
@@ -123,7 +124,7 @@ function select(title, values, current, fn) {
   wrap.append(s);
   return wrap;
 }
-function table(rows, cols) {
+function table(rows, cols, { onGene } = {}) {
   const w = el("div", "table-scroll"),
     t = el("table"),
     head = el("thead"),
@@ -144,6 +145,22 @@ function table(rows, cols) {
             : "",
         format ? format(r[k], r) : (r[k] ?? "Not estimable"),
       );
+      if (k === "gene" && r[k] && onGene) {
+        const link = el("a", "link external gene-context-link", r[k]);
+        link.href = `#view=genes&gene=${encodeURIComponent(r[k])}`;
+        link.setAttribute(
+          "aria-label",
+          `Inspect ${r[k]} gene evidence and public context`,
+        );
+        link.onclick = (event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+            return;
+          event.preventDefault();
+          event.preventF7Router = true;
+          onGene(r[k]);
+        };
+        cell.replaceChildren(link);
+      }
       row.append(cell);
     }
     body.append(row);
@@ -644,7 +661,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   function comparisonView() {
     const host = el("div");
     body.append(host);
-    host.append(note("Loading comparative views…"));
+    host.append(loadingMessage("Loading comparative views…"));
     trackActivity(import("./comparative-views.js"), "Loading comparative views")
       .then(({ createComparativeViews }) => {
         if (!host.isConnected) return;
@@ -1187,7 +1204,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     container.replaceChildren(
       el("div", "eyebrow", "GENE DETAIL"),
       el("h3", "gene-symbol", symbol),
-      note("Loading archived estimates…"),
+      loadingMessage("Loading archived estimates…"),
     );
     const token = symbol;
     container.dataset.gene = token;
@@ -1222,6 +1239,26 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       return;
     }
     container.append(el("p", "identifier", gene.id));
+    const publicContext = geneAnnotation(gene);
+    const contextShortcut = iconButton(
+      "View public gene and protein context",
+      "information",
+      () => {
+        const item = publicContext.querySelector(".accordion-item");
+        root.f7?.accordion.open(item);
+        publicContext.scrollIntoView({
+          block: "start",
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "instant"
+            : "smooth",
+        });
+        publicContext
+          .querySelector(".gene-annotation-toggle")
+          ?.focus({ preventScroll: true });
+      },
+      "button button-tonal labelled-icon-action gene-context-shortcut",
+    );
+    container.append(contextShortcut);
     const info = landscapeMap.get(gene.symbol);
     if (info)
       container.append(
@@ -1315,11 +1352,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     );
     const profiles = profileMap.get(gene.symbol);
     if (profiles) {
-      const rows = profiles.map((p, i) => ({
-        ...p,
-        conditionLabel: ["Control", "Day 1", "Day 3"][i % 3],
-        blockLabel: ["68_3/B1", "68_3/B2", "69_2/B1"][Math.floor(i / 3)],
-      }));
+      const blockLabels = [...new Set(profiles.map((p) => p.block))];
       const ps = scientificPlot({
         title: `${gene.symbol} variance-stabilized expression across nine pooled profiles`,
         width: plotWidth(420),
@@ -1327,21 +1360,14 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         x: { domain: ["Control", "Day 1", "Day 3"], label: null },
         y: { grid: true, label: "VST expression", zero: false },
         color: {
-          domain: ["68_3/B1", "68_3/B2", "69_2/B1"],
+          domain: blockLabels,
           range: ["#0072b2", "#69a2b8", "#d55e00"],
         },
         marks: [
-          Plot.line(rows, {
-            x: "conditionLabel",
+          Plot.dot(profiles, {
+            x: "condition",
             y: "vst",
-            z: "blockLabel",
-            stroke: "blockLabel",
-            strokeWidth: 1.5,
-          }),
-          Plot.dot(rows, {
-            x: "conditionLabel",
-            y: "vst",
-            fill: "blockLabel",
+            fill: "block",
             r: 4,
             title: (p) =>
               `${p.block}, ${p.condition}: VST ${fmt(p.vst, 4)}; RIN ${fmt(p.RIN_mean)}; ${p.libraries_n} libraries`,
@@ -1352,7 +1378,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         el("h4", "", "Nine pooled profiles"),
         ps,
         note(
-          "Lines link conditions within each block for comparison; cultures were not sampled longitudinally. Dark blue: 68_3/B1; light blue: 68_3/B2; orange: 69_2/B1.",
+          `Each point is one aggregated block × condition profile, not an individual cell or a longitudinal measurement. Colours identify blocks: dark blue ${blockLabels[0]}; light blue ${blockLabels[1]}; orange ${blockLabels[2]}. Control-harvest days are unresolved.`,
         ),
       );
     } else
@@ -1378,7 +1404,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "Intervals use the archived unshrunken coefficient ±1.96 × SE. Gene FDR is distinct from pathway-family q. Three blocks limit generalization.",
       ),
       downloadButton(effects, `${gene.symbol}-model-estimates.csv`),
-      geneAnnotation(gene),
+      publicContext,
     );
     enhancePlots(container);
   }
@@ -1506,7 +1532,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         el("span", "", "Selected gene"),
         el("strong", "", g.symbol),
         el("span", "identifier", g.id),
-        button("View evidence ↓", viewEvidence, "gene-view-evidence"),
+        iconButton(
+          "View evidence",
+          "genes",
+          viewEvidence,
+          "gene-view-evidence labelled-icon-action",
+        ),
       );
     }
     function choose(g) {
@@ -2047,7 +2078,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           "Gene FDR is from the original transcriptome-wide model; there is no new shared-gene multiple-testing family. Selecting a gene opens its archived estimates.",
         ),
       );
-      geneList.append(note("Loading archived estimates…"));
+      geneList.append(loadingMessage("Loading archived estimates…"));
       getGenes()
         .then((genes) => {
           if (!geneList.isConnected) return;
@@ -2231,7 +2262,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     diagnostic.ontoggle = () => {
       if (!diagnostic.open || diagnosticLoaded) return;
       diagnosticLoaded = true;
-      diagnosticBody.append(note("Loading archived gene estimates…"));
+      diagnosticBody.append(loadingMessage("Loading archived gene estimates…"));
       trackActivity(
         Promise.all([getGenes(), import("./gene-diagnostics.js")]),
         "Loading distribution diagnostics",
@@ -2239,7 +2270,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         .then(([genes, { geneDiagnostics }]) => {
           if (!diagnosticBody.isConnected) return;
           diagnosticBody.replaceChildren(
-            geneDiagnostics(data, genes, contrast),
+            geneDiagnostics(data, genes, contrast, (gene) => go("genes", gene)),
           );
           enhancePlots(diagnosticBody);
         })
@@ -2608,13 +2639,17 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       note(
         "Transcriptome-wide gene FDR from the original fits; no new panel-specific tests. H2AX/H2AFX are listed as source-symbol checks, not counted as separate biological evidence. TERT absence is not a measured null.",
       ),
-      table(data.dna.panel, [
-        ["gene", "Gene"],
-        ["contrast", "Contrast", (v) => contrasts[v]],
-        ["availability", "Availability"],
-        ["log2FoldChange", "log₂FC", (v) => fmt(v, 3)],
-        ["gene_fdr", "Original gene FDR", sci],
-      ]),
+      table(
+        data.dna.panel,
+        [
+          ["gene", "Gene"],
+          ["contrast", "Contrast", (v) => contrasts[v]],
+          ["availability", "Availability"],
+          ["log2FoldChange", "log₂FC", (v) => fmt(v, 3)],
+          ["gene_fdr", "Original gene FDR", sci],
+        ],
+        { onGene: (gene) => go("genes", gene) },
+      ),
       downloadButton(data.dna.panel, "dna-canonical-panel.csv"),
     );
     body.append(panel);

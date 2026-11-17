@@ -4088,3 +4088,42 @@ body {
 #psilocin-app .protein-context-result {
   min-width: 0;
 }
+
+#psilocin-app .inline-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#psilocin-app .inline-loading > .preloader {
+  --f7-preloader-size: 16px;
+  --f7-preloader-color: var(--research-accent);
+  flex: 0 0 16px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #psilocin-app .inline-loading .preloader-inner {
+    animation: none;
+  }
+}
+
+/* Give unselected comparison plots the available width; evidence appears on selection. */
+#psilocin-app .comparison-stage:not(.comparison-has-evidence) {
+  grid-template-columns: minmax(0, 1fr);
+}
+#psilocin-app .gene-context-shortcut {
+  margin: 4px 0 12px;
+  max-width: 100%;
+  white-space: normal;
+  height: auto;
+  min-height: 36px;
+  text-align: left;
+}
+#psilocin-app .gene-context-link {
+  color: var(--research-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding-block: 8px;
+}
+#psilocin-app .comparison-context {
+  border-radius: 12px;
+  margin-block: 14px;
+}

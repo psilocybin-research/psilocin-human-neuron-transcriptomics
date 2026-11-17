@@ -5,6 +5,21 @@ export function createElement(tag, cls, text) {
   if (text !== undefined) n.textContent = text;
   return n;
 }
+// Native F7 iOS preloader markup, shared by transient loading messages.
+export function setLoadingMessage(host, text) {
+  const spinner = createElement("span", "preloader");
+  spinner.setAttribute("aria-hidden", "true");
+  const inner = createElement("span", "preloader-inner");
+  for (let i = 0; i < 8; i++)
+    inner.append(createElement("span", "preloader-inner-line"));
+  spinner.append(inner);
+  host.classList.add("inline-loading");
+  host.replaceChildren(spinner, createElement("span", "", text));
+  return host;
+}
+export function loadingMessage(text) {
+  return setLoadingMessage(createElement("p", "note"), text);
+}
 export function readPreference(key, fallback) {
   try {
     return localStorage.getItem(key) || fallback;

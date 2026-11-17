@@ -1,5 +1,6 @@
 import {downloadFile as save} from './file-download.js';
 import {trackActivity} from './app-activity.js';
+import {loadingMessage, setLoadingMessage, createAccordion} from './interface-utils.js';
 import {label, fmt, sci, color, edgeGenes, csvText, contrasts} from './format.js';
 
 export const families = {
@@ -94,9 +95,11 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   const canvas = node('div', 'tree-canvas'); canvas.tabIndex = 0;
   canvas.setAttribute('aria-label', 'Scrollable pathway explorer');
   const downloads = node('div', 'tree-actions');
-  root.append(toolbar, explanation, legend, shortcuts, notice, tools, canvas, downloads);
+  const guidance = createAccordion('How to read pathway evidence', 'pathway-reading-guide');
+  guidance.body.append(explanation);
+  root.append(toolbar, legend, shortcuts, notice, tools, canvas, downloads, guidance.element);
   let genes, branches = [], loadError = false, drawToken = 0, networkMount;let scrollToDisplay=Boolean(state.scrollToPlot);state.scrollToPlot=false;
-  const loadStatus = node('p', 'note', 'Loading archived gene estimates…'); canvas.append(loadStatus);
+  const loadStatus = loadingMessage('Loading archived gene estimates…'); canvas.append(loadStatus);
   const notify = () => onState();
   function setView(value) {scrollToDisplay=true;state.view = value; notify(); draw(); onMembershipChange?.(); (value === 'tree' ? treeButton : value === 'network' ? networkButton : tableButton).focus();}
   search.oninput = () => {state.query = search.value; notify(); draw();};
@@ -152,18 +155,19 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     branches = pathwayBranches(data, genes, contrast, {tier, members: isNetwork?state.networkMembers:state.members, query:isNetwork?'':state.query});
     const unique = new Set(branches.flatMap(b => b.children.map(g => g.symbol)));
     const occurrences = branches.reduce((n, b) => n + b.children.length, 0);
+    notice.classList.remove('inline-loading');
     notice.textContent = `${count(branches.length, 'gene set')} · ${count(unique.size, 'unique gene')} · ${count(occurrences, 'membership')}${state.query ? ' matching this search' : ''}. Repeated genes are counted once in the unique total. ${contrasts[contrast]}.`;
     canvas.replaceChildren(); downloads.replaceChildren();
     if(isNetwork){
-      notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. Loading overlap view…`;
+      setLoadingMessage(notice,`${branches.length} frozen gene sets · ${contrasts[contrast]}. Loading overlap view…`);
       trackActivity(import('./pathway-network.js'),'Loading pathway overlap').then(({createPathwayNetwork})=>{
         if(token!==drawToken||!root.isConnected)return;
         networkMount=createPathwayNetwork({data,provenance,genes,state,contrast,tier,selectedPathway,
           onPathway:id=>selectPathway(id,true),
           onEdge:pair=>{selectedPathway=pair.source;onOverlap(pair);},
           onState:(redraw,focusSelector)=>{onState();if(redraw){scrollToDisplay=true;draw(focusSelector);}}});
-        canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
-      }).catch(()=>{if(token===drawToken){canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
+        canvas.replaceChildren(networkMount);if(scrollToDisplay){scrollToDisplay=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(networkMount?.isConnected)(networkMount.querySelector('.network-content')?.closest('.figure-shell')||networkMount.querySelector('.network-content .figure-shell,.network-content .network-map,.network-content .network-table-scroll')||networkMount).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}));}if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.classList.remove('inline-loading');notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
+      }).catch(()=>{if(token===drawToken){notice.classList.remove('inline-loading');notice.textContent='Overlap view unavailable.';canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
       return;
     }
     if (!branches.length) canvas.append(node('p', 'tree-empty', 'No matching pathway or gene in this membership view. Try all annotated members, another contrast or another analysis tier.'));

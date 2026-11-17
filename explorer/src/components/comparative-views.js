@@ -1,4 +1,8 @@
-import { showResearchEvidence } from "./interface-utils.js";
+import {
+  showResearchEvidence,
+  loadingMessage,
+  createAccordion,
+} from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 import {
   Plot,
@@ -122,6 +126,27 @@ export function createComparativeViews({
   detail.setAttribute("aria-label", "Selected gene estimates");
   stage.append(plot, detail);
   root.append(stage);
+  const context = createAccordion(
+    "Statistical context and interpretation",
+    "comparison-context",
+  );
+  context.body.append(
+    note(
+      "Three differentiation blocks from two genetic backgrounds; nine block × condition profiles. Gene observations and shared pathway memberships are not biological replicates.",
+    ),
+    note(
+      "Both sampled days use the available common control pool. Unresolved control-library harvest days prevent a treatment-by-time interpretation. Gene filtering and selection do not recalculate FDR.",
+    ),
+    note(
+      "OXPHOS direction in the primary fgsea analysis is not method-independent support: estimated-correlation CAMERA reported q=0.587 at each sampled day, and full-set Bayesian magnitude remains uncertain. These views do not establish respiration, redox function or telomere protection.",
+    ),
+  );
+  root.append(
+    note(
+      "Shared controls preclude a treatment-by-time interpretation. Gene observations are not biological replicates; OXPHOS statistical support remains method-dependent.",
+    ),
+    context.element,
+  );
   let genes,
     cohort = [],
     points = [],
@@ -139,7 +164,7 @@ export function createComparativeViews({
   status.setAttribute("role", "status");
   status.setAttribute("aria-live", "polite");
   root.insertBefore(status, stage);
-  const loading = note("Loading archived gene estimates…");
+  const loading = loadingMessage("Loading archived gene estimates…");
   plot.append(loading);
   const update = () => onState();
   const matchGene = (g) => {
@@ -1689,6 +1714,8 @@ export function createComparativeViews({
       el("div", "eyebrow", "ARCHIVED GENE ESTIMATES"),
     );
     const g = genes.find((g) => g.id === state.active);
+    detail.hidden = !g;
+    stage.classList.toggle("comparison-has-evidence", Boolean(g));
     if (g) {
       const host = el("div", "gene-detail");
       detail.append(host);
@@ -1705,21 +1732,6 @@ export function createComparativeViews({
           "Select an observation or gene identifier to inspect the archived coefficients, original gene FDR and approximate 95% Wald intervals.",
         ),
       );
-    const context = el("details", "comparison-context");
-    context.open = true;
-    context.append(
-      el("summary", "", "Statistical context"),
-      note(
-        "Three differentiation blocks from two genetic backgrounds; nine block × condition profiles. Gene observations and shared pathway memberships are not biological replicates.",
-      ),
-      note(
-        "Both sampled days use the available common control pool. Unresolved control-library harvest days prevent a treatment-by-time interpretation. Gene filtering and selection do not recalculate FDR.",
-      ),
-      note(
-        "OXPHOS direction in the primary fgsea analysis is not method-independent support: estimated-correlation CAMERA reported q=0.587 at each sampled day, and full-set Bayesian magnitude remains uncertain. These views do not establish respiration, redox function or telomere protection.",
-      ),
-    );
-    detail.append(context);
   }
   getGenes()
     .then((value) => {

@@ -29,7 +29,7 @@ try {
     let calls = 0;
     await page.route("https://rest.ensembl.org/**", async (route) => {
       calls++;
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await new Promise((resolve) => setTimeout(resolve, 700));
       await route.fulfill({
         json: record,
         headers: { "access-control-allow-origin": "*" },
@@ -38,10 +38,21 @@ try {
     await page.goto(base + "#view=genes&gene=GPX4");
     const panel = page.locator(".gene-annotation");
     await panel.waitFor();
+    const profiles = page.getByRole("img", {
+      name: /variance-stabilized expression across nine pooled profiles/,
+    });
+    assert.equal(await profiles.locator("circle").count(), 9);
+    assert.equal(await profiles.locator('g[aria-label="line"]').count(), 0);
     assert.equal(calls, 0, "no automatic public annotation request");
-    await panel
-      .getByRole("button", { name: "Public gene and protein context" })
+    await page
+      .getByRole("button", { name: "View public gene and protein context" })
       .click();
+    assert.equal(
+      await panel
+        .getByRole("button", { name: "Public gene and protein context" })
+        .getAttribute("aria-expanded"),
+      "true",
+    );
     await panel
       .getByRole("button", { name: "Load current annotation" })
       .click();
@@ -50,7 +61,16 @@ try {
         document.querySelector(".app-loading-progress").dataset.visible ===
         "true",
     );
+    const spinner = panel.locator(".gene-annotation-result .preloader");
+    await spinner.waitFor();
+    assert.equal(await spinner.getAttribute("aria-hidden"), "true");
+    assert.equal(await spinner.locator(".preloader-inner-line").count(), 8);
+    assert.equal(Math.round((await spinner.boundingBox()).width), 16);
     await panel.locator(".gene-annotation-fields").waitFor();
+    assert.equal(
+      await panel.locator(".gene-annotation-result .preloader").count(),
+      0,
+    );
     assert.equal(calls, 1);
     assert.ok(
       (await panel.innerText()).includes("current gene version differs"),

@@ -1,4 +1,8 @@
-import { createElement as el, createAccordion } from "./interface-utils.js";
+import {
+  createElement as el,
+  createAccordion,
+  loadingMessage,
+} from "./interface-utils.js";
 import {
   createAnnotationClient,
   ensemblIdentity,
@@ -33,7 +37,7 @@ export function geneAnnotation(gene) {
   load.onclick = async () => {
     load.disabled = true;
     result.setAttribute("aria-busy", "true");
-    result.replaceChildren(el("p", "note", "Loading Ensembl annotation…"));
+    result.replaceChildren(loadingMessage("Loading Ensembl annotation…"));
     try {
       const record = await trackActivity(
         client.lookup(gene.id),
@@ -104,7 +108,7 @@ export function geneAnnotation(gene) {
   visuals.onclick = async () => {
     visuals.disabled = true;
     proteins.replaceChildren(
-      el("p", "note", "Loading verified human protein matches…"),
+      loadingMessage("Loading verified human protein matches…"),
     );
     try {
       const context = await trackActivity(

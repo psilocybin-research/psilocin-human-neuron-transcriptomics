@@ -1,4 +1,4 @@
-import { Plot, scientificPlot } from "./scientific-plot.js";
+import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { downloadFile } from "./file-download.js";
 import { createElement as el } from "./interface-utils.js";
 import { contrasts, fmt, csvText } from "./format.js";
@@ -13,7 +13,7 @@ function frame(title) {
 function save(name, rows) {
   return downloadFile(name, csvText(rows));
 }
-export function geneDiagnostics(data, genes, initial) {
+export function geneDiagnostics(data, genes, initial, onInspect) {
   const root = el("section", "gene-diagnostics");
   let contrast = initial;
   const controls = el("div", "controls");
@@ -153,6 +153,16 @@ export function geneDiagnostics(data, genes, initial) {
                 : "circle",
             title: (r) =>
               `${r.symbol} · p ${r.nominal_pvalue} · rank ${r.rank}`,
+            ...(onInspect
+              ? {
+                  render: interactiveMark(
+                    displayed,
+                    (r) => onInspect(r.gene_id),
+                    (r) =>
+                      `Inspect ${r.symbol} gene evidence; nominal p ${r.nominal_pvalue}, rank ${r.rank}`,
+                  ),
+                }
+              : {}),
           }),
         ],
       }),
