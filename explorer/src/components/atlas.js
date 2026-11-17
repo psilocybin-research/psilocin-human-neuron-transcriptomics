@@ -2675,7 +2675,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "Transcriptional enrichment does not establish respiration, ATP production, redox state, resilience, telomere protection or a mechanism linking these cultures to human outcomes.",
       ],
       [
-        "Figure 3 construction",
+        "OXPHOS heatmap construction",
         "DESeq2 VST with blind=FALSE; within-gene z-scores over nine explicitly ordered profiles. Expression and effect colors saturate at ±2.5 and ±1.5. Functional groups are project display assignments, not new enrichment families. All 113 genes were selected from OXPHOS leading edges.",
       ],
       ["Archive", "Version 1.2.0 · https://doi.org/10.5281/zenodo.23283595"],
