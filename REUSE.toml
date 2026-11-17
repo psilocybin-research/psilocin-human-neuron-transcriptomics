@@ -233,3 +233,9 @@ path = "third_party_licenses/observable-plot-0.6.19.txt"
 precedence = "override"
 SPDX-FileCopyrightText = "2020-2025 Observable, Inc."
 SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = "third_party_licenses/3dmol-2.5.5.txt"
+precedence = "override"
+SPDX-FileCopyrightText = ["2014 University of Pittsburgh and contributors", "2011-2012 biochem_fan", "2010-2012 three.js Authors", "2011 John Resig", "2014-2017 Vitaly Puzrin and Andrei Tuputcyn", "2016 cheminfo", "2015 Michaël Zasso", "2017 Photopea"]
+SPDX-License-Identifier = "BSD-3-Clause AND MIT AND Zlib"

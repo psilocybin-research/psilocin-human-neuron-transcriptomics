@@ -22,6 +22,11 @@ try {
     await page
       .locator(".comparison-gene-plot[data-plot-renderer=observable-plot]")
       .waitFor();
+    assert.equal(
+      await page.locator('select[aria-label="Visualization"] optgroup').count(),
+      3,
+    );
+    assert.equal(await page.locator(".research-steps").count(), 0);
     const search = page.getByRole("combobox", {
       name: "Search comparison genes",
       exact: true,
@@ -35,8 +40,22 @@ try {
       await page.locator(".comparison-evidence .gene-symbol").innerText(),
       "GPX4",
     );
-    await page.locator('.research-evidence-sheet').getByRole('button',{name:'Done',exact:true}).click();
-    await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
+    await page
+      .locator(".research-evidence-sheet")
+      .getByRole("button", { name: "Done", exact: true })
+      .click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("#psilocin-app").dataset.modalOpen === "false",
+    );
+    await page
+      .getByRole("button", { name: "Clear gene selection", exact: true })
+      .click();
+    assert.equal(await search.inputValue(), "");
+    assert.equal(
+      await page.locator(".comparison-evidence .gene-symbol").count(),
+      0,
+    );
     for (const mode of [
       "forest",
       "volcano",
@@ -75,6 +94,46 @@ try {
         assert.ok((await page.locator("[data-dense-points]").count()) > 0);
       }
     }
+    assert.equal(
+      await page.locator('select[aria-label="Gene cohort"]').isDisabled(),
+      true,
+    );
+    await page.locator(".analysis-fab-action").click();
+    const panel = page.locator(
+      width < 1180 ? "#analysis-morph-panel" : "#analysis-controls-sheet",
+    );
+    await panel
+      .getByRole("radio", {
+        name: "Pathway enrichment comparison",
+        exact: true,
+      })
+      .waitFor();
+    assert.equal(
+      await panel.locator(".analysis-option-field:visible").count(),
+      1,
+    );
+    assert.deepEqual(
+      await panel.locator(".list-group-title").allTextContents(),
+      [
+        "Gene effects",
+        "Pathway comparisons",
+        "OXPHOS expression and membership",
+      ],
+    );
+    await panel.getByRole("button", { name: "Done", exact: true }).click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("#psilocin-app").dataset.modalOpen === "false",
+    );
+    assert.equal(
+      await page
+        .locator('select[aria-label="Gene cohort"]')
+        .evaluate((n) => n.closest(".control").hidden),
+      true,
+    );
+    await page.screenshot({
+      path: `/tmp/atlas-comparison-polish-${width}.png`,
+    });
     await page.goto(base + "#view=genes");
     const geneSearch = page.getByRole("combobox", {
       name: "Search genes",
@@ -124,9 +183,7 @@ try {
         ),
       false,
     );
-    await page
-      .getByRole("button", { name: "Analysis controls", exact: true })
-      .click();
+    await page.locator(".analysis-fab-action").click();
     await page
       .locator(
         width < 1180

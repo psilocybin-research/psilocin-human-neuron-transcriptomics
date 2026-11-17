@@ -1,3 +1,5 @@
+import { createGeneRecords } from "./gene-records.js";
+import { geneAnnotation } from "./gene-annotation.js";
 import {
   createElement as el,
   showResearchEvidence,
@@ -171,22 +173,26 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   const root = el("div", "atlas");
   const reloadFromLocation = () => location.reload();
   addEventListener("hashchange", reloadFromLocation);
-  let genesPromise;
+  let genesPromise, geneRecords;
   const getGenes = () =>
     (genesPromise ??= trackActivity(
       loadGenes(),
       "Loading archived gene estimates",
-    ).catch((error) => {
-      genesPromise = undefined;
-      throw error;
-    }));
+    )
+      .then((genes) => {
+        geneRecords = createGeneRecords(genes, data.aliases);
+        return genes;
+      })
+      .catch((error) => {
+        genesPromise = undefined;
+        throw error;
+      }));
   const landscapeMap = new Map(data.landscape.map((g) => [g.gene, g]));
-  const profileMap = new Map(
-    data.landscape.map((g) => [
-      g.gene,
-      data.profiles.filter((p) => p.gene === g.gene),
-    ]),
-  );
+  const profileMap = new Map();
+  for (const profile of data.profiles) {
+    if (!profileMap.has(profile.gene)) profileMap.set(profile.gene, []);
+    profileMap.get(profile.gene).push(profile);
+  }
   const tabs = [
     ["overview", "Overview"],
     ["landscape", "OXPHOS landscape"],
@@ -1201,17 +1207,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       return;
     }
     if (container.dataset.gene !== token || !container.isConnected) return;
-    const alias = data.aliases.find(
-      (a) =>
-        a.current_symbol === symbol ||
-        a.source_symbol === symbol ||
-        a.selected_gene_id === symbol,
-    );
-    const gene =
-      genes.find((g) => g.id === symbol) ||
-      genes.find((g) => g.symbol === symbol && g.selected) ||
-      genes.find((g) => g.symbol === symbol) ||
-      genes.find((g) => g.id === alias?.selected_gene_id);
+    const gene = geneRecords.resolve(symbol);
+    const alias = gene ? geneRecords.aliasFor(gene) : undefined;
     container.replaceChildren(
       el("div", "eyebrow", "GENE DETAIL"),
       el("h3", "gene-symbol", gene?.symbol || symbol),
@@ -1381,6 +1378,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "Intervals use the archived unshrunken coefficient ±1.96 × SE. Gene FDR is distinct from pathway-family q. Three blocks limit generalization.",
       ),
       downloadButton(effects, `${gene.symbol}-model-estimates.csv`),
+      geneAnnotation(gene),
     );
     enhancePlots(container);
   }
@@ -1486,11 +1484,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         aliases.set(a.selected_gene_id, values);
       }
     }
-    const current =
-      genes.find((g) => g.id === selected) ||
-      genes.find((g) => g.symbol === selected && g.selected) ||
-      genes.find((g) => g.symbol === selected) ||
-      genes.find((g) => (aliases.get(g.id) || []).includes(selected));
+    const current = geneRecords.resolve(selected);
     if (search.value === selected) search.value = current?.symbol || selected;
     function viewEvidence() {
       if (matchMedia("(max-width: 850px)").matches) {
@@ -1506,7 +1500,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       });
     }
     function updateSelection() {
-      const g = genes.find((g) => g.id === selected) || current;
+      const g = geneRecords.resolve(selected) || current;
       if (!g) return;
       selection.replaceChildren(
         el("span", "", "Selected gene"),

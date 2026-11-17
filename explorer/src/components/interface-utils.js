@@ -46,3 +46,38 @@ export function prepareExternalLinks(root) {
     link.classList.add("external");
   }
 }
+
+let accordionSequence = 0;
+export function createAccordion(title, className = "") {
+  const element = createElement(
+    "div",
+    `list list-strong list-dividers ${className}`,
+  );
+  const list = createElement("ul"),
+    item = createElement("li", "accordion-item");
+  const toggle = createElement(
+    "button",
+    "item-link item-content gene-annotation-toggle f7-press",
+  );
+  const inner = createElement("span", "item-inner");
+  toggle.type = "button";
+  toggle.setAttribute("aria-expanded", "false");
+  inner.append(createElement("span", "item-title", title));
+  toggle.append(inner);
+  const content = createElement("div", "accordion-item-content");
+  content.id = `research-accordion-${++accordionSequence}`;
+  content.setAttribute("aria-hidden", "true");
+  toggle.setAttribute("aria-controls", content.id);
+  const body = createElement("div", "gene-annotation-body");
+  content.append(body);
+  item.append(toggle, content);
+  list.append(item);
+  element.append(list);
+  item.addEventListener("accordion:open", () =>
+    toggle.setAttribute("aria-expanded", "true"),
+  );
+  item.addEventListener("accordion:close", () =>
+    toggle.setAttribute("aria-expanded", "false"),
+  );
+  return { element, body };
+}

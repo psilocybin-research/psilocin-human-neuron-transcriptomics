@@ -429,10 +429,10 @@ export function createAppShell({
     modalStack = [],
     returnFocus = new WeakMap();
   function closeControls() {
-    for (const { element, placeholder, inline } of [
+    for (const { element, placeholder, inline, hidden } of [
       ...controlMoves,
     ].reverse()) {
-      if (inline) element.hidden = false;
+      if (inline) element.hidden = hidden;
       if (placeholder.isConnected) placeholder.replaceWith(element);
     }
     controlMoves = [];
@@ -470,12 +470,14 @@ export function createAppShell({
       const original = select.closest(".control,.tree-member-control");
       if (!original) continue;
       const options = analysisOptions(select);
+      const hidden = original.hidden;
       original.before(options);
       original.hidden = true;
       controlMoves.push({
         element: original,
         placeholder: options,
         inline: true,
+        hidden,
       });
     }
     return true;
@@ -733,7 +735,7 @@ export function createAppShell({
       b.dataset.scienceButton = "";
       if (
         !b.matches(
-          ".matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene",
+          ".matrix-cell,.gene-hit,.comparison-gene-button,.membership-card,.network-pair-button,.mobile-analysis-summary,.tree-gene,.gene-annotation-toggle",
         )
       ) {
         b.classList.add("button");
@@ -788,7 +790,7 @@ export function createAppShell({
     analysisLauncher.setAvailable(
       Boolean(
         body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||
-          controlMoves.length,
+        controlMoves.length,
       ),
     );
   }

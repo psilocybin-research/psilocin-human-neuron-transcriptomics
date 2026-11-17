@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 537,
-  "total_bytes": 252939220,
+  "file_count": 550,
+  "total_bytes": 253014263,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 77047,
-      "sha256": "04158a69d4fcd23a6f17828dee4c2cb3f5a41dcccca304baabb8b59a102ac893"
+      "bytes": 78919,
+      "sha256": "099f118fe9c4dcb0bbf28b3b7fff4062b07f9a4df5d85262e1c4ab76f48b5e15"
     },
     {
       "path": "LICENSE.md",
@@ -123,6 +123,11 @@
       "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5"
     },
     {
+      "path": "LICENSES/Zlib.txt",
+      "bytes": 838,
+      "sha256": "bfb1112d49db5b1daecdfef24bd7e2f3ea0bafb33aa67aa0ab51e2bf8407c03d"
+    },
+    {
       "path": "Makefile",
       "bytes": 1410,
       "sha256": "f2bbd4819a63c67feed2a3e26f70b21b21f991cc6af58dfcca9ae454ab0c52db"
@@ -134,8 +139,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 8118,
-      "sha256": "6e9c509c0156b9866716caffed81a446bebe3abae4b6f766b110e2e72191c279"
+      "bytes": 8517,
+      "sha256": "989e3e894551a956af380c0364d06d937537a70c9d6403e20d01202c31dd911a"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -239,8 +244,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 4821,
-      "sha256": "90796e9363a9c01e8270045507503e7bcf131cf29d590802775619462ac0dc84"
+      "bytes": 8575,
+      "sha256": "dbef86b36fb00557e97581d59b32d6b169de52a139c4a7acd159d3c92c597c7d"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -249,13 +254,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 174051,
-      "sha256": "da39ab25ac3d153bdb03fb110c12fc108dca22c12500c6ae05c9c5c16de69c12"
+      "bytes": 176088,
+      "sha256": "4a853f52d0b78143fc5276661b8f6ceac85f7abe75ae5004a3d032d30e720e5b"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 2254,
-      "sha256": "4a76fba8c2effe2b4b7bf609246a304e7a4294fb1ebbc326f84fef3a5d3efe8a"
+      "bytes": 2491,
+      "sha256": "9c12ee15c0689d4e67c87f5919d16e29e1624dc88c6c1ff951756ab2d28d7922"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -278,6 +283,11 @@
       "sha256": "458fb92da1bc708525e3e137c9193a45ab388ac3d9fd31fd9620ea84f2717b95"
     },
     {
+      "path": "explorer/scripts/prepare-molecules.mjs",
+      "bytes": 1507,
+      "sha256": "303cdb197182661dc92db0b14efa38a668489f8205af23d2a4c357818850f885"
+    },
+    {
       "path": "explorer/scripts/prepare-plots.mjs",
       "bytes": 1681,
       "sha256": "75550c3e5c810dd71271e24a6df555f1d5f2b01509cd263e851dc627470b7b9b"
@@ -294,8 +304,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 96796,
-      "sha256": "85b33ed9d23aeb8573950611a5f7fb95d51bb69d0430106a0454203150562c78"
+      "bytes": 98817,
+      "sha256": "9cff151815eb88391e0ee76931356397daca92c2eb0b19eb6dae9333028e66ce"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -349,8 +359,8 @@
     },
     {
       "path": "explorer/src/components/analysis-options.js",
-      "bytes": 1593,
-      "sha256": "ecdf3ed99833d96079afcf3c801745908f212828c063356b3515cc52699f6d47"
+      "bytes": 1872,
+      "sha256": "7f61a0e345d3063fc799e094dc4def0edf96d0f1c0a996f70f87f6b1306082e8"
     },
     {
       "path": "explorer/src/components/app-activity.js",
@@ -364,8 +374,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 42157,
-      "sha256": "a2f943045903fd8d03a1cb9b44c6cbc068ce3c8cfb464459e554b5661b16dacf"
+      "bytes": 42242,
+      "sha256": "bdea489de4a60dafe09ec1338ee356ec8c02159492cca796317c11f1aa3bda23"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -374,8 +384,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 97110,
-      "sha256": "e2116609aac01649bd57b05933d39e2d2f699dd5724a68792499ae7275f6bf7f"
+      "bytes": 96948,
+      "sha256": "6b4024f9e71cce8f56d2e120da0655cfa158186ff9073a909b32cb86f73aa6d1"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -384,8 +394,8 @@
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 57834,
-      "sha256": "de4086fbd4f6085345ddc3e011d966703b654964927e8671c2aa23f75df5792a"
+      "bytes": 58441,
+      "sha256": "76d9ca27e0ac4e6921bc103d46d77603e8a6ea8bfc228193949ccddcd6c5fab9"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
@@ -404,8 +414,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 13718,
-      "sha256": "923dad9aadcd544dd6bf64cd63f55aad68d2e4d3ed8547f719ca323431233f8d"
+      "bytes": 13833,
+      "sha256": "be81b559509240c7d81e9138698b3981aeceea0fbef0d19d08f2cadc16391e93"
     },
     {
       "path": "explorer/src/components/file-download.js",
@@ -418,9 +428,24 @@
       "sha256": "0a0c27236590c39996c68241453be66b9557ac6c2a83dc58f7fa407f8c1f4099"
     },
     {
+      "path": "explorer/src/components/gene-annotation-data.js",
+      "bytes": 3480,
+      "sha256": "743909820003422da228c39c85e247ca5ff3bda81b575afaaee49f5a807e1ccc"
+    },
+    {
+      "path": "explorer/src/components/gene-annotation.js",
+      "bytes": 4606,
+      "sha256": "0239673afddbea46f6322c8503361d5e00dd3212432d15f51853d590bb9b66d8"
+    },
+    {
       "path": "explorer/src/components/gene-diagnostics.js",
       "bytes": 7157,
       "sha256": "4c85ebf2187cf30c87bd145eecac056aabf9bee3643d7753e2a27add3edecba3"
+    },
+    {
+      "path": "explorer/src/components/gene-records.js",
+      "bytes": 923,
+      "sha256": "c590eb78e91a7a0b07d336f68fbe280d0bec42e72ae06545cd9521a41bd2cb76"
     },
     {
       "path": "explorer/src/components/gene-search-data.js",
@@ -444,13 +469,18 @@
     },
     {
       "path": "explorer/src/components/interface-utils.js",
-      "bytes": 1285,
-      "sha256": "3027d9ea4d2ffc26ccba5440cdfc40cd9279b86855c22922015527cf15fa2b2b"
+      "bytes": 2506,
+      "sha256": "14c38f52f9b0bbf7d03b0f8a381cac8f4b774627fd1783d85e54fd78cfab886b"
     },
     {
       "path": "explorer/src/components/intersection-data.js",
       "bytes": 731,
       "sha256": "11178a7151c96891637efc277d4cafbeb0e16ef6c9903a01cd3ba11f9a890f3c"
+    },
+    {
+      "path": "explorer/src/components/molecular-viewer.js",
+      "bytes": 4657,
+      "sha256": "b185a039c2d49df0e4a33ae28a2ed140d8d4d80f5cc7c0eb0d3e018d6c336ce4"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -476,6 +506,16 @@
       "path": "explorer/src/components/plot-theme.js",
       "bytes": 4993,
       "sha256": "13b9e37b86d0f966785fdceb3dc2a46ac90f0391fe1d024b8e9ed4fbd9a1a089"
+    },
+    {
+      "path": "explorer/src/components/protein-context.js",
+      "bytes": 11390,
+      "sha256": "5b4b993e6b0101c1d8849eeb2ffab702b567b02748053c21f1766c5678853f95"
+    },
+    {
+      "path": "explorer/src/components/protein-data.js",
+      "bytes": 7142,
+      "sha256": "b8f7a5c08ea3d75e9eadd84bfb84818f0e3c9edaa07bb3ef29c7ae0df883e956"
     },
     {
       "path": "explorer/src/components/research-navigation.js",
@@ -524,8 +564,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 49306,
-      "sha256": "55e99ed303d89387b085957424e1ccb7b5a191f39d9e677dc4988be870439ed5"
+      "bytes": 48689,
+      "sha256": "26293437815c706becc62211abab4957727b3708cd55b3b90d34bed577a29f8d"
     },
     {
       "path": "explorer/test/analysis-fab-browser-check.mjs",
@@ -593,6 +633,16 @@
       "sha256": "40f3cef2763dc8d7e332aeabdf6bb1380f40de85855abad21475225feaea1958"
     },
     {
+      "path": "explorer/test/gene-annotation-browser-check.mjs",
+      "bytes": 3630,
+      "sha256": "5c4f1a7c9ddced71c0dd2603baf8f68581cc2cf49a743e86ad2c746485d0ab61"
+    },
+    {
+      "path": "explorer/test/gene-annotation.test.js",
+      "bytes": 3491,
+      "sha256": "b7d250fc1ce6e6e69475280d7b280108d3d7c7ee644c47e1a17408e01a2c9832"
+    },
+    {
       "path": "explorer/test/gene-search-data.test.js",
       "bytes": 2249,
       "sha256": "734fd835532bd43ca818fd7884a52fced8d8afe312f9df234e855990db143924"
@@ -649,8 +699,8 @@
     },
     {
       "path": "explorer/test/plot-system-browser-check.mjs",
-      "bytes": 5503,
-      "sha256": "1ca9413817d15fce14281177df7d5a83170a71b0a8e120f7ea2a7a79b6be548d"
+      "bytes": 7148,
+      "sha256": "ebc37ed5a78fadce79686cb2a0fe4f1ebe536f91091a9761a7613b1612e27a41"
     },
     {
       "path": "explorer/test/plot-theme-browser-check.mjs",
@@ -661,6 +711,16 @@
       "path": "explorer/test/print-check.mjs",
       "bytes": 2693,
       "sha256": "0fbe819afa28bb5f18d2b776deb84634cb2014a4fff34b562a8d98c5da4d629b"
+    },
+    {
+      "path": "explorer/test/protein-context-browser-check.mjs",
+      "bytes": 6935,
+      "sha256": "2c239568b4f3c7f58dfbac8e73ad65b35f35fb106fd3db246deb641abd098ed8"
+    },
+    {
+      "path": "explorer/test/protein-data.test.js",
+      "bytes": 3274,
+      "sha256": "fb1f55a110691f5efb04513545bf075b06e5f5d3f51615fe57f276da31bf076f"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
@@ -2601,6 +2661,11 @@
       "path": "tests/test_transcriptomics.R",
       "bytes": 738,
       "sha256": "4245f65e5dc988096551927935665ca6adf14dfc3092a8ad5c05c1f23d6e95bb"
+    },
+    {
+      "path": "third_party_licenses/3dmol-2.5.5.txt",
+      "bytes": 9677,
+      "sha256": "a26ad06a9dc09c13ef3451f2e23277bf080e78ce5f7a77bf4968fc9e1e283d27"
     },
     {
       "path": "third_party_licenses/d3-chord-3.0.1.txt",

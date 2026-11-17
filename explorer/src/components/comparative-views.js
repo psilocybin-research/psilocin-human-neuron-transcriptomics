@@ -50,10 +50,17 @@ function control(title, values, current, fn) {
   l.append(el("span", "", title));
   const s = el("select");
   s.setAttribute("aria-label", title);
-  for (const [value, text] of values) {
+  const groups = new Map();
+  for (const [value, text, group] of values) {
     const o = el("option", "", text);
     o.value = value;
-    s.append(o);
+    if (group && !groups.has(group)) {
+      const optgroup = el("optgroup");
+      optgroup.label = group;
+      groups.set(group, optgroup);
+      s.append(optgroup);
+    }
+    (groups.get(group) || s).append(o);
   }
   s.value = current;
   s.onchange = () => fn(s.value);
@@ -73,6 +80,11 @@ const modes = {
   profiles: "Nine expression profiles · brushable matrix",
   membership: "OXPHOS membership · parallel sets / counts",
   enrichment: "Pathway enrichment comparison",
+};
+const modeGroups = {
+  "Gene effects": ["scatter", "hexbin", "volcano", "forest", "distribution"],
+  "Pathway comparisons": ["ridgeline", "enrichment"],
+  "OXPHOS expression and membership": ["mirrored", "profiles", "membership"],
 };
 
 export function createComparativeViews({
@@ -97,17 +109,11 @@ export function createComparativeViews({
     ),
   );
   root.append(heading);
-  const structure = el("ol", "research-steps");
-  for (const [title, text] of [
-    ["Cohort", "Define the gene set and contrast."],
-    ["Comparison", "Select a complementary visualization."],
-    ["Evidence", "Inspect estimates, uncertainty and provenance."],
-  ]) {
-    const li = el("li");
-    li.append(el("strong", "", title), el("span", "", text));
-    structure.append(li);
-  }
-  root.append(structure);
+  heading.append(
+    note(
+      "Choose a visualization and its available filters. Select genes in the plot or search to inspect their estimates and uncertainty.",
+    ),
+  );
   const controls = el("div", "comparison-controls");
   root.append(controls);
   const stage = el("div", "comparison-stage"),
@@ -212,15 +218,24 @@ export function createComparativeViews({
     }
     controls.replaceChildren();
     controls.append(
-      control("Visualization", Object.entries(modes), state.mode, (v) =>
-        change("mode", v),
+      control(
+        "Visualization",
+        Object.entries(modeGroups).flatMap(([group, keys]) =>
+          keys.map((key) => [key, modes[key], group]),
+        ),
+        state.mode,
+        (v) => change("mode", v),
       ),
       control(
         "Gene cohort",
         [
-          ["oxphos", "OXPHOS leading-edge union · 113 genes"],
-          ["all", "All rank representatives · 21,098 genes"],
-          ...Object.keys(data.membership).map((id) => [id, label(id)]),
+          ["oxphos", "OXPHOS leading-edge union · 113 genes", "Gene cohorts"],
+          ["all", "All rank representatives · 21,098 genes", "Gene cohorts"],
+          ...Object.keys(data.membership).map((id) => [
+            id,
+            label(id),
+            "Annotated pathway members",
+          ]),
         ],
         state.cohort,
         (v) => change("cohort", v),
@@ -267,6 +282,8 @@ export function createComparativeViews({
         "mirrored",
         "profiles",
       ].includes(state.mode);
+    for (const select of controls.querySelectorAll("select"))
+      select.closest(".control").hidden = select.disabled;
     const tools = el("div", "comparison-search");
     const l = el("label", "control");
     l.append(el("span", "", "Search gene symbols or identifiers"));
@@ -295,6 +312,7 @@ export function createComparativeViews({
     };
     tools.append(
       btn("Clear gene selection", () => {
+        search = "";
         state.selection.clear();
         state.active = "";
         update();

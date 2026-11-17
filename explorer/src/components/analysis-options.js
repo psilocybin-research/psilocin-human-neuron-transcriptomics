@@ -19,7 +19,13 @@ export function analysisOptions(select) {
     ),
     ul = node("ul");
   const name = `analysis-option-${sequence}`;
+  let previousGroup;
   for (const option of select.options) {
+    const group =
+      option.parentElement.tagName === "OPTGROUP" ? option.parentElement : null;
+    if (group && group !== previousGroup)
+      ul.append(node("li", "list-group-title", group.label));
+    previousGroup = group;
     const li = node("li"),
       label = node("label", "item-radio item-content"),
       input = node("input");
@@ -27,7 +33,7 @@ export function analysisOptions(select) {
     input.name = name;
     input.value = option.value;
     input.checked = option.selected;
-    input.disabled = option.disabled;
+    input.disabled = option.disabled || Boolean(group?.disabled);
     input.setAttribute("aria-label", option.textContent);
     const inner = node("div", "item-inner");
     inner.append(node("div", "item-title", option.textContent));

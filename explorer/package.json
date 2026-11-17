@@ -12,8 +12,8 @@
     "test:tree": "node test/tree-browser-check.mjs",
     "test:network": "node test/network-browser-check.mjs",
     "test:comparison": "node test/comparison-browser-check.mjs",
-    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs",
-    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs",
+    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs",
+    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs",
     "test:app": "node test/app-shell-browser-check.mjs",
     "test:tour": "node test/tour-browser-check.mjs",
     "test:plot-theme": "node test/plot-theme-browser-check.mjs",
@@ -29,11 +29,14 @@
     "test:plot-system": "node test/plot-system-browser-check.mjs",
     "test:evidence": "node test/evidence-sheet-browser-check.mjs",
     "test:choices": "node test/smart-select-browser-check.mjs",
-    "test:layout": "node test/plot-layout-browser-check.mjs"
+    "test:layout": "node test/plot-layout-browser-check.mjs",
+    "test:annotations": "node test/gene-annotation-browser-check.mjs",
+    "test:proteins": "node test/protein-context-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",
     "@observablehq/plot": "0.6.19",
+    "3dmol": "2.5.5",
     "d3-chord": "3.0.1",
     "d3-force": "3.0.0",
     "d3-hexbin": "0.2.2",

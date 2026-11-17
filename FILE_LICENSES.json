@@ -292,6 +292,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/prepare-molecules.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-plots.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -460,7 +466,25 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/gene-annotation-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/gene-annotation.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/gene-diagnostics.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/gene-records.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -502,6 +526,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/molecular-viewer.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/pathway-autocomplete.js": {
     "spdx": "MIT",
     "copyright": [
@@ -527,6 +557,18 @@
     ]
   },
   "explorer/src/components/plot-theme.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/protein-context.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/protein-data.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -672,6 +714,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/gene-annotation-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/gene-annotation.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/gene-search-data.test.js": {
     "spdx": "MIT",
     "copyright": [
@@ -751,6 +805,18 @@
     ]
   },
   "explorer/test/print-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/protein-context-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/protein-data.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -3088,6 +3154,19 @@
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
+    ]
+  },
+  "third_party_licenses/3dmol-2.5.5.txt": {
+    "spdx": "BSD-3-Clause AND MIT AND Zlib",
+    "copyright": [
+      "2014 University of Pittsburgh and contributors",
+      "2011-2012 biochem_fan",
+      "2010-2012 three.js Authors",
+      "2011 John Resig",
+      "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
+      "2016 cheminfo",
+      "2015 Michaël Zasso",
+      "2017 Photopea"
     ]
   },
   "third_party_licenses/d3-chord-3.0.1.txt": {

@@ -168,7 +168,7 @@ function enhanceScrollbars(shell, host) {
   schedule();
 }
 
-export function enhancePlots(scope) {
+export function enhancePlots(scope, { nested = false } = {}) {
   const requestName = ["requestFullscreen", "webkitRequestFullscreen"].find(
     (name) => typeof document.documentElement[name] === "function",
   );
@@ -190,7 +190,8 @@ export function enhancePlots(scope) {
         ? plot.parentElement
         : plot);
     if (
-      host.closest(".figure-shell") ||
+      (host.closest(".figure-shell") &&
+        (!nested || scope.contains(host.closest(".figure-shell")))) ||
       plot.closest("button,a,.figure-toolbar")
     )
       continue;
@@ -279,7 +280,10 @@ export function enhancePlots(scope) {
     let scaleViewport = host.matches(".plot-viewport")
       ? host
       : host.querySelector(".plot-viewport");
-    if (scaleViewport?.matches(".network-map") || host.matches(".overlap-figure")) {
+    if (
+      scaleViewport?.matches(".network-map") ||
+      host.matches(".overlap-figure")
+    ) {
       let graphic = scaleViewport?.querySelector("svg");
       const readable = button(
         "",
