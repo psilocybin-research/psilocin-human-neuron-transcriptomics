@@ -9,10 +9,12 @@
     "test:browser": "node test/browser-check.mjs",
     "test:print": "node test/print-check.mjs",
     "test:fullscreen": "node test/fullscreen-check.mjs",
-    "test:tree": "node test/tree-browser-check.mjs"
+    "test:tree": "node test/tree-browser-check.mjs",
+    "test:network": "node test/network-browser-check.mjs"
   },
   "dependencies": {
-    "@observablehq/framework": "1.13.4"
+    "@observablehq/framework": "1.13.4",
+    "d3-force": "3.0.0"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2"

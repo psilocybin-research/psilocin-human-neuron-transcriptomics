@@ -1,0 +1,51 @@
+import {chromium,firefox,webkit} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+const engine=process.env.ATLAS_BROWSER||'chromium',url=process.env.ATLAS_URL||'http://127.0.0.1:4173/',output=process.env.QA_OUTPUT||'/tmp/atlas-network-qa';
+await mkdir(output,{recursive:true});
+const browser=await ({chromium,firefox,webkit}[engine]).launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[],requests=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+await page.goto(url+'#view=pathways&display=network');await page.locator('.network-node').first().waitFor();
+assert.equal(await page.locator('.network-node').count(),14);assert.equal(await page.locator('.network-edge').count(),46);assert.equal(await page.getByLabel('Gene membership',{exact:true}).inputValue(),'all');
+const original=await page.locator('.network-node').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform')));
+const pair=['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_RESPIRATORY_ELECTRON_TRANSPORT'].sort().join('|');
+await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(pair);
+await page.locator('[data-shared-gene]').first().waitFor();
+assert.equal(await page.locator('[data-shared-gene]').count(),71);assert.match(await page.locator('.result-summary').innerText(),/71 shared genes.*0\.2465/s);
+const sharedDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download shared genes CSV',exact:true}).click();const shared=await sharedDownload;const sharedCSV=await readFile(await shared.path(),'utf8');assert.equal(sharedCSV.split('\n').length,72);assert.match(sharedCSV,/"gene_fdr"/);
+await page.locator('[data-shared-gene]').first().click();await page.waitForFunction(()=>document.querySelector('.gene-detail')?.textContent.includes('ENSG'));
+assert.match(page.url(),/pair=/);assert.match(page.url(),/gene=/);
+await page.getByRole('button',{name:'← Shared genes',exact:true}).click();await page.locator('[data-shared-gene]').first().waitFor();
+await page.reload();await page.locator('[data-shared-gene]').first().waitFor();assert.equal(await page.locator('[data-shared-gene]').count(),71);
+await page.getByLabel('Find a pathway or gene',{exact:true}).fill('GPX4');await page.locator('.network-search-status').filter({hasText:/sets match/}).waitFor();assert.equal(await page.locator('.network-edge').count(),46);assert.ok(await page.locator('.network-node.search-match').count()>1);
+await page.getByLabel('Minimum Jaccard',{exact:true}).selectOption('.2'.replace(/^\./,'0.'));await page.waitForFunction(()=>document.querySelectorAll('.network-edge').length===2);assert.equal(await page.locator('.network-node').count(),14);assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),'Minimum Jaccard');
+assert.deepEqual(await page.locator('.network-node').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform'))),original);
+const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download overlap CSV',exact:true}).click();const d=await download;const csv=await readFile(await d.path(),'utf8');assert.equal(csv.split('\n').length,92);assert.match(csv,/"jaccard"/);assert.match(csv,/"0\.2"/);
+await page.getByRole('button',{name:'Overlap table',exact:true}).click();await page.locator('.overlap-table').waitFor();assert.equal(await page.locator('.overlap-table tbody tr').count(),91);assert.match(await page.locator('.overlap-table').innerText(),/Zero overlap/);
+await page.getByRole('button',{name:'Matrix',exact:true}).click();await page.locator('.overlap-matrix').waitFor();assert.equal(await page.locator('.overlap-matrix tbody tr').count(),14);assert.equal(await page.locator('.overlap-matrix button').count(),182);
+await page.getByLabel('Gene membership',{exact:true}).selectOption('leading');await page.waitForFunction(()=>document.querySelector('.network-summary')?.textContent.includes('13 unavailable pairs'));assert.match(await page.locator('.overlap-matrix').innerText(),/NA/);
+await page.getByLabel('Inspect a gene-set pair',{exact:true}).selectOption(['HALLMARK_OXIDATIVE_PHOSPHORYLATION','REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING'].sort().join('|'));assert.match(await page.locator('.pathway-evidence-panel').innerText(),/unavailable overlap, not zero overlap/);
+await page.getByLabel('Gene membership',{exact:true}).selectOption('all');await page.getByRole('button',{name:'Network',exact:true}).click();await page.locator('.network-node').first().waitFor();
+await page.getByRole('button',{name:'Reset search',exact:true}).click();await page.locator('.network-node').first().waitFor();
+const node=page.locator('.network-node').first();await node.focus();await page.keyboard.press('Enter');assert.equal(await node.getAttribute('aria-pressed'),'true');
+await page.getByRole('button',{name:'Zoom in network',exact:true}).click();assert.equal(await page.locator('.network-zoom-label').innerText(),'125%');
+await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.equal(await page.locator('.network-zoom-label').innerText(),'100%');
+// Explicit node movement and settled reset; no autonomous animation.
+await page.setViewportSize({width:1440,height:1000});
+await page.getByRole('button',{name:'Move nodes',exact:true}).click();
+const beforeMove=await node.getAttribute('transform');const box=await node.boundingBox();
+await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+25,box.y+box.height/2+25,{steps:4});await page.mouse.up();
+assert.notEqual(await node.getAttribute('transform'),beforeMove);
+await page.getByRole('button',{name:'Move nodes',exact:true}).click();await page.getByRole('button',{name:'Reset layout',exact:true}).click();assert.equal(await node.getAttribute('transform'),beforeMove);
+if(await page.getByRole('button',{name:'Full screen',exact:true}).count()){
+ await page.getByRole('button',{name:'Full screen',exact:true}).click();await page.waitForFunction(()=>Boolean(document.fullscreenElement));
+ await page.locator('.network-node').first().focus();await page.keyboard.press('Enter');await page.waitForFunction(()=>!document.fullscreenElement);
+}
+const svgDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download network SVG',exact:true}).click();const sd=await svgDownload;const svg=await readFile(await sd.path(),'utf8');assert.match(svg,/Jaccard/);assert.match(svg,/10\.5281\/zenodo\.23283595/);assert.doesNotMatch(svg,/network-link-hit/);
+const provenanceDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download network provenance',exact:true}).click();const pd=await provenanceDownload;const provenance=JSON.parse(await readFile(await pd.path(),'utf8'));assert.equal(provenance.pairs,91);assert.equal(provenance.shown_connections,2);assert.equal(provenance.data_sha256['atlas.json'],'8326664da0d1156bfb5172be2429a6d16a6e81936cedb1aa7eb634cbd6d78230');
+for(const width of [320,390,768,1024,1440]){await page.setViewportSize({width,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,`overflow at ${width}`);await page.locator('.pathway-explorer').screenshot({path:`${output}/network-${width}.png`});}
+const touch=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,...(engine==='firefox'?{}:{isMobile:true})});const phone=await touch.newPage();phone.on('pageerror',e=>errors.push(e.message));await phone.goto(url+'#view=pathways&display=network');await phone.locator('.network-node').first().waitFor();await phone.locator('.network-node').first().tap();await phone.getByRole('button',{name:'↑ Back to pathway overlap',exact:true}).tap();
+await phone.getByRole('button',{name:'Overlap table',exact:true}).tap();await phone.locator('.overlap-table').waitFor();assert.equal(await phone.locator('.overlap-table tbody tr').count(),91);await phone.setViewportSize({width:844,height:390});assert.equal(await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await touch.close();
+assert.deepEqual(errors,[]);assert.ok(requests.every(u=>new URL(u).origin===new URL(url).origin));
+await writeFile(`${output}/result.json`,JSON.stringify({passed:true,engine,browser:await browser.version(),url,errors,origin_only:true,layouts:[320,390,768,1024,1440],touch:true},null,2));console.log(`Network workflow passed (${engine}).`);await browser.close();

@@ -352,6 +352,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/pathway-network.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/pathway-overlap.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/pathway-tree.js": {
     "spdx": "MIT",
     "copyright": [
@@ -409,6 +421,18 @@
     ]
   },
   "explorer/test/metadata.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/network-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/pathway-overlap.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -2734,6 +2758,30 @@
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
+    ]
+  },
+  "third_party_licenses/d3-dispatch-3.0.2.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2026 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-force-3.0.0.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2021 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-quadtree-3.0.2.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2026 Mike Bostock"
+    ]
+  },
+  "third_party_licenses/d3-timer-3.0.2.txt": {
+    "spdx": "ISC",
+    "copyright": [
+      "2010-2026 Mike Bostock"
     ]
   },
   "third_party_licenses/observable-framework-1.13.4.txt": {

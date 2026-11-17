@@ -60,14 +60,15 @@ export function exportMembershipRows(branches, contrast) {
   })));
 }
 
-export function createPathwayTree({data, provenance, getGenes, state, contrast, tier, selectedPathway, onPathway, onGene, onState}) {
+export function createPathwayTree({data, provenance, getGenes, state, contrast, tier, selectedPathway, onPathway, onGene, onOverlap, onMembershipChange, onState}) {
   const root = node('section', 'pathway-explorer');
   root.setAttribute('aria-label', 'Pathway and gene tree');
   const toolbar = node('div', 'tree-toolbar');
   const view = node('div', 'tree-view-toggle'); view.setAttribute('aria-label', 'Pathway display');
   const treeButton = action('Tree', () => setView('tree'));
   const tableButton = action('Table', () => setView('table'));
-  view.append(treeButton, tableButton);
+  const networkButton = action('Pathway overlap', () => setView('network'));
+  view.append(treeButton, tableButton, networkButton);
   const searchLabel = node('label', 'tree-search');
   searchLabel.append(node('span', '', 'Find a pathway or gene'));
   const search = node('input'); search.type = 'search'; search.placeholder = 'Gene symbol, alias, Ensembl ID or pathway';
@@ -93,16 +94,17 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   canvas.setAttribute('aria-label', 'Scrollable pathway explorer');
   const downloads = node('div', 'tree-actions');
   root.append(toolbar, explanation, legend, notice, tools, canvas, downloads);
-  let genes, branches = [], loadError = false;
+  let genes, branches = [], loadError = false, drawToken = 0, networkMount;
   const loadStatus = node('p', 'note', 'Loading archived gene estimates…'); canvas.append(loadStatus);
   const notify = () => onState();
-  function setView(value) {state.view = value; notify(); draw(); (value === 'tree' ? treeButton : tableButton).focus();}
+  function setView(value) {state.view = value; notify(); draw(); onMembershipChange?.(); (value === 'tree' ? treeButton : value === 'network' ? networkButton : tableButton).focus();}
   search.oninput = () => {state.query = search.value; notify(); draw();};
-  member.onchange = () => {state.members = member.value; state.limits.clear(); notify(); draw();};
+  member.onchange = () => {if(state.view==='network'){state.networkMembers=member.value;state.gene='';}else state.members = member.value; state.limits.clear(); notify(); draw(); onMembershipChange?.();};
   function selectPathway(id, scroll = true) {
-    selectedPathway = id; state.gene = ''; onPathway(id, scroll); highlight();
+    selectedPathway = id; state.gene = ''; state.edge = ''; onPathway(id, scroll); highlight();
   }
   function highlight() {
+    networkMount?.refreshSelection(selectedPathway);
     root.querySelectorAll('[data-pathway-select]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.pathwaySelect === selectedPathway)));
     root.querySelectorAll('[data-gene-select]').forEach(b => {
       const selected = Boolean(state.gene && b.dataset.geneSelect === state.gene);
@@ -136,15 +138,33 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
     if (!branch.children.length) list.append(node('li', 'tree-empty', state.members === 'leading' ? 'No archived leading edge for this contrast. Choose all annotated members to inspect membership.' : 'No matching members.'));
     details.dataset.loaded = 'true';
   }
-  function draw() {
+  function draw(focusSelector) {
+    const token = ++drawToken;networkMount=undefined;
+    const isNetwork=state.view==='network';root.classList.toggle('network-mode',isNetwork);
+    networkButton.setAttribute('aria-pressed',String(isNetwork));
+    member.value=isNetwork?state.networkMembers:state.members;
+    explanation.textContent=isNetwork?'Compare shared membership across frozen gene sets. The network, pairwise table and matrix use the same explicit denominators; search highlights matches without changing overlap values.':'Analysis family → gene set → gene. Branches show analysis organization and overlapping annotations, not causal or evolutionary relationships. Leading edges change with the contrast.';
+    tools.firstChild.hidden=isNetwork;legend.hidden=isNetwork;
     treeButton.setAttribute('aria-pressed', String(state.view === 'tree')); tableButton.setAttribute('aria-pressed', String(state.view === 'table'));
     if (!genes) return;
     const oldScroll = canvas.scrollTop;
-    branches = pathwayBranches(data, genes, contrast, {tier, members: state.members, query: state.query});
+    branches = pathwayBranches(data, genes, contrast, {tier, members: isNetwork?state.networkMembers:state.members, query:isNetwork?'':state.query});
     const unique = new Set(branches.flatMap(b => b.children.map(g => g.symbol)));
     const occurrences = branches.reduce((n, b) => n + b.children.length, 0);
     notice.textContent = `${count(branches.length, 'gene set')} · ${count(unique.size, 'unique gene')} · ${count(occurrences, 'membership')}${state.query ? ' matching this search' : ''}. Repeated genes are counted once in the unique total. ${contrasts[contrast]}.`;
     canvas.replaceChildren(); downloads.replaceChildren();
+    if(isNetwork){
+      notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. Loading overlap view…`;
+      import('./pathway-network.js').then(({createPathwayNetwork})=>{
+        if(token!==drawToken||!root.isConnected)return;
+        networkMount=createPathwayNetwork({data,provenance,genes,state,contrast,tier,selectedPathway,
+          onPathway:id=>selectPathway(id,true),
+          onEdge:pair=>{selectedPathway=pair.source;onOverlap(pair);},
+          onState:(redraw,focusSelector)=>{onState();if(redraw)draw(focusSelector);}});
+        canvas.replaceChildren(networkMount);if(typeof focusSelector==='string')networkMount.querySelector(focusSelector)?.focus({preventScroll:true});notice.textContent=`${branches.length} frozen gene sets · ${contrasts[contrast]}. ${state.networkMembers==='all'?'Full annotated membership':'Contrast-specific leading edges'}.`;
+      }).catch(()=>{if(token===drawToken){canvas.replaceChildren(node('p','tree-empty','The overlap view could not be loaded. Check your connection and retry.'),action('Retry overlap view',draw));}});
+      return;
+    }
     if (!branches.length) canvas.append(node('p', 'tree-empty', 'No matching pathway or gene in this membership view. Try all annotated members, another contrast or another analysis tier.'));
     else if (state.view === 'table') renderTable();
     else {
@@ -218,6 +238,7 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   root.selectPathway = selectPathway;
   root.refreshSelection = highlight;
   root.focusSelection = () => {
+    if(state.view==='network'){networkMount?.focusSelection();return;}
     const selected = [...root.querySelectorAll('[data-gene-select]')].find(b => b.dataset.geneSelect === state.gene && b.getClientRects().length) || [...root.querySelectorAll('[data-pathway-select]')].find(b => b.dataset.pathwaySelect === selectedPathway && b.getClientRects().length) || root.querySelector('.tree-pathway > summary');
     selected?.focus();
   };

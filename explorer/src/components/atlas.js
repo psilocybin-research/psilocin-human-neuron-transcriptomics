@@ -1,3 +1,4 @@
+import {overlapGraph} from './pathway-overlap.js';
 import {createPathwayTree, families} from './pathway-tree.js';
 import {contrasts,names,label,fmt,sci,color,edgeGenes,csvText} from './format.js';
 const NS='http://www.w3.org/2000/svg';
@@ -115,9 +116,10 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
  const tabs=[['overview','Overview'],['landscape','OXPHOS landscape'],['genes','Gene explorer'],['pathways','Pathways'],['robustness','Robustness'],['dna','DNA maintenance'],['methods','Methods & sources']];
  let tab='overview',selected='GPX4',pathway='HALLMARK_OXIDATIVE_PHOSPHORYLATION',contrast='day1_vs_control',group='All functions',pathwayTier='all',dnaGene='ACD',dnaContrast='day1_vs_control',dnaFilter='All genes';
  const params=new URLSearchParams(location.hash.slice(1));if(tabs.some(x=>x[0]===params.get('view')))tab=params.get('view');selected=params.get('gene')||selected;pathway=params.get('pathway')||pathway;if(contrasts[params.get('contrast')])contrast=params.get('contrast');if(['all','primary','secondary','exploratory'].includes(params.get('tier')))pathwayTier=params.get('tier');group=params.get('group')||group;if(tab==='dna'){dnaGene=params.get('gene')||dnaGene;if(contrasts[params.get('contrast')])dnaContrast=params.get('contrast');dnaFilter=params.get('annotation')||dnaFilter;}
- const treeState={view:params.get('display')==='table'?'table':'tree',query:params.get('search')||'',members:params.get('members')==='all'?'all':'leading',gene:tab==='pathways'?(params.get('gene')||''):'',open:new Set(),closed:new Set(),limits:new Map()};
+ const treeState={view:['table','network'].includes(params.get('display'))?params.get('display'):'tree',query:params.get('search')||'',members:params.get('members')==='all'?'all':'leading',gene:tab==='pathways'?(params.get('gene')||''):'',open:new Set(),closed:new Set(),limits:new Map(),networkMembers:params.get('overlap_members')==='leading'?'leading':'all',threshold:[0,.05,.1,.2].includes(+params.get('overlap_min'))?+params.get('overlap_min'):0,networkView:['pairs','matrix'].includes(params.get('overlap_view'))?params.get('overlap_view'):'graph',edge:params.get('pair')||''};
  if(treeState.gene)treeState.open.add(pathway);
- function syncLocation(){const q=new URLSearchParams({view:tab});if(tab==='genes'||tab==='landscape')q.set('gene',selected);if(tab==='landscape'&&group!=='All functions')q.set('group',group);if(tab==='pathways'||tab==='robustness'){q.set('pathway',pathway);q.set('contrast',contrast);}if(tab==='pathways'){q.set('display',treeState.view);if(pathwayTier!=='all')q.set('tier',pathwayTier);if(treeState.query)q.set('search',treeState.query);if(treeState.members==='all')q.set('members','all');if(treeState.gene)q.set('gene',treeState.gene);}if(tab==='dna'){q.set('gene',dnaGene);q.set('contrast',dnaContrast);if(dnaFilter!=='All genes')q.set('annotation',dnaFilter);}history.replaceState(null,'',`#${q}`);return location.href;}
+ if(treeState.edge){const pair=overlapGraph(data,contrast,{members:treeState.networkMembers}).pairs.find(p=>p.key===treeState.edge);if(pair)pathway=pair.source;else treeState.edge='';}
+ function syncLocation(){const q=new URLSearchParams({view:tab});if(tab==='genes'||tab==='landscape')q.set('gene',selected);if(tab==='landscape'&&group!=='All functions')q.set('group',group);if(tab==='pathways'||tab==='robustness'){q.set('pathway',pathway);q.set('contrast',contrast);}if(tab==='pathways'){q.set('display',treeState.view);if(pathwayTier!=='all')q.set('tier',pathwayTier);if(treeState.query)q.set('search',treeState.query);if(treeState.members==='all')q.set('members','all');if(treeState.gene)q.set('gene',treeState.gene);if(treeState.view==='network'){q.set('overlap_members',treeState.networkMembers);if(treeState.threshold)q.set('overlap_min',treeState.threshold);if(treeState.networkView!=='graph')q.set('overlap_view',treeState.networkView);if(treeState.edge)q.set('pair',treeState.edge);}}if(tab==='dna'){q.set('gene',dnaGene);q.set('contrast',dnaContrast);if(dnaFilter!=='All genes')q.set('annotation',dnaFilter);}history.replaceState(null,'',`#${q}`);return location.href;}
  function shareDetails(){const section=tabs.find(([id])=>id===tab)?.[1]||'Atlas',displayGene=body.querySelector('.gene-symbol')?.textContent||selected;let focus='';if(tab==='genes'||tab==='landscape')focus=`Gene: ${displayGene}`;else if(tab==='pathways'||tab==='robustness')focus=`${label(pathway)} · ${contrasts[contrast]}${tab==='pathways'&&treeState.gene?` · Gene: ${treeState.gene}`:''}`;else if(tab==='dna')focus=`Gene: ${displayGene} · ${contrasts[dnaContrast]}${dnaFilter!=='All genes'?` · ${dnaFilter}`:''}`;const title=`Psilocin transcriptomic atlas · ${section}${focus?` · ${focus}`:''}`;return{title,text:`${title}. Germann reanalysis of Schmidt et al. (2026).`,url:syncLocation()};}
  async function shareCurrent(){const payload=shareDetails();if(typeof navigator.share==='function'){try{await navigator.share(payload);return;}catch(error){if(error?.name==='AbortError')return;console.warn('Native share request failed; opening email instead',error);}}location.href=`mailto:?subject=${encodeURIComponent(payload.title)}&body=${encodeURIComponent(`${payload.text}\n\n${payload.url}`)}`;}
  const top=el('header','masthead');
@@ -238,11 +240,13 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
   const controls=el('div','controls');
   function changeControl(name,fn){fn();render();body.querySelector(`[aria-label="${name}"]`)?.focus({preventScroll:true});}
   const pathwayControl=select('Pathway',choices,pathway,v=>explorer.selectPathway(v,false));
-  controls.append(select('Evidence tier',[['all','All frozen tiers'],['primary','Primary · 15 tests'],['secondary','Secondary · 21 tests'],['exploratory','Exploratory · 6 tests']],pathwayTier,v=>changeControl('Evidence tier',()=>{pathwayTier=v;treeState.gene='';})),pathwayControl,select('Contrast',Object.entries(contrasts),contrast,v=>changeControl('Contrast',()=>{contrast=v;})));body.append(controls);
+  controls.append(select('Evidence tier',[['all','All frozen tiers'],['primary','Primary · 15 tests'],['secondary','Secondary · 21 tests'],['exploratory','Exploratory · 6 tests']],pathwayTier,v=>changeControl('Evidence tier',()=>{pathwayTier=v;treeState.gene='';treeState.edge='';})),pathwayControl,select('Contrast',Object.entries(contrasts),contrast,v=>changeControl('Contrast',()=>{contrast=v;})));body.append(controls);
   const layout=el('div','pathway-research-layout');
   const evidence=el('section','pathway-evidence-panel');evidence.id='pathway-selected-evidence';evidence.setAttribute('aria-label','Selected pathway and gene evidence');
   const explorer=createPathwayTree({data,provenance,getGenes,state:treeState,contrast,tier:pathwayTier,selectedPathway:pathway,
    onPathway:(id,scroll)=>{pathway=id;treeState.gene='';pathwayControl.querySelector('select').value=id;syncLocation();showEvidence(scroll);},
+   onMembershipChange:()=>showEvidence(),
+   onOverlap:pair=>{pathway=pair.source;treeState.gene='';pathwayControl.querySelector('select').value=pathway;syncLocation();showEvidence(true);},
    onGene:(symbol,id)=>{pathway=id;treeState.gene=symbol;pathwayControl.querySelector('select').value=id;syncLocation();showEvidence(true);},onState:syncLocation});
   layout.append(explorer,evidence);body.append(layout);
   function showEvidence(scroll=false){
@@ -250,10 +254,11 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
    const row=data.pathways.find(p=>p.pathway===pathway&&p.contrast===contrast);if(!row)return;
    const meta=families[row.tier];
    const title=el('h3','',label(pathway));title.tabIndex=-1;
-   evidence.append(button('↑ Back to pathway tree',()=>explorer.focusSelection(),'secondary tree-return'));
+   evidence.append(button(treeState.view==='network'?'↑ Back to pathway overlap':'↑ Back to pathway tree',()=>explorer.focusSelection(),'secondary tree-return'));
    evidence.append(el('div','eyebrow',`${meta.title} · ${meta.tests}-test family`),title,note(contrasts[contrast]));
-   if(treeState.gene){
-    const back=button('← Pathway evidence',()=>{treeState.gene='';explorer.refreshSelection();syncLocation();showEvidence();},'secondary');
+   if(treeState.edge&&!treeState.gene&&treeState.view==='network'){showSharedEvidence();}
+   else if(treeState.gene){
+    const back=button(treeState.edge&&treeState.view==='network'?'← Shared genes':'← Pathway evidence',()=>{treeState.gene='';explorer.refreshSelection();syncLocation();showEvidence();},'secondary');
     const geneHost=el('div','gene-detail tree-gene-detail');evidence.append(back,geneHost);geneDetail(geneHost,treeState.gene).then(()=>{if(geneHost.isConnected)enhancePlots(geneHost);});
     const membership=Object.entries(data.membership).filter(([,genes])=>genes.includes(treeState.gene));
     evidence.append(el('h4','','Also annotated in the frozen sets'));
@@ -280,6 +285,26 @@ export function createAtlas(data,provenance,loadGenes,branding={}){
    const archive=el('a','source-link','Archived analysis and source tables ↗');archive.href='https://doi.org/10.5281/zenodo.23283595';archive.target='_blank';archive.rel='noopener';source.append(archive);evidence.append(source);
    enhancePlots(evidence);
    if(scroll&&matchMedia('(max-width:1000px)').matches){title.focus({preventScroll:true});evidence.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+  }
+  function showSharedEvidence(){
+   const graph=overlapGraph(data,contrast,{members:treeState.networkMembers,tier:pathwayTier});const pair=graph.pairs.find(p=>p.key===treeState.edge);
+   const title=evidence.querySelector(':scope > h3');title.textContent='Shared gene membership';evidence.querySelector(':scope > .eyebrow').textContent='DESCRIPTIVE OVERLAP · NO NEW STATISTICAL TESTS';
+   if(!pair){evidence.append(note('This pair is outside the selected analysis tier.'));return;}
+   evidence.append(el('h4','',`${label(pair.source)} ↔ ${label(pair.target)}`),note(`${treeState.networkMembers==='all'?'Full frozen annotated sets':'Leading edges for this contrast'} · members A / B: ${pair.source_size??'Unavailable'} / ${pair.target_size??'Unavailable'}`));
+   const summary=el('div','result-summary');summary.append(el('strong','',pair.shared===null?'Unavailable':`${pair.shared} shared genes`),el('span','',`Jaccard ${pair.jaccard===null?'Unavailable':fmt(pair.jaccard,4)}`));evidence.append(summary);
+   evidence.append(note('Jaccard = shared symbols ÷ unique symbols across the two sets. Literal membership is unchanged; aliases are not merged. Overlap is descriptive, not a statistical test or independent support.'));
+   if(!pair.available){evidence.append(note('At least one set has no testable archived leading edge for this contrast. This is unavailable overlap, not zero overlap. Choose all annotated members for an annotation comparison.'));return;}
+   if(!pair.shared){evidence.append(note('These selected sets share no literal symbols in this membership view. This does not establish biological independence.'));return;}
+   const geneList=el('div','overlap-shared-genes');evidence.append(geneList,note('Gene FDR is from the original transcriptome-wide model; there is no new shared-gene multiple-testing family. Selecting a gene opens its archived estimates.'));
+   geneList.append(note('Loading archived estimates…'));
+   getGenes().then(genes=>{
+    if(!geneList.isConnected)return;
+    const bySymbol=new Map(genes.filter(g=>g.selected).map(g=>[g.symbol,g])),index=data.contrasts.indexOf(contrast);
+    const rows=pair.genes.map(symbol=>{const g=bySymbol.get(symbol),effect=g?.effects[index];return {symbol,gene_id:g?.id??null,availability:g?'archived rank representative':'no literal-symbol match',log2FoldChange:effect?.log2FoldChange??null,gene_fdr:effect?.padj??null};});
+    geneList.replaceChildren();
+    for(const row of rows){const b=button('',()=>{treeState.gene=row.symbol;syncLocation();showEvidence(true);},'overlap-shared-gene');b.dataset.sharedGene=row.symbol;b.append(el('strong','',row.symbol),el('span','',row.gene_id?`log₂FC ${fmt(row.log2FoldChange,3)} · FDR ${sci(row.gene_fdr)}`:'No literal-symbol match'));geneList.append(b);}
+    geneList.append(button('Download shared genes CSV',()=>download('pathway-overlap-shared-genes.csv',csvText(rows.map(r=>({...r,source:pair.source,target:pair.target,contrast,membership:treeState.networkMembers})))),'secondary'));
+   }).catch(()=>{if(geneList.isConnected)geneList.replaceChildren(note('Gene estimates could not be loaded. Return to the overlap view and retry.'));});
   }
   showEvidence();
  }

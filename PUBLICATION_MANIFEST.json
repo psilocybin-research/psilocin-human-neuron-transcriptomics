@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 461,
-  "total_bytes": 252324806,
+  "file_count": 469,
+  "total_bytes": 252378894,
   "status": "pass",
   "failures": [],
   "files": [
@@ -59,8 +59,8 @@
     },
     {
       "path": "ATLAS_THIRD_PARTY_NOTICES.md",
-      "bytes": 1126,
-      "sha256": "c6aebf93344f0b280b0afb3c90766b2028b6022f88bc274d06a3823fc3dc5f58"
+      "bytes": 1577,
+      "sha256": "217a13c7feac4c97c455c2c0af2413b108fca168a8ecf7630bc0a53ed4cd3880"
     },
     {
       "path": "CITATION.cff",
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 67144,
-      "sha256": "6ea72f96850b74c02ec1cdd002577d60f0714c9750772f5f15ff6cd54e5900d9"
+      "bytes": 68190,
+      "sha256": "7314d8a9c078574ff17a4826bbe645e3f26330ed7f108d367b4742244125da87"
     },
     {
       "path": "LICENSE.md",
@@ -124,8 +124,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 5313,
-      "sha256": "71c619e47863c37d6a25592a82b85cea5cadd40924cdee763fcb17c934759f1f"
+      "bytes": 6007,
+      "sha256": "dfa61f21ca72c6c24e95a15c5722aac8ab43918e4b7eb668bf65ff617ac40b77"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -229,8 +229,8 @@
     },
     {
       "path": "explorer/README.md",
-      "bytes": 545,
-      "sha256": "844d6b7229549c3a477a7debcc3eff64c95daa645d558595acc6ac1c692aa437"
+      "bytes": 2139,
+      "sha256": "29c6da130959b9135d42849ec66037f147c66e06eaacd800f9d67c8f98fd9a71"
     },
     {
       "path": "explorer/observablehq.config.js",
@@ -239,13 +239,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 153021,
-      "sha256": "331853356cf8b0d4ca226813eb9fb9c5190ffc8e16add59347f5e273756a6b0b"
+      "bytes": 154529,
+      "sha256": "113342b3c8d6383bb6ec7a7cef26d23aeab84a8aee91aab6a0cfc13e371231d7"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 646,
-      "sha256": "f3991201c3758e334ed9386a2b5b186a1b3edaa9ef1ff881a756d452327348ca"
+      "bytes": 730,
+      "sha256": "455d25a37e5cbb85aeacf66972485962abc0e2e8ea6881cb9b2f299066b298b0"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -259,8 +259,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 1325,
-      "sha256": "20cfe7bb67af597dce46e940a9715f53e01826b0327ceb6634ac2c8400259670"
+      "bytes": 1966,
+      "sha256": "675eff777ca2fd7905167354dcc708a45bcf11daf5ed57a3e01e71306cdefe3a"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -309,8 +309,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 66791,
-      "sha256": "2ca15522e49a981607b2b671a3d2983894dba66a01ef426f13f42cca6c63b6d1"
+      "bytes": 71216,
+      "sha256": "7b9b53cf67c211b796f775fff2551d4ba907932b4db86e4ea092c05c09551a52"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -318,9 +318,19 @@
       "sha256": "05cdddbf9ee170cc4906cf1920b3d4f82baec54cc5023910e033fc8b8224fd1f"
     },
     {
+      "path": "explorer/src/components/pathway-network.js",
+      "bytes": 19323,
+      "sha256": "52c07bfa9cd0eaf6acc4f3abe691b90a5d5a92fab396849b922e93b56781cb96"
+    },
+    {
+      "path": "explorer/src/components/pathway-overlap.js",
+      "bytes": 2946,
+      "sha256": "afba041a9c176e5fe086df176963ed60e5156de4edc9d55e152bae55e59a589d"
+    },
+    {
       "path": "explorer/src/components/pathway-tree.js",
-      "bytes": 16942,
-      "sha256": "43e9d43883c359db143b431b08ba8bbf712d8396a7d063be0d760eb5af7d45dd"
+      "bytes": 19331,
+      "sha256": "b3593e2e5f93062319a22a465a3b3aa0b79a7a8506e77313896620ca41ebc045"
     },
     {
       "path": "explorer/src/data/atlas.json",
@@ -344,8 +354,8 @@
     },
     {
       "path": "explorer/src/style.css",
-      "bytes": 36418,
-      "sha256": "25cd1e7b60a06b1425689e6198ee986b165878060b65f6834575b77b4feb48e0"
+      "bytes": 40625,
+      "sha256": "7eea4fdf69ccc0fee988ba16a60f9ab0166cc4c4ac636eef0366880039f0099b"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -366,6 +376,16 @@
       "path": "explorer/test/metadata.test.js",
       "bytes": 4042,
       "sha256": "1ce62faebabf0ded87af7836ee8b1d0e37ca0bb931e7b00e72c6c3a4d27edd73"
+    },
+    {
+      "path": "explorer/test/network-browser-check.mjs",
+      "bytes": 8746,
+      "sha256": "269d14e35e12cba78a0b190d116b5f4baf31d708ac639dc0c985ac0d16b12e14"
+    },
+    {
+      "path": "explorer/test/pathway-overlap.test.js",
+      "bytes": 3110,
+      "sha256": "67d3ee27f1e9cff4e2a9b4aba6a710a6adb5f67958ce222005fb407704b21e2a"
     },
     {
       "path": "explorer/test/pathway-tree.test.js",
@@ -2296,6 +2316,26 @@
       "path": "tests/test_transcriptomics.R",
       "bytes": 738,
       "sha256": "4245f65e5dc988096551927935665ca6adf14dfc3092a8ad5c05c1f23d6e95bb"
+    },
+    {
+      "path": "third_party_licenses/d3-dispatch-3.0.2.txt",
+      "bytes": 731,
+      "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
+    },
+    {
+      "path": "third_party_licenses/d3-force-3.0.0.txt",
+      "bytes": 731,
+      "sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+    },
+    {
+      "path": "third_party_licenses/d3-quadtree-3.0.2.txt",
+      "bytes": 731,
+      "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
+    },
+    {
+      "path": "third_party_licenses/d3-timer-3.0.2.txt",
+      "bytes": 731,
+      "sha256": "2a6d2d5f32ba0b755ddbc1c833f766e30cdbe6ebe9a6d4e3e24427721f0b63d3"
     },
     {
       "path": "third_party_licenses/observable-framework-1.13.4.txt",
