@@ -3878,7 +3878,11 @@ body {
 }
 
 #psilocin-app .research-evidence-sheet {
-  height: 92dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding-top: env(safe-area-inset-top);
+  box-sizing: border-box;
+  --f7-sheet-push-border-radius: 0px;
   background: var(--research-surface);
   --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
   display: none;

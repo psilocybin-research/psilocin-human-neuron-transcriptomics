@@ -12,9 +12,17 @@ try {
   await page.locator('.network-node').first().click();
   const sheet=page.locator('.research-evidence-sheet');await page.waitForFunction(()=>document.querySelector('.research-evidence-sheet').dataset.shellModalReady==='true');
   assert.ok(await sheet.locator('#pathway-selected-evidence').count());
+  assert.ok(Math.abs((await sheet.boundingBox()).y)<2,'evidence sheet reaches viewport top');
   await sheet.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');
   assert.equal(await page.locator('.research-views').evaluate(n=>n.inert),false);
   await page.goto(base+'#view=comparison');const input=page.getByRole('combobox',{name:'Search comparison genes',exact:true});await input.fill('GPX4');await page.getByRole('option',{name:/GPX4/}).click();await sheet.locator('.gene-symbol').waitFor();assert.equal(await sheet.locator('.gene-symbol').innerText(),'GPX4');
+  await sheet.locator('.gene-detail .figure-toolbar').first().waitFor();
+  for (const toolbar of await sheet.locator('.gene-detail .figure-toolbar').all()) {
+   const buttons=toolbar.locator('button');
+   assert.ok(await buttons.count()>=2);
+   assert.equal(await buttons.evaluateAll(nodes=>nodes.every(n=>n.classList.contains('button')&&n.classList.contains('button-tonal'))),true,'async evidence plots receive shared F7 controls');
+   assert.equal(await buttons.last().evaluate(n=>n.classList.contains('figure-fullscreen')),true,'fullscreen stays outermost right');
+  }
   await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen==='false');assert.equal(await page.locator('.comparison-evidence .gene-symbol').innerText(),'GPX4');assert.deepEqual(errors,[]);await page.close();
  }
  console.log('Native push evidence, Done/Escape, restored panels and one expanded navigation group passed on mobile/desktop.');

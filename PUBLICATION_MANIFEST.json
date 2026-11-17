@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 535,
-  "total_bytes": 252921405,
+  "total_bytes": 252922239,
   "status": "pass",
   "failures": [],
   "files": [
@@ -294,8 +294,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 96677,
-      "sha256": "50ec9913f824c61fa2117e716bcad68111ee9c19e8448a86bb2c9a4c7a25a6cb"
+      "bytes": 96805,
+      "sha256": "37659ea1ffe0aaa5585d08c7e2c3ba58d7d91bbfed41fd5aba50a35e498bd1bb"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -404,8 +404,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 13410,
-      "sha256": "9ba119c605f9d6b303475893b83797ee6480d9d25a2aea84a7c20bbf8557f069"
+      "bytes": 13450,
+      "sha256": "39d39b8fece7bc564a100f822b2c11e8578164a3a398efdea2fec2b6bd5c3e4b"
     },
     {
       "path": "explorer/src/components/file-download.js",
@@ -579,8 +579,8 @@
     },
     {
       "path": "explorer/test/evidence-sheet-browser-check.mjs",
-      "bytes": 2123,
-      "sha256": "270aaaa6ceadfb94c32c1a98437ce89757dc849426693ddef5613660bc66a7e3"
+      "bytes": 2789,
+      "sha256": "703c18767558bc73aa16fb739319058e268379124810a35d03ad70a16793937f"
     },
     {
       "path": "explorer/test/figure-controls-browser-check.mjs",
