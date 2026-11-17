@@ -433,18 +433,22 @@ body {
   border: 1px solid var(--research-outline);
   border-radius: 10px;
   overflow: hidden;
-  min-height: 46px;
+  height: 56px;
+  min-height: 56px;
   font-size: 13px;
   font-weight: 500;
   color: var(--research-text);
 }
 #psilocin-app .research-smart-select .item-content {
+  height: 100%;
   display: flex;
   padding: 0 14px;
   min-width: 0;
 }
 #psilocin-app .research-smart-select .item-inner {
-  padding: 12px 23px 12px 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 23px 8px 0;
   width: 100%;
   position: relative;
   min-width: 0;
@@ -453,12 +457,12 @@ body {
   content: "";
   position: absolute;
   right: 3px;
-  top: 19px;
+  top: 50%;
   width: 7px;
   height: 7px;
   border-right: 1.5px solid var(--research-muted);
   border-bottom: 1.5px solid var(--research-muted);
-  transform: rotate(45deg);
+  transform: translateY(-70%) rotate(45deg);
 }
 #psilocin-app .research-smart-select .item-title {
   font-size: 13px;
@@ -3874,7 +3878,7 @@ body {
 }
 
 #psilocin-app .research-evidence-sheet {
-  height: min(85dvh, 900px);
+  height: 92dvh;
   background: var(--research-surface);
   --f7-sheet-push-offset: max(20px, env(safe-area-inset-top));
   display: none;
@@ -3939,4 +3943,42 @@ body {
 }
 #psilocin-app .research-nav .nav-group-current > .nav-group-toggle .item-title {
   color: var(--f7-theme-color);
+}
+
+/* Field groups reserve two lines for values and align labels independently. */
+#psilocin-app :is(.controls, .comparison-controls) {
+  align-items: stretch;
+}
+#psilocin-app :is(.controls, .comparison-controls) > .control {
+  gap: 8px;
+  min-width: 0;
+}
+#psilocin-app
+  :is(.controls, .comparison-controls)
+  > .control
+  > span:first-child {
+  min-height: 18px;
+  line-height: 18px;
+}
+#psilocin-app .atlas-body > .controls > .control {
+  flex: 1 1 220px;
+}
+#psilocin-app
+  .atlas-body
+  > .controls
+  > .control:has(select[aria-label="Pathway"]) {
+  flex: 2 1 360px;
+}
+#psilocin-app .controls .scale-key {
+  align-self: center;
+}
+#psilocin-app .tree-toolbar .tree-view-toggle {
+  height: 56px;
+}
+#psilocin-app .tree-toolbar .tree-view-toggle .button {
+  min-height: 46px;
+}
+#psilocin-app .comparison-axis-controls .research-smart-select {
+  height: 44px;
+  min-height: 44px;
 }
