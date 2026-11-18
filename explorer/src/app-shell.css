@@ -4505,3 +4505,7 @@ body {
     background:var(--f7-theme-color);color:var(--f7-theme-color-contrast,#fff);
   }
 }
+
+#psilocin-app .analysis-option-list :is(ul,li,.item-radio) {
+  width:100%;max-width:none;box-sizing:border-box;
+}

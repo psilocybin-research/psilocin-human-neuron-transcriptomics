@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686671380,
+  "total_bytes": 686671559,
   "status": "pass",
   "failures": [],
   "files": [
@@ -359,8 +359,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 119303,
-      "sha256": "f5cbe8a476940c556ffce347afc58d6e80bbc3ba1df4b9648194a13c7c7b2c13"
+      "bytes": 119418,
+      "sha256": "f88c72d788d40226bbbd50e1cbf360206e2a218cc904ab80b80d6e09761decb1"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3339,8 +3339,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 46315,
-      "sha256": "ec8cb831b62c84dd8c0a2574803f6eb6cbab3246b48d04ac8a639ffb609dbe94"
+      "bytes": 46379,
+      "sha256": "00053fbea3c04c04dbc84ae330b4159d974267c32cd9cad0273d299b56ce0235"
     },
     {
       "path": "explorer/src/components/app-toast.js",

@@ -468,10 +468,6 @@ export function createAppShell({
       host.append(element);
       controlMoves.push({ element, placeholder });
     }
-    host.classList.toggle(
-      "analysis-options-single",
-      host.querySelectorAll("select").length === 1,
-    );
     for (const select of host.querySelectorAll("select")) {
       const original = select.closest(".control,.tree-member-control");
       if (!original) continue;
@@ -493,6 +489,8 @@ export function createAppShell({
       host.prepend(display);
       controlMoves.push({ element: display, placeholder });
     }
+    const visibleGroups = host.querySelectorAll(".analysis-option-field:not([hidden])").length;
+    host.classList.toggle("analysis-options-single", visibleGroups === 1 && !display);
     return true;
   }
   function openControls(event) {
