@@ -1,3 +1,4 @@
+import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup } from "./structure-preview.js";
 import { createResearchTables } from "./research-tables.js";
 import { createPwa } from "./app-pwa.js";
@@ -75,8 +76,7 @@ export function createAppShell({
   );
   const brandSymbol = sidebarHead.querySelector(".brand-symbol");
   brandSymbol.textContent = "";
-  brandSymbol.innerHTML =
-    '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 5v22M6 7c1 1 1 3 1 6v2c0 8 18 8 18 0v-2c0-3 0-5 1-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  brandSymbol.innerHTML = brandGlyph;
   const sidebarSub = node(
     "p",
     "sidebar-subtitle",
@@ -1249,6 +1249,7 @@ export function createAppShell({
     syncNavigation();
     syncAppearance();
     root.dataset.framework7 = "9.3.0";
+    requestAnimationFrame(() => document.getElementById("atlas-boot")?.remove());
     update(initial);
     enhance();
   }

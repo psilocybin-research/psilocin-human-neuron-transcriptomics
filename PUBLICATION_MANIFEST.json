@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1294,
-  "total_bytes": 687009913,
+  "file_count": 1299,
+  "total_bytes": 686665699,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 260865,
-      "sha256": "b654e12a3d28a6ed441305376c369a45e8864fd2b3fdb8b297dd0278641d938d"
+      "bytes": 261539,
+      "sha256": "99b62bd50513dd6e3ee351cca13a2ef0b5d4bc20b4542de49bb36e5c695a35a7"
     },
     {
       "path": "LICENSE.md",
@@ -323,6 +323,11 @@
       "sha256": "60a0ba03fb75125a7c7d681c36dcfe8a411b1bc37cbb5661191f3e316ce2af97"
     },
     {
+      "path": "explorer/scripts/prepare-app-icons.mjs",
+      "bytes": 1429,
+      "sha256": "b85546c2cf2a6cc0a50cb0af389110a9646168663d10d4162eed874188d301dc"
+    },
+    {
       "path": "explorer/scripts/prepare-atlas.mjs",
       "bytes": 3172,
       "sha256": "bedb4634fd6e9adbc608e85c2eac80d5ea819df44cfd779ce3ae048d92b83bed"
@@ -349,8 +354,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 5034,
-      "sha256": "11c59ab02f4eedd1ecb117a8eea821d9b46b08f4018096e87721f174fd05fa8e"
+      "bytes": 6918,
+      "sha256": "025e1f324f87dd0aa00137a65d5cad37a4095049c215c20c440ce2d7617b4f55"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -379,33 +384,33 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 141941,
-      "sha256": "a2ba2852027e943f3107f1dab53fdef9b50cabc91f9d34040615bc2fb0178d38"
+      "bytes": 142360,
+      "sha256": "53d778dbc21ce9981ce834ef05234bd45238ed65057ee65fd782d743a7802a6a"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
-      "bytes": 38361,
-      "sha256": "6238f1a3a00c0ce4de989a9c4065eb746661facc9dd9c191778b1985cc353420"
+      "bytes": 3524,
+      "sha256": "4912d055b2db1345c4a42fc643c334c4c38c03f5b1d62f3ab045785edcd6e0cd"
     },
     {
       "path": "explorer/src/assets/app/favicon.ico",
-      "bytes": 32038,
-      "sha256": "4e44eba478f026531034a7adf30567f7f825f86f009a34593328b26b2f9c51a8"
+      "bytes": 6914,
+      "sha256": "d18d6c25e1ba19a692be6e84e8733e475f52ae0c8e096940a4822a0307c96d6a"
     },
     {
       "path": "explorer/src/assets/app/icon-192.png",
-      "bytes": 42165,
-      "sha256": "937b858c618719797fcbb7ce8cc73c9ce35c15762b1c4222db978597e6db5441"
+      "bytes": 3713,
+      "sha256": "28bf3cf4b8e01959b9f05a23cd971eec15159bff455feace14c121890d50a3fa"
     },
     {
       "path": "explorer/src/assets/app/icon-512.png",
-      "bytes": 141130,
-      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+      "bytes": 15699,
+      "sha256": "b4f3d78918604f647bb294c5003206321df82d59b8ccb97eec091e9ca5a3c38b"
     },
     {
       "path": "explorer/src/assets/app/maskable-512.png",
-      "bytes": 141130,
-      "sha256": "2927a2df6f9e3495996fb6b0737291c0b467548280890b94084244f67f7a6034"
+      "bytes": 4343,
+      "sha256": "41c2789e4ce8708111240a43b47a1d3de2d3aab638c4272338e742739f685ce0"
     },
     {
       "path": "explorer/src/assets/app/site.webmanifest",
@@ -3353,6 +3358,11 @@
       "sha256": "b1412174d9616aa7b4a1976bf277f1d3e7a7a146cbe820386ee96f4198af5115"
     },
     {
+      "path": "explorer/src/components/app-brand.js",
+      "bytes": 704,
+      "sha256": "955b69f210f925749f27b6b6b2d234e5f4d576c2bc3a7459f2ea5cd49ec8ebbe"
+    },
+    {
       "path": "explorer/src/components/app-progress.js",
       "bytes": 4212,
       "sha256": "2131f6082ebc6dfb74139e9ac788e4f135ddf687d916c48e87bf01679727aa49"
@@ -3364,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 46686,
-      "sha256": "c689bf583a1425819f522cc46b88159688670539b09f111de2c161454ed31944"
+      "bytes": 46582,
+      "sha256": "8729af94ff885e1c59b555fd1324e183a884508571b4596b5660019945ef9e0c"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3498,9 +3508,14 @@
       "sha256": "a9f9e9626766e590ae428b5fcf6d3e0721306989328f1c6a1b6a89d96400a712"
     },
     {
+      "path": "explorer/src/components/network-statistics.js",
+      "bytes": 1290,
+      "sha256": "a532c50d5bc11e1f49c636f7f1078395c78e973dcfaffa287dd6c18776656930"
+    },
+    {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 39073,
-      "sha256": "66cf8edb46974294d2ec1608ef39d367b919512ec1f10b96c37bc0a77a542d65"
+      "bytes": 40820,
+      "sha256": "60c600a4ab51681bb6bf525c331c496a6e81fefc01e63c7efc0597e17f126bc2"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3509,8 +3524,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 14187,
-      "sha256": "95400b11af5b811a8ed86e789319479e043c60a696cbe5dfb9ff85e6562f956e"
+      "bytes": 16748,
+      "sha256": "667f113933b5f724b203a00f8e1419990902aa9dfa95464a5466b8931be75676"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3768,9 +3783,19 @@
       "sha256": "7bda55928bd3a3adb53b5bc52f92925924fed3d63be5352a7991c1a9a3de378d"
     },
     {
+      "path": "explorer/test/network-comparison-browser-check.mjs",
+      "bytes": 3771,
+      "sha256": "7a20e363d54712512f2699d03d32a7fb474186dedae49082ec1c42b595abdf18"
+    },
+    {
       "path": "explorer/test/network-effects-browser-check.mjs",
       "bytes": 2342,
       "sha256": "88207157ad3d5eea69bd8e19b70e4eb7a3fe95edfbfc2204f1e4e60368312bbb"
+    },
+    {
+      "path": "explorer/test/network-statistics.test.js",
+      "bytes": 1140,
+      "sha256": "856a6bd43567ec3dc16e4556321550e1cfcf33ddf1d56e708c391024a1cc2510"
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
@@ -5309,8 +5334,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 8948,
-      "sha256": "580973c9d8fb7f360fb31e63090aae49ab4cb4b9c42f2450020c6065c78a5f59"
+      "bytes": 9850,
+      "sha256": "3e25ec0093e3fd30f056a08ac243ca8cb59b95dd0d02801d2fed1b73741a9ad1"
     },
     {
       "path": "reports/schmidt_control_resolution.md",

@@ -1,3 +1,4 @@
+import { brandIcon } from "../src/components/app-brand.js";
 import { transform } from "esbuild";
 import { minify as minifyHTML } from "html-minifier-terser";
 import {copyFile, mkdir, readFile, writeFile, readdir, cp, rm} from 'node:fs/promises';
@@ -26,6 +27,17 @@ html = html.replace(/<meta name="viewport"[^>]*>/,
 const runtimeStyles = (await readdir(new URL('_file/assets/vendor/', output))).filter(name => /^framework7\.[a-f0-9]+\.css$/.test(name));
 if (runtimeStyles.length !== 1) throw new Error('Expected one content-hashed F7 stylesheet');
 html = html.replace('<head>', `<head>\n<link rel="preload" as="style" href="./_file/assets/vendor/${runtimeStyles[0]}" fetchpriority="high">`);
+// Inline, dependency-free first paint: no request or runtime is needed to show the mark.
+html = html.replace('</head>', `<style>
+#atlas-boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-content:center;justify-items:center;gap:18px;background:#f7f9fc;color:#235780;font:500 15px system-ui;text-align:center;padding:24px}
+#atlas-boot > svg{width:76px;height:76px;filter:drop-shadow(0 8px 16px #23578020)}
+#atlas-boot .boot-progress{height:3px;width:112px;overflow:hidden;background:#23578020;border-radius:3px}
+#atlas-boot .boot-progress:after{content:"";display:block;width:40%;height:100%;background:#235780;animation:atlas-boot-slide 1.1s ease-in-out infinite alternate}
+@keyframes atlas-boot-slide{to{transform:translateX(150%)}}
+.dark #atlas-boot{background:#0e1923;color:#d8eaf7}
+@media(prefers-reduced-motion:reduce){#atlas-boot .boot-progress:after{animation:none;width:100%}}
+</style><script>try{var a=localStorage.getItem('atlas-appearance');document.documentElement.classList.toggle('dark',a?a==='dark':matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){}setTimeout(()=>{const b=document.getElementById('atlas-boot');if(!b)return;const n=b.querySelector('span:last-child');if(n)n.textContent='Loading is taking longer than usual. Check your connection, or reload to try again.';const r=document.createElement('button');r.textContent='Reload';r.onclick=()=>location.reload();b.append(r)},15000)</script></head>`);
+html = html.replace(/<body([^>]*)>/, `<body$1><div id="atlas-boot" role="status" aria-live="polite" aria-label="Loading Psilocin Transcriptome Atlas">${brandIcon()}<span>Psilocin Transcriptome Atlas</span><span class="boot-progress" aria-hidden="true"></span><span>Loading the research workspace…</span></div><noscript><style>#atlas-boot{display:none}</style></noscript>`);
 const cellMarkers = html.match(/<!--:[^>]*-->/g) || [];
 const compactHTML = await minifyHTML(html, {
   collapseWhitespace: true,

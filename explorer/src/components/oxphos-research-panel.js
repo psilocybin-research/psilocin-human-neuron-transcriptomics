@@ -1,10 +1,11 @@
+import { crossDayRows } from "./network-statistics.js";
 import data from "../assets/vendor/oxphos-research-data.js";
 import {
   createElement as el,
   loadingMessage,
   createAccordion,
 } from "./interface-utils.js";
-import { Plot, scientificPlot } from "./scientific-plot.js";
+import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { contrasts } from "./format.js";
 import { downloadFile } from "./file-download.js";
 
@@ -61,7 +62,18 @@ function action(text, fn) {
 }
 const profileBlocks = [...new Set(data.profiles.map((r) => r.block))];
 
-export function researchPanel(gene) {
+export function researchPanel(
+  gene,
+  {
+    genes = [],
+    total = 113,
+    filterLabel = "All archived genes",
+    limit = 4.5,
+    initialTab = "evidence",
+    onTab = () => {},
+    onSelect = () => {},
+  } = {},
+) {
   const root = el("section", "oxphos-research-panel");
   root.dataset.gene = gene.id;
   const nav = el("div", "segmented segmented-strong research-panel-tabs");
@@ -74,6 +86,7 @@ export function researchPanel(gene) {
   const buttons = new Map();
   for (const [key, name] of [
     ["evidence", "Evidence"],
+    ["compare", "Compare"],
     ["protein", "Protein"],
     ["methods", "Sensitivity"],
   ]) {
@@ -90,6 +103,7 @@ export function researchPanel(gene) {
   async function show(key) {
     if (active === key) return;
     active = key;
+    onTab(key);
     const current = ++version;
     buttons.forEach((b, k) => {
       b.setAttribute("aria-selected", String(k === key));
@@ -99,6 +113,10 @@ export function researchPanel(gene) {
     body.setAttribute("aria-labelledby", buttons.get(key).id);
     body.replaceChildren();
     if (key === "evidence") evidence();
+    if (key === "compare") {
+      comparison();
+      evidence();
+    }
     if (key === "methods") methods();
     if (key === "protein") {
       body.append(loadingMessage("Loading matched protein context…"));
@@ -130,6 +148,70 @@ export function researchPanel(gene) {
     show(key);
     buttons.get(key).focus();
   };
+  function comparison() {
+    const rows = crossDayRows(genes);
+    body.append(
+      el("h4", "", "Day 1 versus Day 3"),
+      el(
+        "p",
+        "note",
+        `${filterLabel}. ${genes.length} / ${total} genes retained; ${rows.length} have both plotted effects. Both axes use the same fixed zero-centred limits.`,
+      ),
+    );
+    body.append(
+      scientificPlot({
+        title:
+          "Archived cross-day gene effects; select a point for linked evidence",
+        width: 410,
+        height: 360,
+        marginLeft: 52,
+        marginRight: 24,
+        x: {
+          domain: [-limit, limit],
+          label: "Day 1 / common control · log₂FC",
+          grid: true,
+        },
+        y: {
+          domain: [-limit, limit],
+          label: "Day 3 / common control · log₂FC",
+          grid: true,
+        },
+        marks: [
+          Plot.ruleX([0], { stroke: "#83969e" }),
+          Plot.ruleY([0], { stroke: "#83969e" }),
+          Plot.line(
+            [
+              { x: -limit, y: -limit },
+              { x: limit, y: limit },
+            ],
+            { x: "x", y: "y", stroke: "#83969e", strokeDasharray: "4,3" },
+          ),
+          Plot.dot(rows, {
+            x: "x",
+            y: "y",
+            r: 4,
+            fill: (r) => (r.gene.id === gene.id ? "#d18b21" : "#235780"),
+            stroke: (r) => (r.gene.id === gene.id ? "#68420c" : "white"),
+            strokeWidth: 1,
+            title: (r) =>
+              `${r.gene.symbol}\nDay 1 log₂FC ${r.x}; gene FDR ${number(r.gene.effects[0].padj)}\nDay 3 log₂FC ${r.y}; gene FDR ${number(r.gene.effects[1].padj)}`,
+            render: interactiveMark(
+              rows,
+              (r) => onSelect(r.gene),
+              (r) => `Select ${r.gene.symbol}: Day 1 ${r.x}, Day 3 ${r.y}`,
+            ),
+          }),
+        ],
+      }),
+    );
+    body.append(
+      el(
+        "p",
+        "callout",
+        "These 113 genes are a selected leading-edge union, not a transcriptome-wide sample. The diagonal means equal point estimates; distance from it is not a significance test. Different significance on two days is not evidence of an interaction.",
+      ),
+    );
+  }
   function evidence() {
     body.append(el("h4", "", "Gene-level estimates"));
     const rows = gene.effects.flatMap((r, i) =>
@@ -447,6 +529,6 @@ export function researchPanel(gene) {
       ),
     );
   }
-  show("evidence");
+  show(initialTab);
   return root;
 }

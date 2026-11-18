@@ -4723,3 +4723,8 @@ body {
   #psilocin-app .oxphos-3d-immersive { --network-glass:rgba(245,250,255,.94); }
   .dark #psilocin-app .oxphos-3d-immersive { --network-glass:rgba(18,38,55,.94); }
 }
+
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-camera { flex-wrap:wrap; }
+#psilocin-app .research-panel-tabs { display:flex; }
+#psilocin-app .research-panel-tabs .button { font-size:13px;padding-inline:8px; }
+@media(max-width:400px) { #psilocin-app .research-panel-tabs .button { font-size:12px;padding-inline:5px; } #psilocin-app .oxphos-3d-camera .button[aria-label="Statistical comparison"] span { display:none; } }

@@ -323,6 +323,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/prepare-app-icons.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-atlas.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -4375,6 +4381,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/app-brand.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/app-progress.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4544,6 +4556,12 @@
     ]
   },
   "explorer/src/components/network-scene-effects.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/network-statistics.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4875,7 +4893,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/network-comparison-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/network-effects-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/network-statistics.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

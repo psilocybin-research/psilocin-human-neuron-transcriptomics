@@ -1,3 +1,4 @@
+import { retainedGene, uncertaintyLabels } from "./network-statistics.js";
 import { createNetworkSceneEffects } from "./network-scene-effects.js";
 import snapshot from "../assets/vendor/oxphos-network-data.js";
 import {
@@ -19,6 +20,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const genes = snapshot.nodes.filter((n) => n.type === "gene");
   let day = 0,
     filter = "all",
+    uncertainty = "all",
+    researchTab = "evidence",
     query = "",
     selected =
       genes.find((n) => n.symbol === initialGene || n.id === initialGene)?.id ||
@@ -94,6 +97,31 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     refresh();
   };
   filterLabel.append(filterSelect);
+  const uncertaintyLabel = el(
+    "label",
+    "oxphos-3d-filter",
+    "Statistical filter",
+  );
+  const uncertaintySelect = el("select");
+  uncertaintySelect.setAttribute("aria-label", "Network statistical filter");
+  for (const [value, text] of Object.entries(uncertaintyLabels)) {
+    const option = el("option", "", text);
+    option.value = value;
+    uncertaintySelect.append(option);
+  }
+  uncertaintySelect.onchange = () => {
+    uncertainty = uncertaintySelect.value;
+    refresh();
+  };
+  uncertaintyLabel.append(uncertaintySelect);
+  controls.append(
+    uncertaintyLabel,
+    el(
+      "p",
+      "note",
+      "FDR uses archived transcriptome-wide gene corrections, not a new correction within these 113 selected genes. Either-day filtering is descriptive, not a joint hypothesis test.",
+    ),
+  );
   const edgeLabel = el("label", "checkbox oxphos-3d-edge-choice");
   const showEdges = el("input");
   showEdges.type = "checkbox";
@@ -337,7 +365,22 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     button("Filters", () => openDrawer("filters"), "controls"),
     button("About & data", () => openDrawer("about"), "information"),
   );
-  cameraTools.append(selectedSummary);
+  cameraTools.append(
+    button(
+      "Statistical comparison",
+      () => {
+        researchTab = "compare";
+        choose(
+          genes.find((n) => n.id === selected) ||
+            genes.filter(visible)[0] ||
+            genes[0],
+          false,
+        );
+      },
+      "comparison",
+    ),
+    selectedSummary,
+  );
   dock.prepend(legendCompact);
   viewer.append(topbar, dock);
   function fullscreenChanged() {
@@ -445,8 +488,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   function visible(n) {
     return (
       n.type !== "gene" ||
-      filter === "all" ||
-      (filter === "other" ? !n.complex : n.complex === filter)
+      ((filter === "all" ||
+        (filter === "other" ? !n.complex : n.complex === filter)) &&
+        retainedGene(n, uncertainty))
     );
   }
   function endpoints(link) {
@@ -509,7 +553,19 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     import("./oxphos-research-panel.js")
       .then(({ researchPanel }) => {
         if (selected === n.id && linked.isConnected)
-          linked.replaceChildren(researchPanel(n));
+          linked.replaceChildren(
+            researchPanel(n, {
+              genes: genes.filter(visible),
+              total: genes.length,
+              filterLabel: uncertaintyLabels[uncertainty],
+              limit: snapshot.limit,
+              initialTab: researchTab,
+              onTab: (key) => {
+                researchTab = key;
+              },
+              onSelect: (gene) => choose(gene, false),
+            }),
+          );
       })
       .catch((error) => linked.replaceChildren(el("p", "note", error.message)));
     if (!visible(n))
@@ -705,7 +761,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             ? "#e6b854"
             : hoveredId && endpoints(l).includes(hoveredId)
               ? "#90cce6"
-              : focused ? "#142430" : "#4f748c",
+              : focused
+                ? "#142430"
+                : "#4f748c",
         )
         .linkWidth((l) =>
           selected && endpoints(l)[0] === selected ? 1.1 : focused ? 0.1 : 0.25,
@@ -838,7 +896,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const count = genes.filter(visible).length;
     leftStage.dataset.timepoint = comparing ? "Day 1 / common control" : "";
     rightStage.dataset.timepoint = "Day 3 / common control";
-    status.textContent = `${count} / 113 genes · ${comparing ? "linked cameras" : "vs common control"}${filter === "V" ? " · no complex V subunits in this union" : ""}`;
+    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${comparing ? "linked cameras" : "vs common control"}${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     shown = 12;
     renderList();
     renderSelected();
