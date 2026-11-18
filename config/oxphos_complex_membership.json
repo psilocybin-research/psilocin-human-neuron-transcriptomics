@@ -1,0 +1,1438 @@
+{
+  "schema_version": 1,
+  "scope": "All 113 genes in the archived OXPHOS leading-edge union. Complex membership is external context, not a result of this experiment. No additional genes are added.",
+  "source_snapshot": "Locally frozen human UniProt annotations retrieved 2026-11-17; reviewed records matched through exact Ensembl stable IDs. Archived ID versions remain attached to statistics.",
+  "complexes": {
+    "I": [
+      "NDUFA1",
+      "NDUFA2",
+      "NDUFA3",
+      "NDUFA7",
+      "NDUFA8",
+      "NDUFA9",
+      "NDUFAB1",
+      "NDUFB2",
+      "NDUFB3",
+      "NDUFB4",
+      "NDUFB6",
+      "NDUFB7",
+      "NDUFB8",
+      "NDUFS2",
+      "NDUFS3",
+      "NDUFS4",
+      "NDUFS6",
+      "NDUFS7",
+      "NDUFS8",
+      "NDUFV1"
+    ],
+    "II": [
+      "SDHA",
+      "SDHB",
+      "SDHC"
+    ],
+    "III": [
+      "CYC1",
+      "UQCR10",
+      "UQCR11",
+      "UQCRC1",
+      "UQCRC2",
+      "UQCRFS1",
+      "UQCRH",
+      "UQCRQ"
+    ],
+    "IV": [
+      "COX4I1",
+      "COX5A",
+      "COX5B",
+      "COX6A1",
+      "COX6B1",
+      "COX6C",
+      "COX7A2",
+      "COX7B",
+      "COX7C",
+      "COX8A"
+    ],
+    "V": []
+  },
+  "exceptions": {
+    "NDUFAB1": {
+      "accession": "O14561",
+      "role": "Complex I accessory subunit; also participates in other complexes",
+      "reference": "https://www.uniprot.org/uniprotkb/O14561/entry",
+      "pmid": "27626371"
+    },
+    "COX10": {
+      "role": "Heme synthesis enzyme; not classified as a structural complex IV subunit",
+      "reference": "https://www.uniprot.org/uniprotkb/Q12887/entry"
+    },
+    "COX17": {
+      "role": "Copper chaperone for complex IV assembly; not a structural subunit",
+      "reference": "https://www.uniprot.org/uniprotkb/Q14061/entry"
+    },
+    "COX7A2L": {
+      "role": "Respiratory supercomplex assembly factor, retained separately from structural complex IV subunits",
+      "reference": "https://www.uniprot.org/uniprotkb/O14548/entry",
+      "pmid": "36198313"
+    }
+  },
+  "complex_v_note": "No structural mitochondrial ATP synthase (complex V) subunit occurs in this 113-gene set. ATP6V genes and ATP6AP1 encode V-type ATPase components and are not mitochondrial complex V. Absence from this selected union is not evidence of no complex V transcriptional response.",
+  "reviewed_on": "2026-11-18",
+  "genes": [
+    {
+      "symbol": "NDUFB7",
+      "gene_id": "ENSG00000099795.2",
+      "proteins": [
+        {
+          "accession": "P17568",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 7"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS6",
+      "gene_id": "ENSG00000145494.7",
+      "proteins": [
+        {
+          "accession": "O75380",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 6, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS8",
+      "gene_id": "ENSG00000110717.6",
+      "proteins": [
+        {
+          "accession": "O00217",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 8, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA3",
+      "gene_id": "ENSG00000170906.11",
+      "proteins": [
+        {
+          "accession": "O95167",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 3"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFV1",
+      "gene_id": "ENSG00000167792.7",
+      "proteins": [
+        {
+          "accession": "P49821",
+          "name": "NADH dehydrogenase [ubiquinone] flavoprotein 1, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFB2",
+      "gene_id": "ENSG00000090266.8",
+      "proteins": [
+        {
+          "accession": "O95178",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 2, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA2",
+      "gene_id": "ENSG00000131495.4",
+      "proteins": [
+        {
+          "accession": "O43678",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 2"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA8",
+      "gene_id": "ENSG00000119421.5",
+      "proteins": [
+        {
+          "accession": "P51970",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 8"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS3",
+      "gene_id": "ENSG00000213619.5",
+      "proteins": [
+        {
+          "accession": "O75489",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 3, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFB6",
+      "gene_id": "ENSG00000165264.6",
+      "proteins": [
+        {
+          "accession": "O95139",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 6"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFAB1",
+      "gene_id": "ENSG00000004779.5",
+      "proteins": [
+        {
+          "accession": "O14561",
+          "name": "Acyl carrier protein, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA1",
+      "gene_id": "ENSG00000125356.6",
+      "proteins": [
+        {
+          "accession": "O15239",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 1"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA9",
+      "gene_id": "ENSG00000139180.6",
+      "proteins": [
+        {
+          "accession": "Q16795",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 9, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFB8",
+      "gene_id": "ENSG00000166136.11",
+      "proteins": [
+        {
+          "accession": "O95169",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 8, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS4",
+      "gene_id": "ENSG00000164258.7",
+      "proteins": [
+        {
+          "accession": "O43181",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 4, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS7",
+      "gene_id": "ENSG00000115286.15",
+      "proteins": [
+        {
+          "accession": "O75251",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 7, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFA7",
+      "gene_id": "ENSG00000267855.1",
+      "proteins": [
+        {
+          "accession": "O95182",
+          "name": "NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 7"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFB3",
+      "gene_id": "ENSG00000119013.4",
+      "proteins": [
+        {
+          "accession": "O43676",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 3"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFB4",
+      "gene_id": "ENSG00000065518.7",
+      "proteins": [
+        {
+          "accession": "O95168",
+          "name": "NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 4"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "NDUFS2",
+      "gene_id": "ENSG00000158864.8",
+      "proteins": [
+        {
+          "accession": "O75306",
+          "name": "NADH dehydrogenase [ubiquinone] iron-sulfur protein 2, mitochondrial"
+        }
+      ],
+      "complex": "I",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "SDHB",
+      "gene_id": "ENSG00000117118.5",
+      "proteins": [
+        {
+          "accession": "P21912",
+          "name": "Succinate dehydrogenase [ubiquinone] iron-sulfur subunit, mitochondrial"
+        }
+      ],
+      "complex": "II",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "SDHC",
+      "gene_id": "ENSG00000143252.10",
+      "proteins": [
+        {
+          "accession": "Q99643",
+          "name": "Succinate dehydrogenase cytochrome b560 subunit, mitochondrial"
+        }
+      ],
+      "complex": "II",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "SDHA",
+      "gene_id": "ENSG00000073578.12",
+      "proteins": [
+        {
+          "accession": "P31040",
+          "name": "Succinate dehydrogenase [ubiquinone] flavoprotein subunit, mitochondrial"
+        }
+      ],
+      "complex": "II",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "CYC1",
+      "gene_id": "ENSG00000179091.4",
+      "proteins": [
+        {
+          "accession": "P08574",
+          "name": "Cytochrome c1, heme protein, mitochondrial"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCRC1",
+      "gene_id": "ENSG00000010256.6",
+      "proteins": [
+        {
+          "accession": "P31930",
+          "name": "Cytochrome b-c1 complex subunit 1, mitochondrial"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCR10",
+      "gene_id": "ENSG00000184076.10",
+      "proteins": [
+        {
+          "accession": "Q9UDW1",
+          "name": "Cytochrome b-c1 complex subunit 9"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCR11",
+      "gene_id": "ENSG00000127540.7",
+      "proteins": [
+        {
+          "accession": "O14957",
+          "name": "Cytochrome b-c1 complex subunit 10"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCRQ",
+      "gene_id": "ENSG00000164405.6",
+      "proteins": [
+        {
+          "accession": "O14949",
+          "name": "Cytochrome b-c1 complex subunit 8"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCRFS1",
+      "gene_id": "ENSG00000169021.4",
+      "proteins": [
+        {
+          "accession": "P47985",
+          "name": "Cytochrome b-c1 complex subunit Rieske, mitochondrial"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCRH",
+      "gene_id": "ENSG00000173660.7",
+      "proteins": [
+        {
+          "accession": "P07919",
+          "name": "Cytochrome b-c1 complex subunit 6, mitochondrial"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "UQCRC2",
+      "gene_id": "ENSG00000140740.6",
+      "proteins": [
+        {
+          "accession": "P22695",
+          "name": "Cytochrome b-c1 complex subunit 2, mitochondrial"
+        }
+      ],
+      "complex": "III",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX8A",
+      "gene_id": "ENSG00000176340.3",
+      "proteins": [
+        {
+          "accession": "P10176",
+          "name": "Cytochrome c oxidase subunit 8A, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX6B1",
+      "gene_id": "ENSG00000126267.4",
+      "proteins": [
+        {
+          "accession": "P14854",
+          "name": "Cytochrome c oxidase subunit 6B1"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX5B",
+      "gene_id": "ENSG00000135940.2",
+      "proteins": [
+        {
+          "accession": "P10606",
+          "name": "Cytochrome c oxidase subunit 5B, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX4I1",
+      "gene_id": "ENSG00000131143.4",
+      "proteins": [
+        {
+          "accession": "P13073",
+          "name": "Cytochrome c oxidase subunit 4 isoform 1, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX10",
+      "gene_id": "ENSG00000006695.6",
+      "proteins": [
+        {
+          "accession": "Q12887",
+          "name": "Protoheme IX farnesyltransferase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "COX17",
+      "gene_id": "ENSG00000138495.2",
+      "proteins": [
+        {
+          "accession": "Q14061",
+          "name": "Cytochrome c oxidase copper chaperone"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "COX7C",
+      "gene_id": "ENSG00000127184.6",
+      "proteins": [
+        {
+          "accession": "P15954",
+          "name": "Cytochrome c oxidase subunit 7C, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX6A1",
+      "gene_id": "ENSG00000111775.2",
+      "proteins": [
+        {
+          "accession": "P12074",
+          "name": "Cytochrome c oxidase subunit 6A1, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX6C",
+      "gene_id": "ENSG00000164919.6",
+      "proteins": [
+        {
+          "accession": "P09669",
+          "name": "Cytochrome c oxidase subunit 6C"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX5A",
+      "gene_id": "ENSG00000178741.7",
+      "proteins": [
+        {
+          "accession": "P20674",
+          "name": "Cytochrome c oxidase subunit 5A, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX7B",
+      "gene_id": "ENSG00000131174.4",
+      "proteins": [
+        {
+          "accession": "P24311",
+          "name": "Cytochrome c oxidase subunit 7B, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX7A2",
+      "gene_id": "ENSG00000112695.7",
+      "proteins": [
+        {
+          "accession": "P14406",
+          "name": "Cytochrome c oxidase subunit 7A2, mitochondrial"
+        }
+      ],
+      "complex": "IV",
+      "basis": "Reviewed UniProt subunit identity; exact Ensembl gene cross-reference"
+    },
+    {
+      "symbol": "COX7A2L",
+      "gene_id": "ENSG00000115944.10",
+      "proteins": [
+        {
+          "accession": "O14548",
+          "name": "Cytochrome c oxidase subunit 7A2-like, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V0C",
+      "gene_id": "ENSG00000185883.6",
+      "proteins": [
+        {
+          "accession": "P27449",
+          "name": "V-type proton ATPase 16 kDa proteolipid subunit c"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V1F",
+      "gene_id": "ENSG00000128524.4",
+      "proteins": [
+        {
+          "accession": "Q16864",
+          "name": "V-type proton ATPase subunit F"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V0B",
+      "gene_id": "ENSG00000117410.9",
+      "proteins": [
+        {
+          "accession": "Q99437",
+          "name": "V-type proton ATPase 21 kDa proteolipid subunit c''"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V1E1",
+      "gene_id": "ENSG00000131100.8",
+      "proteins": [
+        {
+          "accession": "P36543",
+          "name": "V-type proton ATPase subunit E 1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6AP1",
+      "gene_id": "ENSG00000071553.12",
+      "proteins": [
+        {
+          "accession": "Q15904",
+          "name": "V-type proton ATPase subunit S1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V1G1",
+      "gene_id": "ENSG00000136888.6",
+      "proteins": [
+        {
+          "accession": "O75348",
+          "name": "V-type proton ATPase subunit G 1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ATP6V1H",
+      "gene_id": "ENSG00000047249.12",
+      "proteins": [
+        {
+          "accession": "Q9UI12",
+          "name": "V-type proton ATPase subunit H"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TIMM13",
+      "gene_id": "ENSG00000099800.3",
+      "proteins": [
+        {
+          "accession": "Q9Y5L4",
+          "name": "Mitochondrial import inner membrane translocase subunit Tim13"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPS12",
+      "gene_id": "ENSG00000128626.7",
+      "proteins": [
+        {
+          "accession": "O15235",
+          "name": "Small ribosomal subunit protein uS12m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TOMM22",
+      "gene_id": "ENSG00000100216.4",
+      "proteins": [
+        {
+          "accession": "Q9NS69",
+          "name": "Mitochondrial import receptor subunit TOM22 homolog"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPL11",
+      "gene_id": "ENSG00000174547.9",
+      "proteins": [
+        {
+          "accession": "Q9Y3B7",
+          "name": "Large ribosomal subunit protein uL11m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TIMM10",
+      "gene_id": "ENSG00000134809.4",
+      "proteins": [
+        {
+          "accession": "P62072",
+          "name": "Mitochondrial import inner membrane translocase subunit Tim10"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TIMM50",
+      "gene_id": "ENSG00000105197.6",
+      "proteins": [
+        {
+          "accession": "Q3ZCQ8",
+          "name": "Mitochondrial import inner membrane translocase subunit TIM50"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPS15",
+      "gene_id": "ENSG00000116898.7",
+      "proteins": [
+        {
+          "accession": "P82914",
+          "name": "Small ribosomal subunit protein uS15m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TIMM8B",
+      "gene_id": "ENSG00000150779.7",
+      "proteins": [
+        {
+          "accession": "Q9Y5J9",
+          "name": "Mitochondrial import inner membrane translocase subunit Tim8 B"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "GRPEL1",
+      "gene_id": "ENSG00000109519.8",
+      "proteins": [
+        {
+          "accession": "Q9HAV7",
+          "name": "GrpE protein homolog 1, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPL15",
+      "gene_id": "ENSG00000137547.4",
+      "proteins": [
+        {
+          "accession": "Q9P015",
+          "name": "Large ribosomal subunit protein uL15m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPS11",
+      "gene_id": "ENSG00000181991.11",
+      "proteins": [
+        {
+          "accession": "P82912",
+          "name": "Small ribosomal subunit protein uS11m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "PMPCA",
+      "gene_id": "ENSG00000165688.7",
+      "proteins": [
+        {
+          "accession": "Q10713",
+          "name": "Mitochondrial-processing peptidase subunit alpha"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPL34",
+      "gene_id": "ENSG00000130312.2",
+      "proteins": [
+        {
+          "accession": "Q9BQ48",
+          "name": "Large ribosomal subunit protein bL34m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "FXN",
+      "gene_id": "ENSG00000165060.7",
+      "proteins": [
+        {
+          "accession": "Q16595",
+          "name": "Frataxin, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "IMMT",
+      "gene_id": "ENSG00000132305.16",
+      "proteins": [
+        {
+          "accession": "Q16891",
+          "name": "MICOS complex subunit MIC60"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "AFG3L2",
+      "gene_id": "ENSG00000141385.5",
+      "proteins": [
+        {
+          "accession": "Q9Y4W6",
+          "name": "Mitochondrial inner membrane m-AAA protease component AFG3L2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MRPL35",
+      "gene_id": "ENSG00000132313.10",
+      "proteins": [
+        {
+          "accession": "Q9NZE8",
+          "name": "Large ribosomal subunit protein bL35m"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "OGDH",
+      "gene_id": "ENSG00000105953.10",
+      "proteins": [
+        {
+          "accession": "Q02218",
+          "name": "2-oxoglutarate dehydrogenase complex component E1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "IDH3G",
+      "gene_id": "ENSG00000067829.14",
+      "proteins": [
+        {
+          "accession": "P51553",
+          "name": "Isocitrate dehydrogenase [NAD] subunit gamma, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ACO2",
+      "gene_id": "ENSG00000100412.11",
+      "proteins": [
+        {
+          "accession": "Q99798",
+          "name": "Aconitate hydratase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "IDH2",
+      "gene_id": "ENSG00000182054.5",
+      "proteins": [
+        {
+          "accession": "P48735",
+          "name": "Isocitrate dehydrogenase [NADP], mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MDH2",
+      "gene_id": "ENSG00000146701.7",
+      "proteins": [
+        {
+          "accession": "P40926",
+          "name": "Malate dehydrogenase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "IDH3B",
+      "gene_id": "ENSG00000101365.16",
+      "proteins": [
+        {
+          "accession": "O43837",
+          "name": "Isocitrate dehydrogenase [NAD] subunit beta, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "PDHA1",
+      "gene_id": "ENSG00000131828.9",
+      "proteins": [
+        {
+          "accession": "P08559",
+          "name": "Pyruvate dehydrogenase E1 component subunit alpha, somatic form, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "FH",
+      "gene_id": "ENSG00000091483.6",
+      "proteins": [
+        {
+          "accession": "P07954",
+          "name": "Fumarate hydratase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "DLST",
+      "gene_id": "ENSG00000119689.10",
+      "proteins": [
+        {
+          "accession": "P36957",
+          "name": "Dihydrolipoyllysine-residue succinyltransferase component of 2-oxoglutarate dehydrogenase complex, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "CS",
+      "gene_id": "ENSG00000062485.14",
+      "proteins": [
+        {
+          "accession": "O75390",
+          "name": "Citrate synthase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "IDH1",
+      "gene_id": "ENSG00000138413.9",
+      "proteins": [
+        {
+          "accession": "O75874",
+          "name": "Isocitrate dehydrogenase [NADP] cytoplasmic"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ECH1",
+      "gene_id": "ENSG00000104823.4",
+      "proteins": [
+        {
+          "accession": "Q13011",
+          "name": "Delta(3,5)-Delta(2,4)-dienoyl-CoA isomerase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ECI1",
+      "gene_id": "ENSG00000167969.8",
+      "proteins": [
+        {
+          "accession": "P42126",
+          "name": "Enoyl-CoA delta isomerase 1, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ETFB",
+      "gene_id": "ENSG00000105379.5",
+      "proteins": [
+        {
+          "accession": "P38117",
+          "name": "Electron transfer flavoprotein subunit beta"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ECHS1",
+      "gene_id": "ENSG00000127884.4",
+      "proteins": [
+        {
+          "accession": "P30084",
+          "name": "Enoyl-CoA hydratase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ACAA1",
+      "gene_id": "ENSG00000060971.13",
+      "proteins": [
+        {
+          "accession": "P09110",
+          "name": "3-ketoacyl-CoA thiolase, peroxisomal"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "PHYH",
+      "gene_id": "ENSG00000107537.9",
+      "proteins": [
+        {
+          "accession": "O14832",
+          "name": "Phytanoyl-CoA dioxygenase, peroxisomal"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "HADHA",
+      "gene_id": "ENSG00000084754.6",
+      "proteins": [
+        {
+          "accession": "P40939",
+          "name": "Trifunctional enzyme subunit alpha, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "GPX4",
+      "gene_id": "ENSG00000167468.12",
+      "proteins": [
+        {
+          "accession": "P36969",
+          "name": "Phospholipid hydroperoxide glutathione peroxidase GPX4"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "HSD17B10",
+      "gene_id": "ENSG00000072506.8",
+      "proteins": [
+        {
+          "accession": "Q99714",
+          "name": "3-hydroxyacyl-CoA dehydrogenase type-2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "CYB5R3",
+      "gene_id": "ENSG00000100243.16",
+      "proteins": [
+        {
+          "accession": "P00387",
+          "name": "NADH-cytochrome b5 reductase 3"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SLC25A6",
+      "gene_id": "ENSG00000169100.8",
+      "proteins": [
+        {
+          "accession": "P12236",
+          "name": "ADP/ATP translocase 3"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SLC25A11",
+      "gene_id": "ENSG00000108528.9",
+      "proteins": [
+        {
+          "accession": "Q02978",
+          "name": "Mitochondrial 2-oxoglutarate/malate carrier protein"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "RHOT2",
+      "gene_id": "ENSG00000140983.9",
+      "proteins": [
+        {
+          "accession": "Q8IXI1",
+          "name": "Mitochondrial Rho GTPase 2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "BAX",
+      "gene_id": "ENSG00000087088.15",
+      "proteins": [
+        {
+          "accession": "Q07812",
+          "name": "Apoptosis regulator BAX"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "POR",
+      "gene_id": "ENSG00000127948.9",
+      "proteins": [
+        {
+          "accession": "P16435",
+          "name": "NADPH--cytochrome P450 reductase"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "POLR2F",
+      "gene_id": "ENSG00000100142.10",
+      "proteins": [
+        {
+          "accession": "P61218",
+          "name": "DNA-directed RNA polymerases I, II, and III subunit RPABC2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "GPI",
+      "gene_id": "ENSG00000105220.10",
+      "proteins": [
+        {
+          "accession": "P06744",
+          "name": "Glucose-6-phosphate isomerase"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SLC25A5",
+      "gene_id": "ENSG00000005022.5",
+      "proteins": [
+        {
+          "accession": "P05141",
+          "name": "ADP/ATP translocase 2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MFN2",
+      "gene_id": "ENSG00000116688.12",
+      "proteins": [
+        {
+          "accession": "O95140",
+          "name": "Mitofusin-2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "PHB2",
+      "gene_id": "ENSG00000215021.4",
+      "proteins": [
+        {
+          "accession": "Q99623",
+          "name": "Prohibitin-2"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SLC25A4",
+      "gene_id": "ENSG00000151729.6",
+      "proteins": [
+        {
+          "accession": "P12235",
+          "name": "ADP/ATP translocase 1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "GOT2",
+      "gene_id": "ENSG00000125166.8",
+      "proteins": [
+        {
+          "accession": "P00505",
+          "name": "Aspartate aminotransferase, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SURF1",
+      "gene_id": "ENSG00000148290.5",
+      "proteins": [
+        {
+          "accession": "Q15526",
+          "name": "Surfeit locus protein 1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "SLC25A3",
+      "gene_id": "ENSG00000075415.8",
+      "proteins": [
+        {
+          "accession": "Q00325",
+          "name": "Solute carrier family 25 member 3"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "HTRA2",
+      "gene_id": "ENSG00000115317.7",
+      "proteins": [
+        {
+          "accession": "O43464",
+          "name": "Serine protease HTRA2, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "VDAC1",
+      "gene_id": "ENSG00000213585.6",
+      "proteins": [
+        {
+          "accession": "P21796",
+          "name": "Non-selective voltage-gated ion channel VDAC1"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ALAS1",
+      "gene_id": "ENSG00000023330.10",
+      "proteins": [
+        {
+          "accession": "P13196",
+          "name": "5-aminolevulinate synthase, non-specific, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "TCIRG1",
+      "gene_id": "ENSG00000110719.5",
+      "proteins": [
+        {
+          "accession": "Q13488",
+          "name": "V-type proton ATPase 116 kDa subunit a 3"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "CYCS",
+      "gene_id": "ENSG00000172115.4",
+      "proteins": [
+        {
+          "accession": "P99999",
+          "name": "Cytochrome c"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "LDHA",
+      "gene_id": "ENSG00000134333.9",
+      "proteins": [
+        {
+          "accession": "P00338",
+          "name": "L-lactate dehydrogenase A chain"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "MGST3",
+      "gene_id": "ENSG00000143198.8",
+      "proteins": [
+        {
+          "accession": "O14880",
+          "name": "Glutathione S-transferase 3, mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "LDHB",
+      "gene_id": "ENSG00000111716.8",
+      "proteins": [
+        {
+          "accession": "P07195",
+          "name": "L-lactate dehydrogenase B chain"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "NQO2",
+      "gene_id": "ENSG00000124588.15",
+      "proteins": [
+        {
+          "accession": "P16083",
+          "name": "Ribosyldihydronicotinamide dehydrogenase [quinone]"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    },
+    {
+      "symbol": "ALDH6A1",
+      "gene_id": "ENSG00000119711.8",
+      "proteins": [
+        {
+          "accession": "Q02252",
+          "name": "Methylmalonate-semialdehyde/malonate-semialdehyde dehydrogenase [acylating], mitochondrial"
+        }
+      ],
+      "complex": null,
+      "basis": "No structural complex I\u2013V assignment in this curated map; retained among other archived OXPHOS-set genes"
+    }
+  ]
+}

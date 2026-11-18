@@ -287,3 +287,21 @@ path = "explorer/vendor/latex/**"
 precedence = "override"
 SPDX-FileCopyrightText = "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
 SPDX-License-Identifier = "LicenseRef-LaTeX-Distribution"
+
+[[annotations]]
+path = "config/oxphos_complex_membership.json"
+precedence = "override"
+SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "UniProt Consortium"]
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "third_party_licenses/network-3d.txt"
+precedence = "override"
+SPDX-FileCopyrightText = ["Vasco Asturiano and 3d-force-graph contributors", "three.js authors", "Component authors identified in the original bundled licence notices"]
+SPDX-License-Identifier = "MIT AND ISC AND BSD-3-Clause"
+
+[[annotations]]
+path = "explorer/src/assets/oxphos-network-preview.webp"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Christopher B. Germann"
+SPDX-License-Identifier = "CC-BY-4.0"

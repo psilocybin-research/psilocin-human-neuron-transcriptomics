@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1275,
-  "total_bytes": 686671559,
+  "file_count": 1287,
+  "total_bytes": 686860999,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 258096,
-      "sha256": "b6736929740d437cc9e48be26a5812470e848b0c809153825af46ff954e8d84a"
+      "bytes": 259904,
+      "sha256": "c2ca24329337667c235e83e95b19384898fb9cd62debaf945f0847ab56f49396"
     },
     {
       "path": "LICENSE.md",
@@ -149,13 +149,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 17412,
-      "sha256": "c28a9e4a82f00a4b039c91091eaddfda7d11267d1efa3371a5f8fabdd78367ea"
+      "bytes": 18625,
+      "sha256": "397df2a3d482932377a7b660378a03f82a7ff9849e548d6eaf1a394cf1349fdc"
     },
     {
       "path": "REUSE.toml",
-      "bytes": 10875,
-      "sha256": "dc6dac3c06bf341289dbea16b444e0c7e21e7088da21c12da7f99aae6f8e418d"
+      "bytes": 11583,
+      "sha256": "4638cb3aa4471efc55be238eab70a4beb55e4fbeeb21f3ff422b58bcb86df347"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -186,6 +186,11 @@
       "path": "config/gene_sets.yaml",
       "bytes": 34072,
       "sha256": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8"
+    },
+    {
+      "path": "config/oxphos_complex_membership.json",
+      "bytes": 43152,
+      "sha256": "80c2a7eac793de9ed6ec22c8fdd6dc6172563ebde3ed3fb8bf67147ea953ad1c"
     },
     {
       "path": "config/oxphos_display_annotations.csv",
@@ -269,13 +274,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 191874,
-      "sha256": "863e0557d26a57e8c69d29a8db25eddac39aa93a2d2d303af9d1f103bee70bcf"
+      "bytes": 200843,
+      "sha256": "305da5636f90abdaaf264362f7bea3844a03e989a34c87bab2d29b0faa1f100a"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 3222,
-      "sha256": "34f7e62019fae451d58b859a2ef9ec74c5010e317e287f4eb9c9db80164ae4c3"
+      "bytes": 3471,
+      "sha256": "438b5d3bcad61b412e8bb0d43e903b78700489ed90a53b8eabc83a61c9ee8418"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -288,9 +293,19 @@
       "sha256": "c3d63fb2f42efa20dbb7515031cb667a135f989051b32a7fafed960fd8f57088"
     },
     {
+      "path": "explorer/scripts/capture-network-preview.mjs",
+      "bytes": 1858,
+      "sha256": "2ccf023084312f60b1a61379052d5e93c54feb3cb51cff051dd224d3eeacd360"
+    },
+    {
       "path": "explorer/scripts/framework7-entry.js",
       "bytes": 1366,
       "sha256": "e57a2f36c180414b3bf23d44b6f2f7dec1d59f8fdc1fc980949c7c9953dfbbb5"
+    },
+    {
+      "path": "explorer/scripts/network-3d-entry.js",
+      "bytes": 206,
+      "sha256": "538999c092710f63ed6ab2de919c420e72a91b3487333bd869d5fefdf1f2da02"
     },
     {
       "path": "explorer/scripts/normalize-public-context.mjs",
@@ -318,6 +333,11 @@
       "sha256": "303cdb197182661dc92db0b14efa38a668489f8205af23d2a4c357818850f885"
     },
     {
+      "path": "explorer/scripts/prepare-network-3d.mjs",
+      "bytes": 2561,
+      "sha256": "40fc908c67a1ed9fbf2f3616700bd9f4eca3810da78346b2de2308e224f51dbf"
+    },
+    {
       "path": "explorer/scripts/prepare-offline.mjs",
       "bytes": 3177,
       "sha256": "d76d7dc07e91f69521393cf2df7e7a9ae35b1324c79150d3972401116c2d1ab1"
@@ -329,8 +349,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 4898,
-      "sha256": "dad7431f911996febd3d18a9b7dee919a92e9c1e95b63f72b4a447037d8c2779"
+      "bytes": 5034,
+      "sha256": "11c59ab02f4eedd1ecb117a8eea821d9b46b08f4018096e87721f174fd05fa8e"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -359,8 +379,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 119418,
-      "sha256": "f88c72d788d40226bbbd50e1cbf360206e2a218cc904ab80b80d6e09761decb1"
+      "bytes": 124694,
+      "sha256": "f25c4d5d54ad1592403af0959fae4b57da0d9b61a4ae37f0ac2cd432e759aa56"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -401,6 +421,11 @@
       "path": "explorer/src/assets/elife-logo.svg",
       "bytes": 7861,
       "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
+    },
+    {
+      "path": "explorer/src/assets/oxphos-network-preview.webp",
+      "bytes": 35612,
+      "sha256": "91519febc28c286ae4ae78c68411e08ba57b3e776784c03175b6e72335164669"
     },
     {
       "path": "explorer/src/assets/public-context/00-7362e986eae43ad2.json",
@@ -3354,8 +3379,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 105709,
-      "sha256": "657890436f23fcbd1b3109ea0d099f9286e3682200acb449bc3808c8d08f9078"
+      "bytes": 110297,
+      "sha256": "9fa468cad16a892fb11fa4fd7c3a9b8b066b07ad128d8d04351aacd05b99a792"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3461,6 +3486,16 @@
       "path": "explorer/src/components/molecular-viewer.js",
       "bytes": 5254,
       "sha256": "c049b1d205fcf6937f7493e9cfa7173eb4d0a0dea317fea2ca2240d1a0a49363"
+    },
+    {
+      "path": "explorer/src/components/oxphos-network-3d.js",
+      "bytes": 23461,
+      "sha256": "a7c003cf1d7b3fad3489996db50d7e763f4d4caf0a50dffdc63b6d9e60f6efd3"
+    },
+    {
+      "path": "explorer/src/components/oxphos-network-data.js",
+      "bytes": 3377,
+      "sha256": "77e55d8393850faba58c752e3c9c6bdec3216820d201e6e3fffc2ac44c93edb4"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3706,6 +3741,21 @@
       "path": "explorer/test/network-browser-check.mjs",
       "bytes": 10178,
       "sha256": "7bda55928bd3a3adb53b5bc52f92925924fed3d63be5352a7991c1a9a3de378d"
+    },
+    {
+      "path": "explorer/test/oxphos-network-browser-check.mjs",
+      "bytes": 6869,
+      "sha256": "a88e9a7e986cef436fa0a1bf69a247e425841be2aafa6bca36d649b9c2f03e35"
+    },
+    {
+      "path": "explorer/test/oxphos-network-data.test.js",
+      "bytes": 3052,
+      "sha256": "16c036bc97b9e9de89ea9e75222fbbd4d1d4bf3021cba5ca59052b089aae8951"
+    },
+    {
+      "path": "explorer/test/oxphos-network-offline-check.mjs",
+      "bytes": 4659,
+      "sha256": "56c966b28a33996d07f0328ef357a5bd4e2bc9342d3a34e00fa2e87024659414"
     },
     {
       "path": "explorer/test/pathway-autocomplete-browser-check.mjs",
@@ -5223,6 +5273,11 @@
       "sha256": "6164d1490a7566be178eddf03bad4c80449006c6bfb6a05ca3a7249c2eb6dd41"
     },
     {
+      "path": "reports/oxphos_network_3d_methods.md",
+      "bytes": 4851,
+      "sha256": "353689207035c23aeb39b5f0071360a490b19366ce632d812cac0a9495be1ee4"
+    },
+    {
       "path": "reports/schmidt_control_resolution.md",
       "bytes": 4779,
       "sha256": "03fbb080664523c7491fb668b0dbb26fcb8c7355b213971f8e99a04716f7e193"
@@ -6351,6 +6406,11 @@
       "path": "third_party_licenses/htm-3.1.1.txt",
       "bytes": 11341,
       "sha256": "740725f7252e750af735d0028cc534970772f513331e9f68150fede8fb3ce00f"
+    },
+    {
+      "path": "third_party_licenses/network-3d.txt",
+      "bytes": 36835,
+      "sha256": "3a78699bf2e23fa6ed053cb9aded4e3eace87dc464d6d583ab2c3f9eaba1813c"
     },
     {
       "path": "third_party_licenses/observable-framework-1.13.4.txt",

@@ -49,6 +49,12 @@ Source materials describe vehicle controls at matching time points, but the publ
   </a>
 </p>
 
+## OXPHOS membership in 3D
+
+A WebP preview in the overview header opens an optional, locally bundled 3D membership view in browser fullscreen, or in a Framework7 sheet when fullscreen is unavailable. It displays the actual 113-gene leading-edge union and 202 literal links to archived gene sets. Gene spheres use a common, symmetric log₂ fold-change scale for Day 1 and Day 3, with exact archived statistics available on selection. Positions are schematic; edges represent annotations, not measured interactions or respiratory activity. The renderer loads only when this view opens and is included in the core offline package.
+
+A separate [curated complex mapping](config/oxphos_complex_membership.json), matched to archived Ensembl identifiers and the dated local UniProt snapshot, groups structural subunits of complexes I–IV. This selected union contains no complex V structural subunits. V-type ATPases are not reassigned to mitochondrial ATP synthase. COX10, COX17 and COX7A2L remain outside structural complex IV. The original heatmap display groups and all archived statistical results are unchanged. See the [view methods](reports/oxphos_network_3d_methods.md) for scope, provenance and limitations.
+
 ## Correlation-aware statistical support
 
 A separately specified post hoc limma-voom CAMERA sensitivity retained upward OXPHOS direction at both days but did not reach the 15-test BH threshold with estimated inter-gene correlation (both q=0.587). None of the 15 tests passed in that setting. The documented fixed correlation 0.01 yielded significant upward OXPHOS (both q=5.84e-8). These settings change both variance inflation and CAMERA's parametric reference distribution: 4 versus 21,096 reference df, with four residual model df in either case. The correlation estimates come from standardized weighted residuals after fitting block and condition. Neither specification adds biological replication or establishes a matched-age drug effect.

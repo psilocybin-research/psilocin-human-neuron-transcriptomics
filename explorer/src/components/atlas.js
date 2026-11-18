@@ -561,7 +561,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     el(
       "p",
       "",
-      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
+      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
     ),
   );
   const softwareCredits = el("p", "");
@@ -571,6 +571,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md",
     ],
     ["CodeMirror dependency notices", branding.editorNotices],
+    [
+      "3D network dependency notices",
+      "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/third_party_licenses/network-3d.txt",
+    ],
     [
       "PDF compiler licences",
       new URL("latex/LICENSE-COMPONENTS.txt", document.baseURI).href,
@@ -828,6 +832,99 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     }
     return logos;
   }
+  let networkPanel, networkLoading, networkStorage;
+  function openMembershipNetwork() {
+    if (root.querySelector(".oxphos-network-fullscreen")) return;
+    const previousFocus = document.activeElement;
+    const storage = (networkStorage ||= el("div"));
+    storage.hidden = true;
+    root.append(storage);
+    networkPanel ||= el("section", "oxphos-network-sheet-content");
+    storage.append(networkPanel);
+    const host = el("section", "oxphos-network-fullscreen");
+    host.setAttribute("role", "dialog");
+    host.setAttribute("aria-modal", "true");
+    host.setAttribute("aria-label", "3D OXPHOS membership");
+    const toolbar = el("header", "evidence-sheet-header");
+    const close = button(
+      "",
+      () => document.exitFullscreen?.() || document.webkitExitFullscreen?.(),
+      "button button-tonal labelled-icon-action",
+    );
+    close.append(uiIcon("done"), el("span", "", "Done"));
+    toolbar.append(el("h2", "", "3D OXPHOS membership"), close);
+    const content = el("div", "oxphos-network-fullscreen-content");
+    content.append(networkPanel);
+    host.append(toolbar, content);
+    root.append(host);
+    let entered = false;
+    function restore() {
+      storage.append(networkPanel);
+      host.remove();
+      document.removeEventListener("fullscreenchange", changed);
+      document.removeEventListener("webkitfullscreenchange", changed);
+      previousFocus?.focus();
+    }
+    function changed() {
+      if (
+        (document.fullscreenElement || document.webkitFullscreenElement) ===
+        host
+      ) {
+        entered = true;
+        close.focus();
+      } else if (entered) restore();
+    }
+    function fallback() {
+      restore();
+      showResearchEvidence(networkPanel, "3D OXPHOS membership");
+    }
+    const request = host.requestFullscreen || host.webkitRequestFullscreen;
+    if (request) {
+      document.addEventListener("fullscreenchange", changed);
+      document.addEventListener("webkitfullscreenchange", changed);
+      try {
+        Promise.resolve(request.call(host)).catch(fallback);
+      } catch {
+        fallback();
+      }
+    } else fallback();
+    if (!networkLoading) {
+      networkPanel.replaceChildren(
+        loadingMessage("Loading the interactive 3D membership view…"),
+      );
+      networkLoading = trackActivity(
+        import("./oxphos-network-3d.js"),
+        "Opening 3D OXPHOS membership",
+      )
+        .then(({ createOxphosNetwork }) => {
+          networkPanel.replaceChildren(
+            createOxphosNetwork({
+              initialGene: null,
+              onEvidence: (id) => {
+                const exit =
+                  document.exitFullscreen || document.webkitExitFullscreen;
+                if (
+                  document.fullscreenElement ||
+                  document.webkitFullscreenElement
+                )
+                  Promise.resolve(exit.call(document)).finally(() =>
+                    go("genes", id),
+                  );
+                else go("genes", id);
+              },
+            }),
+          );
+        })
+        .catch(() => {
+          networkLoading = null;
+          networkPanel.replaceChildren(
+            note(
+              "The 3D view could not load. Close it and retry while connected; archived plots remain available.",
+            ),
+          );
+        });
+    }
+  }
   function overview() {
     body.append(sourceLogos("header"));
     const hero = el("section", "hero");
@@ -871,7 +968,33 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       m.append(el("strong", "", v), el("span", "", t));
       metrics.append(m);
     }
-    hero.append(intro, metrics);
+    const networkPreview = button(
+      "",
+      openMembershipNetwork,
+      "oxphos-network-preview",
+    );
+    networkPreview.setAttribute(
+      "aria-label",
+      "Explore 3D gene–pathway membership",
+    );
+    const networkImage = el("img");
+    networkImage.src = new URL(
+      "oxphos-network-preview.webp",
+      document.baseURI,
+    ).href;
+    networkImage.width = 960;
+    networkImage.height = 600;
+    networkImage.decoding = "async";
+    networkImage.alt =
+      "Day 1 preview of the archived OXPHOS gene–pathway membership network";
+    networkPreview.title = "Explore OXPHOS gene–pathway membership in 3D";
+    const previewIcon = el("span", "oxphos-network-preview-icon");
+    previewIcon.setAttribute("aria-hidden", "true");
+    previewIcon.append(uiIcon("fullscreen"));
+    networkPreview.append(networkImage, previewIcon);
+    const heroAside = el("div", "oxphos-hero-aside");
+    heroAside.append(networkPreview, metrics);
+    hero.append(intro, heroAside);
     body.append(hero);
     const timeline = el("div", "timeline");
     for (const [a, b] of [

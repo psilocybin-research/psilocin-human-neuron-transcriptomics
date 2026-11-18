@@ -156,6 +156,13 @@
       "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
     ]
   },
+  "config/oxphos_complex_membership.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann",
+      "UniProt Consortium"
+    ]
+  },
   "config/oxphos_display_annotations.csv": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -280,7 +287,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/capture-network-preview.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/framework7-entry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/network-3d-entry.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -311,6 +330,12 @@
     ]
   },
   "explorer/scripts/prepare-molecules.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/prepare-network-3d.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -416,6 +441,12 @@
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
       "eLife Sciences Publications Ltd"
+    ]
+  },
+  "explorer/src/assets/oxphos-network-preview.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
     ]
   },
   "explorer/src/assets/public-context/00-7362e986eae43ad2.json": {
@@ -4506,6 +4537,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/oxphos-network-3d.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/oxphos-network-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/pathway-autocomplete.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4797,6 +4840,24 @@
     ]
   },
   "explorer/test/network-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/oxphos-network-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/oxphos-network-data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/oxphos-network-offline-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -6708,6 +6769,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "reports/oxphos_network_3d_methods.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "reports/schmidt_control_resolution.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -8072,6 +8139,14 @@
     "spdx": "Apache-2.0",
     "copyright": [
       "2018 Google Inc."
+    ]
+  },
+  "third_party_licenses/network-3d.txt": {
+    "spdx": "MIT AND ISC AND BSD-3-Clause",
+    "copyright": [
+      "Vasco Asturiano and 3d-force-graph contributors",
+      "three.js authors",
+      "Component authors identified in the original bundled licence notices"
     ]
   },
   "third_party_licenses/observable-framework-1.13.4.txt": {

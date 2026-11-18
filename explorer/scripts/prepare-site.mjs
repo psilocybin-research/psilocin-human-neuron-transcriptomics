@@ -78,3 +78,5 @@ await cp(new URL('../vendor/webr-source/', import.meta.url), new URL('webr-sourc
 // Optional locally hosted TeX engine, excluded from the core offline package.
 await rm(new URL('latex/', output), {recursive:true, force:true});
 await cp(new URL('../vendor/latex/', import.meta.url), new URL('latex/', output), {recursive:true});
+
+await copyFile(new URL("../src/assets/oxphos-network-preview.webp", import.meta.url), new URL("oxphos-network-preview.webp", output));

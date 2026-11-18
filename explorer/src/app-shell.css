@@ -4509,3 +4509,55 @@ body {
 #psilocin-app .analysis-option-list :is(ul,li,.item-radio) {
   width:100%;max-width:none;box-sizing:border-box;
 }
+
+/* Optional schematic 3D membership view; the existing heatmap remains primary. */
+#psilocin-app .oxphos-network-3d { max-width:1400px;margin:auto;min-width:0; }
+#psilocin-app .oxphos-3d-controls { display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin:18px 0; }
+#psilocin-app .oxphos-3d-days { width:200px;min-height:44px; }
+#psilocin-app .oxphos-3d-days .button { min-height:44px; }
+#psilocin-app .oxphos-3d-filter { display:flex;flex-direction:column;gap:6px;font-size:13px;min-width:240px; }
+#psilocin-app .oxphos-3d-filter select { min-height:44px;padding:8px 12px;border:1px solid var(--research-border);border-radius:10px;color:var(--research-text);background:var(--research-surface); }
+#psilocin-app .oxphos-3d-edge-choice { display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px; }
+#psilocin-app .oxphos-3d-ramp { display:inline-block;vertical-align:middle;width:100px;height:10px;margin-right:12px;background:linear-gradient(90deg,#3b6fb6,#fff,#d55e00);border:1px solid var(--research-border); }
+#psilocin-app .oxphos-3d-legend { font-size:13px;line-height:1.6; }
+#psilocin-app .oxphos-3d-viewer { min-width:0;width:100%; }
+#psilocin-app .oxphos-3d-stage { width:100%;height:clamp(340px,60dvh,680px);overflow:hidden;position:relative;touch-action:none;background:var(--research-surface); }
+#psilocin-app .oxphos-3d-stage canvas { display:block;max-width:100%; }
+#psilocin-app .oxphos-3d-stage .scene-tooltip { max-width:260px;white-space:normal;font-size:13px;color:var(--research-text);background:var(--research-surface);padding:8px 10px;border-radius:8px; }
+#psilocin-app .oxphos-3d-camera { display:flex;flex-wrap:wrap;gap:8px;padding:12px; }
+#psilocin-app .oxphos-3d-camera .button { width:auto;min-height:44px;padding:8px 14px; }
+#psilocin-app .oxphos-3d-selected { margin:18px 0;padding:16px;border:1px solid var(--research-border);border-radius:12px;min-width:0; }
+#psilocin-app .oxphos-3d-selected .table-scroll { max-width:100%;overflow:auto; }
+#psilocin-app .oxphos-3d-selected table { min-width:850px;font-size:13px; }
+#psilocin-app .oxphos-3d-selected td.numeric { font-variant-numeric:tabular-nums; }
+#psilocin-app .oxphos-3d-selected .button { width:auto;margin:8px 8px 0 0;min-height:44px;padding-inline:14px; }
+#psilocin-app .oxphos-3d-search { display:flex;flex-direction:column;gap:8px;font-size:14px; }
+#psilocin-app .oxphos-3d-search input { min-height:44px;width:100%;box-sizing:border-box;border:1px solid var(--research-border);border-radius:10px;padding:10px 12px;background:var(--research-surface);color:var(--research-text); }
+#psilocin-app .oxphos-3d-gene-list { display:flex;flex-wrap:wrap;gap:8px;margin:12px 0; }
+#psilocin-app .oxphos-3d-gene-list .button { width:auto;min-height:44px;padding-inline:16px; }
+#psilocin-app .oxphos-network-3d .tree-actions .button { min-height:44px; }
+@media(max-width:700px) {
+  #psilocin-app .oxphos-3d-controls { gap:12px; }
+  #psilocin-app .oxphos-3d-filter { flex:1 1 100%;min-width:0; }
+  #psilocin-app .oxphos-3d-stage { height:min(58dvh,480px);min-height:280px; }
+  #psilocin-app .oxphos-3d-selected { padding:12px; }
+  #psilocin-app .oxphos-3d-camera .button { flex:1 1 auto;font-size:12px;padding:8px; }
+}
+
+/* The overview stays static until the visitor opens the interactive view. */
+.oxphos-hero-aside { min-width: 0; display: grid; gap: 20px; align-content: start; }
+.oxphos-network-preview { display: block; padding: 0; width: 100%; overflow: hidden; border: 1px solid var(--research-border, #dce3e8); border-radius: 16px; background: var(--research-surface, #fff); text-align: left; cursor: pointer; }
+.oxphos-network-preview img { display: block; width: 100%; height: auto; background: white; }
+.oxphos-network-preview:focus-visible { outline: 3px solid var(--f7-theme-color); outline-offset: 4px; }
+.oxphos-network-fullscreen { display: flex; flex-direction: column; width: 100%; height: 100%; background: var(--research-surface, #f7f8fa); color: var(--research-text, #203837); }
+.oxphos-network-fullscreen .evidence-sheet-header { flex-shrink: 0; padding: max(12px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)); }
+.oxphos-network-fullscreen-content { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 20px max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)); }
+.oxphos-network-fullscreen .figure-fullscreen { display: none; }
+@media(min-width: 851px) { #psilocin-app .hero { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); } }
+@media(max-width: 850px) { .oxphos-hero-aside { grid-template-columns: 1fr; } .oxphos-network-preview { max-width: 440px; } }
+#psilocin-app .hero button.oxphos-network-preview { display: block; height: auto; min-height: 0; padding: 0; white-space: normal; text-align: left; }
+#psilocin-app .hero .oxphos-network-preview img { display: block; width: 100%; max-width: 100%; height: auto; margin: 0; }
+
+#psilocin-app .hero button.oxphos-network-preview { position: relative; }
+.oxphos-network-preview-icon { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #235780; background: rgba(237, 245, 250, .94); }
+.oxphos-network-preview-icon svg { width: 20px; height: 20px; }
