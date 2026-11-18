@@ -1,6 +1,10 @@
 export { default as ForceGraph3D } from "3d-force-graph";
 export {
   Mesh,
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  Raycaster,
   CylinderGeometry,
   Quaternion,
   InstancedMesh,
@@ -22,3 +26,5 @@ export { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 export { Vector2 } from "three";
 export { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 export { Color } from "three";
+
+export { OrbitControls } from "three/addons/controls/OrbitControls.js";

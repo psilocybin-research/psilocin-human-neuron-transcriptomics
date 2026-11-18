@@ -46,6 +46,33 @@ try {
         "true",
     );
     const root = p.locator(".oxphos-network-3d");
+    await p.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset.entranceReady ===
+        "true",
+    );
+    assert.match(
+      await root
+        .locator(".oxphos-3d-pane")
+        .first()
+        .getAttribute("data-timepoint"),
+      /54 gene FDR < 0.05/,
+    );
+    assert.match(
+      await root.locator(".oxphos-3d-significance-key").innerText(),
+      /Cyan halo/,
+    );
+    await root.getByRole("button", { name: "Zoom in", exact: true }).click();
+    assert.equal(await root.getAttribute("data-camera-moving"), "true");
+    await root
+      .getByRole("button", { name: "Reset camera", exact: true })
+      .click();
+    assert.equal(await root.getAttribute("data-camera-moving"), "true");
+    await p.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset.cameraMoving ===
+        "false",
+    );
     await root
       .getByRole("button", { name: "Statistical comparison", exact: true })
       .click();

@@ -130,6 +130,8 @@ export function createSceneBackbone(
       return count;
     },
     dispose() {
+      trace.dispose();
+      beads.dispose();
       resources.forEach((r) => r.dispose());
       group.clear();
     },

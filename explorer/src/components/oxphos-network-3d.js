@@ -1,3 +1,4 @@
+import { createCameraTransition } from "./network-camera.js";
 import { retainedGene, uncertaintyLabels } from "./network-statistics.js";
 import { createNetworkSceneEffects } from "./network-scene-effects.js";
 import snapshot from "../assets/vendor/oxphos-network-data.js";
@@ -28,9 +29,12 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       genes.find((n) => n.symbol === initialGene || n.id === initialGene)?.id ||
       "",
     graph,
+    cameraTransition,
     api,
     destroyed = false,
     sceneEffects,
+    nodeProtein,
+    nodeProteinRequest = 0,
     hoveredId = "",
     proteinScene,
     proteinCamera,
@@ -162,7 +166,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const focusLabel = el("label", "checkbox oxphos-3d-edge-choice");
   const focusMemberships = el("input");
   focusMemberships.type = "checkbox";
-  focusMemberships.checked = true;
+  focusMemberships.checked = false;
   focusMemberships.onchange = () => updateGraph();
   focusLabel.append(
     focusMemberships,
@@ -173,7 +177,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const legend = el(
     "p",
     "oxphos-3d-legend",
-    `Gene colour: log₂ fold change, blue −${snapshot.limit} → white 0 → rust +${snapshot.limit}; identical scale on both days, no clipping. Equal-size spheres = genes; diamonds = archived gene sets (not complexes). Gold outline = selected gene. Grey = not estimable.`,
+    `Gene colour: log₂ fold change, blue −${snapshot.limit} → white 0 → rust +${snapshot.limit}; identical scale on both days, no clipping. Equal-size spheres = genes; diamonds = archived gene sets (not complexes). Gold outline = selected gene; cyan halo = archived gene FDR < 0.05 in that pane’s day/control contrast, not a between-day test. Grey = not estimable.`,
   );
   const ramp = el("span", "oxphos-3d-ramp");
   ramp.setAttribute("aria-hidden", "true");
@@ -195,11 +199,14 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const cameraTools = el("div", "oxphos-3d-camera");
   function cameraZoom(factor) {
     if (!graph) return;
-    const p = graph.cameraPosition();
-    graph.cameraPosition(
-      { x: p.x * factor, y: p.y * factor, z: p.z * factor },
-      undefined,
-      matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 280,
+    const p = graph.cameraPosition(),
+      t = graph.controls().target;
+    cameraTransition.move(
+      Object.fromEntries(
+        ["x", "y", "z"].map((k) => [k, t[k] + (p[k] - t[k]) * factor]),
+      ),
+      { x: t.x, y: t.y, z: t.z },
+      500,
     );
   }
   function molecularDistance() {
@@ -210,13 +217,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const tangent = Math.tan((Math.PI * graph.camera().fov) / 360);
     return Math.max(350, 280 / (2 * tangent), 280 / (2 * tangent * aspect));
   }
-  function reset() {
+  function reset(animate = true) {
     if (!graph) return;
     if (proteinScene) {
-      graph.cameraPosition(
+      cameraTransition.move(
         { x: 0, y: 0, z: molecularDistance() },
         { x: 0, y: 0, z: 0 },
-        300,
+        animate ? 850 : 0,
       );
       return;
     }
@@ -228,12 +235,16 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       520 / (2 * Math.tan((Math.PI * graph.camera().fov) / 360)),
       640 / (2 * Math.tan((Math.PI * graph.camera().fov) / 360) * aspect),
     );
-    graph.cameraPosition({ x: 0, y: 0, z: distance }, { x: 0, y: 0, z: 0 }, 0);
+    cameraTransition.move(
+      { x: 0, y: 0, z: distance },
+      { x: 0, y: 0, z: 0 },
+      animate ? 950 : 0,
+    );
   }
   cameraTools.append(
     button("Zoom in", () => cameraZoom(0.8), "plus"),
     button("Zoom out", () => cameraZoom(1.25), "minus"),
-    button("Reset camera", reset, "overview"),
+    button("Reset camera", () => reset(), "overview"),
   );
   viewer.append(stage, cameraTools);
   const gesture = el(
@@ -385,8 +396,11 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   );
   root.append(panels);
   const topbar = el("div", "oxphos-3d-topbar");
-  const identity=el("p","oxphos-3d-identity");
-  identity.append(el("strong","","Psilocin Transcriptome Atlas"),el("span","","Human iPSC-derived cortical neurons"));
+  const identity = el("p", "oxphos-3d-identity");
+  identity.append(
+    el("strong", "", "Psilocin Transcriptome Atlas"),
+    el("span", "", "Human iPSC-derived cortical neurons"),
+  );
   topbar.append(identity);
   const compareControl = el("label", "oxphos-3d-compare-control");
   const compareToggle = el("span", "toggle");
@@ -456,7 +470,14 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const proteinCaption = el("p", "oxphos-3d-protein-caption");
   proteinCaption.hidden = true;
   viewer.append(proteinTools, proteinCaption);
-  dock.prepend(legendCompact);
+  const significanceKey = el(
+    "p",
+    "oxphos-3d-significance-key",
+    "◌ Cyan halo: gene FDR < 0.05 · gold: selection",
+  );
+  significanceKey.title =
+    "Archived transcriptome-wide gene FDR, separately for each day/control contrast. Significance on one day alone is not evidence of a difference between days.";
+  dock.prepend(legendCompact, significanceKey);
   viewer.append(topbar, dock);
   function fullscreenChanged() {
     if (!document.fullscreenElement && !document.webkitFullscreenElement)
@@ -581,8 +602,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .map((l) => endpoints(l)[1]),
     );
   }
-  function choose(n, focus = true) {
+  function choose(n, focus = true, showEvidence = true) {
     if (proteinScene) closeProteinScene();
+    if (selected !== n.id) nodeProtein?.clear();
     selected = n.id;
     selectedSummary.setAttribute("aria-label", `${n.symbol} · exact values`);
     selectedSummary.querySelector("span").textContent =
@@ -590,19 +612,39 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     renderSelected();
     renderList();
     updateGraph();
-    openDrawer("gene");
+    if (showEvidence) openDrawer("gene");
     const position =
       graph?.graphData().nodes.find((node) => node.id === n.id) || n;
-    if (focus && graph)
-      graph.cameraPosition(
-        {
-          x: position.x + (matchMedia("(min-width: 1100px)").matches ? 90 : 0),
-          y: position.y,
-          z: position.z + 520,
-        },
-        { x: position.x, y: position.y, z: position.z },
-        matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450,
+    if (focus && graph) {
+      const p = graph.cameraPosition(),
+        t = graph.controls().target;
+      const distance = Math.hypot(p.x - t.x, p.y - t.y, p.z - t.z) || 1;
+      const focusDistance = Math.max(440, Math.min(700, distance));
+      const target = { x: position.x, y: position.y, z: position.z };
+      cameraTransition.move(
+        Object.fromEntries(
+          ["x", "y", "z"].map((k) => [
+            k,
+            target[k] + ((p[k] - t[k]) * focusDistance) / distance,
+          ]),
+        ),
+        target,
+        900,
       );
+    }
+  }
+  async function showNodeProtein(gene) {
+    const request = ++nodeProteinRequest;
+    const { createNodeProtein } = await import("./network-node-protein.js");
+    if (destroyed || request !== nodeProteinRequest || selected !== gene.id)
+      return;
+    nodeProtein ||= createNodeProtein({
+      api,
+      root,
+      stage,
+      graphs: () => [graph, graphRight],
+    });
+    nodeProtein.show(gene);
   }
   function renderSelected() {
     const scrollHost = selectedPanel.closest(
@@ -832,9 +874,11 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             mesh.children[0].material.needsUpdate = true;
           mesh.children[0].material.transparent = focused && n.id !== selected;
           mesh.children[0].material.opacity =
-            focused && n.id !== selected ? 0.16 : 1;
+            focused && !comparing && n.id !== selected ? 0.55 : 1;
           mesh.children[0].material.depthWrite = !focused || n.id === selected;
           mesh.children[1].visible = n.id === selected;
+          const fdr = n.effects[effectDay]?.padj;
+          mesh.children[2].visible = Number.isFinite(fdr) && fdr < 0.05;
         }
       }
       for (const n of snapshot.nodes.filter((n) => n.type !== "gene")) {
@@ -950,10 +994,12 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const { createSceneBackbone } = await import("./network-molecule.js");
     if (destroyed || request !== proteinRequest || selected !== context.gene.id)
       return;
-    if(root.dataset.layoutReady==="false")await new Promise(resolve=>setTimeout(resolve,820));
-    if(destroyed||request!==proteinRequest)return;
+    if (root.dataset.layoutReady === "false")
+      await new Promise((resolve) => setTimeout(resolve, 820));
+    if (destroyed || request !== proteinRequest) return;
     if (comparing) {
-      if(compareInput.disabled)await new Promise(resolve=>setTimeout(resolve,500));
+      if (compareInput.disabled)
+        await new Promise((resolve) => setTimeout(resolve, 500));
       toggleCompare(false);
       await new Promise((resolve) => setTimeout(resolve, 500));
     }
@@ -987,7 +1033,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     beadsVisible = true;
     updateGraph();
     status.textContent = `${context.gene.symbol} · ${context.protein.accession} · molecular context`;
-    graph.cameraPosition(
+    cameraTransition.move(
       { x: 0, y: 0, z: molecularDistance() },
       { x: 0, y: 0, z: 0 },
       matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 500,
@@ -1010,7 +1056,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     layoutSelect.disabled = false;
     dayButtons.forEach((b) => (b.disabled = false));
     if (proteinCamera)
-      graph.cameraPosition(
+      cameraTransition.move(
         proteinCamera.position,
         proteinCamera.target,
         matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450,
@@ -1116,6 +1162,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         graphRight
           .renderer()
           .setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+        graphRight.controls().addEventListener("start", cameraTransition.stop);
         graphRight.controls().enableDamping = true;
         graphRight
           .controls()
@@ -1189,8 +1236,17 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       b.setAttribute("aria-pressed", String(i === day)),
     );
     const count = genes.filter(visible).length;
-    leftStage.dataset.timepoint = comparing ? "Day 1 / common control" : "";
-    rightStage.dataset.timepoint = "Day 3 / common control";
+    const significantCount = (d) =>
+      genes.filter(
+        (n) =>
+          visible(n) &&
+          Number.isFinite(n.effects[d]?.padj) &&
+          n.effects[d].padj < 0.05,
+      ).length;
+    const caption = (d) =>
+      `Day ${d ? 3 : 1} / common control · ${significantCount(d)} gene FDR < 0.05`;
+    leftStage.dataset.timepoint = caption(comparing ? 0 : day);
+    rightStage.dataset.timepoint = caption(1);
     status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${comparing ? "linked cameras" : "vs common control"}${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     shown = 12;
     renderList();
@@ -1202,6 +1258,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     if (destroyed) return;
     destroyed = true;
     clearTimeout(compareTimer);
+    cameraTransition?.stop();
     cancelAnimationFrame(entranceFrame);
     cancelAnimationFrame(layoutFrame);
     compareInstance?.destroy();
@@ -1210,6 +1267,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       proteinScene.dispose();
     }
     activeResearchPanel?.dispose?.();
+    nodeProtein?.dispose();
     sceneEffects?.dispose();
     resize?.disconnect();
     intersection?.disconnect();
@@ -1296,7 +1354,23 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
               ring = new api.Mesh(geometry, outline);
             ring.scale.setScalar(1.4);
             ring.visible = n.id === selected;
-            container.add(mesh, ring);
+            const significanceMaterial = new api.MeshBasicMaterial({
+              color: "#83dcff",
+              wireframe: true,
+              transparent: true,
+              opacity: 0.72,
+              toneMapped: false,
+              depthWrite: false,
+            });
+            significanceMaterial.color.multiplyScalar(1.65);
+            const significance = new api.Mesh(
+              new api.SphereGeometry(4.3, 10, 7),
+              significanceMaterial,
+            );
+            significance.scale.setScalar(1.22);
+            significance.visible = false;
+            container.add(mesh, ring, significance);
+            resources.push(significance.geometry, significanceMaterial);
             meshes.set(n.id, container);
             resources.push(geometry, material, outline);
           } else {
@@ -1318,8 +1392,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           updateGraph();
         })
         .onNodeClick((n) => {
-          if (n.type === "gene") choose(n);
-          else {
+          if (n.type === "gene") {
+            choose(n, true, false);
+            showNodeProtein(n);
+          } else {
             const memberIds = new Set(
               snapshot.links
                 .filter((l) => endpoints(l)[1] === n.id)
@@ -1346,6 +1422,25 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         });
       graph.scene().background = new api.Color(palette.background);
       graph.renderer().setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+      cameraTransition = createCameraTransition({
+        read: () => ({
+          position: { ...graph.cameraPosition() },
+          target: {
+            x: graph.controls().target.x,
+            y: graph.controls().target.y,
+            z: graph.controls().target.z,
+          },
+        }),
+        apply: ({ position, target }) => {
+          graph.cameraPosition(position, target, 0);
+          syncCamera(graph, graphRight);
+        },
+        motion: () => !matchMedia("(prefers-reduced-motion: reduce)").matches,
+        onState: (moving) => {
+          root.dataset.cameraMoving = String(moving);
+        },
+      });
+      graph.controls().addEventListener("start", cameraTransition.stop);
       graph.controls().enableDamping = true;
       graph
         .controls()
@@ -1437,7 +1532,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             }
           }
       });
-      reset();
+      reset(false);
       updateGraph();
       const graphGroup = objects.values().next().value?.parent;
       if (

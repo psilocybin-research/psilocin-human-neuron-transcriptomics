@@ -4555,7 +4555,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/network-camera.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/network-molecule.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/network-node-protein.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4899,6 +4911,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/network-camera.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/network-comparison-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -4918,6 +4936,12 @@
     ]
   },
   "explorer/test/network-statistics.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/node-protein-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

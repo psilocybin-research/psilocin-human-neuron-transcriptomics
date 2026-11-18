@@ -4762,3 +4762,52 @@ body {
 
 #psilocin-app .oxphos-3d-identity { flex-basis:100%;display:grid;gap:3px;margin:0 0 5px;color:#deedf7;text-shadow:0 1px 4px #060d17;font-size:13px;line-height:1.35; }
 #psilocin-app .oxphos-3d-identity span { color:#a9c3d5;font-size:11px; }
+
+.oxphos-3d-significance-key {
+  margin: 2px 8px 5px;
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: center;
+  color: inherit;
+}
+
+#psilocin-app .oxphos-3d-dock .oxphos-3d-significance-key { grid-column:1 / -1; }
+#psilocin-app [data-molecular-view=true] .oxphos-3d-significance-key,
+#psilocin-app [data-molecular-view=true] .oxphos-3d-pane:after { display:none; }
+#psilocin-app .oxphos-3d-pane:after { max-width:calc(100% - 20px);white-space:normal;text-align:center; }
+@media(max-width:700px) {
+  #psilocin-app .oxphos-network-3d:not(.is-comparing) .oxphos-3d-pane:after { top:125px; }
+}
+#psilocin-app .network-node-protein-caption {
+  position:absolute;z-index:3;width:200px;padding:6px 8px;border-radius:10px;
+  background:#102335dd;color:#e4f2ff;backdrop-filter:blur(10px);font-size:11px;line-height:1.4;
+}
+#psilocin-app .network-node-protein-caption[hidden] { display:none; }
+#psilocin-app .network-node-protein-caption small { display:block; }
+#psilocin-app .network-node-protein-open {
+  background:transparent;border:0;color:#b6e9ff;padding:4px 0;cursor:pointer;
+  text-align:left;font:inherit;font-weight:650;transition:color .2s,text-shadow .2s;
+}
+#psilocin-app .network-node-protein-open:is(:hover,:focus-visible) { color:#fff;text-shadow:0 0 10px #74d4ff; }
+#psilocin-app .network-protein-overlay {
+  position:absolute;inset:0;z-index:12;background:#081322f5;color:#e4f2ff;
+  transform-origin:0 0;border-radius:inherit;overflow:hidden;
+}
+#psilocin-app .network-protein-overlay-header {
+  position:absolute;inset:max(12px,env(safe-area-inset-top)) 14px auto;display:flex;
+  align-items:center;justify-content:space-between;gap:12px;pointer-events:none;
+}
+#psilocin-app .network-protein-overlay-header .button { pointer-events:auto;flex-shrink:0; }
+#psilocin-app .network-protein-overlay-surface { position:absolute;inset:0; }
+#psilocin-app .network-protein-overlay-note {
+  position:absolute;bottom:max(14px,env(safe-area-inset-bottom));left:5%;width:90%;
+  margin:0;font-size:12px;line-height:1.5;padding:10px;background:#081322cf;border-radius:10px;pointer-events:none;
+}
+#psilocin-app .network-protein-overlay-header strong { flex:1;min-width:0;font-size:13px;line-height:1.4; }
+#psilocin-app .network-protein-overlay-header .button { width:auto;min-width:44px;min-height:44px;padding:8px 12px; }
+#psilocin-app .network-protein-overlay { background:#081322; }
+@media(max-width:700px) {
+  #psilocin-app .oxphos-network-3d:not(.is-comparing) .oxphos-3d-pane:after,
+  #psilocin-app .is-comparing .oxphos-3d-pane:first-child:after { top:214px; }
+}
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-camera { bottom:calc(150px + env(safe-area-inset-bottom)); }
