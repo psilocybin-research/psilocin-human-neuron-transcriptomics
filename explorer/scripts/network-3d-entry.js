@@ -9,3 +9,8 @@ export {
   CanvasTexture,
   Group,
 } from "three";
+
+export { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+export { Vector2 } from "three";
+export { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+export { Color } from "three";

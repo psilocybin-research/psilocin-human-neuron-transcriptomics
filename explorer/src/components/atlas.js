@@ -845,7 +845,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     host.setAttribute("role", "dialog");
     host.setAttribute("aria-modal", "true");
     host.setAttribute("aria-label", "3D OXPHOS membership");
-    const toolbar = el("header", "evidence-sheet-header");
+    const toolbar = el(
+      "header",
+      "evidence-sheet-header oxphos-network-closebar",
+    );
     const close = button(
       "",
       () => document.exitFullscreen?.() || document.webkitExitFullscreen?.(),
@@ -982,18 +985,21 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "oxphos-network-preview.webp",
       document.baseURI,
     ).href;
-    networkImage.width = 960;
+    networkImage.width = 1200;
     networkImage.height = 600;
     networkImage.decoding = "async";
     networkImage.alt =
       "Day 1 preview of the archived OXPHOS gene–pathway membership network";
     networkPreview.title = "Explore OXPHOS gene–pathway membership in 3D";
-    const previewIcon = el("span", "oxphos-network-preview-icon");
-    previewIcon.setAttribute("aria-hidden", "true");
-    previewIcon.append(uiIcon("fullscreen"));
-    networkPreview.append(networkImage, previewIcon);
+    const previewOverlay = el(
+      "span",
+      "oxphos-network-preview-overlay",
+      "Explore OXPHOS membership in 3D",
+    );
+    networkPreview.append(networkImage, previewOverlay);
+    intro.append(networkPreview);
     const heroAside = el("div", "oxphos-hero-aside");
-    heroAside.append(networkPreview, metrics);
+    heroAside.append(metrics);
     hero.append(intro, heroAside);
     body.append(hero);
     const timeline = el("div", "timeline");

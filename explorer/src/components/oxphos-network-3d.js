@@ -3,12 +3,11 @@ import {
   createElement as el,
   loadingMessage,
   createAccordion,
+  destroySheet,
 } from "./interface-utils.js";
 import { label, contrasts, color, csvText } from "./format.js";
-import { plotPalette } from "./plot-theme.js";
 import { uiIcon } from "./icons.js";
 import { downloadFile } from "./file-download.js";
-import { enhancePlots } from "./figure-controls.js";
 import { trackActivity } from "./app-activity.js";
 
 const exact = (value) =>
@@ -26,6 +25,17 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     graph,
     api,
     destroyed = false;
+  let comparing = false,
+    graphRight,
+    bloomRight,
+    syncingCamera = false;
+  const rightMeshes = new Map(),
+    objects = new Map(),
+    rightLabels = [],
+    rightResources = [];
+  const leftStage = el("div", "oxphos-3d-pane"),
+    rightStage = el("div", "oxphos-3d-pane");
+  rightStage.hidden = true;
   const resources = [],
     meshes = new Map(),
     labels = [],
@@ -43,6 +53,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   function button(text, fn, icon) {
     const b = el("button", "button button-tonal labelled-icon-action");
     b.type = "button";
+    b.setAttribute("aria-label", text);
     if (icon) b.append(uiIcon(icon));
     b.append(el("span", "", text));
     b.onclick = fn;
@@ -126,7 +137,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     if (!graph) return;
     const aspect = Math.max(
       0.3,
-      stage.clientWidth / Math.max(1, stage.clientHeight),
+      leftStage.clientWidth / Math.max(1, leftStage.clientHeight),
     );
     const distance = Math.max(
       520 / (2 * Math.tan((Math.PI * graph.camera().fov) / 360)),
@@ -224,6 +235,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
               schema_version: 1,
               archive: "10.5281/zenodo.23283595",
               view_url: location.href,
+              comparison_view: comparing,
+              displayed_contrasts: comparing
+                ? ["day1_vs_control", "day3_vs_control"]
+                : [day === 0 ? "day1_vs_control" : "day3_vs_control"],
               day: day === 0 ? 1 : 3,
               contrast: day === 0 ? "day1_vs_control" : "day3_vs_control",
               complex_filter: filter,
@@ -263,19 +278,142 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       "download",
     ),
   );
-  root.append(
+  root.append(viewer);
+  root.classList.add("oxphos-3d-immersive");
+  let drawerInstance, drawer, drawerBody, bloom;
+  const panels = el("div");
+  panels.hidden = true;
+  panels.append(
     heading,
     qualification,
     controls,
-    legend,
-    status,
-    viewer,
     gesture,
     selectedPanel,
     listRegion,
     exports,
     provenance.element,
   );
+  root.append(panels);
+  const topbar = el("div", "oxphos-3d-topbar");
+  const compareButton = button(
+    "Compare days",
+    () => toggleCompare(),
+    "comparison",
+  );
+  compareButton.setAttribute("aria-pressed", "false");
+  topbar.append(days, compareButton, status);
+  const legendCompact = el("div", "oxphos-3d-scale");
+  legendCompact.append(
+    el("span", "", `−${snapshot.limit}`),
+    ramp,
+    el("span", "", `+${snapshot.limit} log₂FC`),
+  );
+  legendCompact.title =
+    "Identical zero-centred log₂ fold-change scale on both days. Grey means unavailable; node size carries no statistic.";
+  const dock = el("nav", "oxphos-3d-dock");
+  dock.setAttribute("aria-label", "Network tools");
+  const selectedSummary = button(
+    "Select a gene",
+    () => openDrawer("gene"),
+    "genes",
+  );
+  selectedSummary.classList.add("oxphos-3d-selected-summary");
+  dock.append(
+    button("Find gene", () => openDrawer("search"), "search"),
+    button("Filters", () => openDrawer("filters"), "controls"),
+    button("About & data", () => openDrawer("about"), "information"),
+  );
+  cameraTools.append(selectedSummary);
+  dock.prepend(legendCompact);
+  viewer.append(topbar, dock);
+  function fullscreenChanged() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement)
+      closeDrawer();
+  }
+  function closeDrawer() {
+    if (drawerBody)
+      for (const child of [...drawerBody.children]) panels.append(child);
+    if (drawerInstance) {
+      drawerInstance.close(false);
+      // A previous animated close can still be pending when a new panel opens.
+      // Complete its lifecycle before destruction so the app releases focus/inert state.
+      if (drawerInstance.el?.classList.contains("modal-out"))
+        drawerInstance.onClosed();
+      destroySheet(drawerInstance);
+      drawerInstance = undefined;
+    }
+    drawer?.remove();
+    drawer = undefined;
+    drawerBody = undefined;
+  }
+  function openDrawer(kind) {
+    closeDrawer();
+    const app = document.querySelector("#psilocin-app")?.f7;
+    if (!app) return;
+    drawer = el("section", "sheet-modal oxphos-3d-drawer");
+    const title = {
+      search: "Find a gene",
+      gene: "Exact gene statistics",
+      filters: "Network controls",
+      about: "Membership & data",
+    }[kind];
+    drawer.setAttribute("aria-label", title);
+    const handle = el("div", "sheet-handle"),
+      header = el("header", "evidence-sheet-header"),
+      done = button("Done", () => drawerInstance?.close(), "done");
+    header.append(el("h2", "", title), done);
+    drawerBody = el("div", "sheet-modal-inner oxphos-3d-drawer-body");
+    const items = {
+      search: [listRegion],
+      gene: [selectedPanel],
+      filters: [controls],
+      about: [
+        heading,
+        qualification,
+        legend,
+        gesture,
+        exports,
+        provenance.element,
+      ],
+    }[kind];
+    drawerBody.append(...items);
+    drawer.append(handle, header, drawerBody);
+    root.append(drawer);
+    const currentBody = drawerBody;
+    drawerInstance = app.sheet.create({
+      el: drawer,
+      containerEl: document.fullscreenElement || root,
+      backdrop: true,
+      backdropUnique: true,
+      push: true,
+      swipeToClose: true,
+      swipeHandler: handle,
+      closeByBackdropClick: true,
+      on: {
+        closed: () => {
+          for (const child of [...currentBody.children]) panels.append(child);
+        },
+      },
+    });
+    drawerInstance.open(
+      !matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
+    if (kind === "search") setTimeout(() => search.focus(), 200);
+  }
+  const glowLabel = el("label", "checkbox oxphos-3d-edge-choice");
+  const glow = el("input");
+  glow.type = "checkbox";
+  glow.checked = matchMedia("(min-width: 850px)").matches;
+  glowLabel.append(
+    glow,
+    el("i", "icon-checkbox"),
+    el("span", "", "Subtle glow (decorative)"),
+  );
+  controls.append(glowLabel);
+  glow.onchange = () => {
+    if (bloom) bloom.enabled = glow.checked;
+    if (bloomRight) bloomRight.enabled = glow.checked;
+  };
   function visible(n) {
     return (
       n.type !== "gene" ||
@@ -298,9 +436,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   }
   function choose(n, focus = true) {
     selected = n.id;
+    selectedSummary.setAttribute("aria-label", `${n.symbol} · exact values`);
+    selectedSummary.querySelector("span").textContent =
+      n.symbol + " · exact values";
     renderSelected();
     renderList();
     updateGraph();
+    openDrawer("gene");
     if (focus && graph)
       graph.cameraPosition(
         { x: n.x, y: n.y, z: n.z + 180 },
@@ -403,6 +545,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         "Clear selection",
         () => {
           selected = "";
+          selectedSummary.setAttribute("aria-label", "Select a gene");
+          selectedSummary.querySelector("span").textContent = "Select a gene";
           renderSelected();
           renderList();
           updateGraph();
@@ -456,52 +600,191 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           showEdges.checked &&
           visible(genes.find((n) => n.id === endpoints(l)[0])),
       );
-    for (const n of genes) {
-      const mesh = meshes.get(n.id);
-      if (mesh) {
-        mesh.children[0].material.color.set(
-          color(n.effects[day]?.log2FoldChange, snapshot.limit),
+    for (const [scene, map, effectDay] of [
+      [graph, meshes, comparing ? 0 : day],
+      [graphRight, rightMeshes, 1],
+    ]) {
+      if (!scene) continue;
+      scene
+        .nodeVisibility((n) =>
+          n.type === "gene" ? visible(n) : related.has(n.id),
+        )
+        .linkVisibility(
+          (l) =>
+            showEdges.checked &&
+            visible(genes.find((n) => n.id === endpoints(l)[0])),
         );
-        mesh.children[1].visible = n.id === selected;
+      for (const n of genes) {
+        const mesh = map.get(n.id);
+        if (mesh) {
+          mesh.children[0].material.color.set(
+            color(n.effects[effectDay]?.log2FoldChange, snapshot.limit),
+          );
+          mesh.children[1].visible = n.id === selected;
+        }
       }
+      scene
+        .linkColor((l) =>
+          selected && endpoints(l)[0] === selected ? "#e6b854" : "#4f748c",
+        )
+        .linkWidth((l) =>
+          selected && endpoints(l)[0] === selected ? 1.1 : 0.25,
+        )
+        .linkOpacity(0.28);
     }
-    graph
-      .linkColor((l) =>
-        selected && endpoints(l)[0] === selected ? "#b28321" : "#8295a3",
-      )
-      .linkWidth((l) => (selected && endpoints(l)[0] === selected ? 1.1 : 0.25))
-      .linkOpacity(0.45);
-    for (const item of labels)
+    for (const item of [...labels, ...rightLabels])
       item.sprite.visible = filter === "all" || item.key === filter;
+  }
+  function syncCamera(source, target) {
+    if (!target || syncingCamera) return;
+    syncingCamera = true;
+    const p = source.cameraPosition(),
+      t = source.controls().target;
+    target.cameraPosition(
+      { x: p.x, y: p.y, z: p.z },
+      { x: t.x, y: t.y, z: t.z },
+      0,
+    );
+    syncingCamera = false;
+    root.dataset.cameraSynced = "true";
+  }
+  function toggleCompare() {
+    if (!graph) return;
+    comparing = !comparing;
+    compareButton.setAttribute("aria-pressed", String(comparing));
+    root.classList.toggle("is-comparing", comparing);
+    root.dataset.comparing = String(comparing);
+    rightStage.hidden = !comparing;
+    dayButtons.forEach((b) => (b.disabled = comparing));
+    if (comparing) {
+      try {
+        graphRight = new api.ForceGraph3D(rightStage, {
+          controlType: "orbit",
+          rendererConfig: {
+            antialias: true,
+            alpha: false,
+            preserveDrawingBuffer: true,
+          },
+        })
+          .width(rightStage.clientWidth)
+          .height(rightStage.clientHeight)
+          .backgroundColor("#060d17")
+          .showNavInfo(false)
+          .enableNodeDrag(false)
+          .cooldownTicks(0)
+          .nodeLabel((n) =>
+            n.type === "gene"
+              ? `${n.symbol} · Day 3 log₂FC ${exact(n.effects[1]?.log2FoldChange)}`
+              : `${label(n.pathway)} · archived membership`,
+          )
+          .nodeThreeObject((n) => {
+            const copy = objects.get(n.id).clone(true);
+            if (n.type === "gene") {
+              copy.children[0].material = copy.children[0].material.clone();
+              rightResources.push(copy.children[0].material);
+              rightMeshes.set(n.id, copy);
+            }
+            return copy;
+          })
+          .onNodeClick(graph.onNodeClick())
+          .graphData({
+            nodes: structuredClone(snapshot.nodes),
+            links: structuredClone(snapshot.links),
+          });
+        graphRight.scene().background = new api.Color("#060d17");
+        graphRight
+          .renderer()
+          .setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+        graphRight.controls().enableDamping = true;
+        graphRight
+          .controls()
+          .addEventListener("change", () => syncCamera(graphRight, graph));
+        for (const item of labels) {
+          const copy = item.sprite.clone();
+          graphRight.scene().add(copy);
+          rightLabels.push({ sprite: copy, key: item.key });
+        }
+        bloomRight = new api.UnrealBloomPass(
+          new api.Vector2(rightStage.clientWidth, rightStage.clientHeight),
+          0.45,
+          0.25,
+          1.05,
+        );
+        bloomRight.enabled = glow.checked;
+        graphRight.postProcessingComposer().addPass(bloomRight);
+        const outputRight = new api.OutputPass();
+        rightResources.push(outputRight);
+        graphRight.postProcessingComposer().addPass(outputRight);
+        rightStage.querySelector("canvas").setAttribute("aria-hidden", "true");
+      } catch (error) {
+        graphRight?._destructor();
+        graphRight = undefined;
+        comparing = false;
+        rightStage.hidden = true;
+        root.classList.remove("is-comparing");
+        compareButton.setAttribute("aria-pressed", "false");
+        root.dataset.comparing = "false";
+        dayButtons.forEach((b) => (b.disabled = false));
+        status.textContent =
+          "This device cannot open a second 3D view. Use Day 1 / Day 3 and exact statistics instead.";
+        return;
+      }
+    } else {
+      graphRight?._destructor();
+      graphRight = undefined;
+      bloomRight?.dispose();
+      bloomRight = undefined;
+      rightMeshes.clear();
+      rightLabels.length = 0;
+      rightResources.splice(0).forEach((r) => r.dispose());
+      rightStage.replaceChildren();
+    }
+    requestAnimationFrame(() => {
+      graph.width(leftStage.clientWidth).height(leftStage.clientHeight);
+      reset();
+      syncCamera(graph, graphRight);
+      refresh();
+    });
   }
   function refresh() {
     dayButtons.forEach((b, i) =>
       b.setAttribute("aria-pressed", String(i === day)),
     );
     const count = genes.filter(visible).length;
-    status.textContent = `${count} of 113 archived genes · ${day === 0 ? "Day 1" : "Day 3"} / common control. ${filter === "V" ? "No complex V subunits in this selected union." : "Groups show documented subunits; other genes stay separate."}`;
+    leftStage.dataset.timepoint = comparing ? "Day 1 / common control" : "";
+    rightStage.dataset.timepoint = "Day 3 / common control";
+    status.textContent = `${count} / 113 genes · ${comparing ? "linked cameras" : "vs common control"}${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     shown = 12;
     renderList();
     renderSelected();
     updateGraph();
   }
-  let resize, intersection, themeObserver, detachObserver;
+  let resize, intersection, detachObserver;
   function destroy() {
     if (destroyed) return;
     destroyed = true;
     resize?.disconnect();
     intersection?.disconnect();
-    themeObserver?.disconnect();
+    closeDrawer();
+    bloom?.dispose();
     detachObserver?.disconnect();
     document.removeEventListener("visibilitychange", visibility);
+    document.removeEventListener("fullscreenchange", fullscreenChanged);
+    graphRight?._destructor();
+    bloomRight?.dispose();
+    rightResources.forEach((r) => r.dispose());
     graph?._destructor();
     for (const r of resources) r.dispose?.();
   }
   function visibility() {
     if (!graph) return;
-    if (document.hidden || !stage.getClientRects().length)
+    if (document.hidden || !stage.getClientRects().length) {
       graph.pauseAnimation();
-    else graph.resumeAnimation();
+      graphRight?.pauseAnimation();
+    } else {
+      graph.resumeAnimation();
+      graphRight?.resumeAnimation();
+    }
   }
   function sprite(text, colour) {
     const canvas = document.createElement("canvas");
@@ -527,9 +810,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         "Loading 3D membership renderer",
       );
       if (destroyed || !root.isConnected) return;
-      const palette = plotPalette();
-      stage.replaceChildren();
-      graph = new api.ForceGraph3D(stage, {
+      const palette = {
+        background: "#060d17",
+        text: "#bed5e6",
+        accent: "#6ebcdb",
+      };
+      stage.replaceChildren(leftStage, rightStage);
+      graph = new api.ForceGraph3D(leftStage, {
         controlType: "orbit",
         rendererConfig: {
           antialias: true,
@@ -537,8 +824,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           preserveDrawingBuffer: true,
         },
       })
-        .width(stage.clientWidth)
-        .height(stage.clientHeight)
+        .width(leftStage.clientWidth)
+        .height(leftStage.clientHeight)
         .backgroundColor(palette.background)
         .showNavInfo(false)
         .enableNodeDrag(false)
@@ -549,7 +836,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             "span",
             "",
             n.type === "gene"
-              ? `${n.symbol} · log₂FC ${exact(n.effects[day]?.log2FoldChange)}`
+              ? `${n.symbol} · log₂FC ${exact(n.effects[comparing ? 0 : day]?.log2FoldChange)}`
               : `${label(n.pathway)} · archived membership`,
           );
           return text;
@@ -557,13 +844,14 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .nodeThreeObject((n) => {
           const container = new api.Group();
           if (n.type === "gene") {
-            const geometry = new api.SphereGeometry(3.8, 12, 8),
+            const geometry = new api.SphereGeometry(4.3, 20, 14),
               material = new api.MeshBasicMaterial({
                 color: color(n.effects[day]?.log2FoldChange, snapshot.limit),
               }),
               outline = new api.MeshBasicMaterial({
-                color: "#b28321",
+                color: "#e6b854",
                 wireframe: true,
+                toneMapped: false,
               });
             const mesh = new api.Mesh(geometry, material),
               ring = new api.Mesh(geometry, outline);
@@ -574,10 +862,15 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             resources.push(geometry, material, outline);
           } else {
             const geometry = new api.OctahedronGeometry(6),
-              material = new api.MeshBasicMaterial({ color: palette.accent });
+              material = new api.MeshBasicMaterial({
+                color: palette.accent,
+                toneMapped: false,
+              });
+            material.color.multiplyScalar(1.5);
             container.add(new api.Mesh(geometry, material));
             resources.push(geometry, material);
           }
+          objects.set(n.id, container);
           return container;
         })
         .onNodeClick((n) => {
@@ -600,14 +893,19 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
               geneList.append(b);
             }
             more.hidden = true;
+            openDrawer("search");
           }
         })
         .graphData({
           nodes: structuredClone(snapshot.nodes),
           links: structuredClone(snapshot.links),
         });
+      graph.scene().background = new api.Color(palette.background);
       graph.renderer().setPixelRatio(Math.min(devicePixelRatio || 1, 2));
       graph.controls().enableDamping = true;
+      graph
+        .controls()
+        .addEventListener("change", () => syncCamera(graph, graphRight));
       // Labels are annotations, not graph nodes. No absent complex is drawn.
       for (const group of snapshot.groups) {
         const s = sprite(
@@ -627,36 +925,52 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       });
       root.dataset.rendererReady = "true";
       resize = new ResizeObserver(() => {
-        if (stage.clientWidth && stage.clientHeight) {
-          graph.width(stage.clientWidth).height(stage.clientHeight);
+        if (leftStage.clientWidth && leftStage.clientHeight) {
+          graph.width(leftStage.clientWidth).height(leftStage.clientHeight);
+          if (graphRight)
+            graphRight
+              .width(rightStage.clientWidth)
+              .height(rightStage.clientHeight);
         }
       });
       resize.observe(stage);
+      resize.observe(leftStage);
       intersection = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !document.hidden)
+        if (entries[0].isIntersecting && !document.hidden) {
           graph.resumeAnimation();
-        else graph.pauseAnimation();
+          graphRight?.resumeAnimation();
+        } else {
+          graph.pauseAnimation();
+          graphRight?.pauseAnimation();
+        }
       });
       intersection.observe(stage);
       document.addEventListener("visibilitychange", visibility);
-      themeObserver = new MutationObserver(() => {
-        const palette = plotPalette();
-        graph.backgroundColor(palette.background);
-        for (const { canvas, texture, text } of textSprites) {
-          const ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = palette.text;
-          ctx.fillText(text, 384, 35);
-          texture.needsUpdate = true;
+      bloom = new api.UnrealBloomPass(
+        new api.Vector2(stage.clientWidth, stage.clientHeight),
+        0.45,
+        0.25,
+        1.05,
+      );
+      bloom.enabled = glow.checked;
+      graph.postProcessingComposer().addPass(bloom);
+      const output = new api.OutputPass();
+      resources.push(output);
+      graph.postProcessingComposer().addPass(output);
+      root.capturePreview = () => {
+        const previous = labels.map((item) => item.sprite.visible);
+        labels.forEach((item) => (item.sprite.visible = false));
+        try {
+          graph.postProcessingComposer().render();
+          return graph.renderer().domElement.toDataURL("image/png");
+        } finally {
+          labels.forEach((item, i) => (item.sprite.visible = previous[i]));
+          graph.postProcessingComposer().render();
         }
-      });
-      themeObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
+      };
       reset();
       updateGraph();
-      enhancePlots(root, { nested: true });
+
       viewer.dispatchEvent(
         new Event("figure:contentchange", { bubbles: true }),
       );
@@ -665,13 +979,14 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         el(
           "p",
           "note",
-          "3D rendering is unavailable on this browser. The complete gene list, exact statistics and downloads below remain usable.",
+          "3D rendering is unavailable on this browser. Use Find gene and About & data for the complete gene list, exact statistics and downloads.",
         ),
       );
       status.textContent = error.message;
       root.dataset.rendererReady = "unavailable";
     }
   }
+  document.addEventListener("fullscreenchange", fullscreenChanged);
   refresh();
   detachObserver = new MutationObserver(() => {
     if (!root.isConnected) destroy();

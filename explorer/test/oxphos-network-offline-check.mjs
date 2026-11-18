@@ -65,6 +65,7 @@ try {
   );
   const root = p.locator(".oxphos-network-3d");
   await root.getByRole("button", { name: "Day 3", exact: true }).click();
+  await root.getByRole("button", { name: "Find gene", exact: true }).click();
   await root.getByRole("searchbox").fill("COX5A");
   await root
     .locator(".oxphos-3d-gene-list")
@@ -74,6 +75,10 @@ try {
     await root.locator(".oxphos-3d-selected").innerText(),
     /Complex IV/,
   );
+  await root
+    .locator(".oxphos-3d-drawer")
+    .getByRole("button", { name: "Done", exact: true })
+    .click();
   await root.locator(".oxphos-3d-stage").scrollIntoViewIfNeeded();
   const canvas = root.locator(".oxphos-3d-stage canvas");
   const before = await canvas.screenshot();
@@ -128,6 +133,7 @@ try {
     await fp.locator(".oxphos-network-3d").getAttribute("data-renderer-ready"),
     "unavailable",
   );
+  await fp.getByRole("button", { name: "Find gene", exact: true }).click();
   await fp
     .getByRole("searchbox", { name: "Search 3D OXPHOS genes" })
     .fill("SDHA");

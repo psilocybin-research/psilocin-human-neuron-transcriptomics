@@ -24,9 +24,15 @@ try {
   const clear = p.getByRole("button", { name: "Clear selection", exact: true });
   if (await clear.isVisible()) await clear.click();
   await p.getByRole("button", { name: "Reset camera", exact: true }).click();
-  await p
-    .locator(".oxphos-3d-stage canvas")
-    .screenshot({ path: "/tmp/oxphos-network-preview.png" });
+  await p.waitForTimeout(500);
+  const png = await p
+    .locator(".oxphos-network-3d")
+    .evaluate((root) => root.capturePreview());
+  const { writeFile } = await import("node:fs/promises");
+  await writeFile(
+    "/tmp/oxphos-network-preview.png",
+    Buffer.from(png.split(",")[1], "base64"),
+  );
 } finally {
   await browser.close();
 }
@@ -36,12 +42,10 @@ execFileSync(
   "python3",
   [
     "-c",
-    `from PIL import Image, ImageChops, ImageOps
+    `from PIL import Image, ImageOps
 im=Image.open('/tmp/oxphos-network-preview.png').convert('RGB')
-d=ImageChops.difference(im,Image.new('RGB',im.size,'white')).convert('L').point(lambda v:255 if v>40 else 0)
-b=d.getbbox(); p=35
-box=(max(0,b[0]-p),max(0,b[1]-p),min(im.width,b[2]+p),min(im.height,b[3]+p))
-ImageOps.pad(im.crop(box),(960,600),color='white').save('explorer/src/assets/oxphos-network-preview.webp','WEBP',quality=88,method=6)
+# The WebGL export excludes HTML controls; preserve the complete network and labels.
+ImageOps.pad(im,(1200,600),color='#060d17').save('explorer/src/assets/oxphos-network-preview.webp','WEBP',quality=90,method=6)
 `,
   ],
   { cwd: new URL("../../", import.meta.url) },
