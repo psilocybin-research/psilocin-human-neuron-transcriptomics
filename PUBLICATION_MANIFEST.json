@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686720083,
+  "total_bytes": 686722146,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3529,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 49124,
-      "sha256": "792883baef7d8013b836610cf6fa3ca9f082fc2160af51a131570afb5ef33666"
+      "bytes": 50887,
+      "sha256": "81c4a7bcc812d4befc5a942ebea499189e26ea56d41a7ae166da427103b0d2e2"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3824,8 +3824,8 @@
     },
     {
       "path": "explorer/test/node-protein-browser-check.mjs",
-      "bytes": 4388,
-      "sha256": "1c4c4639400a953725ff2608d72fae01c02cbf7598d3995266b7ce0061001cfd"
+      "bytes": 4688,
+      "sha256": "2379730555488e213f9872a7955b088c13d0bac9f4bbd8845796754389f187fb"
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",

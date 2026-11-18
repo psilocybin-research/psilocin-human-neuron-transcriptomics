@@ -60,6 +60,13 @@ try {
         document.querySelector(".oxphos-network-3d")?.dataset.cameraMoving ===
         "false",
     );
+    const evidence = page.locator(
+      width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer",
+    );
+    await evidence
+      .getByRole("heading", { name: "Linked gene evidence", exact: true })
+      .waitFor();
+    await evidence.getByRole("button", { name: "Done", exact: true }).click();
     const open = root.getByRole("button", {
       name: "Expand structure for NDUFB7",
       exact: true,

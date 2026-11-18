@@ -49,7 +49,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinScene,
     proteinCamera,
     proteinSelection,
-    activeResearchPanel;
+    activeResearchPanel,
+    entranceOpacity = 1;
   const objects = new Map();
   const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
@@ -897,7 +898,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .linkWidth((l) =>
           selected && endpoints(l)[0] === selected ? 1.1 : focused ? 0.1 : 0.25,
         )
-        .linkOpacity(0.28);
+        .linkOpacity(0.28 * entranceOpacity);
     }
     for (const item of labels)
       item.sprite.visible =
@@ -1085,10 +1086,27 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     updateGraph();
   }
   let resize, intersection, detachObserver, entranceFrame;
+  function finishEntrance() {
+    if (!cameraTransition || root.dataset.entranceReady === "true") return;
+    cancelAnimationFrame(entranceFrame);
+    cameraTransition?.stop();
+    for (const object of objects.values()) object.scale.setScalar(1);
+    for (const item of labels) item.sprite.material.opacity = 1;
+    entranceOpacity = 1;
+    graph?.linkOpacity(0.28);
+    root.dataset.entranceReady = "true";
+  }
+  for (const event of ["pointerdown", "wheel", "keydown"])
+    root.addEventListener(event, finishEntrance, {
+      capture: true,
+      passive: true,
+    });
   function destroy() {
     if (destroyed) return;
     destroyed = true;
     cameraTransition?.stop();
+    for (const event of ["pointerdown", "wheel", "keydown"])
+      root.removeEventListener(event, finishEntrance, true);
     cancelAnimationFrame(entranceFrame);
     cancelAnimationFrame(layoutFrame);
     if (proteinScene) {
@@ -1217,7 +1235,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         })
         .onNodeClick((n) => {
           if (n.type === "gene") {
-            choose(n, true, false);
+            choose(n);
             showNodeProtein(n);
           } else {
             const memberIds = new Set(
@@ -1350,22 +1368,47 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       });
       reset(false);
       updateGraph();
-      const graphGroup = objects.values().next().value?.parent;
-      if (
-        graphGroup &&
-        !matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const began = performance.now();
-        graphGroup.scale.setScalar(0.0001);
+        const groups = ["I", "II", "III", "IV", "V", "other"];
+        const ease = (v) => {
+          const t = Math.min(1, Math.max(0, v));
+          return t * t * t * (t * (t * 6 - 15) + 10);
+        };
+        const overview = graph.cameraPosition();
+        graph.cameraPosition(
+          { ...overview, z: overview.z * 1.06 },
+          { x: 0, y: 0, z: 0 },
+          0,
+        );
+        cameraTransition.move(overview, { x: 0, y: 0, z: 0 }, 1100);
+        for (const object of objects.values()) object.scale.setScalar(0.0001);
+        for (const item of labels) item.sprite.material.opacity = 0;
+        entranceOpacity = 0;
+        graph.linkOpacity(0);
         const appear = (time) => {
-          if (destroyed) return;
-          const t = Math.min(1, (time - began) / 680);
-          graphGroup.scale.setScalar(Math.max(0.0001, 1 - Math.pow(1 - t, 3)));
-          if (t < 1) entranceFrame = requestAnimationFrame(appear);
-          else root.dataset.entranceReady = "true";
+          if (destroyed || root.dataset.entranceReady === "true") return;
+          const elapsed = time - began;
+          for (const node of snapshot.nodes) {
+            const delay =
+              node.type === "gene"
+                ? Math.max(0, groups.indexOf(node.complex || "other")) * 45
+                : 320;
+            objects
+              .get(node.id)
+              ?.scale.setScalar(
+                Math.max(0.0001, ease((elapsed - delay) / 470)),
+              );
+          }
+          entranceOpacity = ease((elapsed - 650) / 300);
+          graph.linkOpacity(0.28 * entranceOpacity);
+          for (const item of labels)
+            item.sprite.material.opacity = ease((elapsed - 900) / 260);
+          if (elapsed < 1200) entranceFrame = requestAnimationFrame(appear);
+          else finishEntrance();
         };
         entranceFrame = requestAnimationFrame(appear);
-      } else root.dataset.entranceReady = "true";
+      } else finishEntrance();
 
       viewer.dispatchEvent(
         new Event("figure:contentchange", { bubbles: true }),
