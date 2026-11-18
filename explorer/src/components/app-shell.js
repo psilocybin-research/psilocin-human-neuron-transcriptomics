@@ -813,7 +813,14 @@ export function createAppShell({
         );
       }
     }
-    if (controlsSheet?.opened && !controlMoves.length) openControls();
+    if (controlsSheet?.opened) {
+      if (!controlMoves.length) openControls();
+      else if (sheetBody.querySelector(".control:not([hidden]) select,.tree-member-control:not([hidden]) select")) {
+        const position = sheetBody.parentElement.scrollTop;
+        prepareControls(sheetBody);
+        sheetBody.parentElement.scrollTop = position;
+      }
+    }
     analysisLauncher.setAvailable(
       Boolean(
         body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||

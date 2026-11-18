@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686664419,
+  "total_bytes": 686664710,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3339,8 +3339,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 44852,
-      "sha256": "39d3808cf8776a1da9cc20d93bf102a2b18561ee3573c44aa3aa6f44218f3a59"
+      "bytes": 45143,
+      "sha256": "945d8c440e3931243b0e5517f1df614cfbbddf948ec07f97c98fc080ac288a2e"
     },
     {
       "path": "explorer/src/components/app-toast.js",
