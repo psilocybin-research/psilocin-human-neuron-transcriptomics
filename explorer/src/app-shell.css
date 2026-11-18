@@ -4490,7 +4490,15 @@ body {
 @media(min-width:1180px) {
   #psilocin-app .desktop-pathway-display {
     display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 16px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:8px 0;
+    background:var(--research-surface);
+    border-bottom:1px solid var(--research-border);
   }
+  #psilocin-app .pathway-explorer > .tree-toolbar > .tree-display-control { display:none; }
+  #psilocin-app .pathway-explorer > .tree-toolbar { grid-template-columns:minmax(0,1fr); }
   #psilocin-app .desktop-pathway-display strong { margin-right:8px;font-size:14px; }
   #psilocin-app .desktop-pathway-display .button { width:auto;min-height:44px;padding-inline:18px; }
   #psilocin-app .desktop-pathway-display [aria-pressed="true"] {
