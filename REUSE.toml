@@ -279,5 +279,11 @@ SPDX-License-Identifier = "LicenseRef-webR-Distribution"
 [[annotations]]
 path = ["explorer/src/assets/vendor/r-editor.js", "explorer/src/assets/vendor/r-editor.NOTICES.txt"]
 precedence = "override"
-SPDX-FileCopyrightText = "2018-2026 Marijn Haverbeke and CodeMirror / Lezer contributors, as identified in bundled notices"
+SPDX-FileCopyrightText = ["2018-2026 Marijn Haverbeke and CodeMirror / Lezer contributors, as identified in bundled notices", "2026 Arjun Barrett (fflate)"]
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "explorer/vendor/latex/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+SPDX-License-Identifier = "LicenseRef-LaTeX-Distribution"

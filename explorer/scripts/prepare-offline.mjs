@@ -11,9 +11,12 @@ async function walk(directory, path = "") {
         ...(await walk(new URL(item.name + "/", directory), name + "/")),
       );
     else if (
-      !["sw.js", "offline-manifest.json", "r-offline-manifest.json"].includes(
-        name,
-      ) &&
+      ![
+        "sw.js",
+        "offline-manifest.json",
+        "r-offline-manifest.json",
+        "latex-offline-manifest.json",
+      ].includes(name) &&
       !name.endsWith(".map") &&
       !/^public-context\/(?:extended|models|predictions)\//.test(name) &&
       !name.startsWith("webr-source/")
@@ -54,8 +57,21 @@ const runtimeInventory = {
   bytes: runtimeFiles.reduce((sum, file) => sum + file.bytes, 0),
   files: runtimeFiles,
 };
+const latexFiles = files.filter((file) => file.path.startsWith("latex/"));
+const latexInventory = {
+  version: sha(JSON.stringify(latexFiles)).slice(0, 20),
+  bytes: latexFiles.reduce((sum, file) => sum + file.bytes, 0),
+  files: latexFiles,
+};
+await writeFile(
+  new URL("latex-offline-manifest.json", root),
+  JSON.stringify(latexInventory),
+);
 const core = files.filter(
-  (file) => !optional(file) && !file.path.startsWith("webr/"),
+  (file) =>
+    !optional(file) &&
+    !file.path.startsWith("webr/") &&
+    !file.path.startsWith("latex/"),
 );
 const inventory = {
   version,
@@ -72,7 +88,7 @@ await writeFile(
 );
 await writeFile(
   new URL("sw.js", root),
-  `const INVENTORY=${JSON.stringify(inventory)};\nconst R_INVENTORY=${JSON.stringify(runtimeInventory)};\n${template}`,
+  `const INVENTORY=${JSON.stringify(inventory)};\nconst R_INVENTORY=${JSON.stringify(runtimeInventory)};\nconst LATEX_INVENTORY=${JSON.stringify(latexInventory)};\n${template}`,
 );
 console.log(
   `Offline inventory ${inventory.version}: ${core.length} core files, ${inventory.bytes} decoded bytes.`,

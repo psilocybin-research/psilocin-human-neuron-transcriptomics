@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1243,
-  "total_bytes": 629831470,
+  "file_count": 1275,
+  "total_bytes": 686649004,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,13 +74,13 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 250959,
-      "sha256": "1a666837c4476ca406e55b06eb29263c4c6f8ded10b29409d3b0f9aebf476316"
+      "bytes": 258096,
+      "sha256": "b6736929740d437cc9e48be26a5812470e848b0c809153825af46ff954e8d84a"
     },
     {
       "path": "LICENSE.md",
-      "bytes": 2348,
-      "sha256": "d674bd23f682f462c627c0a95082e6e9ae48f594d04b2bd799df442ab3a4d5a1"
+      "bytes": 2911,
+      "sha256": "e8f7b3b72881fa065aca6c5a18704399028ecb723007347a9ba796d673754dd4"
     },
     {
       "path": "LICENSES/Apache-2.0.txt",
@@ -111,6 +111,11 @@
       "path": "LICENSES/LicenseRef-Ensembl-Data.txt",
       "bytes": 1391,
       "sha256": "5147d8c7bce39727726d3617cb49b8e810d33add2b419e068c134f9b38e737df"
+    },
+    {
+      "path": "LICENSES/LicenseRef-LaTeX-Distribution.txt",
+      "bytes": 813,
+      "sha256": "f54963711d535a0285689b31564c715416053a8ed86c86f3517f2eb192171ab5"
     },
     {
       "path": "LICENSES/LicenseRef-Project-Branding.txt",
@@ -144,13 +149,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 16664,
-      "sha256": "de2ca5044a5313820ff4251e07a542400f159a95d699007bf0c59848102c33e1"
+      "bytes": 17253,
+      "sha256": "f6a917fade46063fd658522afc0e513c6095552f68b197c8ea542f16ced867ff"
     },
     {
       "path": "REUSE.toml",
-      "bytes": 10576,
-      "sha256": "9fc6a31175bc56eaa58c4b2b285aec7eb2b1b895d67ab8821b77d64aaf838513"
+      "bytes": 10875,
+      "sha256": "dc6dac3c06bf341289dbea16b444e0c7e21e7088da21c12da7f99aae6f8e418d"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -264,13 +269,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 191570,
-      "sha256": "f591f5400532ea960b718870c308eecc1c8d26ffa51092e0d95873126fade728"
+      "bytes": 191874,
+      "sha256": "863e0557d26a57e8c69d29a8db25eddac39aa93a2d2d303af9d1f103bee70bcf"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 3137,
-      "sha256": "1c90802fe18741a1ff4b106ca12594af318b6fc6bd5a06aa4df7f47133f105b9"
+      "bytes": 3222,
+      "sha256": "34f7e62019fae451d58b859a2ef9ec74c5010e317e287f4eb9c9db80164ae4c3"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -299,8 +304,8 @@
     },
     {
       "path": "explorer/scripts/offline-worker.js",
-      "bytes": 11992,
-      "sha256": "3113ffd5906f45516d809eb60f71876224dffa38339eed06f463eab578107721"
+      "bytes": 12878,
+      "sha256": "d737f0fda66f0afbc61ef53e6109c982c3dcab97967ca845f0bd778a3a5320ba"
     },
     {
       "path": "explorer/scripts/prepare-atlas.mjs",
@@ -314,8 +319,8 @@
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
-      "bytes": 2670,
-      "sha256": "e33e2440372ae654c19f0b76513356eb21150d5218f6cda0483f2be4e2e7e9ee"
+      "bytes": 3177,
+      "sha256": "d76d7dc07e91f69521393cf2df7e7a9ae35b1324c79150d3972401116c2d1ab1"
     },
     {
       "path": "explorer/scripts/prepare-plots.mjs",
@@ -324,8 +329,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 4651,
-      "sha256": "ea72d1999aecd7e52114e5477486977c454983f29b8675ac04fb0e52c01d760d"
+      "bytes": 4898,
+      "sha256": "dad7431f911996febd3d18a9b7dee919a92e9c1e95b63f72b4a447037d8c2779"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -339,8 +344,8 @@
     },
     {
       "path": "explorer/scripts/r-editor-entry.js",
-      "bytes": 1423,
-      "sha256": "494ffaf736da546f6de724d8b0388d4365c785b51fe8c53202c842a7e712c8c4"
+      "bytes": 1719,
+      "sha256": "8ea6ac83a458a3a8cca7b5049b35a62221f6e96c18bb85343d2aab0fdb7e5553"
     },
     {
       "path": "explorer/scripts/snapshot-public-context.py",
@@ -354,8 +359,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 115079,
-      "sha256": "bc6f49af1ed00056435ca4939341d47204d12cae718461500306a216a26367a5"
+      "bytes": 115871,
+      "sha256": "12a28eaf2b540e1958e9e22821d98f256c95769e2a0de235b58d35fa9b320f82"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3329,13 +3334,13 @@
     },
     {
       "path": "explorer/src/components/app-pwa.js",
-      "bytes": 20723,
-      "sha256": "b21983dd058431535578fc49d13b26dd1804e7cf5fd1620ee34a1d542e18706c"
+      "bytes": 24020,
+      "sha256": "5fce6d372aa2dfd62d99f9c07675c6a3fa199fb1985221317d4cef58b3d737f5"
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 43748,
-      "sha256": "968c926f7229a89b2af96451aaf969da82e0d5d2a1c15428cfeb11695af1b35e"
+      "bytes": 43875,
+      "sha256": "9cbe9f658febe0e7176fbc151c76b4bd15d55ed5203a9e957ff96e22e2f49d92"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3349,8 +3354,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 105005,
-      "sha256": "bcfab5b179e134792affd5a986722638fd0706d5deb83794282e30764dc2ab14"
+      "bytes": 105709,
+      "sha256": "657890436f23fcbd1b3109ea0d099f9286e3682200acb449bc3808c8d08f9078"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3369,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 15461,
-      "sha256": "37733799f0de6fdcea4e00cf58c1ce48575bc96e8e80a9b3560ea7875aeb2caf"
+      "bytes": 18296,
+      "sha256": "bd6fd12558d14fa00c7ba2e8a3006944bedb37314b1e3fb82cc764aa608f63b0"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3503,9 +3508,19 @@
       "sha256": "ee221978f4134fad0065365d2e782596bf4d3ba0a9bed21c6cf42a7d22857385"
     },
     {
+      "path": "explorer/src/components/r-report.js",
+      "bytes": 17650,
+      "sha256": "bac2a72d25d085a9df4c4d137d42907f0254c5ea27e79d24e8ee3770e4da0dee"
+    },
+    {
       "path": "explorer/src/components/r-runtime.js",
       "bytes": 1562,
       "sha256": "63da1fbcbd6a22ff1ab3943522393e4073b2675a4220bb3fff5817dd4169b8e9"
+    },
+    {
+      "path": "explorer/src/components/r-vector-plots.js",
+      "bytes": 1782,
+      "sha256": "514fa959b5fcfd5a99c6d74f63dfb9a49266a6f425b6671f82d2fd8d279c3cf5"
     },
     {
       "path": "explorer/src/components/research-navigation.js",
@@ -3609,8 +3624,8 @@
     },
     {
       "path": "explorer/test/custom-r-browser-check.mjs",
-      "bytes": 4066,
-      "sha256": "6c9a3f130ac49c23648ff80ac1dc63e1577b7537133e25c3dc84ab08256889ca"
+      "bytes": 4061,
+      "sha256": "b19204986790266a0f9f7f2e7ddf80e69481be782bc57e8003a79274b96f5fb6"
     },
     {
       "path": "explorer/test/data.test.js",
@@ -3753,6 +3768,11 @@
       "sha256": "9a1e4cee7bc241c944a60821bfcb65e5412c8493849cf149b7624b9c66d6e0cb"
     },
     {
+      "path": "explorer/test/r-report-browser-check.mjs",
+      "bytes": 6152,
+      "sha256": "6029862b714558a2162a3fc4b26e8e705cd37ec2513d0a32d08d728e9e00b7b3"
+    },
+    {
       "path": "explorer/test/research-additions-browser-check.mjs",
       "bytes": 7103,
       "sha256": "ec0b678164a62b898c2034750ca2336efe4d42f534a2043d96472623249d3af1"
@@ -3786,6 +3806,146 @@
       "path": "explorer/test/tree-browser-check.mjs",
       "bytes": 9749,
       "sha256": "eaedda41a2ab755a568ec3a4369bb90035b6b39a11b309ca0df7cd0f24447638"
+    },
+    {
+      "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",
+      "bytes": 8036,
+      "sha256": "b9b8b566a9eca6cd1e2cd156bb6883e03a16d9e77e51eaf50e91ee45b92c7adb"
+    },
+    {
+      "path": "explorer/vendor/latex/LICENSE-Siglum-MIT.txt",
+      "bytes": 1071,
+      "sha256": "db86d0db6e49fa2004abb2c746d30c3390810769b032db033fa27d806714554b"
+    },
+    {
+      "path": "explorer/vendor/latex/LICENSE-TeX-Live.txt",
+      "bytes": 18092,
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "path": "explorer/vendor/latex/SOURCE-ACCESS.json",
+      "bytes": 1001,
+      "sha256": "205343b4482bd5843b3eae7f72646365e04f0ab7155f6d1c50d09b1fa46f2b47"
+    },
+    {
+      "path": "explorer/vendor/latex/UPSTREAM.json",
+      "bytes": 1792,
+      "sha256": "fb6c5f73349993bbb2569a86980e1f175dbeadf4f9a09e7d36a58f271dd4328b"
+    },
+    {
+      "path": "explorer/vendor/latex/busytex.js",
+      "bytes": 299658,
+      "sha256": "036ecf65da27d4ac611d2864d60b3422af17d6093f386c260675e53c52c55636"
+    },
+    {
+      "path": "explorer/vendor/latex/busytex.wasm",
+      "bytes": 32282976,
+      "sha256": "76646057f2178846311c3ed121a0028ccf7e647f01a5df2d1d3b1523446d49f1"
+    },
+    {
+      "path": "explorer/vendor/latex/engine.js",
+      "bytes": 155000,
+      "sha256": "e849988e25aed70e225b304af42ba1d095ede28395a11d351942bae00bd1f468"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/bundles.json",
+      "bytes": 10768,
+      "sha256": "6d493892250d8021806744403766fc43ecf2ec67d8c5899ed906fb798d218b1d"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/core.data.gz",
+      "bytes": 784276,
+      "sha256": "bd1f196b91ab9fd5e20a0965bc51a8b181bd2bdc21c16e008d4f44a03f17581f"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/dvips.data.gz",
+      "bytes": 18352,
+      "sha256": "766e5b102c55f0078d80226f1961ec8eac1ec5b0ff857b3fb9d9c1f838fe0068"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/extra-maps.data.gz",
+      "bytes": 59854,
+      "sha256": "570124e5f08ab9c44bd6a2f1a060a4ca1d3685cce08fe5cbd32a740f5ae7438f"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/file-manifest.json",
+      "bytes": 394596,
+      "sha256": "96162f61261e581fc5116bec17c9b2c7125ce4e4ea0c10a852df1cc738a667ca"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/file-to-package.json",
+      "bytes": 542401,
+      "sha256": "5cea1ff39ca09409c34e997475c0b61bf2f1ecc4367f2cb2bdf8a5bdce5f88d7"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/fmt-pdflatex.data.gz",
+      "bytes": 2258515,
+      "sha256": "9dd2789c8ffdb95dbf7962ccc4d7a0ac3acf1d7abe0d6a5f35a0bf832931d544"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/fonts-cm.data.gz",
+      "bytes": 4068426,
+      "sha256": "ca40ab0b4ec6aef920e3a4588816fcc666b367bbf856c1adab49102423480cf5"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/fonts-lm-tfm.data.gz",
+      "bytes": 622707,
+      "sha256": "fceb97b06f2a701b8bb490538b727d4496744b01650f4b2dd1ce139124d4638c"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/fonts-lm-type1.data.gz",
+      "bytes": 9007354,
+      "sha256": "7b743224696bd8aeffef3ff419850ec16ccba38ebe0abe3576c66e5f16fc42bb"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/fonts-misc.data.gz",
+      "bytes": 721580,
+      "sha256": "2a57f1c4e5c0748320bc1d218abd694106c93ba18fcecdf53ae39d814a8274eb"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/graphics.data.gz",
+      "bytes": 29807,
+      "sha256": "af40eb522e15bc43efcda15be7341b54f9c5766f9dce5ad8f91414868d13c800"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/hyperref.data.gz",
+      "bytes": 186707,
+      "sha256": "d7574c37fe43a0e591c5cbd56ac276fd6c8232e291ec3e02001f8a334e807d78"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/l3.data.gz",
+      "bytes": 304494,
+      "sha256": "ed051900e2e713b742dc33c10b744e9b99d69e8226ed870c0b24d49a0fe79931"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/package-deps.json",
+      "bytes": 23783,
+      "sha256": "44b8762827d94d1b606c594517af1b30131270bf92c2ba5059e489f6869dffa2"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/template-support.json",
+      "bytes": 2267813,
+      "sha256": "000f78eb5d74ffb322017f7ed52ca6d16ccf229d6747959d3afbd964b28b19a6"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/tex-generic.data.gz",
+      "bytes": 1131125,
+      "sha256": "3f7ed847264613ff9c02c2ffed48c2a61520ae288949b6a38675058c63dc69a2"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/tex-latex-misc.data.gz",
+      "bytes": 1427074,
+      "sha256": "4db8dbc35c535a38ac766ab8241cdad22ab741a135fc7b426fa5e4225905e3f7"
+    },
+    {
+      "path": "explorer/vendor/latex/runtime/utils.data.gz",
+      "bytes": 15336,
+      "sha256": "9fc02bc667ef12195b55d01cfabb37ba75bf475a69d44231ed601617d05ae34d"
+    },
+    {
+      "path": "explorer/vendor/latex/worker.js",
+      "bytes": 129880,
+      "sha256": "8eadd5609ef98040768b36fd803d2f3c38b8bc45186f89e97ce0538459bc531d"
     },
     {
       "path": "explorer/vendor/webr-source/README.md",

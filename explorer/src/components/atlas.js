@@ -547,18 +547,45 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   const citationGuidance = el("section", "method-card");
   citationGuidance.append(
     el("h3", "", "Citing this resource"),
-    el("p", "", "Cite Schmidt et al. for the original experiment and Germann for this independent reanalysis. The version-specific Zenodo record identifies the archived analysis; the live atlas and GitHub repository may contain later interface updates."),
+    el(
+      "p",
+      "",
+      "Cite Schmidt et al. for the original experiment and Germann for this independent reanalysis. The version-specific Zenodo record identifies the archived analysis; the live atlas and GitHub repository may contain later interface updates.",
+    ),
     el("h3", "", "Public gene and protein context"),
-    el("p", "", "Gene and protein information is provided by Ensembl and UniProt; structural coordinates originate from the Protein Data Bank or AlphaFold Protein Structure Database. Provider links, snapshot dates and mapping details accompany the records. These annotations are external context, not measurements from the psilocin experiment. A gene-to-protein mapping does not establish which isoform was expressed; predicted structures and confidence scores do not demonstrate protein activity."),
-    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
+    el(
+      "p",
+      "",
+      "Gene and protein information is provided by Ensembl and UniProt; structural coordinates originate from the Protein Data Bank or AlphaFold Protein Structure Database. Provider links, snapshot dates and mapping details accompany the records. These annotations are external context, not measurements from the psilocin experiment. A gene-to-protein mapping does not establish which isoform was expressed; predicted structures and confidence scores do not demonstrate protein activity.",
+    ),
+    el(
+      "p",
+      "",
+      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
+    ),
   );
   const softwareCredits = el("p", "");
   for (const [text, href] of [
-    ["Software licences and attribution", "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md"],
+    [
+      "Software licences and attribution",
+      "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md",
+    ],
     ["CodeMirror dependency notices", branding.editorNotices],
-    ["webR licences and corresponding sources", new URL("webr/PROVENANCE.json", document.baseURI).href],
+    [
+      "PDF compiler licences",
+      new URL("latex/LICENSE-COMPONENTS.txt", document.baseURI).href,
+    ],
+    [
+      "PDF compiler corresponding sources",
+      new URL("latex/SOURCE-ACCESS.json", document.baseURI).href,
+    ],
+    [
+      "webR licences and corresponding sources",
+      new URL("webr/PROVENANCE.json", document.baseURI).href,
+    ],
   ]) {
-    if (softwareCredits.childNodes.length) softwareCredits.append(document.createTextNode(" · "));
+    if (softwareCredits.childNodes.length)
+      softwareCredits.append(document.createTextNode(" · "));
     const link = el("a", "", text);
     link.href = href;
     link.target = "_blank";
@@ -575,7 +602,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       : "Share the current view by email";
   const citationDisclosure = el("details", "citation-disclosure");
   citationDisclosure.open = true;
-  citationDisclosure.append(el("summary", "", "References & citation"), citations);
+  citationDisclosure.append(
+    el("summary", "", "References & citation"),
+    citations,
+  );
   meta.append(identity, citationDisclosure);
   top.append(home, meta);
   const nav = el("nav");
@@ -2720,10 +2750,27 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
 
   async function customR() {
     const host = el("div");
-    body.append(heading("Custom R analysis", "Editable analysis of archived estimates · runs on your device"), host);
-    const { createCustomR } = await trackActivity(import("./custom-r.js"), "Loading R workspace");
+    body.append(
+      heading(
+        "Custom R analysis",
+        "Editable analysis of archived estimates · runs on your device",
+      ),
+      host,
+    );
+    const { createCustomR } = await trackActivity(
+      import("./custom-r.js"),
+      "Loading R workspace",
+    );
     if (!host.isConnected) return;
-    host.append(createCustomR({ data, getGenes, provenance, root, bayesian: branding.bayesian }));
+    host.append(
+      createCustomR({
+        data,
+        getGenes,
+        provenance,
+        root,
+        bayesian: branding.bayesian,
+      }),
+    );
   }
 
   function methods() {

@@ -4389,7 +4389,7 @@ body {
 .custom-r-toolbar select{flex:1 1 220px;min-height:44px;padding:10px;border:1px solid var(--f7-list-item-border-color,#cbd2d7);border-radius:10px;background:var(--f7-input-bg-color,var(--f7-card-bg-color,#fff));color:inherit}
 
 .custom-r-console{max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;border-radius:12px;background:var(--f7-card-bg-color,#fff);font:13px/1.6 ui-monospace,monospace}
-.custom-r-plots canvas{width:100%;height:auto;background:white;border-radius:10px}
+.custom-r-plots canvas,.custom-r-plots img{width:100%;height:auto;background:white;border-radius:10px}
 .custom-r-plots figure{margin:16px 0}.custom-r-data-help{margin:16px 0}.custom-r-data-help summary{cursor:pointer;font-weight:600}
 
 .pwa-r-choice{display:flex;align-items:center;gap:10px;margin:16px 0;white-space:normal}.pwa-r-choice span{line-height:1.5}
@@ -4412,3 +4412,10 @@ body {
 .custom-r-editor .cm-selectionBackground,.custom-r-editor .cm-focused .cm-selectionBackground{background:color-mix(in srgb,var(--f7-theme-color) 22%,transparent)!important}
 .custom-r-editor .cm-cursor{border-left-color:var(--f7-theme-color)}
 .custom-r-editor .cm-panels,.custom-r-editor .cm-tooltip{background:var(--f7-card-bg-color,#fff);color:var(--f7-text-color,inherit)}
+
+.custom-r-output-placeholder{padding:28px 20px;text-align:center;border:1px dashed var(--research-border);border-radius:12px;color:var(--research-muted)}
+.custom-r-output-section,.custom-r-report{padding:18px;border:1px solid var(--research-border);border-radius:12px;margin:16px 0;background:var(--f7-card-bg-color)}
+.custom-r-output-section>h3{margin:0 0 16px}
+.custom-r-report-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:18px 0}
+.custom-r-report-fields input{box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--research-border);border-radius:8px;background:var(--f7-card-bg-color);color:inherit;margin-top:6px}
+.custom-r-report .preloader{width:18px;height:18px;vertical-align:middle;margin-right:5px}

@@ -1,0 +1,27 @@
+{
+  "notice": "Unmodified upstream compiler. Corresponding sources are publicly downloadable; sources are excluded from the offline runtime package.",
+  "base_url": "https://psilocybin-research.com/assets/account-latex/source/",
+  "manifest": {
+    "runtime": "tl2026-0cc2592f50103429",
+    "sdk": "@siglum/engine 0.2.2",
+    "engine": "Unmodified BusyTeX WebAssembly runtime using pdfTeX",
+    "sources": [
+      {
+        "file": "expat-2.5.0.tar.gz",
+        "sha256": "6b902ab103843592be5e99504f846ec109c1abb692e85347587f237a4ffa1033"
+      },
+      {
+        "file": "texlive-source-f26cc5e.tar.gz",
+        "sha256": "34d0a84101893a26bf1a2805e7b545b40faa3da3c84b5ac6d15f35fb707ca697"
+      },
+      {
+        "file": "busytex-a8028d0.tar.gz",
+        "sha256": "eef449a2fed248f7abe32f90865a3272cefebfc2d95b13abe6f4bf777716dfc8"
+      },
+      {
+        "file": "fontconfig-2.13.96.tar.gz",
+        "sha256": "dbabc038d41cfc3f14da1b173ae103ba7cc678efb17e091b9e801c6286b3f684"
+      }
+    ]
+  }
+}

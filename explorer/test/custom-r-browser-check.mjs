@@ -26,10 +26,10 @@ async function run() {
     () => document.querySelector("#psilocin-app").dataset.rBusy === "false",
   );
   assert.match(
-    await page.locator(".custom-r-workspace [role=status]").textContent(),
+    await page.locator(".r-progress-panel [role=status]").textContent(),
     /Analysis complete/,
   );
-  assert.equal(await page.locator(".custom-r-plots canvas").count(), 1);
+  assert.equal(await page.locator(".custom-r-plots img").count(), 1);
   assert.equal(
     await page
       .getByRole("button", { name: "Download results CSV", exact: true })

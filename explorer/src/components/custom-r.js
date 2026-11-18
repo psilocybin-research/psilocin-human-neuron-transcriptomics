@@ -1,3 +1,9 @@
+import {
+  vectorSetup,
+  vectorFinish,
+  readVectorPlots,
+} from "./r-vector-plots.js";
+import { createRReportControls } from "./r-report.js";
 import { createREditor } from "../assets/vendor/r-editor.js";
 import { createElement as el } from "./interface-utils.js";
 import { createRProgress } from "./r-progress.js";
@@ -38,7 +44,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     selector.append(o);
   }
   const code = createREditor(savedCode ?? rExamples[0].code);
-  const label = el("label", "", "Editable R code · Tab to indent · Ctrl/⌘ + Enter to run");
+  const label = el(
+    "label",
+    "",
+    "Editable R code · Tab to indent · Ctrl/⌘ + Enter to run",
+  );
   label.htmlFor = "atlas-r-code";
   code.id = label.htmlFor;
   const toolbar = el("div", "custom-r-toolbar");
@@ -93,6 +103,13 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   const plots = el("div", "custom-r-plots");
   const tableHost = el("div", "custom-r-results");
   const exports = el("div", "custom-r-toolbar");
+  let plotURLs = [];
+  const releasePlotURLs = () => {
+    for (const url of plotURLs) URL.revokeObjectURL(url);
+    plotURLs = [];
+  };
+  let vectorPlots = [],
+    reportInputs = {};
   let resultsCSV = "",
     record,
     runtime,
@@ -113,6 +130,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   );
   session.disabled = true;
   exports.append(csv, session);
+  const reports = createRReportControls({
+    root,
+    action,
+    getRun: () => ({ record, resultsCSV, vectorPlots, inputs: reportInputs }),
+  });
   const docs = el("details", "custom-r-data-help");
   docs.append(
     el("summary", "", "Available data and reproducibility"),
@@ -130,6 +152,19 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   credits.href = new URL("webr/PROVENANCE.json", document.baseURI).href;
   credits.target = "_blank";
   credits.rel = "noopener";
+  const resultArea = el("section", "custom-r-output-area");
+  const placeholder = el(
+    "p",
+    "custom-r-output-placeholder",
+    "Results and plots will show here after you run an analysis.",
+  );
+  const plotSection = el("section", "custom-r-output-section");
+  plotSection.hidden = true;
+  plotSection.append(el("h3", "", "Plots"), plots);
+  const tableSection = el("section", "custom-r-output-section");
+  tableSection.hidden = true;
+  tableSection.append(el("h3", "", "Results table"), tableHost);
+  resultArea.append(placeholder, plotSection, tableSection);
   host.append(
     intro,
     warning,
@@ -140,11 +175,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     docs,
     el("h3", "", "Console"),
     output,
-    el("h3", "", "Plots"),
-    plots,
-    el("h3", "", "Results table"),
-    tableHost,
+    resultArea,
     exports,
+    reports.element,
     credits,
   );
   function renderTable() {
@@ -243,6 +276,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   }
   async function execute() {
     if (busy) return;
+    if (root.dataset.reportBusy === "true")
+      return showToast("Finish or cancel report preparation first.");
     if (!code.value.trim() || code.value.length > 65536) {
       showToast("Enter R code, up to 65,536 characters.");
       return;
@@ -254,8 +289,12 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     resultsCSV = "";
     record = undefined;
     csv.disabled = session.disabled = true;
+    releasePlotURLs();
     plots.replaceChildren();
     tableHost.replaceChildren();
+    plotSection.hidden = tableSection.hidden = true;
+    placeholder.hidden = false;
+    reports.setReady(false);
     output.textContent = "";
     endActivity = beginActivity("Running custom R analysis");
     progress.start();
@@ -310,6 +349,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         bayesian_archive: bayesian.archived,
       };
       const hashes = {};
+      reportInputs = {};
+      vectorPlots = [];
+      reports.setReady(false);
       progress.stage(
         3,
         "Loading analysis tables into R",
@@ -331,6 +373,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           ),
         );
         const bytes = encoder.encode(csvText(normalized));
+        reportInputs[`data/${name}.csv`] = bytes;
         hashes[name] = { rows: rows.length, sha256: await digest(bytes) };
         await runtime.FS.writeFile(`/home/web_user/${name}.csv`, bytes);
         progress.note(
@@ -338,14 +381,14 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         );
       }
       const shelter = await new runtime.Shelter();
-      const wrapped = `set.seed(20261118)\n${Object.keys(inputs)
+      const wrapped = `${vectorSetup}\nset.seed(20261118)\n${Object.keys(inputs)
         .map(
           (name) =>
             `${name} <- read.csv('/home/web_user/${name}.csv', stringsAsFactors=FALSE, check.names=FALSE, na.strings=c('', 'NA', 'null'))`,
         )
         .join(
           "\n",
-        )}\n${script}\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
+        )}\ntryCatch({\n${script}\n}, finally={${vectorFinish}})\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
       progress.stage(
         4,
         "Running your R script",
@@ -370,6 +413,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         "Preparing plots and results",
         `${captured.images.length} plot(s) captured. Preparing the results table and reproducibility record.`,
       );
+      try {
+        vectorPlots = await readVectorPlots(runtime);
+      } catch (error) {
+        progress.note(`Vector export unavailable: ${error.message}`);
+      }
       const text = captured.output
         .map((x) =>
           typeof x.data === "string" ? x.data : JSON.stringify(x.data),
@@ -385,8 +433,20 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           canvas.setAttribute("aria-label", `Custom R plot ${i + 1}`);
           canvas.getContext("2d").drawImage(image, 0, 0);
           const figure = el("figure");
+          let preview = canvas;
+          if (vectorPlots[i]) {
+            const url = URL.createObjectURL(
+              new Blob([vectorPlots[i].svg], { type: "image/svg+xml" }),
+            );
+            plotURLs.push(url);
+            preview = el("img");
+            preview.src = url;
+            preview.alt = `Custom R plot ${i + 1}`;
+            preview.width = 1000;
+            preview.height = 650;
+          }
           figure.append(
-            canvas,
+            preview,
             action("Download PNG", "download", () =>
               canvas.toBlob((blob) =>
                 downloadFile(
@@ -397,6 +457,17 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
               ),
             ),
           );
+          if (vectorPlots[i]) {
+            figure.append(
+              action("Download SVG", "download", () =>
+                downloadFile(
+                  `psilocin-custom-plot-${i + 1}.svg`,
+                  vectorPlots[i].svg,
+                  "image/svg+xml",
+                ),
+              ),
+            );
+          }
           plots.append(figure);
         }
         image.close();
@@ -420,11 +491,18 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         ),
         console: output.textContent,
         plots: captured.images.length,
+        vector_plots: vectorPlots.length,
+        graphics_export:
+          "Recorded display lists replayed to SVG and vector PDF without re-executing user code; any raster content remains raster.",
         error: captured.output.some((x) => x.type === "error"),
       };
       renderTable();
+      plotSection.hidden = !plots.childElementCount;
+      tableSection.hidden = !resultsCSV;
+      placeholder.hidden = Boolean(plots.childElementCount || resultsCSV);
       csv.disabled = !resultsCSV;
       session.disabled = false;
+      reports.setReady(!record.error);
       await shelter.purge();
       terminate(
         record.error
@@ -456,6 +534,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     terminate("R session closed.");
     progress.destroy();
     code.destroy();
+    reports.destroy();
+    releasePlotURLs();
   };
   return host;
 }

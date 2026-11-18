@@ -3,7 +3,7 @@ const scope = self.registration.scope;
 const prefix = `psilocin-atlas:${new URL(scope).pathname}:`;
 const absolute = (path) => new URL(path, scope).href;
 const metaName = `${prefix}meta`;
-const inventories = { core: INVENTORY, r: R_INVENTORY };
+const inventories = { core: INVENTORY, r: R_INVENTORY, latex: LATEX_INVENTORY };
 const pointerValues = new Map(),
   preparing = new Map(),
   controllers = new Map();
@@ -151,7 +151,7 @@ async function audit(kind = "core") {
     inventory = inventories[kind];
   if (record?.version !== inventory.version)
     throw new Error(
-      `The ${kind === "core" ? "research app" : "optional R runtime"} has not been prepared for this release.`,
+      `The ${kind === "core" ? "research app" : kind === "r" ? "optional R runtime" : "optional PDF compiler"} has not been prepared for this release.`,
     );
   const cache = await caches.open(record.cache);
   for (const file of inventory.files)
@@ -165,6 +165,7 @@ self.addEventListener("install", (event) =>
       try {
         if (await pointer()) await prepare("core", { activate: false });
         if (await pointer("r")) await prepare("r", { activate: false });
+        if (await pointer("latex")) await prepare("latex", { activate: false });
       } catch (error) {
         await broadcast({
           type: "OFFLINE_UPDATE_FAILED",
@@ -179,7 +180,7 @@ self.addEventListener("install", (event) =>
 self.addEventListener("activate", (event) =>
   event.waitUntil(
     (async () => {
-      for (const kind of ["core", "r"]) {
+      for (const kind of ["core", "r", "latex"]) {
         const staged = await (
           await caches.open(packName(kind))
         ).match(absolute("__offline_ready__"));
@@ -197,7 +198,7 @@ self.addEventListener("activate", (event) =>
 );
 self.addEventListener("message", (event) => {
   const port = event.ports[0],
-    kind = ["library", "r"].includes(event.data?.kind)
+    kind = ["library", "r", "latex"].includes(event.data?.kind)
       ? event.data.kind
       : "core";
   if (!port || !event.source?.url?.startsWith(scope)) return;
@@ -218,6 +219,14 @@ self.addEventListener("message", (event) => {
           for (const controller of controllers.values())
             controller.abort(new Error("Offline download cancelled."));
           result = { cancelled: true };
+        } else if (event.data?.type === "REMOVE_LATEX") {
+          if (preparing.has("latex"))
+            throw new Error("Wait for the compiler download to finish.");
+          await (await caches.open(metaName)).delete(pointerURL("latex"));
+          pointerValues.set("latex", null);
+          for (const name of await caches.keys())
+            if (name.startsWith(`${prefix}latex:`)) await caches.delete(name);
+          result = { removed: true };
         } else if (event.data?.type === "REMOVE_R") {
           if (preparing.has("r"))
             throw new Error("Wait for the R download to finish.");
@@ -243,7 +252,7 @@ self.addEventListener("message", (event) => {
             clients.length === 1 &&
             clients[0].id === event.source.id
           ) {
-            for (const category of ["core", "r", "library"]) {
+            for (const category of ["core", "r", "latex", "library"]) {
               const record = await pointer(category),
                 keep = new Set([record?.cache, record?.previous]);
               for (const name of await caches.keys())
@@ -258,6 +267,11 @@ self.addEventListener("message", (event) => {
             bytes: INVENTORY.bytes,
             files: INVENTORY.files.length,
             saved: await pointer(),
+            latex: {
+              ...LATEX_INVENTORY,
+              files: LATEX_INVENTORY.files.length,
+              saved: await pointer("latex"),
+            },
             r: {
               ...R_INVENTORY,
               files: R_INVENTORY.files.length,
@@ -299,7 +313,7 @@ self.addEventListener("fetch", (event) => {
       const key = navigation
         ? absolute("index.html")
         : `${url.origin}${url.pathname}`;
-      for (const kind of ["core", "r", "library"]) {
+      for (const kind of ["core", "r", "latex", "library"]) {
         const record = await pointer(kind);
         if (!record) continue;
         for (const name of [record.cache, record.previous].filter(Boolean)) {
@@ -315,7 +329,8 @@ self.addEventListener("fetch", (event) => {
       }
       if (
         cacheOnly ||
-        (url.pathname.startsWith(`${root}webr/`) && (await pointer("r")))
+        (url.pathname.startsWith(`${root}webr/`) && (await pointer("r"))) ||
+        (url.pathname.startsWith(`${root}latex/`) && (await pointer("latex")))
       )
         return new Response(
           "Offline verification: required resource is not saved.",

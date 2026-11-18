@@ -1,0 +1,41 @@
+{
+  "sdk": "@siglum/engine 0.2.2",
+  "runtime": "tl2026-0cc2592f50103429",
+  "originalManifest": {
+    "schemaVersion": 1,
+    "engineVersion": "0.2.2",
+    "releaseId": "tl2026-0cc2592f50103429",
+    "baseUrl": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429",
+    "manifestUrl": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/runtime.json",
+    "manifestSha256": "ad16c58e79097e14a148a913adadca9797f6228b7468426ad18b032193f79198"
+  },
+  "templatePackages": [
+    {
+      "package": "booktabs",
+      "url": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/api/texlive/booktabs",
+      "sha256": "a5a9ed5c865f6aad4cd197f189f796f87b272bf9e0ebd2851debca2eef5fb613"
+    },
+    {
+      "package": "ragged2e",
+      "url": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/api/texlive/ragged2e",
+      "sha256": "2f34511fd759595069795aeb11f9cc9d917072fead6b031975cc5898200b4762"
+    },
+    {
+      "package": "koma-script",
+      "url": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/api/texlive/koma-script",
+      "sha256": "8e4661515a87495c6240cee0610a03dbb1cd75604f9496c29a6252784dc10434"
+    },
+    {
+      "package": "xcolor",
+      "url": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/api/texlive/xcolor",
+      "note": "Unmodified template support / Latin Modern fonts; preserved upstream package and font notices."
+    },
+    {
+      "package": "lm",
+      "url": "https://packages.siglum.org/releases/tl2026-0cc2592f50103429/api/texlive/lm",
+      "note": "Unmodified template support / Latin Modern fonts; preserved upstream package and font notices."
+    }
+  ],
+  "compiler": "unmodified pdfTeX engine in BusyTeX (TeX Live 2026)",
+  "template": "Fixed generated report; package fetching disabled"
+}

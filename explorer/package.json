@@ -35,7 +35,8 @@
     "test:pwa": "node test/pwa-browser-check.mjs",
     "test:tables": "node test/research-tables-browser-check.mjs",
     "test:molecular-previews": "node test/molecular-previews-browser-check.mjs",
-    "test:custom-r": "node test/custom-r-browser-check.mjs"
+    "test:custom-r": "node test/custom-r-browser-check.mjs",
+    "test:r-reports": "node test/r-report-browser-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",
@@ -53,6 +54,7 @@
     "d3-hexbin": "0.2.2",
     "d3-hierarchy": "3.1.2",
     "d3-shape": "3.2.0",
+    "fflate": "0.8.3",
     "framework7": "9.3.0",
     "framework7-icons": "5.0.5"
   },

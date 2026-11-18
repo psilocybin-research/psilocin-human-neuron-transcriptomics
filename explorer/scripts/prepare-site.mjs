@@ -75,3 +75,6 @@ await rm(new URL('webr/', output), {recursive:true, force:true});
 await cp(new URL('../vendor/webr/', import.meta.url), new URL('webr/', output), {recursive:true});
 await rm(new URL('webr-source/', output), {recursive:true, force:true});
 await cp(new URL('../vendor/webr-source/', import.meta.url), new URL('webr-source/', output), {recursive:true});
+// Optional locally hosted TeX engine, excluded from the core offline package.
+await rm(new URL('latex/', output), {recursive:true, force:true});
+await cp(new URL('../vendor/latex/', import.meta.url), new URL('latex/', output), {recursive:true});

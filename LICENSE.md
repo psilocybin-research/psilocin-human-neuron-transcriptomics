@@ -16,6 +16,8 @@ Original documentation, figures, metadata created for this analysis, and derived
 - Direct Reactome database annotations are CC0 1.0.
 - Dated Ensembl annotations follow Ensembl unrestricted data-use terms, with source descriptions and attribution retained. UniProt annotations and AlphaFold models are CC BY 4.0. PDB coordinate files retain CC0 1.0. OXPHOS model previews are CC BY 4.0, with per-model source and licence provenance in `explorer/src/assets/public-context/previews.json`.
 - HGNC-derived alias mappings are CC0 1.0; attribution is retained as requested by HGNC.
+- Optional browser R uses the unmodified webR 0.6.0 distribution, with original licences and corresponding-source links under `explorer/vendor/webr/`.
+- Optional PDF compilation uses unmodified Siglum 0.2.2 / BusyTeX / TeX Live 2026, with MIT, GPL, LPPL and font-specific terms retained under `explorer/vendor/latex/`. Public corresponding-source locations and SHA-256 values are in `SOURCE-ACCESS.json`; the large development source archives are excluded from offline downloads. CodeMirror and ZIP dependency notices are retained in the generated editor bundle.
 - Observable Framework code included in the frozen static atlas retains its ISC license and Observable, Inc. copyright. Original package notices are preserved in `third_party_licenses/`.
 - Selected sample and gene-annotation metadata derived from the pinned Schmidt repository retain Anne Hoffrichter's MIT notice alongside the license for the project's additions.
 

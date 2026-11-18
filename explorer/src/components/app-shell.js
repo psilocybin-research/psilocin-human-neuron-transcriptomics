@@ -1004,6 +1004,10 @@ export function createAppShell({
       panelInstance.close(false);
     tour.reset();
     tourPopup.open(!reduced());
+    returnFocus.set(
+      tour.element,
+      panel.classList.contains("panel-in-breakpoint") ? tourItem : menuToggle,
+    );
     scheduleEnhance();
   }
   const evidenceSheet = createEvidenceSheet({

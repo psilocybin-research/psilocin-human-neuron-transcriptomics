@@ -257,6 +257,55 @@ export function createPwa({ root, app, installButton: button, data }) {
       root.dataset.rInstalling = "false";
     }
   }
+  async function prepareLatex() {
+    const finish = beginActivity("Saving and testing the offline PDF compiler");
+    root.dataset.reportBusy = "true";
+    let work;
+    const controller = new AbortController();
+    try {
+      await prepareAndVerify({ quiet: true });
+      work = dialog(
+        "Preparing offline PDF reports",
+        '<div class="pwa-latex-progress"></div>',
+        [
+          {
+            text: "Cancel",
+            onClick: () => {
+              controller.abort();
+              call(registration.active, "CANCEL").catch(() => {});
+            },
+          },
+        ],
+      );
+      work.el
+        .querySelector(".pwa-latex-progress")
+        .append(loadingMessage("Downloading and verifying compiler files…"));
+      const active = await worker();
+      await call(active, "PREPARE", { kind: "latex" });
+      await call(active, "VERIFY", { kind: "latex" });
+      work.el
+        .querySelector(".pwa-latex-progress")
+        .replaceChildren(
+          loadingMessage("Testing a real local PDF compilation…"),
+        );
+      const { verifyLatexRuntime } = await import("./r-report.js");
+      await verifyLatexRuntime(controller.signal);
+      work.close(false);
+      dialog(
+        "Offline PDF compiler ready",
+        "<p>Every compiler file passed SHA-256 verification, and a fresh local compilation produced a PDF. Custom R reports and LaTeX source exports can now use the saved compiler, fonts and packages without a connection.</p><p>The R runtime is a separate optional download. Storage can be cleared or evicted; use this check again when needed.</p>",
+      );
+    } catch (error) {
+      work?.close(false);
+      dialog(
+        "PDF compiler not verified",
+        `<p>${escapeHTML(error.message)}</p><p>No PDF readiness is claimed. Existing R results and saved app data are retained.</p>`,
+      );
+    } finally {
+      finish();
+      root.dataset.reportBusy = "false";
+    }
+  }
   async function readyDialog(title, content) {
     while (root.dataset.modalOpen === "true" && !disposed) await delay(200);
     if (!disposed) dialog(title, content);
@@ -394,6 +443,27 @@ export function createPwa({ root, app, installButton: button, data }) {
       option(saved ? "Check offline" : "Prepare offline", () =>
         prepareWithR(includeR.checked).catch(() => {}),
       );
+      if (status.latex) {
+        const latexDescription = el(
+          "p",
+          "note",
+          `Optional offline PDF reports · ${mb(status.latex.bytes)}${status.latex.saved ? " · saved" : ""}. Saves the local LaTeX compiler, fonts and fixed report packages independently of R. Source archives retain original SVG figures and vector PDF copies.`,
+        );
+        info.el.querySelector(".dialog-inner").append(latexDescription);
+        option(
+          status.latex.saved
+            ? "Check offline PDF compiler"
+            : "Save offline PDF compiler",
+          () => prepareLatex(),
+        );
+        if (status.latex.saved)
+          option("Remove offline PDF compiler", async () => {
+            if (root.dataset.reportBusy === "true")
+              return showToast("Finish report preparation first.");
+            await call(await worker(), "REMOVE_LATEX");
+            showToast("Offline PDF compiler removed. R results are retained.");
+          });
+      }
       if (status.r.saved)
         option("Remove offline R", async () => {
           if (root.dataset.rBusy === "true")
@@ -487,6 +557,15 @@ export function createPwa({ root, app, installButton: button, data }) {
           ),
         );
     }
+    if (data.type === "OFFLINE_PROGRESS" && data.kind === "latex") {
+      const text = document.querySelector(".pwa-latex-progress");
+      if (text)
+        text.replaceChildren(
+          loadingMessage(
+            `Verified ${mb(data.bytes)} / ${mb(data.total)} of compiler files.`,
+          ),
+        );
+    }
     if (data.type === "OFFLINE_UPDATE_FAILED")
       showToast(
         "App update could not be verified. Your previous offline copy is retained.",
@@ -509,6 +588,7 @@ export function createPwa({ root, app, installButton: button, data }) {
         root.dataset.modalOpen === "true" ||
         root.dataset.loading === "true" ||
         root.dataset.rBusy === "true" ||
+        root.dataset.reportBusy === "true" ||
         root.dataset.rInstalling === "true" ||
         Date.now() - lastInteraction < 5000
       ) {

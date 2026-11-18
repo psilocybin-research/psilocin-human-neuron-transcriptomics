@@ -4560,7 +4560,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/r-report.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/r-runtime.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/r-vector-plots.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4862,6 +4874,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/r-report-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/research-additions-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -4902,6 +4920,174 @@
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/latex/LICENSE-COMPONENTS.txt": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/LICENSE-Siglum-MIT.txt": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/LICENSE-TeX-Live.txt": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/SOURCE-ACCESS.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/UPSTREAM.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/busytex.js": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/busytex.wasm": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/engine.js": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/bundles.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/core.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/dvips.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/extra-maps.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/file-manifest.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/file-to-package.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/fmt-pdflatex.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/fonts-cm.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/fonts-lm-tfm.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/fonts-lm-type1.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/fonts-misc.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/graphics.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/hyperref.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/l3.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/package-deps.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/template-support.json": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/tex-generic.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/tex-latex-misc.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/runtime/utils.data.gz": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/latex/worker.js": {
+    "spdx": "LicenseRef-LaTeX-Distribution",
+    "copyright": [
+      "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
     ]
   },
   "explorer/vendor/webr-source/README.md": {
