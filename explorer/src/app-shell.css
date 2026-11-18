@@ -4675,3 +4675,11 @@ body {
 
 #psilocin-app .research-panel-tabs .button[aria-selected=false] { background:transparent!important;color:var(--f7-theme-color)!important; }
 #psilocin-app .research-panel-tabs .button[aria-selected=true] { background:var(--f7-theme-color)!important;color:#fff!important; }
+
+/* Preview remains geometrically stable through F7 touch-light and scale states. */
+#psilocin-app .hero button.oxphos-network-preview,
+#psilocin-app .hero button.oxphos-network-preview:is(:hover,:active,.active-state),
+#psilocin-app .hero button.oxphos-network-preview img { transform:none!important;scale:1!important; }
+#psilocin-app .oxphos-3d-dock,#psilocin-app .oxphos-3d-topbar { z-index:2; }
+#psilocin-app .oxphos-3d-stage canvas { transition:opacity .3s ease; }
+@media(prefers-reduced-motion:reduce) { #psilocin-app .oxphos-3d-stage canvas { transition:none; } }

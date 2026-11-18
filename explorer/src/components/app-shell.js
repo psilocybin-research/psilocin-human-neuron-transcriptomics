@@ -420,7 +420,7 @@ export function createAppShell({
     controlMoves = [],
     enhanceFrame,
     querySequence = 0,
-    resultScrollPending = false;
+    resultScrollPending = false, explicitVisualizationScroll = false;
   const viewPositions = new Map();
   let restoreViewPosition = false, positionTimer;
   function restorePositionWhenReady(force = false) {
@@ -528,7 +528,7 @@ export function createAppShell({
     scheduleEnhance();
   }
   function scrollToUpdatedResult() {
-    if (["robustness", "comparison", "pathways"].includes(lastTab)) {
+    if (!explicitVisualizationScroll && ["robustness", "comparison", "pathways"].includes(lastTab)) {
       resultScrollPending = false;
       return;
     }
@@ -558,6 +558,7 @@ export function createAppShell({
       Math.min(rect.bottom, rect.top + 200) <= bottomEdge
     ) {
       resultScrollPending = false;
+      explicitVisualizationScroll = false;
       return;
     }
     requestAnimationFrame(() => {
@@ -566,6 +567,7 @@ export function createAppShell({
         return;
       }
       resultScrollPending = false;
+      explicitVisualizationScroll = false;
       target.scrollIntoView({ block: "start", behavior: "instant" });
       const offset =
         target.getBoundingClientRect().top -
@@ -589,9 +591,9 @@ export function createAppShell({
       )
     )
       return;
-    const preservePosition = ["robustness", "comparison", "pathways"].includes(
-      lastTab,
-    );
+    const visualizationChosen = target.matches('select[aria-label="Visualization"]');
+    const preservePosition = !visualizationChosen && ["robustness", "comparison", "pathways"].includes(lastTab);
+    explicitVisualizationScroll = visualizationChosen;
     const previousPosition = scroll.scrollTop,
       previousTab = lastTab;
     const restorePosition = () => {

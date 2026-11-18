@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1292,
-  "total_bytes": 686998343,
+  "file_count": 1294,
+  "total_bytes": 687007728,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 260584,
-      "sha256": "aec5d3703e31449bc6561da42439779bc59801399e7743acf87a139b685cd7f4"
+      "bytes": 260865,
+      "sha256": "b654e12a3d28a6ed441305376c369a45e8864fd2b3fdb8b297dd0278641d938d"
     },
     {
       "path": "LICENSE.md",
@@ -304,8 +304,8 @@
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
-      "bytes": 425,
-      "sha256": "1ff0082a1dea65ff0a515432bbfc73382001bf7095e1922e820a0693571f4594"
+      "bytes": 460,
+      "sha256": "261d1e435067a9adb0c272f6cbd02bb82759d6491b3baeb4b32db98470e343f8"
     },
     {
       "path": "explorer/scripts/normalize-public-context.mjs",
@@ -379,8 +379,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 139185,
-      "sha256": "a8d660cb16b6cc90748a894a79de1fd02021fe1b60a23c61da2bc10c914c6756"
+      "bytes": 139756,
+      "sha256": "1cacb980cd3c530846848179b514acc016652759106f8c7651099a71611c9cce"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3364,8 +3364,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 46379,
-      "sha256": "00053fbea3c04c04dbc84ae330b4159d974267c32cd9cad0273d299b56ce0235"
+      "bytes": 46686,
+      "sha256": "c689bf583a1425819f522cc46b88159688670539b09f111de2c161454ed31944"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3493,9 +3493,14 @@
       "sha256": "cad9513697349743d141a3f5dc05388395f40e999764c8bc771ef42614f72630"
     },
     {
+      "path": "explorer/src/components/network-scene-effects.js",
+      "bytes": 3801,
+      "sha256": "a9f9e9626766e590ae428b5fcf6d3e0721306989328f1c6a1b6a89d96400a712"
+    },
+    {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 37607,
-      "sha256": "e0fff3bf31f34195a2bd336a7709725c0caf64e26920ca55c5d2be1f1f506b1b"
+      "bytes": 39073,
+      "sha256": "66cf8edb46974294d2ec1608ef39d367b919512ec1f10b96c37bc0a77a542d65"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3761,6 +3766,11 @@
       "path": "explorer/test/network-browser-check.mjs",
       "bytes": 10178,
       "sha256": "7bda55928bd3a3adb53b5bc52f92925924fed3d63be5352a7991c1a9a3de378d"
+    },
+    {
+      "path": "explorer/test/network-effects-browser-check.mjs",
+      "bytes": 2342,
+      "sha256": "88207157ad3d5eea69bd8e19b70e4eb7a3fe95edfbfc2204f1e4e60368312bbb"
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
@@ -5299,8 +5309,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 8366,
-      "sha256": "79424de21500fe48a47267db1ca6596327bada992c2155b3e58011a65ca4efd7"
+      "bytes": 8948,
+      "sha256": "580973c9d8fb7f360fb31e63090aae49ab4cb4b9c42f2450020c6065c78a5f59"
     },
     {
       "path": "reports/schmidt_control_resolution.md",

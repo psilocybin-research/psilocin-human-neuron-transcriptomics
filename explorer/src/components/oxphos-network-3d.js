@@ -1,3 +1,4 @@
+import { createNetworkSceneEffects } from "./network-scene-effects.js";
 import snapshot from "../assets/vendor/oxphos-network-data.js";
 import {
   createElement as el,
@@ -24,7 +25,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       "",
     graph,
     api,
-    destroyed = false;
+    destroyed = false,
+    sceneEffects,
+    hoveredId = "";
   let comparing = false,
     graphRight,
     bloomRight,
@@ -141,7 +144,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     graph.cameraPosition(
       { x: p.x * factor, y: p.y * factor, z: p.z * factor },
       undefined,
-      0,
+      matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 280,
     );
   }
   function reset() {
@@ -700,9 +703,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .linkColor((l) =>
           selected && endpoints(l)[0] === selected
             ? "#e6b854"
-            : focused
-              ? "#142430"
-              : "#4f748c",
+            : hoveredId && endpoints(l).includes(hoveredId)
+              ? "#90cce6"
+              : focused ? "#142430" : "#4f748c",
         )
         .linkWidth((l) =>
           selected && endpoints(l)[0] === selected ? 1.1 : focused ? 0.1 : 0.25,
@@ -734,6 +737,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     root.dataset.comparing = String(comparing);
     rightStage.hidden = !comparing;
     dayButtons.forEach((b) => (b.disabled = comparing));
+    sceneEffects?.refresh();
     if (comparing) {
       try {
         graphRight = new api.ForceGraph3D(rightStage, {
@@ -765,6 +769,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             }
             return copy;
           })
+          .onNodeHover(graph.onNodeHover())
           .onNodeClick(graph.onNodeClick())
           .graphData({
             nodes: structuredClone(snapshot.nodes),
@@ -785,8 +790,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         }
         bloomRight = new api.UnrealBloomPass(
           new api.Vector2(rightStage.clientWidth, rightStage.clientHeight),
-          0.45,
-          0.25,
+          0.58,
+          0.3,
           1.05,
         );
         bloomRight.enabled = bloomEnabled;
@@ -843,6 +848,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   function destroy() {
     if (destroyed) return;
     destroyed = true;
+    sceneEffects?.dispose();
     resize?.disconnect();
     intersection?.disconnect();
     closeDrawer();
@@ -953,6 +959,12 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           objects.set(n.id, container);
           return container;
         })
+        .onNodeHover((n) => {
+          hoveredId = n?.id || "";
+          sceneEffects?.hover(hoveredId);
+          stage.style.cursor = n ? "pointer" : "grab";
+          updateGraph();
+        })
         .onNodeClick((n) => {
           if (n.type === "gene") choose(n);
           else {
@@ -1028,8 +1040,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       document.addEventListener("visibilitychange", visibility);
       bloom = new api.UnrealBloomPass(
         new api.Vector2(stage.clientWidth, stage.clientHeight),
-        0.45,
-        0.25,
+        0.58,
+        0.3,
         1.05,
       );
       bloom.enabled = bloomEnabled;
@@ -1048,6 +1060,29 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           graph.postProcessingComposer().render();
         }
       };
+      sceneEffects = createNetworkSceneEffects({
+        api,
+        root,
+        scenes: () => [graph?.scene(), graphRight?.scene()].filter(Boolean),
+        reducedMotion: () =>
+          matchMedia("(prefers-reduced-motion: reduce)").matches,
+      });
+      root.addEventListener("network:effectframe", (event) => {
+        const { hovered, blend } = event.detail;
+        for (const map of [objects, rightObjects])
+          for (const [id, object] of map) {
+            // Scale only an outline/marker accent; gene spheres retain identical sizes.
+            const ring = object.children[1];
+            if (ring) {
+              const wanted = id === selected || id === hovered;
+              ring.visible = wanted;
+              const target = id === hovered ? 1.7 : 1.4;
+              ring.scale.setScalar(
+                ring.scale.x + (target - ring.scale.x) * blend,
+              );
+            }
+          }
+      });
       reset();
       updateGraph();
 

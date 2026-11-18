@@ -4543,6 +4543,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/network-scene-effects.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/oxphos-network-3d.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4864,6 +4870,12 @@
     ]
   },
   "explorer/test/network-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/network-effects-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
