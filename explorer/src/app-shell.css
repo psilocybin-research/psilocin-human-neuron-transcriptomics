@@ -4823,3 +4823,5 @@ body {
 }
 #psilocin-app .pwa-r-choice .toggle { --f7-toggle-inactive-border-color:#8196a980; }
 #psilocin-app .pwa-r-choice .toggle:has(input:focus-visible) { outline:2px solid var(--f7-theme-color);outline-offset:3px; }
+#psilocin-app .oxphos-network-3d :is(button,a,input,select):focus-visible { outline:2px solid #79cef6;outline-offset:3px; }
+#psilocin-app .network-protein-callout-picture:focus-visible { border-radius:8px; }

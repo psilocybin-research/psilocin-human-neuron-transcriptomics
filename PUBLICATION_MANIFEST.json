@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686717399,
+  "total_bytes": 686720083,
   "status": "pass",
   "failures": [],
   "files": [
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 148235,
-      "sha256": "9c2ac9160537757c3ad8e5beaf0ba8135146d485fa1ee394ecbdd37cc9a1b8a9"
+      "bytes": 148443,
+      "sha256": "cbdcac3482c361ed741aeb08eef25d8734d15f1707dd9630590461695e206ecf"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3369,8 +3369,8 @@
     },
     {
       "path": "explorer/src/components/app-pwa.js",
-      "bytes": 28833,
-      "sha256": "5024300015f0b140694fd8e53ea442846fc88ce245a4378129b7422a240e6f0e"
+      "bytes": 29153,
+      "sha256": "992273e120d5038af748b02b1b73978c70fbe5a07b7faceab6f57e9880c457fa"
     },
     {
       "path": "explorer/src/components/app-shell.js",
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/network-node-protein.js",
-      "bytes": 15237,
-      "sha256": "752d7e7959c56aa309b4ad25a373ffb8c1175ae9617e46a4567392cce3269371"
+      "bytes": 17276,
+      "sha256": "2ab0e3f7d6a0a77aeb0cd167fc6f2706b1f6bae6cb311d74b9128d09f286b00f"
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
@@ -3529,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 49007,
-      "sha256": "c56fdf34bc4a1d38d0d0a530dd664ac9c0e6b7ed65dc6ba75aeb39864df4e04e"
+      "bytes": 49124,
+      "sha256": "792883baef7d8013b836610cf6fa3ca9f082fc2160af51a131570afb5ef33666"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3805,7 +3805,7 @@
     {
       "path": "explorer/test/network-comparison-browser-check.mjs",
       "bytes": 5448,
-      "sha256": "a71a0e48038e2b9f76d57013b01443b62a652fa7023572d49eb326923c19dc81"
+      "sha256": "0a060916529f5e8d0d44fb1d7ad81f9bd7a11a6558353ac279c1c5f44a5477a6"
     },
     {
       "path": "explorer/test/network-effects-browser-check.mjs",

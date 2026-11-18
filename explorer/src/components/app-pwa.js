@@ -396,15 +396,17 @@ export function createPwa({ root, app, installButton: button, data }) {
         save.setAttribute("aria-disabled", String(!enabled));
       };
       for (const item of missing) {
-        const label = el("label", "checkbox pwa-r-choice");
+        const label = el("label", "pwa-r-choice");
         const input = el("input");
         input.type = "checkbox";
         input.setAttribute("aria-label", item.title);
+        input.setAttribute("role", "switch");
         input.onchange = sync;
         choices.set(item.kind, input);
+        const toggle = el("span", "toggle");
+        toggle.append(input, el("span", "toggle-icon"));
         label.append(
-          input,
-          el("i", "icon-checkbox"),
+          toggle,
           el("span", "", `${item.title} · ${mb(item.bytes)}`),
         );
         container.append(label);
@@ -512,41 +514,64 @@ export function createPwa({ root, app, installButton: button, data }) {
             event.prompt();
             event.userChoice.then((choice) => {
               if (choice.outcome === "accepted")
-                prepareWithR(includeR?.checked).catch(() => {});
+                prepareSelected().catch(() => {});
               else root.dataset.rInstalling = "false";
             });
           },
         });
-      let includeR;
+      let includeR, includeLatex;
+      async function prepareSelected() {
+        const r = Boolean(includeR?.checked),
+          latex = Boolean(includeLatex?.checked);
+        if (!r && !latex) return prepareAndVerify();
+        if (r) await prepareWithR(true, { quietSuccess: true });
+        if (latex) await prepareLatex({ quietSuccess: true });
+        dialog(
+          "Offline tools ready",
+          `<p>${r ? "R calculation and plot test passed. " : ""}${latex ? "LaTeX PDF compilation test passed." : ""}</p><p>Selected files are verified and saved on this device.</p>`,
+        );
+      }
+      function runtimeToggle(title, bytes, saved, name) {
+        const label = el("label", "pwa-r-choice"),
+          toggle = el("span", "toggle"),
+          input = el("input");
+        input.type = "checkbox";
+        input.checked = Boolean(saved);
+        input.setAttribute("aria-label", name);
+        input.setAttribute("role", "switch");
+        toggle.append(input, el("span", "toggle-icon"));
+        label.append(
+          toggle,
+          el("span", "", `${title} · ${mb(bytes)}${saved ? " · saved" : ""}`),
+        );
+        info.el.querySelector(".dialog-inner").append(label);
+        return input;
+      }
       const info = dialog(
         standalone() ? "Offline app" : "Install app",
-        `<p>${escapeHTML(standalone() ? "This app is installed." : instructions())}</p><p><strong>Research app · ${mb(status.bytes)}</strong><br>All archived analyses, plots, gene search, Ensembl annotations and compact OXPHOS protein context. ${saved ? "Saved." : ""}</p>`,
+        `<p>${escapeHTML(standalone() ? "This app is installed." : instructions())}</p><p><strong>Research app · ${mb(status.bytes)}</strong><br>Archived analyses, plots, gene search and compact molecular context. ${saved ? "Saved." : ""}</p>`,
         buttons,
       );
-      const rChoice = el("label", "pwa-r-choice");
-      includeR = el("input");
-      includeR.type = "checkbox";
-      includeR.checked = Boolean(status.r.saved);
-      includeR.setAttribute("aria-label", "Include offline R runtime");
-      includeR.setAttribute("role", "switch");
-      const toggle = el("span", "toggle");
-      toggle.append(includeR, el("span", "toggle-icon"));
-      rChoice.append(
-        toggle,
-        el(
-          "span",
-          "",
-          `Include offline R · ${mb(status.r.bytes)}${status.r.saved ? " · saved" : " · optional"}`,
-        ),
+      includeR = runtimeToggle(
+        "Offline R",
+        status.r.bytes,
+        status.r.saved,
+        "Include offline R runtime",
       );
+      if (status.latex)
+        includeLatex = runtimeToggle(
+          "Offline LaTeX PDF reports",
+          status.latex.bytes,
+          status.latex.saved,
+          "Include offline LaTeX compiler",
+        );
       info.el
         .querySelector(".dialog-inner")
         .append(
-          rChoice,
           el(
             "p",
             "note",
-            "Runs custom R on the archived atlas tables without internet. Base and recommended packages are included; new packages and external URLs need a connection. The core app is saved first, then R files are verified and a fresh R calculation and plot are tested.",
+            "Optional: R runs custom analyses; LaTeX creates PDF reports. Both work on this device without internet. New R packages and external data need a connection.",
           ),
         );
       const actions = el("div", "pwa-options");
@@ -560,21 +585,9 @@ export function createPwa({ root, app, installButton: button, data }) {
         actions.append(action);
       }
       option(saved ? "Check offline" : "Prepare offline", () =>
-        prepareWithR(includeR.checked).catch(() => {}),
+        prepareSelected().catch(() => {}),
       );
       if (status.latex) {
-        const latexDescription = el(
-          "p",
-          "note",
-          `Optional offline PDF reports · ${mb(status.latex.bytes)}${status.latex.saved ? " · saved" : ""}. Saves the local LaTeX compiler, fonts and fixed report packages independently of R. Source archives retain original SVG figures and vector PDF copies.`,
-        );
-        info.el.querySelector(".dialog-inner").append(latexDescription);
-        option(
-          status.latex.saved
-            ? "Check offline PDF compiler"
-            : "Save offline PDF compiler",
-          () => prepareLatex(),
-        );
         if (status.latex.saved)
           option("Remove offline PDF compiler", async () => {
             if (root.dataset.reportBusy === "true")

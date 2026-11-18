@@ -61,7 +61,7 @@ try {
     );
     assert.match(
       await root.locator(".oxphos-3d-significance-key").innerText(),
-      /Cyan halo/,
+      /cyan: FDR/,
     );
     await root.getByRole("button", { name: "Zoom in", exact: true }).click();
     assert.equal(await root.getAttribute("data-camera-moving"), "true");

@@ -26,7 +26,9 @@ export function createNodeProtein({ api, root, graphs }) {
   let previousTime = 0,
     appearanceTime = 0,
     hovered = false,
-    disposed = false;
+    disposed = false,
+    previewPosition,
+    evidenceExpanded = false;
   const caption = el("div", "network-node-protein-caption");
   caption.hidden = true;
   const leader = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -84,6 +86,7 @@ export function createNodeProtein({ api, root, graphs }) {
     miniRenderer?.forceContextLoss();
     miniRenderer = undefined;
     mini = undefined;
+    previewPosition = undefined;
     caption.hidden = true;
     leader.style.display = "none";
     caption.replaceChildren();
@@ -115,6 +118,13 @@ export function createNodeProtein({ api, root, graphs }) {
       "Gene statistics · archived RNA-seq",
       "network-protein-statistics",
     );
+    const evidenceItem = evidence.element.querySelector(".accordion-item");
+    evidenceItem.addEventListener("accordion:open", () => {
+      evidenceExpanded = true;
+    });
+    evidenceItem.addEventListener("accordion:close", () => {
+      evidenceExpanded = false;
+    });
     const table = el("table");
     const header = el("tr");
     for (const title of ["Contrast", "log₂FC", "95% Wald interval", "Gene FDR"])
@@ -154,6 +164,8 @@ export function createNodeProtein({ api, root, graphs }) {
     );
     host.append(surface, heading, note, evidence.element);
     root.append(host);
+    if (evidenceExpanded)
+      root.closest("#psilocin-app")?.f7?.accordion.open(evidenceItem, false);
     const inertStates = [...root.children]
       .filter((element) => element !== host)
       .map((element) => [element, element.inert]);
@@ -259,17 +271,56 @@ export function createNodeProtein({ api, root, graphs }) {
         bounds.top - parent.top + ((1 - projected.y) * bounds.height) / 2;
       const width = 154,
         height = caption.offsetHeight || 142;
-      const x = Math.max(8, Math.min(parent.width - width - 8, nodeX + 32));
-      const overlapsNode = nodeX >= x - 16 && nodeX <= x + width + 16;
-      const preferredY = overlapsNode
-        ? nodeY - height - 28 >= 150
-          ? nodeY - height - 28
-          : nodeY + 28
-        : nodeY - height / 2;
-      const y = Math.max(
-        150,
-        Math.min(parent.height - height - 215, preferredY),
-      );
+      const obstacles = [
+        ...root.querySelectorAll(
+          ".oxphos-3d-topbar,.oxphos-3d-camera,.oxphos-3d-dock,.oxphos-3d-evidence",
+        ),
+      ]
+        .filter((element) => !element.hidden && element.getClientRects().length)
+        .map((element) => {
+          const b = element.getBoundingClientRect();
+          return {
+            left: b.left - parent.left - 8,
+            top: b.top - parent.top - 8,
+            right: b.right - parent.left + 8,
+            bottom: b.bottom - parent.top + 8,
+          };
+        });
+      const clamp = (x, y) => ({
+        x: Math.max(8, Math.min(parent.width - width - 8, x)),
+        y: Math.max(85, Math.min(parent.height - height - 12, y)),
+      });
+      const candidates = [
+        clamp(nodeX + 30, nodeY - height / 2),
+        clamp(nodeX - width - 30, nodeY - height / 2),
+        clamp(nodeX - width / 2, nodeY - height - 30),
+        clamp(nodeX - width / 2, nodeY + 30),
+      ];
+      const overlap = (p, b) =>
+        Math.max(0, Math.min(p.x + width, b.right) - Math.max(p.x, b.left)) *
+        Math.max(0, Math.min(p.y + height, b.bottom) - Math.max(p.y, b.top));
+      const nodeBounds = {
+        left: nodeX - 18,
+        right: nodeX + 18,
+        top: nodeY - 18,
+        bottom: nodeY + 18,
+      };
+      const score = (p) =>
+        obstacles.reduce((sum, b) => sum + overlap(p, b) * 100, 0) +
+        overlap(p, nodeBounds) * 200 +
+        Math.hypot(p.x + width / 2 - nodeX, p.y + height / 2 - nodeY);
+      candidates.sort((a, b) => score(a) - score(b));
+      const desired = candidates[0];
+      const blend = reduced() || !previewPosition ? 1 : 1 - Math.exp(-dt / 100);
+      previewPosition = {
+        x:
+          (previewPosition?.x ?? desired.x) +
+          (desired.x - (previewPosition?.x ?? desired.x)) * blend,
+        y:
+          (previewPosition?.y ?? desired.y) +
+          (desired.y - (previewPosition?.y ?? desired.y)) * blend,
+      };
+      const { x, y } = previewPosition;
       const entry = reduced() ? 1 : Math.min(1, (time - appearanceTime) / 500);
       const targetScale = (hovered ? 1.07 : 1) * (1 - Math.pow(1 - entry, 3));
       const scale = reduced()

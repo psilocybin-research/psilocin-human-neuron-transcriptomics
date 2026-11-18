@@ -460,10 +460,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const significanceKey = el(
     "p",
     "oxphos-3d-significance-key",
-    "◌ Cyan halo: gene FDR < 0.05 · gold: selection",
+    "Colour: log₂FC · cyan: FDR < 0.05 · gold: selection/search",
   );
   significanceKey.title =
-    "Archived transcriptome-wide gene FDR, separately for each day/control contrast. Significance on one day alone is not evidence of a difference between days.";
+    "Effect colour uses the same zero-centred scale on both days. Cyan marks archived gene FDR < 0.05. Gold marks selection; a two-second gold pulse locates a search result, not statistical confidence. Significance on one day alone is not evidence of a difference between days.";
   dock.prepend(legendCompact, significanceKey);
   viewer.append(topbar, dock);
   function fullscreenChanged() {
@@ -628,7 +628,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     nodeProtein ||= createNodeProtein({
       api,
       root,
-      stage,
       graphs: () => [graph],
     });
     nodeProtein.show(gene);
