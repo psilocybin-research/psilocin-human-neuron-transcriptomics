@@ -3838,8 +3838,8 @@ body {
 }
 #psilocin-app .analysis-morph-panel {
   top: auto;
-  height: auto;
-  max-height: min(82dvh, 760px);
+  height: min(82dvh, 760px);
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 #psilocin-app .analysis-sheet-body .analysis-option-field:only-child {
   grid-column: 1 / -1;
@@ -4468,4 +4468,14 @@ body {
 }
 #psilocin-app .comparison-selection-actions {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0;
+}
+
+#psilocin-app .analysis-morph-header { flex: 0 0 auto; }
+#psilocin-app .analysis-morph-body {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }

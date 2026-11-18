@@ -472,11 +472,10 @@ export function createAppShell({
       "analysis-options-single",
       host.querySelectorAll("select").length === 1,
     );
-    let optionIndex = 0;
     for (const select of host.querySelectorAll("select")) {
       const original = select.closest(".control,.tree-member-control");
       if (!original) continue;
-      const options = analysisOptions(select, { expanded: optionIndex++ === 0 });
+      const options = analysisOptions(select);
       const hidden = original.hidden;
       original.before(options);
       original.hidden = true;
