@@ -20,7 +20,10 @@ function action(text, fn) {
   b.onclick = fn;
   return b;
 }
-export async function linkedProtein(gene) {
+export async function linkedProtein(
+  gene,
+  { onSceneModel, onSceneHighlight } = {},
+) {
   const root = el("section", "linked-protein"),
     local = await loadLocalContext(gene.id);
   if (!local?.proteins?.length) {
@@ -108,6 +111,18 @@ export async function linkedProtein(gene) {
             ? `${new Set(controller.mapping.map((r) => r.position)).size} canonical sequence positions mapped by an exact, unique contiguous sequence match. Missing loops, ambiguous or modified sequences are not inferred. Feature selections highlight only mapped residues.`
             : "No unambiguous exact coordinate-to-sequence mapping. Features remain inspectable; residue highlighting is disabled.";
           open.hidden = Boolean(controller);
+          if (controller && onSceneModel) {
+            const main = action("Show in main 3D view", () =>
+              onSceneModel({
+                gene,
+                protein: p,
+                model,
+                atoms: controller.backboneAtoms,
+                mapping: controller.mapping,
+              }),
+            );
+            stage.before(main);
+          }
         } catch (error) {
           stage.replaceChildren(el("p", "note", error.message));
         } finally {
@@ -130,6 +145,7 @@ export async function linkedProtein(gene) {
         action("Surface", () => controller?.setRepresentation("surface")),
         action("Clear feature", () => {
           controller?.clearHighlight();
+          onSceneHighlight?.(gene.id, p.accession, 0, 0);
           mapStatus.textContent = "Feature highlight cleared.";
         }),
       );
@@ -177,6 +193,7 @@ export async function linkedProtein(gene) {
               .querySelectorAll("button")
               .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
             const count = controller?.highlight(f.start, f.end) || 0;
+            onSceneHighlight?.(gene.id, p.accession, f.start, f.end);
             mapStatus.textContent = controller
               ? `${count} of ${f.end - f.start + 1} annotated sequence positions highlighted in mapped coordinates. Unmapped positions are omitted. Evidence: ${f.evidence || "Not supplied"}.`
               : `Feature ${f.start}–${f.end}. Open a mapped structure to highlight residues. Evidence: ${f.evidence || "Not supplied"}.`;

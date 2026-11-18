@@ -4,6 +4,7 @@ import {
   createElement as el,
   loadingMessage,
   createAccordion,
+  escapeHTML,
 } from "./interface-utils.js";
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { contrasts } from "./format.js";
@@ -72,6 +73,9 @@ export function researchPanel(
     initialTab = "evidence",
     onTab = () => {},
     onSelect = () => {},
+    onHover = () => {},
+    onSceneModel,
+    onSceneHighlight,
   } = {},
 ) {
   const root = el("section", "oxphos-research-panel");
@@ -81,6 +85,21 @@ export function researchPanel(
   nav.setAttribute("aria-label", "Linked gene research");
   const body = el("div", "research-panel-body");
   root.append(nav, body);
+  let tooltip;
+  const clearTooltip = () => {
+    tooltip?.destroy();
+    tooltip = undefined;
+  };
+  root.dispose = clearTooltip;
+  root.highlightGene = (id) => {
+    for (const mark of body.querySelectorAll("[data-comparison-gene]")) {
+      const hover = mark.dataset.comparisonGene === id;
+      mark.classList.toggle("is-linked-hover", hover);
+      mark.setAttribute("r", hover ? "6" : "4");
+      mark.setAttribute("stroke-width", hover ? "2.5" : "1");
+    }
+    root.dataset.hoveredGene = id || "";
+  };
   let active = "",
     version = 0;
   const buttons = new Map();
@@ -102,6 +121,7 @@ export function researchPanel(
   body.setAttribute("role", "tabpanel");
   async function show(key) {
     if (active === key) return;
+    clearTooltip();
     active = key;
     onTab(key);
     const current = ++version;
@@ -122,7 +142,10 @@ export function researchPanel(
       body.append(loadingMessage("Loading matched protein context…"));
       try {
         const { linkedProtein } = await import("./linked-protein.js");
-        const protein = await linkedProtein(gene);
+        const protein = await linkedProtein(gene, {
+          onSceneModel,
+          onSceneHighlight,
+        });
         if (current === version && root.isConnected)
           body.replaceChildren(protein);
       } catch (error) {
@@ -195,11 +218,55 @@ export function researchPanel(
             strokeWidth: 1,
             title: (r) =>
               `${r.gene.symbol}\nDay 1 log₂FC ${r.x}; gene FDR ${number(r.gene.effects[0].padj)}\nDay 3 log₂FC ${r.y}; gene FDR ${number(r.gene.effects[1].padj)}`,
-            render: interactiveMark(
-              rows,
-              (r) => onSelect(r.gene),
-              (r) => `Select ${r.gene.symbol}: Day 1 ${r.x}, Day 3 ${r.y}`,
-            ),
+            render: (...args) => {
+              const group = interactiveMark(
+                rows,
+                (r) => onSelect(r.gene),
+                (r) => `Select ${r.gene.symbol}: Day 1 ${r.x}, Day 3 ${r.y}`,
+              )(...args);
+              const marks = [...group.children].filter((n) =>
+                n.matches("circle,path"),
+              );
+              marks.forEach((mark, i) => {
+                const row = rows[args[0][i]];
+                if (!row) return;
+                mark.dataset.comparisonGene = row.gene.id;
+                const enter = () => {
+                  onHover(row.gene.id);
+                  const app = document.querySelector("#psilocin-app")?.f7;
+                  if (!app) return;
+                  tooltip ||= app.tooltip.create({
+                    targetEl: mark,
+                    trigger: "manual",
+                    containerEl:
+                      document.fullscreenElement ||
+                      document.querySelector("#psilocin-app"),
+                    cssClass: "network-statistical-tooltip",
+                    text: "",
+                  });
+                  tooltip.setText(
+                    `${escapeHTML(row.gene.symbol)}<br>` +
+                      row.gene.effects
+                        .slice(0, 2)
+                        .map(
+                          (e, j) =>
+                            `Day ${j ? 3 : 1}: log₂FC ${number(e.log2FoldChange)}<br>SE ${number(e.lfcSE)} · gene FDR ${number(e.padj)}`,
+                        )
+                        .join("<br>"),
+                  );
+                  tooltip.show(mark);
+                };
+                const leave = () => {
+                  tooltip?.hide();
+                  onHover("");
+                };
+                mark.addEventListener("pointerenter", enter);
+                mark.addEventListener("pointerleave", leave);
+                mark.addEventListener("focus", enter);
+                mark.addEventListener("blur", leave);
+              });
+              return group;
+            },
           }),
         ],
       }),

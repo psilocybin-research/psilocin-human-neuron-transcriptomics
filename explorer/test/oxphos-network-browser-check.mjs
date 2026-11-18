@@ -92,7 +92,7 @@ try {
     assert.ok(Math.abs(canvasBox.y - stageBox.y) < 2);
     assert.ok(Math.abs(canvasBox.height - stageBox.height) < 2, "Canvas fills behind all controls");
     await root
-      .getByRole("button", { name: "Compare days", exact: true })
+      .getByRole("switch", { name: "Compare days", exact: true })
       .click();
     await p.waitForFunction(
       () =>
@@ -132,9 +132,9 @@ try {
     assert.notDeepEqual(await panes.nth(1).screenshot(), beforeRight);
     await p.screenshot({ path: `${out}/comparison-${width}.png` });
     await root
-      .getByRole("button", { name: "Compare days", exact: true })
+      .getByRole("switch", { name: "Compare days", exact: true })
       .click();
-    assert.equal(await root.locator(".oxphos-3d-pane canvas").count(), 1);
+    await p.waitForFunction(()=>document.querySelectorAll(".oxphos-3d-pane canvas").length===1);
     await root.getByRole("button", { name: "Day 3", exact: true }).click();
     await root.getByRole("button", { name: "Find gene", exact: true }).click();
     let drawer = p.locator(".oxphos-3d-drawer");

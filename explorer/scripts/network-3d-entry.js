@@ -1,8 +1,14 @@
 export { default as ForceGraph3D } from "3d-force-graph";
 export {
   Mesh,
-  PlaneGeometry,
-  ShaderMaterial,
+  CylinderGeometry,
+  Quaternion,
+  InstancedMesh,
+  MeshStandardMaterial,
+  Matrix4,
+  Vector3,
+  AmbientLight,
+  DirectionalLight,
   SphereGeometry,
   OctahedronGeometry,
   MeshBasicMaterial,

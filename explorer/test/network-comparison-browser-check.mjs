@@ -55,6 +55,17 @@ try {
     await panel.getByRole("tab", { name: "Compare", exact: true }).waitFor();
     const point = panel.locator("svg [role=button]").filter({ hasText: "" });
     await point.first().waitFor();
+    const lastPoint = point.last();
+    const pointId = await lastPoint.getAttribute("data-comparison-gene");
+    await lastPoint.hover();
+    await p.locator(".network-statistical-tooltip.tooltip-in").waitFor();
+    assert.equal(
+      await panel
+        .locator(".oxphos-research-panel")
+        .getAttribute("data-hovered-gene"),
+      pointId,
+    );
+    assert.equal(await lastPoint.getAttribute("r"), "6");
     const label = await point.last().getAttribute("aria-label");
     await point.last().press("Enter");
     await panel.locator(".oxphos-research-panel").waitFor();
@@ -71,6 +82,15 @@ try {
     await panel.getByRole("button", { name: "Done", exact: true }).click();
     await root.getByRole("button", { name: "Filters", exact: true }).click();
     await p
+      .getByLabel("Network layout", { exact: true })
+      .selectOption("layers");
+    await p.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset.layoutReady ===
+        "true",
+    );
+    assert.equal(await root.getAttribute("data-layout"), "layers");
+    await p
       .getByLabel("Network statistical filter", { exact: true })
       .selectOption("both05");
     const expected = archive.filter((g) => retainedGene(g, "both05")).length;
@@ -82,11 +102,30 @@ try {
       .locator(".oxphos-3d-drawer")
       .getByRole("button", { name: "Done", exact: true })
       .click();
-    await root
-      .getByRole("button", { name: "Compare days", exact: true })
-      .click();
+    await root.locator(".oxphos-3d-compare-control").click();
     await p.waitForFunction(
       () => document.querySelectorAll(".oxphos-3d-pane canvas").length === 2,
+    );
+    await p.waitForFunction(
+      () => !document.querySelector('[aria-label="Compare days"]').disabled,
+    );
+    assert.equal(
+      await root
+        .getByRole("switch", { name: "Compare days", exact: true })
+        .isChecked(),
+      true,
+    );
+    await root
+      .getByRole("switch", { name: "Compare days", exact: true })
+      .press("Space");
+    await p.waitForFunction(
+      () => document.querySelectorAll(".oxphos-3d-pane canvas").length === 1,
+    );
+    assert.equal(
+      await root
+        .getByRole("switch", { name: "Compare days", exact: true })
+        .isChecked(),
+      false,
     );
     await p.screenshot({ path: `/tmp/atlas-linked-comparison-${width}.png` });
     assert.deepEqual(errors, []);

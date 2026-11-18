@@ -24,6 +24,7 @@ try {
         Element.prototype.webkitRequestFullscreen = undefined;
       });
     await p.goto(base + "#view=overview");
+    await p.locator('#psilocin-app[data-framework7]').waitFor();
     assert.equal(
       await p.locator(".oxphos-network-preview-overlay").textContent(),
       "Explore OXPHOS network in 3D",
@@ -106,6 +107,28 @@ try {
     await p.waitForTimeout(400);
     await panel.getByRole("button", { name: "Cartoon", exact: true }).click();
     await p.screenshot({ path: `/tmp/atlas-linked-protein-${width}.png` });
+    await panel
+      .getByRole("button", { name: "Show in main 3D view", exact: true })
+      .click();
+    await p.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset.molecularView ===
+        "true",
+    );
+    assert.match(
+      await root.locator(".oxphos-3d-protein-caption").innerText(),
+      /Cα trace.*External structural context/,
+    );
+    await root
+      .getByRole("button", { name: "Toggle Cα beads", exact: true })
+      .click();
+    await p.screenshot({ path: `/tmp/atlas-main-molecule-${width}.png` });
+    await root
+      .getByRole("button", { name: "Back to membership", exact: true })
+      .click();
+    assert.equal(await root.getAttribute("data-molecular-view"), "false");
+    await root.getByRole("button", { name: /NDUFA1 · exact values/ }).click();
+
     await panel.getByRole("tab", { name: "Evidence", exact: true }).click();
     await p.screenshot({ path: `/tmp/atlas-linked-evidence-${width}.png` });
     await panel.getByRole("button", { name: "Done", exact: true }).click();

@@ -4728,3 +4728,34 @@ body {
 #psilocin-app .research-panel-tabs { display:flex; }
 #psilocin-app .research-panel-tabs .button { font-size:13px;padding-inline:8px; }
 @media(max-width:400px) { #psilocin-app .research-panel-tabs .button { font-size:12px;padding-inline:5px; } #psilocin-app .oxphos-3d-camera .button[aria-label="Statistical comparison"] span { display:none; } }
+
+/* Native F7 switch and continuous pane resizing retain the user's camera. */
+#psilocin-app .oxphos-3d-compare-control { display:flex;align-items:center;gap:12px;min-height:44px;padding:5px 12px;border:1px solid var(--network-glass-border);border-radius:12px;background:var(--network-glass);color:var(--network-glass-text);backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px) saturate(145%);pointer-events:auto;font-size:13px; }
+#psilocin-app .oxphos-3d-compare-control .toggle { flex:none; }
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-pane { min-height:0;transition:flex-basis 440ms cubic-bezier(.22,.68,.2,1); }
+#psilocin-app .oxphos-3d-stage { isolation:isolate; }
+#psilocin-app .is-comparison-transitioning .oxphos-3d-stage:before { content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(110deg,transparent 30%,#aedbf00d 49%,transparent 65%);animation:network-compare-light 440ms ease-out both; }
+@keyframes network-compare-light { from{opacity:0;transform:translateX(-18%)} 35%{opacity:1} to{opacity:0;transform:translateX(18%)} }
+@media(max-width:700px) { #psilocin-app .oxphos-3d-compare-control { padding:5px 8px;gap:7px; } #psilocin-app .oxphos-3d-topbar { max-width:calc(100% - 110px); } }
+@media(prefers-reduced-motion:reduce) { #psilocin-app .oxphos-3d-immersive .oxphos-3d-pane { transition:none; } #psilocin-app .is-comparison-transitioning .oxphos-3d-stage:before { display:none; } }
+
+#psilocin-app .network-gene-tooltip { white-space:pre-line;font-size:12px;line-height:1.6; }
+#psilocin-app .network-statistical-tooltip { max-width:min(330px,calc(100vw - 24px));white-space:normal;font-size:12px;line-height:1.55;pointer-events:none; }
+#psilocin-app .research-panel-body .is-linked-hover { stroke:var(--f7-theme-color);filter:drop-shadow(0 0 2px #23578040); }
+
+#psilocin-app .oxphos-3d-compare-control .toggle input { display:block!important;position:absolute;inset:0;margin:0;width:100%;height:100%;opacity:0;pointer-events:auto;z-index:2; }
+#psilocin-app .oxphos-3d-compare-control .toggle:has(input:focus-visible) { outline:2px solid var(--f7-theme-color);outline-offset:4px;border-radius:30px; }
+#psilocin-app .oxphos-3d-compare-control .toggle-icon,
+#psilocin-app .oxphos-3d-compare-control .toggle-icon:before,
+#psilocin-app .oxphos-3d-compare-control .toggle-icon:after { pointer-events:none; }
+
+#psilocin-app .oxphos-3d-protein-tools { position:absolute;left:16px;top:104px;display:flex;gap:8px;flex-wrap:wrap;z-index:3;max-width:calc(100% - 32px); }
+#psilocin-app .oxphos-3d-protein-tools[hidden],#psilocin-app .oxphos-3d-protein-caption[hidden] { display:none; }
+#psilocin-app .oxphos-3d-protein-tools .button { background:var(--network-glass);color:var(--network-glass-text);backdrop-filter:blur(18px);padding:8px 12px;width:auto; }
+#psilocin-app .oxphos-3d-protein-caption { position:absolute;left:16px;right:16px;bottom:188px;max-width:640px;color:#d5eaf7;background:#102333d9;border-radius:12px;padding:12px;font-size:12px;pointer-events:none; }
+#psilocin-app [data-molecular-view=true] .oxphos-3d-scale { visibility:hidden; }
+
+#psilocin-app [data-molecular-view=true] .oxphos-3d-scale,
+#psilocin-app [data-molecular-view=true] .oxphos-3d-days,
+#psilocin-app [data-molecular-view=true] .oxphos-3d-compare-control { display:none; }
+@media(max-width:700px) { #psilocin-app .oxphos-3d-protein-caption { bottom:250px; } }

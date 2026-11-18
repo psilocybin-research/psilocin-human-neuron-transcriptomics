@@ -189,6 +189,21 @@ export async function molecularViewer(
   }
   return {
     mapping,
+    backboneAtoms: parsed
+      .selectedAtoms(selection)
+      .filter((a) => a.atom === "CA")
+      .map(({ x, y, z, atom, resn, resi, chain, icode, b, hetflag }) => ({
+        x,
+        y,
+        z,
+        atom,
+        resn,
+        resi,
+        chain,
+        icode,
+        b,
+        hetflag,
+      })),
     setRepresentation(value) {
       representation = value === "surface" ? "surface" : "cartoon";
       paint();

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1299,
-  "total_bytes": 686665699,
+  "file_count": 1301,
+  "total_bytes": 686691704,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 261539,
-      "sha256": "99b62bd50513dd6e3ee351cca13a2ef0b5d4bc20b4542de49bb36e5c695a35a7"
+      "bytes": 261806,
+      "sha256": "0820c01502aaeddcde9aa52c439903d296b56c5a25933d1805dbc6bee517a467"
     },
     {
       "path": "LICENSE.md",
@@ -304,8 +304,8 @@
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
-      "bytes": 460,
-      "sha256": "261d1e435067a9adb0c272f6cbd02bb82759d6491b3baeb4b32db98470e343f8"
+      "bytes": 558,
+      "sha256": "0aa7977ec1ec163e80e3e8b1fa5d6e18750ed74bdc5114ee3fc9fbd98600e37f"
     },
     {
       "path": "explorer/scripts/normalize-public-context.mjs",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 142360,
-      "sha256": "53d778dbc21ce9981ce834ef05234bd45238ed65057ee65fd782d743a7802a6a"
+      "bytes": 145775,
+      "sha256": "0637774f75858ec0505c62580fdafcbd680b457c4494a4d9b152949b73b6181f"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3489,8 +3489,8 @@
     },
     {
       "path": "explorer/src/components/linked-protein.js",
-      "bytes": 8231,
-      "sha256": "1a5156fde7514aef1516cf1ad79949759b07f74b0641a2f9dfc986c8adfec778"
+      "bytes": 8786,
+      "sha256": "4e5a0be60f6564ded93c04356ee132c0518dcdf9e357f71d683b3620a788d59f"
     },
     {
       "path": "explorer/src/components/local-public-context.js",
@@ -3499,13 +3499,18 @@
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
-      "bytes": 6991,
-      "sha256": "cad9513697349743d141a3f5dc05388395f40e999764c8bc771ef42614f72630"
+      "bytes": 7306,
+      "sha256": "1cf55c93d5465dbf903b8574d4b7ce9073af0c2b7d6158ce5cf8a174d18e5a81"
+    },
+    {
+      "path": "explorer/src/components/network-molecule.js",
+      "bytes": 4583,
+      "sha256": "06b8709a47a8117a3fb12409aed3f40b6c2a61f8d7a41cb51ea79ab5a996e220"
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
-      "bytes": 3801,
-      "sha256": "a9f9e9626766e590ae428b5fcf6d3e0721306989328f1c6a1b6a89d96400a712"
+      "bytes": 1325,
+      "sha256": "09f08437224716db05a91eb31eab987dbbfc97661a570085ba917f39581b3f6b"
     },
     {
       "path": "explorer/src/components/network-statistics.js",
@@ -3514,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 40820,
-      "sha256": "60c600a4ab51681bb6bf525c331c496a6e81fefc01e63c7efc0597e17f126bc2"
+      "bytes": 52348,
+      "sha256": "c712a7c5267fd66629538f17472f5bac9403773d8557c1e66c71944edae125e1"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3524,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 16748,
-      "sha256": "667f113933b5f724b203a00f8e1419990902aa9dfa95464a5466b8931be75676"
+      "bytes": 19299,
+      "sha256": "73db4f67f0b4c5bfd1757e820029a2598e51911b6fe070516bc9a44f92ab2f92"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3749,8 +3754,8 @@
     },
     {
       "path": "explorer/test/linked-research-browser-check.mjs",
-      "bytes": 5210,
-      "sha256": "5c112a2de22141b03b111a895a82d0cd078f911e6f13537eaf59ee5d61c42ff6"
+      "bytes": 6101,
+      "sha256": "caf884047779e1f8988c9891216416d62494f5155d336ec32f0a716dcd11c3a8"
     },
     {
       "path": "explorer/test/metadata.test.js",
@@ -3784,13 +3789,18 @@
     },
     {
       "path": "explorer/test/network-comparison-browser-check.mjs",
-      "bytes": 3771,
-      "sha256": "7a20e363d54712512f2699d03d32a7fb474186dedae49082ec1c42b595abdf18"
+      "bytes": 5078,
+      "sha256": "817f1252c5b8b6b8bd93efeb894d75811c0aecae513e57b44bcab5f42525798c"
     },
     {
       "path": "explorer/test/network-effects-browser-check.mjs",
-      "bytes": 2342,
-      "sha256": "88207157ad3d5eea69bd8e19b70e4eb7a3fe95edfbfc2204f1e4e60368312bbb"
+      "bytes": 2211,
+      "sha256": "ec9b55bb9e613997d9c5551d5f85b03806f77f59f85c7f3865b18d2ea95f0537"
+    },
+    {
+      "path": "explorer/test/network-molecule.test.js",
+      "bytes": 1106,
+      "sha256": "dc8a435d2c5bdc1b618ae448692ffffdb683a73ca691015ae674a5a3cc090407"
     },
     {
       "path": "explorer/test/network-statistics.test.js",
@@ -3799,8 +3809,8 @@
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
-      "bytes": 9009,
-      "sha256": "350f14f38e02e31041ba1cc22bab91446be441762f90e17fedfae380090ac6ee"
+      "bytes": 9031,
+      "sha256": "1c85f4cb7543523edfb3a16bccdaa8488e444af5e767566316988d2513945194"
     },
     {
       "path": "explorer/test/oxphos-network-data.test.js",
@@ -5334,8 +5344,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 9850,
-      "sha256": "3e25ec0093e3fd30f056a08ac243ca8cb59b95dd0d02801d2fed1b73741a9ad1"
+      "bytes": 11824,
+      "sha256": "011f40a500a77ea5eba1380d47c14e98640658f7a2e25d8a3c3e824ec76d3f2f"
     },
     {
       "path": "reports/schmidt_control_resolution.md",
