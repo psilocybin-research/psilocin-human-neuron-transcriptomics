@@ -107,6 +107,22 @@ try {
         "",
     );
 
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset
+          .nodeProteinReady === "true",
+    );
+    const outside = await root.locator(".oxphos-3d-identity").boundingBox();
+    await page.mouse.click(outside.x + 4, outside.y + 4);
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset
+          .nodeProteinReady === "false",
+    );
+    assert.equal(
+      await root.locator(".network-node-protein-caption").isHidden(),
+      true,
+    );
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     console.log(

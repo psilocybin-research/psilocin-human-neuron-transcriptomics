@@ -364,6 +364,43 @@ export function createNodeProtein({ api, root, graphs }) {
     }
     frame = requestAnimationFrame(draw);
   }
+  let outsidePress;
+  function insidePreview(event) {
+    const bounds = caption.getBoundingClientRect();
+    return (
+      caption.contains(event.target) ||
+      (event.clientX >= bounds.left &&
+        event.clientX <= bounds.right &&
+        event.clientY >= bounds.top &&
+        event.clientY <= bounds.bottom)
+    );
+  }
+  listen(document, "pointerdown", (event) => {
+    outsidePress =
+      !event.target.closest?.(
+        ".oxphos-3d-drawer,.oxphos-3d-evidence,.dialog,.popover",
+      ) &&
+      !overlay &&
+      !caption.hidden &&
+      !insidePreview(event)
+        ? { x: event.clientX, y: event.clientY, id: event.pointerId }
+        : undefined;
+  });
+  listen(document, "pointerup", (event) => {
+    const press = outsidePress;
+    outsidePress = undefined;
+    if (
+      press &&
+      !overlay &&
+      event.pointerId === press.id &&
+      Math.hypot(event.clientX - press.x, event.clientY - press.y) < 6 &&
+      !insidePreview(event)
+    )
+      clear();
+  });
+  listen(document, "pointercancel", () => {
+    outsidePress = undefined;
+  });
   listen(root, "keydown", (event) => {
     if (event.key === "Tab" && overlay) {
       const items = [
@@ -377,6 +414,10 @@ export function createNodeProtein({ api, root, graphs }) {
         event.preventDefault();
         items[event.shiftKey ? items.length - 1 : 0]?.focus();
       }
+    }
+    if (event.key === "Escape" && !overlay && !caption.hidden) {
+      clear();
+      return;
     }
     if (event.key === "Escape" && overlay) {
       event.stopImmediatePropagation();
