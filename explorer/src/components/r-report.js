@@ -1,3 +1,7 @@
+import {
+  label as pathwayLabel,
+  contrasts as contrastLabels,
+} from "./format.js";
 import { createElement as el, setLoadingMessage } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import { zip } from "../assets/vendor/r-editor.js";
@@ -6,6 +10,8 @@ import { showToast } from "./app-toast.js";
 const encode = (text) => new TextEncoder().encode(text);
 const tex = (value) =>
   String(value ?? "")
+    .replace(/[–—]/g, "-")
+    .replace(/…/g, "...")
     .replace(
       /[^\x20-\x7e\n]/gu,
       (c) => `[U+${c.codePointAt(0).toString(16).toUpperCase()}]`,
@@ -35,12 +41,24 @@ const codeBlock = (value) =>
     .join("\n");
 const tableText = (value, numeric = false) => {
   let text = String(value ?? "");
-  if (numeric && /[.eE]/.test(text) && Number.isFinite(Number(text)))
-    text = String(Number(Number(text).toPrecision(4)));
-  return (text.slice(0, 120).match(/.{1,8}/gu) || [""])
-    .map(tex)
-    .join("\\allowbreak{}");
+  if (numeric && /[.eE]/.test(text) && Number.isFinite(Number(text))) {
+    const number = Number(text);
+    text =
+      number !== 0 && (Math.abs(number) < 0.001 || Math.abs(number) >= 10000)
+        ? number.toExponential(3)
+        : String(Number(number.toPrecision(4)));
+  }
+  return text
+    .slice(0, 120)
+    .split(/(\s+)/)
+    .map((word) =>
+      word.length > 16
+        ? (word.match(/.{1,8}/gu) || [""]).map(tex).join("\\allowbreak{}")
+        : tex(word),
+    )
+    .join("");
 };
+
 export function reportFiles(run, title, author = "") {
   const { record, resultsCSV, vectorPlots, inputs } = run;
   if (!record || record.error)
@@ -65,7 +83,15 @@ export function reportFiles(run, title, author = "") {
       values.length && values.every((value) => Number.isFinite(Number(value))),
     );
   });
-  const weights = numericColumns.map((numeric) => (numeric ? 1 : 2));
+  const weights = numericColumns.map((numeric, i) =>
+    numeric
+      ? 1
+      : ["pathway", "parameter", "id"].includes(rows[0][i])
+        ? 3
+        : rows[0][i] === "contrast"
+          ? 2
+          : 1.5,
+  );
   const totalWeight = weights.reduce((sum, value) => sum + value, 0);
   const columnDefinitions = Array.from({ length: columns }, (_, i) => {
     const values = rows
@@ -83,11 +109,29 @@ export function reportFiles(run, title, author = "") {
           (row, i) =>
             row
               .slice(0, columns)
-              .map((v, j) => tableText(v, i > 0 && numericColumns[j]))
+              .map((v, j) => {
+                if (i === 0)
+                  return tableText(
+                    {
+                      family_fdr: "Family FDR",
+                      pathway: "Pathway",
+                      contrast: "Contrast",
+                      robustness: "Robustness",
+                    }[v] || v.replaceAll("_", " "),
+                  );
+                const key = rows[0][j];
+                const displayed =
+                  key === "pathway"
+                    ? pathwayLabel(v)
+                    : key === "contrast"
+                      ? contrastLabels[v] || v
+                      : v;
+                return tableText(displayed, numericColumns[j]);
+              })
               .join(" & ") + ` \\\\ ${i === 0 ? "\\midrule\\endhead" : ""}`,
         )
         .join("\n") +
-      "\n\\bottomrule\\end{longtable}\\normalsize\nPreview: up to 40 rows and 6 columns. Numeric previews use up to four significant digits. Full precision and all columns are retained in results.csv.\n"
+      "\n\\bottomrule\\end{longtable}\\normalsize\nPreview: up to 40 rows and 6 columns. Numeric previews use up to four significant digits. Pathway and contrast display names match the atlas. Full identifiers, precision and all columns are retained in results.csv.\n"
     : "";
   const stamp = new Date(record.run_utc)
     .toISOString()
