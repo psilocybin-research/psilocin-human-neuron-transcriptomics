@@ -4423,7 +4423,7 @@ body {
 .research-report-primary .f7-icon-svg{width:24px;height:24px}
 
 /* Keep independent option groups compact and aligned in roomy controls sheets. */
-#psilocin-app .analysis-sheet-body { align-items: start; }
+#psilocin-app .analysis-sheet-body { align-items: start; grid-auto-rows: max-content; }
 
 #psilocin-app .analysis-option-list .list-group-title {
   font-size: 12px;
@@ -4432,6 +4432,7 @@ body {
 }
 
 #psilocin-app .analysis-option-field {
+  margin: 0;
   border: 1px solid var(--research-border);
   border-radius: 12px;
   background: var(--research-surface);
