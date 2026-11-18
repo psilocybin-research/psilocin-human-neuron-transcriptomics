@@ -137,3 +137,19 @@ await writeFile(
   new URL("framework7-icons.js", out),
   `/*!\n${iconLicense}*/\nexport const icons=${JSON.stringify(icons)};\n`,
 );
+
+const editorBundle = await build({
+  entryPoints: [fileURLToPath(new URL('scripts/r-editor-entry.js', root))],
+  outfile: fileURLToPath(new URL('r-editor.js', out)),
+  bundle: true, format: 'esm', minify: true, target: ['es2022'],
+  legalComments: 'inline', metafile: true,
+});
+let editorNotices = 'CodeMirror R editor — bundled dependency licences\n\n';
+for (const name of [...new Set(Object.keys(editorBundle.metafile.inputs).map(p=>p.match(/node_modules\/((?:@[^/]+\/)?[^/]+)/)?.[1]).filter(Boolean))].sort()) {
+  const directory = new URL(`node_modules/${name}/`, root);
+  const pkg = JSON.parse(await readFile(new URL('package.json',directory),'utf8'));
+  editorNotices += `${name} ${pkg.version}\n${await readFile(new URL('LICENSE',directory),'utf8')}\n\n`;
+}
+await writeFile(new URL('r-editor.NOTICES.txt',out),editorNotices);
+const editorPath = new URL('r-editor.js',out);
+await writeFile(editorPath,`/*!\n${editorNotices}*/\n${await readFile(editorPath,'utf8')}`);

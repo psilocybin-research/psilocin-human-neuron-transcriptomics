@@ -4387,8 +4387,7 @@ body {
 /* Custom R uses native F7 controls and a deliberately bounded source editor. */
 .custom-r-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:16px 0}
 .custom-r-toolbar select{flex:1 1 220px;min-height:44px;padding:10px;border:1px solid var(--f7-list-item-border-color,#cbd2d7);border-radius:10px;background:var(--f7-input-bg-color,var(--f7-card-bg-color,#fff));color:inherit}
-.custom-r-code{box-sizing:border-box;width:100%;min-height:360px;resize:vertical;padding:16px;border:1px solid var(--f7-list-item-border-color,#cbd2d7);border-radius:12px;background:var(--f7-card-bg-color,#fff);color:inherit;font:14px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}
-.custom-r-code:focus{outline:2px solid var(--f7-theme-color);outline-offset:2px}
+
 .custom-r-console{max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;border-radius:12px;background:var(--f7-card-bg-color,#fff);font:13px/1.6 ui-monospace,monospace}
 .custom-r-plots canvas{width:100%;height:auto;background:white;border-radius:10px}
 .custom-r-plots figure{margin:16px 0}.custom-r-data-help{margin:16px 0}.custom-r-data-help summary{cursor:pointer;font-weight:600}
@@ -4399,3 +4398,17 @@ body {
 .r-progress-panel[hidden]{display:none}.r-progress-header{display:flex;justify-content:space-between;gap:16px;align-items:center}.r-progress-header [role=status]{margin:0;font-size:17px;font-weight:650;color:var(--f7-theme-color)}.r-progress-header .preloader{width:26px;height:26px;flex-shrink:0}.r-progress-elapsed{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}.r-progress-detail{font-size:14px;line-height:1.55;margin:12px 0}.r-progress-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 20px;padding:0;list-style:none;counter-reset:r-step}.r-progress-steps li{font-size:13px;counter-increment:r-step;display:flex;gap:8px;align-items:center;color:var(--f7-text-color,#344)}.r-progress-steps li:before{content:counter(r-step);display:grid;place-items:center;flex:0 0 24px;height:24px;border:1px solid currentColor;border-radius:50%;opacity:.5}.r-progress-steps li[data-state=active]{font-weight:650;color:var(--f7-theme-color)}.r-progress-steps li[data-state=active]:before{opacity:1;background:var(--f7-theme-color);color:white;border-color:var(--f7-theme-color)}.r-progress-steps li[data-state=done]:before{content:'✓';opacity:1}.r-progress-log{font-size:13px;line-height:1.6}.r-progress-log summary{cursor:pointer}.r-progress-log ol{padding-left:20px;max-height:190px;overflow:auto;font-variant-numeric:tabular-nums}@media(max-width:600px){.r-progress-panel{padding:16px}.r-progress-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.r-progress-header{align-items:flex-start}.r-progress-header [role=status]{font-size:16px}}
 
 .r-progress-panel{scroll-margin-top:90px}.r-progress-actions{margin:12px 0}.r-progress-panel[data-state=finished] .r-progress-actions{display:none}
+
+.custom-r-editor{--r-keyword:#6a3c9b;--r-string:#256b49;--r-number:#a44a17;--r-comment:#647580;border:1px solid var(--f7-list-item-border-color,#cbd2d7);border-radius:12px;overflow:hidden;background:var(--f7-card-bg-color,#fff)}
+.dark .custom-r-editor{--r-keyword:#c7a8f0;--r-string:#9bd6ae;--r-number:#efbe83;--r-comment:#9babb5}
+.custom-r-editor:focus-within{outline:2px solid var(--f7-theme-color);outline-offset:2px}
+.custom-r-editor .cm-editor{font:14px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--f7-text-color,inherit);background:transparent}
+.custom-r-editor .cm-editor.cm-focused{outline:none}
+.custom-r-editor .cm-scroller{overflow:auto;min-height:320px;max-height:560px}
+.custom-r-editor .cm-content{padding:14px 0;caret-color:var(--f7-theme-color)}
+.custom-r-editor .cm-line{padding:0 16px 0 10px}
+.custom-r-editor .cm-gutters{background:var(--f7-list-bg-color,transparent);color:var(--r-comment);border-right:1px solid var(--f7-list-item-border-color,#cbd2d7)}
+.custom-r-editor .cm-activeLine,.custom-r-editor .cm-activeLineGutter{background:color-mix(in srgb,var(--f7-theme-color) 8%,transparent)}
+.custom-r-editor .cm-selectionBackground,.custom-r-editor .cm-focused .cm-selectionBackground{background:color-mix(in srgb,var(--f7-theme-color) 22%,transparent)!important}
+.custom-r-editor .cm-cursor{border-left-color:var(--f7-theme-color)}
+.custom-r-editor .cm-panels,.custom-r-editor .cm-tooltip{background:var(--f7-card-bg-color,#fff);color:var(--f7-text-color,inherit)}

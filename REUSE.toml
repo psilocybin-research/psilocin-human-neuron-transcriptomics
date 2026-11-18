@@ -275,3 +275,9 @@ path = ["explorer/vendor/webr/**", "explorer/vendor/webr-source/**"]
 precedence = "override"
 SPDX-FileCopyrightText = ["2023-2026 webR authors and contributors", "R Core Team and the component authors identified in the upstream distribution notices"]
 SPDX-License-Identifier = "LicenseRef-webR-Distribution"
+
+[[annotations]]
+path = ["explorer/src/assets/vendor/r-editor.js", "explorer/src/assets/vendor/r-editor.NOTICES.txt"]
+precedence = "override"
+SPDX-FileCopyrightText = "2018-2026 Marijn Haverbeke and CodeMirror / Lezer contributors, as identified in bundled notices"
+SPDX-License-Identifier = "MIT"

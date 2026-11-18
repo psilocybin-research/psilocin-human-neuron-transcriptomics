@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1242,
-  "total_bytes": 629817385,
+  "file_count": 1243,
+  "total_bytes": 629828675,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 250832,
-      "sha256": "eb284735c9dc829487fe3812a82cd0555f9192628c86db6a28677344136da0d3"
+      "bytes": 250959,
+      "sha256": "1a666837c4476ca406e55b06eb29263c4c6f8ded10b29409d3b0f9aebf476316"
     },
     {
       "path": "LICENSE.md",
@@ -149,8 +149,8 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 10278,
-      "sha256": "28277285d262a4a52b65c103b02ebfb9b27dbaa06e73e5341ba95ff6eef192cd"
+      "bytes": 10576,
+      "sha256": "9fc6a31175bc56eaa58c4b2b285aec7eb2b1b895d67ab8821b77d64aaf838513"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -264,13 +264,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 184474,
-      "sha256": "4bb6becbcbff8e36b4cf67b6020bfd60bbd136efb17a9fe8516bf424fcd9a646"
+      "bytes": 191570,
+      "sha256": "f591f5400532ea960b718870c308eecc1c8d26ffa51092e0d95873126fade728"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 2891,
-      "sha256": "e4d6ec9f55963fe0cbe76bf422d1c3b0c9f3c25d1b70e437d3f125eee0b8af3c"
+      "bytes": 3137,
+      "sha256": "1c90802fe18741a1ff4b106ca12594af318b6fc6bd5a06aa4df7f47133f105b9"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -334,8 +334,13 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 3912,
-      "sha256": "6e51ff71ee769147868fa938e82309911b25e798cc54ac146672bedf03b2760c"
+      "bytes": 4889,
+      "sha256": "a44ea56b0354edb0a955da8e559990e750d7f933846d20c2623ca41de56cdcea"
+    },
+    {
+      "path": "explorer/scripts/r-editor-entry.js",
+      "bytes": 1423,
+      "sha256": "494ffaf736da546f6de724d8b0388d4365c785b51fe8c53202c842a7e712c8c4"
     },
     {
       "path": "explorer/scripts/snapshot-public-context.py",
@@ -349,8 +354,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 113950,
-      "sha256": "457f3045ceb0aff1f79ef4326fd4726c6cf44ab787d7ec07a74c8a1b7c2124d1"
+      "bytes": 115079,
+      "sha256": "bc6f49af1ed00056435ca4939341d47204d12cae718461500306a216a26367a5"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3364,8 +3369,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 15467,
-      "sha256": "6cef360f0d371692d22d6ae7c0151cda5ccfa41c2af88ca094461524e18eec98"
+      "bytes": 15461,
+      "sha256": "37733799f0de6fdcea4e00cf58c1ce48575bc96e8e80a9b3560ea7875aeb2caf"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",

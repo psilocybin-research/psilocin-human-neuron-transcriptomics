@@ -1,3 +1,4 @@
+import { createREditor } from "../assets/vendor/r-editor.js";
 import { createElement as el } from "./interface-utils.js";
 import { createRProgress } from "./r-progress.js";
 import { rExamples } from "./r-examples.js";
@@ -36,11 +37,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     o.value = example.id;
     selector.append(o);
   }
-  const code = el("textarea", "custom-r-code");
-  code.setAttribute("aria-label", "R code");
-  code.spellcheck = false;
-  code.value = savedCode ?? rExamples[0].code;
-  const label = el("label", "", "Editable R code · Ctrl/⌘ + Enter to run");
+  const code = createREditor(savedCode ?? rExamples[0].code);
+  const label = el("label", "", "Editable R code · Tab to indent · Ctrl/⌘ + Enter to run");
   label.htmlFor = "atlas-r-code";
   code.id = label.htmlFor;
   const toolbar = el("div", "custom-r-toolbar");
@@ -457,6 +455,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     persist();
     terminate("R session closed.");
     progress.destroy();
+    code.destroy();
   };
   return host;
 }
