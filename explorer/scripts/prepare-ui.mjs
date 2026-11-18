@@ -91,6 +91,7 @@ const iconNames = [
   "viewfinder",
   "square_grid_3x2",
   "doc_text_search",
+  "doc_chart",
   "arrow_branch",
   "checkmark_shield",
   "chart_bar",

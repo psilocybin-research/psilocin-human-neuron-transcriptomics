@@ -413,9 +413,11 @@ export function createRReportControls({ root, action, getRun }) {
   const storage = el("div");
   storage.hidden = true;
   storage.append(element);
-  const open = action("Create research report", "print", () =>
+  const open = action("Create research report", "report", () =>
     showResearchEvidence(element, "Create research report"),
   );
+  open.classList.remove("button-tonal");
+  open.classList.add("button-fill", "research-report-primary");
   open.disabled = true;
   open.title = "Complete an R analysis to create a report";
   launcher.append(open, storage);

@@ -4433,3 +4433,6 @@ body {
 .r-resource-bytes{color:var(--research-muted);font-variant-numeric:tabular-nums;text-align:right}
 .r-progress-resources .progressbar{grid-column:1/-1;height:3px;--f7-progressbar-progress-color:var(--f7-theme-color)}
 @media(max-width:500px){.r-progress-resources li{grid-template-columns:minmax(0,1fr)}.r-resource-bytes{text-align:left}}
+
+.research-report-primary{min-height:48px;padding:0 22px;font-weight:600;box-shadow:0 3px 10px color-mix(in srgb,var(--f7-theme-color) 20%,transparent)}
+.research-report-primary .f7-icon-svg{width:24px;height:24px}

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686660227,
+  "total_bytes": 686661592,
   "status": "pass",
   "failures": [],
   "files": [
@@ -339,8 +339,8 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 4889,
-      "sha256": "a44ea56b0354edb0a955da8e559990e750d7f933846d20c2623ca41de56cdcea"
+      "bytes": 4904,
+      "sha256": "1c0e7c5eb3e53d123f3a52d83dacdaa75aadbe73a09111600127a932ccec3db4"
     },
     {
       "path": "explorer/scripts/r-editor-entry.js",
@@ -359,8 +359,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 116951,
-      "sha256": "3e994c4f3b813e2413dd947ff3abbeee943d808ea139d5339a6120367cf3c86b"
+      "bytes": 117166,
+      "sha256": "950feb1780ba26ebaf2adee7d47abcd4337feff2447d121acf885c78e1b7c75f"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3374,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 19920,
-      "sha256": "ab5a2d9f96e17ac5852407f5bf16d5427e42553def809af888dcc2c77df11d62"
+      "bytes": 20926,
+      "sha256": "f98f95b038baa7746084ad4f09c0b8f769a2188589fb128ed60dd9d8637c6ace"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3439,8 +3439,8 @@
     },
     {
       "path": "explorer/src/components/icons.js",
-      "bytes": 2737,
-      "sha256": "2d4340f365f3de208d9f4bfa3fd2158fa76734b19743f079d2cd776fceb8a959"
+      "bytes": 2760,
+      "sha256": "4dec73a34ee073542233ffd2ec25ad0dc666f92e0180fd8f89fd83bbbf6e752a"
     },
     {
       "path": "explorer/src/components/interface-utils.js",
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/r-report.js",
-      "bytes": 20384,
-      "sha256": "33f514a34090e813677121c7fabfe9f2b4ca291664a417a5cea1657a4f4ccbc7"
+      "bytes": 20490,
+      "sha256": "f0f2f296f69614a96980198587f139feed8de50222920db414740f07f73eef23"
     },
     {
       "path": "explorer/src/components/r-runtime.js",

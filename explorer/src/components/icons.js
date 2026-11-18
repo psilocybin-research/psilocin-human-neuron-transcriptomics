@@ -22,6 +22,7 @@ const names = {
   close: "xmark",
   back: "chevron_left",
   print: "printer",
+  report: "doc_chart",
   labels: "textformat_size",
   fullscreen: "arrow_up_left_arrow_down_right",
   fullscreenExit: "arrow_down_right_arrow_up_left",

@@ -94,8 +94,20 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     : "10";
   timeLimit.onchange = () =>
     writePreference("atlas-r-execution-minutes", timeLimit.value);
-  const limitField = el("label", "custom-r-time-limit", "Execution limit");
-  limitField.append(timeLimit);
+  const limitField = action("Execution settings", "controls", () => {
+    const dialog = root.f7.dialog.create({
+      title: "R execution settings",
+      cssClass: "research-message-dialog",
+      content: `<p>The limit applies to script execution, excluding runtime setup.</p><div class="list"><ul>${[5, 10, 30, 60].map((minutes) => `<li><label class="item-radio item-content"><input type="radio" name="r-execution-limit" value="${minutes}" ${Number(timeLimit.value) === minutes ? "checked" : ""}><i class="icon icon-radio"></i><div class="item-inner"><div class="item-title">${minutes} minutes</div></div></label></li>`).join("")}</ul></div>`,
+      destroyOnClose: true,
+      buttons: [{ text: "Done", bold: true, onClick() {
+        timeLimit.value = dialog.el.querySelector("input:checked").value;
+        writePreference("atlas-r-execution-minutes", timeLimit.value);
+      } }],
+    });
+    dialog.open();
+  });
+  limitField.hidden = true;
   toolbar.append(
     selector,
     load,
@@ -280,10 +292,12 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     run.disabled = value;
     load.disabled = value;
     timeLimit.disabled = value;
+    limitField.disabled = value;
     stop.disabled = !value;
     root.dataset.rBusy = String(value);
   }
-  function terminate(message) {
+  function terminate(message, failed = false) {
+    if (failed) limitField.hidden = false;
     ++epoch;
     clearTimeout(timer);
     runtime?.close();
@@ -330,6 +344,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       () =>
         terminate(
           "R setup did not finish within three minutes. Check the connection or offline runtime and retry.",
+          true,
         ),
       180000,
     );
@@ -433,6 +448,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         () =>
           terminate(
             `Stopped after ${executionMinutes} minutes of script execution. Increase the execution limit and rerun, or simplify the script.`,
+            true,
           ),
         executionLimitSeconds * 1000,
       );
@@ -551,6 +567,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         record.error
           ? "R reported an error. Check the console and try again."
           : `Analysis complete.${captured.images.length > 4 ? " First four plots retained." : ""}`,
+        record.error,
       );
       showToast(record.error ? "Check the R console." : "R analysis complete.");
     } catch (error) {
@@ -569,6 +586,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         session.disabled = false;
         terminate(
           "R could not finish. Check the console, connection or offline download and retry.",
+          true,
         );
       }
     }
