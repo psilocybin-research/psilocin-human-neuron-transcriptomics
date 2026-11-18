@@ -230,7 +230,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["robustness", "Robustness"],
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
-    ["methods", "Methods & sources"],
+    ["methods", "Methods & provenance"],
   ];
   let tab = "overview",
     selected = "GPX4",
@@ -543,6 +543,15 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   repositoryDetails.append(repositoryText, el("span", "release", "v1.2.0"));
   repositoryRow.append(repositoryLabel, repositoryDetails);
   citations.append(repositoryRow);
+  const citationGuidance = el("section", "method-card");
+  citationGuidance.append(
+    el("h3", "", "Citing this resource"),
+    el("p", "", "Cite Schmidt et al. for the original experiment and Germann for this independent reanalysis. The version-specific Zenodo record identifies the archived analysis; the live atlas and GitHub repository may contain later interface updates."),
+    el("h3", "", "Public gene and protein context"),
+    el("p", "", "Gene and protein information is provided by Ensembl and UniProt; structural coordinates originate from the Protein Data Bank or AlphaFold Protein Structure Database. Provider links, snapshot dates and mapping details accompany the records. These annotations are external context, not measurements from the psilocin experiment. A gene-to-protein mapping does not establish which isoform was expressed; predicted structures and confidence scores do not demonstrate protein activity."),
+    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
+  );
+  citations.append(citationGuidance);
   const share = iconButton("Share", "share", shareCurrent, "native-share");
   share.setAttribute("aria-label", "Share the current atlas analysis");
   share.title =
@@ -551,7 +560,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       : "Share the current view by email";
   const citationDisclosure = el("details", "citation-disclosure");
   citationDisclosure.open = true;
-  citationDisclosure.append(el("summary", "", "Sources & citation"), citations);
+  citationDisclosure.append(el("summary", "", "References & citation"), citations);
   meta.append(identity, citationDisclosure);
   top.append(home, meta);
   const nav = el("nav");
@@ -1010,7 +1019,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(
       heading(
         "Study design and interpretation",
-        "Three differentiation blocks across two genetic backgrounds limit the precision and generalizability of effect magnitudes. Stable enrichment direction does not imply a precisely estimated expression shift, particularly at Day 3. Methods & sources describes the common-control design and analysis scope.",
+        "Three differentiation blocks across two genetic backgrounds limit the precision and generalizability of effect magnitudes. Stable enrichment direction does not imply a precisely estimated expression shift, particularly at Day 3. Methods & provenance describes the common-control design and analysis scope.",
       ),
     );
     const boundary = el("aside", "boundary");
@@ -2695,13 +2704,17 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   function methods() {
     body.append(
       heading(
-        "Methods, provenance & reuse",
+        "Methods & provenance",
         "A static view of an archived analysis. Browser interactions select and display results; they do not refit DESeq2, rerun enrichment or create new confirmatory tests.",
       ),
     );
     const methodGrid = el("div", "methods-grid");
     body.append(methodGrid);
     const sections = [
+      [
+        "Source experiment and reanalysis",
+        "Schmidt et al. studied psilocin responses in human iPSC-derived cortical neurons. This independent reanalysis examines metabolic and redox-associated transcription after a 10-minute exposure and washout, using archived RNA-seq samples from Day 1 and Day 3. Browser filters explore fixed results; they do not run new analyses.",
+      ],
       [
         "Experimental unit",
         "Raw counts from 23 source libraries were computationally aggregated into nine block × condition profiles. There are three differentiation blocks and two genetic backgrounds. Cells, genes and libraries are not independent biological replicates.",
@@ -2722,7 +2735,22 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "OXPHOS heatmap construction",
         "DESeq2 VST with blind=FALSE; within-gene z-scores over nine explicitly ordered profiles. Expression and effect colors saturate at ±2.5 and ±1.5. Functional groups are project display assignments, not new enrichment families. All 113 genes were selected from OXPHOS leading edges.",
       ],
-      ["Archive", "Version 1.2.0 · https://doi.org/10.5281/zenodo.23283595"],
+      [
+        "Directional stability and uncertainty",
+        "The frozen directional-stability checks include differentiation-block omissions and RNA-quality sensitivities. These checks assess consistency within this small experiment, not independent replication. Bayesian OXPHOS magnitude estimates are prior-sensitive; Day 3 intervals include zero across the documented prior grid. Positive enrichment direction does not imply a precisely estimated effect magnitude.",
+      ],
+      [
+        "Exploratory DNA-maintenance analyses",
+        "DNA-repair and telomere-associated results are post hoc and use their own 24-test family. Shared leading-edge genes and common controls limit independence. TERT was absent from the analyzed source-symbol table and POT1 effects were negative at both days. These results do not measure telomere length, telomerase activity, DNA repair capacity or biological ageing.",
+      ],
+      [
+        "Reproducibility and versions",
+        "The frozen analysis is archived as version 1.2.0 (doi:10.5281/zenodo.23283595). The plan record and input SHA-256 checksums below identify the analysis inputs. The public repository provides code and derived results; later atlas interface updates do not alter the archived estimates or statistical families.",
+      ],
+      [
+        "External annotations and reuse",
+        "Ensembl, UniProt, PDB and AlphaFold records are separately sourced molecular context, matched by the documented identifiers. Snapshot dates, provider attribution and mapping limitations accompany the records. Offline availability depends on the saved package; the core PWA does not include the full molecular library. Source data, derived outputs and software retain their respective licences; consult the repository licence map and References & citation.",
+      ],
     ];
     for (const [t, p] of sections) {
       const c = el("section", "method-card");

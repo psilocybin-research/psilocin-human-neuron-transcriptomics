@@ -5,7 +5,6 @@ import { uiIcon } from "./icons.js";
 // are moved into the target temporarily; their state and event handlers survive.
 export function createAnalysisLauncher({
   root,
-  desktopButton,
   openControls,
   getApp,
   prepareControls,
@@ -57,9 +56,6 @@ export function createAnalysisLauncher({
   const body = node("div", "analysis-sheet-body analysis-morph-body");
   panel.append(header, body);
   root.append(backdrop, fab, panel);
-  desktopButton.classList.add("desktop-analysis-controls");
-  desktopButton.setAttribute("aria-haspopup", "dialog");
-  desktopButton.setAttribute("aria-controls", "analysis-controls-sheet");
   let available = false,
     state = "closed",
     timer,
@@ -91,10 +87,6 @@ export function createAnalysisLauncher({
     );
     fab.inert = !visible || state !== "closed";
     fab.setAttribute("aria-hidden", String(!visible || state !== "closed"));
-    desktopButton.hidden = false;
-    desktopButton.disabled = !available;
-    desktopButton.dataset.available = String(available);
-    desktopButton.setAttribute("aria-disabled", String(!available));
     root.dataset.analysisAvailable = String(available);
     if (!mobile.matches && state !== "closed") close(false);
   }

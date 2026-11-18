@@ -131,7 +131,7 @@ export function createAppShell({
   nav
     .querySelector('[data-section-item="overview"]')
     .after(tourItem.parentElement);
-  utilityItem("Sources & citation", "methods", () => {
+  utilityItem("References & citation", "methods", () => {
     if (!panel.classList.contains("panel-in-breakpoint"))
       panelInstance?.close(false);
     sourcePopup?.open(!reduced());
@@ -163,12 +163,6 @@ export function createAppShell({
   const right = node("div", "right");
   const find = iconAction("Find a gene", "search", () => autocomplete?.open());
   find.classList.add("desktop-gene-finder");
-  const controlButton = iconAction(
-    "Analysis controls",
-    "controls",
-    openControls,
-  );
-  controlButton.hidden = true;
   const appearanceButton = iconAction(
     "Dark mode",
     "appearance",
@@ -222,7 +216,6 @@ export function createAppShell({
   document.addEventListener("webkitfullscreenchange", syncFullscreenButton);
   syncFullscreenButton();
   right.append(
-    controlButton,
     find,
     appearanceButton,
     shareControl,
@@ -290,7 +283,6 @@ export function createAppShell({
   root.replaceChildren(panel, views);
   const analysisLauncher = createAnalysisLauncher({
     root,
-    desktopButton: controlButton,
     openControls,
     getApp: () => app,
     prepareControls,
@@ -303,7 +295,7 @@ export function createAppShell({
     onClosed: (el) => modalClosed({ target: el }),
   });
   const source = node("div", "popup research-sources");
-  source.setAttribute("aria-label", "Sources and citation");
+  source.setAttribute("aria-label", "References and citation");
   const sourcePage = node("div", "sources-layout");
   const sourceBar = node("header", "sources-header");
   const sourceClose = action(
@@ -313,7 +305,7 @@ export function createAppShell({
   );
   sourceClose.setAttribute("aria-label", "Close sources");
   sourceClose.append(uiIcon("close"), node("span", "", "Close"));
-  sourceBar.append(node("h2", "", "Sources & citation"), sourceClose);
+  sourceBar.append(node("h2", "", "References & citation"), sourceClose);
   const sourceScroll = node("div", "sources-content");
   sourceScroll.append(top);
   const license = node(
