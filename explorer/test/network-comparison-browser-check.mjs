@@ -34,6 +34,7 @@ try {
       })
       .waitFor();
     await p.waitForFunction(() => !document.getElementById("atlas-boot"));
+    await p.locator('#psilocin-app[data-framework7]').waitFor();
     await p
       .getByRole("button", {
         name: "Explore 3D gene–pathway membership",
@@ -129,35 +130,17 @@ try {
       .locator(".oxphos-3d-drawer")
       .getByRole("button", { name: "Done", exact: true })
       .click();
-    await root.locator(".oxphos-3d-compare-control").click();
-    await p.waitForFunction(
-      () => document.querySelectorAll(".oxphos-3d-pane canvas").length === 2,
-    );
-    await p.waitForFunction(
-      () => !document.querySelector('[aria-label="Compare days"]').disabled,
-    );
     assert.equal(
       await root
         .getByRole("switch", { name: "Compare days", exact: true })
-        .isChecked(),
-      true,
+        .count(),
+      0,
     );
-    await root
-      .getByRole("switch", { name: "Compare days", exact: true })
-      .press("Space");
-    await p.waitForFunction(
-      () => document.querySelectorAll(".oxphos-3d-pane canvas").length === 1,
-    );
-    assert.equal(
-      await root
-        .getByRole("switch", { name: "Compare days", exact: true })
-        .isChecked(),
-      false,
-    );
+    assert.equal(await root.locator(".oxphos-3d-pane canvas").count(), 1);
     await p.screenshot({ path: `/tmp/atlas-linked-comparison-${width}.png` });
     assert.deepEqual(errors, []);
     console.log(
-      `PASS ${width}px immediate inline startup logo/removal, accessible linked scatter selection, preserved compare tab, exact archived both-day FDR count and synchronized views.`,
+      `PASS ${width}px immediate inline startup logo/removal, accessible linked scatter selection, preserved compare tab, exact archived both-day FDR count and single network canvas.`,
     );
     await c.close();
   }

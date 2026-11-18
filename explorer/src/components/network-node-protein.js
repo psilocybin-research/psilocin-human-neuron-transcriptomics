@@ -1,17 +1,25 @@
-import { createElement as el, loadingMessage } from "./interface-utils.js";
+import { uiIcon } from "./icons.js";
+import { contrasts } from "./format.js";
+import {
+  createElement as el,
+  loadingMessage,
+  createAccordion,
+} from "./interface-utils.js";
 import { geneStructurePreview } from "./structure-preview.js";
 import { localResource, cachedContextFile } from "./local-public-context.js";
 import { publicRequest } from "./protein-data.js";
 import { createSceneBackbone } from "./network-molecule.js";
 
 // Structural context is a separate scene object, never a membership node or edge.
-export function createNodeProtein({ api, root, stage, graphs }) {
+export function createNodeProtein({ api, root, graphs }) {
   let generation = 0,
     model,
     gene,
     atoms,
     mini,
-    twin,
+    miniRenderer,
+    miniScene,
+    miniCamera,
     frame,
     overlay,
     overlayFrame;
@@ -21,12 +29,15 @@ export function createNodeProtein({ api, root, stage, graphs }) {
     disposed = false;
   const caption = el("div", "network-node-protein-caption");
   caption.hidden = true;
-  root.append(caption);
+  const leader = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  leader.classList.add("network-protein-leader");
+  leader.setAttribute("aria-hidden", "true");
+  const line = document.createElementNS(leader.namespaceURI, "path");
+  leader.append(line);
+  leader.hidden = true;
+  root.append(leader, caption);
   const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ray = new api.Raycaster(),
-    pointer = new api.Vector2();
-  const projected = new api.Vector3(),
-    offset = new api.Vector3();
+  const projected = new api.Vector3();
   const unlisten = [];
   function listen(target, event, handler) {
     target.addEventListener(event, handler, true);
@@ -37,12 +48,12 @@ export function createNodeProtein({ api, root, stage, graphs }) {
     const current = overlay;
     overlay = undefined;
     cancelAnimationFrame(overlayFrame);
-    current.renderer.dispose();
-    current.renderer.forceContextLoss();
-    current.controls.dispose();
-    current.backbone.dispose();
-    current.resize.disconnect();
     const finish = () => {
+      current.renderer.dispose();
+      current.renderer.forceContextLoss();
+      current.controls.dispose();
+      current.backbone.dispose();
+      current.resize.disconnect();
       current.inertStates.forEach(([element, value]) => {
         element.inert = value;
       });
@@ -52,7 +63,13 @@ export function createNodeProtein({ api, root, stage, graphs }) {
     if (immediate || reduced()) finish();
     else
       current.host
-        .animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160 })
+        .animate(
+          [
+            { transform: "translate(0,0) scale(1)", opacity: 1 },
+            { transform: current.origin, opacity: 0 },
+          ],
+          { duration: 380, easing: "cubic-bezier(.4,0,.2,1)" },
+        )
         .finished.then(finish);
     root.dataset.structureOverlay = "false";
   }
@@ -60,19 +77,15 @@ export function createNodeProtein({ api, root, stage, graphs }) {
     ++generation;
     closeOverlay(true);
     cancelAnimationFrame(frame);
-    const [left, right] = graphs();
     if (mini) {
-      left?.scene().remove(mini.group);
       mini.dispose();
     }
-    if (twin) {
-      right?.scene().remove(twin);
-      twin.traverse((object) => {
-        if (object.isInstancedMesh) object.dispose();
-      });
-    }
-    mini = twin = undefined;
+    miniRenderer?.dispose();
+    miniRenderer?.forceContextLoss();
+    miniRenderer = undefined;
+    mini = undefined;
     caption.hidden = true;
+    leader.style.display = "none";
     caption.replaceChildren();
     root.dataset.nodeProteinReady = "false";
   }
@@ -86,7 +99,9 @@ export function createNodeProtein({ api, root, stage, graphs }) {
     heading.append(
       el("strong", "", `${gene.symbol} · ${model.provider} ${model.model}`),
     );
-    const close = el("button", "button button-tonal", "Close structure");
+    const close = el("button", "button button-tonal molecular-overlay-close");
+    close.append(uiIcon("close"));
+    close.setAttribute("aria-label", "Close structure");
     close.type = "button";
     close.onclick = () => closeOverlay();
     heading.append(close);
@@ -96,7 +111,48 @@ export function createNodeProtein({ api, root, stage, graphs }) {
       "network-protein-overlay-note",
       `${model.scope} Cα backbone trace; not measured by this RNA-seq experiment. Drag to rotate; pinch or scroll to zoom.`,
     );
-    host.append(surface, heading, note);
+    const evidence = createAccordion(
+      "Gene statistics · archived RNA-seq",
+      "network-protein-statistics",
+    );
+    const table = el("table");
+    const header = el("tr");
+    for (const title of ["Contrast", "log₂FC", "95% Wald interval", "Gene FDR"])
+      header.append(el("th", "", title));
+    const head = el("thead");
+    head.append(header);
+    table.append(head);
+    const body = el("tbody");
+    const numeric = (x) =>
+      Number.isFinite(x) ? x.toPrecision(4) : "Not estimable";
+    gene.effects.forEach((effect, index) => {
+      const row = el("tr");
+      const interval =
+        Number.isFinite(effect?.log2FoldChange) &&
+        Number.isFinite(effect?.lfcSE)
+          ? `${numeric(effect.log2FoldChange - 1.96 * effect.lfcSE)} to ${numeric(effect.log2FoldChange + 1.96 * effect.lfcSE)}`
+          : "Not estimable";
+      for (const value of [
+        Object.values(contrasts)[index],
+        numeric(effect?.log2FoldChange),
+        interval,
+        numeric(effect?.padj),
+      ])
+        row.append(el("td", "", value));
+      body.append(row);
+    });
+    table.append(body);
+    const scroll = el("div", "table-scroll");
+    scroll.append(table);
+    evidence.body.append(
+      scroll,
+      el(
+        "p",
+        "note",
+        "Approximate 95% Wald intervals: log₂FC ± 1.96 SE. Gene FDR is the archived transcriptome-wide correction. Day/control differences do not establish a treatment-by-time interaction. Protein structure is external context, not a measured molecular change.",
+      ),
+    );
+    host.append(surface, heading, note, evidence.element);
     root.append(host);
     const inertStates = [...root.children]
       .filter((element) => element !== host)
@@ -153,6 +209,7 @@ export function createNodeProtein({ api, root, stage, graphs }) {
       resize,
       returnFocus: document.activeElement,
       inertStates,
+      origin: `translate(${caption.offsetLeft}px,${caption.offsetTop}px) scale(0.18)`,
     };
     const draw = () => {
       if (!overlay || overlay.host !== host || disposed) return;
@@ -186,17 +243,35 @@ export function createNodeProtein({ api, root, stage, graphs }) {
   }
   function draw(time) {
     if (disposed || !mini) return;
-    const [left, right] = graphs();
+    const [left] = graphs();
     const node = left?.graphData().nodes.find((n) => n.id === gene.id);
     if (!node) return;
     const dt = Math.min(50, time - (previousTime || time));
     previousTime = time;
     if (!document.hidden) {
-      offset.set(65, 16, 0).applyQuaternion(left.camera().quaternion);
-      mini.group.position.set(node.x, node.y, node.z).add(offset);
+      const camera = left.camera();
+      const bounds = left.renderer().domElement.getBoundingClientRect(),
+        parent = root.getBoundingClientRect();
+      projected.set(node.x, node.y, node.z).project(camera);
+      const nodeX =
+        bounds.left - parent.left + ((projected.x + 1) * bounds.width) / 2;
+      const nodeY =
+        bounds.top - parent.top + ((1 - projected.y) * bounds.height) / 2;
+      const width = 154,
+        height = caption.offsetHeight || 142;
+      const x = Math.max(8, Math.min(parent.width - width - 8, nodeX + 32));
+      const overlapsNode = nodeX >= x - 16 && nodeX <= x + width + 16;
+      const preferredY = overlapsNode
+        ? nodeY - height - 28 >= 150
+          ? nodeY - height - 28
+          : nodeY + 28
+        : nodeY - height / 2;
+      const y = Math.max(
+        150,
+        Math.min(parent.height - height - 215, preferredY),
+      );
       const entry = reduced() ? 1 : Math.min(1, (time - appearanceTime) / 500);
-      const targetScale =
-        (hovered ? 0.32 : 0.29) * (1 - Math.pow(1 - entry, 3));
+      const targetScale = (hovered ? 1.07 : 1) * (1 - Math.pow(1 - entry, 3));
       const scale = reduced()
         ? targetScale
         : mini.group.scale.x +
@@ -207,83 +282,50 @@ export function createNodeProtein({ api, root, stage, graphs }) {
         !overlay &&
         root.dataset.molecularView !== "true" &&
         left.nodeVisibility()(node);
-      if (right && !twin) {
-        twin = mini.group.clone(true);
-        right.scene().add(twin);
+      const pictureHeight = 84;
+      if (
+        miniRenderer.domElement.width !==
+        Math.round(width * miniRenderer.getPixelRatio())
+      ) {
+        miniRenderer.setSize(width, pictureHeight);
       }
-      if (!right) twin = undefined;
-      if (twin) {
-        twin.position.copy(mini.group.position);
-        twin.rotation.copy(mini.group.rotation);
-        twin.scale.copy(mini.group.scale);
-        twin.visible = mini.group.visible;
-      }
-      projected.copy(mini.group.position).project(left.camera());
-      const bounds = left.renderer().domElement.getBoundingClientRect(),
-        parent = root.getBoundingClientRect();
-      const x =
-        bounds.left - parent.left + ((projected.x + 1) * bounds.width) / 2;
-      const y =
-        bounds.top - parent.top + ((1 - projected.y) * bounds.height) / 2 + 35;
-      caption.style.left = `${Math.max(8, Math.min(parent.width - 212, x - 100))}px`;
-      caption.style.top = `${Math.max(90, Math.min(parent.height - 230, y))}px`;
+      miniCamera.aspect = width / pictureHeight;
+      miniCamera.position.z =
+        (220 * pictureHeight) /
+        (2 * Math.tan((miniCamera.fov * Math.PI) / 360) * 82);
+      miniCamera.updateProjectionMatrix();
+      if (mini.group.visible) miniRenderer.render(miniScene, miniCamera);
+      caption.style.left = `${x}px`;
+      caption.style.top = `${y}px`;
       caption.hidden =
         !mini.group.visible ||
         Math.abs(projected.x) > 1 ||
         Math.abs(projected.y) > 1 ||
         projected.z > 1;
+      leader.style.display = caption.hidden ? "none" : "block";
+      leader.setAttribute("viewBox", `0 0 ${parent.width} ${parent.height}`);
+      const endX = Math.max(x, Math.min(x + width, nodeX));
+      const endY = Math.max(y, Math.min(y + height, nodeY));
+      line.setAttribute(
+        "d",
+        `M${nodeX},${nodeY} Q${nodeX},${endY} ${endX},${endY}`,
+      );
     }
     frame = requestAnimationFrame(draw);
   }
-  function hit(event) {
-    if (!mini || overlay) return false;
-    for (const [index, graph] of graphs().entries()) {
-      if (!graph) continue;
-      const bounds = graph.renderer().domElement.getBoundingClientRect();
-      if (
-        event.clientX < bounds.left ||
-        event.clientX > bounds.right ||
-        event.clientY < bounds.top ||
-        event.clientY > bounds.bottom
-      )
-        continue;
-      pointer.set(
-        ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
-        (-(event.clientY - bounds.top) / bounds.height) * 2 + 1,
-      );
-      ray.setFromCamera(pointer, graph.camera());
-      const object = index ? twin : mini.group;
-      if (object?.visible && ray.intersectObject(object, true).length)
-        return true;
-    }
-    return false;
-  }
-  let down;
-  listen(stage, "pointerdown", (event) => {
-    down = [event.clientX, event.clientY];
-  });
-  listen(stage, "pointerleave", () => {
-    hovered = false;
-  });
-  listen(stage, "pointermove", (event) => {
-    hovered = hit(event);
-    if (hovered) stage.style.cursor = "pointer";
-  });
-  listen(stage, "click", (event) => {
-    if (
-      down &&
-      Math.hypot(event.clientX - down[0], event.clientY - down[1]) < 6 &&
-      hit(event)
-    ) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      expand();
-    }
-  });
   listen(root, "keydown", (event) => {
     if (event.key === "Tab" && overlay) {
-      event.preventDefault();
-      overlay.host.querySelector("button")?.focus();
+      const items = [
+        ...overlay.host.querySelectorAll("button, a[href], input, select"),
+      ].filter((item) => !item.disabled);
+      const index = items.indexOf(document.activeElement);
+      if (
+        (!event.shiftKey && index === items.length - 1) ||
+        (event.shiftKey && index <= 0)
+      ) {
+        event.preventDefault();
+        items[event.shiftKey ? items.length - 1 : 0]?.focus();
+      }
     }
     if (event.key === "Escape" && overlay) {
       event.stopImmediatePropagation();
@@ -333,25 +375,50 @@ export function createNodeProtein({ api, root, stage, graphs }) {
           predicted: model.provider === "AlphaFold",
         });
         mini.group.scale.setScalar(reduced() ? 0.29 : 0.0001);
-        graphs()[0].scene().add(mini.group);
+        miniScene = new api.Scene();
+
+        miniScene.add(mini.group);
+        miniCamera = new api.PerspectiveCamera(42, 1, 0.1, 10000);
+        miniRenderer = new api.WebGLRenderer({ antialias: true, alpha: true });
+        miniRenderer.setClearColor(0x000000, 0);
+        miniRenderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+        const picture = el("button", "network-protein-callout-picture");
+        picture.type = "button";
+        picture.setAttribute(
+          "aria-label",
+          `Expand molecular preview for ${gene.symbol}`,
+        );
+        picture.append(miniRenderer.domElement);
+        picture.onclick = expand;
+        picture.onpointerenter = () => {
+          hovered = true;
+        };
+        picture.onpointerleave = () => {
+          hovered = false;
+        };
+        picture.onfocus = () => {
+          hovered = true;
+        };
+        picture.onblur = () => {
+          hovered = false;
+        };
         const open = el(
           "button",
           "network-node-protein-open",
-          `${gene.symbol} · View structure ↗`,
+          "View structure ↗",
         );
         open.type = "button";
         open.setAttribute("aria-label", `Expand structure for ${gene.symbol}`);
         open.onclick = expand;
         caption.replaceChildren(
-          open,
-          el("small", "", `${model.provider} · ${model.model} · Cα trace`),
           el(
-            "small",
-            "",
-            model.provider === "AlphaFold"
-              ? "Colour: local pLDDT; predicted context"
-              : "Colour: sequence; deposited context",
+            "strong",
+            "network-protein-callout-title",
+            `${gene.symbol} · ${model.provider}`,
           ),
+          picture,
+          open,
+          el("small", "", `${model.model} · Cα trace`),
         );
         appearanceTime = performance.now();
         previousTime = 0;
@@ -368,6 +435,7 @@ export function createNodeProtein({ api, root, stage, graphs }) {
       clear();
       unlisten.forEach((fn) => fn());
       caption.remove();
+      leader.remove();
     },
   };
 }

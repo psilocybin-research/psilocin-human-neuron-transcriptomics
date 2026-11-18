@@ -324,7 +324,7 @@ export function researchPanel(
               fill: "#235780",
               r: 4,
               title: (r) =>
-                `${r.contrast}\nlog₂FC ${r.log2FoldChange}\nSE ${r.lfcSE}\nGene FDR ${number(r.padj)}`,
+                `${r.contrast}\nlog₂FC ${number(r.log2FoldChange)}\nSE ${number(r.lfcSE)}\nGene FDR ${number(r.padj)}`,
             }),
             Plot.text(rows, {
               x: 0,

@@ -69,6 +69,13 @@ try {
     await root.locator(".network-protein-overlay canvas").waitFor();
     assert.equal(await root.getAttribute("data-structure-overlay"), "true");
     assert.equal(await root.locator(".oxphos-3d-pane canvas").count(), 1);
+    const stats = root.locator(".network-protein-statistics");
+    await stats
+      .getByRole("button", { name: "Gene statistics · archived RNA-seq" })
+      .click();
+    await stats.locator("tbody tr").first().waitFor({ state: "visible" });
+    assert.equal(await stats.locator("tbody tr").count(), 3);
+    assert.match(await stats.innerText(), /95% Wald interval/);
     await page.waitForTimeout(550);
     await page.screenshot({ path: `/tmp/atlas-node-protein-${width}.png` });
     await root
@@ -78,6 +85,21 @@ try {
       .locator(".network-protein-overlay")
       .waitFor({ state: "detached" });
     assert.equal(await root.getAttribute("data-node-protein-ready"), "true");
+    await root.getByRole("button", { name: "Find gene", exact: true }).click();
+    const drawer = page.locator(".oxphos-3d-drawer");
+    await drawer.getByRole("searchbox").fill("NDUFA1");
+    await drawer.getByRole("button", { name: "NDUFA1", exact: true }).click();
+    await page.waitForFunction(() =>
+      Boolean(
+        document.querySelector(".oxphos-network-3d")?.dataset.locatingGene,
+      ),
+    );
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".oxphos-network-3d")?.dataset.locatingGene ===
+        "",
+    );
+
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     console.log(

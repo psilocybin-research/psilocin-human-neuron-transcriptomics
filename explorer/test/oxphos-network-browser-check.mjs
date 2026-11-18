@@ -88,61 +88,34 @@ try {
     const stage = root.locator(".oxphos-3d-stage");
     const stageBox = await stage.boundingBox();
     assert.ok(stageBox.height > 700);
-    const canvasBox = await root.locator(".oxphos-3d-pane canvas").first().boundingBox();
+    const canvasBox = await root
+      .locator(".oxphos-3d-pane canvas")
+      .first()
+      .boundingBox();
     assert.ok(Math.abs(canvasBox.y - stageBox.y) < 2);
-    assert.ok(Math.abs(canvasBox.height - stageBox.height) < 2, "Canvas fills behind all controls");
-    await root
-      .getByRole("switch", { name: "Compare days", exact: true })
-      .click();
-    await p.waitForFunction(
-      () =>
-        document.querySelector(".oxphos-network-3d")?.dataset.comparing ===
-        "true",
+    assert.ok(
+      Math.abs(canvasBox.height - stageBox.height) < 2,
+      "Canvas fills behind all controls",
     );
-    assert.equal(await root.locator(".oxphos-3d-pane canvas").count(), 2);
-    await root
-      .getByRole("button", { name: "Reset camera", exact: true })
-      .click();
-    const panes = root.locator(".oxphos-3d-pane canvas");
-    await p.waitForTimeout(200);
-    for (const canvas of await panes.all()) {
-      const rgb = await canvas.evaluate((c) => {
-        const gl = c.getContext("webgl2"),
-          v = new Uint8Array(4);
-        gl.readPixels(2, 2, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, v);
-        return [...v].slice(0, 3);
-      });
-      assert.ok(
-        rgb.every((v, i) => Math.abs(v - [6, 13, 23][i]) <= 3),
-        `comparison colour management: ${rgb}`,
-      );
-    }
-
-    const beforeLeft = await panes.nth(0).screenshot(),
-      beforeRight = await panes.nth(1).screenshot();
-    const box = await panes.nth(0).boundingBox();
-    await p.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.55);
-    await p.mouse.down();
-    await p.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.6, {
-      steps: 8,
-    });
-    await p.mouse.up();
-    await p.waitForTimeout(500);
-    assert.notDeepEqual(await panes.nth(0).screenshot(), beforeLeft);
-    assert.notDeepEqual(await panes.nth(1).screenshot(), beforeRight);
-    await p.screenshot({ path: `${out}/comparison-${width}.png` });
-    await root
-      .getByRole("switch", { name: "Compare days", exact: true })
-      .click();
-    await p.waitForFunction(()=>document.querySelectorAll(".oxphos-3d-pane canvas").length===1);
+    assert.equal(
+      await root
+        .getByRole("switch", { name: "Compare days", exact: true })
+        .count(),
+      0,
+    );
+    assert.equal(await root.locator(".oxphos-3d-pane canvas").count(), 1);
     await root.getByRole("button", { name: "Day 3", exact: true }).click();
     await root.getByRole("button", { name: "Find gene", exact: true }).click();
     let drawer = p.locator(".oxphos-3d-drawer");
     await drawer.getByRole("searchbox").fill("NDUFA1");
     await drawer.getByRole("button", { name: "NDUFA1", exact: true }).click();
-    drawer = p.locator(width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer");
+    drawer = p.locator(
+      width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer",
+    );
     await drawer.locator(".oxphos-research-panel svg").first().waitFor();
-    await drawer.getByText("Full stored gene statistics", {exact:true}).click();
+    await drawer
+      .getByText("Full stored gene statistics", { exact: true })
+      .click();
     const g = archive.find((g) => g.symbol === "NDUFA1" && g.selected);
     assert.ok((await drawer.innerText()).includes(String(g.effects[1].padj)));
     await drawer.getByRole("button", { name: "Done", exact: true }).click();
@@ -217,7 +190,7 @@ try {
     );
     await c.close();
     console.log(
-      `PASS ${width}px preview placement/overlay, lazy renderer/preloader, immersive canvas, day3, exact values, F7 tools, synchronized comparison cameras, filters/export and reopen`,
+      `PASS ${width}px preview placement/overlay, lazy renderer/preloader, immersive canvas, day3, exact values, F7 tools, single canvas, filters/export and reopen`,
     );
   }
 } finally {

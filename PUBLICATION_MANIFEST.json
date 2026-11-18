@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686719763,
+  "total_bytes": 686717399,
   "status": "pass",
   "failures": [],
   "files": [
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 148687,
-      "sha256": "493a41965a8d187ff7fd6cb8ee43e57399bf486d264c011970e5721d950a3665"
+      "bytes": 148235,
+      "sha256": "9c2ac9160537757c3ad8e5beaf0ba8135146d485fa1ee394ecbdd37cc9a1b8a9"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3369,8 +3369,8 @@
     },
     {
       "path": "explorer/src/components/app-pwa.js",
-      "bytes": 28275,
-      "sha256": "be65bd62035cb2da970d6580046277acf1c4d3eea91465505fc951941c936879"
+      "bytes": 28833,
+      "sha256": "5024300015f0b140694fd8e53ea442846fc88ce245a4378129b7422a240e6f0e"
     },
     {
       "path": "explorer/src/components/app-shell.js",
@@ -3504,8 +3504,8 @@
     },
     {
       "path": "explorer/src/components/network-camera.js",
-      "bytes": 1331,
-      "sha256": "9269f85c3a6fd84782072993440252b2f6e0316a49c0354869552d36e072f546"
+      "bytes": 2839,
+      "sha256": "c11dc097b932b33e3fa98681f766b12f164406cc9ea13481065b825a10851f60"
     },
     {
       "path": "explorer/src/components/network-molecule.js",
@@ -3514,13 +3514,13 @@
     },
     {
       "path": "explorer/src/components/network-node-protein.js",
-      "bytes": 12449,
-      "sha256": "07f39e957a8d1ef959708df687ff203b782330171dc31872baad6bfae391c832"
+      "bytes": 15237,
+      "sha256": "752d7e7959c56aa309b4ad25a373ffb8c1175ae9617e46a4567392cce3269371"
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
-      "bytes": 1325,
-      "sha256": "09f08437224716db05a91eb31eab987dbbfc97661a570085ba917f39581b3f6b"
+      "bytes": 1806,
+      "sha256": "8ef210dcc943d3d27c23f93f64f5e3b290114e57c21d5490a2291d73417b1e8e"
     },
     {
       "path": "explorer/src/components/network-statistics.js",
@@ -3529,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 55982,
-      "sha256": "a28b87ae7e15cb1066c2609511a50df55ebd7a7f637054e7574ddb48ed211c93"
+      "bytes": 49007,
+      "sha256": "c56fdf34bc4a1d38d0d0a530dd664ac9c0e6b7ed65dc6ba75aeb39864df4e04e"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3539,8 +3539,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 19299,
-      "sha256": "73db4f67f0b4c5bfd1757e820029a2598e51911b6fe070516bc9a44f92ab2f92"
+      "bytes": 19315,
+      "sha256": "620d34d65ab4d800f7ffd2e9efe7bc05ece6b7ca9122f647afaa40e1e38a51b7"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3799,13 +3799,13 @@
     },
     {
       "path": "explorer/test/network-camera.test.js",
-      "bytes": 1548,
-      "sha256": "7777e3979b26d3c06f6b33116cd667af54e88898ed7b849e8bcff5018089b9aa"
+      "bytes": 2197,
+      "sha256": "1aafe80b30318a93b1676cd48bb6e312626cbcca29f37e2c55839f7cfded2308"
     },
     {
       "path": "explorer/test/network-comparison-browser-check.mjs",
-      "bytes": 5964,
-      "sha256": "03464171aa6879d084e2a8ad93c5a2ca269fe706b45e25d3f58cb61f4df52ec0"
+      "bytes": 5448,
+      "sha256": "a71a0e48038e2b9f76d57013b01443b62a652fa7023572d49eb326923c19dc81"
     },
     {
       "path": "explorer/test/network-effects-browser-check.mjs",
@@ -3824,13 +3824,13 @@
     },
     {
       "path": "explorer/test/node-protein-browser-check.mjs",
-      "bytes": 3460,
-      "sha256": "db1bf0958096705ac04bb8df1711c226062fb712a5a44fd456f2f019448c3b1a"
+      "bytes": 4388,
+      "sha256": "1c4c4639400a953725ff2608d72fae01c02cbf7598d3995266b7ce0061001cfd"
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
-      "bytes": 9031,
-      "sha256": "1c85f4cb7543523edfb3a16bccdaa8488e444af5e767566316988d2513945194"
+      "bytes": 7548,
+      "sha256": "32e8db18fa8d51e04a8370774d5437b7d650a0924e3ffc8878c718ebdb24a571"
     },
     {
       "path": "explorer/test/oxphos-network-data.test.js",
@@ -5364,8 +5364,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 12944,
-      "sha256": "3c562166554d8dcdf623c5c46add122bd9ceab5c26f614de39f2877effac73b7"
+      "bytes": 13078,
+      "sha256": "1d4f5b83b2f4fdb56bdd6bd2c4efda33a1bace361df585941c725b63c5e12a1f"
     },
     {
       "path": "reports/schmidt_control_resolution.md",

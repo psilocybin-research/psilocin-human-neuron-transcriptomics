@@ -13,6 +13,16 @@ import { uiIcon } from "./icons.js";
 import { downloadFile } from "./file-download.js";
 import { trackActivity } from "./app-activity.js";
 
+const hoverNumber = (value, probability = false) =>
+  !Number.isFinite(value)
+    ? "Not estimable"
+    : probability
+      ? value !== 0 && Math.abs(value) < 0.001
+        ? value.toExponential(2)
+        : Number(value.toPrecision(3)).toString()
+      : Math.abs(value) < 0.0005 && value !== 0
+        ? value.toExponential(2)
+        : value.toFixed(3);
 const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
 export function createOxphosNetwork({ onEvidence, initialGene }) {
@@ -40,18 +50,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinCamera,
     proteinSelection,
     activeResearchPanel;
-  let comparing = false,
-    graphRight,
-    bloomRight,
-    syncingCamera = false;
-  const rightMeshes = new Map(),
-    objects = new Map(),
-    rightLabels = [],
-    rightResources = [],
-    rightObjects = new Map();
-  const leftStage = el("div", "oxphos-3d-pane"),
-    rightStage = el("div", "oxphos-3d-pane");
-  rightStage.hidden = true;
+  const objects = new Map();
+  const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
     meshes = new Map(),
     labels = [],
@@ -331,10 +331,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
               schema_version: 1,
               archive: "10.5281/zenodo.23283595",
               view_url: location.href,
-              comparison_view: comparing,
-              displayed_contrasts: comparing
-                ? ["day1_vs_control", "day3_vs_control"]
-                : [day === 0 ? "day1_vs_control" : "day3_vs_control"],
+              displayed_contrasts: [
+                day === 0 ? "day1_vs_control" : "day3_vs_control",
+              ],
               day: day === 0 ? 1 : 3,
               contrast: day === 0 ? "day1_vs_control" : "day3_vs_control",
               complex_filter: filter,
@@ -402,19 +401,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     el("span", "", "Human iPSC-derived cortical neurons"),
   );
   topbar.append(identity);
-  const compareControl = el("label", "oxphos-3d-compare-control");
-  const compareToggle = el("span", "toggle");
-  const compareInput = el("input");
-  compareInput.type = "checkbox";
-  compareInput.disabled = true;
-  compareInput.setAttribute("role", "switch");
-  compareInput.setAttribute("aria-label", "Compare days");
-  compareInput.onchange = () => toggleCompare(compareInput.checked);
-  compareToggle.append(compareInput, el("span", "toggle-icon"));
-  compareControl.append(el("span", "", "Compare days"), compareToggle);
-  topbar.append(days, compareControl, status);
-  let compareTimer, compareInstance;
-  rightStage.style.flex = "0 0 0%";
+  topbar.append(days, status);
   leftStage.style.flex = "1 1 0%";
   const legendCompact = el("div", "oxphos-3d-scale");
   legendCompact.append(
@@ -642,7 +629,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       api,
       root,
       stage,
-      graphs: () => [graph, graphRight],
+      graphs: () => [graph],
     });
     nodeProtein.show(gene);
   }
@@ -806,7 +793,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     searchCount.textContent = `${rows.length} matching genes · ${Math.min(shown, rows.length)} shown. Search filters this list; the graph retains the current complex filter.`;
     geneList.replaceChildren();
     for (const n of rows.slice(0, shown)) {
-      const b = button(n.symbol, () => choose(n));
+      const b = button(n.symbol, () => {
+        choose(n, true, false);
+        closeDrawer();
+        evidenceAside.hidden = true;
+        sceneEffects?.locate(n.id);
+        showNodeProtein(n);
+      });
       b.setAttribute("aria-pressed", String(selected === n.id));
       b.title = n.id;
       geneList.append(b);
@@ -847,10 +840,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           showEdges.checked &&
           visible(genes.find((n) => n.id === endpoints(l)[0])),
       );
-    for (const [scene, map, effectDay] of [
-      [graph, meshes, comparing ? 0 : day],
-      [graphRight, rightMeshes, 1],
-    ]) {
+    for (const [scene, map, effectDay] of [[graph, meshes, day]]) {
       if (!scene) continue;
       scene
         .nodeVisibility((n) =>
@@ -874,7 +864,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             mesh.children[0].material.needsUpdate = true;
           mesh.children[0].material.transparent = focused && n.id !== selected;
           mesh.children[0].material.opacity =
-            focused && !comparing && n.id !== selected ? 0.55 : 1;
+            focused && n.id !== selected ? 0.55 : 1;
           mesh.children[0].material.depthWrite = !focused || n.id === selected;
           mesh.children[1].visible = n.id === selected;
           const fdr = n.effects[effectDay]?.padj;
@@ -882,7 +872,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         }
       }
       for (const n of snapshot.nodes.filter((n) => n.type !== "gene")) {
-        const object = (scene === graph ? objects : rightObjects).get(n.id);
+        const object = objects.get(n.id);
         if (object) {
           if (
             object.children[0].material.transparent !==
@@ -910,7 +900,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         )
         .linkOpacity(0.28);
     }
-    for (const item of [...labels, ...rightLabels])
+    for (const item of labels)
       item.sprite.visible =
         layoutMode === "complex" &&
         !focused &&
@@ -949,7 +939,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       duration = matchMedia("(prefers-reduced-motion: reduce)").matches
         ? 0
         : 780;
-    const scenes = [graph, graphRight].filter(Boolean);
+    const scenes = [graph];
     const origins = new Map(
       graph.graphData().nodes.map((n) => [n.id, { x: n.x, y: n.y, z: n.z }]),
     );
@@ -960,11 +950,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       ]),
     );
     layoutSelect.disabled = true;
-    compareInput.disabled = true;
     const move = (time) => {
       if (destroyed) return;
       const t = duration ? Math.min(1, (time - began) / duration) : 1,
-        ease = t * t * (3 - 2 * t);
+        ease = t * t * t * (t * (t * 6 - 15) + 10);
       for (const scene of scenes) {
         for (const node of scene.graphData().nodes) {
           const a = origins.get(node.id),
@@ -980,7 +969,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       if (t < 1) layoutFrame = requestAnimationFrame(move);
       else {
         layoutSelect.disabled = false;
-        compareInput.disabled = false;
         root.dataset.layoutReady = "true";
       }
     };
@@ -997,12 +985,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     if (root.dataset.layoutReady === "false")
       await new Promise((resolve) => setTimeout(resolve, 820));
     if (destroyed || request !== proteinRequest) return;
-    if (comparing) {
-      if (compareInput.disabled)
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      toggleCompare(false);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-    }
     if (destroyed || request !== proteinRequest) return;
     if (proteinScene) closeProteinScene();
     const position = graph.cameraPosition(),
@@ -1026,7 +1008,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinTools.hidden = false;
     proteinCaption.hidden = false;
     proteinCaption.textContent = `${context.gene.symbol} · ${context.protein.accession} · ${context.model.provider} ${context.model.model} · Cα trace (${proteinScene.count} residues). External structural context; not measured by this experiment. ${context.model.provider === "AlphaFold" ? "Colours: local pLDDT blue ≥90, cyan 70–90, yellow 50–70, orange <50; not experimental validation." : "Colours distinguish sequence position, not confidence."}`;
-    compareInput.disabled = true;
     layoutSelect.disabled = true;
     dayButtons.forEach((b) => (b.disabled = true));
     root.dataset.molecularView = "true";
@@ -1052,7 +1033,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinCaption.hidden = true;
     root.dataset.molecularView = "false";
     if (bloom) bloom.enabled = bloomEnabled;
-    compareInput.disabled = false;
     layoutSelect.disabled = false;
     dayButtons.forEach((b) => (b.disabled = false));
     if (proteinCamera)
@@ -1071,7 +1051,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       n.effects
         .map(
           (e, i) =>
-            `${Object.values(contrasts)[i]}: log₂FC ${exact(e?.log2FoldChange)}, SE ${exact(e?.lfcSE)}, gene FDR ${exact(e?.padj)}`,
+            `${Object.values(contrasts)[i]}: log₂FC ${hoverNumber(e?.log2FoldChange)}, SE ${hoverNumber(e?.lfcSE)}, gene FDR ${hoverNumber(e?.padj, true)}`,
         )
         .join("\n")
     );
@@ -1084,153 +1064,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     activeResearchPanel?.highlightGene?.(hoveredId);
     updateGraph();
   }
-  function syncCamera(source, target) {
-    if (!target || syncingCamera) return;
-    syncingCamera = true;
-    const p = source.cameraPosition(),
-      t = source.controls().target;
-    target.cameraPosition(
-      { x: p.x, y: p.y, z: p.z },
-      { x: t.x, y: t.y, z: t.z },
-      0,
-    );
-    syncingCamera = false;
-    root.dataset.cameraSynced = "true";
-  }
-  function toggleCompare(enabled) {
-    if (!graph) return;
-    if (compareInput.disabled || comparing === enabled) return;
-    comparing = enabled;
-    compareInput.disabled = true;
-    const duration = matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? 0
-      : 440;
-    rightStage.hidden = false;
-    // Establish the collapsed frame before changing the flexible pane width.
-    rightStage.getBoundingClientRect();
-    root.classList.toggle("is-comparing", comparing);
-    root.dataset.comparing = String(comparing);
-    rightStage.style.flex = comparing ? "0 0 50%" : "0 0 0%";
-    root.classList.toggle("is-comparison-transitioning", duration > 0);
-    dayButtons.forEach((b) => (b.disabled = comparing));
-    sceneEffects?.refresh();
-    if (comparing) {
-      try {
-        graphRight = new api.ForceGraph3D(rightStage, {
-          controlType: "orbit",
-          rendererConfig: {
-            antialias: true,
-            alpha: false,
-            preserveDrawingBuffer: true,
-          },
-        })
-          .width(Math.max(2, rightStage.clientWidth))
-          .height(Math.max(2, rightStage.clientHeight))
-          .backgroundColor("#060d17")
-          .showNavInfo(false)
-          .enableNodeDrag(false)
-          .cooldownTicks(0)
-          .nodeLabel(geneTooltip)
-          .nodeThreeObject((n) => {
-            const copy = objects.get(n.id).clone(true);
-            copy.children[0].material = copy.children[0].material.clone();
-            rightResources.push(copy.children[0].material);
-            rightObjects.set(n.id, copy);
-            if (n.type === "gene") {
-              rightMeshes.set(n.id, copy);
-            }
-            return copy;
-          })
-          .onNodeHover(graph.onNodeHover())
-          .onNodeClick(graph.onNodeClick())
-          .graphData({
-            nodes: snapshot.nodes.map((node) => {
-              const p = graph.graphData().nodes.find((n) => n.id === node.id);
-              return {
-                ...structuredClone(node),
-                x: p.x,
-                y: p.y,
-                z: p.z,
-                fx: p.x,
-                fy: p.y,
-                fz: p.z,
-              };
-            }),
-            links: structuredClone(snapshot.links),
-          });
-        graphRight.scene().background = new api.Color("#060d17");
-        graphRight
-          .renderer()
-          .setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
-        graphRight.controls().addEventListener("start", cameraTransition.stop);
-        graphRight.controls().enableDamping = true;
-        graphRight
-          .controls()
-          .addEventListener("change", () => syncCamera(graphRight, graph));
-        for (const item of labels) {
-          const copy = item.sprite.clone();
-          graphRight.scene().add(copy);
-          rightLabels.push({ sprite: copy, key: item.key });
-        }
-        bloomRight = new api.UnrealBloomPass(
-          new api.Vector2(rightStage.clientWidth, rightStage.clientHeight),
-          0.58,
-          0.3,
-          1.05,
-        );
-        bloomRight.enabled = bloomEnabled;
-        graphRight.postProcessingComposer().addPass(bloomRight);
-        const outputRight = new api.OutputPass();
-        rightResources.push(outputRight);
-        graphRight.postProcessingComposer().addPass(outputRight);
-        rightStage.querySelector("canvas").setAttribute("aria-hidden", "true");
-      } catch (error) {
-        graphRight?._destructor();
-        graphRight = undefined;
-        comparing = false;
-        rightStage.hidden = true;
-        root.classList.remove("is-comparing");
-        compareInput.checked = false;
-        compareInput.disabled = false;
-        rightStage.style.flex = "0 0 0%";
-        root.classList.remove("is-comparison-transitioning");
-        root.dataset.comparing = "false";
-        dayButtons.forEach((b) => (b.disabled = false));
-        status.textContent =
-          "This device cannot open a second 3D view. Use Day 1 / Day 3 and exact statistics instead.";
-        return;
-      }
-    }
-    // Preserve the user's orbit and target; resizing must not reset the camera.
-    syncCamera(graph, graphRight);
-    refresh();
-    clearTimeout(compareTimer);
-    const settle = () => {
-      if (destroyed) return;
-      if (!comparing) {
-        graphRight?._destructor();
-        graphRight = undefined;
-        bloomRight?.dispose();
-        bloomRight = undefined;
-        rightMeshes.clear();
-        rightObjects.clear();
-        rightLabels.length = 0;
-        rightResources.splice(0).forEach((r) => r.dispose());
-        rightStage.replaceChildren();
-        rightStage.hidden = true;
-      }
-      graph.width(leftStage.clientWidth).height(leftStage.clientHeight);
-      if (graphRight)
-        graphRight
-          .width(rightStage.clientWidth)
-          .height(rightStage.clientHeight);
-      root.classList.remove("is-comparison-transitioning");
-      compareInput.disabled = false;
-    };
-    if (duration) compareTimer = setTimeout(settle, duration + 40);
-    else settle();
-  }
-
   function refresh() {
     dayButtons.forEach((b, i) =>
       b.setAttribute("aria-pressed", String(i === day)),
@@ -1245,9 +1078,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       ).length;
     const caption = (d) =>
       `Day ${d ? 3 : 1} / common control · ${significantCount(d)} gene FDR < 0.05`;
-    leftStage.dataset.timepoint = caption(comparing ? 0 : day);
-    rightStage.dataset.timepoint = caption(1);
-    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${comparing ? "linked cameras" : "vs common control"}${filter === "V" ? " · no complex V subunits in this union" : ""}`;
+    leftStage.dataset.timepoint = caption(day);
+    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · vs common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     shown = 12;
     renderList();
     renderSelected();
@@ -1257,11 +1089,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   function destroy() {
     if (destroyed) return;
     destroyed = true;
-    clearTimeout(compareTimer);
     cameraTransition?.stop();
     cancelAnimationFrame(entranceFrame);
     cancelAnimationFrame(layoutFrame);
-    compareInstance?.destroy();
     if (proteinScene) {
       graph?.scene().remove(proteinScene.group);
       proteinScene.dispose();
@@ -1276,9 +1106,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     detachObserver?.disconnect();
     document.removeEventListener("visibilitychange", visibility);
     document.removeEventListener("fullscreenchange", fullscreenChanged);
-    graphRight?._destructor();
-    bloomRight?.dispose();
-    rightResources.forEach((r) => r.dispose());
     graph?._destructor();
     for (const r of resources) r.dispose?.();
   }
@@ -1286,10 +1113,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     if (!graph) return;
     if (document.hidden || !stage.getClientRects().length) {
       graph.pauseAnimation();
-      graphRight?.pauseAnimation();
     } else {
       graph.resumeAnimation();
-      graphRight?.resumeAnimation();
     }
   }
   function sprite(text, colour) {
@@ -1321,7 +1146,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         text: "#bed5e6",
         accent: "#6ebcdb",
       };
-      stage.replaceChildren(leftStage, rightStage);
+      stage.replaceChildren(leftStage);
       graph = new api.ForceGraph3D(leftStage, {
         controlType: "orbit",
         rendererConfig: {
@@ -1433,7 +1258,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         }),
         apply: ({ position, target }) => {
           graph.cameraPosition(position, target, 0);
-          syncCamera(graph, graphRight);
         },
         motion: () => !matchMedia("(prefers-reduced-motion: reduce)").matches,
         onState: (moving) => {
@@ -1442,9 +1266,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       });
       graph.controls().addEventListener("start", cameraTransition.stop);
       graph.controls().enableDamping = true;
-      graph
-        .controls()
-        .addEventListener("change", () => syncCamera(graph, graphRight));
       // Labels are annotations, not graph nodes. No absent complex is drawn.
       for (const group of snapshot.groups) {
         const s = sprite(
@@ -1463,17 +1284,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           "The 3D graphics context was lost. Gene search, exact values and exports remain available; reopen this view to retry.";
       });
       root.dataset.rendererReady = "true";
-      compareInput.disabled = false;
-      compareInstance = document
-        .querySelector("#psilocin-app")
-        ?.f7?.toggle.create({ el: compareToggle });
       resize = new ResizeObserver(() => {
         if (leftStage.clientWidth && leftStage.clientHeight) {
           graph.width(leftStage.clientWidth).height(leftStage.clientHeight);
-          if (graphRight)
-            graphRight
-              .width(Math.max(2, rightStage.clientWidth))
-              .height(Math.max(2, rightStage.clientHeight));
         }
       });
       resize.observe(stage);
@@ -1481,10 +1294,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       intersection = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !document.hidden) {
           graph.resumeAnimation();
-          graphRight?.resumeAnimation();
         } else {
           graph.pauseAnimation();
-          graphRight?.pauseAnimation();
         }
       });
       intersection.observe(stage);
@@ -1517,15 +1328,21 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           matchMedia("(prefers-reduced-motion: reduce)").matches,
       });
       root.addEventListener("network:effectframe", (event) => {
-        const { hovered, blend } = event.detail;
-        for (const map of [objects, rightObjects])
+        const { hovered, blend, located, pulse } = event.detail;
+        for (const map of [objects])
           for (const [id, object] of map) {
             // Scale only an outline/marker accent; gene spheres retain identical sizes.
             const ring = object.children[1];
             if (ring) {
-              const wanted = id === selected || id === hovered;
+              const wanted =
+                id === selected || id === hovered || id === located;
               ring.visible = wanted;
-              const target = id === hovered ? 1.7 : 1.4;
+              const target =
+                id === located ? 1.8 + pulse * 0.9 : id === hovered ? 1.7 : 1.4;
+              ring.material.color.set(id === located ? "#ffe38b" : "#e6b854");
+              ring.material.color.multiplyScalar(
+                id === located ? 1.8 + pulse : 1,
+              );
               ring.scale.setScalar(
                 ring.scale.x + (target - ring.scale.x) * blend,
               );
