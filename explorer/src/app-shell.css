@@ -4563,7 +4563,7 @@ body {
 .oxphos-network-preview-icon svg { width: 20px; height: 20px; }
 /* A static, generous preview; F7 has cards/tooltips, while this overlay also supports keyboard focus. */
 #psilocin-app .hero button.oxphos-network-preview { width:100%;max-width:900px;margin:26px 0 0;background:#060d17;border:0;border-radius:18px; }
-#psilocin-app .hero .oxphos-network-preview img { aspect-ratio: 16/8;object-fit:cover;background:#060d17;transition:transform .35s ease; }
+#psilocin-app .hero .oxphos-network-preview img { aspect-ratio:auto;object-fit:contain;background:#060d17;transition:transform .35s ease; }
 .oxphos-network-preview-overlay { position:absolute;inset:0;display:flex;align-items:flex-end;padding:26px;background:linear-gradient(transparent 35%,rgba(3,10,20,.9));color:#eff7ff;font-size:18px;opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s;pointer-events:none; }
 .oxphos-network-preview:hover .oxphos-network-preview-overlay,.oxphos-network-preview:focus-visible .oxphos-network-preview-overlay { opacity:1;transform:none; }
 @media(hover:hover) { .oxphos-network-preview:hover img { transform:scale(1.025); } }
@@ -4614,7 +4614,7 @@ body {
 #psilocin-app .oxphos-3d-topbar > .button[aria-pressed=true] { color:#fff;background:#235780; }
 #psilocin-app .oxphos-3d-topbar .oxphos-3d-status { flex-basis:100%;margin:0; }
 @media(max-width:700px) { #psilocin-app .is-comparing .oxphos-3d-stage { flex-direction:column; } #psilocin-app .is-comparing .oxphos-3d-pane { height:50%;flex:1 1 50%; } #psilocin-app .is-comparing .oxphos-3d-pane + .oxphos-3d-pane { border-left:0;border-top:1px solid #264356; } #psilocin-app .is-comparing .oxphos-3d-pane:after { top:45%; } }
-#psilocin-app .oxphos-3d-immersive .oxphos-3d-stage { box-sizing:border-box;padding:90px 0 160px; }
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-stage { box-sizing:border-box;padding:0; }
 #psilocin-app .oxphos-3d-topbar > .button { width:auto; }
 #psilocin-app .oxphos-3d-dock { flex-wrap:wrap;justify-content:center;gap:6px; }
 #psilocin-app .oxphos-3d-dock .oxphos-3d-scale { position:static;transform:none;flex-basis:100%;justify-content:center;padding:2px 8px;background:transparent; }
@@ -4636,3 +4636,42 @@ body {
 #psilocin-app .research-evidence-sheet:has(.oxphos-3d-immersive) > .sheet-handle { position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:6; }
 #psilocin-app .hero .oxphos-network-preview-overlay { color:#eff7ff!important;text-shadow:0 1px 4px #0008; }
 @media(max-width:360px) { #psilocin-app .oxphos-3d-topbar .oxphos-3d-days { width:150px; } #psilocin-app .oxphos-3d-dock .button { font-size:11px;padding:8px 7px;gap:4px; } #psilocin-app .oxphos-3d-dock .button svg { width:16px;height:16px; } }
+
+/* The scientific canvas extends underneath every floating control and evidence panel. */
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-stage { padding:0;position:absolute;inset:0;width:100%;height:100%;min-height:0; }
+#psilocin-app .oxphos-3d-evidence { position:absolute;top:76px;bottom:190px;right:16px;width:450px;max-width:calc(100% - 32px);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--research-border);border-radius:16px;background:var(--research-surface);color:var(--research-text);box-shadow:0 12px 40px #0005;z-index:4; }
+#psilocin-app .oxphos-3d-evidence[hidden] { display:none; }
+#psilocin-app .oxphos-3d-evidence > header { display:flex;justify-content:space-between;align-items:center;padding:10px 16px;flex-shrink:0; }
+#psilocin-app .oxphos-3d-evidence h2 { font-size:16px;margin:0; }
+#psilocin-app .oxphos-3d-evidence-body { overflow:auto;min-height:0;padding:0 16px 20px;overscroll-behavior:contain; }
+#psilocin-app .oxphos-3d-evidence .oxphos-3d-selected { margin:0;padding:0;border:0; }
+#psilocin-app .oxphos-research-panel { margin:18px 0;min-width:0; }
+#psilocin-app .research-panel-tabs { position:sticky;top:0;z-index:2;background:var(--research-surface);padding:4px;gap:4px; }
+#psilocin-app .research-panel-tabs .button { flex:1;min-width:0;margin:0; }
+#psilocin-app .research-panel-tabs .button[aria-selected=true] { background:var(--f7-theme-color);color:white; }
+#psilocin-app .research-panel-body h4 { margin-top:22px; }
+#psilocin-app .oxphos-research-panel svg { max-width:100%;height:auto; }
+#psilocin-app .oxphos-research-panel table { min-width:500px;font-size:13px; }
+#psilocin-app .oxphos-research-panel th { white-space:normal; }
+#psilocin-app .oxphos-research-panel select { width:100%;min-height:44px;padding:10px;border:1px solid var(--research-border);border-radius:10px;background:var(--research-surface);color:var(--research-text); }
+#psilocin-app .oxphos-research-panel .callout { color:var(--research-text);font-size:13px; }
+#psilocin-app .linked-feature-list { display:grid;gap:6px; }
+#psilocin-app .linked-feature-list .button { text-align:left;justify-content:flex-start;white-space:normal;height:auto;line-height:1.45;padding:10px; }
+#psilocin-app .linked-feature-list .button[aria-pressed=true] { border:2px solid var(--f7-theme-color); }
+#psilocin-app .linked-protein-preview .gene-structure-preview { width:100%;height:160px; }
+#psilocin-app .linked-protein-preview img { width:100%;height:150px;object-fit:contain; }
+#psilocin-app .protein-sequence { white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;font-size:13px; }
+#psilocin-app .oxphos-3d-evidence .note { color:var(--research-muted)!important; }
+#psilocin-app .oxphos-3d-drawer:has(.oxphos-research-panel) { height:calc(100dvh - 18px); }
+
+#psilocin-app .oxphos-research-panel .data-table :is(th,td) { min-width:0;padding:9px 8px;font-size:13px; }
+#psilocin-app .oxphos-research-panel .data-table table { min-width:390px; }
+#psilocin-app .research-panel-tabs .button { background:transparent;color:var(--f7-theme-color); }
+#psilocin-app .research-panel-tabs .button[aria-selected=true] { background:var(--f7-theme-color);color:#fff; }
+#psilocin-app .hero button.oxphos-network-preview { isolation:isolate;--f7-touch-ripple-color:rgba(125,207,247,.25);transition:box-shadow .25s ease,transform .25s ease; }
+#psilocin-app .hero .oxphos-network-preview-overlay { color:#fff!important;background:none;text-shadow:none;mix-blend-mode:difference;justify-content:center;align-items:center;font-weight:650;font-size:clamp(18px,2.3vw,28px); }
+@media(hover:hover) { #psilocin-app .hero .oxphos-network-preview:hover { box-shadow:var(--f7-card-box-shadow,0 8px 28px #13283b30);transform:translateY(-2px); } }
+@media(prefers-reduced-motion:reduce) { #psilocin-app .hero button.oxphos-network-preview { transform:none;transition:none; } }
+
+#psilocin-app .research-panel-tabs .button[aria-selected=false] { background:transparent!important;color:var(--f7-theme-color)!important; }
+#psilocin-app .research-panel-tabs .button[aria-selected=true] { background:var(--f7-theme-color)!important;color:#fff!important; }

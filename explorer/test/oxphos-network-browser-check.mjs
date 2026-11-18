@@ -86,7 +86,11 @@ try {
     if (width === 1440)
       assert.ok(await p.evaluate(() => Boolean(document.fullscreenElement)));
     const stage = root.locator(".oxphos-3d-stage");
-    assert.ok((await stage.boundingBox()).height > 700);
+    const stageBox = await stage.boundingBox();
+    assert.ok(stageBox.height > 700);
+    const canvasBox = await root.locator(".oxphos-3d-pane canvas").first().boundingBox();
+    assert.ok(Math.abs(canvasBox.y - stageBox.y) < 2);
+    assert.ok(Math.abs(canvasBox.height - stageBox.height) < 2, "Canvas fills behind all controls");
     await root
       .getByRole("button", { name: "Compare days", exact: true })
       .click();
@@ -136,7 +140,9 @@ try {
     let drawer = p.locator(".oxphos-3d-drawer");
     await drawer.getByRole("searchbox").fill("NDUFA1");
     await drawer.getByRole("button", { name: "NDUFA1", exact: true }).click();
-    drawer = p.locator(".oxphos-3d-drawer");
+    drawer = p.locator(width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer");
+    await drawer.locator(".oxphos-research-panel svg").first().waitFor();
+    await drawer.getByText("Full stored gene statistics", {exact:true}).click();
     const g = archive.find((g) => g.symbol === "NDUFA1" && g.selected);
     assert.ok((await drawer.innerText()).includes(String(g.effects[1].padj)));
     await drawer.getByRole("button", { name: "Done", exact: true }).click();
@@ -174,9 +180,7 @@ try {
       await root.locator(".oxphos-3d-status").innerText(),
       /10 \/ 113/,
     );
-    await drawer
-      .getByRole("checkbox", { name: "Subtle glow (decorative)" })
-      .check();
+    assert.equal(await drawer.getByText("Subtle glow (decorative)").count(), 0);
     await drawer
       .getByLabel("3D complex filter", { exact: true })
       .selectOption("all");
@@ -213,7 +217,7 @@ try {
     );
     await c.close();
     console.log(
-      `PASS ${width}px preview placement/overlay, lazy renderer/preloader, immersive canvas, day3, exact values, F7 tools, synchronized comparison cameras, filters/glow/export and reopen`,
+      `PASS ${width}px preview placement/overlay, lazy renderer/preloader, immersive canvas, day3, exact values, F7 tools, synchronized comparison cameras, filters/export and reopen`,
     );
   }
 } finally {

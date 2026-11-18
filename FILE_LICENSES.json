@@ -4525,6 +4525,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/linked-protein.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/local-public-context.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4544,6 +4550,12 @@
     ]
   },
   "explorer/src/components/oxphos-network-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/oxphos-research-panel.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4628,6 +4640,12 @@
     ]
   },
   "explorer/src/components/research-tables.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/residue-mapping.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4809,6 +4827,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/linked-research-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/metadata.test.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4948,6 +4972,12 @@
     ]
   },
   "explorer/test/research-tables-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/residue-mapping.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

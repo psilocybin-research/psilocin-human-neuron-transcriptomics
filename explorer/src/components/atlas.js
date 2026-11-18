@@ -985,18 +985,27 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "oxphos-network-preview.webp",
       document.baseURI,
     ).href;
-    networkImage.width = 1200;
-    networkImage.height = 600;
+    networkImage.width = 982;
+    networkImage.height = 714;
     networkImage.decoding = "async";
     networkImage.alt =
       "Day 1 preview of the archived OXPHOS gene–pathway membership network";
-    networkPreview.title = "Explore OXPHOS gene–pathway membership in 3D";
+    networkPreview.title = "Explore OXPHOS network in 3D";
     const previewOverlay = el(
       "span",
       "oxphos-network-preview-overlay",
-      "Explore OXPHOS membership in 3D",
+      "Explore OXPHOS network in 3D",
     );
     networkPreview.append(networkImage, previewOverlay);
+    // Use F7's native ripple locally without enabling it across scientific plots.
+    let previewRipple;
+    networkPreview.onpointerdown = event => {
+      const app = document.querySelector("#psilocin-app")?.f7;
+      if (!app?.touchRipple || !app.$el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      previewRipple?.destroy();
+      previewRipple = app.touchRipple.create(app, app.$el.find(".oxphos-network-preview"), event.clientX, event.clientY);
+    };
+    networkPreview.onpointerup = networkPreview.onpointercancel = networkPreview.onpointerleave = () => previewRipple?.out();
     intro.append(networkPreview);
     const heroAside = el("div", "oxphos-hero-aside");
     heroAside.append(metrics);

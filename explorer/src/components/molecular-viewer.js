@@ -1,13 +1,14 @@
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el } from "./interface-utils.js";
 import { confidenceColor, publicRequest } from "./protein-data.js";
+import { mapSequenceResidues, featureResidues } from "./residue-mapping.js";
 import { plotPalette } from "./plot-theme.js";
 let active;
 // The WebGL runtime and coordinates load only after a specific model is chosen.
 export async function molecularViewer(
   host,
   model,
-  { predicted = false, authorize } = {},
+  { predicted = false, authorize, sequence } = {},
 ) {
   const [{ createViewer }, coordinates, noticeUrl] = await Promise.all([
     import("../assets/vendor/3dmol.js"),
@@ -39,9 +40,10 @@ export async function molecularViewer(
     );
     return;
   }
-  let selection = {};
+  let selection = {},
+    parsed;
   try {
-    const parsed = viewer.addModel(coordinates.value, "cif");
+    parsed = viewer.addModel(coordinates.value, "cif");
     if (model.previewChains?.length) selection = { chain: model.previewChains };
     if (!parsed.selectedAtoms(selection).length)
       throw new Error("No atoms could be read from this structure.");
@@ -58,6 +60,53 @@ export async function molecularViewer(
     host.replaceChildren(el("p", "note", error.message));
     return;
   }
+
+  const mapping = sequence
+    ? mapSequenceResidues(parsed.selectedAtoms(selection), sequence)
+    : [];
+  let highlighted = [],
+    representation = "cartoon",
+    surface;
+  function paint() {
+    if (!stage.isConnected) return;
+    if (surface !== undefined) {
+      viewer.removeSurface(surface);
+      surface = undefined;
+    }
+    viewer.setStyle({}, {});
+    const style = predicted
+      ? { colorfunc: (atom) => confidenceColor(atom.b) }
+      : { color: "spectrum" };
+    viewer.setStyle(selection, {
+      cartoon: { ...style, opacity: representation === "surface" ? 0.35 : 1 },
+    });
+    if (representation === "surface") {
+      const result = viewer.addSurface(
+        1,
+        { opacity: 0.6, color: "#7eafbd" },
+        selection,
+      );
+      surface = result?.surfid;
+      result
+        ?.then?.(() => {
+          if (stage.isConnected) viewer.render();
+        })
+        .catch?.(() => {});
+    }
+    for (const residue of highlighted) {
+      const sel = {
+        chain: residue.chain,
+        resi: residue.resi,
+        icode: residue.icode,
+      };
+      viewer.addStyle(sel, {
+        stick: { color: "#d18b21", radius: 0.2 },
+        cartoon: { color: "#d18b21" },
+      });
+    }
+    viewer.render();
+  }
+
   const toolbar = el("div", "molecular-actions");
   const reset = el("button", "button button-tonal", "Reset view");
   reset.type = "button";
@@ -138,4 +187,20 @@ export async function molecularViewer(
     context?.getExtension("WEBGL_lose_context")?.loseContext();
     stage.replaceChildren();
   }
+  return {
+    mapping,
+    setRepresentation(value) {
+      representation = value === "surface" ? "surface" : "cartoon";
+      paint();
+    },
+    highlight(start, end) {
+      highlighted = featureResidues(mapping, start, end);
+      paint();
+      return [...new Set(highlighted.map((r) => r.position))].length;
+    },
+    clearHighlight() {
+      highlighted = [];
+      paint();
+    },
+  };
 }

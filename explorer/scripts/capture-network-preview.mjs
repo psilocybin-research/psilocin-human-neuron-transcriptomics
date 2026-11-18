@@ -42,10 +42,15 @@ execFileSync(
   "python3",
   [
     "-c",
-    `from PIL import Image, ImageOps
+    `from PIL import Image, ImageChops
 im=Image.open('/tmp/oxphos-network-preview.png').convert('RGB')
-# The WebGL export excludes HTML controls; preserve the complete network and labels.
-ImageOps.pad(im,(1200,600),color='#060d17').save('explorer/src/assets/oxphos-network-preview.webp','WEBP',quality=90,method=6)
+# Crop the actual label-free rendering to its visible geometry, without decorative padding.
+diff=ImageChops.difference(im, Image.new('RGB', im.size, '#060d17')).convert('L')
+box=diff.point(lambda p: 255 if p > 16 else 0).getbbox()
+if not box: raise RuntimeError('Empty network preview')
+im=im.crop(box)
+im.thumbnail((1200,900),Image.Resampling.LANCZOS)
+im.save('explorer/src/assets/oxphos-network-preview.webp','WEBP',quality=90,method=6)
 `,
   ],
   { cwd: new URL("../../", import.meta.url) },

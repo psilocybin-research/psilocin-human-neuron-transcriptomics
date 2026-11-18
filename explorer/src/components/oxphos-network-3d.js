@@ -32,7 +32,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const rightMeshes = new Map(),
     objects = new Map(),
     rightLabels = [],
-    rightResources = [];
+    rightResources = [],
+    rightObjects = new Map();
   const leftStage = el("div", "oxphos-3d-pane"),
     rightStage = el("div", "oxphos-3d-pane");
   rightStage.hidden = true;
@@ -100,7 +101,17 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     el("i", "icon-checkbox"),
     el("span", "", "Show membership edges"),
   );
-  controls.append(days, filterLabel, edgeLabel);
+  const focusLabel = el("label", "checkbox oxphos-3d-edge-choice");
+  const focusMemberships = el("input");
+  focusMemberships.type = "checkbox";
+  focusMemberships.checked = true;
+  focusMemberships.onchange = () => updateGraph();
+  focusLabel.append(
+    focusMemberships,
+    el("i", "icon-checkbox"),
+    el("span", "", "Focus selected memberships"),
+  );
+  controls.append(days, filterLabel, edgeLabel, focusLabel);
   const legend = el(
     "p",
     "oxphos-3d-legend",
@@ -346,14 +357,41 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     drawer = undefined;
     drawerBody = undefined;
   }
+  const evidenceAside = el("aside", "oxphos-3d-evidence");
+  evidenceAside.hidden = true;
+  evidenceAside.setAttribute("aria-label", "Linked gene evidence");
+  const evidenceHeader = el("header", "evidence-sheet-header");
+  const evidenceBody = el("div", "oxphos-3d-evidence-body");
+  evidenceHeader.append(
+    el("h2", "", "Linked gene evidence"),
+    button(
+      "Done",
+      () => {
+        evidenceAside.hidden = true;
+        panels.append(selectedPanel);
+        selectedSummary.focus();
+      },
+      "done",
+    ),
+  );
+  evidenceAside.append(evidenceHeader, evidenceBody);
+  viewer.append(evidenceAside);
+  const desktopEvidence = matchMedia("(min-width: 1100px)");
   function openDrawer(kind) {
     closeDrawer();
+    if (kind === "gene" && desktopEvidence.matches) {
+      evidenceBody.append(selectedPanel);
+      evidenceAside.hidden = false;
+      return;
+    }
+    evidenceAside.hidden = true;
+    panels.append(selectedPanel);
     const app = document.querySelector("#psilocin-app")?.f7;
     if (!app) return;
     drawer = el("section", "sheet-modal oxphos-3d-drawer");
     const title = {
       search: "Find a gene",
-      gene: "Exact gene statistics",
+      gene: "Linked gene evidence",
       filters: "Network controls",
       about: "Membership & data",
     }[kind];
@@ -400,20 +438,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     );
     if (kind === "search") setTimeout(() => search.focus(), 200);
   }
-  const glowLabel = el("label", "checkbox oxphos-3d-edge-choice");
-  const glow = el("input");
-  glow.type = "checkbox";
-  glow.checked = matchMedia("(min-width: 850px)").matches;
-  glowLabel.append(
-    glow,
-    el("i", "icon-checkbox"),
-    el("span", "", "Subtle glow (decorative)"),
-  );
-  controls.append(glowLabel);
-  glow.onchange = () => {
-    if (bloom) bloom.enabled = glow.checked;
-    if (bloomRight) bloomRight.enabled = glow.checked;
-  };
+  const bloomEnabled = matchMedia("(min-width: 850px)").matches;
   function visible(n) {
     return (
       n.type !== "gene" ||
@@ -445,9 +470,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     openDrawer("gene");
     if (focus && graph)
       graph.cameraPosition(
-        { x: n.x, y: n.y, z: n.z + 180 },
+        {
+          x: n.x + (matchMedia("(min-width: 1100px)").matches ? 90 : 0),
+          y: n.y,
+          z: n.z + 520,
+        },
         { x: n.x, y: n.y, z: n.z },
-        0,
+        matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450,
       );
   }
   function renderSelected() {
@@ -471,6 +500,15 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         `${n.id} · ${n.complex ? `Complex ${n.complex} subunit` : `Other OXPHOS-set gene · ${n.displayGroup}`}`,
       ),
     );
+    const linked = el("div", "oxphos-3d-linked-content");
+    linked.append(loadingMessage("Loading archived evidence…"));
+    selectedPanel.append(linked);
+    import("./oxphos-research-panel.js")
+      .then(({ researchPanel }) => {
+        if (selected === n.id && linked.isConnected)
+          linked.replaceChildren(researchPanel(n));
+      })
+      .catch((error) => linked.replaceChildren(el("p", "note", error.message)));
     if (!visible(n))
       selectedPanel.append(
         el(
@@ -512,8 +550,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     table.append(body);
     const wrap = el("div", "table-scroll data-table");
     wrap.append(table);
+    const exactDetails = createAccordion(
+      "Full stored gene statistics",
+      "network-exact-statistics",
+    );
+    exactDetails.body.append(wrap);
     selectedPanel.append(
-      wrap,
+      exactDetails.element,
       el(
         "p",
         "note",
@@ -591,6 +634,13 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   function updateGraph() {
     if (!graph) return;
     const related = relatedPathways();
+    const focused = Boolean(selected && focusMemberships.checked);
+    const memberships = new Set(
+      snapshot.links
+        .filter((l) => endpoints(l)[0] === selected)
+        .map((l) => endpoints(l)[1]),
+    );
+    root.dataset.focusedGene = focused ? selected : "";
     graph
       .nodeVisibility((n) =>
         n.type === "gene" ? visible(n) : related.has(n.id),
@@ -620,20 +670,48 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           mesh.children[0].material.color.set(
             color(n.effects[effectDay]?.log2FoldChange, snapshot.limit),
           );
+          if (
+            mesh.children[0].material.transparent !==
+            (focused && n.id !== selected)
+          )
+            mesh.children[0].material.needsUpdate = true;
+          mesh.children[0].material.transparent = focused && n.id !== selected;
+          mesh.children[0].material.opacity =
+            focused && n.id !== selected ? 0.16 : 1;
+          mesh.children[0].material.depthWrite = !focused || n.id === selected;
           mesh.children[1].visible = n.id === selected;
+        }
+      }
+      for (const n of snapshot.nodes.filter((n) => n.type !== "gene")) {
+        const object = (scene === graph ? objects : rightObjects).get(n.id);
+        if (object) {
+          if (
+            object.children[0].material.transparent !==
+            (focused && !memberships.has(n.id))
+          )
+            object.children[0].material.needsUpdate = true;
+          object.children[0].material.transparent =
+            focused && !memberships.has(n.id);
+          object.children[0].material.opacity =
+            focused && !memberships.has(n.id) ? 0.12 : 1;
         }
       }
       scene
         .linkColor((l) =>
-          selected && endpoints(l)[0] === selected ? "#e6b854" : "#4f748c",
+          selected && endpoints(l)[0] === selected
+            ? "#e6b854"
+            : focused
+              ? "#142430"
+              : "#4f748c",
         )
         .linkWidth((l) =>
-          selected && endpoints(l)[0] === selected ? 1.1 : 0.25,
+          selected && endpoints(l)[0] === selected ? 1.1 : focused ? 0.1 : 0.25,
         )
         .linkOpacity(0.28);
     }
     for (const item of [...labels, ...rightLabels])
-      item.sprite.visible = filter === "all" || item.key === filter;
+      item.sprite.visible =
+        !focused && (filter === "all" || item.key === filter);
   }
   function syncCamera(source, target) {
     if (!target || syncingCamera) return;
@@ -679,9 +757,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           )
           .nodeThreeObject((n) => {
             const copy = objects.get(n.id).clone(true);
+            copy.children[0].material = copy.children[0].material.clone();
+            rightResources.push(copy.children[0].material);
+            rightObjects.set(n.id, copy);
             if (n.type === "gene") {
-              copy.children[0].material = copy.children[0].material.clone();
-              rightResources.push(copy.children[0].material);
               rightMeshes.set(n.id, copy);
             }
             return copy;
@@ -710,7 +789,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           0.25,
           1.05,
         );
-        bloomRight.enabled = glow.checked;
+        bloomRight.enabled = bloomEnabled;
         graphRight.postProcessingComposer().addPass(bloomRight);
         const outputRight = new api.OutputPass();
         rightResources.push(outputRight);
@@ -735,6 +814,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       bloomRight?.dispose();
       bloomRight = undefined;
       rightMeshes.clear();
+      rightObjects.clear();
       rightLabels.length = 0;
       rightResources.splice(0).forEach((r) => r.dispose());
       rightStage.replaceChildren();
@@ -952,7 +1032,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         0.25,
         1.05,
       );
-      bloom.enabled = glow.checked;
+      bloom.enabled = bloomEnabled;
       graph.postProcessingComposer().addPass(bloom);
       const output = new api.OutputPass();
       resources.push(output);

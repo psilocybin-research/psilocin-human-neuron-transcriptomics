@@ -74,3 +74,32 @@ await writeFile(
 console.log(
   `Prepared ${network.nodes.filter((n) => n.type === "gene").length} genes and ${network.links.length} literal membership edges.`,
 );
+
+// Research context is a separate lazy module: opening the overview never loads it.
+const { csvParse } = await import("d3-dsv");
+const { createHash } = await import("node:crypto");
+const cameraSource = await readFile(
+  new URL("../tables/camera_sensitivity/all_tests.csv", root),
+  "utf8",
+);
+const bayesian = JSON.parse(
+  await readFile(new URL("src/data/bayesian.json", root), "utf8"),
+);
+const pathway = "HALLMARK_OXIDATIVE_PHOSPHORYLATION";
+const research = {
+  profiles: data.profiles,
+  enrichment: data.sensitivities
+    .filter((r) => r.pathway === pathway)
+    .map(({ leadingEdge, ...r }) => r),
+  camera: csvParse(cameraSource).filter((r) => r.pathway === pathway),
+  bayesian,
+  source_sha256: {
+    "tables/camera_sensitivity/all_tests.csv": createHash("sha256")
+      .update(cameraSource)
+      .digest("hex"),
+  },
+};
+await writeFile(
+  new URL("oxphos-research-data.js", output),
+  `export default ${JSON.stringify(research)};\n`,
+);

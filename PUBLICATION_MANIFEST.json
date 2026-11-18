@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1287,
-  "total_bytes": 686890545,
+  "file_count": 1292,
+  "total_bytes": 686998343,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 259904,
-      "sha256": "c2ca24329337667c235e83e95b19384898fb9cd62debaf945f0847ab56f49396"
+      "bytes": 260584,
+      "sha256": "aec5d3703e31449bc6561da42439779bc59801399e7743acf87a139b685cd7f4"
     },
     {
       "path": "LICENSE.md",
@@ -294,13 +294,13 @@
     },
     {
       "path": "explorer/scripts/capture-network-preview.mjs",
-      "bytes": 1909,
-      "sha256": "7f7730ac1801c8a587474c2b784db87a552557fd8847975222a2ddc91d9c168b"
+      "bytes": 2138,
+      "sha256": "c75cc74bccfe1ee1e1dbf84ac8ade03dbb78419b04660aafdd7f05e54271e58b"
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
-      "bytes": 1366,
-      "sha256": "e57a2f36c180414b3bf23d44b6f2f7dec1d59f8fdc1fc980949c7c9953dfbbb5"
+      "bytes": 1472,
+      "sha256": "925318b28b00c4ba30df43fd55fad91e45f1604add6ab63ce666f56c312863e0"
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
@@ -334,8 +334,8 @@
     },
     {
       "path": "explorer/scripts/prepare-network-3d.mjs",
-      "bytes": 2561,
-      "sha256": "40fc908c67a1ed9fbf2f3616700bd9f4eca3810da78346b2de2308e224f51dbf"
+      "bytes": 3515,
+      "sha256": "6eed51719ad12ee21fb59795a4cdf222068df32015c4b179ee23995679304088"
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
@@ -379,8 +379,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 135046,
-      "sha256": "0bc405bb47017a2fcaf01ec28d2ff963db02f96ed4fd361bf72e043f28fb3f52"
+      "bytes": 139185,
+      "sha256": "a8d660cb16b6cc90748a894a79de1fd02021fe1b60a23c61da2bc10c914c6756"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -424,8 +424,8 @@
     },
     {
       "path": "explorer/src/assets/oxphos-network-preview.webp",
-      "bytes": 40264,
-      "sha256": "ce1aac5bed296ca581547cc37004fcc4061d20869bda113de6c31e446bba280d"
+      "bytes": 102482,
+      "sha256": "52836192006059bf0509f23d48a90987d20697a7d4f35540c129a053b2a381aa"
     },
     {
       "path": "explorer/src/assets/public-context/00-7362e986eae43ad2.json",
@@ -3379,8 +3379,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 110329,
-      "sha256": "2fd2e0dc6ef8463a118335871800904379429ea6dfa05c0e7ab98e6a305c2e5e"
+      "bytes": 110916,
+      "sha256": "15dd9a4414cf6eb760155ef7c63dd3898ca8b5e0eb4e2360ced8d9c96bd1d49a"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3478,24 +3478,34 @@
       "sha256": "11178a7151c96891637efc277d4cafbeb0e16ef6c9903a01cd3ba11f9a890f3c"
     },
     {
+      "path": "explorer/src/components/linked-protein.js",
+      "bytes": 8231,
+      "sha256": "1a5156fde7514aef1516cf1ad79949759b07f74b0641a2f9dfc986c8adfec778"
+    },
+    {
       "path": "explorer/src/components/local-public-context.js",
       "bytes": 4446,
       "sha256": "6713d803eb7ce97f33cd64c39b350526c6a3af97eb0ddbac78abe5783b1a1ca5"
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
-      "bytes": 5254,
-      "sha256": "c049b1d205fcf6937f7493e9cfa7173eb4d0a0dea317fea2ca2240d1a0a49363"
+      "bytes": 6991,
+      "sha256": "cad9513697349743d141a3f5dc05388395f40e999764c8bc771ef42614f72630"
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 34455,
-      "sha256": "675264a3a9c524d82bdf4b3214bd2768d1a7b268112acc4062c2d94f56af8125"
+      "bytes": 37607,
+      "sha256": "e0fff3bf31f34195a2bd336a7709725c0caf64e26920ca55c5d2be1f1f506b1b"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
       "bytes": 3377,
       "sha256": "77e55d8393850faba58c752e3c9c6bdec3216820d201e6e3fffc2ac44c93edb4"
+    },
+    {
+      "path": "explorer/src/components/oxphos-research-panel.js",
+      "bytes": 14187,
+      "sha256": "95400b11af5b811a8ed86e789319479e043c60a696cbe5dfb9ff85e6562f956e"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3566,6 +3576,11 @@
       "path": "explorer/src/components/research-tables.js",
       "bytes": 4201,
       "sha256": "c43123f6024a4ba259f9e8b4eb55abfc7cc1b09f80c48d8d287589f5af74c675"
+    },
+    {
+      "path": "explorer/src/components/residue-mapping.js",
+      "bytes": 1757,
+      "sha256": "c3c50972a30671fdace840fd3ed3996c7c058aadc189e4d5d2de0413de1743af"
     },
     {
       "path": "explorer/src/components/scientific-plot.js",
@@ -3713,6 +3728,11 @@
       "sha256": "b3ec0b9c37be413a143b24f9f9672564ebe0c4bee73964240fcedc6bbe2a3d75"
     },
     {
+      "path": "explorer/test/linked-research-browser-check.mjs",
+      "bytes": 5210,
+      "sha256": "5c112a2de22141b03b111a895a82d0cd078f911e6f13537eaf59ee5d61c42ff6"
+    },
+    {
       "path": "explorer/test/metadata.test.js",
       "bytes": 3788,
       "sha256": "6cc45599009595712b2d4450227cc217d3a36e1a6b3d27c513ffd150bb234b68"
@@ -3744,8 +3764,8 @@
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
-      "bytes": 8563,
-      "sha256": "b5c73a334e81070ec4942c8d5852e9e4c8d6e6a7835bd8afd894cde9a84cc808"
+      "bytes": 9009,
+      "sha256": "350f14f38e02e31041ba1cc22bab91446be441762f90e17fedfae380090ac6ee"
     },
     {
       "path": "explorer/test/oxphos-network-data.test.js",
@@ -3831,6 +3851,11 @@
       "path": "explorer/test/research-tables-browser-check.mjs",
       "bytes": 3103,
       "sha256": "b95c1024cb0dbf9672ed8dcb43ef1dd2b07bcafdd00a05d466eeb0e0057ffb89"
+    },
+    {
+      "path": "explorer/test/residue-mapping.test.js",
+      "bytes": 1672,
+      "sha256": "ca2ae3a269af4fb5c85896eee869e659f02c3d085ada030c545f82e9f66fb143"
     },
     {
       "path": "explorer/test/settings-scroll-browser-check.mjs",
@@ -5274,8 +5299,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 5873,
-      "sha256": "baea9d1d83ff8f0ad29d9c0c96d93310995673c2052cf6e906016cb491a4d75c"
+      "bytes": 8366,
+      "sha256": "79424de21500fe48a47267db1ca6596327bada992c2155b3e58011a65ca4efd7"
     },
     {
       "path": "reports/schmidt_control_resolution.md",
