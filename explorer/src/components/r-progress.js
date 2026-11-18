@@ -100,7 +100,8 @@ export function createRProgress(status) {
         `Loaded ${data.path.replace(/^webr\//, "")}${file.loaded ? ` · ${bytes(file.loaded)}` : ""} · ${file.source}`,
       );
   }
-  panel.append(header, detail, steps, resources, actions, disclosure);
+  disclosure.insertBefore(resources, log);
+  panel.append(header, detail, steps, actions, disclosure);
   let started, timer;
   function time() {
     return `${Math.floor((performance.now() - started) / 1000)}s`;
