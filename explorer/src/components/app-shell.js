@@ -486,6 +486,13 @@ export function createAppShell({
         hidden,
       });
     }
+    const display = host.querySelector(".tree-display-control");
+    if (display) {
+      const placeholder = node("div", "controls-placeholder");
+      display.before(placeholder);
+      host.prepend(display);
+      controlMoves.push({ element: display, placeholder });
+    }
     return true;
   }
   function openControls(event) {
@@ -789,6 +796,26 @@ export function createAppShell({
       controlMoves
         .map((m) => m.element)
         .find((el) => el.matches(".controls,.comparison-controls"));
+    const pathwayDisplay = body.querySelector(".tree-view-toggle");
+    if (primaryControls && pathwayDisplay) {
+      let shortcut = body.querySelector(".desktop-pathway-display");
+      if (!shortcut) {
+        shortcut = node("div", "desktop-pathway-display");
+        shortcut.setAttribute("aria-label", "Pathway display shortcuts");
+        shortcut.append(node("strong", "", "Display"));
+        primaryControls.before(shortcut);
+      }
+      const sourceButtons = [...pathwayDisplay.querySelectorAll("button")];
+      if (!shortcut.querySelector("button")) {
+        for (const source of sourceButtons) {
+          const button = action(source.textContent, () => source.click(), "button button-tonal");
+          shortcut.append(button);
+        }
+      }
+      [...shortcut.querySelectorAll("button")].forEach((button, i) => {
+        button.setAttribute("aria-pressed", sourceButtons[i].getAttribute("aria-pressed") || "false");
+      });
+    }
     if (primaryControls) {
       primaryControls.dataset.shellControls = "";
       let summary = body.querySelector(".mobile-analysis-summary");

@@ -4480,3 +4480,20 @@ body {
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
 }
+
+#psilocin-app .analysis-sheet-body > .tree-display-control {
+  grid-column: 1 / -1;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--research-border);
+}
+#psilocin-app .desktop-pathway-display { display: none; }
+@media(min-width:1180px) {
+  #psilocin-app .desktop-pathway-display {
+    display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 16px;
+  }
+  #psilocin-app .desktop-pathway-display strong { margin-right:8px;font-size:14px; }
+  #psilocin-app .desktop-pathway-display .button { width:auto;min-height:44px;padding-inline:18px; }
+  #psilocin-app .desktop-pathway-display [aria-pressed="true"] {
+    background:var(--f7-theme-color);color:var(--f7-theme-color-contrast,#fff);
+  }
+}
