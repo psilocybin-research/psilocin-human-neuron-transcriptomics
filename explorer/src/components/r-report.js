@@ -420,7 +420,11 @@ export function createRReportControls({ root, action, getRun }) {
   open.classList.add("button-fill", "research-report-primary");
   open.disabled = true;
   open.title = "Complete an R analysis to create a report";
-  launcher.append(open, storage);
+  launcher.append(
+    open,
+    el("p", "note", "PDF reports require a 56.8 MB LaTeX runtime, downloaded into this browser on first use. No system installation is needed. Save it under Install app for offline use."),
+    storage,
+  );
   const fields = el("div", "custom-r-report-fields");
   const title = el("input");
   title.type = "text";

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686661624,
+  "total_bytes": 686661826,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/r-report.js",
-      "bytes": 20490,
-      "sha256": "f0f2f296f69614a96980198587f139feed8de50222920db414740f07f73eef23"
+      "bytes": 20692,
+      "sha256": "ba944e9defd199aca7a605b2f02aa971af1869a03e5373366af6154a04d8a380"
     },
     {
       "path": "explorer/src/components/r-runtime.js",
