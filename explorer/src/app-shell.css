@@ -4759,3 +4759,6 @@ body {
 #psilocin-app [data-molecular-view=true] .oxphos-3d-days,
 #psilocin-app [data-molecular-view=true] .oxphos-3d-compare-control { display:none; }
 @media(max-width:700px) { #psilocin-app .oxphos-3d-protein-caption { bottom:250px; } }
+
+#psilocin-app .oxphos-3d-identity { flex-basis:100%;display:grid;gap:3px;margin:0 0 5px;color:#deedf7;text-shadow:0 1px 4px #060d17;font-size:13px;line-height:1.35; }
+#psilocin-app .oxphos-3d-identity span { color:#a9c3d5;font-size:11px; }

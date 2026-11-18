@@ -385,6 +385,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   );
   root.append(panels);
   const topbar = el("div", "oxphos-3d-topbar");
+  const identity=el("p","oxphos-3d-identity");
+  identity.append(el("strong","","Psilocin Transcriptome Atlas"),el("span","","Human iPSC-derived cortical neurons"));
+  topbar.append(identity);
   const compareControl = el("label", "oxphos-3d-compare-control");
   const compareToggle = el("span", "toggle");
   const compareInput = el("input");
