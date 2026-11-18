@@ -5,7 +5,11 @@ import {
 } from "./r-vector-plots.js";
 import { createRReportControls } from "./r-report.js";
 import { createREditor } from "../assets/vendor/r-editor.js";
-import { createElement as el } from "./interface-utils.js";
+import {
+  createElement as el,
+  readPreference,
+  writePreference,
+} from "./interface-utils.js";
 import { createRProgress } from "./r-progress.js";
 import { rExamples } from "./r-examples.js";
 import { createRRuntime } from "./r-runtime.js";
@@ -77,10 +81,26 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       );
     else replace();
   });
+  const timeLimit = el("select");
+  timeLimit.setAttribute("aria-label", "R execution time limit");
+  for (const minutes of [5, 10, 30, 60]) {
+    const option = el("option", "", `${minutes} minutes`);
+    option.value = String(minutes);
+    timeLimit.append(option);
+  }
+  const savedLimit = readPreference("atlas-r-execution-minutes", "10");
+  timeLimit.value = ["5", "10", "30", "60"].includes(savedLimit)
+    ? savedLimit
+    : "10";
+  timeLimit.onchange = () =>
+    writePreference("atlas-r-execution-minutes", timeLimit.value);
+  const limitField = el("label", "custom-r-time-limit", "Execution limit");
+  limitField.append(timeLimit);
   toolbar.append(
     selector,
     load,
     run,
+    limitField,
     action("Download R", "download", () =>
       downloadFile("psilocin-custom-analysis.R", code.value, "text/plain"),
     ),
@@ -259,6 +279,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     busy = value;
     run.disabled = value;
     load.disabled = value;
+    timeLimit.disabled = value;
     stop.disabled = !value;
     root.dataset.rBusy = String(value);
   }
@@ -283,6 +304,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       return;
     }
     persist();
+    const executionMinutes = Number(timeLimit.value);
+    const executionLimitSeconds = executionMinutes * 60;
     const script = code.value,
       ticket = ++epoch;
     controls(true);
@@ -306,9 +329,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     timer = setTimeout(
       () =>
         terminate(
-          "Stopped after 90 seconds. Simplify the script or run it in local R.",
+          "R setup did not finish within three minutes. Check the connection or offline runtime and retry.",
         ),
-      90000,
+      180000,
     );
     try {
       const genes = (await getGenes()).flatMap((g) =>
@@ -326,7 +349,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         "Loading the webR interface",
         "Opening the locally hosted webR 0.6.0 JavaScript interface.",
       );
-      const instance = await createRRuntime();
+      const instance = await createRRuntime({
+        onResource: (file) => {
+          if (ticket === epoch) progress.resource(file);
+        },
+      });
       if (ticket !== epoch) {
         instance.close();
         return;
@@ -376,6 +403,13 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         reportInputs[`data/${name}.csv`] = bytes;
         hashes[name] = { rows: rows.length, sha256: await digest(bytes) };
         await runtime.FS.writeFile(`/home/web_user/${name}.csv`, bytes);
+        progress.resource({
+          path: `${name}.csv`,
+          source: "R workspace",
+          loaded: bytes.byteLength,
+          total: bytes.byteLength,
+          state: "loaded",
+        });
         progress.note(
           `${name}: ${rows.length.toLocaleString()} rows · ${(bytes.byteLength / 1e6).toFixed(2)} MB loaded`,
         );
@@ -392,7 +426,15 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       progress.stage(
         4,
         "Running your R script",
-        "Evaluating the archived tables and your code in the separate worker. Stop is available; no percentage is estimated for arbitrary code.",
+        `Evaluating your code in the separate worker. Execution limit: ${executionMinutes} minutes, excluding setup. Stop is available; no percentage is estimated for arbitrary code.`,
+      );
+      clearTimeout(timer);
+      timer = setTimeout(
+        () =>
+          terminate(
+            `Stopped after ${executionMinutes} minutes of script execution. Increase the execution limit and rerun, or simplify the script.`,
+          ),
+        executionLimitSeconds * 1000,
       );
       const captured = await shelter.captureR(wrapped, {
         captureStreams: true,
@@ -482,6 +524,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         run_utc: new Date().toISOString(),
         code: script,
         seed: 20261118,
+        execution_limit_seconds: executionLimitSeconds,
         archive_doi: "10.5281/zenodo.23283595",
         inputs: hashes,
         plan: provenance.freeze,
@@ -518,6 +561,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           run_utc: new Date().toISOString(),
           code: script,
           seed: 20261118,
+          execution_limit_seconds: executionLimitSeconds,
           archive_doi: "10.5281/zenodo.23283595",
           error: true,
           message: error.message,

@@ -286,6 +286,50 @@ self.addEventListener("message", (event) => {
     })(),
   );
 });
+// Observe decoded runtime bytes while forwarding the original stream with backpressure.
+const runtimeResources = new Map(
+  R_INVENTORY.files.map((file) => [absolute(file.path), file]),
+);
+async function runtimeProgress(file, source, loaded, state) {
+  await broadcast({
+    type: "R_RESOURCE_PROGRESS",
+    path: file.path,
+    source,
+    loaded,
+    total: file.bytes,
+    state,
+  });
+}
+async function observeRuntimeResponse(request, response, file) {
+  if (!file || request.method !== "GET" || !response.ok || !response.body)
+    return response;
+  await runtimeProgress(file, "network", 0, "loading");
+  let loaded = 0,
+    last = 0;
+  const body = response.body.pipeThrough(
+    new TransformStream({
+      transform(chunk, controller) {
+        loaded += chunk.byteLength;
+        controller.enqueue(chunk);
+        if (Date.now() - last > 150) {
+          last = Date.now();
+          runtimeProgress(file, "network", loaded, "loading").catch(() => {});
+        }
+      },
+      async flush() {
+        await runtimeProgress(file, "network", loaded, "loaded");
+      },
+    }),
+  );
+  const headers = new Headers(response.headers);
+  headers.delete("content-encoding");
+  headers.delete("content-length");
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
 self.addEventListener("fetch", (event) => {
   const request = event.request,
     url = new URL(request.url);
@@ -310,6 +354,7 @@ self.addEventListener("fetch", (event) => {
       const navigation =
         request.mode === "navigate" &&
         (url.pathname === root || url.pathname === `${root}index.html`);
+      const resource = runtimeResources.get(`${url.origin}${url.pathname}`);
       const key = navigation
         ? absolute("index.html")
         : `${url.origin}${url.pathname}`;
@@ -318,13 +363,21 @@ self.addEventListener("fetch", (event) => {
         if (!record) continue;
         for (const name of [record.cache, record.previous].filter(Boolean)) {
           const found = await (await caches.open(name)).match(key);
-          if (found)
+          if (found) {
+            if (resource && request.method === "GET")
+              await runtimeProgress(
+                resource,
+                "saved cache",
+                resource.bytes,
+                "loaded",
+              );
             return request.method === "HEAD"
               ? new Response(null, {
                   status: found.status,
                   headers: found.headers,
                 })
               : found;
+          }
         }
       }
       if (
@@ -336,7 +389,7 @@ self.addEventListener("fetch", (event) => {
           "Offline verification: required resource is not saved.",
           { status: 503 },
         );
-      return fetch(request);
+      return observeRuntimeResponse(request, await fetch(request), resource);
     })(),
   );
 });

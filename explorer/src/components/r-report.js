@@ -2,7 +2,11 @@ import {
   label as pathwayLabel,
   contrasts as contrastLabels,
 } from "./format.js";
-import { createElement as el, setLoadingMessage } from "./interface-utils.js";
+import {
+  createElement as el,
+  setLoadingMessage,
+  showResearchEvidence,
+} from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import { zip } from "../assets/vendor/r-editor.js";
 import { beginActivity } from "./app-activity.js";
@@ -403,8 +407,18 @@ async function addSourceSupport(files, onProgress, signal) {
   });
 }
 export function createRReportControls({ root, action, getRun }) {
-  const element = el("details", "custom-r-report");
-  element.append(el("summary", "", "Create a research report"));
+  const launcher = el("div", "custom-r-report-launcher");
+  const element = el("section", "custom-r-report");
+  element.append(el("h3", "", "Report details"));
+  const storage = el("div");
+  storage.hidden = true;
+  storage.append(element);
+  const open = action("Create research report", "print", () =>
+    showResearchEvidence(element, "Create research report"),
+  );
+  open.disabled = true;
+  open.title = "Complete an R analysis to create a report";
+  launcher.append(open, storage);
   const fields = el("div", "custom-r-report-fields");
   const title = el("input");
   title.type = "text";
@@ -500,8 +514,12 @@ export function createRReportControls({ root, action, getRun }) {
     }
   }
   return {
-    element,
+    element: launcher,
     setReady(value) {
+      open.disabled = !value || busy;
+      open.title = value
+        ? "Create PDF or LaTeX source from the last successful run"
+        : "Complete an R analysis to create a report";
       pdf.disabled = source.disabled = !value || busy;
     },
     destroy() {

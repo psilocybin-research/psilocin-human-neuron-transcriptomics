@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686651226,
+  "total_bytes": 686660227,
   "status": "pass",
   "failures": [],
   "files": [
@@ -149,8 +149,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 17253,
-      "sha256": "f6a917fade46063fd658522afc0e513c6095552f68b197c8ea542f16ced867ff"
+      "bytes": 17412,
+      "sha256": "c28a9e4a82f00a4b039c91091eaddfda7d11267d1efa3371a5f8fabdd78367ea"
     },
     {
       "path": "REUSE.toml",
@@ -304,8 +304,8 @@
     },
     {
       "path": "explorer/scripts/offline-worker.js",
-      "bytes": 12878,
-      "sha256": "d737f0fda66f0afbc61ef53e6109c982c3dcab97967ca845f0bd778a3a5320ba"
+      "bytes": 14574,
+      "sha256": "60a0ba03fb75125a7c7d681c36dcfe8a411b1bc37cbb5661191f3e316ce2af97"
     },
     {
       "path": "explorer/scripts/prepare-atlas.mjs",
@@ -359,8 +359,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 115871,
-      "sha256": "12a28eaf2b540e1958e9e22821d98f256c95769e2a0de235b58d35fa9b320f82"
+      "bytes": 116951,
+      "sha256": "3e994c4f3b813e2413dd947ff3abbeee943d808ea139d5339a6120367cf3c86b"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3374,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 18296,
-      "sha256": "bd6fd12558d14fa00c7ba2e8a3006944bedb37314b1e3fb82cc764aa608f63b0"
+      "bytes": 19920,
+      "sha256": "ab5a2d9f96e17ac5852407f5bf16d5427e42553def809af888dcc2c77df11d62"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3504,18 +3504,18 @@
     },
     {
       "path": "explorer/src/components/r-progress.js",
-      "bytes": 2874,
-      "sha256": "ee221978f4134fad0065365d2e782596bf4d3ba0a9bed21c6cf42a7d22857385"
+      "bytes": 5931,
+      "sha256": "5d0ac80ec2cfa3654b8cd6eda272236655866edc8db6cfb25dd696fb7f7d07cd"
     },
     {
       "path": "explorer/src/components/r-report.js",
-      "bytes": 19788,
-      "sha256": "0bdc874fd04c8d555ae18700719eb6c30003a25a7f2a357d01a0fa670a0382ba"
+      "bytes": 20384,
+      "sha256": "33f514a34090e813677121c7fabfe9f2b4ca291664a417a5cea1657a4f4ccbc7"
     },
     {
       "path": "explorer/src/components/r-runtime.js",
-      "bytes": 1562,
-      "sha256": "63da1fbcbd6a22ff1ab3943522393e4073b2675a4220bb3fff5817dd4169b8e9"
+      "bytes": 2303,
+      "sha256": "1aa1ecd936637f1e37d3af7796ef3fc4d4dd9b59026cc95d47697ea24b4eb23d"
     },
     {
       "path": "explorer/src/components/r-vector-plots.js",
@@ -3769,8 +3769,8 @@
     },
     {
       "path": "explorer/test/r-report-browser-check.mjs",
-      "bytes": 6155,
-      "sha256": "b5a814a8e23a84825c63de2366d8320913843a92d3e5f8042a09e7fa313f8cbc"
+      "bytes": 6203,
+      "sha256": "a6325ad83b46bac7aff3e6d9734c540dddbd13a2649d8fda22c1af3939f576c6"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",

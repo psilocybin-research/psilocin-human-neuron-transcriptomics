@@ -73,7 +73,9 @@ try {
     "plot.svg",
   );
   assert.match(await readFile(dir + "plot.svg", "utf8"), /<path/);
-  await p.getByText("Create a research report", { exact: true }).click();
+  await p
+    .getByRole("button", { name: "Create research report", exact: true })
+    .click();
   await p
     .getByRole("textbox", { name: "Report title", exact: true })
     .fill("Exploratory OXPHOS report & vector plots");
@@ -156,7 +158,9 @@ try {
     await p.locator(".r-progress-panel").innerText(),
     /Analysis complete/,
   );
-  await p.getByText("Create a research report", { exact: true }).click();
+  await p
+    .getByRole("button", { name: "Create research report", exact: true })
+    .click();
   await save(
     () => p.getByRole("button", { name: "Create PDF", exact: true }).click(),
     "offline-report.pdf",

@@ -1,13 +1,38 @@
 // A fresh worker per run isolates R state and makes Stop terminate computation.
 const base = new URL("./", document.baseURI);
 export const rBase = new URL("webr/", base);
-export async function createRRuntime() {
-  const { WebR, ChannelType } = await import(new URL("webr.js", rBase).href);
+export async function createRRuntime({ onResource } = {}) {
+  const receive = ({ data }) => {
+    if (
+      data?.type === "R_RESOURCE_PROGRESS" &&
+      typeof data.path === "string" &&
+      data.path.startsWith("webr/")
+    )
+      onResource?.(data);
+  };
+  if (onResource) navigator.serviceWorker?.addEventListener("message", receive);
+  const detach = () =>
+    navigator.serviceWorker?.removeEventListener("message", receive);
+  onResource?.({ path: "webr/webr.js", state: "loading", source: "module" });
+  let api;
+  try {
+    api = await import(new URL("webr.js", rBase).href);
+  } catch (error) {
+    detach();
+    throw error;
+  }
+  onResource?.({ path: "webr/webr.js", state: "loaded", source: "module" });
+  const { WebR, ChannelType } = api;
   const runtime = new WebR({
     baseUrl: rBase.href,
     channelType: ChannelType.PostMessage,
     interactive: false,
   });
+  const close = runtime.close.bind(runtime);
+  runtime.close = () => {
+    detach();
+    close();
+  };
   return runtime;
 }
 export async function verifyRRuntime(values = [1, 4, 9]) {
