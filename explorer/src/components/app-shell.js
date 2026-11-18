@@ -71,7 +71,7 @@ export function createAppShell({
   const sidebarHead = node("div", "sidebar-brand");
   sidebarHead.append(
     node("span", "brand-symbol", "ψ"),
-    node("div", "sidebar-brand-text", "Psilocin atlas"),
+    node("div", "sidebar-brand-text", "Psilocin Transcriptome Atlas"),
   );
   const brandSymbol = sidebarHead.querySelector(".brand-symbol");
   brandSymbol.textContent = "";
@@ -80,7 +80,7 @@ export function createAppShell({
   const sidebarSub = node(
     "p",
     "sidebar-subtitle",
-    "Human-neuron transcriptomics",
+    "Human iPSC-derived cortical neurons",
   );
   let app,
     pwa,
@@ -156,7 +156,7 @@ export function createAppShell({
   left.append(menuToggle);
   const titles = node("div", "title research-navbar-title"),
     sectionTitle = node("span", "", ""),
-    subtitle = node("small", "", "Psilocin · human cortical neurons");
+    subtitle = node("small", "", "Human iPSC-derived cortical neurons");
   const titleGlass = node("div", "research-title-glass");
   titleGlass.append(sectionTitle, subtitle);
   titles.append(titleGlass);

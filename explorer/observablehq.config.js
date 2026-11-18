@@ -1,7 +1,7 @@
 const url = "https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/";
 const image = `${url}social-preview.png`;
-const socialTitle = "Psilocin transcriptomic atlas";
-const imageAlt = "Psilocin transcriptomic atlas: OXPHOS heatmap and gene-level estimates from the independent reanalysis by Christopher B. Germann.";
+const socialTitle = "Psilocin Transcriptome Atlas";
+const imageAlt = "Psilocin Transcriptome Atlas: OXPHOS heatmap and gene-level estimates from the independent reanalysis by Christopher B. Germann.";
 const title = "Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons";
 const description = "Independent reanalysis of psilocin-exposed human iPSC-derived cortical neurons: gene-level estimates, pathway enrichment and sensitivity analyses.";
 const sourceAuthors = [
@@ -81,9 +81,9 @@ const head = `
 <link rel="manifest" href="${url}site.webmanifest">
 <meta name="theme-color" content="#235780">
 <meta name="color-scheme" content="light">
-<meta name="application-name" content="Psilocin atlas">
+<meta name="application-name" content="Psilocin Atlas">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Psilocin atlas">
+<meta name="apple-mobile-web-app-title" content="Psilocin Atlas">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="canonical" href="${url}">
 <link rel="cite-as" href="https://doi.org/10.5281/zenodo.23283595">

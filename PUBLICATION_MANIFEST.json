@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1243,
-  "total_bytes": 629828675,
+  "total_bytes": 629831470,
   "status": "pass",
   "failures": [],
   "files": [
@@ -259,8 +259,8 @@
     },
     {
       "path": "explorer/observablehq.config.js",
-      "bytes": 7796,
-      "sha256": "adc99e1e03e3bdcbcf0d665ff42efeb919a60357e1b5052654596bb3be485f5b"
+      "bytes": 7794,
+      "sha256": "e5d8f1b89f76739be52498d9131c54d802e9ff2db9bcee58117e9208e5097c44"
     },
     {
       "path": "explorer/package-lock.json",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/assets/app/site.webmanifest",
-      "bytes": 753,
-      "sha256": "db6a4b290274e67d6476e64eb90e697f8c6a4bcaef494fd5c86e87c7eb459af3"
+      "bytes": 765,
+      "sha256": "78e8c065b378ebcb8dec87b4eb75b27d645fe67f8a1a758695cc6a9fef929233"
     },
     {
       "path": "explorer/src/assets/dryad-logo.png",
@@ -3334,8 +3334,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 43726,
-      "sha256": "8bf29b2a336eb4eafac8a9002c2f69b89010eaeab65e7d9ebdb096d3cc7cb231"
+      "bytes": 43748,
+      "sha256": "968c926f7229a89b2af96451aaf969da82e0d5d2a1c15428cfeb11695af1b35e"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3344,13 +3344,13 @@
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
-      "bytes": 4048,
-      "sha256": "72917c941a698b7be22ff28b21f0c4355653d1152304b33c104a0b8dd5f0e223"
+      "bytes": 4843,
+      "sha256": "5718a607e0eda72342bb48ce1e1d98ecfcfe04648de7af91a6c15fde31ca14d9"
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 104264,
-      "sha256": "9f83d711bd93319bbe613eed80220cd1304b6c5fc6b918ac09ca3b7ff354d40b"
+      "bytes": 105005,
+      "sha256": "bcfab5b179e134792affd5a986722638fd0706d5deb83794282e30764dc2ab14"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3494,8 +3494,8 @@
     },
     {
       "path": "explorer/src/components/r-examples.js",
-      "bytes": 8448,
-      "sha256": "7ad3c99e10af5a445bccea44efa10b6892c78109bab83f6b88615ddfe5940016"
+      "bytes": 9519,
+      "sha256": "a534647cf4b4ef981fadd7ddf300e903373376d1681ce946b6591ee97ac84fa8"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3564,8 +3564,8 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 1972,
-      "sha256": "002160d4688d6e989ae2358eb5cba37de557d6c1ed795f11bfff96b7b2ede069"
+      "bytes": 2077,
+      "sha256": "77362022a491832b727ba75631d3bca80e71617853b15ed181deb83e15d2c423"
     },
     {
       "path": "explorer/src/style.css",
@@ -3779,8 +3779,8 @@
     },
     {
       "path": "explorer/test/tour-browser-check.mjs",
-      "bytes": 4564,
-      "sha256": "224dcef22e50b92e8c981f199bf45ec91995089a348c4e5469a493b53ae0f0ac"
+      "bytes": 4615,
+      "sha256": "63692ae69cd15ae072c480616c938fff36895dc2956770f910f95e17fd4880b8"
     },
     {
       "path": "explorer/test/tree-browser-check.mjs",

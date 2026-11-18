@@ -550,8 +550,22 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     el("p", "", "Cite Schmidt et al. for the original experiment and Germann for this independent reanalysis. The version-specific Zenodo record identifies the archived analysis; the live atlas and GitHub repository may contain later interface updates."),
     el("h3", "", "Public gene and protein context"),
     el("p", "", "Gene and protein information is provided by Ensembl and UniProt; structural coordinates originate from the Protein Data Bank or AlphaFold Protein Structure Database. Provider links, snapshot dates and mapping details accompany the records. These annotations are external context, not measurements from the psilocin experiment. A gene-to-protein mapping does not establish which isoform was expressed; predicted structures and confidence scores do not demonstrate protein activity."),
-    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
+    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
   );
+  const softwareCredits = el("p", "");
+  for (const [text, href] of [
+    ["Software licences and attribution", "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md"],
+    ["CodeMirror dependency notices", branding.editorNotices],
+    ["webR licences and corresponding sources", new URL("webr/PROVENANCE.json", document.baseURI).href],
+  ]) {
+    if (softwareCredits.childNodes.length) softwareCredits.append(document.createTextNode(" · "));
+    const link = el("a", "", text);
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener";
+    softwareCredits.append(link);
+  }
+  citationGuidance.append(softwareCredits);
   citations.append(citationGuidance);
   const share = iconButton("Share", "share", shareCurrent, "native-share");
   share.setAttribute("aria-label", "Share the current atlas analysis");

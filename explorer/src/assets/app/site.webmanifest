@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Psilocin transcriptomic atlas",
-  "short_name": "Psilocin atlas",
-  "description": "Independent reanalysis of gene expression after brief psilocin exposure in human cortical neurons.",
+  "name": "Psilocin Transcriptome Atlas",
+  "short_name": "Psilocin Atlas",
+  "description": "Independent reanalysis of gene expression after brief psilocin exposure in human iPSC-derived cortical neurons.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",
