@@ -1,9 +1,9 @@
-/* The build prepends content-verified core and optional-library inventories. */
+/* The build prepends content-verified core offline inventory. */
 const scope = self.registration.scope;
 const prefix = `psilocin-atlas:${new URL(scope).pathname}:`;
 const absolute = (path) => new URL(path, scope).href;
 const metaName = `${prefix}meta`;
-const inventories = { core: INVENTORY, library: INVENTORY.library };
+const inventories = { core: INVENTORY };
 const pointerValues = new Map(),
   preparing = new Map(),
   controllers = new Map();
@@ -164,8 +164,6 @@ self.addEventListener("install", (event) =>
       // Full downloads are explicit; existing opted-in packages update by hash.
       try {
         if (await pointer()) await prepare("core", { activate: false });
-        if (await pointer("library"))
-          await prepare("library", { activate: false });
       } catch (error) {
         await broadcast({
           type: "OFFLINE_UPDATE_FAILED",
@@ -180,7 +178,7 @@ self.addEventListener("install", (event) =>
 self.addEventListener("activate", (event) =>
   event.waitUntil(
     (async () => {
-      for (const kind of ["core", "library"]) {
+      for (const kind of ["core"]) {
         const staged = await (
           await caches.open(packName(kind))
         ).match(absolute("__offline_ready__"));
@@ -203,6 +201,10 @@ self.addEventListener("message", (event) => {
   event.waitUntil(
     (async () => {
       try {
+        if (kind !== "core" && ["PREPARE", "VERIFY"].includes(event.data?.type))
+          throw new Error(
+            "Molecular-library downloads are not offered by this app.",
+          );
         let result;
         if (event.data?.type === "PREPARE") result = await prepare(kind);
         else if (event.data?.type === "VERIFY") result = await audit(kind);
@@ -242,12 +244,6 @@ self.addEventListener("message", (event) => {
             bytes: INVENTORY.bytes,
             files: INVENTORY.files.length,
             saved: await pointer(),
-            library: {
-              version: INVENTORY.library.version,
-              bytes: INVENTORY.library.bytes,
-              files: INVENTORY.library.files.length,
-              saved: await pointer("library"),
-            },
           };
         else throw new Error("Unknown offline request.");
         port.postMessage({ ok: true, result });

@@ -138,7 +138,7 @@ await writeFile(
     bytes,
     compactBytes,
     compactScope:
-      "All archived gene IDs with available current Ensembl annotations, plus one reviewed protein record per OXPHOS gene where available. The complete protein and representative coordinate library is an optional offline download.",
+      "All archived gene IDs with available current Ensembl annotations, plus one reviewed protein record per OXPHOS gene where available. Complete protein annotations and interactive coordinates are self-hosted online resources.",
     licenses: [
       {
         source: "Ensembl / EMBL-EBI",

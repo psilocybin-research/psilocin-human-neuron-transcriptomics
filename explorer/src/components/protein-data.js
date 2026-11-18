@@ -18,7 +18,7 @@ export async function publicRequest(
   const saved = await localResource(url);
   if (!saved && !navigator.onLine)
     throw new Error(
-      "This model is not included in the saved molecular library. Reconnect to retrieve it.",
+      "This interactive structure needs an internet connection. Reconnect to open it.",
     );
   if (!saved && authorize && !(await authorize()))
     throw new Error("External connection cancelled.");

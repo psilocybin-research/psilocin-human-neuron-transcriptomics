@@ -12,7 +12,8 @@ async function walk(directory, path = "") {
       );
     else if (
       !["sw.js", "offline-manifest.json"].includes(name) &&
-      !name.endsWith(".map")
+      !name.endsWith(".map") &&
+      !/^public-context\/(?:extended|models|predictions)\//.test(name)
     ) {
       const data = await readFile(new URL(item.name, directory));
       files.push({ path: name, bytes: data.length, sha256: sha(data) });
@@ -44,17 +45,11 @@ await writeFile(
 const files = (await walk(root)).sort((a, b) => a.path.localeCompare(b.path));
 const optional = (file) =>
   /^public-context\/(?:extended|models|predictions)\//.test(file.path);
-const core = files.filter((file) => !optional(file)),
-  library = files.filter(optional);
+const core = files.filter((file) => !optional(file));
 const inventory = {
   version,
   bytes: core.reduce((a, f) => a + f.bytes, 0),
   files: core,
-  library: {
-    version: sha(JSON.stringify(library)).slice(0, 20),
-    bytes: library.reduce((a, f) => a + f.bytes, 0),
-    files: library,
-  },
 };
 await writeFile(
   new URL("offline-manifest.json", root),
@@ -65,5 +60,5 @@ await writeFile(
   `const INVENTORY=${JSON.stringify(inventory)};\n${template}`,
 );
 console.log(
-  `Offline inventory ${inventory.version}: ${core.length} core files, ${inventory.bytes} decoded bytes; optional library ${inventory.library.bytes} bytes.`,
+  `Offline inventory ${inventory.version}: ${core.length} core files, ${inventory.bytes} decoded bytes.`,
 );

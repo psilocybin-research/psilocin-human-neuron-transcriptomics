@@ -353,21 +353,14 @@ export async function proteinContext(
         "No verified human protein cross-reference was returned for this gene. Noncoding or retired gene records may not have a protein structure.",
       ),
     );
-  if (result.compact) {
-    const manage = action("Manage offline molecular library", () =>
-      root.dispatchEvent(
-        new CustomEvent("atlas:offline-open", { bubbles: true }),
-      ),
-    );
+  if (result.compact)
     root.append(
       el(
         "p",
         "note",
-        "Compact offline protein context. Additional protein records and the representative 3D library require the optional molecular download.",
+        "Compact offline protein context. Additional protein records and interactive 3D coordinates require an internet connection.",
       ),
-      manage,
     );
-  }
   if (result.limited)
     root.append(
       el(
@@ -407,12 +400,7 @@ export async function proteinContext(
           el(
             "p",
             "note",
-            "The preview is saved. Interactive coordinates require the optional molecular download. Connect to download it under Install app.",
-          ),
-          action("Manage offline molecular library", () =>
-            root.dispatchEvent(
-              new CustomEvent("atlas:offline-open", { bubbles: true }),
-            ),
+            "The preview is saved. Connect to the internet to open the interactive 3D structure.",
           ),
         );
         root.append(access, provenance.element);

@@ -136,7 +136,8 @@ try {
   let status = await rpc(page, "STATUS");
   assert.equal(status.saved.version, "test-1");
   assert.ok(status.saved.bytes > 10000000);
-  assert.equal(status.library.saved, null);
+  assert.equal(status.library, undefined);
+  assert.equal(source.library, undefined);
   assert.equal(
     requests.some((path) =>
       /^public-context\/(extended|models|predictions)\//.test(path),
@@ -216,33 +217,18 @@ try {
   await result.getByRole("button", { name: "Done", exact: true }).click();
   console.log("Delta update and automatic refresh passed.");
   await page.getByRole("button", { name: "Install app", exact: true }).click();
-  await page
-    .locator(".pwa-dialog")
-    .getByRole("button", { name: "Download molecular library", exact: true })
-    .click();
-  await page
-    .locator(".pwa-dialog")
-    .getByText(/All .*files .*passed SHA-256/)
-    .waitFor({ timeout: 180000 });
-  status = await rpc(page, "STATUS");
-  assert.equal(status.library.saved.version, status.library.version);
-  await page
-    .locator(".pwa-dialog")
-    .getByRole("button", { name: "Done", exact: true })
-    .click();
-  await context.setOffline(true);
-  await page.reload();
-  await page
-    .getByRole("button", {
-      name: "View public gene and protein context",
-      exact: true,
-    })
-    .click();
-  await page.getByRole("tab", { name: "3D structures", exact: true }).click();
-  await page
-    .locator("[data-structure-rendered=true]")
-    .first()
-    .waitFor({ timeout: 30000 });
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Download molecular library", exact: true })
+      .count(),
+    0,
+  );
+  assert.equal(
+    requests.some((path) =>
+      /^public-context\/(extended|models|predictions)\//.test(path),
+    ),
+    false,
+  );
   assert.deepEqual(errors, []);
   console.log(
     "Manual F7 setup, hash and cache-only startup verification, disconnected gene/protein views, failed-update rollback, delta-only update, automatic refresh/result, route retention and unrelated-cache isolation passed.",

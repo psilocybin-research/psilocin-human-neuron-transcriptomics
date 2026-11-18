@@ -211,7 +211,7 @@ export function createPwa({ root, app, installButton: button }) {
     while (root.dataset.modalOpen === "true" && !disposed) await delay(200);
     if (!disposed) dialog(title, content);
   }
-  async function prepareAndVerify({ library = false } = {}) {
+  async function prepareAndVerify() {
     if (task) return task;
     task = (async () => {
       const finish = beginActivity(
@@ -242,11 +242,6 @@ export function createPwa({ root, app, installButton: button }) {
         await call(active, "PREPARE");
         const audit = await call(active, "VERIFY");
         coreReady = true;
-        if (library) await call(active, "PREPARE", { kind: "library" });
-        const status = await call(active, "STATUS");
-        const molecular = status.library.saved
-          ? await call(active, "VERIFY", { kind: "library" })
-          : null;
         const label = workDialog.el?.querySelector(".pwa-work-label");
         if (label)
           label.replaceChildren(loadingMessage("Testing the cache-only app…"));
@@ -262,7 +257,7 @@ export function createPwa({ root, app, installButton: button }) {
           sessionValue("atlas-offline-updated")
             ? "App update installed"
             : "Offline app verified",
-          `<p>All ${audit.files + (molecular?.files || 0)} files (${mb(audit.bytes + (molecular?.bytes || 0))}) passed SHA-256 integrity checks. A cache-only test opened ${views.length} research views and the local gene snapshot.</p><p>Archived plots, search and exports work offline. ${molecular ? "The complete bundled protein and representative 3D library is also verified." : "Ensembl annotations and compact OXPHOS protein context are saved. The larger molecular library is an optional download under Install app."}</p><p>External links and fresh provider lookups need internet. Checked ${escapeHTML(new Date().toLocaleString())}. Storage can be cleared or evicted; readiness is checked again on launch.</p>`,
+          `<p>All ${audit.files} files (${mb(audit.bytes)}) passed SHA-256 integrity checks. A cache-only test opened ${views.length} research views and the local gene snapshot.</p><p>Archived plots, search and exports work offline. Ensembl annotations, compact OXPHOS protein context and structure previews are saved. Full protein annotations and interactive coordinates load online.</p><p>External links and fresh provider lookups need internet. Checked ${escapeHTML(new Date().toLocaleString())}. Storage can be cleared or evicted; readiness is checked again on launch.</p>`,
         );
         try {
           sessionStorage.removeItem("atlas-offline-updated");
@@ -287,8 +282,7 @@ export function createPwa({ root, app, installButton: button }) {
     try {
       const active = await worker(),
         status = await call(active, "STATUS");
-      const saved = status.saved?.version === status.version,
-        librarySaved = status.library.saved?.version === status.library.version;
+      const saved = status.saved?.version === status.version;
       const buttons = [{ text: "Close" }];
       if (deferred && !standalone())
         buttons.push({
@@ -306,7 +300,7 @@ export function createPwa({ root, app, installButton: button }) {
         });
       const info = dialog(
         standalone() ? "Offline app" : "Install app",
-        `<p>${escapeHTML(standalone() ? "This app is installed." : instructions())}</p><p><strong>Research app · ${mb(status.bytes)}</strong><br>All archived analyses, plots, gene search, Ensembl annotations and compact OXPHOS protein context. ${saved ? "Saved." : "Prepare while connected."}</p><p><strong>Optional molecular library · ${mb(status.library.bytes)}</strong><br>Complete bundled protein annotations and the representative 3D library. ${librarySaved ? "Saved." : "Downloaded only when you choose it."}</p><p>Sizes show uncompressed storage; transfer compression can reduce network use. Updates reuse unchanged files, verify changes and refresh when idle. Your research selection is retained.</p>`,
+        `<p>${escapeHTML(standalone() ? "This app is installed." : instructions())}</p><p><strong>Research app · ${mb(status.bytes)}</strong><br>All archived analyses, plots, gene search, Ensembl annotations and compact OXPHOS protein context. ${saved ? "Saved." : "Prepare while connected."}</p><p>Sizes show uncompressed storage; transfer compression can reduce network use. Updates reuse unchanged files, verify changes and refresh when idle. Your research selection is retained.</p>`,
         buttons,
       );
       const actions = el("div", "pwa-options");
@@ -322,12 +316,6 @@ export function createPwa({ root, app, installButton: button }) {
       option(saved ? "Check offline" : "Prepare offline", () =>
         prepareAndVerify().catch(() => {}),
       );
-      option(
-        librarySaved
-          ? "Verify molecular library"
-          : "Download molecular library",
-        () => prepareAndVerify({ library: true }).catch(() => {}),
-      );
       option("Check for updates", async () => {
         try {
           await registration.update();
@@ -342,31 +330,6 @@ export function createPwa({ root, app, installButton: button }) {
           );
         }
       });
-      if (librarySaved)
-        option("Remove molecular download", () =>
-          dialog(
-            "Remove molecular library?",
-            "<p>Remove the optional protein and 3D download from this device? The research app, archived results and Ensembl annotations will remain available offline.</p>",
-            [
-              { text: "Cancel" },
-              {
-                text: "Remove",
-                onClick() {
-                  call(active, "REMOVE_LIBRARY")
-                    .then(() =>
-                      showToast("Optional molecular download removed."),
-                    )
-                    .catch((error) =>
-                      readyDialog(
-                        "Removal unavailable",
-                        `<p>${escapeHTML(error.message)}</p>`,
-                      ),
-                    );
-                },
-              },
-            ],
-          ),
-        );
       info.el.querySelector(".dialog-inner").append(actions);
     } catch (error) {
       dialog(
