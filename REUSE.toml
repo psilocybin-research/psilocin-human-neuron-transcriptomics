@@ -269,3 +269,9 @@ path = ["explorer/src/assets/public-context/previews/**", "explorer/src/assets/p
 precedence = "override"
 SPDX-FileCopyrightText = ["2026 Christopher B. Germann", "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"]
 SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["explorer/vendor/webr/**", "explorer/vendor/webr-source/**"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2023-2026 webR authors and contributors", "R Core Team and the component authors identified in the upstream distribution notices"]
+SPDX-License-Identifier = "LicenseRef-webR-Distribution"

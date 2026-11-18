@@ -4392,6 +4392,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/custom-r.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/evidence-sheet.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4536,6 +4542,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/r-examples.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/r-runtime.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/research-navigation.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4583,6 +4601,12 @@
     "copyright": [
       "2026 Christopher B. Germann",
       "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
+    ]
+  },
+  "explorer/src/data/bayesian.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
     ]
   },
   "explorer/src/data/genes.json": {
@@ -4647,6 +4671,12 @@
     ]
   },
   "explorer/test/comparison-data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/custom-r-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4814,6 +4844,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/r-examples.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/research-additions-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -4854,6 +4890,601 @@
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/webr-source/README.md": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr-source/webR-v0.6.0.tar.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/LICENSE.txt": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/PROVENANCE.json": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/R.js": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/R.wasm": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/libRblas.so": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/libRlapack.so": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/etc/fonts/fonts.conf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/etc/ssl/cert.pem": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/base/demo.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/base/demo.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/base/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/base/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/compiler/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/compiler/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/datasets/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/datasets/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/afm.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/afm.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/demo.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/demo.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/enc.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/enc.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/fonts.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/fonts.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/libs.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grDevices/libs.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/graphics/demo.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/graphics/demo.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/graphics/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/graphics/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grid/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/grid/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/methods/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/methods/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/parallel.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/parallel.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/splines/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/splines/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats/demo.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats/demo.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats4/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/stats4/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tcltk.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tcltk.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tools/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tools/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tools/misc.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/tools/misc.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/translations.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/translations.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/translations/DESCRIPTION": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/utils/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/utils/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/utils/misc.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/utils/misc.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/webr/html.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/library/webr/html.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/share.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/lib/R/share.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSans-Bold.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSans-BoldItalic.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSans-Italic.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSans-Regular.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSansMono-Bold.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSansMono-Regular.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSerif-Bold.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSerif-BoldItalic.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSerif-Italic.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/fonts/NotoSerif-Regular.ttf": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/gdal.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/gdal.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/proj.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/proj.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/udunits.data.gz": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/usr/share/udunits.js.metadata": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/var/cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le32d8.cache-9": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/vfs/var/cache/fontconfig/CACHEDIR.TAG": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/webr-worker.js": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
+    ]
+  },
+  "explorer/vendor/webr/webr.js": {
+    "spdx": "LicenseRef-webR-Distribution",
+    "copyright": [
+      "2023-2026 webR authors and contributors",
+      "R Core Team and the component authors identified in the upstream distribution notices"
     ]
   },
   "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf": {

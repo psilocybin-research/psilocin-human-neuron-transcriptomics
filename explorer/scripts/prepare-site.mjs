@@ -69,3 +69,9 @@ await Promise.all((await readdir(componentDirectory)).filter(name => name.endsWi
 // Dated public context is separate from the immutable study archive.
 await rm(new URL('public-context/', output), {recursive:true,force:true});
 await cp(new URL('../src/assets/public-context/', import.meta.url), new URL('public-context/', output), {recursive:true});
+
+// Optional R runtime is served locally but excluded from the core PWA package.
+await rm(new URL('webr/', output), {recursive:true, force:true});
+await cp(new URL('../vendor/webr/', import.meta.url), new URL('webr/', output), {recursive:true});
+await rm(new URL('webr-source/', output), {recursive:true, force:true});
+await cp(new URL('../vendor/webr-source/', import.meta.url), new URL('webr-source/', output), {recursive:true});

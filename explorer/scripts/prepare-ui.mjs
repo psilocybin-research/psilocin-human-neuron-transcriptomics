@@ -110,6 +110,8 @@ const iconNames = [
   "arrow_down_right_arrow_up_left",
   "arrow_up",
   "logo_github",
+  "chevron_left_slash_chevron_right",
+  "play_fill",
   "plus",
   "minus",
   "doc_on_doc",

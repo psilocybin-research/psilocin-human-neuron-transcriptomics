@@ -80,7 +80,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
     li.addEventListener("accordion:open", () => syncExpanded(true));
     li.addEventListener("accordion:close", () => syncExpanded(false));
   }
-  navList.append(sectionItem("methods"));
+  navList.append(sectionItem("custom-r"), sectionItem("methods"));
   nav.append(navList);
 
   return {

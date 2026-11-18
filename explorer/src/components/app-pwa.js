@@ -60,6 +60,7 @@ async function probeViews() {
     "robustness",
     "dna",
     "methods",
+    "custom-r",
   ];
   for (const view of views) {
     document.querySelector(`#psilocin-app [data-section="${view}"]`)?.click();
@@ -87,7 +88,7 @@ async function probeViews() {
     throw new Error("Offline molecular snapshot is unavailable.");
   return views;
 }
-export function createPwa({ root, app, installButton: button }) {
+export function createPwa({ root, app, installButton: button, data }) {
   if (probeMode) {
     const errors = [];
     const fail = (event) => errors.push(event.message || String(event.reason));
@@ -207,11 +208,60 @@ export function createPwa({ root, app, installButton: button }) {
       root.append(frame);
     });
   }
+  async function prepareWithR(includeR) {
+    if (!includeR) return prepareAndVerify();
+    root.dataset.rInstalling = "true";
+    const finish = beginActivity("Saving and testing offline R");
+    let progress;
+    try {
+      await prepareAndVerify({ quiet: true });
+      progress = dialog(
+        "Preparing offline R",
+        '<div class="pwa-r-progress"></div>',
+        [
+          {
+            text: "Cancel",
+            onClick: () => call(registration.active, "CANCEL").catch(() => {}),
+          },
+        ],
+      );
+      progress.el
+        .querySelector(".pwa-r-progress")
+        .append(loadingMessage("Downloading and checking R runtime files…"));
+      const active = await worker();
+      await call(active, "PREPARE", { kind: "r" });
+      await call(active, "VERIFY", { kind: "r" });
+      progress.el
+        .querySelector(".pwa-r-progress")
+        .replaceChildren(
+          loadingMessage("Testing a fresh local R calculation and plot…"),
+        );
+      const { verifyRRuntime } = await import("./r-runtime.js");
+      await verifyRRuntime(
+        data.landscape.slice(0, 3).map((row) => row.day1_log2fc),
+      );
+      progress.close(false);
+      dialog(
+        "Offline R ready",
+        "<p>Every R runtime file passed SHA-256 verification. A fresh R worker read three archived OXPHOS effect estimates, verified their values and rendered a plot using the saved runtime. The archived atlas datasets are saved with the core app.</p><p>Custom R examples now work offline. New packages and external data sources still need internet. Browser storage can be cleared or evicted; use Check offline to verify again.</p>",
+      );
+    } catch (error) {
+      progress?.close(false);
+      dialog(
+        "Offline R not verified",
+        `<p>${escapeHTML(error.message)}</p><p>No R readiness is claimed. The saved research app is retained. Reconnect and try again.</p>`,
+      );
+      throw error;
+    } finally {
+      finish();
+      root.dataset.rInstalling = "false";
+    }
+  }
   async function readyDialog(title, content) {
     while (root.dataset.modalOpen === "true" && !disposed) await delay(200);
     if (!disposed) dialog(title, content);
   }
-  async function prepareAndVerify() {
+  async function prepareAndVerify({ quiet = false } = {}) {
     if (task) return task;
     task = (async () => {
       const finish = beginActivity(
@@ -253,12 +303,13 @@ export function createPwa({ root, app, installButton: button }) {
         await navigator.storage?.persist?.().catch(() => false);
         root.dataset.offlineReady = "true";
         workDialog.close(false);
-        await readyDialog(
-          sessionValue("atlas-offline-updated")
-            ? "App update installed"
-            : "Offline app verified",
-          `<p>All ${audit.files} files (${mb(audit.bytes)}) passed SHA-256 integrity checks. A cache-only test opened ${views.length} research views and the local gene snapshot.</p><p>Archived plots, search and exports work offline. Ensembl annotations, compact OXPHOS protein context and structure previews are saved. Full protein annotations and interactive coordinates load online.</p><p>External links and fresh provider lookups need internet. Checked ${escapeHTML(new Date().toLocaleString())}. Storage can be cleared or evicted; readiness is checked again on launch.</p>`,
-        );
+        if (!quiet)
+          await readyDialog(
+            sessionValue("atlas-offline-updated")
+              ? "App update installed"
+              : "Offline app verified",
+            `<p>All ${audit.files} files (${mb(audit.bytes)}) passed SHA-256 integrity checks. A cache-only test opened ${views.length} research views and the local gene snapshot.</p><p>Archived plots, search and exports work offline. Ensembl annotations, compact OXPHOS protein context and structure previews are saved. Full protein annotations and interactive coordinates load online.</p><p>External links and fresh provider lookups need internet. Checked ${escapeHTML(new Date().toLocaleString())}. Storage can be cleared or evicted; readiness is checked again on launch.</p>`,
+          );
         try {
           sessionStorage.removeItem("atlas-offline-updated");
         } catch {}
@@ -291,18 +342,45 @@ export function createPwa({ root, app, installButton: button }) {
           onClick() {
             const event = deferred;
             deferred = undefined;
+            root.dataset.rInstalling = String(Boolean(includeR?.checked));
             event.prompt();
             event.userChoice.then((choice) => {
               if (choice.outcome === "accepted")
-                prepareAndVerify().catch(() => {});
+                prepareWithR(includeR?.checked).catch(() => {});
+              else root.dataset.rInstalling = "false";
             });
           },
         });
+      let includeR;
       const info = dialog(
         standalone() ? "Offline app" : "Install app",
         `<p>${escapeHTML(standalone() ? "This app is installed." : instructions())}</p><p><strong>Research app · ${mb(status.bytes)}</strong><br>All archived analyses, plots, gene search, Ensembl annotations and compact OXPHOS protein context. ${saved ? "Saved." : "Prepare while connected."}</p><p>Sizes show uncompressed storage; transfer compression can reduce network use. Updates reuse unchanged files, verify changes and refresh when idle. Your research selection is retained.</p>`,
         buttons,
       );
+      const rChoice = el("label", "checkbox pwa-r-choice");
+      includeR = el("input");
+      includeR.type = "checkbox";
+      includeR.checked = Boolean(status.r.saved);
+      includeR.setAttribute("aria-label", "Include offline R runtime");
+      rChoice.append(
+        includeR,
+        el("i", "icon-checkbox"),
+        el(
+          "span",
+          "",
+          `Include offline R · ${mb(status.r.bytes)}${status.r.saved ? " · saved" : " · optional"}`,
+        ),
+      );
+      info.el
+        .querySelector(".dialog-inner")
+        .append(
+          rChoice,
+          el(
+            "p",
+            "note",
+            "Runs custom R on the archived atlas tables without internet. Base and recommended packages are included; new packages and external URLs need a connection. The core app is saved first, then R files are verified and a fresh R calculation and plot are tested.",
+          ),
+        );
       const actions = el("div", "pwa-options");
       function option(text, handler) {
         const action = el("button", "button button-tonal", text);
@@ -314,8 +392,23 @@ export function createPwa({ root, app, installButton: button }) {
         actions.append(action);
       }
       option(saved ? "Check offline" : "Prepare offline", () =>
-        prepareAndVerify().catch(() => {}),
+        prepareWithR(includeR.checked).catch(() => {}),
       );
+      if (status.r.saved)
+        option("Remove offline R", async () => {
+          if (root.dataset.rBusy === "true")
+            return showToast(
+              "Stop the R analysis before removing its runtime.",
+            );
+          try {
+            await call(await worker(), "REMOVE_R");
+            showToast(
+              "Offline R removed. The research app and editor text are retained.",
+            );
+          } catch (error) {
+            showToast(error.message);
+          }
+        });
       option("Check for updates", async () => {
         try {
           await registration.update();
@@ -352,7 +445,7 @@ export function createPwa({ root, app, installButton: button }) {
   });
   on(window, "appinstalled", () => {
     deferred = undefined;
-    prepareAndVerify().catch(() => {});
+    if (root.dataset.rInstalling !== "true") prepareAndVerify().catch(() => {});
   });
   on(window, "pointerdown", () => {
     lastInteraction = Date.now();
@@ -385,6 +478,15 @@ export function createPwa({ root, app, installButton: button }) {
         );
       }
     }
+    if (data.type === "OFFLINE_PROGRESS" && data.kind === "r") {
+      const text = document.querySelector(".pwa-r-progress");
+      if (text)
+        text.replaceChildren(
+          loadingMessage(
+            `Verified ${mb(data.bytes)} / ${mb(data.total)} of R runtime files.`,
+          ),
+        );
+    }
     if (data.type === "OFFLINE_UPDATE_FAILED")
       showToast(
         "App update could not be verified. Your previous offline copy is retained.",
@@ -406,6 +508,8 @@ export function createPwa({ root, app, installButton: button }) {
         document.hidden ||
         root.dataset.modalOpen === "true" ||
         root.dataset.loading === "true" ||
+        root.dataset.rBusy === "true" ||
+        root.dataset.rInstalling === "true" ||
         Date.now() - lastInteraction < 5000
       ) {
         updateTimer = setTimeout(tick, 1500);

@@ -61,7 +61,7 @@ const server = createServer(async (req, res) => {
     requests.push(path);
     let body;
     if (path === "sw.js")
-      body = `const INVENTORY=${JSON.stringify(inventory())};\n${template}`;
+      body = `const INVENTORY=${JSON.stringify(inventory())};\nconst R_INVENTORY=${JSON.stringify(JSON.parse(await readFile(new URL("r-offline-manifest.json", dist),"utf8")))};\n${template}`;
     else if (path === "offline-manifest.json")
       body = JSON.stringify(inventory());
     else if (path === "index.html") body = html();

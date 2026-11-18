@@ -21,7 +21,7 @@ const [,{default: Framework7}, atlas, provenance] = await Promise.all([
 const uiNotices = await FileAttachment("./assets/vendor/framework7.NOTICES.txt").url();
 const plotNotices = await FileAttachment("./assets/vendor/observable-plot.NOTICES.txt").url();
 const geneFile = FileAttachment("./data/genes.json");
-const branding = {Framework7, uiNotices, plotNotices, elife: await FileAttachment("./assets/elife-logo.svg").url(), zenodo: await FileAttachment("./assets/zenodo-icon.svg").url(), dryad: await FileAttachment("./assets/dryad-logo.png").url()};
+const branding = {bayesian: await FileAttachment("./data/bayesian.json").json(), Framework7, uiNotices, plotNotices, elife: await FileAttachment("./assets/elife-logo.svg").url(), zenodo: await FileAttachment("./assets/zenodo-icon.svg").url(), dryad: await FileAttachment("./assets/dryad-logo.png").url()};
 const application = createAtlas(atlas, provenance, () => geneFile.json(), branding);
 display(application);
 invalidation.then(() => { application.destroy(); stylesheet.remove(); });

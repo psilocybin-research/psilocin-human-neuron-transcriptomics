@@ -1,0 +1,417 @@
+{
+  "version": "0.6.0",
+  "upstream": "https://github.com/r-wasm/webr/tree/v0.6.0",
+  "binary_source": "https://webr.r-wasm.org/v0.6.0/",
+  "source_archive": "https://github.com/r-wasm/webr/archive/refs/tags/v0.6.0.tar.gz",
+  "notes": "Unmodified webR runtime files. Optional Shiny library image excluded; base and recommended R packages retained. Runtime runs in a separate worker. See LICENSE.txt for component licences and source links.",
+  "files": [
+    {
+      "path": "R.js",
+      "bytes": 785856,
+      "sha256": "2161887e3a050baf75ef0fea088142356f8e173b46ea9b2f19f80a773fb5d9ca"
+    },
+    {
+      "path": "R.wasm",
+      "bytes": 18062845,
+      "sha256": "5df459fb222d332e358cf08e4019c0e114398579ed8c62242bfcceeda81222ba"
+    },
+    {
+      "path": "libRblas.so",
+      "bytes": 198205,
+      "sha256": "d831496cc1d1e2748519439a0ea509ba966b56db10d13132db52331a270aac74"
+    },
+    {
+      "path": "libRlapack.so",
+      "bytes": 1769888,
+      "sha256": "df8ca333754f0dd95715df437f6e6d633e4ffbff0176bcb11c15fe3e5dd4e387"
+    },
+    {
+      "path": "vfs/etc/fonts/fonts.conf",
+      "bytes": 1089,
+      "sha256": "a93efbf9eec83d72a463f1d52f54043a8afa6ae7cc05609deda73232525e7bc0"
+    },
+    {
+      "path": "vfs/etc/ssl/cert.pem",
+      "bytes": 189462,
+      "sha256": "86a1f3366afac7c6f8ae9f3c779ac221129328c43f0ab2b8817eb2f362a5025c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/base/demo.data.gz",
+      "bytes": 4460,
+      "sha256": "5dc1fc84cb1d61e4d5311b8e01458014dab1c434c2b6d93deca3eaa9b50752e2"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/base/demo.js.metadata",
+      "bytes": 263,
+      "sha256": "bfc597e88f9b97b8eec9fd36227ef0d079fdf1c32e8bea84c3b1e77fb7a6b05c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/base/html.data.gz",
+      "bytes": 20906,
+      "sha256": "1f4e82a2633bf1cc134d3dbc6222003492de2fe207ddecccd6e3ab5d4f46f30c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/base/html.js.metadata",
+      "bytes": 155,
+      "sha256": "4826bdd7ba15568d7ab5226c92b1d742bcd3f4ce853300f55bf205a5f8e22d02"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/compiler/html.data.gz",
+      "bytes": 1227,
+      "sha256": "6d157ac6c76a2f2b15a989ffdbc8c1a465b91811a654aa6fb1573d783109e30c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/compiler/html.js.metadata",
+      "bytes": 147,
+      "sha256": "98d18997c393881d285172dcb2414da928192520af6aba215667f0a93b0da54d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/datasets/html.data.gz",
+      "bytes": 4458,
+      "sha256": "6f1eb6811cd3432e9764e75b0d418e3ed2455835a58f725ba18d0b2b8e1ed94d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/datasets/html.js.metadata",
+      "bytes": 151,
+      "sha256": "c9c5e5bafee1c03be04d2867f44923e0fa74791bbc51ccbb8d3ff5579bb5e211"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/afm.data.gz",
+      "bytes": 953823,
+      "sha256": "bb0d88c8492ba397470152d6d90d82e055092dad73e1e864fe6b2ebf0b2bd52a"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/afm.js.metadata",
+      "bytes": 6816,
+      "sha256": "3e88061dfecc14c6cd1386be85d4fef59fe1f964312db41903e471ed74e7cf02"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/demo.data.gz",
+      "bytes": 2513,
+      "sha256": "89433796693b081e65e8ae3214f4b8823c564a2fe8bf0f900956adf55fb16f2c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/demo.js.metadata",
+      "bytes": 149,
+      "sha256": "2a51924eaee18cbe41bfe8f11ae70f083748d97ef5cbbb77bd3c3a133eaad471"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/enc.data.gz",
+      "bytes": 4263,
+      "sha256": "73fcd21310a54e033f151f6c887001c55d348ff26e2e4d32a0be0ad48c3a4fd7"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/enc.js.metadata",
+      "bytes": 960,
+      "sha256": "fd6fb479b499da19fe442318ac147bdda2557a087ff19acda5a220fbe6686617"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/fonts.data.gz",
+      "bytes": 273155,
+      "sha256": "4dca57d1a4a8b8ab530fa67b019193e6b3457d4066506a67284179f58bb50a72"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/fonts.js.metadata",
+      "bytes": 352,
+      "sha256": "a59f1e81fa5a21f6b6fb91b6a51ad9944cff3283d5891c9427a3702573b6d65c"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/html.data.gz",
+      "bytes": 4188,
+      "sha256": "de1205804774e7d7db07966467a2d0ea66734550583ad4549935d4356cffd9bb"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/html.js.metadata",
+      "bytes": 151,
+      "sha256": "3a2b36bad1509df1912e194322e133c7f362ae7cade8c178e9fbfe88da0a0c83"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/libs.data.gz",
+      "bytes": 1643930,
+      "sha256": "558a09f14c830848510b6279c1141802d392fe2d0aaf66eca174faa03dc7bb1d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grDevices/libs.js.metadata",
+      "bytes": 103,
+      "sha256": "f4b2da4dd2f93011eaa259f8dddc23c63dd144fecc8322fab7885341952e2b7b"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/graphics/demo.data.gz",
+      "bytes": 13086,
+      "sha256": "3e60f0210cb48d0c40a8c56436af980e2a71f0016ea66b7d95f1932ffea24762"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/graphics/demo.js.metadata",
+      "bytes": 359,
+      "sha256": "1128fef779f40452d0dd2b27b3974175fb4a341c3418d953d8b33540575117fd"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/graphics/html.data.gz",
+      "bytes": 2982,
+      "sha256": "99d1c6a3224b704237d427057549a1a9b863033bbf2e8c086fc6e200553621bb"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/graphics/html.js.metadata",
+      "bytes": 151,
+      "sha256": "bb82dd2024e800abf3d390c3f21f44e189ebe3df567a0de974e95206f7edef7d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grid/html.data.gz",
+      "bytes": 4928,
+      "sha256": "8ab236a697ca624dd74b1fce1eab0852e8d6fcab4e441ec09fe57e56849b77d1"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/grid/html.js.metadata",
+      "bytes": 151,
+      "sha256": "3d28487a22ea049d3c6329a9cebb0d310e3d4206647a517cb40ab21bc5662e1d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/methods/html.data.gz",
+      "bytes": 5267,
+      "sha256": "12cbbb4eb9d878d130a0713e1ad24a4a5a1dbe5b623347a838c4d9d7f334b0bd"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/methods/html.js.metadata",
+      "bytes": 151,
+      "sha256": "a63e96038c66042226f488d3ac8f54cbea74bda22febf593965e2bede552c73a"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/parallel.data.gz",
+      "bytes": 349042,
+      "sha256": "25256757440bb6dd77b2cbdd5668b85aed5d2b8ebae58d039408f1d8b4fe5b95"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/parallel.js.metadata",
+      "bytes": 1238,
+      "sha256": "82f79a072159d48f4c9d2b984ee7660c7c15327d14534d9e89b3271268b0a768"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/splines/html.data.gz",
+      "bytes": 1550,
+      "sha256": "1f35815050129826f06bb9c71377ef98745648e028702ed326d56dee2288c2df"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/splines/html.js.metadata",
+      "bytes": 147,
+      "sha256": "55921a910bdb3d7cb2d2db24dff9e57ddbe4d5670fc54c3ce0c70da6112d6cef"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats/demo.data.gz",
+      "bytes": 4061,
+      "sha256": "761adcd4b49ca859057e1a96774308a5fd3b6f35e00d2dac6d17731ee91f5050"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats/demo.js.metadata",
+      "bytes": 241,
+      "sha256": "7e537450a6855a02f5491cf22f48abed526bb1d4d2fd15d3e34725ab3667db5f"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats/html.data.gz",
+      "bytes": 11358,
+      "sha256": "4e14ef0067001e22cb25167c7f51cf665ce89f16fe6d80c1c4121075bff5520a"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats/html.js.metadata",
+      "bytes": 151,
+      "sha256": "9ea60d805483f4ebfb197957da1c7c360a00c92d4b33fcc7fda42f9ee626cd7d"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats4/html.data.gz",
+      "bytes": 1522,
+      "sha256": "eab7a939a8d57c5792e98a13b94222d29b43f2fbc4e0b4d449e6fad96f401da5"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/stats4/html.js.metadata",
+      "bytes": 147,
+      "sha256": "c34ccf9f0de1ad19d6aea15b3f56e6f65c8967bd8c9a9e39461788daa5c1d15e"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tcltk.data.gz",
+      "bytes": 132160,
+      "sha256": "fd62d4cf44534ca784cbc0ab26e65eb1c6f882269709fced5a1ac459f8550026"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tcltk.js.metadata",
+      "bytes": 2019,
+      "sha256": "785dc003a43233094a6845f5804fa097fb680ccae0c0aad6fd0784e9582f0ab9"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tools/html.data.gz",
+      "bytes": 4307,
+      "sha256": "13242d7e18ab7412609925428c651e07615146a78137e1bc7f117d1add62e47f"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tools/html.js.metadata",
+      "bytes": 151,
+      "sha256": "d93471df33f8c83582f3c217fdaad9c0947996bc87c19e2261828e01bcb668c3"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tools/misc.data.gz",
+      "bytes": 3724,
+      "sha256": "7042f04844026fbc281f4789abf8ac5bf0751d1ce70bb602a8db8d60f2ac68cf"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/tools/misc.js.metadata",
+      "bytes": 142,
+      "sha256": "5c6bd36201d2f620052f3ba437224496ea98919a8a05dcee6b44aa99547eb5a6"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/translations/DESCRIPTION",
+      "bytes": 238,
+      "sha256": "ba7da3ac60466f5f466c4f706f50bcafbb924f94b0888d333bb410451b41afd2"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/translations.data.gz",
+      "bytes": 3061528,
+      "sha256": "c8cac5071b8691cb1c960389b370b5007c5b8df752d98a5860bce505c234b9c2"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/translations.js.metadata",
+      "bytes": 35184,
+      "sha256": "f62b1fa37f7cdff9aa0c9b7046366254411b7df6bb35d2017cbb531fd6ee3d4a"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/utils/html.data.gz",
+      "bytes": 7240,
+      "sha256": "33f6fe57dad92319af190f3ea06ee79104e850c86043cc45c11c7513de9cc066"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/utils/html.js.metadata",
+      "bytes": 151,
+      "sha256": "9237b38d0bb9cd04c6f305f9b69b7d06b2dcaf982050e3d3e374e6cdfe0706a1"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/utils/misc.data.gz",
+      "bytes": 161,
+      "sha256": "33ddc6d1a7b594c7d0824dc12aa15cfce859b66b9d7134c228ee349b48027b56"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/utils/misc.js.metadata",
+      "bytes": 142,
+      "sha256": "7e248a6c0ce276772fe22eb83d49128393be9e674e322ab0ce57905e83e6709b"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/webr/html.data.gz",
+      "bytes": 1696,
+      "sha256": "e16b557a8417ec2bfb11c3a03ab8b28638464217877ad6bdd26f45263a14cb79"
+    },
+    {
+      "path": "vfs/usr/lib/R/library/webr/html.js.metadata",
+      "bytes": 147,
+      "sha256": "820fc44428d2f719881725341ba13650436e989c53191e2d6da1f2493f7ea131"
+    },
+    {
+      "path": "vfs/usr/lib/R/share.data.gz",
+      "bytes": 380353,
+      "sha256": "79258e504395be06aefa3d9ed482bcd9c26efb27791a243f851ead183ac28d41"
+    },
+    {
+      "path": "vfs/usr/lib/R/share.js.metadata",
+      "bytes": 46073,
+      "sha256": "3ccaab3b787ae8e377bb56fad19764772e6f1ddf90d47f10fbaef58921c7e9e2"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSans-Bold.ttf",
+      "bytes": 432376,
+      "sha256": "87cb2d84472a7d66da659ee47b6cdb9552326e8c128245231f191b6ac72529d9"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSans-BoldItalic.ttf",
+      "bytes": 441936,
+      "sha256": "3d367743f371f28671d2764e911a53d7c20ec9b6aa8791d059e7090389fc52a5"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSans-Italic.ttf",
+      "bytes": 446880,
+      "sha256": "678288f868807d4d64a6f3b51466871d117d915780381ce9d0ed4b3bcbd06d37"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSans-Regular.ttf",
+      "bytes": 431364,
+      "sha256": "f3961a9cde016d41a4879aecda1474d3a36d6bf54fa0e4643de029cc2248b0e8"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSansMono-Bold.ttf",
+      "bytes": 387484,
+      "sha256": "1100772b2f79c102402a1011df5e2226517d0f40ac553a25fb12fdbad8c11b85"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSansMono-Regular.ttf",
+      "bytes": 388660,
+      "sha256": "87f8ce0522a6c99b743ee5fc75b4073cfdd575639119672828b7b9944b65b4f4"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSerif-Bold.ttf",
+      "bytes": 481892,
+      "sha256": "24ad531e6b05ddad8c3d89572d2c93eb86a6b74e652ce7ee3c3e171de68e84c3"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSerif-BoldItalic.ttf",
+      "bytes": 513280,
+      "sha256": "1bc4f86502eaa368718f6192bee022ea9a703d5af1c18b7d291212657b63074a"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSerif-Italic.ttf",
+      "bytes": 513428,
+      "sha256": "c4b3c971741ecdb40f5a443bce754e8fe91efe761b6ea10c92be7c3597cdadc4"
+    },
+    {
+      "path": "vfs/usr/share/fonts/NotoSerif-Regular.ttf",
+      "bytes": 482540,
+      "sha256": "a15cfbbc1539d707115111d672d590a3d70d4f74b4c0a315956da20ae19a14e1"
+    },
+    {
+      "path": "vfs/usr/share/gdal.data.gz",
+      "bytes": 348461,
+      "sha256": "8adcaf12f15dabb964cb3363defa02bdc9e730a17b10460946944885bcf699af"
+    },
+    {
+      "path": "vfs/usr/share/gdal.js.metadata",
+      "bytes": 10206,
+      "sha256": "de403ded38013ab57931a862d14bcdc33b09997c70de1587ec6719f94360ab25"
+    },
+    {
+      "path": "vfs/usr/share/proj.data.gz",
+      "bytes": 1705325,
+      "sha256": "14e3893991c408324d43605abbe6c4cae18607fe27655e78654bec4565799e13"
+    },
+    {
+      "path": "vfs/usr/share/proj.js.metadata",
+      "bytes": 857,
+      "sha256": "adc4c33a8c963b5059402a2132c59811016cc9c48286b6bd43e68b347a5f4c0c"
+    },
+    {
+      "path": "vfs/usr/share/udunits.data.gz",
+      "bytes": 16775,
+      "sha256": "fc1de0c9cb5c827fef22ed148ffc28eab70a99d3cc9aa9990e37aaf38e5c1757"
+    },
+    {
+      "path": "vfs/usr/share/udunits.js.metadata",
+      "bytes": 424,
+      "sha256": "9f8ac349f1d68c23e4d2a4790e328ab3ecc38cd84ef993592170b7d19ef1b6a6"
+    },
+    {
+      "path": "vfs/var/cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le32d8.cache-9",
+      "bytes": 16008,
+      "sha256": "48cd35d8c3d7a4456f05bbf3c10bac83de082d354b2ec02c8a80e325ac3f0839"
+    },
+    {
+      "path": "vfs/var/cache/fontconfig/CACHEDIR.TAG",
+      "bytes": 200,
+      "sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682"
+    },
+    {
+      "path": "webr-worker.js",
+      "bytes": 134029,
+      "sha256": "c64282f5e15b51ef473e26548203313f868208c8988b2c7bdfc22c5730de418b"
+    },
+    {
+      "path": "webr.js",
+      "bytes": 66672,
+      "sha256": "4c04d3240de6cd3e7f59e081756168faa8566f8a8b97251400770939815c344a"
+    }
+  ],
+  "source_archive_local": "../webr-source/webR-v0.6.0.tar.gz",
+  "r_source": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
+  "build_instructions": "https://github.com/r-wasm/webr/blob/v0.6.0/README.md#building-webr-from-source"
+}

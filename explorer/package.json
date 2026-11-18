@@ -34,7 +34,8 @@
     "test:proteins": "node test/protein-context-browser-check.mjs",
     "test:pwa": "node test/pwa-browser-check.mjs",
     "test:tables": "node test/research-tables-browser-check.mjs",
-    "test:molecular-previews": "node test/molecular-previews-browser-check.mjs"
+    "test:molecular-previews": "node test/molecular-previews-browser-check.mjs",
+    "test:custom-r": "node test/custom-r-browser-check.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4",

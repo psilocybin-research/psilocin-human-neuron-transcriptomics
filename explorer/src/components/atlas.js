@@ -231,6 +231,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
     ["methods", "Methods & provenance"],
+    ["custom-r", "Custom R analysis"],
   ];
   let tab = "overview",
     selected = "GPX4",
@@ -549,7 +550,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     el("p", "", "Cite Schmidt et al. for the original experiment and Germann for this independent reanalysis. The version-specific Zenodo record identifies the archived analysis; the live atlas and GitHub repository may contain later interface updates."),
     el("h3", "", "Public gene and protein context"),
     el("p", "", "Gene and protein information is provided by Ensembl and UniProt; structural coordinates originate from the Protein Data Bank or AlphaFold Protein Structure Database. Provider links, snapshot dates and mapping details accompany the records. These annotations are external context, not measurements from the psilocin experiment. A gene-to-protein mapping does not establish which isoform was expressed; predicted structures and confidence scores do not demonstrate protein activity."),
-    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
+    el("p", "", "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums."),
   );
   citations.append(citationGuidance);
   const share = iconButton("Share", "share", shareCurrent, "native-share");
@@ -655,6 +656,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       );
     });
     shell?.update(tab);
+    body.querySelector(".custom-r-workspace")?.destroy?.();
     body.replaceChildren();
     Promise.resolve(
       {
@@ -666,6 +668,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         dna: dnaView,
         comparison: comparisonView,
         methods,
+        "custom-r": customR,
       }[tab === "genes" ? "genesView" : tab](),
     ).catch(() => {
       if (generation === renderGeneration)
@@ -2701,6 +2704,14 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(panel);
   }
 
+  async function customR() {
+    const host = el("div");
+    body.append(heading("Custom R analysis", "Editable analysis of archived estimates · runs on your device"), host);
+    const { createCustomR } = await trackActivity(import("./custom-r.js"), "Loading R workspace");
+    if (!host.isConnected) return;
+    host.append(createCustomR({ data, getGenes, provenance, root, bayesian: branding.bayesian }));
+  }
+
   function methods() {
     body.append(
       heading(
@@ -2746,6 +2757,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       [
         "Reproducibility and versions",
         "The frozen analysis is archived as version 1.2.0 (doi:10.5281/zenodo.23283595). The plan record and input SHA-256 checksums below identify the analysis inputs. The public repository provides code and derived results; later atlas interface updates do not alter the archived estimates or statistical families.",
+      ],
+      [
+        "Custom R workspace",
+        "User scripts run on demand in a separate webR worker against copies of archived atlas tables. Custom outputs are exploratory and do not replace the frozen analysis. The Bayesian example implements the normal-likelihood branch with numerical quadrature and editable priors; it is not the archived NUTS sampler or Student-t sensitivity. The optional R runtime download is separate from the core PWA and is verified before offline readiness is reported.",
       ],
       [
         "External annotations and reuse",

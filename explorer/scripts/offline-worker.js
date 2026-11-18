@@ -3,7 +3,7 @@ const scope = self.registration.scope;
 const prefix = `psilocin-atlas:${new URL(scope).pathname}:`;
 const absolute = (path) => new URL(path, scope).href;
 const metaName = `${prefix}meta`;
-const inventories = { core: INVENTORY };
+const inventories = { core: INVENTORY, r: R_INVENTORY };
 const pointerValues = new Map(),
   preparing = new Map(),
   controllers = new Map();
@@ -151,7 +151,7 @@ async function audit(kind = "core") {
     inventory = inventories[kind];
   if (record?.version !== inventory.version)
     throw new Error(
-      `The ${kind === "core" ? "research app" : "optional molecular library"} has not been prepared for this release.`,
+      `The ${kind === "core" ? "research app" : "optional R runtime"} has not been prepared for this release.`,
     );
   const cache = await caches.open(record.cache);
   for (const file of inventory.files)
@@ -164,6 +164,7 @@ self.addEventListener("install", (event) =>
       // Full downloads are explicit; existing opted-in packages update by hash.
       try {
         if (await pointer()) await prepare("core", { activate: false });
+        if (await pointer("r")) await prepare("r", { activate: false });
       } catch (error) {
         await broadcast({
           type: "OFFLINE_UPDATE_FAILED",
@@ -178,7 +179,7 @@ self.addEventListener("install", (event) =>
 self.addEventListener("activate", (event) =>
   event.waitUntil(
     (async () => {
-      for (const kind of ["core"]) {
+      for (const kind of ["core", "r"]) {
         const staged = await (
           await caches.open(packName(kind))
         ).match(absolute("__offline_ready__"));
@@ -196,12 +197,17 @@ self.addEventListener("activate", (event) =>
 );
 self.addEventListener("message", (event) => {
   const port = event.ports[0],
-    kind = event.data?.kind === "library" ? "library" : "core";
+    kind = ["library", "r"].includes(event.data?.kind)
+      ? event.data.kind
+      : "core";
   if (!port || !event.source?.url?.startsWith(scope)) return;
   event.waitUntil(
     (async () => {
       try {
-        if (kind !== "core" && ["PREPARE", "VERIFY"].includes(event.data?.type))
+        if (
+          kind === "library" &&
+          ["PREPARE", "VERIFY"].includes(event.data?.type)
+        )
           throw new Error(
             "Molecular-library downloads are not offered by this app.",
           );
@@ -212,6 +218,14 @@ self.addEventListener("message", (event) => {
           for (const controller of controllers.values())
             controller.abort(new Error("Offline download cancelled."));
           result = { cancelled: true };
+        } else if (event.data?.type === "REMOVE_R") {
+          if (preparing.has("r"))
+            throw new Error("Wait for the R download to finish.");
+          await (await caches.open(metaName)).delete(pointerURL("r"));
+          pointerValues.set("r", null);
+          for (const name of await caches.keys())
+            if (name.startsWith(`${prefix}r:`)) await caches.delete(name);
+          result = { removed: true };
         } else if (event.data?.type === "REMOVE_LIBRARY") {
           if (preparing.has("library"))
             throw new Error("Wait for the current download to finish.");
@@ -229,7 +243,7 @@ self.addEventListener("message", (event) => {
             clients.length === 1 &&
             clients[0].id === event.source.id
           ) {
-            for (const category of ["core", "library"]) {
+            for (const category of ["core", "r", "library"]) {
               const record = await pointer(category),
                 keep = new Set([record?.cache, record?.previous]);
               for (const name of await caches.keys())
@@ -244,6 +258,11 @@ self.addEventListener("message", (event) => {
             bytes: INVENTORY.bytes,
             files: INVENTORY.files.length,
             saved: await pointer(),
+            r: {
+              ...R_INVENTORY,
+              files: R_INVENTORY.files.length,
+              saved: await pointer("r"),
+            },
           };
         else throw new Error("Unknown offline request.");
         port.postMessage({ ok: true, result });
@@ -280,7 +299,7 @@ self.addEventListener("fetch", (event) => {
       const key = navigation
         ? absolute("index.html")
         : `${url.origin}${url.pathname}`;
-      for (const kind of ["core", "library"]) {
+      for (const kind of ["core", "r", "library"]) {
         const record = await pointer(kind);
         if (!record) continue;
         for (const name of [record.cache, record.previous].filter(Boolean)) {
@@ -294,7 +313,10 @@ self.addEventListener("fetch", (event) => {
               : found;
         }
       }
-      if (cacheOnly)
+      if (
+        cacheOnly ||
+        (url.pathname.startsWith(`${root}webr/`) && (await pointer("r")))
+      )
         return new Response(
           "Offline verification: required resource is not saved.",
           { status: 503 },

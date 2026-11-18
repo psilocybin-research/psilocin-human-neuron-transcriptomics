@@ -132,6 +132,10 @@ day1[day1$symbol %in% c("GPX4", "NDUFB7", "ATP5A1"),
 
 These are derived results from the archived analysis. Gene-level adjusted p-values remain transcriptome-wide estimates and are not independent confirmation of pathway enrichment.
 
+## Custom R analysis
+
+The atlas includes an editable browser-side R workspace for exploring archived gene estimates, pathways and pooled profiles. Examples include the normal-likelihood Bayesian OXPHOS model with editable priors and numerical quadrature, separately labelled from the archived NUTS fits and Student-t sensitivity. Custom outputs do not alter the frozen results. Install app offers a separate optional webR download for offline execution; new packages and remote data require a connection. Runtime licences, source links and hashes accompany the bundled webR 0.6.0 files.
+
 ## Source study
 
 This repository is an independent secondary analysis and derived research object. It is not the original experimental dataset or the original Schmidt/Hoffrichter analysis.

@@ -9,6 +9,8 @@ const names = {
   robustness: "checkmark_shield",
   comparison: "chart_bar",
   methods: "book",
+  "custom-r": "chevron_left_slash_chevron_right",
+  play: "play_fill",
   share: "share",
   appearance: "moon",
   sun: "sun_max",

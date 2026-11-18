@@ -11,9 +11,12 @@ async function walk(directory, path = "") {
         ...(await walk(new URL(item.name + "/", directory), name + "/")),
       );
     else if (
-      !["sw.js", "offline-manifest.json"].includes(name) &&
+      !["sw.js", "offline-manifest.json", "r-offline-manifest.json"].includes(
+        name,
+      ) &&
       !name.endsWith(".map") &&
-      !/^public-context\/(?:extended|models|predictions)\//.test(name)
+      !/^public-context\/(?:extended|models|predictions)\//.test(name) &&
+      !name.startsWith("webr-source/")
     ) {
       const data = await readFile(new URL(item.name, directory));
       files.push({ path: name, bytes: data.length, sha256: sha(data) });
@@ -45,7 +48,15 @@ await writeFile(
 const files = (await walk(root)).sort((a, b) => a.path.localeCompare(b.path));
 const optional = (file) =>
   /^public-context\/(?:extended|models|predictions)\//.test(file.path);
-const core = files.filter((file) => !optional(file));
+const runtimeFiles = files.filter((file) => file.path.startsWith("webr/"));
+const runtimeInventory = {
+  version: sha(JSON.stringify(runtimeFiles)).slice(0, 20),
+  bytes: runtimeFiles.reduce((sum, file) => sum + file.bytes, 0),
+  files: runtimeFiles,
+};
+const core = files.filter(
+  (file) => !optional(file) && !file.path.startsWith("webr/"),
+);
 const inventory = {
   version,
   bytes: core.reduce((a, f) => a + f.bytes, 0),
@@ -56,8 +67,12 @@ await writeFile(
   JSON.stringify(inventory),
 );
 await writeFile(
+  new URL("r-offline-manifest.json", root),
+  JSON.stringify(runtimeInventory),
+);
+await writeFile(
   new URL("sw.js", root),
-  `const INVENTORY=${JSON.stringify(inventory)};\n${template}`,
+  `const INVENTORY=${JSON.stringify(inventory)};\nconst R_INVENTORY=${JSON.stringify(runtimeInventory)};\n${template}`,
 );
 console.log(
   `Offline inventory ${inventory.version}: ${core.length} core files, ${inventory.bytes} decoded bytes.`,

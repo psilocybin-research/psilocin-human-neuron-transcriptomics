@@ -1059,7 +1059,7 @@ export function createAppShell({
       view: { browserHistory: false },
     });
     view = app.views.create(main, { router: false });
-    pwa = createPwa({ root, app, installButton });
+    pwa = createPwa({ root, app, installButton, data });
     researchTables = createResearchTables({ root, app });
     panelInstance = app.panel.create({
       el: panel,

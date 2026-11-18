@@ -1,0 +1,3 @@
+# webR corresponding source access
+
+The unmodified webR 0.6.0 runtime is distributed with its original licence notices in ../webr/LICENSE.txt. The webR source, patches and build recipes are provided in webR-v0.6.0.tar.gz, downloaded from https://github.com/r-wasm/webr/tree/v0.6.0. The source archive specifies R 4.6.0 and retrieves it from https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz. The upstream build recipes also give the source download locations and pinned versions for bundled libraries; component source links are listed in the original licence notice. These source downloads are available separately and are excluded from PWA downloads. Runtime files are unchanged; no Shiny package image is distributed with this workspace.
