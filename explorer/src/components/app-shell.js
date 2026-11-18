@@ -1089,6 +1089,7 @@ export function createAppShell({
     });
     controlsSheet = app.sheet.create({
       el: sheet,
+      push: true,
       backdrop: true,
       swipeToClose: true,
       swipeHandler: handle,

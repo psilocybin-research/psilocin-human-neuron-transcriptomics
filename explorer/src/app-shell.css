@@ -3226,21 +3226,6 @@ body {
     animation-name: f7-fade-in;
     animation-duration: var(--f7-page-fade-transition-duration, 200ms);
   }
-  #psilocin-app > .research-views {
-    transform: none !important;
-    border-radius: 0;
-  }
-  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
-    --f7-page-fade-transition-duration: 200ms;
-    transform: none !important;
-    transition-property: opacity;
-  }
-  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour).modal-in:not(.not-animated) {
-    animation: f7-fade-in var(--f7-page-fade-transition-duration, 200ms) both;
-  }
-  #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour).modal-out:not(.not-animated) {
-    animation: f7-fade-out var(--f7-page-fade-transition-duration, 200ms) both;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
@@ -4436,3 +4421,18 @@ body {
 
 .research-report-primary{min-height:48px;padding:0 22px;font-weight:600;box-shadow:0 3px 10px color-mix(in srgb,var(--f7-theme-color) 20%,transparent)}
 .research-report-primary .f7-icon-svg{width:24px;height:24px}
+
+/* Keep independent option groups compact and aligned in roomy controls sheets. */
+#psilocin-app .analysis-sheet-body { align-items: start; }
+@media (min-width: 701px) {
+  #psilocin-app .analysis-sheet-body .analysis-option-list {
+    max-height: min(42dvh, 360px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+#psilocin-app .analysis-option-list .list-group-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--research-muted);
+}

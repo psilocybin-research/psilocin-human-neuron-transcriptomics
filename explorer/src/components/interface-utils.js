@@ -50,9 +50,9 @@ export function destroySheet(instance) {
   instance.destroy();
 }
 
-// Desktop uses F7 fade; compact layouts retain native push motion.
+// Bottom sheets consistently use native F7 push motion.
 export function useModalPush() {
-  return matchMedia("(max-width: 850px)").matches;
+  return true;
 }
 
 export function showResearchEvidence(target, title) {
