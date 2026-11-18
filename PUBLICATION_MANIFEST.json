@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686664846,
+  "total_bytes": 686669101,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3334,8 +3334,8 @@
     },
     {
       "path": "explorer/src/components/app-pwa.js",
-      "bytes": 24020,
-      "sha256": "5fce6d372aa2dfd62d99f9c07675c6a3fa199fb1985221317d4cef58b3d737f5"
+      "bytes": 28275,
+      "sha256": "be65bd62035cb2da970d6580046277acf1c4d3eea91465505fc951941c936879"
     },
     {
       "path": "explorer/src/components/app-shell.js",

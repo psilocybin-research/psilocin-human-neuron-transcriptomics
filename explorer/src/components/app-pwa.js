@@ -137,7 +137,10 @@ export function createPwa({ root, app, installButton: button, data }) {
     task,
     reloading = false,
     lastInteraction = Date.now(),
-    updateTimer;
+    updateTimer,
+    offerTimer,
+    installedThisSession = false,
+    offerShown = false;
   const listeners = [];
   const on = (target, event, handler) => {
     target.addEventListener(event, handler);
@@ -208,7 +211,7 @@ export function createPwa({ root, app, installButton: button, data }) {
       root.append(frame);
     });
   }
-  async function prepareWithR(includeR) {
+  async function prepareWithR(includeR, { quietSuccess = false } = {}) {
     if (!includeR) return prepareAndVerify();
     root.dataset.rInstalling = "true";
     const finish = beginActivity("Saving and testing offline R");
@@ -241,7 +244,7 @@ export function createPwa({ root, app, installButton: button, data }) {
         data.landscape.slice(0, 3).map((row) => row.day1_log2fc),
       );
       progress.close(false);
-      dialog(
+      if (!quietSuccess) dialog(
         "Offline R ready",
         "<p>Every R runtime file passed SHA-256 verification. A fresh R worker read three archived OXPHOS effect estimates, verified their values and rendered a plot using the saved runtime. The archived atlas datasets are saved with the core app.</p><p>Custom R examples now work offline. New packages and external data sources still need internet. Browser storage can be cleared or evicted; use Check offline to verify again.</p>",
       );
@@ -257,7 +260,7 @@ export function createPwa({ root, app, installButton: button, data }) {
       root.dataset.rInstalling = "false";
     }
   }
-  async function prepareLatex() {
+  async function prepareLatex({ quietSuccess = false } = {}) {
     const finish = beginActivity("Saving and testing the offline PDF compiler");
     root.dataset.reportBusy = "true";
     let work;
@@ -291,7 +294,7 @@ export function createPwa({ root, app, installButton: button, data }) {
       const { verifyLatexRuntime } = await import("./r-report.js");
       await verifyLatexRuntime(controller.signal);
       work.close(false);
-      dialog(
+      if (!quietSuccess) dialog(
         "Offline PDF compiler ready",
         "<p>Every compiler file passed SHA-256 verification, and a fresh local compilation produced a PDF. Custom R reports and LaTeX source exports can now use the saved compiler, fonts and packages without a connection.</p><p>The R runtime is a separate optional download. Storage can be cleared or evicted; use this check again when needed.</p>",
       );
@@ -301,10 +304,70 @@ export function createPwa({ root, app, installButton: button, data }) {
         "PDF compiler not verified",
         `<p>${escapeHTML(error.message)}</p><p>No PDF readiness is claimed. Existing R results and saved app data are retained.</p>`,
       );
+      if (quietSuccess) throw error;
     } finally {
       finish();
       root.dataset.reportBusy = "false";
     }
+  }
+  function offerOfflineTools() {
+    clearTimeout(offerTimer);
+    if (disposed || offerShown || (!standalone() && !installedThisSession)) return;
+    if (sessionValue("atlas-offline-tools-offered")) return;
+    if (!navigator.onLine || document.hidden || task ||
+      root.dataset.modalOpen === "true" || root.dataset.loading === "true" ||
+      root.dataset.rBusy === "true" || root.dataset.reportBusy === "true" ||
+      root.dataset.rInstalling === "true") {
+      offerTimer = setTimeout(offerOfflineTools, 1500);
+      return;
+    }
+    (async () => {
+      const status = await call(await worker(), "STATUS");
+      if (disposed || offerShown) return;
+      const missing = [
+        !status.r.saved && { kind: "r", title: "Offline R analyses", bytes: status.r.bytes },
+        status.latex && !status.latex.saved && { kind: "latex", title: "Offline PDF reports", bytes: status.latex.bytes },
+      ].filter(Boolean);
+      if (!missing.length) return;
+      // Startup checks may have opened a verification dialog while STATUS was pending.
+      if (root.dataset.modalOpen === "true" || root.dataset.rInstalling === "true" || root.dataset.reportBusy === "true") {
+        offerTimer = setTimeout(offerOfflineTools, 1500);
+        return;
+      }
+      offerShown = true;
+      try { sessionStorage.setItem("atlas-offline-tools-offered", "1"); } catch {}
+      const choices = new Map();
+      const prompt = dialog("Optional offline research tools",
+        "<p>The app works without these downloads while connected. Save the missing tools now if you want to run custom R analyses and create PDF reports without internet.</p><p>Choose either or both. Downloads stay in this browser; no system installation is needed. New R packages, remote data and external links still need a connection.</p>",
+        [{ text: "Not now" }, { text: "Save selected", strong: true, onClick() {
+          const selected = [...choices].filter(([, input]) => input.checked).map(([kind]) => kind);
+          if (!selected.length) return;
+          (async () => {
+            if (selected.includes("r")) await prepareWithR(true, { quietSuccess: true });
+            if (selected.includes("latex")) await prepareLatex({ quietSuccess: true });
+            dialog("Offline tools ready", `<p>${selected.includes("r") ? "R files passed verification and a fresh calculation and plot test. " : ""}${selected.includes("latex") ? "The LaTeX files passed verification and a real PDF compilation test. " : ""}The archived analysis data is saved with the core app.</p><p>You can manage or check these downloads under Install app. Browser storage can be cleared or evicted.</p>`);
+          })().catch(() => {});
+        } }]);
+      const container = prompt.el.querySelector(".dialog-inner");
+      const save = prompt.el.querySelector(".dialog-button:last-child");
+      const sync = () => {
+        const enabled = [...choices.values()].some(input => input.checked);
+        save.classList.toggle("disabled", !enabled);
+        save.setAttribute("aria-disabled", String(!enabled));
+      };
+      for (const item of missing) {
+        const label = el("label", "checkbox pwa-r-choice");
+        const input = el("input");
+        input.type = "checkbox";
+        input.setAttribute("aria-label", item.title);
+        input.onchange = sync;
+        choices.set(item.kind, input);
+        label.append(input, el("i", "icon-checkbox"), el("span", "", `${item.title} · ${mb(item.bytes)}`));
+        container.append(label);
+      }
+      container.append(el("p", "note", "You can skip this and save the tools later under Install app. This reminder appears once per app session while tools are missing."));
+      sync();
+    })().catch(() => { /* The ordinary app remains available if status cannot be checked. */ });
   }
   async function readyDialog(title, content) {
     while (root.dataset.modalOpen === "true" && !disposed) await delay(200);
@@ -515,6 +578,8 @@ export function createPwa({ root, app, installButton: button, data }) {
   });
   on(window, "appinstalled", () => {
     deferred = undefined;
+    installedThisSession = true;
+    offerTimer = setTimeout(offerOfflineTools, 1500);
     if (root.dataset.rInstalling !== "true") prepareAndVerify().catch(() => {});
   });
   on(window, "pointerdown", () => {
@@ -531,9 +596,9 @@ export function createPwa({ root, app, installButton: button, data }) {
         /* Retain the verified package while disconnected. */
       }
   }
-  on(window, "online", checkUpdate);
+  on(window, "online", () => { checkUpdate(); offerOfflineTools(); });
   on(document, "visibilitychange", () => {
-    if (!document.hidden) checkUpdate();
+    if (!document.hidden) { checkUpdate(); offerOfflineTools(); }
   });
   on(navigator.serviceWorker, "message", ({ data }) => {
     if (data.type === "OFFLINE_PROGRESS") {
@@ -629,7 +694,8 @@ export function createPwa({ root, app, installButton: button, data }) {
         }
       }
     })
-    .catch(() => {});
+    .catch(() => {})
+    .finally(() => { offerTimer = setTimeout(offerOfflineTools, 1500); });
   const interval = setInterval(checkUpdate, 15 * 60 * 1000);
   return {
     open,
@@ -638,6 +704,7 @@ export function createPwa({ root, app, installButton: button, data }) {
       disposed = true;
       clearInterval(interval);
       clearTimeout(updateTimer);
+      clearTimeout(offerTimer);
       for (const remove of listeners) remove();
       button.remove();
     },
