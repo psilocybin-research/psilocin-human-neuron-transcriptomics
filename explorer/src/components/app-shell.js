@@ -421,6 +421,20 @@ export function createAppShell({
     enhanceFrame,
     querySequence = 0,
     resultScrollPending = false;
+  const viewPositions = new Map();
+  let restoreViewPosition = false, positionTimer;
+  function restorePositionWhenReady(force = false) {
+    if (!restoreViewPosition) return;
+    const position = viewPositions.get(lastTab) || 0;
+    if (!force && scroll.scrollHeight - scroll.clientHeight < position) return;
+    scroll.scrollTop = position;
+    restoreViewPosition = false;
+    clearTimeout(positionTimer);
+  }
+  const rememberViewPosition = () => {
+    if (!restoreViewPosition) viewPositions.set(lastTab, scroll.scrollTop);
+  };
+  scroll.addEventListener("scroll", rememberViewPosition, { passive: true });
   const pathwaySuggestions = new Set(),
     suggestionInputs = new WeakSet();
   const smartInstances = new Set(),
@@ -458,10 +472,11 @@ export function createAppShell({
       "analysis-options-single",
       host.querySelectorAll("select").length === 1,
     );
+    let optionIndex = 0;
     for (const select of host.querySelectorAll("select")) {
       const original = select.closest(".control,.tree-member-control");
       if (!original) continue;
-      const options = analysisOptions(select);
+      const options = analysisOptions(select, { expanded: optionIndex++ === 0 });
       const hidden = original.hidden;
       original.before(options);
       original.hidden = true;
@@ -491,7 +506,9 @@ export function createAppShell({
     if (tab !== lastTab) {
       lastTab = tab;
       viewTransitionPending = Boolean(app) && !reduced();
-      scroll.scrollTop = 0;
+      restoreViewPosition = true;
+      clearTimeout(positionTimer);
+      positionTimer = setTimeout(() => restorePositionWhenReady(true), 2500);
     }
     sectionTitle.textContent = tabs.find((t) => t[0] === tab)?.[1] || "Atlas";
     for (const b of quick) {
@@ -596,6 +613,7 @@ export function createAppShell({
     enhanceFrame = requestAnimationFrame(() => {
       enhanceFrame = 0;
       enhance();
+      restorePositionWhenReady();
       scrollToUpdatedResult();
     });
   }
@@ -1227,6 +1245,7 @@ export function createAppShell({
     update,
     scroll,
     afterRender() {
+      restorePositionWhenReady();
       progress.update();
       if (!viewTransitionPending || reduced()) {
         if (finishRendering) afterPaint(finishRendering);
@@ -1255,6 +1274,8 @@ export function createAppShell({
       closeControls();
     },
     destroy() {
+      clearTimeout(positionTimer);
+      scroll.removeEventListener("scroll", rememberViewPosition);
       pwa?.destroy();
       researchTables?.destroy();
       evidenceSheet.destroy();

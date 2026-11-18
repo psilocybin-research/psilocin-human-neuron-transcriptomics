@@ -1,10 +1,16 @@
 import { createElement as node } from "./interface-utils.js";
 let sequence = 0;
+const expansion = new WeakMap();
 // Options are visible in the controls panel; no selector opens a second modal.
-export function analysisOptions(select) {
-  const field = node("section", "analysis-option-field");
+export function analysisOptions(select, { expanded = false } = {}) {
+  const field = node("details", "analysis-option-field");
+  field.open = expansion.get(select) ?? expanded;
+  field.ontoggle = () => expansion.set(select, field.open);
   const title = select.getAttribute("aria-label") || "Options";
-  const heading = node("h3", "", title);
+  const heading = node("summary", "analysis-option-heading");
+  heading.append(node("strong", "", title));
+  const selected = node("span", "analysis-option-current", select.selectedOptions[0]?.textContent || "Choose an option");
+  heading.append(selected);
   heading.id = `analysis-option-title-${++sequence}`;
   field.append(heading);
   field.setAttribute("role", "group");
@@ -42,6 +48,7 @@ export function analysisOptions(select) {
     ul.append(li);
     input.onchange = () => {
       if (!input.checked) return;
+      selected.textContent = option.textContent;
       select.value = option.value;
       select.dispatchEvent(new Event("change", { bubbles: true }));
     };

@@ -4424,15 +4424,48 @@ body {
 
 /* Keep independent option groups compact and aligned in roomy controls sheets. */
 #psilocin-app .analysis-sheet-body { align-items: start; }
-@media (min-width: 701px) {
-  #psilocin-app .analysis-sheet-body .analysis-option-list {
-    max-height: min(42dvh, 360px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-}
+
 #psilocin-app .analysis-option-list .list-group-title {
   font-size: 12px;
   font-weight: 600;
   color: var(--research-muted);
+}
+
+#psilocin-app .analysis-option-field {
+  border: 1px solid var(--research-border);
+  border-radius: 12px;
+  background: var(--research-surface);
+  overflow: hidden;
+}
+#psilocin-app .analysis-option-heading {
+  padding: 14px 16px;
+  min-height: 48px;
+  cursor: pointer;
+  box-sizing: border-box;
+  color: var(--research-text);
+}
+#psilocin-app .analysis-option-heading strong { font-size: 14px; }
+#psilocin-app .analysis-option-current {
+  display: block;
+  margin: 6px 0 0 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--f7-theme-color);
+  overflow-wrap: anywhere;
+}
+#psilocin-app .analysis-option-field[open] .analysis-option-heading {
+  border-bottom: 1px solid var(--research-border);
+}
+#psilocin-app .analysis-option-field .analysis-option-list { border-radius: 0; }
+#psilocin-app .analysis-option-heading:focus-visible {
+  outline: 2px solid var(--f7-theme-color);
+  outline-offset: -3px;
+}
+#psilocin-app .comparison-gene-button[aria-pressed="true"] {
+  background: var(--research-selected);
+  color: var(--research-text);
+  box-shadow: inset 3px 0 var(--f7-theme-color);
+}
+#psilocin-app .comparison-selection-actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0;
 }

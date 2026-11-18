@@ -1708,10 +1708,23 @@ export function createComparativeViews({
       list.append(b);
     }
     selectionPanel.append(list);
+    if (state.selection.size) {
+      const actions = el("div", "comparison-selection-actions");
+      actions.append(btn("Clear gene selection", () => {
+        search = "";
+        state.selection.clear();
+        state.active = "";
+        update();
+        render();
+      }));
+      selectionPanel.append(actions);
+    }
     if (!rows.length)
       selectionPanel.append(
         note(
-          "Select plotted observations, a numerical region, or an OXPHOS membership category; alternatively search for a gene symbol or identifier.",
+          search.trim()
+            ? "No genes match this search in the current cohort. Try another symbol or Ensembl ID, or broaden the gene cohort in Analysis settings."
+            : "No genes selected. Select a plotted gene or region, choose a membership category, or search by symbol or Ensembl ID.",
         ),
       );
     if (state.selection.size)

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686661505,
+  "total_bytes": 686664419,
   "status": "pass",
   "failures": [],
   "files": [
@@ -359,8 +359,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 116874,
-      "sha256": "ce40d0b2157e4d20479924f46e283ed8e514eac70821e67b39b1eb6fcaad2e37"
+      "bytes": 117911,
+      "sha256": "8ec09ee885577613ffb820ef90d94773eddf61e3644d07bd0ab38c40805e5992"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3319,8 +3319,8 @@
     },
     {
       "path": "explorer/src/components/analysis-options.js",
-      "bytes": 1872,
-      "sha256": "7f61a0e345d3063fc799e094dc4def0edf96d0f1c0a996f70f87f6b1306082e8"
+      "bytes": 2307,
+      "sha256": "4c521a5cc6d8d01f43d34fd4886ba62217f225d3bb31023d0e7951f195886a15"
     },
     {
       "path": "explorer/src/components/app-activity.js",
@@ -3339,8 +3339,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 43893,
-      "sha256": "ed0073637f4655de04c477037890a0000599d3cbd60e20f3bde28a2b1553c9ee"
+      "bytes": 44852,
+      "sha256": "39d3808cf8776a1da9cc20d93bf102a2b18561ee3573c44aa3aa6f44218f3a59"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3364,8 +3364,8 @@
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 59522,
-      "sha256": "9fea5bc330051fd9b206279e544bed06b957d56949c07beec7b6dbe1733068d5"
+      "bytes": 60005,
+      "sha256": "696f2d8b8b16f6a8ff47ec30816b9e87579ec8df4a657a111a13608d2410acc5"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
