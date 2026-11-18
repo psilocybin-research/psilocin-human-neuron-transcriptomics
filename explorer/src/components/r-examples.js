@@ -7,7 +7,9 @@ export const rExamples = [
 # Preserve the original 15-test BH family; do not adjust this subset again.
 results <- subset(pathways, tier == "primary")
 stopifnot(nrow(results) == 15, all(is.finite(results$NES)))
-print(results[, intersect(c("pathway", "contrast", "NES", "family_fdr", "robustness"), names(results))])
+# Keep the comparison and original family FDR visible in tables and reports.
+results <- results[, c("pathway", "contrast", "NES", "family_fdr", "robustness")]
+print(results)
 contrast_id <- "day1_vs_control" # EDIT: day3_vs_control or day3_vs_day1
 x <- subset(results, contrast == contrast_id)
 x <- x[order(x$NES), ]

@@ -31,7 +31,7 @@ try {
   await p
     .getByRole("textbox", { name: "R code", exact: true })
     .fill(
-      'results <- data.frame(x=1:3, y=c(2,5,9))\nprint(results)\nplot(results$x, results$y, main="Vector report test")\nplot(3:1, col="#235780", main="Second plot")',
+      'results <- data.frame(x=1:3, y=c(2,5,9))\nprint(results)\nplot(results$x, results$y, main="Vector α report test")\nplot(3:1, col="#235780", main="Second plot")',
     );
   await p.getByRole("button", { name: "Run analysis", exact: true }).click();
   await p.waitForFunction(

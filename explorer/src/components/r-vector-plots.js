@@ -28,7 +28,7 @@ export async function readVectorPlots(runtime) {
       p <- .atlas_graphics$plots[[${i}]]
       grDevices::svg('/home/web_user/vector-${i}.svg', width=10, height=6.5, pointsize=14, bg='white')
       tryCatch(grDevices::replayPlot(p), finally=grDevices::dev.off())
-      grDevices::pdf('/home/web_user/vector-${i}.pdf', width=10, height=6.5, pointsize=14, bg='white', useDingbats=FALSE)
+      grDevices::cairo_pdf('/home/web_user/vector-${i}.pdf', width=10, height=6.5, pointsize=14, bg='white', fallback_resolution=300)
       tryCatch(grDevices::replayPlot(p), finally=grDevices::dev.off())
     })`);
     plots.push({

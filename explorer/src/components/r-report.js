@@ -33,6 +33,14 @@ const codeBlock = (value) =>
     .flatMap((line) => line.match(/.{1,95}/gu) || [" "])
     .map((line) => `\\noindent\\texttt{${tex(line)}}\\par`)
     .join("\n");
+const tableText = (value, numeric = false) => {
+  let text = String(value ?? "");
+  if (numeric && /[.eE]/.test(text) && Number.isFinite(Number(text)))
+    text = String(Number(Number(text).toPrecision(4)));
+  return (text.slice(0, 120).match(/.{1,8}/gu) || [""])
+    .map(tex)
+    .join("\\allowbreak{}");
+};
 export function reportFiles(run, title, author = "") {
   const { record, resultsCSV, vectorPlots, inputs } = run;
   if (!record || record.error)
@@ -48,6 +56,17 @@ export function reportFiles(run, title, author = "") {
     .join("\n");
   const rows = parseCSV(resultsCSV).slice(0, 41),
     columns = Math.min(rows[0]?.length || 0, 6);
+  const numericColumns = Array.from({ length: columns }, (_, i) => {
+    const values = rows
+      .slice(1)
+      .map((row) => row[i])
+      .filter((value) => value && value !== "NA");
+    return Boolean(
+      values.length && values.every((value) => Number.isFinite(Number(value))),
+    );
+  });
+  const weights = numericColumns.map((numeric) => (numeric ? 1 : 2));
+  const totalWeight = weights.reduce((sum, value) => sum + value, 0);
   const columnDefinitions = Array.from({ length: columns }, (_, i) => {
     const values = rows
       .slice(1)
@@ -55,7 +74,7 @@ export function reportFiles(run, title, author = "") {
       .filter((value) => value && value !== "NA");
     const numeric =
       values.length && values.every((value) => Number.isFinite(Number(value)));
-    return `>{${numeric ? "\\RaggedLeft" : "\\RaggedRight"}\\arraybackslash}p{${(156 / columns - 4).toFixed(1)}mm}`;
+    return `>{${numeric ? "\\RaggedLeft" : "\\RaggedRight"}\\arraybackslash}p{${((156 * weights[i]) / totalWeight - 4).toFixed(1)}mm}`;
   }).join("");
   const table = columns
     ? `\\section{Results table}\\small\n\\begin{longtable}{${columnDefinitions}}\\toprule\n` +
@@ -64,11 +83,11 @@ export function reportFiles(run, title, author = "") {
           (row, i) =>
             row
               .slice(0, columns)
-              .map((v) => tex(v.slice(0, 120)))
+              .map((v, j) => tableText(v, i > 0 && numericColumns[j]))
               .join(" & ") + ` \\\\ ${i === 0 ? "\\midrule\\endhead" : ""}`,
         )
         .join("\n") +
-      "\n\\bottomrule\\end{longtable}\\normalsize\nPreview: up to 40 rows and 6 columns. Full results are retained in results.csv.\n"
+      "\n\\bottomrule\\end{longtable}\\normalsize\nPreview: up to 40 rows and 6 columns. Numeric previews use up to four significant digits. Full precision and all columns are retained in results.csv.\n"
     : "";
   const stamp = new Date(record.run_utc)
     .toISOString()

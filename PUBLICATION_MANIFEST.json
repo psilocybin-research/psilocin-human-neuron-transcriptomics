@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1275,
-  "total_bytes": 686649004,
+  "total_bytes": 686649951,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3499,8 +3499,8 @@
     },
     {
       "path": "explorer/src/components/r-examples.js",
-      "bytes": 9519,
-      "sha256": "a534647cf4b4ef981fadd7ddf300e903373376d1681ce946b6591ee97ac84fa8"
+      "bytes": 9588,
+      "sha256": "b9eeb2c7e5f82351ed200c72e108b07ee86bfa329a1d454048c56afb8591fb69"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/r-report.js",
-      "bytes": 17650,
-      "sha256": "bac2a72d25d085a9df4c4d137d42907f0254c5ea27e79d24e8ee3770e4da0dee"
+      "bytes": 18513,
+      "sha256": "1d53f0e7ea991c30f118a8fdf156ab72b61d219bfb27d391147d6be1f3ccc5c5"
     },
     {
       "path": "explorer/src/components/r-runtime.js",
@@ -3519,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/r-vector-plots.js",
-      "bytes": 1782,
-      "sha256": "514fa959b5fcfd5a99c6d74f63dfb9a49266a6f425b6671f82d2fd8d279c3cf5"
+      "bytes": 1794,
+      "sha256": "a92f0ddd3ca2ee61cce65ad1942b07496ac16b445e8dd217099ad2f972f828f0"
     },
     {
       "path": "explorer/src/components/research-navigation.js",
@@ -3769,8 +3769,8 @@
     },
     {
       "path": "explorer/test/r-report-browser-check.mjs",
-      "bytes": 6152,
-      "sha256": "6029862b714558a2162a3fc4b26e8e705cd37ec2513d0a32d08d728e9e00b7b3"
+      "bytes": 6155,
+      "sha256": "b5a814a8e23a84825c63de2366d8320913843a92d3e5f8042a09e7fa313f8cbc"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
