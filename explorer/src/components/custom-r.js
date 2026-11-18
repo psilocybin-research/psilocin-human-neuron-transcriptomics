@@ -1,4 +1,5 @@
-import { createElement as el, setLoadingMessage } from "./interface-utils.js";
+import { createElement as el } from "./interface-utils.js";
+import { createRProgress } from "./r-progress.js";
 import { rExamples } from "./r-examples.js";
 import { createRRuntime } from "./r-runtime.js";
 import { csvText } from "./format.js";
@@ -72,7 +73,6 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     selector,
     load,
     run,
-    stop,
     action("Download R", "download", () =>
       downloadFile("psilocin-custom-analysis.R", code.value, "text/plain"),
     ),
@@ -84,6 +84,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   );
   status.setAttribute("role", "status");
   status.setAttribute("aria-live", "polite");
+  const progress = createRProgress(status);
+  progress.actions.append(stop);
   const output = el(
     "pre",
     "custom-r-console",
@@ -134,9 +136,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     intro,
     warning,
     toolbar,
+    progress.panel,
     label,
     code,
-    status,
     docs,
     el("h3", "", "Console"),
     output,
@@ -239,6 +241,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     controls(false);
     status.classList.remove("inline-loading");
     status.textContent = message;
+    progress.finish(message);
   }
   async function execute() {
     if (busy) return;
@@ -257,7 +260,12 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     tableHost.replaceChildren();
     output.textContent = "";
     endActivity = beginActivity("Running custom R analysis");
-    setLoadingMessage(status, "Loading the R runtime and archived tables…");
+    progress.start();
+    progress.stage(
+      0,
+      "Preparing archived data",
+      "Reading the gene estimates and organizing the three contrasts. No R code has run yet.",
+    );
     timer = setTimeout(
       () =>
         terminate(
@@ -276,13 +284,24 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         })),
       );
       if (ticket !== epoch) return;
+      progress.stage(
+        1,
+        "Loading the webR interface",
+        "Opening the locally hosted webR 0.6.0 JavaScript interface.",
+      );
       const instance = await createRRuntime();
       if (ticket !== epoch) {
         instance.close();
         return;
       }
       runtime = instance;
+      progress.stage(
+        2,
+        "Starting the R worker",
+        "Loading WebAssembly, base R and numerical libraries. The browser downloads required files or reads the saved offline runtime. First startup can take longer.",
+      );
       await runtime.init();
+      progress.note("R worker initialized successfully.");
       if (ticket !== epoch) return;
       const inputs = {
         genes,
@@ -293,6 +312,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         bayesian_archive: bayesian.archived,
       };
       const hashes = {};
+      progress.stage(
+        3,
+        "Loading analysis tables into R",
+        "Preparing six archived datasets and computing their SHA-256 fingerprints.",
+      );
       for (const [name, rows] of Object.entries(inputs)) {
         const normalized = rows.map((row) =>
           Object.fromEntries(
@@ -311,6 +335,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         const bytes = encoder.encode(csvText(normalized));
         hashes[name] = { rows: rows.length, sha256: await digest(bytes) };
         await runtime.FS.writeFile(`/home/web_user/${name}.csv`, bytes);
+        progress.note(
+          `${name}: ${rows.length.toLocaleString()} rows · ${(bytes.byteLength / 1e6).toFixed(2)} MB loaded`,
+        );
       }
       const shelter = await new runtime.Shelter();
       const wrapped = `set.seed(20261118)\n${Object.keys(inputs)
@@ -321,7 +348,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         .join(
           "\n",
         )}\n${script}\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
-      setLoadingMessage(status, "Running R on your device…");
+      progress.stage(
+        4,
+        "Running your R script",
+        "Evaluating the archived tables and your code in the separate worker. Stop is available; no percentage is estimated for arbitrary code.",
+      );
       const captured = await shelter.captureR(wrapped, {
         captureStreams: true,
         captureConditions: true,
@@ -336,6 +367,11 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         for (const image of captured.images) image.close();
         return;
       }
+      progress.stage(
+        5,
+        "Preparing plots and results",
+        `${captured.images.length} plot(s) captured. Preparing the results table and reproducibility record.`,
+      );
       const text = captured.output
         .map((x) =>
           typeof x.data === "string" ? x.data : JSON.stringify(x.data),
@@ -420,6 +456,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   host.destroy = () => {
     persist();
     terminate("R session closed.");
+    progress.destroy();
   };
   return host;
 }
