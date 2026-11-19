@@ -107,19 +107,17 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     refresh();
   };
   filterLabel.append(filterSelect);
-  const layoutLabel = el("label", "oxphos-3d-filter", "Network layout");
-  const layoutSelect = el("select");
-  layoutSelect.setAttribute("aria-label", "Network layout");
-  for (const [value, text] of [
-    ["complex", "Complex groups"],
-    ["layers", "Gene–set layers"],
-  ]) {
-    const o = el("option", "", text);
-    o.value = value;
-    layoutSelect.append(o);
-  }
-  layoutSelect.onchange = () => transitionLayout(layoutSelect.value);
-  layoutLabel.append(layoutSelect);
+  const layoutLabel = el("label", "oxphos-3d-layout-direct");
+  const layoutToggle = el("input");
+  layoutToggle.type = "checkbox";
+  layoutToggle.setAttribute("role", "switch");
+  layoutToggle.setAttribute("aria-label", "Layered network layout");
+  layoutLabel.title = "Off: complex groups. On: gene–set layers. Both show the same memberships.";
+  const layoutSwitch = el("span", "toggle");
+  layoutSwitch.append(layoutToggle, el("span", "toggle-icon"));
+  layoutLabel.append(el("span", "", "Layered layout"), layoutSwitch);
+  layoutToggle.onchange = () =>
+    transitionLayout(layoutToggle.checked ? "layers" : "complex");
   controls.append(
     el(
       "p",
@@ -401,7 +399,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     el("span", "", "Human iPSC-derived cortical neurons"),
   );
   topbar.append(identity);
-  layoutLabel.classList.add("oxphos-3d-layout-direct");
   topbar.append(days, layoutLabel, status);
   leftStage.style.flex = "1 1 0%";
   const legendCompact = el("div", "oxphos-3d-scale");
@@ -949,7 +946,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         mode === "layers" ? layerPositions.get(n.id) : n,
       ]),
     );
-    layoutSelect.disabled = true;
+    layoutToggle.disabled = true;
     const move = (time) => {
       if (destroyed) return;
       const t = duration ? Math.min(1, (time - began) / duration) : 1,
@@ -968,7 +965,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       }
       if (t < 1) layoutFrame = requestAnimationFrame(move);
       else {
-        layoutSelect.disabled = false;
+        layoutToggle.disabled = false;
         root.dataset.layoutReady = "true";
       }
     };
@@ -1008,7 +1005,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinTools.hidden = false;
     proteinCaption.hidden = false;
     proteinCaption.textContent = `${context.gene.symbol} · ${context.protein.accession} · ${context.model.provider} ${context.model.model} · Cα trace (${proteinScene.count} residues). External structural context; not measured by this experiment. ${context.model.provider === "AlphaFold" ? "Colours: local pLDDT blue ≥90, cyan 70–90, yellow 50–70, orange <50; not experimental validation." : "Colours distinguish sequence position, not confidence."}`;
-    layoutSelect.disabled = true;
+    layoutToggle.disabled = true;
     dayButtons.forEach((b) => (b.disabled = true));
     root.dataset.molecularView = "true";
     beadsVisible = true;
@@ -1033,7 +1030,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     proteinCaption.hidden = true;
     root.dataset.molecularView = "false";
     if (bloom) bloom.enabled = bloomEnabled;
-    layoutSelect.disabled = false;
+    layoutToggle.disabled = false;
     dayButtons.forEach((b) => (b.disabled = false));
     if (proteinCamera)
       cameraTransition.move(
@@ -1079,7 +1076,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const caption = (d) =>
       `Day ${d ? 3 : 1} / common control · ${significantCount(d)} gene FDR < 0.05`;
     leftStage.dataset.timepoint = caption(day);
-    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · vs common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
+    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${significantCount(day)} gene FDR < 0.05 · vs common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     shown = 12;
     renderList();
     renderSelected();

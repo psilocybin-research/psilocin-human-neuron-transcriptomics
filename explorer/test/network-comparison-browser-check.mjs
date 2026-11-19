@@ -110,8 +110,8 @@ try {
     await panel.getByRole("button", { name: "Done", exact: true }).click();
     await root.getByRole("button", { name: "Filters", exact: true }).click();
     await p
-      .getByLabel("Network layout", { exact: true })
-      .selectOption("layers");
+      .locator(".oxphos-3d-layout-direct")
+      .click();
     await p.waitForFunction(
       () =>
         document.querySelector(".oxphos-network-3d")?.dataset.layoutReady ===

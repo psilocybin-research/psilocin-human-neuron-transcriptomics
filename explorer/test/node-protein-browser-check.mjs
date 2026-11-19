@@ -113,7 +113,7 @@ try {
 
     assert.equal(await root.getAttribute("data-node-protein-ready"), "false");
     assert.equal(await root.locator(".network-node-protein-caption").isHidden(), true);
-    assert.equal(await root.getByLabel("Network layout", { exact: true }).isVisible(), true);
+    assert.equal(await root.getByRole("switch", { name: "Layered network layout", exact: true }).isVisible(), true);
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     console.log(
