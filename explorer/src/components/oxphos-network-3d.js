@@ -121,7 +121,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   layoutSelect.onchange = () => transitionLayout(layoutSelect.value);
   layoutLabel.append(layoutSelect);
   controls.append(
-    layoutLabel,
     el(
       "p",
       "note",
@@ -402,7 +401,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     el("span", "", "Human iPSC-derived cortical neurons"),
   );
   topbar.append(identity);
-  topbar.append(days, status);
+  layoutLabel.classList.add("oxphos-3d-layout-direct");
+  topbar.append(days, layoutLabel, status);
   leftStage.style.flex = "1 1 0%";
   const legendCompact = el("div", "oxphos-3d-scale");
   legendCompact.append(
@@ -798,7 +798,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         closeDrawer();
         evidenceAside.hidden = true;
         sceneEffects?.locate(n.id);
-        showNodeProtein(n);
+        nodeProtein?.clear();
       });
       b.setAttribute("aria-pressed", String(selected === n.id));
       b.title = n.id;

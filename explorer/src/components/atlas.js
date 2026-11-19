@@ -544,7 +544,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   repositoryDetails.append(repositoryText, el("span", "release", "v1.2.0"));
   repositoryRow.append(repositoryLabel, repositoryDetails);
   citations.append(repositoryRow);
-  const citationGuidance = el("section", "method-card");
+  const citationGuidance = el("section", "method-card citation-guidance");
   citationGuidance.append(
     el("h3", "", "Citing this resource"),
     el(
@@ -852,9 +852,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     const close = button(
       "",
       () => document.exitFullscreen?.() || document.webkitExitFullscreen?.(),
-      "button button-tonal labelled-icon-action",
+      "button button-round shell-icon app-fullscreen-toggle",
     );
-    close.append(uiIcon("done"), el("span", "", "Done"));
+    close.setAttribute("aria-label", "Exit fullscreen");
+    close.setAttribute("title", "Exit fullscreen");
+    close.setAttribute("aria-pressed", "true");
+    close.append(uiIcon("fullscreenExit"));
     toolbar.append(el("h2", "", "3D OXPHOS membership"), close);
     const content = el("div", "oxphos-network-fullscreen-content");
     content.append(networkPanel);

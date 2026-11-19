@@ -92,6 +92,10 @@ try {
       .locator(".network-protein-overlay")
       .waitFor({ state: "detached" });
     assert.equal(await root.getAttribute("data-node-protein-ready"), "true");
+    const outside = await root.locator(".oxphos-3d-identity").boundingBox();
+    await page.mouse.click(outside.x + 4, outside.y + 4);
+    await page.waitForFunction(() =>
+      document.querySelector(".oxphos-network-3d")?.dataset.nodeProteinReady === "false");
     await root.getByRole("button", { name: "Find gene", exact: true }).click();
     const drawer = page.locator(".oxphos-3d-drawer");
     await drawer.getByRole("searchbox").fill("NDUFA1");
@@ -107,22 +111,9 @@ try {
         "",
     );
 
-    await page.waitForFunction(
-      () =>
-        document.querySelector(".oxphos-network-3d")?.dataset
-          .nodeProteinReady === "true",
-    );
-    const outside = await root.locator(".oxphos-3d-identity").boundingBox();
-    await page.mouse.click(outside.x + 4, outside.y + 4);
-    await page.waitForFunction(
-      () =>
-        document.querySelector(".oxphos-network-3d")?.dataset
-          .nodeProteinReady === "false",
-    );
-    assert.equal(
-      await root.locator(".network-node-protein-caption").isHidden(),
-      true,
-    );
+    assert.equal(await root.getAttribute("data-node-protein-ready"), "false");
+    assert.equal(await root.locator(".network-node-protein-caption").isHidden(), true);
+    assert.equal(await root.getByLabel("Network layout", { exact: true }).isVisible(), true);
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     console.log(

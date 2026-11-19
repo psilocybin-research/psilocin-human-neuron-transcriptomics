@@ -28,6 +28,8 @@ export function createNodeProtein({ api, root, graphs }) {
     hovered = false,
     disposed = false,
     previewPosition,
+    previewSide,
+    placementChangedAt = 0,
     evidenceExpanded = false;
   const caption = el("div", "network-node-protein-caption");
   caption.hidden = true;
@@ -87,6 +89,8 @@ export function createNodeProtein({ api, root, graphs }) {
     miniRenderer = undefined;
     mini = undefined;
     previewPosition = undefined;
+    previewSide = undefined;
+    placementChangedAt = 0;
     caption.hidden = true;
     leader.style.display = "none";
     caption.replaceChildren();
@@ -309,8 +313,17 @@ export function createNodeProtein({ api, root, graphs }) {
         obstacles.reduce((sum, b) => sum + overlap(p, b) * 100, 0) +
         overlap(p, nodeBounds) * 200 +
         Math.hypot(p.x + width / 2 - nodeX, p.y + height / 2 - nodeY);
-      candidates.sort((a, b) => score(a) - score(b));
-      const desired = candidates[0];
+      const scores = candidates.map(score);
+      const best = scores.indexOf(Math.min(...scores));
+      // Retain the anchor through camera and sheet animation. Switch only when
+      // a materially better placement remains available after the cooldown.
+      if (previewSide === undefined ||
+          (time - placementChangedAt > 700 &&
+           scores[previewSide] - scores[best] > Math.max(80, scores[previewSide] * 0.25))) {
+        previewSide = best;
+        placementChangedAt = time;
+      }
+      const desired = candidates[previewSide];
       const blend = reduced() || !previewPosition ? 1 : 1 - Math.exp(-dt / 100);
       previewPosition = {
         x:

@@ -4825,3 +4825,27 @@ body {
 #psilocin-app .pwa-r-choice .toggle:has(input:focus-visible) { outline:2px solid var(--f7-theme-color);outline-offset:3px; }
 #psilocin-app .oxphos-network-3d :is(button,a,input,select):focus-visible { outline:2px solid #79cef6;outline-offset:3px; }
 #psilocin-app .network-protein-callout-picture:focus-visible { border-radius:8px; }
+
+/* On-surface layout access and readable citation guidance. */
+#psilocin-app .oxphos-3d-topbar .oxphos-3d-layout-direct {
+  pointer-events:auto; min-width:0; width:auto; margin:0; gap:3px;
+  font-size:11px; color:#e2edf4; text-shadow:0 1px 3px #000;
+}
+#psilocin-app .oxphos-3d-layout-direct select {
+  width:170px; min-height:44px; padding:8px 28px 8px 12px;
+  border-radius:12px; background:var(--network-glass);
+  color:var(--network-glass-text); backdrop-filter:blur(16px); text-shadow:none;
+}
+#psilocin-app .research-sources .citation-guidance {
+  display:block; width:100%; max-width:none; text-align:left; padding:20px 0;
+}
+#psilocin-app .research-sources .citation-guidance h3 {
+  text-align:left; margin:20px 0 8px; line-height:1.4;
+}
+#psilocin-app .research-sources .citation-guidance h3:first-child { margin-top:0; }
+#psilocin-app .research-sources .citation-guidance p {
+  text-align:left; margin:0 0 14px; line-height:1.7; overflow-wrap:anywhere;
+}
+@media(max-width:600px) {
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-layout-direct { flex-basis:100%; }
+}

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686723862,
+  "total_bytes": 686725698,
   "status": "pass",
   "failures": [],
   "files": [
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 148443,
-      "sha256": "cbdcac3482c361ed741aeb08eef25d8734d15f1707dd9630590461695e206ecf"
+      "bytes": 149513,
+      "sha256": "5d7d4d64a56e6898c3d99d3bff0757d0e8e8b30b2bd435a6ee25f015e387ce1e"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3389,8 +3389,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 110916,
-      "sha256": "15dd9a4414cf6eb760155ef7c63dd3898ca8b5e0eb4e2360ced8d9c96bd1d49a"
+      "bytes": 111089,
+      "sha256": "22a90723dc23d2a3a4f24b7bd307db34b0fa5456c543e2455346d81ab5bbbbdb"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/network-node-protein.js",
-      "bytes": 18443,
-      "sha256": "9a6b02efd3c876f4b7b661c0a58b4251c3771ebc16491da77486e722b6904fea"
+      "bytes": 19007,
+      "sha256": "9a1d7ca14428f92fb3649bbdc57040c13a8ce02c101ca1e2c28c232a26d3e75e"
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
@@ -3529,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 50887,
-      "sha256": "81c4a7bcc812d4befc5a942ebea499189e26ea56d41a7ae166da427103b0d2e2"
+      "bytes": 50941,
+      "sha256": "3956ebbab33181241f4eb6dc6a051e72533a1dc065c340782f9b1d69f3e35aaf"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3824,8 +3824,8 @@
     },
     {
       "path": "explorer/test/node-protein-browser-check.mjs",
-      "bytes": 5237,
-      "sha256": "424978a6d1e3f05926c1c9840f6d70770d2b1d08768cf949f0811f1cb4926e2b"
+      "bytes": 5212,
+      "sha256": "98bfedf6beb6838478044b7161cf8a0ff0bf2a9d79e3305591724e42e83cacc9"
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
