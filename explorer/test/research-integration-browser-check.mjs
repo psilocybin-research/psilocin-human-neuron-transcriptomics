@@ -7,10 +7,11 @@ try{for(const width of [390,820,1440]){
  const context=await browser.newContext({viewport:{width,height:950},hasTouch:width<900,isMobile:width===390,acceptDownloads:true});
  await context.addInitScript(()=>{Element.prototype.requestFullscreen=undefined;Element.prototype.webkitRequestFullscreen=undefined;});
  const page=await context.newPage();const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error(e.stack);});
- await page.goto(base+'#view=overview');await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.f7);
+ await page.goto(base+'#view=overview');await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.framework7);
  // Reopen at the first closed signal, before Framework7's deferred popup cleanup.
  for(let reopen=0;reopen<3;reopen++){
   await page.keyboard.press('Control+k');await page.locator('.autocomplete-popup.modal-in').waitFor();
+  await page.waitForFunction(()=>document.querySelector('.autocomplete-popup.modal-in')?.dataset.shellModalReady==='true');
   await page.keyboard.press('Escape');
   await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.modalOpen==='false');
  }
@@ -23,15 +24,19 @@ try{for(const width of [390,820,1440]){
  await page.keyboard.press('Control+k');await search.waitFor();await search.fill('Research Studio');
  await page.locator('.autocomplete-popup.modal-in').getByText('Research Studio · Workspace',{exact:true}).click();
  console.log('Search navigation passed',width);
- await page.getByLabel('Research notebook',{exact:true}).waitFor({state:'attached'});
+ await page.locator('.studio-inline-cell').first().waitFor();
+ await page.getByRole('button',{name:'More',exact:true}).click();
+ await page.getByRole('button',{name:'Recipes, data & settings',exact:true}).click();
  await page.locator('.research-studio-import summary').click();
  await page.getByLabel('Import research CSV',{exact:true}).setInputFiles({name:'local-study.csv',mimeType:'text/csv',buffer:Buffer.from('sample,value\nA,1.125\nB,2.25\n')});
  await page.getByText(/local-study.csv: 2 rows × 2 columns/).waitFor();
+ await page.locator('.studio-pane-sheet').getByRole('button',{name:'Done',exact:true}).click();
+ await page.locator('.studio-pane-sheet').waitFor({state:'detached'});
  const script='stopifnot(sum(user_data$value)==3.375)\nresults <- subset(genes, selected & symbol %in% c("GPX4","NDUFB7") & contrast=="day1_vs_control", select=c(id,log2FoldChange,lfcSE))\nprint(sum(user_data$value))';
- await page.getByLabel('R code',{exact:true}).fill(script);
- await page.getByRole('button',{name:'Run analysis',exact:true}).click();
+ await page.getByLabel('R code cell 1',{exact:true}).fill(script);
+ await page.getByRole('button',{name:'Run cell',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});
- assert.match(await page.getByLabel('R console output',{exact:true}).innerText(),/3.375/);
+ assert.match(await page.getByLabel('R console output',{exact:true}).textContent(),/3.375/);
  await page.locator('.exploratory-result-stage svg[role=img]').waitFor();
  await page.locator('select[aria-label="3D overlay value"]').selectOption('1',{force:true});
  await page.getByRole('button',{name:'Show R values in 3D',exact:true}).click();

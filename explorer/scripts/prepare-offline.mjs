@@ -71,7 +71,7 @@ const core = files.filter(
   (file) =>
     !optional(file) &&
     !file.path.startsWith("webr/") &&
-    !file.path.startsWith("latex/"),
+    !file.path.startsWith("latex/") && !file.path.startsWith("python/"),
 );
 const inventory = {
   version,

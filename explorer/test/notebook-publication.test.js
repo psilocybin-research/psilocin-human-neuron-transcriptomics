@@ -15,3 +15,17 @@ test('native notebook sources disable execution and cannot escape fences',()=>{
  }
  assert.throws(()=>notebookPublication(book,'unsupported'));
 });
+test('publication retains all recorded scene definitions without executing markup or changing numerical values',()=>{
+ const spec={schema:'psilocin-atlas/scientific-scene/1',kind:'scatter3d',title:'</pre><script>bad</script> ```',data:[{id:'ENSG1',x:.123456789012345}],camera:{position:[1,2,3]}};
+ const sceneBook={title:'Scene record',cells:[{kind:'code',source:'atlas_scene(spec)',runs:[{run_utc:'first',scene_specs:[spec]},{run_utc:'second',scene_specs:[{...spec,title:'second'}]}]}]};
+ const html=notebookPublication(sceneBook);
+ assert.ok(!html.includes('<script>'));
+ assert.match(html,/0.123456789012345/);
+ assert.match(html,/recorded first/);assert.match(html,/recorded second/);
+ assert.match(html,/&quot;camera&quot;/);
+ for(const format of ['qmd','Rmd']) {
+  const text=notebookPublication(sceneBook,format);
+  assert.match(text,/````json/);assert.match(text,/0.123456789012345/);
+  assert.equal((text.match(/### Scientific scene definition/g)||[]).length,2);
+ }
+});

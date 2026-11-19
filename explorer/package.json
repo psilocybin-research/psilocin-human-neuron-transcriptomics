@@ -39,7 +39,11 @@
     "test:r-reports": "node test/r-report-browser-check.mjs",
     "test:network-3d": "node test/oxphos-network-browser-check.mjs && node test/oxphos-network-offline-check.mjs",
     "test:research-integration": "node test/research-integration-browser-check.mjs",
-    "test:shared-r": "node test/shared-r-browser-check.mjs"
+    "test:shared-r": "node test/shared-r-browser-check.mjs",
+    "test:workstation": "node test/research-workstation-browser-check.mjs",
+    "test:python": "node test/python-app-browser-check.mjs",
+    "test:scenes": "node test/scientific-scene-r-browser-check.mjs",
+    "test:session": "node test/research-session-browser-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",
@@ -61,6 +65,7 @@
     "fflate": "0.8.3",
     "framework7": "9.3.0",
     "framework7-icons": "5.0.5",
+    "pyodide": "314.0.8",
     "three": "0.187.0"
   },
   "devDependencies": {

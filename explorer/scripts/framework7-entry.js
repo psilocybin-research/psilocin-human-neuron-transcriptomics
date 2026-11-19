@@ -3,6 +3,7 @@ import TouchHighlight from '../node_modules/framework7/components/touch-highligh
 import TouchRipple from '../node_modules/framework7/components/touch-ripple/touch-ripple.js';
 import Panel from 'framework7/components/panel';
 import Popup from 'framework7/components/popup';
+import Actions from 'framework7/components/actions';
 import Sheet from 'framework7/components/sheet';
 import Popover from 'framework7/components/popover';
 import SmartSelect from 'framework7/components/smart-select';
@@ -20,5 +21,5 @@ import Fab from 'framework7/components/fab';
 import Progressbar from 'framework7/components/progressbar';
 import DataTable from 'framework7/components/data-table';
 import Tabs from 'framework7/components/tabs';
-Framework7.use([TouchHighlight,TouchRipple,Panel,Popup,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card,Fab,Progressbar,DataTable,Tabs]);
+Framework7.use([TouchHighlight,TouchRipple,Panel,Popup,Actions,Sheet,Popover,SmartSelect,Searchbar,Autocomplete,VirtualList,Toast,Tooltip,Dialog,Accordion,Toggle,Range,Card,Fab,Progressbar,DataTable,Tabs]);
 export default Framework7;

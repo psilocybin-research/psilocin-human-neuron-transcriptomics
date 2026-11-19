@@ -1,3 +1,5 @@
+import {showToast} from "./app-toast.js";
+import { createResearchInspector } from "./research-inspector.js";
 import { createResearchStore } from "./research-store.js";
 import { createGenePreview, genePreviewMarkup } from "./structure-preview.js";
 import { createGeneRecords } from "./gene-records.js";
@@ -716,6 +718,16 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     item.append(uiIcon(id, "tab-icon"), el("span", "", t));
     nav.append(item);
   }
+  async function openSystemsExplorer(initialMode="systems") {
+    const panel=el("div","sheet-modal studio-systems-sheet"),inner=el("div","sheet-modal-inner");
+    const close=button("Close molecular systems",()=>modal.close(),"secondary");inner.append(close,loadingMessage("Loading molecular systems…"));panel.append(inner);root.append(panel);
+    let explorer;
+    const modal=root.f7.sheet.create({el:panel,backdrop:true,closeOnEscape:true,on:{closed(){explorer?.destroy();panel.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();
+    try{const [{createSystemsExplorer},{default:snapshot}]=await Promise.all([import("./systems-explorer.js"),import("../assets/vendor/oxphos-network-data.js")]);if(!panel.isConnected)return;
+      explorer=createSystemsExplorer({data:snapshot,getGenes:()=>{const state=researchStore.getState();return state.collections.length?state.collections.flatMap(c=>c.genes):[state.gene].filter(Boolean);},onSelect:id=>researchStore.update({gene:id}),onStructure:gene=>{researchStore.update({gene});persistentInspector.toggle(true);},onSendToR:selection=>{modal.once("closed",()=>sendSelectionToR(selection));modal.close();},onNavigate:key=>{if(key==="mitochondria")explorer.setMode("systems");else showToast("Illustrative landmark; compartment-specific experimental data are unavailable.");}});
+      inner.replaceChildren(close,explorer);if(initialMode!=="systems")explorer.setMode(initialMode);
+    }catch(error){inner.append(note(error.message));}
+  }
   function sendSelectionToR(selection = researchStore.getState()) {
     const current = body.querySelector(".custom-r-workspace");
     if (tab === "custom-r" && current?.setResearchSelection) current.setResearchSelection(selection);
@@ -744,6 +756,11 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
   }, "secondary");
+  const persistentInspector = createResearchInspector({root,store:researchStore,getGenes,data,
+    onSendToR:()=>sendSelectionToR(),onAddToNotebook:()=>sendSelectionToR(),
+    onOpenNetwork:()=>openMembershipNetwork(),onCompare:()=>go("comparison")});
+  root.append(persistentInspector.element);
+  sessionBar.append(persistentInspector.button);
   sessionBar.append(button("Search atlas", () => shell?.openSearch(), "secondary"), previousSelection, nextSelection, toR, collectionButton, exportSession, collectionHost);
   let observedResearch = researchStore.getState();
   const unsubscribeResearch = researchStore.subscribe(state => {
@@ -758,6 +775,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     tab = tabs.some(([id]) => id === state.view) ? state.view : tab;
     comparisonState.active = selected;
     comparisonState.contrast = contrast;
+    if(tab === "custom-r" && previous.view === "custom-r") {
+      for(const scene of body.querySelectorAll(".scientific-scene"))scene.setSelection?.(selected);
+      return;
+    }
     if (tab === "pathways" && state.gene !== previous.gene) treeState.gene = state.gene || "";
     render();
   });
@@ -3013,20 +3034,20 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
 
   async function customR() {
     const host = el("div");
-    body.append(
-      heading(
-        "Research Studio",
-        "R notebooks and reproducible research reports",
-      ),
-      host,
-    );
-    const { createCustomR } = await trackActivity(
-      import("./custom-r.js"),
+    body.append(host);
+    const { createResearchStudio } = await trackActivity(
+      import("./research-studio.js"),
       "Loading R workspace",
     );
     if (!host.isConnected) return;
-    const workspace = createCustomR({ data, getGenes, provenance, root,
-      bayesian: branding.bayesian, getSelection: () => researchStore.getState() });
+    const workspace = createResearchStudio({ data, getGenes, provenance, root,
+      bayesian: branding.bayesian, getSelection: () => researchStore.getState(),
+      onRestoreProject: selection => researchStore.update(selection),
+      onOpenSystems:()=>openSystemsExplorer(),
+      onSelectGene: id => researchStore.update({gene:id}),
+      onSceneStructure: gene => { researchStore.update({gene}); persistentInspector.toggle(true); },
+      onSceneNetwork: spec => { exploratoryOverlay={schema:"psilocin-atlas/exploratory-overlay/v1",classification:"user-exploratory",column:spec.value_label,omitted:0,values:spec.data.map(row=>({id:row.id,value:row.value})),results_sha256:spec.source.sha256||spec.source.code_sha256,run_utc:spec.source.run_utc,archive_doi:spec.source.archive_doi};networkPanel?.querySelector(".oxphos-network-3d")?.setExploratoryOverlay?.(exploratoryOverlay);openMembershipNetwork(); }
+    });
     const exploratoryHost = el("div");
     let outputVersion = 0;
     workspace.addEventListener("atlas:r-start", () => {
@@ -3236,6 +3257,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     enhanceFigures: enhancePlots,
     onPathway: value => researchStore.update({pathway: value, view: "pathways"}),
     researchActions: [
+      {id:"systems",title:"Explore molecular systems",run:()=>openSystemsExplorer()},
+      {id:"neuron",title:"Illustrative neuron navigation",run:()=>openSystemsExplorer("neuron")},
       {id: "send-r", title: "Send selection to R", run: () => sendSelectionToR()},
       {id: "undo", title: "Undo research selection", run: () => researchStore.undo()},
       {id: "redo", title: "Redo research selection", run: () => researchStore.redo()},
@@ -3243,8 +3266,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       {id: "export", title: "Export research selections", run: () => exportSession.click()},
     ],
   });
+  root.append(persistentInspector.element);
   render();
   root.destroy = () => {
+    persistentInspector.destroy();
     body.querySelector(".research-figure-builder")?.dispose?.();
     networkPanel?.querySelector(".oxphos-network-3d")?.destroy?.();
     unsubscribeResearch();

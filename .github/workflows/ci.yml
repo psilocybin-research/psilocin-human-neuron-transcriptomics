@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -47,17 +47,26 @@ jobs:
       - run: npm --prefix explorer run build
       - name: Install browser for research integration checks
         working-directory: explorer
-        run: npx playwright install --with-deps chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            echo "BROWSER_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            npx playwright install chromium
+          fi
       - name: Verify research integration and R session recovery
         timeout-minutes: 12
         working-directory: explorer
         run: |
-          export BROWSER_PATH="$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')"
+          export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-browser-server.log 2>&1 &
           atlas_server_pid=$!
           trap 'kill "$atlas_server_pid"' EXIT
           node test/research-integration-browser-check.mjs
           node test/shared-r-browser-check.mjs
+          node test/research-workstation-browser-check.mjs
+          node test/python-app-browser-check.mjs
+          node test/scientific-scene-r-browser-check.mjs
+          node test/research-session-browser-check.mjs
 
   bayesian-inputs:
     runs-on: ubuntu-latest

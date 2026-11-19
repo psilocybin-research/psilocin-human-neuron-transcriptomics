@@ -1056,7 +1056,8 @@ export function createAppShell({
     if (event.key === "Escape") {
       event.preventDefault();
       event.stopPropagation();
-      if (modal === panel) safeClose(panelInstance);
+      if (modal.matches(".autocomplete-popup")) autocomplete?.close();
+      else if (modal === panel) safeClose(panelInstance);
       else safeClose(modal.f7Panel || modal.f7Modal);
     } else if (event.key === "Tab") {
       const options = focusables(modal);

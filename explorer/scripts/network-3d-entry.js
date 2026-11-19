@@ -1,5 +1,11 @@
 export { default as ForceGraph3D } from "3d-force-graph";
 export {
+  BufferGeometry,
+  Float32BufferAttribute,
+  Points,
+  PointsMaterial,
+  LineSegments,
+  LineBasicMaterial,
   Mesh,
   Scene,
   PerspectiveCamera,

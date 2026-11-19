@@ -6,9 +6,10 @@ import {
   syntaxHighlighting,
   HighlightStyle,
 } from "@codemirror/language";
+import { python } from "@codemirror/legacy-modes/mode/python";
 import { r } from "@codemirror/legacy-modes/mode/r";
 import { tags } from "@lezer/highlight";
-export function createREditor(value) {
+export function createREditor(value, {label = "R code", language = "r"} = {}) {
   const host = document.createElement("div");
   host.className = "custom-r-editor";
   const view = new EditorView({
@@ -16,10 +17,10 @@ export function createREditor(value) {
     parent: host,
     extensions: [
       basicSetup,
-      StreamLanguage.define(r),
+      StreamLanguage.define(language === "python" ? python : r),
       keymap.of([indentWithTab]),
       EditorView.contentAttributes.of({
-        "aria-label": "R code",
+        "aria-label": label,
         spellcheck: "false",
         autocapitalize: "off",
         autocorrect: "off",
@@ -51,4 +52,4 @@ export function createREditor(value) {
   host.destroy = () => view.destroy();
   return host;
 }
-export { zip } from "fflate";
+export { zip, unzip } from "fflate";

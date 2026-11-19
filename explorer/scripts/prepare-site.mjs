@@ -92,3 +92,12 @@ await rm(new URL('latex/', output), {recursive:true, force:true});
 await cp(new URL('../vendor/latex/', import.meta.url), new URL('latex/', output), {recursive:true});
 
 await copyFile(new URL("../src/assets/oxphos-network-preview.webp", import.meta.url), new URL("oxphos-network-preview.webp", output));
+
+// Python is separately requested; never included in the core offline runtime.
+await rm(new URL('python/', output), {recursive:true, force:true});
+await mkdir(new URL('python/', output), {recursive:true});
+for (const name of ['pyodide.mjs','pyodide.asm.mjs','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json']) {
+  await copyFile(new URL(`../node_modules/pyodide/${name}`, import.meta.url), new URL(`python/${name}`, output));
+}
+await copyFile(new URL('../vendor/python/NOTICES.txt', import.meta.url), new URL('python/NOTICES.txt', output));
+await copyFile(new URL('../vendor/python/PROVENANCE.json', import.meta.url), new URL('python/PROVENANCE.json', output));
