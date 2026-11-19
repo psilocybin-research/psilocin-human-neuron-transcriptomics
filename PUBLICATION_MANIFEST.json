@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1367,
-  "total_bytes": 687303908,
+  "total_bytes": 687303993,
   "status": "pass",
   "failures": [],
   "files": [
@@ -289,8 +289,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 3917,
-      "sha256": "c3f7505b36c636061b85c7f7cb08c7b6320f636b3a69b6a2ae4152b1b74db95b"
+      "bytes": 4002,
+      "sha256": "1d71934e924b01bb031d40dca7ed4125252c2c3907b8575fb4c32d28462f6713"
     },
     {
       "path": "explorer/screenshots/browser-check.json",

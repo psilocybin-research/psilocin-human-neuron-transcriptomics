@@ -43,7 +43,8 @@
     "test:workstation": "node test/research-workstation-browser-check.mjs",
     "test:python": "node test/python-app-browser-check.mjs",
     "test:scenes": "node test/scientific-scene-r-browser-check.mjs",
-    "test:session": "node test/research-session-browser-check.mjs"
+    "test:session": "node test/research-session-browser-check.mjs",
+    "pretest": "node scripts/prepare-ui.mjs && node scripts/prepare-network-3d.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",
