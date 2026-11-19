@@ -745,8 +745,14 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   }, null, 2), "application/json"), "secondary");
   const collectionHost = el("div", "research-collection-host");
   const collectionButton = button("Gene collections", () => openCollections(), "secondary");
+  let collectionSheet;
+  function showCollectionSurface(){
+    if(!root.classList.contains('workspace-mode')||collectionSheet)return;
+    const slot=document.createComment('collection tools'),sheet=el('div','sheet-modal studio-pane-sheet workspace-collections-sheet'),inner=el('div','sheet-modal-inner');collectionHost.before(slot);inner.append(el('h3','','Collections'),collectionHost,button('Done',()=>collectionSheet?.close()));sheet.append(inner);root.append(sheet);sessionBar.hidden=true;
+    collectionSheet=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){slot.replaceWith(collectionHost);sheet.remove();const instance=collectionSheet;collectionSheet=undefined;setTimeout(()=>instance?.destroy(),0);}}});collectionSheet.open();
+  }
   async function openCollections(force=false) {
-    if (collectionsView) { collectionHost.hidden = force?false:!collectionHost.hidden; sessionBar.hidden=collectionHost.hidden; return; }
+    if (collectionsView) { collectionHost.hidden = force?false:!collectionHost.hidden; sessionBar.hidden=collectionHost.hidden;if(!collectionHost.hidden)showCollectionSurface(); return; }
     sessionBar.hidden=false;
     collectionHost.replaceChildren(loadingMessage("Loading gene collection tools…"));
     try {
@@ -758,6 +764,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       collectionHost.replaceChildren(collectionsView);
       document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
+    showCollectionSurface();
   }
   const persistentInspector = createResearchInspector({root,store:researchStore,getGenes,data,
     onSendToR:()=>sendSelectionToR(),onAddToNotebook:()=>sendSelectionToR(),
@@ -779,6 +786,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     comparisonState.active = selected;
     comparisonState.contrast = contrast;
     if(tab === "custom-r" && previous.view === "custom-r") {
+      body.querySelector(".studio-r-panel .custom-r-workspace")?.syncWorkspaceContext?.();
       for(const scene of body.querySelectorAll(".scientific-scene"))scene.setSelection?.(selected);
       return;
     }
@@ -3047,6 +3055,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       bayesian: branding.bayesian, getSelection: () => researchStore.getState(),
       onRestoreProject: selection => researchStore.update(selection),
       onOpenSystems:()=>openSystemsExplorer(),
+      onInspectSelection:()=>persistentInspector.toggle(true),
+      onOpenCollections:()=>openCollections(true),
       onSelectGene: id => researchStore.update({gene:id}),
       onSceneStructure: gene => { researchStore.update({gene}); persistentInspector.toggle(true); },
       onSceneNetwork: spec => { exploratoryOverlay={schema:"psilocin-atlas/exploratory-overlay/v1",classification:"user-exploratory",column:spec.value_label,omitted:0,values:spec.data.map(row=>({id:row.id,value:row.value})),results_sha256:spec.source.sha256||spec.source.code_sha256,run_utc:spec.source.run_utc,archive_doi:spec.source.archive_doi};networkPanel?.querySelector(".oxphos-network-3d")?.setExploratoryOverlay?.(exploratoryOverlay);openMembershipNetwork(); }
@@ -3088,6 +3098,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
             selected = id; saveSelection({ gene: id });
           },
         }));
+        workspace.querySelector(".studio-inline-cell.is-active .studio-inline-output")?.append(exploratoryHost);
       } catch (error) { if (version === outputVersion) exploratoryHost.replaceChildren(note(error.message)); }
     });
     host.append(workspace, exploratoryHost);
@@ -3281,6 +3292,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   root.append(persistentInspector.element);
   render();
   root.destroy = () => {
+    collectionSheet?.close(false);collectionSheet?.destroy();
     persistentInspector.destroy();
     body.querySelector(".research-figure-builder")?.dispose?.();
     networkPanel?.querySelector(".oxphos-network-3d")?.destroy?.();

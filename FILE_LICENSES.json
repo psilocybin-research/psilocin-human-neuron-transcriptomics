@@ -4765,6 +4765,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/research-dataset-browser.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/research-datasets.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4898,6 +4904,12 @@
     ]
   },
   "explorer/src/components/upset-plot.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/workspace-layout.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5452,6 +5464,18 @@
     ]
   },
   "explorer/test/tree-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/workspace-browser-helpers.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/workspace-layout-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

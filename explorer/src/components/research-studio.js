@@ -10,13 +10,15 @@ import {validateResearchCSV} from './research-import.js';
 export function createResearchStudio(options) {
   const {root,data,getGenes,getSelection}=options;
   const host=el('section','custom-r-workspace research-studio-workspace');
-  const tabs=el('div','segmented studio-workspace-tabs');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Research workspace');
+  const tabs=el('div','segmented studio-workspace-tabs');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Research workspace');tabs.setAttribute('aria-orientation','vertical');
+  const navigation=el('div','workspace-sidebar-content');
   const panels=new Map(),buttons=new Map();let python,active='r',transferred=[];
   function button(label,fn){const b=el('button','button',label);b.type='button';b.onclick=fn;return b;}
   for(const [key,title] of [['r','R Studio'],['python','Python Lab'],['projects','Projects'],['reports','Reports']]){
-    const panel=el('section',`studio-language-panel studio-${key}-panel`);panel.hidden=key!=='r';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-label',title);panels.set(key,panel);
-    const b=button(title,()=>show(key));b.setAttribute('role','tab');b.setAttribute('aria-selected',String(key==='r'));buttons.set(key,b);tabs.append(b);
+    const panel=el('section',`studio-language-panel studio-${key}-panel`);panel.hidden=key!=='r';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-label',title);panel.id=`workspace-${key}-${crypto.randomUUID()}`;panels.set(key,panel);
+    const b=button(title,()=>show(key));b.setAttribute('role','tab');b.id=`${panel.id}-tab`;b.setAttribute('aria-controls',panel.id);b.tabIndex=key==='r'?0:-1;panel.setAttribute('aria-labelledby',b.id);b.setAttribute('aria-selected',String(key==='r'));buttons.set(key,b);tabs.append(b);
   }
+  tabs.onkeydown=event=>{const items=[...buttons.values()],index=items.indexOf(document.activeElement);if(index<0||!['ArrowUp','ArrowDown','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?items.length-1:(index+(event.key==='ArrowDown'?1:items.length-1))%items.length;items[next].focus();};
   const r=createCustomR({...options,onOpenReports:()=>show("reports"),onTransferToPython:async dataset=>{await accept(dataset);await show('python');python.refreshDatasets();}});
   panels.get('r').append(r);
   async function accept(dataset){validateResearchCSV(dataset.csv);const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(dataset.csv)))].map(x=>x.toString(16).padStart(2,'0')).join('');transferred=[...transferred.filter(x=>x.name!==dataset.name),{...dataset,provenance:{...dataset.provenance,sha256:hash,classification:'user-exploratory'}}].slice(-10);}
@@ -26,7 +28,7 @@ export function createResearchStudio(options) {
     return [...frozen,...transferred];
   }
   async function show(key){
-    active=key;for(const [id,panel] of panels)panel.hidden=id!==key;for(const [id,b]of buttons)b.setAttribute('aria-selected',String(id===key));
+    active=key;r.setWorkspaceActive(key==='r');r.workspaceNavigation.hidden=key!=='r';root.workspaceShell?.closeNavigation();root.workspaceTools={showR:()=>show('r'),items:()=>key==='r'?r.workspaceActions():[{label:'Datasets',run:()=>r.openDatasets()},{label:'R Studio',run:()=>show('r')},{label:'Python Lab',run:()=>show('python')},{label:'Reports',run:()=>show('reports')}]};root.workspaceShell?.syncTools();for(const [id,panel] of panels)panel.hidden=id!==key;for(const [id,b]of buttons){b.setAttribute('aria-selected',String(id===key));b.tabIndex=id===key?0:-1;}
     if(key==='python'&&!python){const target=panels.get('python');target.textContent='Opening Python Lab…';try{const {createPythonLab}=await import('./python-lab.js');if(!host.isConnected)return;python=createPythonLab({root,getDatasets:datasets,onTransferToR:async dataset=>{await accept(dataset);await r.importDataset(dataset);show('r');},onClearResults:()=>{for(const scene of target.querySelectorAll(".scientific-scene")){scene.destroy?.();scene.remove();}},onResults:record=>{for(const old of target.querySelectorAll('.scientific-scene'))old.destroy?.();for(const spec of record.scene_specs||[])target.append(createScientificScene(spec,{onSelect:({id})=>options.onSelectGene?.(id),onNetwork:options.onSceneNetwork,onStructure:options.onSceneStructure}));host.dispatchEvent(new CustomEvent('atlas:python-results',{bubbles:true,detail:record}));}});target.replaceChildren(python);}catch(error){target.textContent=error.message;}}
     if(key==='reports'){r.reportTools?.removeAttribute('hidden');panels.get('reports').append(r.reportTools);}
   }
@@ -44,9 +46,11 @@ export function createResearchStudio(options) {
   const importFile=el('input');importFile.type='file';importFile.accept='.zip,.json';importFile.hidden=true;importFile.setAttribute('aria-label','Import research session file');
   importFile.onchange=async()=>{try{const file=importFile.files[0];if(!file)return;if(file.size>SESSION_LIMITS.archive)throw Error('Session exceeds 128 MB.');sessionStatus.textContent='Verifying session checksums and recorded input references…';const restored=await readSessionArchive(new Uint8Array(await file.arrayBuffer()));root.f7.dialog.confirm('Replace local R and Python notebooks, projects and transferred inputs with this verified session? Code will not run.','Restore research session',async()=>{try{await r.restoreSnapshot(restored.r);python?.destroy();python=undefined;panels.get('python').replaceChildren();localStorage.setItem('atlas-python-notebooks-v1',JSON.stringify(restored.python_notebooks));saved=restored.projects;transferred=restored.transferred_datasets;localStorage.setItem(key,JSON.stringify(saved));renderProjects();options.onRestoreProject?.(restored.selection);sessionStatus.textContent=`Restored ${restored.reconstruction.runs.length} recorded runs. No code executed.`;show('r');}catch(error){sessionStatus.textContent=`Restore failed: ${error.message}`;}});}catch(error){sessionStatus.textContent=`Import rejected: ${error.message}`;}finally{importFile.value='';}};
   reports.append(exportSession,button('Import research session',()=>importFile.click()),importFile,sessionStatus);
-  host.append(tabs,...panels.values());
+  tabs.classList.add('workspace-sidebar-tabs');const sharedNavigation=el('div','workspace-shared-navigation');sharedNavigation.append(button('Datasets',async()=>{await root.workspaceShell?.closeNavigation();r.openDatasets();}));if(options.onOpenCollections)sharedNavigation.append(button('Collections',async()=>{await root.workspaceShell?.closeNavigation();options.onOpenCollections();}));navigation.append(tabs,sharedNavigation,r.workspaceNavigation);host.append(...panels.values());
+  let releaseNavigation,disposed=false;const toolsOwner={showR:()=>show('r'),items:()=>r.workspaceActions()};
+  const mount=()=>{if(disposed)return;if(!host.isConnected){requestAnimationFrame(mount);return;}releaseNavigation=root.workspaceShell?.mountNavigation(navigation);root.workspaceTools=toolsOwner;root.workspaceShell?.syncTools();};requestAnimationFrame(mount);
   host.setResearchSelection=selection=>{show('r');r.setResearchSelection(selection);};
-  host.destroy=()=>{for(const scene of host.querySelectorAll('.scientific-scene'))scene.destroy?.();python?.destroy();r.destroy();};
+  host.destroy=()=>{disposed=true;releaseNavigation?.();root.workspaceTools=undefined;root.workspaceShell?.syncTools();for(const scene of host.querySelectorAll('.scientific-scene'))scene.destroy?.();python?.destroy();r.destroy();};
   host.showWorkspace=show;
   return host;
 }

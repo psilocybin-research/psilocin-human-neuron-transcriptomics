@@ -1,3 +1,4 @@
+import {openResearchDatasets} from "./research-dataset-browser.js";
 import {createRWorkspaceInspector} from "./r-workspace-inspector.js";
 import {archivedResearchTables,researchTableCSV} from "./research-datasets.js";
 import {SCIENTIFIC_R_HELPERS} from "./scientific-scene-helpers.js";
@@ -49,6 +50,7 @@ export function createCustomR({
   onSelectGene,
   onOpenSystems,
   onOpenReports,
+  onInspectSelection,
 }) {
   const host = el("section", "custom-r-workspace");
   const intro = el(
@@ -191,7 +193,7 @@ export function createCustomR({
   const status = el(
     "p",
     "note",
-    "Ready. The R runtime loads when you run an analysis. Save it under Install app for offline use.",
+    "R ready",
   );
   status.setAttribute("role", "status");
   status.setAttribute("aria-live", "polite");
@@ -281,6 +283,7 @@ export function createCustomR({
     onRun: execute,
     onRestart: () => terminate("R session restarted. Run all begins from clean inputs."),
     onOpenSystems,
+    onInspectSelection,
     onScene: async (spec,target,onChange) => { const scene=createScientificScene(spec,{onChange,onSelect:({id})=>onSelectGene?.(id),onNetwork:onSceneNetwork,onStructure:onSceneStructure});target.append(scene);return scene;},
     onStop: () => terminate("Interrupted. R session reset."),
     getExports: () => [
@@ -316,7 +319,7 @@ export function createCustomR({
       resultsCSV = previous?.results_csv || "";
       record = previous;
       inspectorText.textContent = previous?.object_summary || "";
-      variables?.update(previous?.object_names||[]);
+      variables?.update(previous?.object_names||[],previous?.object_index||[]);
       inspector.hidden = !previous?.object_summary;
       vectorPlots = [];
       if (resultsCSV) renderTable();
@@ -369,7 +372,23 @@ export function createCustomR({
     },
     exportCSV:async name=>{if(busy||!runtime)throw Error("The R session is not ready.");await runtime.evalRVoid(`local({x<-get(${JSON.stringify(name)},envir=.GlobalEnv);if(!is.data.frame(x))stop('CSV export requires a data frame.');write.csv(x,'/home/web_user/inspected-object.csv',row.names=FALSE)})`);const bytes=await runtime.FS.readFile('/home/web_user/inspected-object.csv');if(bytes.byteLength>2_000_000)throw Error("Object export and plotting support up to 2 MB; subset it in a notebook cell. The viewer can page through all rows.");return new TextDecoder().decode(bytes);}
   });
-  notebooks.inspector.append(variables.element,archivedOutputs);
+  notebooks.layout.variables.append(variables.element);
+  const selectionContext=el('p','note');
+  const syncSelectionContext=()=>{const value=getSelection?.()||{};selectionContext.textContent=[value.gene,value.pathway,value.contrast].filter(Boolean).join(' · ')||'No gene or pathway selected';};syncSelectionContext();notebooks.layout.selection.prepend(selectionContext);
+  host.syncWorkspaceContext=syncSelectionContext;
+  // Full figures and tables remain inline; inspector contains indexes, not duplicates.
+  host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();notebooks.tools.querySelector('.research-studio-import')?.setAttribute('open','');notebooks.openTools();}});
+  host.workspaceNavigation=notebooks.sidebar;
+  host.setWorkspaceActive=value=>notebooks.layout.setActive(value);
+  host.workspaceActions=()=>[
+    {label:'Datasets',run:()=>host.openDatasets()},
+    {label:'Import dataset',run:()=>{notebooks.tools.querySelector('.research-studio-import')?.setAttribute('open','');notebooks.toolbar.querySelector('button')?.focus();notebooks.openTools();}},
+    {label:'Variables',run:()=>notebooks.layout.showTab('variables',true)},
+    {label:'Figures & 3D scenes',run:()=>notebooks.layout.showTab('figures',true)},
+    {label:'Inspect selection',run:()=>notebooks.layout.showTab('selection',true)},
+    {label:'Console',run:()=>notebooks.layout.openConsole()},
+    {label:'Focus mode',run:()=>notebooks.toolbar.querySelector('.studio-focus-toggle')?.click()}
+  ];
   const consolePrompt=el("textarea","studio-console-prompt");consolePrompt.rows=2;consolePrompt.maxLength=65536;
   consolePrompt.setAttribute("aria-label","R console command");
   const consoleRun=action("Run command","play",()=>{if(busy||!consolePrompt.value.trim())return;notebooks.addCode(consolePrompt.value);consolePrompt.value="";execute();});
@@ -377,7 +396,8 @@ export function createCustomR({
 
   const runtimeStatus = el("div", "studio-runtime-status");
   runtimeStatus.append(status);
-  host.append(runtimeStatus, progress.panel, notebooks.element);
+  notebooks.element.querySelector(".studio-analysis-header").append(runtimeStatus);
+  host.append(progress.panel, notebooks.element);
   // Legacy execution/export controls remain internal command targets, not a second toolbar.
   run.hidden = true; code.hidden = true;
   host.append(run, code);
@@ -456,7 +476,9 @@ export function createCustomR({
       execute();
     }
   });
+  let statusTimer;
   function controls(value) {
+    clearInterval(statusTimer);if(value){const started=performance.now();statusTimer=setInterval(()=>{status.textContent=`Running · ${((performance.now()-started)/1000).toFixed(1)} s`;},500);}
     busy = value;
     consolePrompt.disabled=consoleRun.disabled=value;
     notebooks.setBusy(value);
@@ -485,6 +507,7 @@ export function createCustomR({
     status.textContent = message;
     progress.finish(message);
     progress.panel.hidden = !failed;
+    status.title=message;status.textContent=failed?"R error":"R ready";
   }
   function finishRun(message, failed) {
     if (!sharedSession || failed) return terminate(message, failed);
@@ -495,6 +518,7 @@ export function createCustomR({
     root.dataset.rSession = "ready";
     progress.finish(`${message} R session retained.`);
     progress.panel.hidden = true;
+    status.title=message;status.textContent="R ready";
   }
   let cachedArtifacts, cachedTables;
   async function execute() {
@@ -760,7 +784,8 @@ export function createCustomR({
         }catch(error){record.error=true;output.textContent += `\nScene output rejected: ${error.message}`;record.console=output.textContent;}
       }
       record.object_names=JSON.parse(await runtime.evalRString('.atlas_json(as.list(head(ls(envir=.GlobalEnv),100)))'));
-      variables.update(record.object_names);
+      record.object_index=JSON.parse(await runtime.evalRString('.atlas_json(lapply(head(ls(envir=.GlobalEnv),100),function(n){x<-get(n,envir=.GlobalEnv);list(name=n,type=paste(class(x),collapse="/"),shape=if(is.null(dim(x))) paste(length(x)) else paste(dim(x),collapse=" × "))}))'));
+      variables.update(record.object_names,record.object_index);
       inspectorText.textContent = [record.object_summary,record.data_preview].filter(Boolean).join("\n\nData-frame previews (first 5 rows, 8 columns):\n");
       inspector.hidden = !record.object_summary;
       renderTable();

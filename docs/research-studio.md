@@ -41,3 +41,9 @@ My analyses contains editable local notebooks; each has a context menu for renam
 The variable inspector separates working copies of archived inputs from user objects. Data frames have a 50-row paginated viewer, first-100-column disclosure, dimensions, column types, missing counts and finite numeric summaries. Object CSV export, Observable preview and Python transfer are limited to 2 MB. The quantitative 3D builder inserts editable R code; it does not run automatically. Full arbitrary interaction networks, molecular overlays and anatomical geometry are not supplied by that builder.
 
 The global Selection menu provides inspection, transfer to R, collection entry, undo/redo and selection export. Search remains in the application header and Ctrl/Meta+K. Session exports retain notebooks, recorded outputs, exact available inputs and provenance; a selection export alone does not include notebook outputs.
+
+## Workspace layout
+
+Research workspace uses the main application sidebar for language navigation and R analyses. The notebook remains the primary scrolling surface. The Framework7 right panel is resizable and docked at wide widths; smaller displays use an overlay. Its Variables, Figures and Selection tabs retain their selected state. Figures lists thumbnails and links to inline outputs rather than duplicating full plots.
+
+The desktop console has a keyboard/pointer resizable divider. On smaller displays its Console control opens a Framework7 sheet with partial and expanded positions. Focus mode is available through More or Workspace tools and restores the preceding pane arrangement. The contextual bottom-right Workspace tools launcher opens tools without executing code. Datasets and Collections have dedicated sheets; browsing frozen dataset metadata does not initialize either computational runtime. Pane transitions respect reduced-motion settings.

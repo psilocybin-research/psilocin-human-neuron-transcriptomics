@@ -1,3 +1,4 @@
+import {createWorkspaceLayout} from "./workspace-layout.js";
 import {createREditor} from "../assets/vendor/r-editor.js";
 import {studioMenu, studioResizer} from "./studio-ui.js";
 import {parseExploratoryCSV} from "./exploratory-result-data.js";
@@ -160,7 +161,7 @@ export function renderNotebookMarkdown(source, document = globalThis.document) {
   }
   return fragment;
 }
-export function createRNotebooks({editor, action, root, initialCode, getSources, onCellChange, onNotebookChange, onStatus, onRun, onStop, onRestart, getExports = () => [], onScene,onOpenSystems}) {
+export function createRNotebooks({editor, action, root, initialCode, getSources, onCellChange, onNotebookChange, onStatus, onRun, onStop, onRestart, getExports = () => [], onScene,onOpenSystems,onInspectSelection}) {
   const store = openNotebookStore();
   const first = createNotebook("Exploratory analysis", initialCode);
   let workspace = {schema: notebookSchema, notebooks: [first], active: first.id};
@@ -179,6 +180,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   const consoleBody = el('div','studio-console-body'); consolePanel.append(consoleBody);
   const mode = el('p','note','Cells use isolated R sessions unless sharing is enabled. Code runs only on request.');
   const tools = el('div','studio-research-tools');
+  let layout;
   const notebook = () => workspace.notebooks.find(book=>book.id===workspace.active);
   const cell = () => notebook().cells.find(item=>item.id===activeCell);
   Object.defineProperty(editor,'value',{configurable:true,get:()=>cell()?.source||'',set(value){const current=cell();if(!current)return;current.source=String(value);const cm=editors.get(current.id);if(cm&&cm.value!==value)cm.value=value;changed();}});
@@ -187,7 +189,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   function changed(){revision++;status.textContent='Saving…';clearTimeout(saveTimer);saveTimer=setTimeout(save,400);}
   function cleanup(){for(const cm of editors.values())cm.destroy();editors.clear();for(const view of sceneViews)view.destroy?.();sceneViews.clear();}
   function activate(item){if(item.id===activeCell || (busy&&item.id!==activeCell))return;activeCell=item.id;for(const row of list.children)row.classList.toggle('is-active',row.dataset.cellId===item.id);onCellChange?.(item);}
-  function chooseBook(book){if(busy)return;onNotebookChange?.();workspace.active=book.id;activeCell=book.cells[0].id;render();changed();}
+  function chooseBook(book){if(busy)return;onNotebookChange?.();workspace.active=book.id;activeCell=book.cells[0].id;render();changed();root.workspaceShell?.closeNavigation();}
   function renderOutput(item, container){
     for(const view of container.querySelectorAll(".scientific-scene")){view.destroy?.();sceneViews.delete(view);}
     container.replaceChildren();const run=item.runs?.at(-1);if(!run){container.append(el('p','note','Results appear here after execution.'));return;}
@@ -226,7 +228,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
       }else{
         const notes=el('textarea','studio-markdown-editor');notes.setAttribute('aria-label',`Markdown cell ${index+1}`);notes.value=item.source;notes.rows=4;
         const preview=el('div','research-studio-markdown-preview');preview.append(renderNotebookMarkdown(item.source));
-        preview.ondblclick=()=>{codeBlock.open=true;notes.focus();};notes.onfocus=()=>activate(item);notes.oninput=()=>{item.source=notes.value;preview.replaceChildren(renderNotebookMarkdown(item.source));changed();};codeBlock.append(notes);row.append(bar,codeBlock,preview);
+        preview.tabIndex=0;preview.setAttribute('aria-label','Markdown preview; Enter to edit');const edit=()=>{codeBlock.open=true;notes.focus();};preview.ondblclick=edit;preview.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();edit();}};notes.onkeydown=e=>{if(e.key==='Escape'){codeBlock.open=false;preview.focus();}};notes.onfocus=()=>activate(item);notes.oninput=()=>{item.source=notes.value;preview.replaceChildren(renderNotebookMarkdown(item.source));changed();};codeBlock.append(notes);row.append(bar,codeBlock,preview);
       }
       if(item.kind==='code'){const output=el('details','studio-cell-output');output.open=true;output.append(el('summary','','Output'));const content=el('div','studio-inline-output');renderOutput(item,content);output.append(content);row.append(bar,codeBlock,output);}
       list.append(row);
@@ -244,7 +246,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     {label:'Rename notebook',run:()=>root.f7.dialog.prompt('Notebook title','Rename notebook',value=>{notebook().title=value.trim().slice(0,120)||'Untitled notebook';render();changed();},undefined,notebook().title)},
     {label:'Delete analysis',destructive:true,run:()=>deleteAnalysis(notebook())}
   ]));
-  sidebarHead.append(newBook,importBook,bookSettings);sidebar.append(sidebarHead,books,file);
+  sidebarHead.append(newBook);sidebar.append(sidebarHead,books,file);
   const runCell=action('Run cell','play',()=>onRun?.()),runAll=action('Run all','play',async()=>{runAllCancelled=false;for(const item of [...notebook().cells]){if(runAllCancelled||destroyed)break;if(item.kind!=='code')continue;activate(item);const result=await onRun?.();if(!result||result.error)break;}}),interrupt=action('Interrupt','close',()=>{runAllCancelled=true;onStop?.();});interrupt.disabled=true;
   const add=action('Add cell','plus',()=>studioMenu(root,add,'Add cell',[{label:'+ R cell',run:()=>appendCell('code')},{label:'+ Markdown',run:()=>appendCell('markdown','## Notes\n')},{label:'3D scatter scene',run:()=>appendCell('code','results <- subset(genes, selected & contrast == "day1_vs_control")\natlas_scatter3d(results, "log2FoldChange", "lfcSE", "baseMean", color="log2FoldChange", title="Archived effects, uncertainty and expression")')},{label:'Network overlay',run:()=>appendCell('code','results <- subset(genes, selected & contrast == "day1_vs_control")\natlas_network(results, "log2FoldChange")')},{label:'Molecular structure',run:()=>appendCell('code','atlas_structure("GPX4")')},{label:'Research note',run:()=>appendCell('markdown','## Hypothesis\nObservation:\nAlternative explanation:\nContradictory evidence:\nProposed test:\n')},{label:'Reference',run:()=>appendCell('markdown','## Reference\nTitle:\nDOI or URL:\nRole in this analysis:\n')} ]));
   const exportButton=action('Export','download',()=>studioMenu(root,exportButton,'Export notebook',[
@@ -253,9 +255,9 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     {label:'R script (.R)',run:()=>downloadFile('research-notebook.R',notebook().cells.filter(x=>x.kind==='code').map(x=>x.source).join('\n\n'),'text/plain')},...getExports()
   ]));
   runAll.classList.add('studio-run-all');interrupt.classList.add('studio-interrupt');
-  const more=action('More','controls',()=>studioMenu(root,more,'Research tools',[{label:'Run all cells',run:()=>runAll.click()},{label:'Restart & run all',run:()=>{onRestart?.();runAll.click();}},{label:'Research tools',run:()=>openTools()},{label:'Molecular systems',available:!!onOpenSystems,run:onOpenSystems},{label:'Toggle inspector',run:()=>{host.classList.toggle('studio-inspector-hidden');}},{label:'Toggle console',run:()=>{consolePanel.open=!consolePanel.open;}}]));
-  const openBooks=action('Notebooks','menu',()=>openPane(sidebar,'Notebooks'));
-  const focus=action('Focus mode','fullscreen',()=>{const active=host.classList.toggle('studio-focus-mode');focus.setAttribute('aria-pressed',String(active));});
+  const more=action('More','controls',()=>studioMenu(root,more,'Research tools',[{label:'Run all cells',run:()=>runAll.click()},{label:'Import analyses',run:()=>importBook.click()},{label:'Restart & run all',run:()=>{onRestart?.();runAll.click();}},{label:'Research tools',run:()=>openTools()},{label:'Molecular systems',available:!!onOpenSystems,run:onOpenSystems},{label:'Focus mode',run:()=>focus.click()},{label:'Toggle inspector',run:()=>{layout?.toggleInspector();}},{label:'Toggle console',run:()=>{layout?.openConsole();}}]));
+  const openBooks=action('Notebooks','menu',()=>root.workspaceShell?.openNavigation());
+  const focus=action('Focus mode','fullscreen',()=>{const active=host.classList.toggle('studio-focus-mode');focus.setAttribute('aria-pressed',String(active));layout?.setFocus(active);});
   focus.classList.add('studio-focus-toggle');focus.setAttribute('aria-pressed','false');
   toolbar.append(openBooks,runCell,runAll,interrupt,add,exportButton,focus,more);
   const builder=createRRecipeBuilder({action,onGenerate:source=>appendCell('code',source),onStatus});tools.append(builder,mode);
@@ -265,17 +267,18 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   const resources=el('div','studio-sidebar-resources');resources.append(action('Data & settings','controls',()=>openTools()));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));sidebar.append(resources);
   inspector.append(el('h3','','Workspace'));
   const insert=el('div','studio-insert-cell');insert.append(action('Insert R cell','plus',()=>appendCell('code')),action('Insert Markdown','plus',()=>appendCell('markdown','## Notes\n')));
-  center.append(title,el('span','studio-classification','Exploratory analysis'),status,list,insert);
+  const analysisHeader=el('header','studio-analysis-header');analysisHeader.append(title,status);center.append(analysisHeader,list,insert);
   host.append(toolbar,sidebar,studioResizer(host,'--studio-sidebar',{label:'Notebook sidebar width',initial:210,min:180,max:320}),center,studioResizer(host,'--studio-inspector',{label:'Inspector width',initial:260,min:240,max:420,reverse:true}),inspector,consolePanel);
   consoleBody.prepend(studioResizer(host,'--studio-console-height',{label:'Console height',initial:180,min:90,max:450,reverse:true,horizontal:true}));
+  layout=createWorkspaceLayout({root,host,sidebar,inspector,toolbar,center,consolePanel,consoleBody,action,onSelection:onInspectSelection});
   render();
   const initialRevision=revision;
   store.read().then(saved=>{if(destroyed)return;if(saved&&revision===initialRevision){workspace=validateWorkspace(saved);activeCell=notebook().cells[0].id;render();}ready=true;for(const selection of pendingSelections.splice(0))api.appendSelection(selection);save();}).catch(error=>{ready=true;status.textContent='Local storage unavailable';onStatus?.(error.message);});
-  const api={element:host,sidebar,inspector,tools,consoleBody,toolbar,restoreWorkspace:async value=>{if(busy)throw Error("Interrupt R before restoring a session.");onNotebookChange?.();workspace=validateWorkspace(value);activeCell=notebook().cells[0].id;render();await save();},notebookId:()=>workspace.active,snapshot:()=>structuredClone(workspace),
+  const api={element:host,sidebar,inspector,tools,consoleBody,toolbar,layout,openTools,restoreWorkspace:async value=>{if(busy)throw Error("Interrupt R before restoring a session.");onNotebookChange?.();workspace=validateWorkspace(value);activeCell=notebook().cells[0].id;render();await save();},notebookId:()=>workspace.active,snapshot:()=>structuredClone(workspace),
     setSessionMode(shared){mode.textContent=shared?'Notebook session · variables persist. Archived inputs and seed initialize once. Restart, interrupt, errors or notebook changes discard the runtime.':'Independent cell execution · every cell starts with fresh inputs and seed.';},
     current:()=>cell(),
     setBusy(value){busy=value;runCell.disabled=runAll.disabled=add.disabled=newBook.disabled=importBook.disabled=bookSettings.disabled=value;interrupt.disabled=!value;books.inert=value;list.querySelectorAll('.studio-cell-header button').forEach(b=>b.disabled=value);for(const cm of editors.values())cm.inert=value;},save,
-    async recordRun(run){const current=cell();if(!current||current.kind!=='code')return;const execution_order=Math.max(0,...notebook().cells.flatMap(x=>x.runs||[]).map(x=>x.execution_order||0))+1;current.runs=[...current.runs,{...structuredClone(run),execution_order}].slice(-20);const target=list.querySelector(`[data-cell-id="${current.id}"] .studio-inline-output`);if(target)renderOutput(current,target);await save();},
+    async recordRun(run){const current=cell();if(!current||current.kind!=='code')return;const execution_order=Math.max(0,...notebook().cells.flatMap(x=>x.runs||[]).map(x=>x.execution_order||0))+1;current.runs=[...current.runs,{...structuredClone(run),execution_order}].slice(-20);const target=list.querySelector(`[data-cell-id="${current.id}"] .studio-inline-output`);if(target)renderOutput(current,target);await save();layout.refreshFigures();},
     appendSelection(selection) {
       if (!ready) {
         pendingSelections.push(structuredClone(selection));
@@ -310,7 +313,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     },
     addCode:source=>appendCell('code',source),
     addRecipe(recipeId){const recipe=rExamples.find(item=>item.id===recipeId);if(recipe)appendCell('code',recipe.code);},
-    async destroy(){clearTimeout(saveTimer);runAllCancelled=true;cleanup();clearTimeout(saveTimer);if(ready)await store.write(structuredClone(workspace)).catch(()=>{});destroyed=true;await store.close().catch(()=>{});}
+    async destroy(){layout.destroy();clearTimeout(saveTimer);runAllCancelled=true;cleanup();clearTimeout(saveTimer);if(ready)await store.write(structuredClone(workspace)).catch(()=>{});destroyed=true;await store.close().catch(()=>{});}
   };
   return api;
 }

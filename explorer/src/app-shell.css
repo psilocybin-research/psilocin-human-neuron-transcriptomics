@@ -5148,3 +5148,80 @@ body {
 .studio-inline-output .scientific-scene{margin:8px 0;padding:10px;border-radius:5px}.studio-inline-output .scientific-scene h3{font-size:14px;margin:0 0 4px}.studio-inline-output .scientific-scene-viewport{height:360px;min-height:320px}.scene-export-menu{position:relative;padding:4px 8px!important;margin:0!important}.scene-export-menu>summary{cursor:pointer;font-size:12px}.scene-export-menu[open]{display:flex;flex-wrap:wrap;gap:4px}.scientific-scene:fullscreen{background:var(--f7-page-bg-color,#fff);overflow:auto;padding:20px}.scientific-scene:fullscreen .scientific-scene-viewport{height:65dvh}
 
 .studio-book-entry{display:flex;align-items:stretch;min-width:0}.studio-book-entry>.button:first-child{flex:1;min-width:0;text-align:left}.studio-book-entry>.button:last-child{width:28px;min-width:28px;padding:4px;justify-content:center;background:transparent}.studio-archived-analyses{border-top:1px solid var(--f7-list-item-border-color);margin-top:16px;padding-top:12px}.studio-archived-analyses>summary{font-size:12px;cursor:pointer;margin-bottom:8px}.studio-archived-analyses>.button{font-size:12px;width:100%;text-align:left;background:transparent}
+
+/* Integrated workspace: one navigator, a stable editor, native F7 inspector. */
+#psilocin-app.workspace-mode .research-scroll{overflow:hidden}
+#psilocin-app.workspace-mode .research-content-inner{max-width:none;padding-bottom:0}
+#psilocin-app .workspace-navigation-slot{padding:0 10px 12px}
+#psilocin-app .workspace-sidebar-content .studio-sidebar{display:block!important;padding:4px 0;background:transparent;border:0;overflow:visible}
+#psilocin-app .workspace-sidebar-tabs{display:grid!important;gap:2px;padding:4px 0;margin:4px 0 12px;background:transparent;border-radius:0}
+#psilocin-app .workspace-sidebar-tabs>.button{display:flex;width:100%;height:32px;min-height:32px;justify-content:flex-start;border-radius:4px;margin:0;padding:4px 10px;font-size:13px;background:transparent;box-shadow:none}
+#psilocin-app .workspace-sidebar-tabs>[aria-selected=true]{background:var(--f7-theme-color-tint);color:var(--f7-theme-color-contrast,#fff)}
+#psilocin-app .workspace-sidebar-content .studio-sidebar-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap}
+#psilocin-app .workspace-sidebar-content .studio-sidebar-head h3{flex:1;margin:0;font-size:11px;letter-spacing:.04em}
+#psilocin-app .workspace-sidebar-content .studio-sidebar-head>.button{font-size:11px;min-height:30px;padding:4px;background:transparent}
+#psilocin-app .workspace-sidebar-content .studio-book-entry>.button:first-child,#psilocin-app .workspace-sidebar-content .studio-archived-analyses>.button{min-height:32px;padding:5px 8px;background:transparent!important;border-radius:4px;font-weight:400;font-size:12px;text-align:left;justify-content:flex-start}
+#psilocin-app .workspace-sidebar-content .studio-book-entry>[aria-current=true]{background:rgba(var(--f7-theme-color-rgb),.12)!important;color:var(--f7-theme-color);font-weight:600}
+#psilocin-app .workspace-sidebar-content .studio-book-entry>.button:last-child{width:30px;min-width:30px;min-height:32px;background:transparent!important}
+#psilocin-app .workspace-sidebar-content .studio-book-list{gap:2px;margin-top:8px}
+#psilocin-app .workspace-sidebar-content .studio-archived-analyses{margin-top:12px;padding-top:10px}
+#psilocin-app .workspace-sidebar-content .studio-archived-analyses>.button svg{display:none}
+#psilocin-app .workspace-frame{position:relative;display:block;width:100%;height:calc(100dvh - 142px);min-height:360px;margin:0;border-radius:6px;overflow:hidden;contain:layout;background:var(--f7-page-bg-color)}
+#psilocin-app .workspace-editor-view{position:relative;display:grid;width:auto;height:100%;min-width:0;grid-template-rows:44px minmax(0,1fr) auto;overflow:hidden;transition:margin-right .2s ease}
+#psilocin-app .workspace-editor-view>.studio-main-toolbar{position:relative;grid-column:auto;grid-row:auto;display:flex;flex-wrap:nowrap;overflow-x:auto;padding:4px 8px;gap:4px;min-height:0;z-index:1}
+#psilocin-app .workspace-editor-view>.studio-main-toolbar>.button{width:auto;flex:0 0 auto;min-height:32px;padding:5px 8px;font-size:12px;white-space:nowrap;line-height:1.2}
+#psilocin-app .workspace-editor-view>.studio-main-toolbar>.button:first-child,#psilocin-app .workspace-editor-view>.studio-main-toolbar>.studio-interrupt:disabled{display:none!important}
+#psilocin-app .workspace-editor-view>.studio-notebook-main{grid-column:auto;grid-row:auto;min-height:0;min-width:0;overflow:auto;padding:12px;overscroll-behavior:contain;scroll-padding-top:12px}
+#psilocin-app .studio-analysis-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#psilocin-app .studio-analysis-header .studio-notebook-title{margin:0;font-size:18px}
+#psilocin-app .studio-analysis-header .studio-save-status{margin:0;font-size:11px}
+#psilocin-app .studio-analysis-header .studio-runtime-status{margin:0 0 0 auto;max-width:220px;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#psilocin-app .workspace-inspector-panel{position:absolute!important;display:block!important;top:0;bottom:0;height:100%;min-width:240px;max-width:min(420px,92vw);padding:0!important;border:0;border-left:1px solid var(--f7-list-item-border-color);background:var(--f7-page-bg-color);overflow:auto;box-shadow:none}
+#psilocin-app .workspace-inspector-head{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;min-height:32px}
+#psilocin-app .workspace-inspector-head>.button{min-height:30px;padding:4px;font-size:11px;background:transparent}
+#psilocin-app .workspace-inspector-tabs{display:flex;position:sticky;top:0;background:var(--f7-page-bg-color);padding:4px;z-index:1;border-bottom:1px solid var(--f7-list-item-border-color)}
+#psilocin-app .workspace-inspector-tabs>.button{flex:1;min-height:32px;padding:4px;font-size:11px;justify-content:center;background:transparent}
+#psilocin-app .workspace-inspector-tabs>.button svg{display:none}
+#psilocin-app .workspace-inspector-tabs>[aria-selected=true]{box-shadow:inset 0 -2px var(--f7-theme-color);color:var(--f7-theme-color)}
+#psilocin-app .workspace-inspector-panel>[role=tabpanel]{padding:10px}
+#psilocin-app .workspace-inspector-panel [hidden]{display:none!important}
+#psilocin-app .workspace-inspector-panel .r-workspace-variables>h4{display:none}
+#psilocin-app .workspace-inspector-panel .r-variable-list .button{display:flex!important;flex-wrap:wrap;justify-content:flex-start;width:100%;min-height:36px;padding:6px 2px;background:transparent!important;border-radius:0;text-align:left;border-bottom:1px solid var(--f7-list-item-border-color);font-size:12px;font-weight:400}
+#psilocin-app .workspace-variable-meta{display:block;margin-left:auto;font:10px/1.4 sans-serif;color:var(--f7-list-item-after-text-color)}
+#psilocin-app .workspace-inspector-figures>.button{display:flex;width:100%;flex-wrap:wrap;justify-content:flex-start;margin-bottom:8px;background:transparent!important;font-size:12px;text-align:left}
+#psilocin-app .workspace-figure-thumbnail{width:100%;max-height:100px;object-fit:contain;background:white;margin-bottom:6px}
+#psilocin-app .workspace-frame>.panel-backdrop{position:absolute}
+#psilocin-app .workspace-editor-view>.studio-console{grid-column:auto;grid-row:auto;width:auto;min-height:32px;background:var(--f7-page-bg-color)}
+#psilocin-app .workspace-editor-view>.studio-console>summary{font-size:12px;padding:8px 12px}
+#psilocin-app .workspace-editor-view .studio-console-body{max-height:45dvh;min-height:90px;height:var(--studio-console-height);padding:0 12px 12px}
+#psilocin-app .workspace-console-sheet{height:85dvh;border-radius:12px 12px 0 0}
+#psilocin-app .workspace-console-sheet .sheet-modal-inner{display:flex;flex-direction:column;overflow:hidden;height:100%;padding:0}
+#psilocin-app .workspace-sheet-handle{display:flex;justify-content:center;padding:10px;cursor:ns-resize;touch-action:none}
+#psilocin-app .workspace-sheet-handle>span{width:36px;height:4px;border-radius:4px;background:var(--f7-list-item-after-text-color)}
+#psilocin-app .workspace-console-sheet-header{display:flex;align-items:center;gap:8px;padding:0 12px 8px;border-bottom:1px solid var(--f7-list-item-border-color)}
+#psilocin-app .workspace-console-sheet-header>strong{margin-right:auto}
+#psilocin-app .workspace-console-sheet-header>.button{font-size:12px;min-height:36px;padding:4px}
+#psilocin-app .workspace-console-sheet .studio-console-body{flex:1;min-height:0;height:auto;overflow:auto;padding:8px 12px;overscroll-behavior:contain}
+#psilocin-app .workspace-console-sheet .studio-resizer{display:none}
+#psilocin-app .workspace-focus .workspace-editor-view{margin-right:0!important}
+#psilocin-app .workspace-frame .panel-resize-handler:focus-visible{background:var(--f7-theme-color);outline:2px solid var(--f7-theme-color)}
+@media(max-width:900px){#psilocin-app .workspace-frame{height:calc(100dvh - 148px);min-height:300px}#psilocin-app .workspace-editor-view{grid-template-rows:48px minmax(0,1fr) auto}#psilocin-app .workspace-editor-view>.studio-main-toolbar>.button{min-height:40px;font-size:11px}#psilocin-app .workspace-editor-view>.studio-main-toolbar .workspace-inspector-toggle{display:none}#psilocin-app .workspace-inspector-tabs>.button{min-height:44px}#psilocin-app .workspace-sidebar-tabs>.button,#psilocin-app .workspace-sidebar-content .studio-book-entry>.button,#psilocin-app .workspace-sidebar-content .studio-archived-analyses>.button{min-height:44px}#psilocin-app .studio-analysis-header .studio-runtime-status{max-width:100%;margin-left:0}#psilocin-app .workspace-editor-view>.studio-notebook-main{padding:10px}}
+@media(prefers-reduced-motion:reduce){#psilocin-app .workspace-editor-view{transition:none}}
+#psilocin-app .research-sidebar.panel-resizable{min-width:240px;max-width:360px}
+#psilocin-app .workspace-sidebar-content .studio-sidebar-head h3{white-space:nowrap;flex-basis:auto}
+#psilocin-app .workspace-sidebar-content .studio-sidebar-head>.button svg{display:none}
+#psilocin-app.workspace-mode .workspace-inspector-panel .workspace-variable-meta{flex-basis:100%;margin-left:25px}
+#psilocin-app .workspace-frame .studio-focus-toggle{display:flex!important}
+#psilocin-app .workspace-inspector-head>.button>svg{width:14px;height:14px}
+@media(min-width:901px){#psilocin-app .workspace-frame .workspace-console-toggle{display:none}}
+#psilocin-app .workspace-editor-view{z-index:1}
+#psilocin-app.workspace-mode .studio-language-panel:not(.studio-r-panel){height:calc(100dvh - 142px);overflow:auto;overscroll-behavior:contain;padding:0 0 60px;box-sizing:border-box}
+@media(max-width:900px){#psilocin-app.workspace-mode .studio-language-panel:not(.studio-r-panel){height:calc(100dvh - 148px)}}
+#psilocin-app .workspace-frame:has(.panel-resizing) .workspace-editor-view{transition:none}
+#psilocin-app .workspace-editor-view>.studio-main-toolbar>.studio-focus-toggle,#psilocin-app .workspace-editor-view>.studio-main-toolbar>.workspace-console-toggle{display:none!important}
+#psilocin-app .workspace-editor-view>.studio-main-toolbar>.workspace-inspector-toggle{margin-left:auto;width:32px;justify-content:center}
+#psilocin-app .workspace-inspector-toggle>span{display:none}
+#psilocin-app .workspace-shared-navigation{display:grid;gap:2px;padding:0 0 10px;margin-bottom:8px;border-bottom:1px solid var(--f7-list-item-border-color)}
+#psilocin-app .workspace-shared-navigation>.button{justify-content:flex-start;width:100%;min-height:32px;font-size:12px;font-weight:400;padding:4px 10px;border-radius:4px;background:transparent}
+#psilocin-app .workspace-datasets-sheet li>details{padding:8px 16px;font-size:12px}#psilocin-app .workspace-datasets-sheet details>.button{display:inline-flex;margin:4px;font-size:12px}
+@media(max-width:900px){#psilocin-app .workspace-shared-navigation>.button{min-height:44px}}

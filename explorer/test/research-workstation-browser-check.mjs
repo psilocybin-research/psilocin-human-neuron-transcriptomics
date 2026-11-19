@@ -34,9 +34,9 @@ try{for(const width of [390,820,1440])for(const theme of ['light','dark']){
  await page.locator('.studio-save-status').filter({hasText:'Saved locally'}).waitFor();
  await page.waitForTimeout(450);await page.reload();await page.getByLabel('R code cell 2',{exact:true}).waitFor();
  assert.match(await page.locator('.studio-inline-cell').nth(1).innerText(),/42/);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');
- const overflow=await page.evaluate(()=>({document:document.documentElement.scrollWidth>innerWidth+1,studio:document.querySelector('.studio-grid').scrollWidth>document.querySelector('.studio-grid').clientWidth+1}));
+ const overflow=await page.evaluate(()=>({document:document.documentElement.scrollWidth>innerWidth+1,studio:document.querySelector('.workspace-editor-view').scrollWidth>document.querySelector('.workspace-editor-view').clientWidth+1}));
  assert.deepEqual(overflow,{document:false,studio:false},`${width}/${theme} overflow`);
  await page.screenshot({path:`${output}/notebook-${width}-${theme}.png`});
- if(width===1440){const resizer=page.getByRole('separator',{name:'Notebook sidebar width',exact:true});const before=await resizer.getAttribute('aria-valuenow');await resizer.focus();await page.keyboard.press('ArrowRight');assert.equal(Number(await resizer.getAttribute('aria-valuenow')),Number(before)+16);}
+ if(width===1440){const resizer=page.getByRole('separator',{name:'Navigation width',exact:true});const before=await resizer.getAttribute('aria-valuenow');await resizer.focus();await page.keyboard.press('ArrowRight');assert.equal(Number(await resizer.getAttribute('aria-valuenow')),Number(before)+16);}
  assert.deepEqual(errors,[]);console.log(`PASS ${width}/${theme}: original notebook recovery, no autoexecute/lazy Python, inline execution, duplicate/move, simultaneous outputs, persistence, no overflow`);await context.close();
 }}finally{await browser.close();}

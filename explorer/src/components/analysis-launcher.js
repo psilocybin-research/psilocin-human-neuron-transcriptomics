@@ -1,3 +1,4 @@
+import {studioMenu} from "./studio-ui.js";
 import { createElement as node } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 
@@ -30,6 +31,7 @@ export function createAnalysisLauncher({
   trigger.onclick = (event) => {
     event.preventF7Router = true;
     event.stopPropagation();
+    if(root.workspaceTools){studioMenu(root,trigger,'Workspace tools',root.workspaceTools.items());return;}
     openControls(event);
   };
   trigger.addEventListener("keydown", (event) => {
@@ -73,6 +75,7 @@ export function createAnalysisLauncher({
     !fullscreen() &&
     (root.dataset.modalOpen !== "true" || state !== "closed");
   function sync() {
+    const label=root.workspaceTools?'Workspace tools':'Analysis controls';trigger.setAttribute('aria-label',label);trigger.title=label;
     const visible = showing();
     if (fab.dataset.visible !== String(visible)) {
       clearTimeout(visibilityTimer);

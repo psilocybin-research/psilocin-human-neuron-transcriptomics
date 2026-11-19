@@ -1,3 +1,4 @@
+import {selectWorkspace} from './workspace-browser-helpers.mjs';
 import assert from 'node:assert/strict';
 import {chromium} from '@playwright/test';
 const base = process.env.BASE_URL || 'http://127.0.0.1:4173/';
@@ -8,7 +9,7 @@ try {
     const page = await context.newPage(); const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '#view=custom-r');
     await page.waitForFunction(() => document.querySelector('#psilocin-app')?.f7);
-    await page.getByRole('tab', {name: 'Python Lab', exact: true}).click();
+    await selectWorkspace(page,'Python Lab');
     const lab = page.locator('.python-lab');
     const editor = lab.getByRole('textbox', {name: 'Python code'});
     await editor.fill('import statistics\nprint(dataset_name)\nresults = [{"gene_id": "ENSG00000167468", "value": statistics.mean([1.125, 2.25])}]');
@@ -19,11 +20,11 @@ try {
     assert.equal(stored[0].runs.at(-1).csv, 'gene_id,value\nENSG00000167468,1.6875\n');
     assert.equal(stored[0].runs.at(-1).runtime.standard_library.length, 11);
     await lab.getByRole('button', {name: 'Send Python results to R'}).click();
-    await page.getByRole('tab', {name: 'R Studio', exact: true}).waitFor();
-    assert.equal(await page.getByRole('tab', {name: 'R Studio', exact: true}).getAttribute('aria-selected'), 'true');
+    await page.getByRole('tab', {name: 'R Studio', exact: true, includeHidden:true}).waitFor({state:'attached'});
+    assert.equal(await page.getByRole('tab', {name: 'R Studio', exact: true, includeHidden:true}).getAttribute('aria-selected'), 'true');
     await page.reload();
     await page.waitForFunction(() => document.querySelector('#psilocin-app')?.f7);
-    await page.getByRole('tab', {name: 'Python Lab', exact: true}).click();
+    await selectWorkspace(page,'Python Lab');
     await lab.getByRole('status').filter({hasText: 'Restored recorded Python output'}).waitFor();
     assert.match(await lab.getByLabel('Python results preview').innerText(), /1.6875/);
     assert.match(await lab.locator('.python-inspector').textContent(), /Runtime not initialized/);

@@ -308,6 +308,14 @@ export function createAppShell({
   main.append(page);
   views.append(main);
   root.replaceChildren(panel, views);
+  const workspaceSlot=node('div','workspace-navigation-slot');workspaceSlot.hidden=true;nav.querySelector('[data-section-item="custom-r"]')?.append(workspaceSlot);
+  const workspaceItem=nav.querySelector('[data-section-item="custom-r"]'),workspaceMarker=document.createComment('workspace navigation position');workspaceItem.before(workspaceMarker);
+  let workspaceOwner,focusNavigationState;
+  root.workspaceShell={mountNavigation(element){const owner=Symbol('workspace');workspaceOwner=owner;nav.querySelector('[data-section-item="overview"]')?.after(workspaceItem);workspaceSlot.replaceChildren(element);workspaceSlot.hidden=false;root.classList.add('workspace-mode');return ()=>{if(workspaceOwner!==owner)return;workspaceSlot.replaceChildren();workspaceMarker.after(workspaceItem);workspaceSlot.hidden=true;root.classList.remove('workspace-mode');workspaceOwner=undefined;};},
+    openNavigation(){panelInstance?.open(!reduced());},closeNavigation(){if(!panelInstance?.opened||panel.classList.contains('panel-in-breakpoint'))return Promise.resolve();return new Promise(resolve=>{panelInstance.once('closed',resolve);panelInstance.close(!reduced());});},
+    setFocus(value){if(value){if(focusNavigationState!==undefined)return;focusNavigationState=!!panelInstance?.visibleBreakpointDisabled;panelInstance?.disableVisibleBreakpoint();panelInstance?.close(false);}else if(focusNavigationState!==undefined){if(!focusNavigationState)panelInstance?.enableVisibleBreakpoint();focusNavigationState=undefined;}},
+    syncTools(){analysisLauncher.setAvailable(!!root.workspaceTools||Boolean(body.querySelector('.controls,.comparison-controls,.tree-toolbar')));}
+  };
   const analysisLauncher = createAnalysisLauncher({
     root,
     openControls,
@@ -954,7 +962,7 @@ export function createAppShell({
     }
     analysisLauncher.setAvailable(
       Boolean(
-        body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||
+        root.workspaceTools || body.querySelector(".controls,.comparison-controls,.tree-toolbar") ||
           controlMoves.length,
       ),
     );
@@ -979,7 +987,7 @@ export function createAppShell({
       )
     )
       return;
-    if (el === panel && panel.classList.contains("panel-in-breakpoint")) return;
+    if (el.matches(".panel.panel-in-breakpoint")) return;
     returnFocus.set(el, document.activeElement);
     el.setAttribute("role", el.matches(".dialog") ? "alertdialog" : "dialog");
     el.setAttribute("aria-modal", "true");
@@ -1000,7 +1008,7 @@ export function createAppShell({
           ?.textContent || "Research options",
       );
     if (!modalStack.includes(el)) modalStack.push(el);
-    views.inert = !views.contains(el);
+    views.inert = modalStack.some(surface=>!views.contains(surface));
     root.dataset.modalOpen = "true";
     analysisLauncher.sync();
   }
@@ -1017,8 +1025,9 @@ export function createAppShell({
     const index = modalStack.indexOf(el);
     if (index < 0) return;
     modalStack.splice(index, 1);
-    views.inert = modalStack.length > 0;
-    root.dataset.modalOpen = String(views.inert);
+    for(let i=modalStack.length-1;i>=0;i--)if(!modalStack[i].isConnected||!modalStack[i].matches('.modal-in,.modal-out,.panel-in,.panel-out'))modalStack.splice(i,1);
+    views.inert = modalStack.some(surface=>!views.contains(surface));
+    root.dataset.modalOpen = String(modalStack.length>0);
     analysisLauncher.sync();
     scheduleEnhance();
     el.removeAttribute("aria-modal");
@@ -1258,14 +1267,17 @@ export function createAppShell({
     view = app.views.create(main, { router: false });
     pwa = createPwa({ root, app, installButton, data });
     researchTables = createResearchTables({ root, app });
+    panel.style.width=`${Math.max(240,Math.min(360,Number(stored('atlas-navigation-width',280))||280))}px`;
     panelInstance = app.panel.create({
       el: panel,
       visibleBreakpoint: 1180,
+      resizable: true,
       effect: "cover",
       side: "left",
       swipe: true,
       swipeOnlyClose: true,
       on: {
+        resize: (_instance,width)=>remember('atlas-navigation-width',String(Math.round(width))),
         open: () => {
           menuToggle.setAttribute("aria-expanded", "true");
           if (app.width < 1180) {
@@ -1280,6 +1292,7 @@ export function createAppShell({
         },
       },
     });
+    const navigationHandle=panel.querySelector('.panel-resize-handler');if(navigationHandle){navigationHandle.tabIndex=0;navigationHandle.setAttribute('role','separator');navigationHandle.setAttribute('aria-label','Navigation width');navigationHandle.setAttribute('aria-orientation','vertical');navigationHandle.setAttribute('aria-valuenow',String(panel.offsetWidth));navigationHandle.onkeydown=e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const width=Math.max(240,Math.min(360,panel.offsetWidth+(e.key==='ArrowRight'?16:-16)));panel.style.width=`${width}px`;if(panel.classList.contains('panel-in-breakpoint'))views.style.marginLeft=`${width}px`;navigationHandle.setAttribute('aria-valuenow',String(width));remember('atlas-navigation-width',String(width));};}
     controlsSheet = app.sheet.create({
       el: sheet,
       push: true,
