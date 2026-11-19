@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1367,
-  "total_bytes": 687304455,
+  "total_bytes": 687307393,
   "status": "pass",
   "failures": [],
   "files": [
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 176578,
-      "sha256": "d79243e19f1257a787fdaf459df44a48b4056c6cf70ccc8e7d7acde090fd923f"
+      "bytes": 178837,
+      "sha256": "5c1f55e9278d7984194c200aef0393bb3756d0ecc091fc5f5fb859984b9c7330"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3639,8 +3639,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 25592,
-      "sha256": "a81ff8e54872c4527117651a9c5ad6e9180813816dd65a746704fc251a8c8134"
+      "bytes": 26271,
+      "sha256": "d4e2837584423751142b6a63ea74d6460addaa275dbb7ebfa4872633adbcf0f4"
     },
     {
       "path": "explorer/src/components/r-progress.js",

@@ -254,13 +254,17 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   runAll.classList.add('studio-run-all');interrupt.classList.add('studio-interrupt');
   const more=action('More','controls',()=>studioMenu(root,more,'Research tools',[{label:'Run all cells',run:()=>runAll.click()},{label:'Recipes, data & settings',run:()=>openTools()},{label:'Molecular systems',available:!!onOpenSystems,run:onOpenSystems},{label:'Toggle inspector',run:()=>{host.classList.toggle('studio-inspector-hidden');}},{label:'Toggle console',run:()=>{consolePanel.open=!consolePanel.open;}}]));
   const openBooks=action('Notebooks','menu',()=>openPane(sidebar,'Notebooks'));
-  toolbar.append(openBooks,runCell,runAll,interrupt,add,exportButton,more);
+  const focus=action('Focus mode','fullscreen',()=>{const active=host.classList.toggle('studio-focus-mode');focus.setAttribute('aria-pressed',String(active));});
+  focus.classList.add('studio-focus-toggle');focus.setAttribute('aria-pressed','false');
+  toolbar.append(openBooks,runCell,runAll,interrupt,add,exportButton,focus,more);
   const builder=createRRecipeBuilder({action,onGenerate:source=>appendCell('code',source),onStatus});tools.append(builder,mode);
   function openPane(content,label){const slot=el('span');content.before(slot);const sheet=el('div','sheet-modal studio-pane-sheet'),inner=el('div','sheet-modal-inner');inner.append(el('h3','',label));const close=action('Done','close',()=>modal.close());inner.append(close,content);sheet.append(inner);root.append(sheet);const modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){slot.replaceWith(content);sheet.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();}
   function openTools(){openPane(tools,'R tools');}
-  inspector.append(el('h3','','Workspace'),tools);
-  center.append(title,el('span','studio-classification','Exploratory analysis'),status,list);
-  host.append(toolbar,sidebar,studioResizer(host,'--studio-sidebar',{label:'Notebook sidebar width',initial:240,min:180,max:320}),center,studioResizer(host,'--studio-inspector',{label:'Inspector width',initial:300,min:240,max:420,reverse:true}),inspector,consolePanel);
+  const resources=el('div','studio-sidebar-resources');resources.append(action('Recipes & data','controls',()=>openTools()));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));sidebar.append(resources);
+  inspector.append(el('h3','','Inspector'),tools);
+  const insert=el('div','studio-insert-cell');insert.append(action('+ R cell','plus',()=>appendCell('code')),action('+ Markdown','plus',()=>appendCell('markdown','## Notes\n')));
+  center.append(title,el('span','studio-classification','Exploratory analysis'),status,list,insert);
+  host.append(toolbar,sidebar,studioResizer(host,'--studio-sidebar',{label:'Notebook sidebar width',initial:190,min:180,max:320}),center,studioResizer(host,'--studio-inspector',{label:'Inspector width',initial:240,min:240,max:420,reverse:true}),inspector,consolePanel);
   consoleBody.prepend(studioResizer(host,'--studio-console-height',{label:'Console height',initial:180,min:90,max:450,reverse:true,horizontal:true}));
   render();
   const initialRevision=revision;
