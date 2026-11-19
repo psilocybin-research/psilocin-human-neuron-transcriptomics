@@ -108,6 +108,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   filterSelect.onchange = () => {
     filter = filterSelect.value;
     refresh();
+    const group = filter === "all" ? "All 113 archived genes" : filterSelect.selectedOptions[0].textContent;
+    showToast(`Showing ${group}.`, { container: drawer?.isConnected ? drawer : root });
   };
   filterLabel.append(filterSelect);
   const layoutLabel = el("label", "oxphos-3d-layout-direct");
@@ -118,7 +120,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   layoutLabel.title = "Off: complex groups. On: gene–set layers. Both show the same memberships.";
   const layoutSwitch = el("span", "toggle");
   layoutSwitch.append(layoutToggle, el("span", "toggle-icon"));
-  layoutLabel.append(el("span", "", "Layered layout"), layoutSwitch);
+  layoutLabel.append(el("span", "", "Topology"), layoutSwitch);
   layoutToggle.onchange = () =>
     transitionLayout(layoutToggle.checked ? "layers" : "complex");
   controls.append(
@@ -144,6 +146,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   uncertaintySelect.onchange = () => {
     uncertainty = uncertaintySelect.value;
     refresh();
+    showToast(`Filter: ${uncertaintyLabels[uncertainty]}.`, { container: drawer?.isConnected ? drawer : root });
   };
   uncertaintyLabel.append(uncertaintySelect);
   controls.append(
@@ -242,12 +245,18 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       animate ? 950 : 0,
     );
   }
+  cameraTools.setAttribute("role", "toolbar");
+  cameraTools.setAttribute("aria-label", "Camera controls");
   cameraTools.append(
     button("Zoom in", () => cameraZoom(0.8), "plus"),
     button("Zoom out", () => cameraZoom(1.25), "minus"),
     button("Reset camera", () => reset(), "overview"),
   );
-  viewer.append(stage, cameraTools);
+  for (const control of cameraTools.children) control.title = control.getAttribute("aria-label");
+  const evidenceTools = el("div", "oxphos-3d-evidence-actions");
+  evidenceTools.setAttribute("role", "group");
+  evidenceTools.setAttribute("aria-label", "Research tools");
+  viewer.append(stage, cameraTools, evidenceTools);
   const gesture = el(
     "p",
     "note",
@@ -425,7 +434,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     button("Filters", () => openDrawer("filters"), "controls"),
     button("About & data", () => openDrawer("about"), "information"),
   );
-  cameraTools.append(
+  evidenceTools.append(
     button(
       "Statistical comparison",
       () => {
@@ -592,15 +601,19 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   }
   function choose(n, focus = true, showEvidence = true) {
     if (proteinScene) closeProteinScene();
-    if (selected !== n.id) nodeProtein?.clear();
+    const selectionChanged = selected !== n.id;
+    if (selectionChanged) nodeProtein?.clear();
     selected = n.id;
     selectedSummary.setAttribute("aria-label", `${n.symbol} · exact values`);
     selectedSummary.querySelector("span").textContent =
       n.symbol + " · exact values";
     renderSelected();
-    renderList();
+    // Let Framework7 finish the pressed state before replacing search rows.
+    requestAnimationFrame(() => { if (!destroyed) renderList(); });
     updateGraph();
     if (showEvidence) openDrawer("gene");
+    if (selectionChanged)
+      showToast(`Selected gene: ${n.symbol}.`, { container: showEvidence && drawer?.isConnected ? drawer : root });
     const position =
       graph?.graphData().nodes.find((node) => node.id === n.id) || n;
     if (focus && graph) {
@@ -970,7 +983,6 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       else {
         layoutToggle.disabled = false;
         root.dataset.layoutReady = "true";
-        showToast(mode === "layers" ? "Gene–set layers displayed." : "Complex groups displayed.", { container: root });
       }
     };
     root.dataset.layoutReady = "false";
@@ -1257,6 +1269,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
             }
             more.hidden = true;
             openDrawer("search");
+            showToast(`Selected gene set: ${label(n.pathway)}.`, { container: drawer?.isConnected ? drawer : root });
           }
         })
         .graphData({

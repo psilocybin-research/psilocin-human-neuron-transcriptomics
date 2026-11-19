@@ -277,7 +277,7 @@ export function createNodeProtein({ api, root, graphs }) {
         height = caption.offsetHeight || 142;
       const obstacles = [
         ...root.querySelectorAll(
-          ".oxphos-3d-topbar,.oxphos-3d-camera,.oxphos-3d-dock,.oxphos-3d-evidence",
+          ".oxphos-3d-topbar,.oxphos-3d-camera,.oxphos-3d-evidence-actions,.oxphos-3d-dock,.oxphos-3d-evidence",
         ),
       ]
         .filter((element) => !element.hidden && element.getClientRects().length)
