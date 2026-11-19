@@ -86,9 +86,29 @@ export function researchPanel(
   const body = el("div", "research-panel-body");
   root.append(nav, body);
   let tooltip;
+  const comparisonMarks = new Map();
+  const showComparisonTooltip = (mark, row) => {
+    const app = document.querySelector("#psilocin-app")?.f7;
+    if (!app) return;
+    tooltip ||= app.tooltip.create({
+      targetEl: mark,
+      trigger: "manual",
+      containerEl: document.fullscreenElement || root.closest(".oxphos-3d-drawer") || document.querySelector("#psilocin-app"),
+      cssClass: "network-statistical-tooltip",
+      text: "",
+    });
+    const display = (value) => value === null || value === undefined || value === "" || !Number.isFinite(+value) ? "Not estimable" : compact(value);
+    tooltip.setText(
+      `${escapeHTML(row.gene.symbol)}<br>` + row.gene.effects.slice(0, 2)
+        .map((effect, index) => `Day ${index ? 3 : 1}: log₂FC ${display(effect.log2FoldChange)}<br>SE ${display(effect.lfcSE)} · gene FDR ${display(effect.padj)}`)
+        .join("<br>"),
+    );
+    tooltip.show(mark);
+  };
   const clearTooltip = () => {
     tooltip?.destroy();
     tooltip = undefined;
+    comparisonMarks.clear();
   };
   root.dispose = clearTooltip;
   root.highlightGene = (id) => {
@@ -99,6 +119,9 @@ export function researchPanel(
       mark.setAttribute("stroke-width", hover ? "2.5" : "1");
     }
     root.dataset.hoveredGene = id || "";
+    const match = comparisonMarks.get(id);
+    if (match && match.mark.isConnected) showComparisonTooltip(match.mark, match.row);
+    else tooltip?.hide();
   };
   let active = "",
     version = 0;
@@ -231,35 +254,9 @@ export function researchPanel(
                 const row = rows[args[0][i]];
                 if (!row) return;
                 mark.dataset.comparisonGene = row.gene.id;
-                const enter = () => {
-                  onHover(row.gene.id);
-                  const app = document.querySelector("#psilocin-app")?.f7;
-                  if (!app) return;
-                  tooltip ||= app.tooltip.create({
-                    targetEl: mark,
-                    trigger: "manual",
-                    containerEl:
-                      document.fullscreenElement ||
-                      document.querySelector("#psilocin-app"),
-                    cssClass: "network-statistical-tooltip",
-                    text: "",
-                  });
-                  tooltip.setText(
-                    `${escapeHTML(row.gene.symbol)}<br>` +
-                      row.gene.effects
-                        .slice(0, 2)
-                        .map(
-                          (e, j) =>
-                            `Day ${j ? 3 : 1}: log₂FC ${number(e.log2FoldChange)}<br>SE ${number(e.lfcSE)} · gene FDR ${number(e.padj)}`,
-                        )
-                        .join("<br>"),
-                  );
-                  tooltip.show(mark);
-                };
-                const leave = () => {
-                  tooltip?.hide();
-                  onHover("");
-                };
+                comparisonMarks.set(row.gene.id, { mark, row });
+                const enter = () => onHover(row.gene.id);
+                const leave = () => onHover("");
                 mark.addEventListener("pointerenter", enter);
                 mark.addEventListener("pointerleave", leave);
                 mark.addEventListener("focus", enter);

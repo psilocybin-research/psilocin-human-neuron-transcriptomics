@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686730273,
+  "total_bytes": 686732157,
   "status": "pass",
   "failures": [],
   "files": [
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 152193,
-      "sha256": "24c5755c0f9301f184e60c90de2bd0fc91517396b2f2b8f9d5a3b670c23e8197"
+      "bytes": 152445,
+      "sha256": "2421e19176ddb73cf44e28733e339b5acebe20434e9a1b6968ee157d239af2cf"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3529,8 +3529,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 52373,
-      "sha256": "0ce203b65ae8cca5e0c0802532f26ee46c645f4ff52cd9cb8872a9595a3d7dce"
+      "bytes": 53559,
+      "sha256": "c1bb5811f48cefd14e8d400a9862bb83f69d8b56ec9cc3fbea9aa1f601993b1b"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3539,8 +3539,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 19315,
-      "sha256": "620d34d65ab4d800f7ffd2e9efe7bc05ece6b7ca9122f647afaa40e1e38a51b7"
+      "bytes": 19374,
+      "sha256": "4bbfc5adce3728f3d4c1e7f2046624f8423f423d686add385865b5a203ca593a"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3804,8 +3804,8 @@
     },
     {
       "path": "explorer/test/network-comparison-browser-check.mjs",
-      "bytes": 5423,
-      "sha256": "ebcf91b405a8d1ed4f0c7fad3cde8e05e95fd1713ef468477a1d13f72d8d2471"
+      "bytes": 5810,
+      "sha256": "57e64774d473cc2c4501d37751a8feacbb0948c97c2dba7b2e70aa1e5b24eff8"
     },
     {
       "path": "explorer/test/network-effects-browser-check.mjs",

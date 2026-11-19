@@ -123,6 +123,26 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   layoutLabel.append(el("span", "", "Layout"), layoutSwitch);
   layoutToggle.onchange = () =>
     transitionLayout(layoutToggle.checked ? "layers" : "complex");
+  const labelsLabel = el("label", "oxphos-3d-layout-direct");
+  const labelsToggle = el("input");
+  labelsToggle.type = "checkbox";
+  labelsToggle.checked = true;
+  labelsToggle.setAttribute("role", "switch");
+  labelsToggle.setAttribute("aria-label", "Show network labels and node structures");
+  labelsLabel.title = "Show network labels and open a structure preview when selecting a gene node.";
+  const labelsSwitch = el("span", "toggle");
+  labelsSwitch.append(labelsToggle, el("span", "toggle-icon"));
+  labelsLabel.append(el("span", "", "Show labels"), labelsSwitch);
+  root.dataset.networkLabels = "on";
+  labelsToggle.onchange = () => {
+    root.dataset.networkLabels = labelsToggle.checked ? "on" : "off";
+    if (!labelsToggle.checked) {
+      ++nodeProteinRequest;
+      nodeProtein?.clear();
+    }
+    updateGraph();
+    showToast(labelsToggle.checked ? "Network labels and structure previews on." : "Network labels and structure previews off.", { container: root });
+  };
   controls.append(
     el(
       "p",
@@ -411,7 +431,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     el("span", "", "Human iPSC-derived cortical neurons"),
   );
   topbar.append(identity);
-  topbar.append(days, layoutLabel, status);
+  const displayControls = el("div", "oxphos-3d-display-controls");
+  displayControls.append(layoutLabel, labelsLabel);
+  topbar.append(days, displayControls, status);
   leftStage.style.flex = "1 1 0%";
   const legendCompact = el("div", "oxphos-3d-scale");
   legendCompact.append(
@@ -915,7 +937,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     }
     for (const item of labels)
       item.sprite.visible =
-        layoutMode === "complex" &&
+        labelsToggle.checked && layoutMode === "complex" &&
         !focused &&
         (filter === "all" || item.key === filter);
   }
@@ -1192,7 +1214,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .enableNodeDrag(false)
         .enableNavigationControls(true)
         .cooldownTicks(0)
-        .nodeLabel((n) => el("span", "network-gene-tooltip", geneTooltip(n)))
+        .nodeLabel((n) => labelsToggle.checked ? el("span", "network-gene-tooltip", geneTooltip(n)) : "")
         .nodeThreeObject((n) => {
           const container = new api.Group();
           if (n.type === "gene") {
@@ -1249,7 +1271,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .onNodeClick((n) => {
           if (n.type === "gene") {
             choose(n);
-            showNodeProtein(n);
+            if (labelsToggle.checked) showNodeProtein(n);
           } else {
             const memberIds = new Set(
               snapshot.links

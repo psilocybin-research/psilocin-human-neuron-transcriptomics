@@ -94,6 +94,10 @@ try {
       pointId,
     );
     assert.equal(await lastPoint.getAttribute("r"), "6");
+    // The network uses this same public hook when hovering a 3D gene.
+    await panel.locator(".oxphos-research-panel").evaluate((el, id) => el.highlightGene(id), pointId);
+    await p.locator(".network-statistical-tooltip.tooltip-in").waitFor();
+    assert.match(await p.locator(".network-statistical-tooltip.tooltip-in").innerText(), /Day 1: log₂FC/);
     const label = await point.last().getAttribute("aria-label");
     await point.last().press("Enter");
     await panel.locator(".oxphos-research-panel").waitFor();
@@ -109,7 +113,7 @@ try {
     );
     await panel.getByRole("button", { name: "Done", exact: true }).click();
     await p
-      .locator(".oxphos-3d-layout-direct")
+      .locator(".oxphos-3d-layout-direct").filter({ hasText: "Layout" })
       .click();
     await p.waitForFunction(
       () =>
