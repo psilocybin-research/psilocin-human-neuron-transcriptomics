@@ -12,6 +12,7 @@ import {
 } from "./interface-utils.js";
 import { createRProgress } from "./r-progress.js";
 import { rExamples } from "./r-examples.js";
+import { createRNotebooks } from "./r-notebooks.js";
 import { createRRuntime } from "./r-runtime.js";
 import { csvText } from "./format.js";
 import { downloadFile } from "./file-download.js";
@@ -28,7 +29,15 @@ let savedCode;
 try {
   savedCode = localStorage.getItem(savedKey);
 } catch {}
-export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
+export function createCustomR({
+  data,
+  getGenes,
+  provenance,
+  root,
+  bayesian,
+  getSelection,
+  onResults,
+}) {
   const host = el("section", "custom-r-workspace");
   const intro = el(
     "p",
@@ -72,6 +81,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     const replace = () => {
       code.value = rExamples.find((x) => x.id === selector.value).code;
       persist();
+      notebooks.save();
     };
     if (code.value.trim())
       root.f7.dialog.confirm(
@@ -100,10 +110,16 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       cssClass: "research-message-dialog",
       content: `<p>The limit applies to script execution, excluding runtime setup.</p><div class="list"><ul>${[5, 10, 30, 60].map((minutes) => `<li><label class="item-radio item-content"><input type="radio" name="r-execution-limit" value="${minutes}" ${Number(timeLimit.value) === minutes ? "checked" : ""}><i class="icon icon-radio"></i><div class="item-inner"><div class="item-title">${minutes} minutes</div></div></label></li>`).join("")}</ul></div>`,
       destroyOnClose: true,
-      buttons: [{ text: "Done", bold: true, onClick() {
-        timeLimit.value = dialog.el.querySelector("input:checked").value;
-        writePreference("atlas-r-execution-minutes", timeLimit.value);
-      } }],
+      buttons: [
+        {
+          text: "Done",
+          bold: true,
+          onClick() {
+            timeLimit.value = dialog.el.querySelector("input:checked").value;
+            writePreference("atlas-r-execution-minutes", timeLimit.value);
+          },
+        },
+      ],
     });
     dialog.open();
   });
@@ -184,6 +200,13 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   credits.href = new URL("webr/PROVENANCE.json", document.baseURI).href;
   credits.target = "_blank";
   credits.rel = "noopener";
+  const inspector = el("details", "research-studio-inspector");
+  const inspectorText = el("pre", "custom-r-console");
+  inspector.append(
+    el("summary", "", "R object inspector · last completed cell"),
+    inspectorText,
+  );
+  inspector.hidden = true;
   const resultArea = el("section", "custom-r-output-area");
   const placeholder = el(
     "p",
@@ -197,9 +220,72 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   tableSection.hidden = true;
   tableSection.append(el("h3", "", "Results table"), tableHost);
   resultArea.append(placeholder, plotSection, tableSection);
+  const notebooks = createRNotebooks({
+    editor: code,
+    action,
+    root,
+    initialCode: code.value,
+    getSources: () => ({
+      archive_doi: "10.5281/zenodo.23283595",
+      freeze: provenance.freeze,
+      bayesian_sources: bayesian.source_sha256,
+    }),
+    onStatus: (message) => showToast(message),
+    onCellChange: (cell) => {
+      label.hidden = cell?.kind !== "code";
+      run.disabled = cell?.kind !== "code";
+      const previous = cell?.runs?.at(-1);
+      releasePlotURLs();
+      plots.replaceChildren();
+      tableHost.replaceChildren();
+      output.textContent =
+        previous?.console ||
+        previous?.message ||
+        "Console output will appear here.";
+      resultsCSV = previous?.results_csv || "";
+      record = previous;
+      inspectorText.textContent = previous?.object_summary || "";
+      inspector.hidden = !previous?.object_summary;
+      vectorPlots = [];
+      if (resultsCSV) renderTable();
+      for (const [index, svg] of (previous?.vector_svgs || []).entries()) {
+        if (
+          typeof svg !== "string" ||
+          (!svg.trimStart().startsWith("<?xml") &&
+            !svg.trimStart().startsWith("<svg"))
+        )
+          continue;
+        const image = el("img");
+        const url = URL.createObjectURL(
+          new Blob([svg], { type: "image/svg+xml" }),
+        );
+        plotURLs.push(url);
+        image.src = url;
+        image.alt = `Saved exploratory R plot ${index + 1}`;
+        plots.append(image);
+      }
+      plotSection.hidden = !plots.childElementCount;
+      tableSection.hidden = !resultsCSV;
+      placeholder.hidden = Boolean(plots.childElementCount || resultsCSV);
+      csv.disabled = !resultsCSV;
+      session.disabled = !previous;
+      reports.setReady(false);
+      host.dispatchEvent(new CustomEvent("atlas:r-start", { bubbles: true }));
+      if (previous?.results_csv) host.dispatchEvent(new CustomEvent("atlas:r-results", {
+        bubbles: true, detail: { classification: "user-exploratory", record: previous, resultsCSV: previous.results_csv, recovered: true },
+      }));
+    },
+  });
+  if (getSelection)
+    toolbar.append(
+      action("Use atlas selection", "plus", () =>
+        notebooks.appendSelection(getSelection()),
+      ),
+    );
   host.append(
     intro,
     warning,
+    notebooks.element,
     toolbar,
     progress.panel,
     label,
@@ -208,6 +294,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
     el("h3", "", "Console"),
     output,
     resultArea,
+    inspector,
     exports,
     reports.element,
     credits,
@@ -289,7 +376,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   });
   function controls(value) {
     busy = value;
-    run.disabled = value;
+    notebooks.setBusy(value);
+    run.disabled = value || notebooks.current()?.kind !== "code";
     load.disabled = value;
     timeLimit.disabled = value;
     limitField.disabled = value;
@@ -311,6 +399,10 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
   }
   async function execute() {
     if (busy) return;
+    host.dispatchEvent(new CustomEvent("atlas:r-start", { bubbles: true }));
+    if (notebooks.current()?.kind !== "code")
+      return showToast("Select an R code cell to run.");
+    const executingCell = notebooks.current().id;
     if (root.dataset.reportBusy === "true")
       return showToast("Finish or cancel report preparation first.");
     if (!code.value.trim() || code.value.length > 65536) {
@@ -545,6 +637,9 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
         inputs: hashes,
         plan: provenance.freeze,
         bayesian_sources: bayesian.source_sha256,
+        object_summary: await runtime.evalRString(
+          'local({ .names <- head(ls(envir=.GlobalEnv), 100); paste(vapply(.names, function(.name) { .value <- get(.name, envir=.GlobalEnv); paste(.name, paste(class(.value), collapse="/"), paste0("length=", length(.value)), paste0("bytes=", as.numeric(object.size(.value))), sep=" | ") }, character(1)), collapse="\\n") })',
+        ),
         session_info: await runtime.evalRString(
           'paste(capture.output(sessionInfo()),collapse="\\n")',
         ),
@@ -555,6 +650,8 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           "Recorded display lists replayed to SVG and vector PDF without re-executing user code; any raster content remains raster.",
         error: captured.output.some((x) => x.type === "error"),
       };
+      inspectorText.textContent = record.object_summary || "";
+      inspector.hidden = !record.object_summary;
       renderTable();
       plotSection.hidden = !plots.childElementCount;
       tableSection.hidden = !resultsCSV;
@@ -569,6 +666,37 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           : `Analysis complete.${captured.images.length > 4 ? " First four plots retained." : ""}`,
         record.error,
       );
+      const finishedEpoch = epoch;
+      await notebooks.recordRun({
+        ...record,
+        results_csv: resultsCSV,
+        vector_svgs: vectorPlots
+          .slice(0, 4)
+          .map((plot) =>
+            typeof plot.svg === "string"
+              ? plot.svg
+              : new TextDecoder().decode(plot.svg),
+          ),
+      });
+      if (epoch !== finishedEpoch || notebooks.current()?.id !== executingCell) return;
+      const exploratoryResult = {
+        classification: "user-exploratory",
+        record,
+        resultsCSV,
+      };
+      host.dispatchEvent(
+        new CustomEvent("atlas:r-results", {
+          bubbles: true,
+          detail: exploratoryResult,
+        }),
+      );
+      try {
+        onResults?.(exploratoryResult);
+      } catch (error) {
+        progress.note(
+          `Linked visualization could not receive the result: ${error.message}`,
+        );
+      }
       showToast(record.error ? "Check the R console." : "R analysis complete.");
     } catch (error) {
       if (ticket === epoch) {
@@ -584,6 +712,7 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
           message: error.message,
         };
         session.disabled = false;
+        await notebooks.recordRun(record);
         terminate(
           "R could not finish. Check the console, connection or offline download and retry.",
           true,
@@ -591,8 +720,12 @@ export function createCustomR({ data, getGenes, provenance, root, bayesian }) {
       }
     }
   }
+  host.setResearchSelection = (selection) =>
+    notebooks.appendSelection(selection);
+  host.updateContext = host.setResearchSelection;
   host.destroy = () => {
     persist();
+    notebooks.destroy();
     terminate("R session closed.");
     progress.destroy();
     code.destroy();

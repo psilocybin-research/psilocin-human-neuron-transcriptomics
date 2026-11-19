@@ -1,3 +1,4 @@
+import { createMethodComparison } from "./method-comparison.js";
 import { crossDayRows } from "./network-statistics.js";
 import data from "../assets/vendor/oxphos-research-data.js";
 import {
@@ -76,6 +77,7 @@ export function researchPanel(
     onHover = () => {},
     onSceneModel,
     onSceneHighlight,
+    contrast = "day1_vs_control",
   } = {},
 ) {
   const root = el("section", "oxphos-research-panel");
@@ -110,7 +112,8 @@ export function researchPanel(
     tooltip = undefined;
     comparisonMarks.clear();
   };
-  root.dispose = clearTooltip;
+  let methodView;
+  root.dispose = () => { clearTooltip(); methodView?.dispose?.(); };
   root.highlightGene = (id) => {
     for (const mark of body.querySelectorAll("[data-comparison-gene]")) {
       const hover = mark.dataset.comparisonGene === id;
@@ -145,6 +148,7 @@ export function researchPanel(
   async function show(key) {
     if (active === key) return;
     clearTooltip();
+    methodView?.dispose?.();
     active = key;
     onTab(key);
     const current = ++version;
@@ -428,170 +432,11 @@ export function researchPanel(
     body.append(details.element);
   }
   function methods() {
-    body.append(
-      el("h4", "", "OXPHOS pathway sensitivity"),
-      el(
-        "p",
-        "callout",
-        "Pathway-level context: 182 mapped OXPHOS genes. The 113 network genes are a selected leading-edge union. None of the following pathway statistics is a confidence score for this selected gene.",
-      ),
-    );
-    const enrichment = createAccordion(
-      "Ranked enrichment and archived design sensitivities",
-      "network-enrichment",
-    );
-    enrichment.body.append(
-      el(
-        "p",
-        "note",
-        "Archived ranked enrichment. Family FDR is retained per documented analysis family; sensitivity rows are not independent replications.",
-      ),
-      table(
-        ["Contrast", "Variant / ranking", "Genes", "NES", "Family FDR"],
-        data.enrichment.map((r) => [
-          contrasts[r.contrast] || r.contrast,
-          `${r.variant} / ${r.rank_kind}`,
-          r.size,
-          r.NES,
-          r.family_fdr,
-        ]),
-      ),
-    );
-    body.append(enrichment.element);
-    const camera = createAccordion(
-      "CAMERA: estimated versus fixed gene correlation",
-      "network-camera",
-    );
-    camera.body.append(
-      el(
-        "p",
-        "note",
-        "Correlation-adjusted competitive tests. Estimated inter-gene correlation weakens the OXPHOS result; fixed correlation 0.01 gives a different answer. Show both. FDR below is the archived 15-test family correction, not the separate within-contrast correction.",
-      ),
-      table(
-        ["Contrast", "Mode", "Correlation", "VIF", "Family FDR"],
-        data.camera.map((r) => [
-          contrasts[r.contrast] || r.contrast,
-          r.mode,
-          r.Correlation,
-          r.variance_inflation_factor,
-          r.family_fdr,
-        ]),
-      ),
-    );
-    body.append(camera.element);
-    const bayes = createAccordion(
-      "Bayesian priors and likelihood sensitivity",
-      "network-bayesian",
-    );
-    bayes.body.append(
-      el(
-        "p",
-        "note",
-        "All archived prior/likelihood settings, fitted to paired block-level scores from 182 mapped genes (three blocks). Credible intervals describe the pathway-score model, not gene log₂ fold changes. Day 1 uncertainty is prior-sensitive; all Day 3 intervals include zero.",
-      ),
-    );
-    const rows = data.bayesian.archived.filter((r) =>
-      [
-        "mu_day1_vs_control",
-        "mu_day3_vs_control",
-        "treated_day_difference",
-      ].includes(r.parameter),
-    );
-    const params = {
-      mu_day1_vs_control: "Day 1 / control",
-      mu_day3_vs_control: "Day 3 / control",
-      treated_day_difference: "Treated day difference",
-    };
-    const fits = [...new Set(rows.map((r) => r.fit))],
-      choice = el("select");
-    choice.setAttribute("aria-label", "Bayesian prior and likelihood");
-    fits.forEach((f) => {
-      const o = el("option", "", f.replaceAll("_", " "));
-      o.value = f;
-      choice.append(o);
+    methodView = createMethodComparison({
+      data: { pathways: data.enrichment.filter(r => r.variant === "primary"), sensitivities: data.enrichment },
+      pathway: "HALLMARK_OXIDATIVE_PHOSPHORYLATION", contrast,
     });
-    const chart = el("div");
-    const render = () => {
-      const values = rows
-        .filter((r) => r.fit === choice.value)
-        .map((r) => ({
-          ...r,
-          parameter: params[r.parameter],
-          mean: +r.mean,
-          lower95: +r.lower95,
-          upper95: +r.upper95,
-        }));
-      chart.replaceChildren(
-        scientificPlot({
-          title:
-            "Pathway score: archived posterior mean and 95% credible interval",
-          width: 410,
-          height: 225,
-          marginLeft: 22,
-          marginRight: 22,
-          x: { label: "Paired OXPHOS score difference", grid: true },
-          y: { axis: null },
-          marks: [
-            Plot.ruleX([0], { stroke: "#83969e", strokeDasharray: "4,3" }),
-            Plot.ruleY(values, {
-              x1: "lower95",
-              x2: "upper95",
-              y: "parameter",
-              stroke: "#235780",
-              strokeWidth: 2,
-            }),
-            Plot.dot(values, {
-              x: "mean",
-              y: "parameter",
-              fill: "#235780",
-              r: 4,
-            }),
-            Plot.text(values, {
-              x: 0,
-              y: "parameter",
-              text: "parameter",
-              dy: -19,
-              fontSize: 11,
-            }),
-          ],
-        }),
-      );
-    };
-    choice.onchange = render;
-    bayes.body.append(choice, chart);
-    render();
-    bayes.body.append(
-      table(
-        ["Fit", "Parameter", "Mean", "95% credible interval", "Pr(>0)"],
-        rows.map((r) => [
-          r.fit,
-          params[r.parameter],
-          r.mean,
-          `${r.lower95} to ${r.upper95}`,
-          r.probability_gt_zero,
-        ]),
-      ),
-    );
-    body.append(bayes.element);
-    body.append(
-      action("Download sensitivity provenance JSON", () =>
-        downloadFile(
-          "oxphos-linked-sensitivity.json",
-          JSON.stringify(
-            {
-              gene: gene.id,
-              scope: "Pathway context, not gene-level inference",
-              ...data,
-              profiles: undefined,
-            },
-            null,
-            2,
-          ),
-          "application/json",
-        ),
-      ),
-    );
+    body.append(el("p", "note", "Pathway context, not a confidence score for the selected gene."), methodView);
   }
   show(initialTab);
   return root;

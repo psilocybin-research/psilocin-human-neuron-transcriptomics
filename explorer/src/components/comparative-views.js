@@ -147,6 +147,32 @@ export function createComparativeViews({
     ),
     context.element,
   );
+  const figureBuilder = createAccordion(
+    "Create a research figure",
+    "research-figure-accordion",
+  );
+  root.append(figureBuilder.element);
+  let figureBuilderElement, figureBuilderLoading = false, disposed = false;
+  const figureBuilderItem = figureBuilder.element.querySelector(".accordion-item");
+  figureBuilderItem.addEventListener("accordion:open", async (event) => {
+    if (event.target !== figureBuilderItem || figureBuilderElement || figureBuilderLoading || disposed) return;
+    figureBuilderLoading = true;
+    figureBuilder.body.replaceChildren(loadingMessage("Preparing figure controls…"));
+    try {
+      const { createResearchFigureBuilder } = await import("./research-figure-builder.js");
+      if (disposed || !root.isConnected) return;
+      figureBuilderElement = createResearchFigureBuilder({ data, provenance, getGenes });
+      figureBuilder.body.replaceChildren(figureBuilderElement);
+    } catch {
+      if (!disposed) figureBuilder.body.replaceChildren(note("Figure controls could not be loaded. Close and reopen this section to retry."));
+    } finally {
+      figureBuilderLoading = false;
+    }
+  });
+  root.dispose = () => {
+    disposed = true;
+    figureBuilderElement?.dispose();
+  };
   let genes,
     cohort = [],
     points = [],

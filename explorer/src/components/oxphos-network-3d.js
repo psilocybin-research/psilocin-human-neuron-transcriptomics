@@ -26,11 +26,11 @@ const hoverNumber = (value, probability = false) =>
         : value.toFixed(3);
 const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
-export function createOxphosNetwork({ onEvidence, initialGene }) {
+export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
   root.setAttribute("aria-label", "3D OXPHOS gene–pathway membership");
   const genes = snapshot.nodes.filter((n) => n.type === "gene");
-  let day = 0,
+  let day = initialContrast === "day3_vs_control" ? 1 : 0,
     filter = "all",
     uncertainty = "all",
     researchTab = "evidence",
@@ -81,6 +81,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const b = button(`Day ${i === 0 ? 1 : 3}`, () => {
       if (day === i) return;
       day = i;
+      onSelection({ contrast: day === 0 ? "day1_vs_control" : "day3_vs_control" });
       refresh();
       showToast(`Showing Day ${i === 0 ? 1 : 3} / common control.`, { container: root });
     });
@@ -456,6 +457,8 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     button("Filters", () => openDrawer("filters"), "controls"),
     button("About & data", () => openDrawer("about"), "information"),
   );
+  const sendGeneToR = onResearch ? button("Send gene to R", () => { if (selected) onResearch(selected); }, "custom-r") : null;
+  if (sendGeneToR) evidenceTools.append(sendGeneToR);
   evidenceTools.append(
     button(
       "Statistical comparison",
@@ -499,87 +502,98 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   dock.prepend(legendCompact, significanceKey);
   viewer.append(topbar, dock);
 
-  // On phones one F7 side panel owns the controls and the network's detail views.
+  // The mobile inspector takes layout space; it never covers the scientific canvas.
   const mobileControls = matchMedia("(max-width: 767px)");
-  const mobilePanel = el("aside", "panel panel-right panel-cover oxphos-mobile-panel");
+  const mobilePanel = el("aside", "oxphos-mobile-inspector");
   mobilePanel.id = "oxphos-mobile-controls";
+  mobilePanel.hidden = true;
   mobilePanel.setAttribute("aria-label", "Network controls");
   const mobileHeader = el("header", "oxphos-mobile-header");
-  const mobileBack = button("Back", () => showMobileMode("controls"), "back");
   const mobileTitle = el("h2", "", "Network controls");
-  const mobileDone = button("Close", () => closeMobileControls(), "close");
-  mobileHeader.append(mobileBack, mobileTitle, mobileDone);
-  const mobileScroll = el("div", "oxphos-mobile-scroll");
-  const mobileMain = el("div", "oxphos-mobile-main");
-  const mobileDetail = el("div", "oxphos-mobile-detail");
-  mobileDetail.hidden = true;
-  mobileScroll.append(mobileMain, mobileDetail);
+  const mobileDone = button("Close controls", () => closeMobileControls(), "close");
+  mobileHeader.append(mobileTitle, mobileDone);
+  const mobileScroll = el("div", "oxphos-mobile-inspector-scroll");
+  mobileScroll.tabIndex = -1;
   mobilePanel.append(mobileHeader, mobileScroll);
-  const mobileFab = el("div", "fab fab-right-bottom oxphos-mobile-fab");
-  const mobileFabButton = el("a", "external");
-  mobileFabButton.setAttribute("role", "button");
-  mobileFabButton.setAttribute("aria-label", "Open network controls");
-  mobileFabButton.setAttribute("aria-haspopup", "dialog");
-  mobileFabButton.setAttribute("aria-controls", mobilePanel.id);
-  mobileFabButton.setAttribute("aria-expanded", "false");
-  mobileFabButton.tabIndex = 0;
-  mobileFabButton.title = "Network controls";
-  mobileFabButton.append(uiIcon("controls"));
-  mobileFab.append(mobileFabButton);
-  root.append(mobilePanel, mobileFab);
-  let mobilePanelInstance, mobileMode = "controls";
+  const mobileToolbar = el("nav", "toolbar tabbar oxphos-mobile-toolbar");
+  mobileToolbar.setAttribute("aria-label", "3D research tools");
+  const mobileToolbarInner = el("div", "toolbar-inner");
+  mobileToolbar.append(mobileToolbarInner);
+  const mobileButtons = new Map();
+  const mobileMain = el("div", "oxphos-mobile-view-controls");
+  let mobileMode = "";
   const mobileSections = {
+    controls: () => [mobileMain],
     search: () => [listRegion],
     gene: () => [selectedPanel],
     filters: () => [controls],
     about: () => [heading, qualification, legend, gesture, exports, provenance.element],
   };
-  function showMobileMode(kind) {
-    for (const child of [...mobileDetail.children]) panels.append(child);
+  for (const [kind, text, icon] of [
+    ["controls", "View", "overview"], ["search", "Find", "search"],
+    ["filters", "Filter", "controls"], ["gene", "Evidence", "genes"],
+    ["about", "Data", "information"],
+  ]) {
+    const b = button(text, () => {
+      if (mobileMode === kind && !mobilePanel.hidden) closeMobileControls();
+      else openMobileControls(kind);
+    }, icon);
+    b.classList.add("tab-link", "f7-press");
+    b.setAttribute("aria-controls", mobilePanel.id);
+    b.setAttribute("aria-expanded", "false");
+    mobileButtons.set(kind, b); mobileToolbarInner.append(b);
+  }
+  root.append(mobilePanel, mobileToolbar);
+  function updateMobileButtons() {
+    for (const [kind, b] of mobileButtons) {
+      const active = !mobilePanel.hidden && mobileMode === kind;
+      b.classList.toggle("tab-link-active", active);
+      b.setAttribute("aria-expanded", String(active));
+    }
+  }
+  function closeMobileControls() {
+    mobilePanel.hidden = true;
+    root.dataset.mobileInspector = "closed";
+    const previous = mobileMode;
+    mobileMode = "";
+    updateMobileButtons();
+    if (mobilePanel.contains(document.activeElement)) mobileButtons.get(previous)?.focus({ preventScroll: true });
+  }
+  function openMobileControls(kind = "controls") {
+    if (!mobileSections[kind]) return;
+    for (const child of [...mobileScroll.children]) {
+      if (child !== mobileMain) panels.append(child);
+      else child.remove();
+    }
     mobileMode = kind;
-    mobileMain.hidden = kind !== "controls";
-    mobileDetail.hidden = kind === "controls";
-    mobileBack.hidden = kind === "controls";
     mobileTitle.textContent = {
-      controls: "Network controls", search: "Find a gene", gene: "Linked gene evidence",
+      controls: "View controls", search: "Find a gene", gene: "Linked gene evidence",
       filters: "Network filters", about: "Membership & data",
     }[kind];
     mobilePanel.setAttribute("aria-label", mobileTitle.textContent);
-    if (kind !== "controls") mobileDetail.append(...mobileSections[kind]());
+    mobileScroll.append(...mobileSections[kind]());
     mobileScroll.scrollTop = 0;
+    mobilePanel.hidden = false;
+    root.dataset.mobileInspector = "open";
+    updateMobileButtons();
+    // Explicit tool selection retains keyboard access; node taps do not summon a keyboard.
+    if (kind === "search") search.focus({ preventScroll: true });
   }
-  function closeMobileControls(animate = true) {
-    if (mobilePanelInstance?.opened) mobilePanelInstance.close(animate && !matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function mobileEscape(event) {
+    if (event.key === "Escape" && !mobilePanel.hidden) {
+      closeMobileControls(); event.stopPropagation();
+    }
   }
-  function openMobileControls(kind = "controls") {
-    const app = document.querySelector("#psilocin-app")?.f7;
-    if (!app) return;
-    showMobileMode(kind);
-    mobilePanelInstance ||= app.panel.create({
-      el: mobilePanel, containerEl: root, side: "right", effect: "cover", backdrop: true,
-      on: {
-        open: () => mobileFabButton.setAttribute("aria-expanded", "true"),
-        closed: () => { mobileFabButton.setAttribute("aria-expanded", "false"); showMobileMode("controls"); },
-      },
-    });
-    if (!mobilePanelInstance.opened) mobilePanelInstance.open(!matchMedia("(prefers-reduced-motion: reduce)").matches);
-    if (kind === "search") setTimeout(() => { if (mobilePanelInstance?.opened && mobileMode === "search") search.focus(); }, 250);
-  }
-  mobileFabButton.onclick = (event) => {
-    event.preventDefault();
-    event.preventF7Router = true;
-    if (graph) openMobileControls();
-  };
-  mobileFabButton.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") { event.preventDefault(); mobileFabButton.click(); }
-  });
+  mobilePanel.addEventListener("keydown", mobileEscape);
   function syncMobileControls() {
+    closeMobileControls();
     if (mobileControls.matches) {
-      mobileMain.append(identity, status, days, displayControls, cameraTools, evidenceTools, dock, proteinTools);
+      mobileMain.append(displayControls, cameraTools, evidenceTools, proteinTools);
+      topbar.append(identity, days, status, legendCompact);
+      panels.append(dock);
     } else {
-      closeMobileControls(false);
-      showMobileMode("controls");
       topbar.append(identity, days, displayControls, status);
+      dock.prepend(legendCompact);
       viewer.insertBefore(cameraTools, evidenceTools);
       viewer.append(dock, proteinTools);
     }
@@ -721,6 +735,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const selectionChanged = selected !== n.id;
     if (selectionChanged) nodeProtein?.clear();
     selected = n.id;
+    onSelection({ gene: n.id, contrast: day === 0 ? "day1_vs_control" : "day3_vs_control" });
     selectedSummary.setAttribute("aria-label", `${n.symbol} · exact values`);
     selectedSummary.querySelector("span").textContent =
       n.symbol + " · exact values";
@@ -763,9 +778,18 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     });
     nodeProtein.show(gene);
   }
+  root.setResearchSelection = selection => {
+    if (!graph || destroyed) return;
+    if (["day1_vs_control", "day3_vs_control"].includes(selection.contrast))
+      day = selection.contrast === "day3_vs_control" ? 1 : 0;
+    const gene = genes.find(n => n.id === selection.gene || n.symbol === selection.gene);
+    if (gene && gene.id !== selected) choose(gene, true, false);
+    refresh();
+  };
   function renderSelected() {
+    if (sendGeneToR) sendGeneToR.disabled = !selected;
     const scrollHost = selectedPanel.closest(
-      ".oxphos-3d-evidence-body,.oxphos-3d-drawer-body",
+      ".oxphos-3d-evidence-body,.oxphos-3d-drawer-body,.oxphos-mobile-inspector-scroll",
     );
     const scrollPosition = scrollHost?.scrollTop || 0;
     activeResearchPanel?.dispose?.();
@@ -796,6 +820,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       .then(({ researchPanel }) => {
         if (selected === n.id && linked.isConnected) {
           activeResearchPanel = researchPanel(n, {
+            contrast: day === 0 ? "day1_vs_control" : "day3_vs_control",
             genes: genes.filter(visible),
             total: genes.length,
             filterLabel: uncertaintyLabels[uncertainty],
@@ -1252,7 +1277,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     closeDrawer();
     closeMobileControls(false);
     mobileControls.removeEventListener("change", syncMobileControls);
-    mobilePanelInstance?.destroy();
+    mobilePanel.removeEventListener("keydown", mobileEscape);
     bloom?.dispose();
     detachObserver?.disconnect();
     document.removeEventListener("visibilitychange", visibility);
@@ -1473,9 +1498,20 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           "The 3D graphics context was lost. Gene search, exact values and exports remain available; reopen this view to retry.";
       });
       root.dataset.rendererReady = "true";
+      const defaultFov = graph.camera().fov;
+      let previousAspect = leftStage.clientHeight / leftStage.clientWidth;
       resize = new ResizeObserver(() => {
         if (leftStage.clientWidth && leftStage.clientHeight) {
+          const aspect = leftStage.clientHeight / leftStage.clientWidth;
+          const camera = graph.camera();
+          // Preserve horizontal framing when the inspector changes canvas height.
+          // Selection stays in view without interrupting camera easing or rotation.
+          camera.fov = mobileControls.matches
+            ? (360 / Math.PI) * Math.atan(Math.tan(camera.fov * Math.PI / 360) * aspect / previousAspect)
+            : defaultFov;
+          previousAspect = aspect;
           graph.width(leftStage.clientWidth).height(leftStage.clientHeight);
+          camera.updateProjectionMatrix();
         }
       });
       resize.observe(stage);

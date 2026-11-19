@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1305,
-  "total_bytes": 686753032,
+  "file_count": 1324,
+  "total_bytes": 686881515,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 262346,
-      "sha256": "805bb7b75e9cbecec48e8094c2db2e1e30c70f047efd11c4068c7100855b1443"
+      "bytes": 264941,
+      "sha256": "28220161447802887b61bf762fed3cab49a69581f48fb454cecf09a929116088"
     },
     {
       "path": "LICENSE.md",
@@ -339,8 +339,8 @@
     },
     {
       "path": "explorer/scripts/prepare-network-3d.mjs",
-      "bytes": 3515,
-      "sha256": "6eed51719ad12ee21fb59795a4cdf222068df32015c4b179ee23995679304088"
+      "bytes": 4267,
+      "sha256": "387f8327402d85e42c3ece3ad5519c60626520781a13b09b40a591c95c2ddbb0"
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 159200,
-      "sha256": "d1bb143a9675ac24e6b573d079046a46cc4c444f25397bb6347aa9e094b86dca"
+      "bytes": 162634,
+      "sha256": "0fc0f505b0922070cd1bf39d349214a113e865bbcdb9792670fc23b4281c4c1f"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3389,8 +3389,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 111375,
-      "sha256": "c8b144706859498d676759d5402a22715c8545e59044173d63669fde0326bdfa"
+      "bytes": 120382,
+      "sha256": "31ac80a44dbec5ac0add136b342f7fdf1437c157a8d9393fe56c247eba4c16ae"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3399,8 +3399,8 @@
     },
     {
       "path": "explorer/src/components/comparative-views.js",
-      "bytes": 60005,
-      "sha256": "696f2d8b8b16f6a8ff47ec30816b9e87579ec8df4a657a111a13608d2410acc5"
+      "bytes": 61235,
+      "sha256": "e9c0ea265fa6d73b206bc815acb6e8ea112751641f0e98eeb722f00fbfe5c0a9"
     },
     {
       "path": "explorer/src/components/comparison-data.js",
@@ -3409,13 +3409,23 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 20926,
-      "sha256": "f98f95b038baa7746084ad4f09c0b8f769a2188589fb128ed60dd9d8637c6ace"
+      "bytes": 25572,
+      "sha256": "d5f9c858eb625a6672c8bf10b0faeaab62acb46c3ac502f8fdcae879abcb30d9"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
       "bytes": 2521,
       "sha256": "5e83da22616d41e360d34ad2c7e21df7d3652523349b18630db2d4a819a68c47"
+    },
+    {
+      "path": "explorer/src/components/exploratory-result-chart.js",
+      "bytes": 5448,
+      "sha256": "f2e3e8abe46d95e4984fd6ccdb5ed9c43ba2ca310945f2902ec64296ac15e656"
+    },
+    {
+      "path": "explorer/src/components/exploratory-result-data.js",
+      "bytes": 4024,
+      "sha256": "eb8947baac49ffeea47c137dc679f225f5e6485f12d971cc7922ae5d2d6f1164"
     },
     {
       "path": "explorer/src/components/expression-comparisons.js",
@@ -3498,6 +3508,16 @@
       "sha256": "6713d803eb7ce97f33cd64c39b350526c6a3af97eb0ddbac78abe5783b1a1ca5"
     },
     {
+      "path": "explorer/src/components/method-comparison-data.js",
+      "bytes": 863,
+      "sha256": "ec2112d9ddacc3ed95bc30d8b72ffeaf7ab422ac87ea6d9769430647256bbd6b"
+    },
+    {
+      "path": "explorer/src/components/method-comparison.js",
+      "bytes": 13905,
+      "sha256": "bc883983d139954fdd09eaf63b6476a8921710709caddf5dc1cdfef54ad481c6"
+    },
+    {
       "path": "explorer/src/components/molecular-viewer.js",
       "bytes": 7306,
       "sha256": "1cf55c93d5465dbf903b8574d4b7ce9073af0c2b7d6158ce5cf8a174d18e5a81"
@@ -3514,8 +3534,8 @@
     },
     {
       "path": "explorer/src/components/network-node-protein.js",
-      "bytes": 19077,
-      "sha256": "91638d113b17d0ad7151f0b7d1546654aeb869fbc5da044cb8aa6755b21971cc"
+      "bytes": 19131,
+      "sha256": "ac585b5547427e2d9b8ba5cd3fa96378acb2348080a29e531cf1c56536bd0d22"
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
@@ -3529,8 +3549,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 60350,
-      "sha256": "0b149610649b2017641ab474133afc2a2da3998edfdb86694c38b248e5c59050"
+      "bytes": 61962,
+      "sha256": "b840dfcdf85ba825cf8216d4b5f84913cc7593e1b39b4cf311275076d6c63d15"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3539,8 +3559,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 19374,
-      "sha256": "4bbfc5adce3728f3d4c1e7f2046624f8423f423d686add385865b5a203ca593a"
+      "bytes": 14745,
+      "sha256": "56eb47c84847bd9e7e7425318d85f56064589000f45b82cf92f15e978bb5ad23"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3583,9 +3603,19 @@
       "sha256": "b9eeb2c7e5f82351ed200c72e108b07ee86bfa329a1d454048c56afb8591fb69"
     },
     {
+      "path": "explorer/src/components/r-notebooks.js",
+      "bytes": 19965,
+      "sha256": "181dbba7c1773dfbbb41ea066f44acf950079383d6d98c8ce05bb09e1c2251ee"
+    },
+    {
       "path": "explorer/src/components/r-progress.js",
       "bytes": 5963,
       "sha256": "373e4ef737f6ac16ae7ef7219d32ab935499ace61193a76fde652a4908b68adb"
+    },
+    {
+      "path": "explorer/src/components/r-recipe-builder.js",
+      "bytes": 5380,
+      "sha256": "47435d6c58ed7dcc61e940503e43631589e63cb64dfd4d68daf7a4f733f2c66f"
     },
     {
       "path": "explorer/src/components/r-report.js",
@@ -3603,9 +3633,34 @@
       "sha256": "a92f0ddd3ca2ee61cce65ad1942b07496ac16b445e8dd217099ad2f972f828f0"
     },
     {
+      "path": "explorer/src/components/research-collection-data.js",
+      "bytes": 4833,
+      "sha256": "84774abbeec7174407d3356838b828dd16ce4eb80cde4bd285c888093a9cb96a"
+    },
+    {
+      "path": "explorer/src/components/research-collections.js",
+      "bytes": 7466,
+      "sha256": "b5c3d8f3ccbb4559994afc767ec5d837fcafe85c0de6d5cce0382dffcc71fd78"
+    },
+    {
+      "path": "explorer/src/components/research-figure-builder.js",
+      "bytes": 10560,
+      "sha256": "1bdc745a5f042f30cb7495704c90cac10b24cd83fce9a88eb7d38be7a34ad538"
+    },
+    {
+      "path": "explorer/src/components/research-figure-data.js",
+      "bytes": 3311,
+      "sha256": "9e6fbb8a53502afb842f07a2de7b7bde9c973b15b95647ac1898bf78e9269025"
+    },
+    {
       "path": "explorer/src/components/research-navigation.js",
       "bytes": 3153,
       "sha256": "0b79562aa1d08127c3a69765312e63827d0c3a921d105abf9758fb16dab5da23"
+    },
+    {
+      "path": "explorer/src/components/research-store.js",
+      "bytes": 6165,
+      "sha256": "d310a3256e7ee868d47b8bace80fcb1a474504669b024898e7a68f36dc8a2757"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -3733,6 +3788,11 @@
       "sha256": "4c735a9403cbe8ce9255e471e4aff77c5e40360bca3a33c4552510659167a712"
     },
     {
+      "path": "explorer/test/exploratory-result-data.test.js",
+      "bytes": 2521,
+      "sha256": "baf409268d2a880a3bf904ebedfca8137fa68e18f5ed2b86a0fef5016426a5a6"
+    },
+    {
       "path": "explorer/test/figure-controls-browser-check.mjs",
       "bytes": 7073,
       "sha256": "0f3bad3f0cb2eba39db878bb2b2247cda1e20333c046b58b4c5b209cce5f0703"
@@ -3771,6 +3831,11 @@
       "path": "explorer/test/metadata.test.js",
       "bytes": 3788,
       "sha256": "6cc45599009595712b2d4450227cc217d3a36e1a6b3d27c513ffd150bb234b68"
+    },
+    {
+      "path": "explorer/test/method-comparison.test.js",
+      "bytes": 1876,
+      "sha256": "3727cfadfaa789553ba48449d39fdef95dde75485867266fd3a6745550f8973c"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
@@ -3903,6 +3968,16 @@
       "sha256": "9a1e4cee7bc241c944a60821bfcb65e5412c8493849cf149b7624b9c66d6e0cb"
     },
     {
+      "path": "explorer/test/r-notebook-browser-check.mjs",
+      "bytes": 3887,
+      "sha256": "711f7c002b42002ddc65290c2e4219ccb8ce621c3da87a6e751673be59b5caa3"
+    },
+    {
+      "path": "explorer/test/r-notebooks.test.js",
+      "bytes": 3040,
+      "sha256": "9c0e9027accf3794e786921154cc00e7255355fd450e625634ce87185b1e77ec"
+    },
+    {
       "path": "explorer/test/r-report-browser-check.mjs",
       "bytes": 6203,
       "sha256": "a6325ad83b46bac7aff3e6d9734c540dddbd13a2649d8fda22c1af3939f576c6"
@@ -3911,6 +3986,21 @@
       "path": "explorer/test/research-additions-browser-check.mjs",
       "bytes": 7103,
       "sha256": "ec0b678164a62b898c2034750ca2336efe4d42f534a2043d96472623249d3af1"
+    },
+    {
+      "path": "explorer/test/research-collections.test.js",
+      "bytes": 3073,
+      "sha256": "0ab77aacd0dd06850f35e711757d279a0f52e4c480bd3ec7eb644485c42929a3"
+    },
+    {
+      "path": "explorer/test/research-figure-data.test.js",
+      "bytes": 2832,
+      "sha256": "2570202fd73ef2727ad63450c189cef600edf5e6963585697d2b7980e08b6fb8"
+    },
+    {
+      "path": "explorer/test/research-store.test.js",
+      "bytes": 5598,
+      "sha256": "cb0f9490e2953a12fb970fcaf7794e1cabae29b593ec52444c839b3eef498baa"
     },
     {
       "path": "explorer/test/research-tables-browser-check.mjs",
@@ -3931,6 +4021,11 @@
       "path": "explorer/test/smart-select-browser-check.mjs",
       "bytes": 3751,
       "sha256": "5429a70ee165f8fe25a59a9aecdc4ab44ac40d7651f6d88e4b06572c93b3faf4"
+    },
+    {
+      "path": "explorer/test/studio-browser-check.mjs",
+      "bytes": 5035,
+      "sha256": "a523cb0ac9824ad2d2573fbc3ae6cc8d435b171c9cbb84e53666b6a6cbbb72d1"
     },
     {
       "path": "explorer/test/synopsis-data.test.js",

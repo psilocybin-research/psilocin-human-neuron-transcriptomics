@@ -277,7 +277,7 @@ export function createNodeProtein({ api, root, graphs }) {
         height = caption.offsetHeight || 142;
       const obstacles = [
         ...root.querySelectorAll(
-          ".oxphos-3d-topbar,.oxphos-3d-camera,.oxphos-3d-evidence-actions,.oxphos-3d-dock,.oxphos-3d-evidence,.oxphos-mobile-panel",
+          ".oxphos-3d-topbar,.oxphos-3d-camera,.oxphos-3d-evidence-actions,.oxphos-3d-dock,.oxphos-3d-evidence,.oxphos-mobile-inspector,.oxphos-mobile-toolbar",
         ),
       ]
         .filter((element) => !element.hidden && element.getClientRects().length)
@@ -391,7 +391,7 @@ export function createNodeProtein({ api, root, graphs }) {
   listen(document, "pointerdown", (event) => {
     outsidePress =
       !event.target.closest?.(
-        ".oxphos-3d-drawer,.oxphos-3d-evidence,.oxphos-mobile-panel,.dialog,.popover",
+        ".oxphos-3d-drawer,.oxphos-3d-evidence,.oxphos-mobile-inspector,.oxphos-mobile-toolbar,.dialog,.popover",
       ) &&
       !overlay &&
       !caption.hidden &&

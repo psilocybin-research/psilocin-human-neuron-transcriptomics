@@ -103,3 +103,18 @@ await writeFile(
   new URL("oxphos-research-data.js", output),
   `export default ${JSON.stringify(research)};\n`,
 );
+
+// Small independent snapshot for the pathway methods view; no 3D runtime import.
+const sourceFiles = [
+  "explorer/src/data/atlas.json",
+  "explorer/src/data/bayesian.json",
+  "tables/camera_sensitivity/all_tests.csv",
+  "reports/camera_sensitivity_methods.md",
+  "reports/bayesian_oxphos_methods.md",
+  "tables/bayesian_oxphos/posterior_summary.csv",
+];
+const sources = Object.fromEntries(await Promise.all(sourceFiles.map(async (path) => [
+  path, createHash("sha256").update(await readFile(new URL(`../${path}`, root))).digest("hex"),
+])));
+await writeFile(new URL("method-comparison-data.js", output),
+  `export default ${JSON.stringify({ schema: 1, archive: "10.5281/zenodo.23283595", camera: csvParse(cameraSource), bayesian, sources })};\n`);

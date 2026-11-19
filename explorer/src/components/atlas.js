@@ -1,3 +1,4 @@
+import { createResearchStore } from "./research-store.js";
 import { createGenePreview, genePreviewMarkup } from "./structure-preview.js";
 import { createGeneRecords } from "./gene-records.js";
 import { geneAnnotation } from "./gene-annotation.js";
@@ -5,6 +6,7 @@ import {
   createElement as el,
   loadingMessage,
   showResearchEvidence,
+  createAccordion,
 } from "./interface-utils.js";
 import {
   Plot,
@@ -199,6 +201,11 @@ function scaleKey(limit, title) {
 }
 export function createAtlas(data, provenance, loadGenes, branding = {}) {
   let shell;
+  let pendingRSelection;
+  let collectionsView;
+  let comparisonOpen = false;
+  let comparisonSection = "summary";
+  let disposeMethods = () => {};
   const root = el("div", "atlas");
   const reloadFromLocation = () => location.reload();
   addEventListener("hashchange", reloadFromLocation);
@@ -257,6 +264,20 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     if (contrasts[params.get("contrast")]) dnaContrast = params.get("contrast");
     dnaFilter = params.get("annotation") || dnaFilter;
   }
+  const initialResearch = {};
+  for (const key of ["gene", "pathway", "contrast", "view"])
+    if (params.has(key)) initialResearch[key] = params.get(key);
+  const researchStore = createResearchStore({ defaults: { gene: selected, pathway, contrast, view: tab }, initial: initialResearch });
+  const recoveredResearch = researchStore.getState();
+  selected = recoveredResearch.gene || selected;
+  if (data.pathways.some(r => r.pathway === recoveredResearch.pathway)) pathway = recoveredResearch.pathway;
+  if (contrasts[recoveredResearch.contrast]) contrast = recoveredResearch.contrast;
+  if (tabs.some(([id]) => id === recoveredResearch.view)) tab = recoveredResearch.view;
+  let savingSelection = false;
+  const saveSelection = patch => {
+    savingSelection = true;
+    try { researchStore.update(patch); } finally { savingSelection = false; }
+  };
   const treeState = {
     view: ["table", "network"].includes(params.get("display"))
       ? params.get("display")
@@ -324,6 +345,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         : "counts",
   };
   function syncLocation() {
+    if (tab === "pathways" && treeState.gene) selected = treeState.gene;
+    if (tab === "comparison" && comparisonState.active) selected = comparisonState.active;
     const q = new URLSearchParams({ view: tab });
     if (tab === "genes" || tab === "landscape") q.set("gene", selected);
     if (tab === "landscape" && group !== "All functions") q.set("group", group);
@@ -373,6 +396,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       q.set("contrast", dnaContrast);
       if (dnaFilter !== "All genes") q.set("annotation", dnaFilter);
     }
+    saveSelection({ gene: tab === "pathways" ? treeState.gene || selected : tab === "comparison" ? comparisonState.active || selected : selected,
+      pathway, contrast: tab === "comparison" ? comparisonState.contrast : contrast, view: tab });
     history.replaceState(null, "", `#${q}`);
     return location.href;
   }
@@ -691,6 +716,51 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     item.append(uiIcon(id, "tab-icon"), el("span", "", t));
     nav.append(item);
   }
+  function sendSelectionToR(selection = researchStore.getState()) {
+    const current = body.querySelector(".custom-r-workspace");
+    if (tab === "custom-r" && current?.setResearchSelection) current.setResearchSelection(selection);
+    else { pendingRSelection = selection; go("custom-r"); }
+  }
+  const sessionBar = el("section", "research-session-actions");
+  sessionBar.setAttribute("aria-label", "Research selection history");
+  const previousSelection = button("Undo selection", () => researchStore.undo(), "secondary");
+  const nextSelection = button("Redo selection", () => researchStore.redo(), "secondary");
+  const toR = button("Send selection to R", () => sendSelectionToR(), "secondary");
+  const exportSession = button("Export research selections", () => download("research-selections.json", JSON.stringify({
+    ...researchStore.exportSession(), source_sha256: provenance.outputs,
+    scope: "Selection history and collections; R notebooks and run outputs export separately",
+  }, null, 2), "application/json"), "secondary");
+  const collectionHost = el("div", "research-collection-host");
+  const collectionButton = button("Gene collections", async () => {
+    if (collectionsView) { collectionHost.hidden = !collectionHost.hidden; return; }
+    collectionHost.replaceChildren(loadingMessage("Loading gene collection tools…"));
+    try {
+      const { createResearchCollections } = await import("./research-collections.js");
+      collectionsView = createResearchCollections({ store: researchStore, getGenes, aliases: data.aliases,
+        onSelectGene: id => go("genes", id),
+        onSendToR: ids => sendSelectionToR({ ...researchStore.getState(), genes: ids }),
+      });
+      collectionHost.replaceChildren(collectionsView);
+      document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
+    } catch (error) { collectionHost.replaceChildren(note(error.message)); }
+  }, "secondary");
+  sessionBar.append(previousSelection, nextSelection, toR, collectionButton, exportSession, collectionHost);
+  let observedResearch = researchStore.getState();
+  const unsubscribeResearch = researchStore.subscribe(state => {
+    const previous = observedResearch;
+    observedResearch = state;
+    previousSelection.disabled = !researchStore.canUndo();
+    nextSelection.disabled = !researchStore.canRedo();
+    if (savingSelection || !["gene", "pathway", "contrast", "view"].some(key => state[key] !== previous[key])) return;
+    selected = state.gene || selected;
+    pathway = data.pathways.some(r => r.pathway === state.pathway) ? state.pathway : pathway;
+    contrast = contrasts[state.contrast] ? state.contrast : contrast;
+    tab = tabs.some(([id]) => id === state.view) ? state.view : tab;
+    comparisonState.active = selected;
+    comparisonState.contrast = contrast;
+    if (tab === "pathways" && state.gene !== previous.gene) treeState.gene = state.gene || "";
+    render();
+  });
   let renderGeneration = 0;
   function render() {
     const generation = ++renderGeneration;
@@ -704,6 +774,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       );
     });
     shell?.update(tab);
+    disposeMethods();
+    body.querySelector(".comparative-views")?.dispose?.();
+    body.querySelector(".research-figure-builder")?.dispose?.();
+    body.querySelector(".exploratory-result-chart")?.dispose?.();
     body.querySelector(".custom-r-workspace")?.destroy?.();
     body.replaceChildren();
     Promise.resolve(
@@ -727,6 +801,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
           button("Retry view", render, "secondary"),
         );
     });
+    body.append(sessionBar);
+    previousSelection.disabled = !researchStore.canUndo();
+    nextSelection.disabled = !researchStore.canRedo();
     enhancePlots(body);
     shell?.afterRender();
   }
@@ -840,6 +917,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     storage.hidden = true;
     root.append(storage);
     networkPanel ||= el("section", "oxphos-network-sheet-content");
+    networkPanel.querySelector(".oxphos-network-3d")?.setResearchSelection?.(researchStore.getState());
     storage.append(networkPanel);
     const host = el("section", "oxphos-network-fullscreen");
     host.setAttribute("role", "dialog");
@@ -905,7 +983,20 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         .then(({ createOxphosNetwork }) => {
           networkPanel.replaceChildren(
             createOxphosNetwork({
-              initialGene: null,
+              initialGene: researchStore.getState().gene,
+              initialContrast: researchStore.getState().contrast,
+              onSelection: selection => {
+                if (selection.gene) selected = selection.gene;
+                if (selection.contrast) contrast = selection.contrast;
+                saveSelection(selection);
+              },
+              onResearch: (id) => {
+                const selection = { ...researchStore.getState(), gene: id };
+                const exit = document.exitFullscreen || document.webkitExitFullscreen;
+                if (document.fullscreenElement || document.webkitFullscreenElement)
+                  Promise.resolve(exit.call(document)).finally(() => sendSelectionToR(selection));
+                else sendSelectionToR(selection);
+              },
               onEvidence: (id) => {
                 const exit =
                   document.exitFullscreen || document.webkitExitFullscreen;
@@ -2036,6 +2127,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     layout.append(explorer, evidence);
     body.append(layout);
     function showEvidence(scroll = false) {
+      disposeMethods();
       evidence.replaceChildren();
       const row = data.pathways.find(
         (p) => p.pathway === pathway && p.contrast === contrast,
@@ -2216,11 +2308,32 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         leading.append(chips);
         evidence.append(leading);
       }
-      if (pathway === "HALLMARK_OXIDATIVE_PHOSPHORYLATION") {
-        // Reuse the full existing qualification; keep it adjacent to the selected evidence.
-        cameraNotice();
-        evidence.append(body.lastElementChild);
-      }
+      const comparison = createAccordion("Compare methods", "pathway-method-comparison");
+      const context = { data, pathway, contrast };
+      let comparisonView;
+      let comparisonLoading = false;
+      const loadComparison = async () => {
+        comparisonOpen = true;
+        if (comparisonView || comparisonLoading) return;
+        comparisonLoading = true;
+        comparison.body.replaceChildren(loadingMessage("Loading archived method comparisons…"));
+        try {
+          const { createMethodComparison } = await import("./method-comparison.js");
+          if (!comparison.element.isConnected) return;
+          comparisonView = createMethodComparison({ ...context, initialSection: comparisonSection, onSection: key => { comparisonSection = key; } });
+          comparison.body.replaceChildren(comparisonView);
+          enhancePlots(comparisonView);
+        } catch (error) {
+          comparison.body.replaceChildren(note(error.message), button("Retry comparison", loadComparison, "secondary"));
+        } finally { comparisonLoading = false; }
+      };
+      comparison.element.querySelector(".accordion-item").addEventListener("accordion:open", event => { if (event.target === event.currentTarget) loadComparison(); });
+      comparison.element.querySelector(".accordion-item").addEventListener("accordion:close", event => { if (event.target === event.currentTarget) comparisonOpen = false; });
+      evidence.append(comparison.element);
+      disposeMethods = () => comparisonView?.dispose?.();
+      if (comparisonOpen) requestAnimationFrame(() => {
+        if (comparison.element.isConnected) document.querySelector("#psilocin-app")?.f7?.accordion.open(comparison.element.querySelector(".accordion-item"));
+      });
       if (row.tier === "exploratory")
         evidence.append(
           note(
@@ -2900,8 +3013,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     const host = el("div");
     body.append(
       heading(
-        "Custom R analysis",
-        "Editable analysis of archived estimates · runs on your device",
+        "Research Studio",
+        "Local R notebooks, editable analyses and reproducible research reports",
       ),
       host,
     );
@@ -2910,15 +3023,39 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "Loading R workspace",
     );
     if (!host.isConnected) return;
-    host.append(
-      createCustomR({
-        data,
-        getGenes,
-        provenance,
-        root,
-        bayesian: branding.bayesian,
-      }),
-    );
+    const workspace = createCustomR({ data, getGenes, provenance, root,
+      bayesian: branding.bayesian, getSelection: () => researchStore.getState() });
+    const exploratoryHost = el("div");
+    let outputVersion = 0;
+    workspace.addEventListener("atlas:r-start", () => {
+      ++outputVersion;
+      exploratoryHost.querySelector(".exploratory-result-chart")?.dispose?.();
+      exploratoryHost.replaceChildren();
+    });
+    workspace.addEventListener("atlas:r-results", async event => {
+      const output = event.detail;
+      if (output?.classification !== "user-exploratory" || !output.resultsCSV) return;
+      const version = ++outputVersion;
+      exploratoryHost.querySelector(".exploratory-result-chart")?.dispose?.();
+      exploratoryHost.replaceChildren(loadingMessage("Preparing exploratory result display…"));
+      try {
+        const { createExploratoryResultChart } = await import("./exploratory-result-chart.js");
+        if (!workspace.isConnected || version !== outputVersion) return;
+        exploratoryHost.replaceChildren(createExploratoryResultChart({ csv: output.resultsCSV, run: output.record,
+          onSelectGene: async id => {
+            const records = await getGenes();
+            if (!records.some(g => g.id === id)) return;
+            selected = id; saveSelection({ gene: id });
+          },
+        }));
+      } catch (error) { if (version === outputVersion) exploratoryHost.replaceChildren(note(error.message)); }
+    });
+    host.append(workspace, exploratoryHost);
+    if (pendingRSelection) {
+      const selection = pendingRSelection;
+      pendingRSelection = undefined;
+      workspace.setResearchSelection(selection);
+    }
   }
 
   function methods() {
@@ -3084,6 +3221,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   });
   render();
   root.destroy = () => {
+    unsubscribeResearch();
+    collectionsView?.dispose?.();
+    body.querySelector(".exploratory-result-chart")?.dispose?.();
+    body.querySelector(".custom-r-workspace")?.destroy?.();
+    disposeMethods();
+    body.querySelector(".comparative-views")?.dispose?.();
     removeEventListener("hashchange", reloadFromLocation);
     shell.destroy();
   };

@@ -4925,78 +4925,6 @@ body {
     padding-bottom:calc(96px + env(safe-area-inset-bottom));
   }
 }
-/* A single Framework7 panel keeps mobile network controls and details together. */
-#psilocin-app .oxphos-mobile-fab { display:none; }
-@media(max-width:767px) {
-  #psilocin-app .oxphos-mobile-fab { display:block; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); }
-  #psilocin-app .oxphos-mobile-fab > a {
-    background:var(--network-glass); color:var(--network-glass-text);
-    border:1px solid var(--network-glass-border); backdrop-filter:blur(18px) saturate(145%);
-    -webkit-backdrop-filter:blur(18px) saturate(145%); cursor:pointer;
-  }
-  #psilocin-app .oxphos-mobile-fab svg { width:24px; height:24px; }
-  #psilocin-app .oxphos-mobile-panel {
-    --f7-panel-right-width:min(300px, calc(100vw - 88px));
-    background:var(--research-page); color:var(--research-text); overflow:hidden;
-    box-shadow:-8px 0 30px #0003;
-  }
-  #psilocin-app .oxphos-network-3d > .panel-backdrop { background:rgba(3,12,20,.22); }
-  #psilocin-app .oxphos-mobile-header {
-    display:flex; align-items:center; gap:8px; min-height:64px; padding:8px 12px;
-    background:var(--research-surface); border-bottom:1px solid var(--research-border);
-  }
-  #psilocin-app .oxphos-mobile-header h2 { flex:1; min-width:0; font-size:16px; margin:0; color:var(--research-text); }
-  #psilocin-app .oxphos-mobile-header .button { flex:none; width:auto; min-height:44px; padding:8px; }
-  #psilocin-app .oxphos-mobile-header .button[hidden] { display:none; }
-  #psilocin-app .oxphos-mobile-header .button:last-child span { display:none; }
-  #psilocin-app .oxphos-mobile-scroll { height:calc(100% - 64px); overflow:auto; overscroll-behavior:contain; padding:14px 14px calc(24px + env(safe-area-inset-bottom)); }
-  #psilocin-app .oxphos-mobile-main:not([hidden]) { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-identity { color:var(--research-text); text-shadow:none; margin:0; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-identity span { color:var(--research-muted); }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-status { color:var(--research-muted)!important; text-shadow:none; margin:0; max-width:none; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-days { width:100%; padding:3px; border-radius:12px; background:var(--research-selected); }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-days .button[aria-pressed=true] { background:var(--f7-theme-color); color:#fff; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-display-controls { display:flex; flex-direction:column; gap:8px; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-layout-direct {
-    display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:44px;
-    padding:6px 10px; border:1px solid var(--research-border); border-radius:12px;
-    color:var(--research-text); background:var(--research-surface); font-size:13px;
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools {
-    position:static; transform:none; display:flex; flex-wrap:wrap; gap:6px; padding:0; max-width:none;
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools[hidden] { display:none; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera .button,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions .button,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools .button {
-    flex:1 1 auto; width:auto; min-height:44px; padding:8px 10px;
-    background:var(--research-selected); color:var(--research-on-selected); border:0; font-size:12px;
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera .button span,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions .button span { display:inline; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock {
-    position:static; transform:none; display:flex; flex-wrap:wrap; justify-content:stretch;
-    width:auto; max-width:none; padding:0; background:none; border:0; box-shadow:none; backdrop-filter:none;
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock:before { display:none; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock .oxphos-3d-scale,
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-significance-key {
-    flex-basis:100%; color:var(--research-muted); text-shadow:none; background:none;
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock .button {
-    flex:1 1 auto; width:auto; min-height:44px; background:var(--research-selected); color:var(--research-on-selected);
-  }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-controls { align-items:stretch; flex-direction:column; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-filter { min-width:0; width:100%; }
-  #psilocin-app .oxphos-mobile-panel .oxphos-3d-gene-list { max-height:none; }
-  #psilocin-app .oxphos-network-3d > .toast {
-    bottom:calc(8px + env(safe-area-inset-bottom)); left:12px; right:80px; width:auto;
-    max-width:none; margin:0; border-radius:14px; z-index:20000;
-  }
-}
-
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
   position:absolute; top:12px; right:12px; display:grid; place-items:center;
@@ -5011,8 +4939,106 @@ body {
   #psilocin-app .f7-press.active-state::after { opacity:.35; }
   #psilocin-app svg [role="button"]:active { filter:drop-shadow(0 0 2px #6cb3da88); }
 }
+
+/* Mobile tools occupy a shallow inspector beneath a resized, unobstructed canvas. */
+.oxphos-mobile-inspector, .oxphos-mobile-toolbar { display:none; }
 @media(max-width:767px) {
-  #psilocin-app .oxphos-mobile-panel:is(.panel-in,.panel-out) { display:flex; flex-direction:column; }
-  #psilocin-app .oxphos-mobile-header { flex:none; padding-top:max(8px, env(safe-area-inset-top)); }
-  #psilocin-app .oxphos-mobile-scroll { flex:1; min-height:0; height:auto; }
+  #psilocin-app .oxphos-network-3d {
+    --network-tool-height:calc(62px + env(safe-area-inset-bottom));
+    --network-inspector-height:min(38dvh, 320px);
+  }
+  #psilocin-app .oxphos-3d-immersive .oxphos-3d-stage {
+    bottom:var(--network-tool-height); height:auto;
+  }
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="open"] .oxphos-3d-stage {
+    bottom:calc(var(--network-tool-height) + var(--network-inspector-height));
+  }
+  #psilocin-app .oxphos-mobile-toolbar {
+    display:block; position:absolute; left:0; right:0; bottom:0; top:auto;
+    height:var(--network-tool-height); padding-bottom:env(safe-area-inset-bottom);
+    background:var(--research-surface); color:var(--research-text); z-index:6;
+    border-top:1px solid var(--research-border); box-sizing:border-box;
+  }
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner { height:62px; padding:0 4px; }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link {
+    display:flex; flex-direction:column; justify-content:center; gap:3px;
+    flex:1; height:56px; min-width:0; padding:4px 2px; border-radius:10px;
+    background:transparent; color:var(--research-muted); font-size:11px;
+  }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link span { display:block; }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link svg { width:20px; height:20px; }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link-active { background:var(--research-selected); color:var(--f7-theme-color); }
+  #psilocin-app .oxphos-mobile-inspector:not([hidden]) {
+    display:flex; flex-direction:column; position:absolute; left:0; right:0;
+    bottom:var(--network-tool-height); height:var(--network-inspector-height);
+    z-index:5; background:var(--research-surface); color:var(--research-text);
+    border-top:1px solid var(--research-border); border-radius:16px 16px 0 0;
+    box-sizing:border-box; overflow:hidden;
+  }
+  #psilocin-app .oxphos-mobile-inspector[hidden] { display:none; }
+  #psilocin-app .oxphos-mobile-header { display:flex; align-items:center; justify-content:space-between; flex:none; gap:8px; padding:4px 12px; }
+  #psilocin-app .oxphos-mobile-header h2 { margin:0; font-size:15px; }
+  #psilocin-app .oxphos-mobile-header .button { width:44px; height:44px; padding:10px; background:transparent; color:var(--f7-theme-color); }
+  #psilocin-app .oxphos-mobile-header .button span { display:none; }
+  #psilocin-app .oxphos-mobile-inspector-scroll { min-height:0; flex:1; overflow:auto; overscroll-behavior:contain; padding:0 12px 16px; }
+  #psilocin-app .oxphos-mobile-inspector-scroll :is(.note,p) { color:var(--research-muted); }
+  #psilocin-app .oxphos-mobile-view-controls { display:grid; grid-template-columns:1fr; gap:14px; }
+  #psilocin-app .oxphos-mobile-inspector :is(.oxphos-3d-camera,.oxphos-3d-evidence-actions,.oxphos-3d-protein-tools,.oxphos-3d-display-controls) {
+    position:static; display:flex; flex-direction:row; flex-wrap:wrap; align-items:center;
+    transform:none; width:auto; max-width:none; gap:8px; padding:0; background:none;
+  }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-camera .button { flex:1; width:auto; }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-camera .button span { display:inline; }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-layout-direct { flex:1; display:flex; justify-content:space-between; width:auto; padding:8px; background:var(--research-selected); color:var(--research-text); }
+  #psilocin-app .oxphos-mobile-inspector :is(.oxphos-3d-controls,.oxphos-3d-selected,.oxphos-3d-accessible) { padding:0; margin:0; border:0; background:none; }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-controls { display:flex; flex-direction:column; gap:12px; }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-filter { min-width:0; width:100%; }
+  #psilocin-app .oxphos-mobile-inspector .oxphos-3d-gene-list { max-height:none; }
+  #psilocin-app .oxphos-3d-topbar { max-width:calc(100% - 76px); gap:6px; }
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-identity { flex-basis:100%; }
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-identity span { display:none; }
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-days { width:160px; }
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-status { display:none; }
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-scale { font-size:10px; padding:5px; border-radius:8px; background:var(--network-glass); color:var(--network-glass-text); }
+  #psilocin-app .oxphos-network-3d > .toast { bottom:calc(var(--network-tool-height) + 5px); left:12px; right:12px; width:auto; max-width:none; margin:0; z-index:20000; }
 }
+.method-comparison { min-width:0; }
+.method-comparison-card { margin:16px 0; padding:14px; border:1px solid var(--research-border); border-radius:12px; background:var(--research-surface); }
+.method-comparison-card h4 { margin-top:0; }
+.method-comparison table { font-size:13px; min-width:440px; }
+.method-comparison :is(th,td) { padding:9px 10px; }
+.method-comparison .numeric { text-align:right; font-variant-numeric:tabular-nums; }
+.method-comparison select { width:100%; min-height:44px; padding:10px; border:1px solid var(--research-border); border-radius:10px; background:var(--research-surface); color:var(--research-text); }
+.method-source { overflow-wrap:anywhere; }
+.method-source code { display:block; font-size:11px; overflow-wrap:anywhere; }
+.method-posterior-chart { width:100%; min-width:0; }
+.research-figure-controls { display:flex; flex-wrap:wrap; align-items:end; gap:12px; }
+.research-figure-controls label { display:flex; flex-direction:column; gap:6px; flex:1 1 150px; }
+.research-figure-builder .button-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+.research-figure-stage { min-width:0; width:100%; }
+.research-session-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:24px 0; padding:16px 0; border-top:1px solid var(--research-border); }
+.research-collection-host { flex-basis:100%; min-width:0; }
+.research-collections textarea { box-sizing:border-box; width:100%; min-height:120px; padding:10px; background:var(--research-surface); color:var(--research-text); border:1px solid var(--research-border); border-radius:10px; }
+.research-studio-notebooks { padding:16px; margin:16px 0; background:var(--research-surface); border:1px solid var(--research-border); border-radius:14px; }
+.research-studio-toolbar { gap:8px; align-items:center; }
+.research-studio-cell-list { display:flex; flex-direction:column; gap:6px; max-height:190px; overflow:auto; margin:12px 0; }
+.research-studio-cell-row { min-width:0; }
+.research-studio-cell-row .button { width:100%; min-height:44px; height:auto; padding:10px; text-align:left; justify-content:flex-start; white-space:normal; overflow-wrap:anywhere; }
+.research-studio-cell-row .button[aria-pressed="true"] { background:var(--f7-theme-color); color:white; }
+.research-studio-markdown { box-sizing:border-box; width:100%; min-height:160px; padding:12px; background:var(--research-page); color:var(--research-text); border:1px solid var(--research-border); border-radius:10px; font:inherit; }
+.research-studio-markdown-preview { padding:12px; border-left:3px solid var(--f7-theme-color); margin:12px 0; white-space:normal; overflow-wrap:anywhere; }
+.research-studio-builder, .research-studio-history { margin:12px 0; padding:12px; border:1px solid var(--research-border); border-radius:10px; }
+.research-studio-field { display:flex; flex-direction:column; flex:1 1 180px; gap:6px; }
+.research-studio-field input, .research-studio-field select { min-height:44px; width:100%; padding:8px; border:1px solid var(--research-border); border-radius:8px; background:var(--research-surface); color:var(--research-text); box-sizing:border-box; }
+.research-studio-run { margin:8px 0; }
+@media(max-width:767px) {
+  .research-session-actions .button { flex:1 1 140px; min-height:44px; }
+  .research-studio-toolbar > .button { flex:1 1 130px; white-space:normal; height:auto; min-height:44px; }
+  .research-studio-notebooks { padding:12px; }
+}
+.method-comparison-tabs { display:flex; flex-wrap:wrap; gap:4px; padding:4px; margin-top:12px; }
+.method-comparison-tabs .button { flex:1 1 90px; min-height:44px; height:auto; padding:8px; background:transparent; color:var(--f7-theme-color); white-space:normal; }
+.method-comparison-tabs [aria-selected="true"] { background:var(--f7-theme-color); color:white; }
+.method-comparison-card[hidden] { display:none; }
+.exploratory-result-chart { padding:16px; margin:18px 0; border:1px solid var(--research-border); border-radius:14px; background:var(--research-surface); }
+.exploratory-result-stage { min-width:0; width:100%; }
