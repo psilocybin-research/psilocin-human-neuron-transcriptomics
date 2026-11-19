@@ -120,7 +120,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   layoutLabel.title = "Off: complex groups. On: gene–set layers. Both show the same memberships.";
   const layoutSwitch = el("span", "toggle");
   layoutSwitch.append(layoutToggle, el("span", "toggle-icon"));
-  layoutLabel.append(el("span", "", "Topology"), layoutSwitch);
+  layoutLabel.append(el("span", "", "Layout"), layoutSwitch);
   layoutToggle.onchange = () =>
     transitionLayout(layoutToggle.checked ? "layers" : "complex");
   controls.append(
