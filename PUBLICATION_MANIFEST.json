@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1376,
-  "total_bytes": 687407100,
+  "total_bytes": 687407148,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3854,8 +3854,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 5016,
-      "sha256": "42278c3e7dc4302336f0f40fcd0fe9fdec972a497311d5ab0aa74fa761d8950b"
+      "bytes": 5008,
+      "sha256": "e0c0a3d669890ef7d09fef2ec293e553113036c483ae5b5f96b88ef1dc84ac1b"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
@@ -4289,8 +4289,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 6642,
-      "sha256": "64c1cfb4b78d97b7cb099db9f70b79aaff7599019048c28df118c2be1ca01071"
+      "bytes": 6698,
+      "sha256": "b9dbe227e7797cb673226a43d3c3ea000d1e07a2227c724bd0d97b981a36f220"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",
