@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1376,
-  "total_bytes": 687406570,
+  "total_bytes": 687406574,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4139,8 +4139,8 @@
     },
     {
       "path": "explorer/test/r-variable-browser-check.mjs",
-      "bytes": 3639,
-      "sha256": "dbb13a9dcebe03d01b6db28ba22b8d7ddf692eb6685e7bf6fcc53fed7d4553e6"
+      "bytes": 3643,
+      "sha256": "1fedba695f8e9527fba513df7e09734ead0aa4e9d3c0882c7f75516ac5aa11f2"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
