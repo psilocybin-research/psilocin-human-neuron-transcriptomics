@@ -21,12 +21,12 @@ try{for(const width of [390,820,1440]){
  await page.locator('.autocomplete-popup.modal-in').getByText('HALLMARK OXIDATIVE PHOSPHORYLATION · Pathway',{exact:true}).click();
  await page.waitForFunction(()=>location.hash.includes('view=pathways'));
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.modalOpen==='false');
- await page.keyboard.press('Control+k');await search.waitFor();await search.fill('Research Studio');
- await page.locator('.autocomplete-popup.modal-in').getByText('Research Studio · Workspace',{exact:true}).click();
+ await page.keyboard.press('Control+k');await search.waitFor();await search.fill('Research workspace');
+ await page.locator('.autocomplete-popup.modal-in').getByText('Research workspace · Workspace',{exact:true}).click();
  console.log('Search navigation passed',width);
  await page.locator('.studio-inline-cell').first().waitFor();
  await page.getByRole('button',{name:'More',exact:true}).click();
- await page.getByRole('button',{name:'Recipes, data & settings',exact:true}).click();
+ await page.getByRole('button',{name:'Research tools',exact:true}).click();
  await page.locator('.studio-pane-sheet.modal-in').waitFor();
  await page.locator('.research-studio-import summary').click();
  await page.getByLabel('Import research CSV',{exact:true}).setInputFiles({name:'local-study.csv',mimeType:'text/csv',buffer:Buffer.from('sample,value\nA,1.125\nB,2.25\n')});

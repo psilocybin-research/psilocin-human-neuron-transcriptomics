@@ -4747,6 +4747,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/r-workspace-inspector.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/research-collection-data.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5272,6 +5278,12 @@
     ]
   },
   "explorer/test/r-report-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/r-variable-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

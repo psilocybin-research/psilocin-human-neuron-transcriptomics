@@ -1,3 +1,4 @@
+import {createRWorkspaceInspector} from "./r-workspace-inspector.js";
 import {archivedResearchTables,researchTableCSV} from "./research-datasets.js";
 import {SCIENTIFIC_R_HELPERS} from "./scientific-scene-helpers.js";
 import {validateSceneSpec} from "./scientific-scene-spec.js";
@@ -56,7 +57,7 @@ export function createCustomR({
     "Analyze transcriptomic data in R, create figures and generate reproducible research reports.",
   );
   const warning = el("details", "research-studio-boundaries");
-  warning.append(el("summary", "", "Data & interpretation limits"),
+  warning.append(el("summary", "", "Data & limitations"),
     el("p", "note", "Outputs are separate from archived findings. Inputs are fitted estimates and VST profiles, not raw counts for DESeq2. Three differentiation blocks, shared controls and unresolved control harvest timing limit inference. RNA differences do not establish mitochondrial function or rejuvenation. Base and recommended R packages are included; additional packages require a compatible WebAssembly repository and a connection."));
   const selector = el("select");
   selector.setAttribute("aria-label", "R example");
@@ -104,13 +105,14 @@ export function createCustomR({
     else replace();
   });
   let localImport = null;
-  let sharedSession = false, kernelBook = null, kernelHistory = [], kernelId = null;
+  let sharedSession = true, kernelBook = null, kernelHistory = [], kernelId = null;
   const sessionMode = el("input");
   sessionMode.type = "checkbox";
-  sessionMode.setAttribute("aria-label", "Share R session between cells");
+  sessionMode.checked = true;
+  sessionMode.setAttribute("aria-label", "Notebook session");
   const sessionLabel = el("label", "research-session-mode");
-  sessionLabel.append(sessionMode, document.createTextNode("Share R session between cells"));
-  const resetSession = action("Reset R session", "close", () => terminate("R session reset. Run a cell to start a new session."));
+  sessionLabel.append(sessionMode, document.createTextNode("Notebook session"));
+  const resetSession = action("Restart R session", "close", () => terminate("R session reset. Run a cell to start a new session."));
   sessionMode.onchange = () => {
     terminate("R session reset. The execution mode has changed.");
     sharedSession = sessionMode.checked;
@@ -256,7 +258,7 @@ export function createCustomR({
   const inspector = el("details", "research-studio-inspector");
   const inspectorText = el("pre", "custom-r-console");
   inspector.append(
-    el("summary", "", "R object inspector · last completed cell"),
+    el("summary", "", "Variables"),
     inspectorText,
   );
   inspector.hidden = true;
@@ -273,16 +275,18 @@ export function createCustomR({
   tableSection.hidden = true;
   tableSection.append(el("h3", "", "Results table"), tableHost);
   resultArea.append(placeholder, plotSection, tableSection);
+  let variables;
   const notebooks = createRNotebooks({
     editor: code,
     onRun: execute,
+    onRestart: () => terminate("R session restarted. Run all begins from clean inputs."),
     onOpenSystems,
     onScene: async (spec,target,onChange) => { const scene=createScientificScene(spec,{onChange,onSelect:({id})=>onSelectGene?.(id),onNetwork:onSceneNetwork,onStructure:onSceneStructure});target.append(scene);return scene;},
     onStop: () => terminate("Interrupted. R session reset."),
     getExports: () => [
       {label: "Send results to Python", available: !!resultsCSV && !!onTransferToPython, run: () => onTransferToPython({name:"r_results",csv:resultsCSV,provenance:record})},
       {label: "Results (.csv)", available: !!resultsCSV, run: () => csv.click()},
-      {label: "Run provenance (.json)", available: !!record, run: () => session.click()},
+      {label: "Run metadata (.json)", available: !!record, run: () => session.click()},
       {label: "Current-run report & source archive", available: reports.element.querySelector("button")?.disabled === false, run: () => { onOpenReports?.(); reports.element.querySelector("button")?.click(); }}
     ],
     action,
@@ -312,6 +316,7 @@ export function createCustomR({
       resultsCSV = previous?.results_csv || "";
       record = previous;
       inspectorText.textContent = previous?.object_summary || "";
+      variables?.update(previous?.object_names||[]);
       inspector.hidden = !previous?.object_summary;
       vectorPlots = [];
       if (resultsCSV) renderTable();
@@ -343,28 +348,36 @@ export function createCustomR({
       }));
     },
   });
+  notebooks.setSessionMode(sharedSession);
   if (getSelection)
     toolbar.append(
-      action("Use atlas selection", "plus", () =>
+      action("Import selected genes", "plus", () =>
         notebooks.appendSelection(getSelection()),
       ),
     );
   const recipes = el("details", "studio-legacy-recipes");
-  recipes.append(el("summary", "", "R examples"), selector, load);
+  recipes.append(el("summary", "", "Archived analyses"), selector, load);
   const settings = el("details", "studio-runtime-settings");
   settings.append(el("summary", "", "Runtime settings"), sessionLabel, resetSession, limitField, timeLimit);
   const archivedOutputs = el("details", "studio-current-output");
-  archivedOutputs.append(el("summary", "", "Active cell data & figures"), resultArea, inspector);
+  archivedOutputs.append(el("summary", "", "Cell output"), resultArea, inspector);
   notebooks.tools.append(recipes, importData, settings, docs, warning, credits);
-  notebooks.inspector.append(archivedOutputs, reports.element);
+  variables=createRWorkspaceInspector({root,action,onInsert:source=>notebooks.addCode(source),onTransfer:onTransferToPython,onSelectGene,
+    read:async(name,offset)=>{
+      if(busy||!runtime)throw Error("Run a cell and wait for completion before inspecting variables.");
+      return JSON.parse(await runtime.evalRString(`local({x<-get(${JSON.stringify(name)},envir=.GlobalEnv); if(!is.data.frame(x)) return(.atlas_json(list(class=paste(class(x),collapse='/'),length=length(x),preview=substr(paste(capture.output(str(x)),collapse='\\n'),1,20000)))); cols<-seq_len(min(100L,ncol(x))); indices<-if(nrow(x)>${offset}) seq.int(${offset+1},min(nrow(x),${offset+50})) else integer(); .atlas_json(list(class=paste(class(x),collapse='/'),rows=nrow(x),columns=lapply(cols,function(j){v<-x[[j]]; numeric<-is.numeric(v); good<-if(numeric) v[is.finite(v)] else numeric(); list(name=names(x)[j],type=paste(class(v),collapse='/'),numeric=numeric,missing=sum(is.na(v)),min=if(length(good)) sprintf('%.17g',min(good)) else '',mean=if(length(good)) sprintf('%.17g',mean(good)) else '',max=if(length(good)) sprintf('%.17g',max(good)) else '')}),preview=lapply(indices,function(i) unname(lapply(cols,function(j) paste(as.character(x[[j]][i]),collapse=', '))))))})`));
+    },
+    exportCSV:async name=>{if(busy||!runtime)throw Error("The R session is not ready.");await runtime.evalRVoid(`local({x<-get(${JSON.stringify(name)},envir=.GlobalEnv);if(!is.data.frame(x))stop('CSV export requires a data frame.');write.csv(x,'/home/web_user/inspected-object.csv',row.names=FALSE)})`);const bytes=await runtime.FS.readFile('/home/web_user/inspected-object.csv');if(bytes.byteLength>2_000_000)throw Error("Object export and plotting support up to 2 MB; subset it in a notebook cell. The viewer can page through all rows.");return new TextDecoder().decode(bytes);}
+  });
+  notebooks.inspector.append(variables.element,archivedOutputs);
   const consolePrompt=el("textarea","studio-console-prompt");consolePrompt.rows=2;consolePrompt.maxLength=65536;
   consolePrompt.setAttribute("aria-label","R console command");
   const consoleRun=action("Run command","play",()=>{if(busy||!consolePrompt.value.trim())return;notebooks.addCode(consolePrompt.value);consolePrompt.value="";execute();});
-  notebooks.consoleBody.append(output,consolePrompt,consoleRun,el("p","note","Commands are saved as R cells. Enable session sharing to use objects from previous cells."));
+  notebooks.consoleBody.append(output,consolePrompt,consoleRun,el("p","note","Commands are recorded as cells in the current notebook session."));
 
   const runtimeStatus = el("div", "studio-runtime-status");
   runtimeStatus.append(status);
-  host.append(intro, runtimeStatus, progress.panel, notebooks.element);
+  host.append(runtimeStatus, progress.panel, notebooks.element);
   // Legacy execution/export controls remain internal command targets, not a second toolbar.
   run.hidden = true; code.hidden = true;
   host.append(run, code);
@@ -483,7 +496,9 @@ export function createCustomR({
     progress.finish(`${message} R session retained.`);
     progress.panel.hidden = true;
   }
+  let cachedArtifacts, cachedTables;
   async function execute() {
+    const began = performance.now();
     if (busy) return;
     host.dispatchEvent(new CustomEvent("atlas:r-start", { bubbles: true }));
     if (notebooks.current()?.kind !== "code")
@@ -535,7 +550,8 @@ export function createCustomR({
       180000,
     );
     try {
-      const archivedTables=archivedResearchTables(data,await getGenes(),bayesian);
+      const archivedTables=cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian);
+      const newSession = !runtime;
       if (ticket !== epoch) return;
       progress.stage(
         1,
@@ -568,20 +584,20 @@ export function createCustomR({
         "Loading analysis tables into R",
         "Preparing six archived datasets and computing their SHA-256 fingerprints.",
       );
-      for (const [name, rows] of Object.entries(inputs)) {
-        const bytes = encoder.encode(researchTableCSV(rows));
+      cachedArtifacts ||= await Promise.all(Object.entries(inputs).map(async ([name,rows])=>{const bytes=encoder.encode(researchTableCSV(rows));return {name,rows:rows.length,bytes,sha256:await digest(bytes)};}));
+      for (const {name, rows, bytes, sha256} of cachedArtifacts) {
         reportInputs[`data/${name}.csv`] = bytes;
-        hashes[name] = { rows: rows.length, sha256: await digest(bytes) };
-        await runtime.FS.writeFile(`/home/web_user/${name}.csv`, bytes);
+        hashes[name] = { rows, sha256 };
+        if(newSession) await runtime.FS.writeFile(`/home/web_user/${name}.csv`, bytes);
         progress.resource({
           path: `${name}.csv`,
-          source: "R workspace",
+          source: "R Studio",
           loaded: bytes.byteLength,
           total: bytes.byteLength,
           state: "loaded",
         });
         progress.note(
-          `${name}: ${rows.length.toLocaleString()} rows · ${(bytes.byteLength / 1e6).toFixed(2)} MB loaded`,
+          `${name}: ${rows.toLocaleString()} rows · ${(bytes.byteLength / 1e6).toFixed(2)} MB loaded`,
         );
       }
       const inputNames = Object.keys(inputs);
@@ -592,12 +608,14 @@ export function createCustomR({
         inputNames.push("user_data");
       }
       const shelter = await new runtime.Shelter();
-      // Refresh frozen inputs and remove only the previous result artifact. Other
-      // user objects survive in explicitly shared sessions. No saved code is replayed.
-      const setup = `${SCIENTIFIC_R_HELPERS}\nunlink('/home/web_user/atlas_scene.json')\nset.seed(20261118)\n${inputNames.map(name =>
+      // Initialize once; archived copies are locked separately from editable user objects.
+      const initialize = newSession ? `set.seed(20261118)\n${inputNames.map(name =>
         `${name} <- read.csv('/home/web_user/${name}.csv', stringsAsFactors=FALSE, check.names=FALSE, na.strings=c('', 'NA', 'null'))`
-      ).join("\n")}\nif (exists('results', envir=.GlobalEnv, inherits=FALSE)) rm(results, envir=.GlobalEnv)\nunlink('/home/web_user/results.csv')`;
-      const wrapped = `${vectorSetup}\n${setup}\ntryCatch({\n${script}\n}, finally={${vectorFinish}})\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
+      ).join("\n")}\natlas_archive <- new.env(parent=emptyenv())\n${Object.keys(inputs).map(name=>`assign('${name}', ${name}, envir=atlas_archive)`).join("\n")}\nlockEnvironment(atlas_archive, bindings=TRUE)\nlockBinding('atlas_archive', .GlobalEnv)` : '';
+      const setup = `${SCIENTIFIC_R_HELPERS}\n${initialize}\nunlink('/home/web_user/atlas_scene.json')\nunlink('/home/web_user/results.csv')`;
+      await runtime.evalRVoid(setup);
+      const rngBefore = await runtime.evalRString('if(exists(".Random.seed",envir=.GlobalEnv,inherits=FALSE)) paste(.Random.seed, collapse=",") else "absent"');
+      const wrapped = `${vectorSetup}\ntryCatch({\n${script}\n}, finally={${vectorFinish}})\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
       progress.stage(
         4,
         "Running your R script",
@@ -704,6 +722,10 @@ export function createCustomR({
         session_id: kernelId,
         prior_cells: kernelHistory.map(({cell_id, code, sha256}) => ({cell_id, code, sha256})),
         seed: 20261118,
+        seed_policy: "Initialized once per notebook session; explicit changes retained.",
+        rng_state_before: rngBefore,
+        rng_state_after: await runtime.evalRString('if(exists(".Random.seed",envir=.GlobalEnv,inherits=FALSE)) paste(.Random.seed, collapse=",") else "absent"'),
+        elapsed_ms: Math.round(performance.now()-began),
         execution_limit_seconds: executionLimitSeconds,
         archive_doi: "10.5281/zenodo.23283595",
         inputs: hashes,
@@ -729,10 +751,16 @@ export function createCustomR({
         try {
           if(sceneBytes.byteLength>8_000_000)throw Error("Scene specification exceeds 8 MB.");
           const sceneText=new TextDecoder().decode(sceneBytes),spec=JSON.parse(sceneText);
-          record.scene_specs=[validateSceneSpec({...spec,classification:"user-exploratory",source:{...spec.source,
-            run_utc:record.run_utc,archive_doi:record.archive_doi,sha256:await digest(sceneBytes),code_sha256:await digest(encoder.encode(script))}})];
+          const specs=Array.isArray(spec)?spec:[spec];if(specs.length>12)throw Error("At most 12 scene outputs are supported per cell.");
+          const sceneHash=await digest(sceneBytes),codeHash=await digest(encoder.encode(script));
+          record.scene_specs=specs.map(scene=>validateSceneSpec({...scene,classification:"user-exploratory",source:{...scene.source,
+            run_utc:record.run_utc,archive_doi:record.archive_doi,sha256:sceneHash,code_sha256:codeHash}}));
+
+
         }catch(error){record.error=true;output.textContent += `\nScene output rejected: ${error.message}`;record.console=output.textContent;}
       }
+      record.object_names=JSON.parse(await runtime.evalRString('.atlas_json(as.list(head(ls(envir=.GlobalEnv),100)))'));
+      variables.update(record.object_names);
       inspectorText.textContent = [record.object_summary,record.data_preview].filter(Boolean).join("\n\nData-frame previews (first 5 rows, 8 columns):\n");
       inspector.hidden = !record.object_summary;
       renderTable();
@@ -782,6 +810,7 @@ export function createCustomR({
         );
       }
       showToast(record.error ? "Check the R console." : "R analysis complete.");
+      return record;
     } catch (error) {
       if (ticket === epoch) {
         output.textContent = error.message;

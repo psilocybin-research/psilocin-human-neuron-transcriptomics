@@ -65,6 +65,7 @@ export function createAppShell({
   enhanceFigures,
   researchActions = [],
   onPathway,
+  onSelectionMenu,
 }) {
   root.id = "psilocin-app";
   root.dataset.inputModality = "pointer";
@@ -182,6 +183,7 @@ export function createAppShell({
   const find = iconAction("Search atlas", "search", openAtlasSearch);
   find.classList.add("desktop-gene-finder");
   find.setAttribute("aria-keyshortcuts", "Control+k Meta+k");
+  if(onSelectionMenu){const selection=iconAction("Selection","controls",()=>onSelectionMenu(selection));selection.classList.add("shell-selection-menu");right.append(selection);}
   const openSearch = event => {
     if (!(event.ctrlKey || event.metaKey) || event.altKey || event.key.toLowerCase() !== "k") return;
     if (event.target.closest?.(".cm-editor,textarea,[contenteditable=true]")) return;

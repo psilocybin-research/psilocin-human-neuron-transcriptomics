@@ -41,7 +41,7 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   const books = readBooks();
   let current = books[0], runtime, runtimeInfo, busy = false, generation = 0, destroyed = false, record;
   const heading = el('h2', '', 'Python Lab');
-  const intro = el('p', 'note', 'Optional Python workspace for exploratory table analysis. R remains the primary research environment.');
+  const intro = el('p', 'note', 'Optional Python Lab for exploratory table analysis. R remains the primary research environment.');
   const toolbar = el('div', 'custom-r-toolbar');
   const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook');
   const datasets = el('select'); datasets.setAttribute('aria-label', 'Python dataset');

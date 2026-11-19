@@ -1,4 +1,4 @@
-// Helpers emit one versioned scene per execution; the last helper call replaces the prior scene.
+// Helpers accumulate independently named, versioned scenes within each execution.
 // They describe exact numerical points, archived membership overlays, or structure references.
 // No helper invents molecular coordinates, causal edges, subcellular localization or anatomy.
 // atlas_mitochondria is explicitly an archived respiratory-complex membership overlay.
@@ -28,9 +28,12 @@ export const SCIENTIFIC_R_HELPERS = String.raw`
   if (is.numeric(x) && is.finite(x)) return(sprintf('%.17g', x))
   stop('Unsupported scene value.')
 }
+.atlas_scene_outputs <- list()
 .atlas_write_scene <- function(spec) {
+  if(length(.atlas_scene_outputs)>=12L) stop("A cell supports at most 12 scenes.")
+  .atlas_scene_outputs[[length(.atlas_scene_outputs)+1L]] <<- spec
   path <- getOption('atlas.scene.file', '/home/web_user/atlas_scene.json')
-  writeLines(.atlas_json(spec), path, useBytes = TRUE)
+  writeLines(.atlas_json(if(length(.atlas_scene_outputs)==1L) spec else unname(.atlas_scene_outputs)), path, useBytes = TRUE)
   invisible(spec)
 }
 .atlas_scene_base <- function(kind, title) list(schema = 'psilocin-atlas/scientific-scene/1', kind = kind, classification = 'user-exploratory', title = title, source = list(label = 'R notebook output'))
@@ -46,7 +49,8 @@ export const SCIENTIFIC_R_HELPERS = String.raw`
     row
   })
 }
-atlas_scatter3d <- function(data, x, y, z, color = NULL, id = 'id', title = 'Exploratory 3D scatter plot') {
+atlas_scatter3d <- function(data, x, y, z, color = NULL, id = 'id', title = 'Exploratory 3D scatter plot', name = title) {
+  title <- name
   fields <- c(x = x, y = y, z = z)
   if (!is.null(color)) fields <- c(fields, color = color)
   spec <- .atlas_scene_base('scatter3d', title)
@@ -55,7 +59,8 @@ atlas_scatter3d <- function(data, x, y, z, color = NULL, id = 'id', title = 'Exp
   spec$data <- .atlas_scene_rows(data, fields, id)
   .atlas_write_scene(spec)
 }
-atlas_network <- function(data, value, id = 'id', title = 'Exploratory membership overlay') {
+atlas_network <- function(data, value = color_by, id = 'id', title = 'Exploratory membership overlay', name = title, color_by = NULL) {
+  title <- name
   spec <- .atlas_scene_base('membership-overlay', title)
   spec$value_label <- value
   spec$data <- .atlas_scene_rows(data, c(value = value), id)
@@ -97,9 +102,13 @@ def _atlas_scene_base(kind, title):
             "classification": "user-exploratory", "title": title,
             "source": {"label": "Python notebook output"}}
 
+_atlas_scene_outputs = []
 def _atlas_write_scene(spec):
+    if len(_atlas_scene_outputs) >= 12:
+        raise ValueError("A cell supports at most 12 scenes.")
+    _atlas_scene_outputs.append(_atlas_json.loads(_atlas_json.dumps(spec, allow_nan=False)))
     _AtlasPath(globals().get("ATLAS_SCENE_FILE", "/home/pyodide/atlas_scene.json")).write_text(
-        _atlas_json.dumps(spec, ensure_ascii=False, allow_nan=False), encoding="utf-8")
+        _atlas_json.dumps(spec if len(_atlas_scene_outputs) == 1 else _atlas_scene_outputs, ensure_ascii=False, allow_nan=False), encoding="utf-8")
     return spec
 
 def _atlas_scene_rows(data, fields, id):

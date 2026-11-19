@@ -34,7 +34,7 @@ atlas_scene(s)
   writeFileSync(source,(language==='R'?SCIENTIFIC_R_HELPERS:SCIENTIFIC_PYTHON_HELPERS)+tail);
   const result=spawnSync(language==='R'?'Rscript':'python3',[source],{encoding:'utf8'});
   assert.equal(result.status,0,result.stderr);
-  const spec=validateSceneSpec(JSON.parse(readFileSync(output,'utf8')));
+  const outputs=JSON.parse(readFileSync(output,'utf8'));assert.equal(outputs.length,2,'both helper outputs retained');const specs=outputs.map(validateSceneSpec);const spec=specs[1];
   assert.equal(spec.classification,'user-exploratory');assert.equal(spec.data[0].x,.123456789012345);
   assert.equal(spec.title,'Δ "quote" \\ path');
  }finally{rmSync(dir,{recursive:true,force:true});}

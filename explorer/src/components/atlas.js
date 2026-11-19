@@ -1,3 +1,4 @@
+import {studioMenu} from "./studio-ui.js";
 import {showToast} from "./app-toast.js";
 import { createResearchInspector } from "./research-inspector.js";
 import { createResearchStore } from "./research-store.js";
@@ -240,7 +241,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
     ["methods", "Methods & provenance"],
-    ["custom-r", "Research Studio"],
+    ["custom-r", "Research workspace"],
   ];
   let tab = "overview",
     selected = "GPX4",
@@ -743,8 +744,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     scope: "Selection history and collections; R notebooks and run outputs export separately",
   }, null, 2), "application/json"), "secondary");
   const collectionHost = el("div", "research-collection-host");
-  const collectionButton = button("Gene collections", async () => {
-    if (collectionsView) { collectionHost.hidden = !collectionHost.hidden; return; }
+  const collectionButton = button("Gene collections", () => openCollections(), "secondary");
+  async function openCollections(force=false) {
+    if (collectionsView) { collectionHost.hidden = force?false:!collectionHost.hidden; sessionBar.hidden=collectionHost.hidden; return; }
+    sessionBar.hidden=false;
     collectionHost.replaceChildren(loadingMessage("Loading gene collection tools…"));
     try {
       const { createResearchCollections } = await import("./research-collections.js");
@@ -755,13 +758,13 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       collectionHost.replaceChildren(collectionsView);
       document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
-  }, "secondary");
+  }
   const persistentInspector = createResearchInspector({root,store:researchStore,getGenes,data,
     onSendToR:()=>sendSelectionToR(),onAddToNotebook:()=>sendSelectionToR(),
     onOpenNetwork:()=>openMembershipNetwork(),onCompare:()=>go("comparison")});
   root.append(persistentInspector.element);
-  sessionBar.append(persistentInspector.button);
-  sessionBar.append(button("Search atlas", () => shell?.openSearch(), "secondary"), previousSelection, nextSelection, toR, collectionButton, exportSession, collectionHost);
+  sessionBar.hidden=true;
+  sessionBar.append(collectionHost);
   let observedResearch = researchStore.getState();
   const unsubscribeResearch = researchStore.subscribe(state => {
     const previous = observedResearch;
@@ -3037,7 +3040,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(host);
     const { createResearchStudio } = await trackActivity(
       import("./research-studio.js"),
-      "Loading R workspace",
+      "Loading R Studio",
     );
     if (!host.isConnected) return;
     const workspace = createResearchStudio({ data, getGenes, provenance, root,
@@ -3099,7 +3102,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(
       heading(
         "Methods & provenance",
-        "Archived evidence retains its original models and statistical families. Research Studio runs explicitly requested exploratory R analyses separately; they do not alter the frozen findings.",
+        "Archived evidence retains its original models and statistical families. Workspace runs explicitly requested exploratory R analyses separately; they do not alter the frozen findings.",
       ),
     );
     const methodGrid = el("div", "methods-grid");
@@ -3142,7 +3145,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         "The frozen analysis is archived as version 1.2.0 (doi:10.5281/zenodo.23283595). The plan record and input SHA-256 checksums below identify the analysis inputs. The public repository provides code and derived results; later atlas interface updates do not alter the archived estimates or statistical families.",
       ],
       [
-        "Custom R workspace",
+        "Custom R Studio",
         "User scripts run on demand in a separate webR worker against copies of archived atlas tables. Custom outputs are exploratory and do not replace the frozen analysis. The Bayesian example implements the normal-likelihood branch with numerical quadrature and editable priors; it is not the archived NUTS sampler or Student-t sensitivity. The optional R runtime download is separate from the core PWA and is verified before offline readiness is reported.",
       ],
       [
@@ -3256,7 +3259,16 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     initial: tab,
     enhanceFigures: enhancePlots,
     onPathway: value => researchStore.update({pathway: value, view: "pathways"}),
+    onSelectionMenu:anchor=>{const state=researchStore.getState();studioMenu(root,anchor,state.gene?`Selection · ${state.gene}`:'Selection',[
+      {label:'Inspect',disabled:!state.gene&&!state.pathway,run:()=>persistentInspector.toggle()},
+      {label:'Send to R',disabled:!state.gene&&!state.pathway,run:()=>sendSelectionToR()},
+      {label:'Add to collection',disabled:!state.gene,run:async()=>{await openCollections(true);const input=collectionHost.querySelector('textarea');if(input){input.value=state.gene;input.dispatchEvent(new Event('input'));input.focus();}collectionHost.scrollIntoView({block:'nearest'});}},
+      {label:'Undo',disabled:!researchStore.canUndo(),run:()=>researchStore.undo()},
+      {label:'Redo',disabled:!researchStore.canRedo(),run:()=>researchStore.redo()},
+      {label:'Export selection',run:()=>exportSession.click()}
+    ]);},
     researchActions: [
+      {id:"evidence",title:"Evidence",run:()=>persistentInspector.toggle()},
       {id:"systems",title:"Explore molecular systems",run:()=>openSystemsExplorer()},
       {id:"neuron",title:"Illustrative neuron navigation",run:()=>openSystemsExplorer("neuron")},
       {id: "send-r", title: "Send selection to R", run: () => sendSelectionToR()},

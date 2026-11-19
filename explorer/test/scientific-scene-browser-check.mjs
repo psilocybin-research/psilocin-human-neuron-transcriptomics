@@ -32,7 +32,7 @@ try {
   await page.getByText(/2 points · Three/).waitFor();
   assert.equal(await page.locator('canvas').count(),1);
   assert.equal(await page.evaluate(()=>window.contextCount()),1);
-  await page.getByText('Exact data table · 2 rows').click();
+  await page.getByText('Underlying data · 2 rows').click();
   await page.getByRole('button',{name:'ENSG1',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.selection.row.x),.123456789012345);
   const spec=await page.evaluate(()=>window.scene.getSceneSpec());
@@ -51,7 +51,7 @@ try {
   await page.evaluate(()=>document.querySelector('canvas').getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
   await page.getByText(/graphics context was lost/).waitFor();
   assert.equal(await page.evaluate(()=>window.contextCount()),0);
-  await page.locator('.scientific-scene').first().getByRole('button',{name:'Open 3D scene',exact:true}).click();
+  await page.locator('.scientific-scene').first().getByRole('button',{name:'Explore in 3D',exact:true}).click();
   await page.locator('.scientific-scene').first().getByText(/2 points · Three/).waitFor();
   assert.equal(await page.evaluate(()=>window.contextCount()),1);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

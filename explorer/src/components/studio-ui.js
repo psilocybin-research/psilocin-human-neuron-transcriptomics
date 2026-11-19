@@ -4,6 +4,7 @@ export function studioMenu(root, anchor, title, items) {
   const entries = items.filter(item => item && item.available !== false);
   let modal, selectedItem;
   const choose = item => {
+    if(item.disabled)return;
     selectedItem = item;
     modal.close(false);
   };
@@ -14,7 +15,7 @@ export function studioMenu(root, anchor, title, items) {
     }
   },closed() { const item=selectedItem;selectedItem=undefined;setTimeout(() => {modal?.destroy();item?.run?.();}, 0); }};
   if (matchMedia('(max-width: 700px)').matches) {
-    modal = root.f7.actions.create({buttons: [[{text: title, label: true}, ...entries.map(item => ({text: item.label, close: false, color: item.destructive ? 'red' : undefined, onClick: () => choose(item)}))], [{text: 'Cancel', color: 'gray'}]], on});
+    modal = root.f7.actions.create({buttons: [[{text: title, label: true}, ...entries.map(item => ({text: item.label, close: false, disabled:!!item.disabled, color: item.destructive ? 'red' : undefined, onClick: () => choose(item)}))], [{text: 'Cancel', color: 'gray'}]], on});
     modal.open();
   } else {
     const content = el('div', 'popover studio-menu');
@@ -22,7 +23,7 @@ export function studioMenu(root, anchor, title, items) {
     inner.append(el('h3', '', title));
     for (const item of entries) {
       const button = el('button', `button ${item.destructive ? 'text-color-red' : ''}`, item.label);
-      button.type = 'button'; button.onclick = () => choose(item); inner.append(button);
+      button.type = 'button'; button.disabled=!!item.disabled;button.onclick = () => choose(item); inner.append(button);
     }
     content.append(inner); root.append(content);
     modal = root.f7.popover.create({el: content, targetEl: anchor, closeOnEscape: true, on: {closed() { on.closed(); content.remove(); }}});

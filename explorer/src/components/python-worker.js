@@ -44,7 +44,8 @@ _atlas_scenes = []
 if _atlas_scene_path.exists():
     if _atlas_scene_path.stat().st_size > 20000000:
         raise ValueError('Scene output exceeds 20 MB.')
-    _atlas_scenes.append(_json.loads(_atlas_scene_path.read_text(encoding='utf-8')))
+    _atlas_loaded_scenes = _json.loads(_atlas_scene_path.read_text(encoding='utf-8'))
+    _atlas_scenes = _atlas_loaded_scenes if isinstance(_atlas_loaded_scenes, list) else [_atlas_loaded_scenes]
 _atlas_rows = _atlas_scope.get('results', [])
 if not isinstance(_atlas_rows, list):
     raise TypeError('Assign results to a list of dictionaries to export a table.')

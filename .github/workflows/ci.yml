@@ -67,6 +67,7 @@ jobs:
           node test/python-app-browser-check.mjs
           node test/scientific-scene-r-browser-check.mjs
           node test/research-session-browser-check.mjs
+          node test/r-variable-browser-check.mjs
 
   bayesian-inputs:
     runs-on: ubuntu-latest

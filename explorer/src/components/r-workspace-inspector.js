@@ -1,0 +1,29 @@
+import {createElement as el} from './interface-utils.js';
+import {downloadFile} from './file-download.js';
+import {createExploratoryResultChart} from './exploratory-result-chart.js';
+
+const archived=new Set(['genes','pathways','landscape','profiles','bayesian_scores','bayesian_archive']);
+/** Read-only, paginated inspection of explicitly executed R objects. Never runs notebook code. */
+export function createRWorkspaceInspector({root,action,read,exportCSV,onInsert,onTransfer,onSelectGene}) {
+ const host=el('section','r-workspace-variables');host.append(el('h4','','Variables'));
+ const status=el('p','note','Run a cell to inspect its variables.'),list=el('div','r-variable-list');host.append(status,list);
+ function update(names=[]){list.replaceChildren();status.textContent='Current notebook session';for(const [title,predicate] of [['Archived inputs · working copies',n=>archived.has(n)],['User objects',n=>!archived.has(n)&&n!=='atlas_archive'&&!n.startsWith('atlas_')]]){const group=el('details');group.open=true;group.append(el('summary','',title));for(const name of names.filter(predicate))group.append(action(name,'custom-r',()=>open(name)));list.append(group);}}
+ async function open(name){
+  const sheet=el('div','sheet-modal studio-pane-sheet r-object-sheet'),body=el('div','sheet-modal-inner'),heading=el('h3','',name),message=el('p','note'),metadata=el('div'),stage=el('div'),tools=el('div','custom-r-toolbar'),paging=el('div','custom-r-toolbar');let offset=0,view,modal;
+  body.append(heading,message,tools,metadata,stage,paging,action('Done','close',()=>modal.close()));sheet.append(body);root.append(sheet);
+  const query=JSON.stringify(name);
+  async function load(){try{view=await read(name,offset);metadata.replaceChildren(el('p','note',`${view.class} · ${view.rows??view.length} ${view.rows!=null?'rows':'elements'}${view.columns?` × ${view.columns.length} displayed columns`:''}`));stage.replaceChildren();paging.replaceChildren();if(!view.columns){stage.append(el('pre','custom-r-console',view.preview));return;}
+    const summary=el('details');summary.append(el('summary','','Columns, missing values & numerical summaries'));const stats=el('table'),header=el('tr');['Column','Type','Missing','Min','Mean','Max'].forEach(s=>header.append(el('th','',s)));stats.append(header);for(const c of view.columns){const row=el('tr');[c.name,c.type,c.missing,c.min??'',c.mean??'',c.max??''].forEach(s=>row.append(el('td','',String(s))));stats.append(row);}summary.append(stats);metadata.append(summary);
+    const wrap=el('div','table-scroll'),table=el('table'),head=el('tr');view.columns.forEach(c=>head.append(el('th','',c.name)));table.append(head);for(const values of view.preview){const row=el('tr');values.forEach(v=>row.append(el('td','',v)));table.append(row);}wrap.append(table);stage.append(wrap);
+    const previous=action('Previous','top',()=>{offset=Math.max(0,offset-50);load();}),next=action('Next','top',()=>{offset+=50;load();});previous.disabled=offset===0;next.disabled=offset+50>=view.rows;paging.append(previous,el('span','note',`${offset+1}–${Math.min(offset+50,view.rows)} of ${view.rows} rows · first 100 columns`),next);
+  }catch(error){message.textContent=error.message;}}
+  async function csv(){return exportCSV(name);}
+  tools.append(action('Insert into notebook','plus',()=>{onInsert(`head(get(${query}, envir=.GlobalEnv))`);modal.close();}),action('Export CSV','download',async()=>{try{downloadFile(`${name}.csv`,await csv(),'text/csv');}catch(e){message.textContent=e.message;}}),action('Plot','comparison',async()=>{try{const chart=createExploratoryResultChart({csv:await csv(),run:{classification:'user-exploratory'},onSelectGene});stage.replaceChildren(chart);}catch(e){message.textContent=e.message;}}));
+  if(onTransfer)tools.append(action('Send to Python','plus',async()=>{try{await onTransfer({name,csv:await csv(),provenance:{classification:'user-exploratory',object:name}});modal.close();}catch(e){message.textContent=e.message;}}));
+  tools.append(action('Create 3D visualization','landscape',()=>{if(!view?.columns)return;const numeric=view.columns.filter(c=>c.numeric),form=el('div','r-scene-builder');if(numeric.length<3){message.textContent='A quantitative 3D scatterplot requires three numerical columns. Use Plot for a 2D preview.';return;}const fields={};for(const key of ['x','y','z','color']){const label=el('label','',key==='color'?'Color':`${key.toUpperCase()} axis`),select=el('select');select.setAttribute('aria-label',`3D builder ${key}`);for(const c of numeric){const option=el('option','',c.name);option.value=c.name;select.append(option);}select.selectedIndex=Math.min(['x','y','z','color'].indexOf(key),numeric.length-1);fields[key]=select;label.append(select);form.append(label);}const id=el('select');id.setAttribute('aria-label','3D builder identifier');for(const c of view.columns){const o=el('option','',c.name);o.value=c.name;id.append(o);}id.value=view.columns.find(c=>['id','gene','gene_id'].includes(c.name))?.name||view.columns[0].name;form.append(el('p','note','Coordinates are quantitative variables, not molecular locations. Unique identifiers and finite values are validated when the cell runs.'),id,action('Insert editable R cell','plus',()=>{const q=v=>JSON.stringify(v);onInsert(`atlas_scatter3d(get(${query}, envir=.GlobalEnv), x=${q(fields.x.value)}, y=${q(fields.y.value)}, z=${q(fields.z.value)}, color=${q(fields.color.value)}, id=${q(id.value)}, name=${q(name+' scatterplot')})`);modal.close();}));stage.replaceChildren(form);}));
+  await load();
+  modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){stage.querySelector('.exploratory-result-chart')?.dispose?.();sheet.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();
+
+ }
+ return {element:host,update};
+}

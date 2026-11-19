@@ -9,9 +9,9 @@ test('universal search preserves exact gene identities and verified aliases',()=
  assert.equal(researchSuggestions({...options,query:'MADE_UP'}).length,0);
 });
 test('pathway contrasts deduplicate without losing targets; commands work without gene data',()=>{
- const options={pathways:[{pathway:'HALLMARK_OXPHOS'},{pathway:'HALLMARK_OXPHOS'}],tabs:[['custom-r','Research Studio']],actions:[{id:'undo',title:'Undo research selection'}]};
+ const options={pathways:[{pathway:'HALLMARK_OXPHOS'},{pathway:'HALLMARK_OXPHOS'}],tabs:[['custom-r','Workspace']],actions:[{id:'undo',title:'Undo research selection'}]};
  assert.equal(researchSuggestions({...options,query:'hallmark oxphos'}).length,1);
- assert.equal(researchSuggestions({...options,query:'studio'})[0].target,'custom-r');
+ assert.equal(researchSuggestions({...options,query:'workspace'})[0].target,'custom-r');
  assert.equal(researchSuggestions({...options,query:'undo'})[0].kind,'action');
  assert.equal(researchSuggestions({...options,query:''}).length,2);
 });

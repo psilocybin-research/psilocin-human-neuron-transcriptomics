@@ -12,7 +12,7 @@ try {
  await page.locator('.scientific-scene').waitFor({timeout:180000});
  await page.locator('.scientific-scene-viewport').scrollIntoViewIfNeeded();
  await page.waitForTimeout(250);
- const openScene=page.locator('.scientific-scene').getByRole('button',{name:'Open 3D scene',exact:true});
+ const openScene=page.locator('.scientific-scene').getByRole('button',{name:'Explore in 3D',exact:true});
  if(await openScene.isEnabled())await openScene.click();
  await page.getByText(/2 points · Three/).waitFor({timeout:45000});
  const scene=await page.locator('.scientific-scene').evaluate(n=>n.getSceneSpec());
@@ -20,6 +20,7 @@ try {
  assert.match(scene.source.code_sha256,/^[a-f0-9]{64}$/);assert.match(scene.source.sha256,/^[a-f0-9]{64}$/);
  assert.ok(scene.camera);assert.match(scene.source.run_utc,/T/);
  async function download(label){
+  if(!await page.locator(".scene-export-menu").evaluate(n=>n.open))await page.locator(".scene-export-menu summary").click();
   const pending=page.waitForEvent('download');
   await page.locator('.scientific-scene').getByRole('button',{name:label,exact:true}).click();
   await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
@@ -27,9 +28,9 @@ try {
   for await(const chunk of stream)chunks.push(chunk);
   return Buffer.concat(chunks);
  }
- const png=await download('Download scene PNG');assert.equal(png.subarray(1,4).toString(),'PNG');
- const json=JSON.parse((await download('Download scene JSON')).toString());assert.equal(json.data[0].x,.123456789012345);assert.ok(json.camera);
- const csv=(await download('Download scene CSV')).toString();assert.match(csv,/0.123456789012345/);
+ const png=await download('Image (.png)');assert.equal(png.subarray(1,4).toString(),'PNG');
+ const json=JSON.parse((await download('Scene specification (.json)')).toString());assert.equal(json.data[0].x,.123456789012345);assert.ok(json.camera);
+ const csv=(await download('Data (.csv)')).toString();assert.match(csv,/0.123456789012345/);
  await page.getByText("Saved locally",{exact:true}).waitFor();
  await page.waitForTimeout(250);
  await page.reload();

@@ -41,21 +41,22 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     if (current !== lastCameraJSON) {lastCameraJSON = current; onChange(root.getSceneSpec());}
   }
   function scheduleCamera() {clearTimeout(cameraChangeTimer); cameraChangeTimer = setTimeout(publishCamera, 150);}
-  actions.append(button("Download scene JSON", () => downloadFile("scientific-scene.json", JSON.stringify(root.getSceneSpec(), null, 2), "application/json")));
+  const exportMenu=el("details","scene-export-menu"),exportSummary=el("summary","","Export");exportMenu.append(exportSummary);actions.append(exportMenu);
+  exportMenu.append(button("Scene specification (.json)", () => downloadFile("scientific-scene.json", JSON.stringify(root.getSceneSpec(), null, 2), "application/json")));
   root.append(actions, status);
   if (spec.kind === "structure-reference") {
     status.textContent = `Structure request: ${spec.gene}. A gene identifier is not a protein structure; the linked protein context records structure provenance and mapping limitations.`;
-    if (onStructure) actions.prepend(button("Open protein context", () => onStructure(spec.gene, spec)));
+    if (onStructure) actions.prepend(button("Inspect protein structure", () => onStructure(spec.gene, spec)));
     root.destroy = () => { destroyed = true; };
     root.setSelection = () => {};
     return root;
   }
-  actions.append(button("Download scene CSV", () => downloadFile("scientific-scene.csv", sceneCSV(spec), "text/csv")));
+  exportMenu.append(button("Data (.csv)", () => downloadFile("scientific-scene.csv", sceneCSV(spec), "text/csv")));
   if (spec.kind === "membership-overlay") {
     status.textContent = `${spec.data.length} exact identifiers with user-computed values. Overlay uses archived membership edges; values do not create biological interactions.`;
-    if (onNetwork) actions.prepend(button("Show in membership network", () => onNetwork(spec)));
+    if (onNetwork) actions.prepend(button("Open gene network", () => onNetwork(spec)));
   }
-  const tableDetails = el("details"), tableSummary = el("summary", "", `Exact data table · ${spec.data.length} rows`), tableWrap = el("div", "scientific-scene-table-wrap"), table = el("table"), pagination = el("div", "scene-actions");
+  const tableDetails = el("details"), tableSummary = el("summary", "", `Underlying data · ${spec.data.length} rows`), tableWrap = el("div", "scientific-scene-table-wrap"), table = el("table"), pagination = el("div", "scene-actions");
   tableDetails.append(tableSummary, tableWrap, pagination); tableWrap.append(table);
   const cols = schematic ? ["id", "label", "node_type", ...(hasColor ? ["color"] : []), "evidence"] : spec.kind === "scatter3d" ? ["id", "x", "y", "z", ...(hasColor ? ["color"] : [])] : ["id", "value"];
   function select(id, notify = true) {
@@ -103,9 +104,9 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
   if (hasColor) legend.append(document.createTextNode(`${spec.color_label || "Colour value"}: ${number(-colorLimit)}`), el("span", "scene-legend-ramp"), document.createTextNode(`${number(colorLimit)} · symmetric linear scale`));
   else legend.textContent = schematic ? "Gene: blue · pathway: purple · complex: orange · category: grey. Positions are illustrative; edges carry only their stated relation." : "Points share one colour; position encodes the three supplied numerical variables.";
   if (schematic && hasColor) legend.append(document.createTextNode(". Non-gene nodes and unavailable estimates are neutral; edges do not encode correlation or physical interaction."));
-  const open = button("Open 3D scene", () => void start());
+  const open = button("Explore in 3D", () => void start());
   const reset = button("Reset camera", () => {restoringCamera = null; if (camera) {camera.position.set(3.5, 2.8, 4); camera.up.set(0, 1, 0); controls.target.set(0, 0, 0); camera.fov = 45; camera.updateProjectionMatrix(); controls.update(); render(); publishCamera();}});
-  const png = button("Download scene PNG", async () => {
+  const png = button("Image (.png)", async () => {
     if (!renderer) {status.textContent = "Open the 3D scene before exporting its image."; return;}
     render();
     const canvas = document.createElement("canvas"), source = renderer.domElement;
@@ -123,10 +124,11 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     ctx.fillText(spec.data[0].color === undefined ? "Independent linear axes; exact values and camera in companion scene JSON." : `${spec.color_label || "Colour"}: blue ${number(-colorLimit)} / white 0 / red ${number(colorLimit)}; independent linear axes.`, 16, y, canvas.width - 32);
     canvas.toBlob((blob) => {if (blob) void downloadFile("scientific-scene.png", blob, "image/png");}, "image/png");
   });
-  actions.prepend(open, reset); actions.append(png);
+  actions.prepend(open, reset);exportMenu.append(png);
+  actions.append(button("Fullscreen",()=>{if(root.requestFullscreen)root.requestFullscreen().catch(()=>{status.textContent="Fullscreen is unavailable in this browser.";});else status.textContent="Fullscreen is unavailable in this browser.";}));
   root.append(axes, legend, viewport, tableDetails);
   if (schematic) {
-    actions.append(button("Download typed edges CSV", () => downloadFile("scientific-scene-edges.csv",sceneEdgesCSV(spec),"text/csv")));
+    exportMenu.append(button("Download typed edges CSV", () => downloadFile("scientific-scene-edges.csv",sceneEdgesCSV(spec),"text/csv")));
     const details = el("details"), summary = el("summary", "", `Typed edge table · ${spec.edges.length} edges`), wrap = el("div", "scientific-scene-table-wrap"), table = el("table");
     details.append(summary, wrap);wrap.append(table);
     const head = el("tr");for(const name of ["Source", "Target", "Relation", "Evidence"])head.append(el("th", "", name));table.append(head);
@@ -134,7 +136,7 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     details.append(el("p","note",`Preview retains the first ${Math.min(500,spec.edges.length)} edges; JSON and CSV retain all edges.`));root.append(details);
   }
   function render() {if (renderer && !destroyed && !document.hidden) renderer.render(graph, camera);}
-  function release(message = "Scene paused. Open 3D scene to resume; exact data and exports remain available.") {
+  function release(message = "Scene paused. Explore in 3D to resume; exact data and exports remain available.") {
     generation++;
     if (cameraChangeTimer) publishCamera();
     if (camera) restoringCamera = bookmark();
@@ -230,7 +232,7 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     if (entry.isIntersecting && firstVisible) {firstVisible = false; void start();}
     else if (!entry.isIntersecting && (renderer || open.disabled)) release();
   }, {threshold: 0.02}); visibility.observe(viewport);
-  const onVisibility = () => {if (document.hidden && renderer) release("Scene paused while this browser tab is hidden. Open 3D scene to resume.");};
+  const onVisibility = () => {if (document.hidden && renderer) release("Scene paused while this browser tab is hidden. Explore in 3D to resume.");};
   document.addEventListener("visibilitychange", onVisibility);
   root.destroy = () => {if(cameraChangeTimer)publishCamera(); destroyed = true; release(); resize.disconnect(); visibility.disconnect(); document.removeEventListener("visibilitychange", onVisibility);};
   png.disabled = true;
