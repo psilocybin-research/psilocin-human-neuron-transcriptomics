@@ -10,7 +10,10 @@ try {
  await editor.fill('d <- data.frame(id=c("ENSG1","ENSG2"), a=c(0.123456789012345,-2), b=c(2,4), c=c(1,1))\natlas_scatter3d(d, "a", "b", "c", color="a", title="R scene integration")');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.locator('.scientific-scene').waitFor({timeout:180000});
- await page.locator('.scientific-scene').scrollIntoViewIfNeeded();
+ await page.locator('.scientific-scene-viewport').scrollIntoViewIfNeeded();
+ await page.waitForTimeout(250);
+ const openScene=page.locator('.scientific-scene').getByRole('button',{name:'Open 3D scene',exact:true});
+ if(await openScene.isEnabled())await openScene.click();
  await page.getByText(/2 points · Three/).waitFor({timeout:45000});
  const scene=await page.locator('.scientific-scene').evaluate(n=>n.getSceneSpec());
  assert.equal(scene.classification,'user-exploratory');assert.equal(scene.data[0].x,.123456789012345);

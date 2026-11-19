@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1367,
-  "total_bytes": 687304250,
+  "total_bytes": 687304455,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4189,8 +4189,8 @@
     },
     {
       "path": "explorer/test/scientific-scene-r-browser-check.mjs",
-      "bytes": 3014,
-      "sha256": "c1b22b8a2794c8f103bb2b14bb91458fd536a86255bcf7dcf0ce4b8719d531ba"
+      "bytes": 3219,
+      "sha256": "092a609e15da3ff1bb1353ac9758f08a894af4e9bc4c4ff9f2bdc5777eed1906"
     },
     {
       "path": "explorer/test/scientific-scene.test.js",
