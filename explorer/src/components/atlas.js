@@ -1008,7 +1008,11 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       previewRipple?.destroy();
       previewRipple = app.touchRipple.create(app, app.$el.find(".oxphos-network-preview"), event.clientX, event.clientY);
     };
-    networkPreview.onpointerup = networkPreview.onpointercancel = networkPreview.onpointerleave = () => previewRipple?.out();
+    networkPreview.onpointerup = networkPreview.onpointercancel = networkPreview.onpointerleave = () => {
+      const ripple = previewRipple;
+      previewRipple = undefined;
+      ripple?.out();
+    };
     intro.append(networkPreview);
     const heroAside = el("div", "oxphos-hero-aside");
     heroAside.append(metrics);

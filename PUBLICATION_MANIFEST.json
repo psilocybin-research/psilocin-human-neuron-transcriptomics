@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686730196,
+  "total_bytes": 686730273,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3389,8 +3389,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 111089,
-      "sha256": "22a90723dc23d2a3a4f24b7bd307db34b0fa5456c543e2455346d81ab5bbbbdb"
+      "bytes": 111166,
+      "sha256": "878f8b00d7969ea38c67851e6c3d1d00da39650817b06f9d821a9aad4ad29f69"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
