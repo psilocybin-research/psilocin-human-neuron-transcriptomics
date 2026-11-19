@@ -37,7 +37,7 @@ const record=JSON.parse(json);assert.equal(record.prior_cells.length,2);assert.m
 await tools();await page.getByRole('button',{name:'Restart R session',exact:true}).click();await closeTools();
 assert.match(await run('cat("reset:", !exists("shared_value"))'),/reset: TRUE/);
 // Switching notebooks closes the retained worker and preserves the explicit mode.
-await openWorkspaceNavigation(page);await page.getByRole('button',{name:'New notebook',exact:true}).click();
+await openWorkspaceNavigation(page);await page.getByRole('button',{name:'New analysis',exact:true}).click();
 assert.equal(await page.locator('#psilocin-app').getAttribute('data-r-session'),'closed');
 assert.match(await run('cat("notebook isolated:", !exists("shared_value"))'),/notebook isolated: TRUE/);
 // Error closes the partially mutated session; an explicit next run recovers.

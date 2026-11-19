@@ -15,7 +15,7 @@ export function validPythonRun(record) {
 export function parsePythonNotebooks(text) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).byteLength > PYTHON_NOTEBOOK_LIMITS.storageBytes) throw Error('Python notebook storage exceeds its size limit.');
   const books = JSON.parse(text);
-  if (!Array.isArray(books) || !books.length || books.length > PYTHON_NOTEBOOK_LIMITS.books) throw Error('Invalid Python notebook collection.');
+  if (!Array.isArray(books) || books.length > PYTHON_NOTEBOOK_LIMITS.books) throw Error('Invalid Python notebook collection.');
   const ids = new Set();
   return books.map(book => {
     if (!book || typeof book.id !== 'string' || !book.id || ids.has(book.id) || typeof book.name !== 'string' || !book.name.trim() ||
@@ -37,4 +37,18 @@ export function retainPythonRun(books, notebook, record) {
     candidates[0].runs.shift(); evicted++;
   }
   return {saved: notebook.runs.includes(record), evicted};
+}
+
+export function parsePythonWorkspace(value) {
+  if (!value || !Array.isArray(value.trash || []) || (value.trash || []).length > 100 || size(value) > 6000000) throw Error('Invalid or oversized Python workspace.');
+  const notebooks = parsePythonNotebooks(JSON.stringify(value.notebooks));
+  const trash = (value.trash || []).map(item => {
+    if (!item || !Number.isInteger(item.index) || item.index < 0 || typeof item.deleted !== 'string' || !Number.isFinite(Date.parse(item.deleted))) throw Error('Invalid Python Trash record.');
+    const book = parsePythonNotebooks(JSON.stringify([item.book]))[0];
+    if ((item.book.runs || []).length !== book.runs.length) throw Error('Invalid recorded Python output in Trash.');
+    return {book, index: item.index, deleted: item.deleted};
+  });
+  const ids = [...notebooks, ...trash.map(item => item.book)].map(book => book.id);
+  if (new Set(ids).size !== ids.length) throw Error('Active and trashed Python identifiers must be unique.');
+  return {notebooks, trash, active: notebooks.some(book => book.id === value.active) ? value.active : notebooks[0]?.id ?? null};
 }

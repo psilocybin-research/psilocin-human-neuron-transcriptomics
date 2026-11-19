@@ -1,13 +1,16 @@
-import {parsePythonNotebooks, retainPythonRun} from './python-notebooks.js';
-import {createElement as el} from './interface-utils.js';
+import {createAnalysisNavigation} from './analysis-navigation.js';
+import {moveAnalysisToTrash, restoreAnalysis, reorderAnalysis} from './analysis-lifecycle.js';
+import {parsePythonNotebooks, parsePythonWorkspace, retainPythonRun} from './python-notebooks.js';
+import {createElement as el, escapeHTML} from './interface-utils.js';
 import {createREditor} from '../assets/vendor/r-editor.js';
 import {createPythonRuntime, sha256Text} from './python-runtime.js';
 import {downloadFile} from './file-download.js';
-import {studioMenu} from './studio-ui.js';
+import {studioMenu,confirmPermanentDeletion} from './studio-ui.js';
 import {validateSceneSpec} from './scientific-scene-spec.js';
 import {validateResearchCSV} from './research-import.js';
 
 const storageKey = 'atlas-python-notebooks-v1';
+const workspaceKey = 'atlas-python-workspace-v2';
 const example = `# Python exploratory analysis; archived findings remain unchanged.
 # data: selected CSV as a list of dictionaries; values are strings.
 # datasets: all named input tables. Standard-library modules are available.
@@ -38,14 +41,17 @@ function readBooks() {
 
 export function createPythonLab({root, getDatasets = async () => [], onTransferToR, onResults, onClearResults}) {
   const host = el('section', 'python-lab custom-r-workspace');
-  const books = readBooks();
-  let current = books[0], runtime, runtimeInfo, busy = false, generation = 0, destroyed = false, record;
+  let persisted;
+  try{const stored=localStorage.getItem(workspaceKey);if(stored)persisted=parsePythonWorkspace(JSON.parse(stored));}catch{}
+  const books = persisted?.notebooks || readBooks(), trash = persisted?.trash || [];
+  let current = books.find(book=>book.id===persisted?.active)||books[0], navigation, undoToast, runtime, runtimeInfo, busy = false, generation = 0, destroyed = false, record;
   const heading = el('h2', '', 'Python Lab');
+  const emptyState=el('div','python-empty-state');emptyState.append(el('p','note','No personal Python analyses. Create an analysis or restore one from Trash.'),button('New analysis',createAnalysis));
   const intro = el('p', 'note', 'Optional Python Lab for exploratory table analysis. R remains the primary research environment.');
   const toolbar = el('div', 'custom-r-toolbar');
-  const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook');
+  const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook');notebooks.hidden=true;
   const datasets = el('select'); datasets.setAttribute('aria-label', 'Python dataset');
-  const editor = createREditor(current.code, {label: 'Python code', language: 'python'});
+  const editor = createREditor(current?.code||'', {label: 'Python code', language: 'python'});
   const status = el('p', 'note python-lab-status', 'Python is not loaded. Choose Run Python or Initialize Python when ready.');
   status.setAttribute('role', 'status');
   const consoleOutput = el('pre', 'custom-r-console'); consoleOutput.setAttribute('aria-label', 'Python console');
@@ -63,16 +69,13 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   const stop = button('Stop Python', () => reset('Python stopped. The worker was reset.'));
   const initialize = button('Initialize Python', initializePython);
   const more = button('Python actions', () => studioMenu(root, more, 'Python notebook', [
-    {label: 'New Python notebook', run() {
-      if (books.length >= 20) { status.textContent = 'The limit is 20 Python notebooks.'; return; }
-      save(); reset(); current = newBook(); books.push(current); editor.value = current.code; refreshBooks(); refreshHistory(); save();
-    }},
-    {label: 'Rename Python notebook', run() { root.f7.dialog.prompt('Notebook name', 'Rename Python notebook', name => {
-      if (name.trim()) { current.name = name.trim().slice(0, 120); save(); refreshBooks(); }
-    }, undefined, current.name); }},
-    {label: 'Download Python script', run: () => downloadFile('atlas-analysis.py', editor.value, 'text/x-python')},
-    {label: 'Download Python notebooks', run: () => { save(); return downloadFile('atlas-python-notebooks.json', JSON.stringify({schema: 1, language: 'python', notebooks: books}, null, 2), 'application/json'); }},
-    {label: 'Delete Python notebook', available: books.length > 1, destructive: true, run() { root.f7.dialog.confirm('Delete this Python notebook and its recorded outputs?', 'Delete Python notebook', () => { reset(); books.splice(books.indexOf(current), 1); current = books[0]; editor.value = current.code; refreshBooks(); restoreLatest(); save(); }); }},
+    {label: 'New analysis', run: createAnalysis},
+    {label: 'Rename', available:!!current, run:()=>renameAnalysis(current)},
+    {label: 'Duplicate', available:!!current, run:()=>duplicateAnalysis(current)},
+    {label: 'Download Python script', available:!!current, run: () => downloadFile('atlas-analysis.py', editor.value, 'text/x-python')},
+    {label: 'Download Python notebooks', run: () => { save(); return downloadFile('atlas-python-notebooks.json', JSON.stringify({schema: 1, language: 'python', notebooks: books, trash}, null, 2), 'application/json'); }},
+    {label: 'Move to Trash', available:!!current, destructive:true, run:()=>trashAnalysis(current)},
+    {label: 'Trash', run:()=>navigation.openTrash()},
     {label: 'Reset Python worker', run: () => reset()},
   ]));
   const csv = button('Download Python CSV', () => downloadFile('python-results.csv', record.csv));
@@ -84,20 +87,23 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   });
   const exports = el('div', 'custom-r-toolbar'); exports.append(csv, provenance); if (onTransferToR) exports.append(transfer);
   toolbar.append(notebooks, datasets, run, stop, initialize, more);
-  host.append(heading, intro, toolbar, editor, status, history, consoleOutput, result, exports, inspector, limits);
+  host.append(heading, intro, toolbar, emptyState, editor, status, history, consoleOutput, result, exports, inspector, limits);
   function setBusy(value) {
-    busy = value; history.disabled = value || !current.runs?.length; run.disabled = initialize.disabled = notebooks.disabled = datasets.disabled = more.disabled = value;
+    busy = value; history.disabled = value || !current?.runs?.length; initialize.disabled = datasets.disabled = more.disabled = value;run.disabled=notebooks.disabled=value||!current;editor.inert=value||!current;navigation?.setBusy(value);
+    host.classList.toggle('python-empty',!current);emptyState.hidden=!!current;
     stop.disabled = !value; csv.disabled = transfer.disabled = value || !record?.csv; provenance.disabled = value || !record;
     host.setAttribute('aria-busy', String(value));
   }
   function refreshBooks() {
     notebooks.replaceChildren(...books.map(book => { const option = el('option', '', book.name); option.value = book.id; return option; }));
-    notebooks.value = current.id;
+    notebooks.value = current?.id||'';
+    for(const book of [...books,...trash.map(item=>item.book)])book.title=book.name;
+    navigation?.render();
   }
   function save() {
-    current.code = editor.value;
-    if (current.code.length > 100000) { status.textContent = 'This script exceeds the 100,000-character local save limit. Download it to preserve the full source.'; return false; }
-    try { localStorage.setItem(storageKey, JSON.stringify(books)); return true; }
+    if(current)current.code = editor.value;
+    if (current?.code.length > 100000) { status.textContent = 'This script exceeds the 100,000-character local save limit. Download it to preserve the full source.'; return false; }
+    try { const value={notebooks:books,trash,active:current?.id??null};if(new TextEncoder().encode(JSON.stringify(value)).byteLength>6000000)throw Error('Storage limit');localStorage.setItem(workspaceKey,JSON.stringify(value));localStorage.setItem(storageKey, JSON.stringify(books)); return true; }
     catch { status.textContent = 'Browser storage is unavailable or full. Download your Python notebook to preserve it.'; return false; }
   }
   function reset(message = 'Python worker reset. Run Python to start a new session.') {
@@ -134,6 +140,7 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     return items;
   }
   async function execute() {
+    if (!current)return;
     if (busy) return;
     const token = generation; save(); setBusy(true); record = undefined; onClearResults?.(); result.replaceChildren(); consoleOutput.textContent = '';
     status.textContent = 'Preparing Python inputs…'; const code = editor.value, started = performance.now();
@@ -174,10 +181,10 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   function refreshHistory() {
     history.replaceChildren(el('option', '', 'Recorded Python runs'));
     history.firstChild.value = '';
-    for (const [index, saved] of (current.runs || []).entries()) {
+    for (const [index, saved] of (current?.runs || []).entries()) {
       const option = el('option', '', `${saved.run_utc} · ${saved.rows} rows`); option.value = String(index); history.append(option);
     }
-    history.disabled = busy || !current.runs?.length;
+    history.disabled = busy || !current?.runs?.length;
   }
   function displayRecord(saved) {
     record = saved; result.replaceChildren();
@@ -191,19 +198,29 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   }
   function restoreLatest() {
     refreshHistory();
-    const latest = current.runs?.at(-1);
+    const latest = current?.runs?.at(-1);
     if (latest) { displayRecord(latest); status.textContent = 'Restored recorded Python output. No code was executed.'; }
   }
   history.onchange = () => {
-    const saved = current.runs?.[Number(history.value)];
+    const saved = current?.runs?.[Number(history.value)];
     if (history.value !== '' && saved) { onClearResults?.(); displayRecord(saved); status.textContent = 'Viewing recorded Python output. The editor has not changed; no code was executed.'; }
   };
-  notebooks.onchange = () => { save(); reset(); current = books.find(book => book.id === notebooks.value); editor.value = current.code; restoreLatest(); };
+  notebooks.onchange = () => chooseAnalysis(books.find(book=>book.id===notebooks.value));
   editor.addEventListener('input', () => { save(); if (record) status.textContent = 'Script changed. Results belong to the last completed Python run.'; });
   editor.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); execute(); } });
+  const sidebar=el('aside','studio-sidebar');sidebar.setAttribute('aria-label','Python analyses');
+  function workspace(){return {notebooks:books,trash,active:current?.id??null};}
+  function chooseAnalysis(book){if(busy||!book)return;save();reset();current=book;editor.value=book.code;refreshBooks();restoreLatest();setBusy(false);save();root.workspaceShell?.closeNavigation();}
+  function createAnalysis(){if(busy||books.length>=20)return;save();const book=newBook();books.push(book);chooseAnalysis(book);}
+  function renameAnalysis(book){if(busy||!book)return;root.f7.dialog.prompt('Analysis name','Rename analysis',name=>{if(name.trim()){book.name=name.trim().slice(0,120);save();refreshBooks();}},undefined,book.name);}
+  function duplicateAnalysis(book){if(busy||books.length>=20)return;save();const copy=structuredClone(book);copy.id=crypto.randomUUID();copy.name=`${book.name} (copy)`.slice(0,120);books.push(copy);chooseAnalysis(copy);}
+  function restoreAnalysisById(bookId){if(busy)return;if(books.length>=20){status.textContent='The limit is 20 active Python analyses.';return;}try{const state=workspace();if(!restoreAnalysis(state,bookId))return;reset();current=books.find(book=>book.id===state.active);editor.value=current.code;refreshBooks();restoreLatest();setBusy(false);save();}catch(error){status.textContent=error.message;}}
+  function trashAnalysis(book){if(busy||!book)return;save();try{const state=workspace();if(!moveAnalysisToTrash(state,book.id))return;reset();current=books.find(book=>book.id===state.active);editor.value=current?.code||'';refreshBooks();restoreLatest();setBusy(false);save();undoToast?.close(false);undoToast=root.f7.toast.create({text:`Moved “${escapeHTML(book.name)}” to Trash.`,closeButton:true,closeButtonText:'Undo',closeTimeout:8000,destroyOnClose:true,on:{closeButtonClick:()=>restoreAnalysisById(book.id)}});undoToast.open();}catch(error){status.textContent=error.message;}}
+  navigation=createAnalysisNavigation({root,sidebar,action:(label,icon,fn)=>button(label,fn),newBook:button('New analysis',createAnalysis),getWorkspace:workspace,isBusy:()=>busy,language:'python',examples:[],maxActive:20,onChoose:chooseAnalysis,onRename:renameAnalysis,onDuplicate:duplicateAnalysis,onTrash:trashAnalysis,onRestore:restoreAnalysisById,onExport:book=>downloadFile('atlas-analysis.py',book.code,'text/x-python'),onReorder:(id,to)=>{if(!busy&&reorderAnalysis(workspace(),id,to)){save();refreshBooks();}},onPermanentDelete:id=>confirmPermanentDeletion(root,()=>{if(busy)return;const index=trash.findIndex(item=>item.book.id===id);if(index>=0)trash.splice(index,1);save();navigation.render();})});
+  host.workspaceNavigation=sidebar;
   refreshBooks(); setBusy(false); restoreLatest();
   loadDatasets().catch(error => { if (!destroyed) status.textContent = `Input tables unavailable: ${error.message}`; });
   host.refreshDatasets = loadDatasets;
-  host.destroy = () => { destroyed = true; save(); reset(); editor.destroy(); };
+  host.destroy = () => { navigation.destroy();undoToast?.close(false);sidebar.remove();destroyed = true; save(); reset(); editor.destroy(); };
   return host;
 }

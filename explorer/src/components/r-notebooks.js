@@ -1,10 +1,12 @@
+import {moveAnalysisToTrash, restoreAnalysis, reorderAnalysis} from "./analysis-lifecycle.js";
+import {createAnalysisNavigation} from "./analysis-navigation.js";
 import {createWorkspaceLayout} from "./workspace-layout.js";
 import {createREditor} from "../assets/vendor/r-editor.js";
-import {studioMenu, studioResizer} from "./studio-ui.js";
+import {studioMenu, studioResizer, confirmPermanentDeletion} from "./studio-ui.js";
 import {parseExploratoryCSV} from "./exploratory-result-data.js";
 import {notebookPublication} from "./notebook-publication.js";
 // Local notebooks contain researcher-authored material only. They never execute on load.
-import { createElement as el } from "./interface-utils.js";
+import { createElement as el, escapeHTML, destroySheet } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import { rExamples } from "./r-examples.js";
 import { createRRecipeBuilder } from "./r-recipe-builder.js";
@@ -20,15 +22,14 @@ export function createNotebook(title = "Untitled notebook", code = "") {
     cells: [{ id: id(), kind: "code", source: code, runs: [] }],
   };
 }
-export function validateWorkspace(value) {
+export function validateWorkspace(value, includeTrash = true) {
   if (
     value?.schema !== notebookSchema ||
     !Array.isArray(value.notebooks) ||
-    !value.notebooks.length ||
     value.notebooks.length > 30
   )
     throw Error(
-      "Choose a Workspace notebook export with 1–30 notebooks.",
+      "Choose a Workspace notebook export with 0–30 analyses.",
     );
   const notebooks = value.notebooks.map((book) => {
     if (
@@ -90,12 +91,21 @@ export function validateWorkspace(value) {
     )
   )
     throw Error("Notebook and cell identifiers must be unique.");
+  const trash = includeTrash && value.trash !== undefined ? value.trash : [];
+  if (!Array.isArray(trash) || trash.length > 100) throw Error("Trash may contain at most 100 analyses.");
+  const deleted = trash.map(item => {
+    if (!item || !Number.isInteger(item.index) || item.index < 0 || typeof item.deleted !== 'string' || !Number.isFinite(Date.parse(item.deleted))) throw Error("Invalid trashed analysis record.");
+    return {book: validateWorkspace({schema: notebookSchema, notebooks: [item.book]}, false).notebooks[0], index: item.index, deleted: item.deleted};
+  });
+  const identities = [...notebooks, ...deleted.map(item => item.book)].map(book => book.id);
+  if (new Set(identities).size !== identities.length) throw Error("Active and trashed analysis identifiers must be unique.");
   return {
     schema: notebookSchema,
     notebooks,
+    trash: deleted,
     active: notebooks.some((book) => book.id === value.active)
       ? value.active
-      : notebooks[0].id,
+      : notebooks[0]?.id ?? null,
   };
 }
 export async function verifyNotebookArchive(value, cryptoAPI = globalThis.crypto) {
@@ -165,12 +175,12 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   const store = openNotebookStore();
   const first = createNotebook("Exploratory analysis", initialCode);
   let workspace = {schema: notebookSchema, notebooks: [first], active: first.id};
+  let navigation;
   let activeCell = first.cells[0].id, busy = false, ready = false, saveTimer, destroyed = false, revision = 0, runAllCancelled = false;
   const pendingSelections = [], editors = new Map(), sceneViews = new Set();
   const host = el('section', 'research-studio-notebooks studio-grid');
   const sidebar = el('aside', 'studio-sidebar'); sidebar.setAttribute('aria-label','Notebooks');
-  const sidebarHead = el('div','studio-sidebar-head'); sidebarHead.append(el('h3','','My analyses'));
-  const books = el('div','studio-book-list');
+
   const status = el('span','studio-save-status','Opening local storage…'); status.setAttribute('role','status');
   const toolbar = el('div','studio-main-toolbar'); toolbar.setAttribute('aria-label','Notebook controls');
   const title = el('h3','studio-notebook-title');
@@ -182,9 +192,8 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   const tools = el('div','studio-research-tools');
   let layout;
   const notebook = () => workspace.notebooks.find(book=>book.id===workspace.active);
-  const cell = () => notebook().cells.find(item=>item.id===activeCell);
+  const cell = () => notebook()?.cells.find(item=>item.id===activeCell);
   Object.defineProperty(editor,'value',{configurable:true,get:()=>cell()?.source||'',set(value){const current=cell();if(!current)return;current.source=String(value);const cm=editors.get(current.id);if(cm&&cm.value!==value)cm.value=value;changed();}});
-  const capture=()=>{};
   async function save(){if(!ready||destroyed)return;try{await store.write(structuredClone(workspace));status.textContent='Saved locally';}catch(error){status.textContent='Not saved · export a copy';onStatus?.(error.message);}}
   function changed(){revision++;status.textContent='Saving…';clearTimeout(saveTimer);saveTimer=setTimeout(save,400);}
   function cleanup(){for(const cm of editors.values())cm.destroy();editors.clear();for(const view of sceneViews)view.destroy?.();sceneViews.clear();}
@@ -206,13 +215,42 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     {label:'Move up',available:notebook().cells.indexOf(item)>0,run:()=>move(item,-1)},
     {label:'Move down',available:notebook().cells.indexOf(item)<notebook().cells.length-1,run:()=>move(item,1)},
     {label:'Clear output',run(){item.runs=[];render();changed();}},
-    {label:'Delete cell',destructive:true,run:()=>root.f7.dialog.confirm('Delete this cell and its recorded outputs?','Delete cell',()=>{notebook().cells=notebook().cells.filter(x=>x.id!==item.id);if(!notebook().cells.length)notebook().cells.push({id:id(),kind:'code',source:'',runs:[]});activeCell=notebook().cells[0].id;render();changed();})}
+    {label:'Delete cell',destructive:true,run(){if(busy)return;const book=notebook(),index=book.cells.indexOf(item);book.cells.splice(index,1);const placeholder=!book.cells.length?{id:id(),kind:'code',source:'',runs:[]}:null;if(placeholder)book.cells.push(placeholder);activeCell=book.cells[0].id;render();changed();save();undoMessage('Cell deleted.',()=>{if(!workspace.notebooks.includes(book))return;if(book.cells.length>=200){onStatus?.('The limit is 200 cells. Remove a cell before undoing.');return;}if(placeholder && book.cells.length===1 && book.cells[0]===placeholder && !placeholder.source && !placeholder.runs.length)book.cells=[];book.cells.splice(Math.min(index,book.cells.length),0,item);if(workspace.active===book.id){activeCell=item.id;render();}changed();save();});}}
+
   ]);}
-  function deleteAnalysis(book){if(busy)return;root.f7.dialog.confirm(`Delete “${book.title}” and its saved outputs from this device?`,'Delete analysis',()=>{const wasActive=workspace.active===book.id;workspace.notebooks=workspace.notebooks.filter(item=>item.id!==book.id);if(!workspace.notebooks.length)workspace.notebooks.push(createNotebook('Untitled analysis',''));if(wasActive)chooseBook(workspace.notebooks[0]);else{render();changed();}});}
+  let undoToast;
+  function undoMessage(text, undo) {
+    undoToast?.close(false);
+    undoToast = root.f7.toast.create({text, closeButton: true, closeButtonText: 'Undo', closeTimeout: 8000, destroyOnClose: true,
+      on: {closeButtonClick(){if(!busy)undo();else onStatus?.('Interrupt execution before undoing. The analysis remains in Trash.');}}});
+    undoToast.open();
+  }
+  function selectCurrent() { activeCell=notebook()?.cells[0]?.id; }
+  function deleteAnalysis(book) {
+    if(busy || !book)return;
+    try { const wasActive=workspace.active===book.id;if(!moveAnalysisToTrash(workspace,book.id))return;
+      if(wasActive){onNotebookChange?.();selectCurrent();render();}else navigation.render();changed();save();
+      undoMessage(`Moved “${escapeHTML(book.title)}” to Trash.`,()=>restoreBook(book.id));
+    } catch(error){onStatus?.(error.message);}
+  }
+  function restoreBook(bookId) {
+    if(busy)return;
+    try{if(!restoreAnalysis(workspace,bookId))return;onNotebookChange?.();selectCurrent();render();changed();save();}catch(error){onStatus?.(error.message);}
+  }
+  function duplicateBook(book) {
+    if(busy||workspace.notebooks.length>=30)return;
+    const copy=structuredClone(book);copy.id=id();copy.title=`${book.title} (copy)`.slice(0,120);copy.created=new Date().toISOString();
+    copy.cells.forEach(item=>{item.id=id();});workspace.notebooks.push(copy);chooseBook(copy);
+  }
+  function renameBook(book){if(busy)return;root.f7.dialog.prompt('Analysis name','Rename analysis',value=>{book.title=value.trim().slice(0,120)||'Untitled analysis';title.textContent=notebook()?.title||'R Studio';navigation.render();changed();},undefined,book.title);}
+  function reorderBook(bookId,to){if(busy)return;if(reorderAnalysis(workspace,bookId,to)){navigation.render();changed();}}
   function render(){
-    cleanup();books.replaceChildren();title.textContent=notebook().title;
-    for(const book of workspace.notebooks){const entry=el('div','studio-book-entry'),button=action(book.title,'custom-r',()=>chooseBook(book));button.setAttribute('aria-current',String(book.id===workspace.active));button.disabled=busy;const menu=action('⋯','controls',()=>studioMenu(root,menu,book.title,[{label:'Rename analysis',run:()=>root.f7.dialog.prompt('Analysis name','Rename analysis',value=>{book.title=value.trim().slice(0,120)||'Untitled analysis';render();changed();},undefined,book.title)},{label:'Delete analysis',destructive:true,run:()=>deleteAnalysis(book)}]));menu.setAttribute('aria-label',`Actions for analysis ${book.title}`);menu.disabled=busy;entry.append(button,menu);books.append(entry);}
+    cleanup();navigation?.render();title.textContent=notebook()?.title||'R Studio';
     list.replaceChildren();
+    const empty = !notebook();
+    runCell.disabled=runAll.disabled=exportButton.disabled=empty||busy;
+    if(empty){const message=el('div','studio-empty-state');message.append(el('h3','','No personal analyses'),el('p','note','Create an analysis, open an archived reproduction, or restore an analysis from Trash.'),action('New analysis','plus',newNotebook));list.append(message);insert.hidden=true;onCellChange?.(undefined);layout?.refreshFigures();return;}
+    insert.hidden=false;
     notebook().cells.forEach((item,index)=>{
       const row=el('article','studio-inline-cell');row.dataset.cellId=item.id;row.classList.toggle('is-active',item.id===activeCell);
       const bar=el('div','studio-cell-header'),select=action(`${item.kind==='code'?'R':'Markdown'} ${index+1}`,'custom-r',()=>activate(item));select.setAttribute('aria-label',`Select ${item.kind==='code'?'R':'Markdown'} cell ${index+1}`);
@@ -233,21 +271,17 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
       if(item.kind==='code'){const output=el('details','studio-cell-output');output.open=true;output.append(el('summary','','Output'));const content=el('div','studio-inline-output');renderOutput(item,content);output.append(content);row.append(bar,codeBlock,output);}
       list.append(row);
     });
-    onCellChange?.(cell());
+    onCellChange?.(cell());layout?.refreshFigures();
   }
-  function appendCell(kind,source=''){if(busy||notebook().cells.length>=200)return;const item={id:id(),kind,source,runs:[]};notebook().cells.push(item);activeCell=item.id;render();changed();save();list.lastElementChild?.scrollIntoView({block:'nearest'});}
+  function appendCell(kind,source=''){if(busy)return;if(!notebook()){const book=createNotebook('Untitled analysis');book.cells=[];workspace.notebooks.push(book);workspace.active=book.id;onNotebookChange?.();}if(notebook().cells.length>=200)return;const item={id:id(),kind,source,runs:[]};notebook().cells.push(item);activeCell=item.id;render();changed();save();list.lastElementChild?.scrollIntoView({block:'nearest'});}
   function move(item,offset){const a=notebook().cells,from=a.indexOf(item),to=from+offset;if(to<0||to>=a.length)return;[a[from],a[to]]=[a[to],a[from]];render();changed();}
-  function newNotebook(){if(busy||workspace.notebooks.length>=30)return;const book=createNotebook();workspace.notebooks.push(book);chooseBook(book);}
+  function newNotebook(){if(busy||workspace.notebooks.length>=30)return;const book=createNotebook('Untitled analysis');workspace.notebooks.push(book);chooseBook(book);}
   async function exportArchive(){const payload={...structuredClone(workspace),exported_utc:new Date().toISOString(),provenance:getSources(),execution:'Explicit runs only; execution_mode and prior_cells record isolated/shared sessions.',classification:'user-exploratory'};const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(payload))))].map(x=>x.toString(16).padStart(2,'0')).join('');downloadFile('psilocin-research-notebooks.json',JSON.stringify({...payload,integrity:{algorithm:'SHA-256',sha256:hash}},null,2),'application/json');}
   const file=el('input');file.type='file';file.accept='.json,application/json';file.hidden=true;file.setAttribute('aria-label','Import notebooks file');
-  file.onchange=async()=>{try{const input=file.files[0];if(!input)return;if(input.size>20*1024*1024)throw Error('Notebook import is limited to 20 MB.');const imported=await verifyNotebookArchive(JSON.parse(await input.text()));root.f7.dialog.confirm('Replace local notebooks with this verified archive? Export your current notebooks first.','Import notebooks',()=>{onNotebookChange?.();workspace=imported;activeCell=notebook().cells[0].id;render();changed();});}catch(error){onStatus?.(error.message);}file.value='';};
-  const newBook=action('New notebook','plus',newNotebook),importBook=action('Import','top',()=>file.click());
-  const bookSettings=action('Notebook settings','controls',()=>studioMenu(root,bookSettings,'Notebook settings',[
-    {label:'Rename notebook',run:()=>root.f7.dialog.prompt('Notebook title','Rename notebook',value=>{notebook().title=value.trim().slice(0,120)||'Untitled notebook';render();changed();},undefined,notebook().title)},
-    {label:'Delete analysis',destructive:true,run:()=>deleteAnalysis(notebook())}
-  ]));
-  sidebarHead.append(newBook);sidebar.append(sidebarHead,books,file);
-  const runCell=action('Run cell','play',()=>onRun?.()),runAll=action('Run all','play',async()=>{runAllCancelled=false;for(const item of [...notebook().cells]){if(runAllCancelled||destroyed)break;if(item.kind!=='code')continue;activate(item);const result=await onRun?.();if(!result||result.error)break;}}),interrupt=action('Interrupt','close',()=>{runAllCancelled=true;onStop?.();});interrupt.disabled=true;
+  file.onchange=async()=>{try{const input=file.files[0];if(!input)return;if(input.size>20*1024*1024)throw Error('Notebook import is limited to 20 MB.');const imported=await verifyNotebookArchive(JSON.parse(await input.text()));root.f7.dialog.confirm('Replace local notebooks with this verified archive? Export your current notebooks first.','Import notebooks',()=>{onNotebookChange?.();workspace=imported;selectCurrent();render();changed();});}catch(error){onStatus?.(error.message);}file.value='';};
+  const newBook=action('New analysis','plus',newNotebook),importBook=action('Import','top',()=>file.click());
+  sidebar.append(file);
+  const runCell=action('Run cell','play',()=>onRun?.()),runAll=action('Run all','play',async()=>{runAllCancelled=false;for(const item of [...(notebook()?.cells||[])]){if(runAllCancelled||destroyed)break;if(item.kind!=='code')continue;activate(item);const result=await onRun?.();if(!result||result.error)break;}}),interrupt=action('Interrupt','close',()=>{runAllCancelled=true;onStop?.();});interrupt.disabled=true;
   const add=action('Add cell','plus',()=>studioMenu(root,add,'Add cell',[{label:'+ R cell',run:()=>appendCell('code')},{label:'+ Markdown',run:()=>appendCell('markdown','## Notes\n')},{label:'3D scatter scene',run:()=>appendCell('code','results <- subset(genes, selected & contrast == "day1_vs_control")\natlas_scatter3d(results, "log2FoldChange", "lfcSE", "baseMean", color="log2FoldChange", title="Archived effects, uncertainty and expression")')},{label:'Network overlay',run:()=>appendCell('code','results <- subset(genes, selected & contrast == "day1_vs_control")\natlas_network(results, "log2FoldChange")')},{label:'Molecular structure',run:()=>appendCell('code','atlas_structure("GPX4")')},{label:'Research note',run:()=>appendCell('markdown','## Hypothesis\nObservation:\nAlternative explanation:\nContradictory evidence:\nProposed test:\n')},{label:'Reference',run:()=>appendCell('markdown','## Reference\nTitle:\nDOI or URL:\nRole in this analysis:\n')} ]));
   const exportButton=action('Export','download',()=>studioMenu(root,exportButton,'Export notebook',[
     {label:'Notebook archive (.json)',run:exportArchive},
@@ -261,10 +295,14 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   focus.classList.add('studio-focus-toggle');focus.setAttribute('aria-pressed','false');
   toolbar.append(openBooks,runCell,runAll,interrupt,add,exportButton,focus,more);
   const builder=createRRecipeBuilder({action,onGenerate:source=>appendCell('code',source),onStatus});tools.append(builder,mode);
-  function openPane(content,label){const slot=el('span');content.before(slot);const sheet=el('div','sheet-modal studio-pane-sheet'),inner=el('div','sheet-modal-inner');inner.append(el('h3','',label));const close=action('Done','close',()=>modal.close());inner.append(close,content);sheet.append(inner);root.append(sheet);const modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){slot.replaceWith(content);sheet.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();}
+  function openPane(content,label){const slot=el('span');content.before(slot);const sheet=el('div','sheet-modal studio-pane-sheet'),inner=el('div','sheet-modal-inner'),handle=el('div','workspace-sheet-handle');handle.append(el('span'));inner.append(handle,el('h3','',label));const close=action('Done','close',()=>modal.close());inner.append(close,content);sheet.append(inner);root.append(sheet);const modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,swipeToClose:true,swipeHandler:handle,on:{closed(){slot.replaceWith(content);sheet.remove();setTimeout(()=>destroySheet(modal),0);}}});modal.open();}
   function openTools(){openPane(tools,'R tools');}
-  const archived=el('details','studio-archived-analyses');archived.open=true;archived.append(el('summary','','Archived analyses'));for(const example of rExamples)archived.append(action(example.title,'custom-r',()=>{if(busy||workspace.notebooks.length>=30)return;const book=createNotebook(example.title,example.code);workspace.notebooks.push(book);chooseBook(book);}));sidebar.append(archived);
-  const resources=el('div','studio-sidebar-resources');resources.append(action('Data & settings','controls',()=>openTools()));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));sidebar.append(resources);
+  navigation=createAnalysisNavigation({root,sidebar,action,newBook,getWorkspace:()=>workspace,isBusy:()=>busy,
+    onChoose:chooseBook,onRename:renameBook,onDuplicate:duplicateBook,onTrash:deleteAnalysis,onRestore:restoreBook,onReorder:reorderBook,
+    onExport:book=>downloadFile('research-analysis.html',notebookPublication(book,'html'),'text/html'),
+    onPermanentDelete:bookId=>{if(busy)return;confirmPermanentDeletion(root,()=>{if(busy)return;workspace.trash=workspace.trash.filter(item=>item.book.id!==bookId);navigation.render();changed();save();});},
+    onArchived:example=>{if(busy||workspace.notebooks.length>=30)return;const book=createNotebook(example.title,example.code);workspace.notebooks.push(book);chooseBook(book);},
+    onTools:openTools,onOpenSystems});
   inspector.append(el('h3','','Workspace'));
   const insert=el('div','studio-insert-cell');insert.append(action('Insert R cell','plus',()=>appendCell('code')),action('Insert Markdown','plus',()=>appendCell('markdown','## Notes\n')));
   const analysisHeader=el('header','studio-analysis-header');analysisHeader.append(title,status);center.append(analysisHeader,list,insert);
@@ -273,11 +311,11 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   layout=createWorkspaceLayout({root,host,sidebar,inspector,toolbar,center,consolePanel,consoleBody,action,onSelection:onInspectSelection});
   render();
   const initialRevision=revision;
-  store.read().then(saved=>{if(destroyed)return;if(saved&&revision===initialRevision){workspace=validateWorkspace(saved);activeCell=notebook().cells[0].id;render();}ready=true;for(const selection of pendingSelections.splice(0))api.appendSelection(selection);save();}).catch(error=>{ready=true;status.textContent='Local storage unavailable';onStatus?.(error.message);});
-  const api={element:host,sidebar,inspector,tools,consoleBody,toolbar,layout,openTools,restoreWorkspace:async value=>{if(busy)throw Error("Interrupt R before restoring a session.");onNotebookChange?.();workspace=validateWorkspace(value);activeCell=notebook().cells[0].id;render();await save();},notebookId:()=>workspace.active,snapshot:()=>structuredClone(workspace),
+  store.read().then(saved=>{if(destroyed)return;if(saved&&revision===initialRevision){workspace=validateWorkspace(saved);selectCurrent();render();}ready=true;for(const selection of pendingSelections.splice(0))api.appendSelection(selection);save();}).catch(error=>{ready=true;status.textContent='Local storage unavailable';onStatus?.(error.message);});
+  const api={element:host,sidebar,inspector,tools,consoleBody,toolbar,layout,openTools,restoreWorkspace:async value=>{if(busy)throw Error("Interrupt R before restoring a session.");onNotebookChange?.();workspace=validateWorkspace(value);selectCurrent();render();await save();},notebookId:()=>workspace.active,snapshot:()=>structuredClone(workspace),
     setSessionMode(shared){mode.textContent=shared?'Notebook session · variables persist. Archived inputs and seed initialize once. Restart, interrupt, errors or notebook changes discard the runtime.':'Independent cell execution · every cell starts with fresh inputs and seed.';},
     current:()=>cell(),
-    setBusy(value){busy=value;runCell.disabled=runAll.disabled=add.disabled=newBook.disabled=importBook.disabled=bookSettings.disabled=value;interrupt.disabled=!value;books.inert=value;list.querySelectorAll('.studio-cell-header button').forEach(b=>b.disabled=value);for(const cm of editors.values())cm.inert=value;},save,
+    setBusy(value){busy=value;runCell.disabled=runAll.disabled=value||!notebook();add.disabled=newBook.disabled=importBook.disabled=value;exportButton.disabled=value||!notebook();navigation.setBusy(value);interrupt.disabled=!value;list.querySelectorAll('.studio-cell-header button').forEach(b=>b.disabled=value);for(const cm of editors.values())cm.inert=value;},save,
     async recordRun(run){const current=cell();if(!current||current.kind!=='code')return;const execution_order=Math.max(0,...notebook().cells.flatMap(x=>x.runs||[]).map(x=>x.execution_order||0))+1;current.runs=[...current.runs,{...structuredClone(run),execution_order}].slice(-20);const target=list.querySelector(`[data-cell-id="${current.id}"] .studio-inline-output`);if(target)renderOutput(current,target);await save();layout.refreshFigures();},
     appendSelection(selection) {
       if (!ready) {
@@ -313,7 +351,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     },
     addCode:source=>appendCell('code',source),
     addRecipe(recipeId){const recipe=rExamples.find(item=>item.id===recipeId);if(recipe)appendCell('code',recipe.code);},
-    async destroy(){layout.destroy();clearTimeout(saveTimer);runAllCancelled=true;cleanup();clearTimeout(saveTimer);if(ready)await store.write(structuredClone(workspace)).catch(()=>{});destroyed=true;await store.close().catch(()=>{});}
+    async destroy(){navigation.destroy();undoToast?.close(false);layout.destroy();clearTimeout(saveTimer);runAllCancelled=true;cleanup();clearTimeout(saveTimer);if(ready)await store.write(structuredClone(workspace)).catch(()=>{});destroyed=true;await store.close().catch(()=>{});}
   };
   return api;
 }

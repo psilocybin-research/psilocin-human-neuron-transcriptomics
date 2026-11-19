@@ -25,3 +25,13 @@ test('Python history evicts oldest outputs across notebooks at the global limit'
   assert.equal(books.flatMap(item => item.runs).length, 4);
   assert.match(first.runs[0].run_utc, /02Z$/);
 });
+
+test('Python workspace preserves Trash, empty state and identity across reloads', async () => {
+ const {parsePythonWorkspace}=await import('../src/components/python-notebooks.js');
+ const original=book();original.runs=[run(1)];
+ const workspace=parsePythonWorkspace({notebooks:[],trash:[{book:original,index:0,deleted:'2026-11-19T12:00:00Z'}],active:original.id});
+ assert.equal(workspace.active,null);assert.deepEqual(workspace.trash[0].book,original);
+ assert.deepEqual(parsePythonNotebooks('[]'),[]);
+ assert.throws(()=>parsePythonWorkspace({...workspace,notebooks:[original]}),/unique/);
+ assert.throws(()=>parsePythonWorkspace({...workspace,trash:[{...workspace.trash[0],book:{...original,runs:[{}]}}]}),/Invalid recorded/);
+});

@@ -1,4 +1,4 @@
-import {createElement as el, readPreference, writePreference} from './interface-utils.js';
+import {createElement as el, readPreference, writePreference, escapeHTML} from './interface-utils.js';
 
 export function studioMenu(root, anchor, title, items) {
   const entries = items.filter(item => item && item.available !== false);
@@ -15,7 +15,7 @@ export function studioMenu(root, anchor, title, items) {
     }
   },closed() { const item=selectedItem;selectedItem=undefined;setTimeout(() => {modal?.destroy();item?.run?.();}, 0); }};
   if (matchMedia('(max-width: 700px)').matches) {
-    modal = root.f7.actions.create({buttons: [[{text: title, label: true}, ...entries.map(item => ({text: item.label, close: false, disabled:!!item.disabled, color: item.destructive ? 'red' : undefined, onClick: () => choose(item)}))], [{text: 'Cancel', color: 'gray'}]], on});
+    modal = root.f7.actions.create({buttons: [[{text: escapeHTML(title), label: true}, ...entries.map(item => ({text: escapeHTML(item.label), close: false, disabled:!!item.disabled, color: item.destructive ? 'red' : undefined, onClick: () => choose(item)}))], [{text: 'Cancel', color: 'gray'}]], on});
     modal.open();
   } else {
     const content = el('div', 'popover studio-menu');
@@ -62,4 +62,15 @@ export function studioResizer(host, property, {label, initial, min, max, reverse
   };
   handle.onpointerup = handle.onpointercancel = () => { if (drag) writePreference(key, value); drag = null; };
   return handle;
+}
+
+export function confirmPermanentDeletion(root, onDelete) {
+  const dialog = root.f7.dialog.create({
+    title: 'Delete permanently?',
+    text: 'This analysis and its saved outputs will be permanently deleted. This cannot be undone.',
+    buttons: [{text: 'Cancel', keyCodes: [27]}, {text: 'Delete permanently', color: 'red', onClick: onDelete}],
+    on: {closed(){setTimeout(()=>dialog.destroy(),0);}},
+  });
+  dialog.open();
+  return dialog;
 }

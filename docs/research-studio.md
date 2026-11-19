@@ -47,3 +47,12 @@ The global Selection menu provides inspection, transfer to R, collection entry, 
 Research workspace uses the main application sidebar for language navigation and R analyses. The notebook remains the primary scrolling surface. The Framework7 right panel is resizable and docked at wide widths; smaller displays use an overlay. Its Variables, Figures and Selection tabs retain their selected state. Figures lists thumbnails and links to inline outputs rather than duplicating full plots.
 
 The desktop console has a keyboard/pointer resizable divider. On smaller displays its Console control opens a Framework7 sheet with partial and expanded positions. Focus mode is available through More or Workspace tools and restores the preceding pane arrangement. The contextual bottom-right Workspace tools launcher opens tools without executing code. Datasets and Collections have dedicated sheets; browsing frozen dataset metadata does not initialize either computational runtime. Pane transitions respect reduced-motion settings.
+
+
+### Organizing analyses
+
+R Studio and Python Lab use compact analysis lists in the Research workspace sidebar. My analyses is expanded initially; Archived analyses contains the supplied R reproductions. Opening an archived reproduction creates an editable personal copy without executing code. Find analyses searches personal titles and archived reproduction titles within the current language workspace.
+
+An analysis's overflow menu offers Rename, Duplicate, Export and Move to Trash. On touch devices, swiping a personal analysis left reveals More and Trash; a full swipe never permanently deletes an analysis. Trash preserves stable identifiers, source, saved outputs and provenance across reloads. Undo provides immediate recovery; Trash also offers Restore and an explicit, confirmed Delete permanently action. Session exports include trashed R and Python analyses and their recorded replay artifacts. Trash is stored on this device; clearing browser storage removes it.
+
+Choose Reorder to reveal drag handles. Handles also support Up/Down, Home and End; the row menu offers Move up/down. Reordering analyses changes navigation order only. Cell deletion offers immediate Undo with the original cell identity, source and saved outputs. Cell Undo is transient and is not a persistent revision history.

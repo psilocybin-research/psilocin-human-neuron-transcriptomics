@@ -1,6 +1,6 @@
 import {zip, unzip} from '../assets/vendor/r-editor.js';
 import {validateWorkspace, notebookSchema} from './r-notebooks.js';
-import {parsePythonNotebooks} from './python-notebooks.js';
+import {parsePythonWorkspace,parsePythonNotebooks} from './python-notebooks.js';
 import {validateSceneSpec} from './scientific-scene-spec.js';
 import {SCIENTIFIC_PYTHON_HELPERS} from './scientific-scene-helpers.js';
 
@@ -33,7 +33,8 @@ function selection(value = {}) {
 }
 function normalizeWorkspace(value) {
   requireValue(value?.schema === notebookSchema && Array.isArray(value.notebooks), 'An R notebook workspace is required.');
-  for (const book of value.notebooks) {
+  requireValue(Array.isArray(value.trash || []) && (value.trash || []).length<=100, 'Invalid R Trash.');
+  for (const book of [...value.notebooks,...(value.trash||[]).map(item=>item.book)]) {
     text(book.id, 'R notebook id'); text(book.title, 'R notebook title', 120); text(book.created, 'R notebook date');
     requireValue(Array.isArray(book.cells), 'R notebook cells are required.');
     for (const cell of book.cells) {
@@ -64,7 +65,8 @@ function normalizePayload(input) {
   const normalizedPython = python.length ? parsePythonNotebooks(JSON.stringify(python)) : [];
   // The notebook reader accepts legacy scripts, but a session must not silently drop a recorded output.
   requireValue(python.every((book, i) => (book.runs || []).length === normalizedPython[i].runs.length), 'Invalid or oversized recorded Python output.');
-  for (const book of normalizedPython) for (const run of book.runs) for (const spec of run.scene_specs || []) validateSceneSpec(spec);
+  const pythonWorkspace = parsePythonWorkspace({notebooks: normalizedPython, trash: input.python_trash || []});
+  for (const book of [...normalizedPython,...pythonWorkspace.trash.map(item=>item.book)]) for (const run of book.runs) for (const spec of run.scene_specs || []) validateSceneSpec(spec);
   requireValue(Array.isArray(input.projects || []) && (input.projects || []).length <= 30, 'Invalid research projects.');
   const projects = (input.projects || []).map(project => {
     requireValue(plain(project) && project.schema === 'psilocin-research-project/1', 'Unsupported research project.');
@@ -77,7 +79,7 @@ function normalizePayload(input) {
     csv: text(item.csv, 'transferred CSV', 2_000_000), provenance: plain(item.provenance) ? item.provenance : {}}));
   return {schema: SCIENTIFIC_SESSION_SCHEMA, exported_utc: input.exported_utc || new Date().toISOString(),
     archive_doi: '10.5281/zenodo.23283595', classification: 'user-exploratory',
-    selection: selection(input.selection), r, python_notebooks: normalizedPython, projects, transferred_datasets: transferred};
+    selection: selection(input.selection), r, python_notebooks: normalizedPython, python_trash: pythonWorkspace.trash, projects, transferred_datasets: transferred};
 }
 function zipAsync(files) { return new Promise((resolve, reject) => zip(files, {level: 6}, (error, data) => error ? reject(error) : resolve(data))); }
 function unzipAsync(bytes) { return new Promise((resolve, reject) => unzip(bytes, (error, files) => error ? reject(error) : resolve(files))); }
@@ -166,8 +168,8 @@ async function prepareArchive(input) {
       result_sha256: resultHash, folder, inputs: references, reconstructable: references.every(item => item.path),
       source_execution_mode: run.execution_mode || run.namespace || null, recorded_runtime: run.session_info || run.runtime || null});
   }
-  for (const book of payload.r.notebooks.notebooks) for (const cell of book.cells) for (const run of cell.runs || []) await addRun(run, 'r', book.id, cell.id);
-  for (const book of payload.python_notebooks) for (const run of book.runs || []) await addRun(run, 'python', book.id);
+  for (const book of [...payload.r.notebooks.notebooks,...payload.r.notebooks.trash.map(item=>item.book)]) for (const cell of book.cells) for (const run of cell.runs || []) await addRun(run, 'r', book.id, cell.id);
+  for (const book of [...payload.python_notebooks,...payload.python_trash.map(item=>item.book)]) for (const run of book.runs || []) await addRun(run, 'python', book.id);
   payload.datasets = datasets; payload.reconstruction = {runs: inventory, scenes};
   files['session.json'] = encoder.encode(json(payload));
   files['README.txt'] = encoder.encode('Research session archive v2. Nothing executes on import. Inspect researcher-authored scripts before native execution. Run each analysis script from its own replay directory. Inputs resolve by their recorded SHA-256 hashes; missing older inputs are listed explicitly and their scripts stop. Native runtimes/packages are not embedded: install compatible R/Python versions before replay. Exact numerical equality across platforms is not guaranteed. Scene specifications and recorded outputs remain exploratory, separate from archived findings. Source archive DOI: 10.5281/zenodo.23283595.\n');

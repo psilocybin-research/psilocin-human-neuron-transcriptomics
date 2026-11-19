@@ -1,0 +1,69 @@
+import {createElement as el, readPreference, writePreference, destroySheet} from './interface-utils.js';
+import {studioMenu} from './studio-ui.js';
+import {rExamples} from './r-examples.js';
+
+// Navigation changes never rebuild the editor or execute a notebook.
+export function createAnalysisNavigation({root, sidebar, action, newBook, getWorkspace, isBusy, onChoose, onRename, onDuplicate, onTrash, onRestore, onReorder, onExport, onPermanentDelete, onArchived, onTools, onOpenSystems, examples=rExamples, language='r', maxActive=30}) {
+  let query='', reordering=false, trashModal, disposed=false;
+  const container=el('div','analysis-navigation page'),content=el('div','page-content');container.append(content);
+  const head=el('div','studio-sidebar-head');head.append(el('h3','','Analyses'),newBook);
+  const search=el('form','searchbar searchbar-inline analysis-search');search.setAttribute('role','search');search.onsubmit=e=>e.preventDefault();
+  const searchInner=el('div','searchbar-inner'),inputWrap=el('div','searchbar-input-wrap'),input=el('input');input.type='search';input.placeholder='Find analyses';input.setAttribute('aria-label','Find analyses');
+  const searchIcon=el('i','searchbar-icon');searchIcon.setAttribute('aria-hidden','true');inputWrap.append(input,searchIcon);searchInner.append(inputWrap);search.append(searchInner);
+  const groups=el('div','list accordion-list analysis-groups'),groupList=el('ul');groups.append(groupList);
+  function group(name,key,initial){
+    const row=el('li','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('role','button');
+    const label=el('div','item-inner'),text=el('span','item-title',name),count=el('span','item-after');label.append(text,count);toggle.append(label);
+    const body=el('div','accordion-item-content');body.id=`analysis-group-${language}-${key}`;toggle.setAttribute('aria-controls',body.id);
+    const expanded=readPreference(`atlas-analysis-group-${language}-${key}`,String(initial))==='true';row.classList.toggle('accordion-item-opened',expanded);toggle.setAttribute('aria-expanded',String(expanded));
+    for(const [event,open] of [['accordion:open',true],['accordion:close',false]])row.addEventListener(event,()=>{toggle.setAttribute('aria-expanded',String(open));if(!query)writePreference(`atlas-analysis-group-${language}-${key}`,String(open));});
+    toggle.onkeydown=e=>{if(e.key===' '){e.preventDefault();toggle.click();}};row.append(toggle,body);groupList.append(row);return {row,toggle,body,count};
+  }
+  const personal=group('My analyses','personal',true),archive=group('Archived analyses','archived',false);
+  const orderBar=el('div','analysis-order-bar'),orderToggle=action('Reorder','controls',()=>{reordering=!reordering;render();}),orderHelp=el('span','note','Drag a handle or use its arrow keys.');orderBar.append(orderToggle,orderHelp);
+  const books=el('div','list sortable studio-book-list'),bookList=el('ul');books.append(bookList);personal.body.append(orderBar,books);
+  const archived=el('div','studio-archived-analyses');archived.append(el('p','note','Reproductions of archived analyses. Opening creates an editable personal copy; code does not run automatically.'));
+  for(const example of examples){const button=action(example.title,'custom-r',()=>onArchived(example));button.dataset.title=example.title;button.title='Create editable copy';archived.append(button);}archive.body.append(archived);
+  const resources=el('div','studio-sidebar-resources'),trash=action('Trash','close',openTrash);resources.append(trash);if(onTools)resources.append(action('Data & settings','controls',onTools));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));
+  const empty=el('p','note analysis-search-empty','No matching analyses.');empty.setAttribute('role','status');content.append(head,search,groups,empty,resources);sidebar.append(container);
+  input.oninput=()=>{query=input.value.trim().toLocaleLowerCase();reordering=false;render();};
+  function matches(title){return title.toLocaleLowerCase().includes(query);}
+  function menuItems(book){const workspace=getWorkspace(),index=workspace.notebooks.indexOf(book);return [
+    {label:'Rename',run:()=>onRename(book)},{label:'Duplicate',disabled:workspace.notebooks.length>=maxActive,run:()=>onDuplicate(book)},
+    {label:language==='python'?'Export Python script':'Export HTML',run:()=>onExport(book)},
+    {label:'Move up',available:reordering,disabled:index===0,run:()=>onReorder(book.id,index-1)},
+    {label:'Move down',available:reordering,disabled:index===workspace.notebooks.length-1,run:()=>onReorder(book.id,index+1)},
+    {label:'Move to Trash',destructive:true,run:()=>onTrash(book)}];}
+  function render(){
+    if(disposed)return;const workspace=getWorkspace(),scroll=content.scrollTop,focusId=document.activeElement?.closest('[data-book-id]')?.dataset.bookId,focusedHandle=document.activeElement?.classList.contains('sortable-handler');
+    bookList.replaceChildren();books.classList.toggle('sortable-opened',reordering);orderToggle.textContent=reordering?'Done':'Reorder';orderToggle.setAttribute('aria-pressed',String(reordering));orderHelp.hidden=!reordering;orderBar.hidden=!!query||workspace.notebooks.length<2;
+    let shown=0;
+    for(const book of workspace.notebooks){if(!matches(book.title))continue;shown++;
+      const row=el('li',`studio-book-entry${reordering?'':' swipeout'}`);row.dataset.bookId=book.id;
+      const face=el('div','swipeout-content'),open=action(book.title,'custom-r',()=>onChoose(book));open.setAttribute('aria-current',String(book.id===workspace.active));open.title=book.title;
+      const menu=action('⋯','controls',()=>studioMenu(root,menu,book.title,menuItems(book)));menu.setAttribute('aria-label',`Actions for analysis ${book.title}`);face.append(open,menu);row.append(face);
+      if(reordering){const handle=el('button','sortable-handler');handle.type='button';handle.setAttribute('aria-label',`Reorder ${book.title}; use arrow keys`);handle.onkeydown=e=>{if(['ArrowUp','ArrowDown','Home','End'].includes(e.key)){e.preventDefault();const index=workspace.notebooks.indexOf(book),to=e.key==='Home'?0:e.key==='End'?workspace.notebooks.length-1:index+(e.key==='ArrowDown'?1:-1);onReorder(book.id,to);}};row.append(handle);}
+      else{const actions=el('div','swipeout-actions-right'),more=el('a','','More'),remove=el('a','color-red','Trash');more.href=remove.href='#';more.setAttribute('role','button');remove.setAttribute('role','button');more.setAttribute('aria-label',`More actions for ${book.title}`);remove.setAttribute('aria-label',`Move ${book.title} to Trash`);more.onclick=e=>{e.preventDefault();root.f7.swipeout.close(row,()=>studioMenu(root,menu,book.title,menuItems(book)));};remove.onclick=e=>{e.preventDefault();if(!isBusy())onTrash(book);};actions.append(more,remove);row.append(actions);}
+      bookList.append(row);
+    }
+    personal.count.textContent=String(workspace.notebooks.length);archive.count.textContent=String(examples.length);
+    let archivedShown=0;for(const b of archived.querySelectorAll(':scope > .button')){b.hidden=!matches(b.dataset.title);if(!b.hidden)archivedShown++;}
+    empty.hidden=shown+archivedShown>0||!query;personal.row.hidden=!!query&&!shown;archive.row.hidden=!examples.length||(!!query&&!archivedShown);
+    for(const section of [personal,archive]){const expanded=query?true:readPreference(`atlas-analysis-group-${language}-${section===personal?'personal':'archived'}`,String(section===personal))==='true';section.row.classList.toggle('accordion-item-opened',expanded);section.toggle.setAttribute('aria-expanded',String(expanded));section.body.style.height='';}
+    if(!workspace.notebooks.length&&!query)bookList.append(el('li','analysis-list-empty','No personal analyses. Create one or open an archived reproduction.'));
+    trash.textContent=`Trash${workspace.trash?.length?` (${workspace.trash.length})`:''}`;
+    content.scrollTop=scroll;
+    if(focusId){const row=[...bookList.children].find(item=>item.dataset.bookId===focusId);row?.querySelector(focusedHandle?'.sortable-handler':'.swipeout-content > button')?.focus({preventScroll:true});}
+    setBusy(isBusy());renderTrash();
+  }
+  const onSort=event=>{if(isBusy()||!reordering)return;const row=event.target.closest('[data-book-id]');if(row)setTimeout(()=>{if(!disposed&&!isBusy())onReorder(row.dataset.bookId,event.detail.to);},0);};books.addEventListener('sortable:sort',onSort);
+  function setBusy(value){for(const button of content.querySelectorAll('button,input'))button.disabled=value;groups.inert=value;if(trashModal)trashModal.el.inert=value;}
+  function renderTrash(){if(!trashModal)return;const body=trashModal.el.querySelector('.analysis-trash-items');body.replaceChildren();const items=getWorkspace().trash||[];if(!items.length)body.append(el('p','note','Trash is empty.'));
+    for(const item of [...items].reverse()){const row=el('div','analysis-trash-row');row.append(el('strong','',item.book.title),el('small','note',`Moved to Trash ${new Date(item.deleted).toLocaleDateString()}`),action('Restore','top',()=>onRestore(item.book.id)),action('Delete permanently…','close',()=>onPermanentDelete(item.book.id)));body.append(row);}}
+  async function openTrash(){if(isBusy())return;await root.workspaceShell?.closeNavigation();if(trashModal){trashModal.open();return;}
+    const sheet=el('div','sheet-modal studio-pane-sheet analysis-trash-sheet'),inner=el('div','sheet-modal-inner'),handle=el('div','workspace-sheet-handle');handle.append(el('span'));
+    const header=el('div','analysis-trash-header');header.append(el('h3','','Trash'),action('Done','close',()=>trashModal.close()));inner.append(handle,header,el('p','note','Restore analyses with their recorded outputs. Permanent deletion cannot be undone.'),el('div','analysis-trash-items'));sheet.append(inner);root.append(sheet);
+    trashModal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,swipeToClose:true,swipeHandler:handle,on:{closed(instance){trashModal=undefined;destroySheet(instance);sheet.remove();trash.focus();}}});renderTrash();trashModal.open();
+  }
+  return {render,setBusy,openTrash,destroy(){disposed=true;books.removeEventListener('sortable:sort',onSort);if(trashModal){const instance=trashModal;trashModal=undefined;instance.close(false);}}};
+}

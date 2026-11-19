@@ -69,3 +69,13 @@ test('Exported R and Python scripts reconstruct recorded totals from exact archi
     assert.equal(await readFile(join(directory, 'replay/python-0002/replayed-results.csv'), 'utf8'), 'total\n3.375\n');
   } finally { await rm(directory, {recursive: true, force: true}); }
 });
+
+test('Session reconstruction includes R and Python Trash without losing recorded scientific outputs', async () => {
+ const input=fixture(),rBook=input.r.notebooks.notebooks[0],pythonBook=input.python_notebooks[0];
+ input.r.notebooks={...input.r.notebooks,notebooks:[],active:null,trash:[{book:rBook,index:0,deleted:'2026-11-19T12:00:00Z'}]};
+ input.python_notebooks=[];input.python_trash=[{book:pythonBook,index:0,deleted:'2026-11-19T12:00:00Z'}];
+ const restored=await readSessionArchive(await createSessionArchive(input));
+ assert.equal(restored.r.notebooks.notebooks.length,0);assert.equal(restored.r.notebooks.trash[0].book.cells[0].runs[0].results_csv,'"total"\n3.375\n');
+ assert.equal(restored.python_trash[0].book.runs[0].csv,'total\n3.375\n');
+ assert.equal(restored.reconstruction.runs.length,2);assert.ok(restored.reconstruction.runs.every(run=>run.reconstructable));
+});

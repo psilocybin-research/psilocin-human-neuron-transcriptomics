@@ -98,3 +98,33 @@ test('notebook imports verify complete payload integrity before accepting data',
  doc.notebooks[0].title='Tampered';await assert.rejects(verifyNotebookArchive(doc),/checksum mismatch/);
  await assert.rejects(verifyNotebookArchive(payload),/integrity record/);
 });
+
+import {moveAnalysisToTrash, restoreAnalysis, reorderAnalysis} from '../src/components/analysis-lifecycle.js';
+test('Trash survives workspace validation and restores exact identity, output and original order', () => {
+ const first=createNotebook('First'),second=createNotebook('Second');second.cells[0].runs=[{console:'',vector_svgs:[],results_csv:'id,value\nENSG1,1.125',scene_specs:[{id:'recorded'}],provenance:{seed:42}}];
+ const workspace={schema:notebookSchema,notebooks:[first,second],active:second.id};
+ assert.equal(moveAnalysisToTrash(workspace,second.id,'2026-11-19T12:00:00Z'),true);
+ assert.equal(workspace.active,first.id);
+ const restored=validateWorkspace(structuredClone(workspace));
+ assert.equal(restored.trash[0].book.id,second.id);
+ assert.equal(restoreAnalysis(restored,second.id),true);
+ assert.deepEqual(restored.notebooks[1],second);
+ assert.equal(restored.active,second.id);assert.deepEqual(restored.trash,[]);
+});
+test('removing final analysis produces a valid empty workspace and remains recoverable', () => {
+ const book=createNotebook(),workspace={schema:notebookSchema,notebooks:[book],active:book.id};
+ moveAnalysisToTrash(workspace,book.id);
+ const restored=validateWorkspace(workspace);assert.equal(restored.active,null);assert.equal(restored.notebooks.length,0);
+ restoreAnalysis(restored,book.id);assert.equal(restored.notebooks[0].id,book.id);
+});
+test('Trash validation rejects duplicate identity, invalid dates and excessive entries', () => {
+ const book=createNotebook(),base={schema:notebookSchema,notebooks:[book]};
+ assert.throws(()=>validateWorkspace({...base,trash:[{book,index:0,deleted:new Date().toISOString()}]}),/unique/);
+ assert.throws(()=>validateWorkspace({...base,trash:[{book:createNotebook(),index:0,deleted:'invalid'}]}),/Invalid/);
+ assert.throws(()=>validateWorkspace({...base,trash:Array(101).fill({})}),/100/);
+});
+test('reordering changes only order; active identity and scientific records remain intact', () => {
+ const books=[createNotebook('A'),createNotebook('B'),createNotebook('C')],workspace={notebooks:[...books],active:books[1].id};
+ assert.equal(reorderAnalysis(workspace,books[0].id,2),true);assert.deepEqual(workspace.notebooks,[books[1],books[2],books[0]]);assert.equal(workspace.active,books[1].id);
+ assert.equal(reorderAnalysis(workspace,books[1].id,-1),false);
+});
