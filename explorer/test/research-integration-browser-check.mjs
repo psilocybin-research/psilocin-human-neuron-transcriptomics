@@ -6,8 +6,14 @@ const base=process.env.ATLAS_URL||'http://127.0.0.1:4173/';
 try{for(const width of [390,820,1440]){
  const context=await browser.newContext({viewport:{width,height:950},hasTouch:width<900,isMobile:width===390,acceptDownloads:true});
  await context.addInitScript(()=>{Element.prototype.requestFullscreen=undefined;Element.prototype.webkitRequestFullscreen=undefined;});
- const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const page=await context.newPage();const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error(e.stack);});
  await page.goto(base+'#view=overview');await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.f7);
+ // Reopen at the first closed signal, before Framework7's deferred popup cleanup.
+ for(let reopen=0;reopen<3;reopen++){
+  await page.keyboard.press('Control+k');await page.locator('.autocomplete-popup.modal-in').waitFor();
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.modalOpen==='false');
+ }
  await page.keyboard.press('Control+k');await page.locator('.autocomplete-popup.modal-in').waitFor();
  const search=page.locator('.autocomplete-popup.modal-in input[type=search]');
  await search.fill('oxidative phosphorylation');

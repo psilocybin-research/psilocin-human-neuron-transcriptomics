@@ -95,6 +95,17 @@ export function createAppShell({
     autocomplete,
     tourPopup,
     sharePopover;
+  let searchCleanupPending = false, searchReopenRequested = false, searchCleanupTimer;
+  function openAtlasSearch() {
+    if (!autocomplete || disposed || autocomplete.opened) return;
+    // Framework7 destroys a closed autocomplete popup on its next task. Wait
+    // for that cleanup before opening another popup on the same instance.
+    if (searchCleanupPending) {
+      searchReopenRequested = true;
+      return;
+    }
+    autocomplete.open();
+  }
   function safeClose(instance) {
     if (instance)
       instance.close(
@@ -132,7 +143,7 @@ export function createAppShell({
   }
   utilityItem("Search atlas", "search", () => {
     if (!panel.classList.contains("panel-in-breakpoint")) panelInstance?.close(false);
-    autocomplete?.open();
+    openAtlasSearch();
   });
   const tourItem = utilityItem("Atlas tour", "information", openTour);
   nav
@@ -168,7 +179,7 @@ export function createAppShell({
   titleGlass.append(sectionTitle, subtitle);
   titles.append(titleGlass);
   const right = node("div", "right");
-  const find = iconAction("Search atlas", "search", () => autocomplete?.open());
+  const find = iconAction("Search atlas", "search", openAtlasSearch);
   find.classList.add("desktop-gene-finder");
   find.setAttribute("aria-keyshortcuts", "Control+k Meta+k");
   const openSearch = event => {
@@ -176,7 +187,7 @@ export function createAppShell({
     if (event.target.closest?.(".cm-editor,textarea,[contenteditable=true]")) return;
     if (root.dataset.modalOpen === "true") return;
     event.preventDefault();
-    autocomplete?.open();
+    openAtlasSearch();
   };
   document.addEventListener("keydown", openSearch);
   const appearanceButton = iconAction(
@@ -1297,7 +1308,6 @@ export function createAppShell({
       panelInstance.disableVisibleBreakpoint();
     autocomplete = app.autocomplete.create({
       view,
-      openerEl: find,
       openIn: "popup",
       pageTitle: "Search atlas",
       popupPush: true,
@@ -1333,6 +1343,27 @@ export function createAppShell({
         });
       },
       on: {
+        closed() {
+          ++querySequence;
+          searchCleanupPending = true;
+          const closedPopup = autocomplete.modal;
+          // Escape/backdrop also close the popup directly. Schedule after F7's
+          // own close() cleanup, then dispose that captured popup if it remains.
+          queueMicrotask(() => {
+            searchCleanupTimer = setTimeout(() => {
+              if (disposed) return;
+              if (autocomplete.modal === closedPopup) {
+                closedPopup?.destroy();
+                delete autocomplete.modal;
+              }
+              searchCleanupPending = false;
+              if (searchReopenRequested) {
+                searchReopenRequested = false;
+                openAtlasSearch();
+              }
+            }, 0);
+          });
+        },
         change(values) {
           const item = values[0];
           if (!item || item.kind === "unavailable") return;
@@ -1404,7 +1435,7 @@ export function createAppShell({
   }
   body.addEventListener("animationend", finishViewTransition);
   return {
-    openSearch: () => autocomplete?.open(),
+    openSearch: openAtlasSearch,
     update,
     scroll,
     afterRender() {
@@ -1437,6 +1468,7 @@ export function createAppShell({
       closeControls();
     },
     destroy() {
+      clearTimeout(searchCleanupTimer);
       clearTimeout(positionTimer);
       scroll.removeEventListener("scroll", rememberViewPosition);
       pwa?.destroy();

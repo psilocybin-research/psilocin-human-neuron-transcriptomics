@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1333,
-  "total_bytes": 686926093,
+  "total_bytes": 686928167,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 2349,
-      "sha256": "34a8a91a091bf1cf023227656c68a2ae0f556e5dcadfdf1391b523dd05eae33f"
+      "bytes": 2685,
+      "sha256": "2eaf4a5ba8e7a79cd26ddb6e50c03af4adece86e0d7f9a2954b1848a7f645178"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -3374,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 53513,
-      "sha256": "ac674d4d887dc1d613098312e8f0ee072c18bdbc9b82c8fdf0a7b84f586ac938"
+      "bytes": 54759,
+      "sha256": "16592fc1fb450dde7ff0e49959223d1285fc4a781808d0f1afb9fd7ca42a78a2"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3619,8 +3619,8 @@
     },
     {
       "path": "explorer/src/components/r-recipe-builder.js",
-      "bytes": 5380,
-      "sha256": "47435d6c58ed7dcc61e940503e43631589e63cb64dfd4d68daf7a4f733f2c66f"
+      "bytes": 5476,
+      "sha256": "39d8077caf7bbe02c23ebd6d458d5970d6022a5aba94c4aa86837e89afddbd53"
     },
     {
       "path": "explorer/src/components/r-report.js",
@@ -4029,8 +4029,8 @@
     },
     {
       "path": "explorer/test/research-integration-browser-check.mjs",
-      "bytes": 4772,
-      "sha256": "b0fd89106a4c99d69ab6060295d371ebf4048423d27ead6483691dfb197fac66"
+      "bytes": 5168,
+      "sha256": "3d51b6189a289630ec96aff41a1f4f0212a5be993462e4a335b53810d3cd5564"
     },
     {
       "path": "explorer/test/research-search.test.js",

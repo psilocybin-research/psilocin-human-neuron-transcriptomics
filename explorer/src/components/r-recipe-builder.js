@@ -87,6 +87,7 @@ export function createRRecipeBuilder({ action, onGenerate, onStatus }) {
     alphaField = field("Type I error rate", alpha);
   const update = () => {
     const power = recipe.value === "power";
+    alphaField.firstChild.textContent = power ? "Type I error rate" : "Archived FDR threshold";
     geneField.hidden = !["gene", "profiles"].includes(recipe.value);
     contrastField.hidden = !["pathways", "threshold", "volcano"].includes(
       recipe.value,

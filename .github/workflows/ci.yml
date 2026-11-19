@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -32,6 +32,18 @@ jobs:
           cache-dependency-path: explorer/package-lock.json
       - run: npm --prefix explorer ci
       - run: npm --prefix explorer test
+      - run: npm --prefix explorer run build
+
+  research-browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: explorer/package-lock.json
+      - run: npm --prefix explorer ci
       - run: npm --prefix explorer run build
       - name: Install browser for research integration checks
         working-directory: explorer
