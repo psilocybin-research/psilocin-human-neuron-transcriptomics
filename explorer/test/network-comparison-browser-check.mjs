@@ -113,7 +113,7 @@ try {
     );
     await panel.getByRole("button", { name: "Done", exact: true }).click();
     await p
-      .getByRole("button", { name: "Layout", exact: true })
+      .locator(".oxphos-3d-layout-direct").filter({ hasText: "Layout" })
       .click();
     await p.waitForFunction(
       () =>

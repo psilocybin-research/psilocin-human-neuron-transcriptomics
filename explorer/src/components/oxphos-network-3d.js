@@ -112,32 +112,37 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     showToast(`Showing ${group}.`, { container: drawer?.isConnected ? drawer : root });
   };
   filterLabel.append(filterSelect);
-  const layoutToggle = button("Layout", () => {
-    const next = layoutMode === "complex" ? "layers" : "complex";
-    transitionLayout(next);
-    layoutToggle.setAttribute("aria-pressed", String(next === "layers"));
-    layoutToggle.title = next === "layers" ? "Layout: gene–set layers" : "Layout: complex groups";
-  });
-  layoutToggle.classList.add("oxphos-3d-display-button");
-  layoutToggle.setAttribute("aria-pressed", "false");
-  layoutToggle.title = "Layout: complex groups";
-  let labelsVisible = true;
-  const labelsToggle = button("Labels", () => {
-    labelsVisible = !labelsVisible;
-    labelsToggle.setAttribute("aria-pressed", String(labelsVisible));
-    labelsToggle.title = labelsVisible ? "Labels and node structures: on" : "Labels and node structures: off";
-    root.dataset.networkLabels = labelsVisible ? "on" : "off";
-    if (!labelsVisible) {
+  const layoutLabel = el("label", "oxphos-3d-layout-direct");
+  const layoutToggle = el("input");
+  layoutToggle.type = "checkbox";
+  layoutToggle.setAttribute("role", "switch");
+  layoutToggle.setAttribute("aria-label", "Layered network layout");
+  layoutLabel.title = "Off: complex groups. On: gene–set layers. Both show the same memberships.";
+  const layoutSwitch = el("span", "toggle");
+  layoutSwitch.append(layoutToggle, el("span", "toggle-icon"));
+  layoutLabel.append(el("span", "", "Layout"), layoutSwitch);
+  layoutToggle.onchange = () =>
+    transitionLayout(layoutToggle.checked ? "layers" : "complex");
+  const labelsLabel = el("label", "oxphos-3d-layout-direct");
+  const labelsToggle = el("input");
+  labelsToggle.type = "checkbox";
+  labelsToggle.checked = true;
+  labelsToggle.setAttribute("role", "switch");
+  labelsToggle.setAttribute("aria-label", "Show network labels and node structures");
+  labelsLabel.title = "Show network labels and open a structure preview when selecting a gene node.";
+  const labelsSwitch = el("span", "toggle");
+  labelsSwitch.append(labelsToggle, el("span", "toggle-icon"));
+  labelsLabel.append(el("span", "", "Labels"), labelsSwitch);
+  root.dataset.networkLabels = "on";
+  labelsToggle.onchange = () => {
+    root.dataset.networkLabels = labelsToggle.checked ? "on" : "off";
+    if (!labelsToggle.checked) {
       ++nodeProteinRequest;
       nodeProtein?.clear();
     }
     updateGraph();
-    showToast(labelsVisible ? "Network labels and structure previews on." : "Network labels and structure previews off.", { container: root });
-  });
-  labelsToggle.classList.add("oxphos-3d-display-button");
-  labelsToggle.setAttribute("aria-pressed", "true");
-  labelsToggle.title = "Labels and node structures: on";
-  root.dataset.networkLabels = "on";
+    showToast(labelsToggle.checked ? "Network labels and structure previews on." : "Network labels and structure previews off.", { container: root });
+  };
   controls.append(
     el(
       "p",
@@ -427,7 +432,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   );
   topbar.append(identity);
   const displayControls = el("div", "oxphos-3d-display-controls");
-  displayControls.append(layoutToggle, labelsToggle);
+  displayControls.append(layoutLabel, labelsLabel);
   topbar.append(days, displayControls, status);
   leftStage.style.flex = "1 1 0%";
   const legendCompact = el("div", "oxphos-3d-scale");
@@ -932,7 +937,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     }
     for (const item of labels)
       item.sprite.visible =
-        labelsVisible && layoutMode === "complex" &&
+        labelsToggle.checked && layoutMode === "complex" &&
         !focused &&
         (filter === "all" || item.key === filter);
   }
@@ -1209,7 +1214,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .enableNodeDrag(false)
         .enableNavigationControls(true)
         .cooldownTicks(0)
-        .nodeLabel((n) => labelsVisible ? el("span", "network-gene-tooltip", geneTooltip(n)) : "")
+        .nodeLabel((n) => labelsToggle.checked ? el("span", "network-gene-tooltip", geneTooltip(n)) : "")
         .nodeThreeObject((n) => {
           const container = new api.Group();
           if (n.type === "gene") {
@@ -1266,7 +1271,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .onNodeClick((n) => {
           if (n.type === "gene") {
             choose(n);
-            if (labelsVisible) showNodeProtein(n);
+            if (labelsToggle.checked) showNodeProtein(n);
           } else {
             const memberIds = new Set(
               snapshot.links
