@@ -109,3 +109,9 @@ export function createAccordion(title, className = "") {
   );
   return { element, body };
 }
+
+// Closing during the opening transition must finish synchronously: otherwise
+// cancelling that transition can leave F7 waiting for an event that never fires.
+export function closeSheet(instance) {
+  instance?.close(instance.el?.dataset.shellModalReady === 'true' ? undefined : false);
+}

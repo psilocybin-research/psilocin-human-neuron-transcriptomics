@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1376,
-  "total_bytes": 687406574,
+  "total_bytes": 687407100,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/interface-utils.js",
-      "bytes": 3549,
-      "sha256": "7b60630a820fbd0740f368e5998b79a294fc0a1b370bb74b1f0806ee225750a1"
+      "bytes": 3839,
+      "sha256": "d6ad99e88f9c69d430af2801278dab31282b5cd0d7c3bc895f163cacd2b5dd28"
     },
     {
       "path": "explorer/src/components/intersection-data.js",
@@ -3679,8 +3679,8 @@
     },
     {
       "path": "explorer/src/components/r-workspace-inspector.js",
-      "bytes": 6013,
-      "sha256": "8f858250c632f2d3caf2f9cf7984f2fc589c84bfcf9a4e3fb4cf5d360fbf962d"
+      "bytes": 6181,
+      "sha256": "d38da47f26d6df9180d618204151728be2c2b2324d6b9b2b791ba6ba146a1d5a"
     },
     {
       "path": "explorer/src/components/research-collection-data.js",
@@ -4289,8 +4289,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 6574,
-      "sha256": "4023ab1030c1bb03ab78f8c03b5a5e9229d0cab7ec291f3aa40f0fca8449ec5a"
+      "bytes": 6642,
+      "sha256": "64c1cfb4b78d97b7cb099db9f70b79aaff7599019048c28df118c2be1ca01071"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

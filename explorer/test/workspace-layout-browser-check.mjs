@@ -2,7 +2,7 @@ import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {openWorkspaceNavigation,selectWorkspace} from './workspace-browser-helpers.mjs';
 const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH||'/usr/bin/chromium',args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
-try{for(const width of [390,820,1440]){
+try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPACE_WIDTH)]:[390,820,1440])){
  const context=await browser.newContext({viewport:{width,height:1000},hasTouch:width<900});const page=await context.newPage(),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error(e.stack);});
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');await page.locator('.workspace-frame').waitFor();await page.waitForFunction(()=>!!document.querySelector('.workspace-inspector-panel')?.f7Panel);
  assert.equal(await page.locator('.workspace-navigation-slot .studio-sidebar').count(),1);assert.equal(await page.locator('.workspace-frame>.studio-sidebar').count(),0);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-modal-open'),'true');
