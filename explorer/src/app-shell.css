@@ -4851,3 +4851,7 @@ body {
 }
 
 #psilocin-app .oxphos-3d-immersive .oxphos-3d-pane:after { display:none; }
+
+/* Keep feedback above the network without covering the tools dock. */
+#psilocin-app .oxphos-network-3d > .toast { bottom:calc(116px + env(safe-area-inset-bottom)); z-index:20; }
+#psilocin-app .oxphos-3d-topbar .oxphos-3d-status { line-height:1.5; max-width:min(100%, 390px); }

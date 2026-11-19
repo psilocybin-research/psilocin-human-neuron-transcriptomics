@@ -1,3 +1,4 @@
+import { showToast } from "./app-toast.js";
 import { createCameraTransition } from "./network-camera.js";
 import { retainedGene, uncertaintyLabels } from "./network-statistics.js";
 import { createNetworkSceneEffects } from "./network-scene-effects.js";
@@ -78,8 +79,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   }
   const dayButtons = [0, 1].map((i) => {
     const b = button(`Day ${i === 0 ? 1 : 3}`, () => {
+      if (day === i) return;
       day = i;
       refresh();
+      showToast(`Showing Day ${i === 0 ? 1 : 3} / common control.`, { container: root });
     });
     days.append(b);
     return b;
@@ -967,6 +970,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       else {
         layoutToggle.disabled = false;
         root.dataset.layoutReady = "true";
+        showToast(mode === "layers" ? "Gene–set layers displayed." : "Complex groups displayed.", { container: root });
       }
     };
     root.dataset.layoutReady = "false";

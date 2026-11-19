@@ -1,12 +1,12 @@
 import { escapeHTML } from "./interface-utils.js";
 // Concise feedback for completed actions; never imply that a file was saved.
 let active;
-export function showToast(message) {
+export function showToast(message, { container: preferredContainer } = {}) {
   const app = document.querySelector("#psilocin-app")?.f7;
   if (!app) return;
   active?.close(false);
   const container =
-    document.fullscreenElement || document.webkitFullscreenElement || app.el;
+    preferredContainer || document.fullscreenElement || document.webkitFullscreenElement || app.el;
   const toast = app.toast.create({
     text: escapeHTML(message),
     containerEl: container,
