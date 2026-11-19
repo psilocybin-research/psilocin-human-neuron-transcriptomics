@@ -4918,3 +4918,10 @@ body {
     padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
   }
 }
+
+@media(max-width:790px) {
+  #psilocin-app .sources-mobile-page { padding-bottom:0; }
+  #psilocin-app .sources-mobile-page .sources-content {
+    padding-bottom:calc(96px + env(safe-area-inset-bottom));
+  }
+}

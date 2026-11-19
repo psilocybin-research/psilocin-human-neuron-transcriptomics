@@ -246,7 +246,7 @@ export function createAppShell({
   ]) {
     const b = action(
       "",
-      () => (id === "sources" ? openSources() : go(id)),
+      () => (id === "sources" ? openSources() : navigateFromSources(id)),
       "tab-link",
     );
     b.setAttribute(
@@ -330,14 +330,21 @@ export function createAppShell({
   const mobileSourcePage = node("section", "page page-current research-sources sources-mobile-page");
   mobileSourcePage.dataset.name = "references";
   mobileSourcePage.setAttribute("aria-label", "References and citation");
-  let sourcesPageOpen = false, sourcesOpener;
+  let sourcesPageOpen = false, sourcesOpener, previousQuickState;
   function openMobileSources(pushHistory = true) {
     if (sourcesPageOpen) return;
     sourcesPageOpen = true;
     sourcesOpener = document.activeElement;
     page.inert = true;
     page.style.display = "none";
-    mobileSourcePage.append(sourcePage);
+    previousQuickState = quick.map((button) => button.getAttribute("aria-current"));
+    quick.forEach((button) => {
+      const active = button.dataset.quick === "sources";
+      button.classList.toggle("tab-link-active", active);
+      button.setAttribute("aria-current", active ? "page" : "false");
+      if (active) button.removeAttribute("aria-haspopup");
+    });
+    mobileSourcePage.append(sourcePage, bottom);
     main.append(mobileSourcePage);
     sourceClose.setAttribute("aria-label", "Back from references");
     sourceClose.replaceChildren(uiIcon("back"), node("span", "", "Back"));
@@ -349,6 +356,13 @@ export function createAppShell({
     if (!sourcesPageOpen) return;
     sourcesPageOpen = false;
     source.append(sourcePage);
+    page.append(bottom);
+    quick.forEach((button, index) => {
+      const active = previousQuickState?.[index] === "page";
+      button.classList.toggle("tab-link-active", active);
+      button.setAttribute("aria-current", active ? "page" : "false");
+      if (button.dataset.quick === "sources") button.setAttribute("aria-haspopup", "dialog");
+    });
     mobileSourcePage.remove();
     page.style.display = "";
     page.inert = false;
@@ -375,6 +389,16 @@ export function createAppShell({
   function openSources() {
     if (matchMedia("(max-width: 790px)").matches) openMobileSources();
     else sourcePopup?.open(!reduced());
+  }
+  function navigateFromSources(id) {
+    if (sourcesPageOpen) {
+      restoreSourcesPage();
+      if (history.state?.atlasSourcesPage) {
+        const { atlasSourcesPage, ...state } = history.state;
+        history.replaceState(state, "", location.href);
+      }
+    }
+    go(id);
   }
   function closeSources() {
     if (!sourcesPageOpen) return safeClose(sourcePopup);
