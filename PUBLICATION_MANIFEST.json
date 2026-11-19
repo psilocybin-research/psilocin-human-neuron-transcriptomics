@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1367,
-  "total_bytes": 687303993,
+  "total_bytes": 687304209,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3419,8 +3419,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 35458,
-      "sha256": "72add1a0765c6a185a20f8421778dabd92e03503e1c09e6ae8f5ac7428056af3"
+      "bytes": 35497,
+      "sha256": "7b0a5b77009a8bc84aed38eaadc90f9bfd01c5c80d7520eeaf7883a7c05e877b"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3719,8 +3719,8 @@
     },
     {
       "path": "explorer/src/components/research-studio.js",
-      "bytes": 8653,
-      "sha256": "72aa09e3a57220bbf55ff0b1040679c1a3171558dd57e7a45627a8c69a11bc50"
+      "bytes": 8687,
+      "sha256": "79720f3251dcc922dc62070943d05a4cecce85ece1f567d90111322e01d38536"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -3764,8 +3764,8 @@
     },
     {
       "path": "explorer/src/components/studio-ui.js",
-      "bytes": 3306,
-      "sha256": "fdb3165e98e938a708608a36d8dfe8be8a5c9c9de7d26b2b3dec6edebca29795"
+      "bytes": 3327,
+      "sha256": "1ef1a0fd725d96a00b8cb7032430c3010c7945e88dd1b10ad2df0d8f1884e5d5"
     },
     {
       "path": "explorer/src/components/synopsis-data.js",
@@ -4144,8 +4144,8 @@
     },
     {
       "path": "explorer/test/research-integration-browser-check.mjs",
-      "bytes": 5608,
-      "sha256": "dda12c7d38558d1917108381e11a338214722a3f248c118f771107ef16774808"
+      "bytes": 5670,
+      "sha256": "d48c5d37ccf82a65d5811f4239b3c8429a60461d76cbf24c925627ca82ba3975"
     },
     {
       "path": "explorer/test/research-search.test.js",
@@ -4209,8 +4209,8 @@
     },
     {
       "path": "explorer/test/shared-r-browser-check.mjs",
-      "bytes": 4729,
-      "sha256": "1b54867facda0341dd562c6ec043bf0d700aeba8252b4edb126b3dfd2e873d6d"
+      "bytes": 4789,
+      "sha256": "f023e1f7c9aa29a1b964926b7ceaa1c7cb51d19620e3d42fffe77b7e959faa34"
     },
     {
       "path": "explorer/test/smart-select-browser-check.mjs",

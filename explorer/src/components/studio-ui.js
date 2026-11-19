@@ -4,7 +4,7 @@ export function studioMenu(root, anchor, title, items) {
   const entries = items.filter(item => item && item.available !== false);
   let modal;
   const choose = item => {
-    modal.once('closed', () => item.run?.());
+    modal.once('closed', () => setTimeout(() => item.run?.(), 0));
     modal.close();
   };
   const on = {open(instance) {

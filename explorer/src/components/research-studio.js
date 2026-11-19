@@ -17,7 +17,7 @@ export function createResearchStudio(options) {
     const panel=el('section',`studio-language-panel studio-${key}-panel`);panel.hidden=key!=='r';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-label',title);panels.set(key,panel);
     const b=button(title,()=>show(key));b.setAttribute('role','tab');b.setAttribute('aria-selected',String(key==='r'));buttons.set(key,b);tabs.append(b);
   }
-  const r=createCustomR({...options,onTransferToPython:async dataset=>{await accept(dataset);await show('python');python.refreshDatasets();}});
+  const r=createCustomR({...options,onOpenReports:()=>show("reports"),onTransferToPython:async dataset=>{await accept(dataset);await show('python');python.refreshDatasets();}});
   panels.get('r').append(r);
   async function accept(dataset){validateResearchCSV(dataset.csv);const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(dataset.csv)))].map(x=>x.toString(16).padStart(2,'0')).join('');transferred=[...transferred.filter(x=>x.name!==dataset.name),{...dataset,provenance:{...dataset.provenance,sha256:hash,classification:'user-exploratory'}}].slice(-10);}
   let archivedDatasetPromise;

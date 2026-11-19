@@ -47,6 +47,7 @@ export function createCustomR({
   onSceneStructure,
   onSelectGene,
   onOpenSystems,
+  onOpenReports,
 }) {
   const host = el("section", "custom-r-workspace");
   const intro = el(
@@ -282,7 +283,7 @@ export function createCustomR({
       {label: "Send results to Python", available: !!resultsCSV && !!onTransferToPython, run: () => onTransferToPython({name:"r_results",csv:resultsCSV,provenance:record})},
       {label: "Results (.csv)", available: !!resultsCSV, run: () => csv.click()},
       {label: "Run provenance (.json)", available: !!record, run: () => session.click()},
-      {label: "Current-run report & source archive", available: !!record && !record.error, run: () => { reports.element.scrollIntoView({block: "nearest"}); reports.element.open = true; }}
+      {label: "Current-run report & source archive", available: reports.element.querySelector("button")?.disabled === false, run: () => { onOpenReports?.(); reports.element.querySelector("button")?.click(); }}
     ],
     action,
     root,
