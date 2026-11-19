@@ -4910,3 +4910,11 @@ body {
 #psilocin-app .oxphos-3d-display-controls {
   flex-direction:column; align-items:flex-start;
 }
+
+@media(max-width:790px) {
+  #psilocin-app .sources-mobile-page {
+    position:absolute; inset:0; z-index:10; display:block; width:100%; height:100%;
+    left:0; top:0; margin:0; translate:none; transform:none; border-radius:0;
+    padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
+  }
+}

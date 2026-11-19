@@ -134,7 +134,7 @@ export function createAppShell({
   utilityItem("References & citation", "methods", () => {
     if (!panel.classList.contains("panel-in-breakpoint"))
       panelInstance?.close(false);
-    sourcePopup?.open(!reduced());
+    openSources();
   });
   const installButton = utilityItem("Install app", "download", () => {});
   installButton.disabled = true;
@@ -170,9 +170,7 @@ export function createAppShell({
   );
   appearanceButton.classList.add("appearance-toggle");
   appearanceButton.setAttribute("role", "switch");
-  const sourcesButton = iconAction("Sources", "book", () =>
-    sourcePopup?.open(!reduced()),
-  );
+  const sourcesButton = iconAction("Sources", "book", openSources);
   sourcesButton.classList.add("desktop-sources");
   const shareControl = iconAction("Share analysis", "share", () =>
     sharePopover?.open(shareControl, !reduced()),
@@ -248,7 +246,7 @@ export function createAppShell({
   ]) {
     const b = action(
       "",
-      () => (id === "sources" ? sourcePopup?.open(!reduced()) : go(id)),
+      () => (id === "sources" ? openSources() : go(id)),
       "tab-link",
     );
     b.setAttribute(
@@ -300,7 +298,7 @@ export function createAppShell({
   const sourceBar = node("header", "sources-header");
   const sourceClose = action(
     "",
-    () => safeClose(sourcePopup),
+    () => closeSources(),
     "button button-tonal sources-close",
   );
   sourceClose.setAttribute("aria-label", "Close sources");
@@ -329,6 +327,60 @@ export function createAppShell({
   sourcePage.append(sourceBar, sourceScroll);
   source.append(sourcePage);
   root.append(source);
+  const mobileSourcePage = node("section", "page page-current research-sources sources-mobile-page");
+  mobileSourcePage.dataset.name = "references";
+  mobileSourcePage.setAttribute("aria-label", "References and citation");
+  let sourcesPageOpen = false, sourcesOpener;
+  function openMobileSources(pushHistory = true) {
+    if (sourcesPageOpen) return;
+    sourcesPageOpen = true;
+    sourcesOpener = document.activeElement;
+    page.inert = true;
+    page.style.display = "none";
+    mobileSourcePage.append(sourcePage);
+    main.append(mobileSourcePage);
+    sourceClose.setAttribute("aria-label", "Back from references");
+    sourceClose.replaceChildren(uiIcon("back"), node("span", "", "Back"));
+    sourceScroll.scrollTop = 0;
+    if (pushHistory) history.pushState({ ...history.state, atlasSourcesPage: true }, "", location.href);
+    sourceClose.focus({ preventScroll: true });
+  }
+  function restoreSourcesPage() {
+    if (!sourcesPageOpen) return;
+    sourcesPageOpen = false;
+    source.append(sourcePage);
+    mobileSourcePage.remove();
+    page.style.display = "";
+    page.inert = false;
+    sourceClose.setAttribute("aria-label", "Close sources");
+    sourceClose.replaceChildren(uiIcon("close"), node("span", "", "Close"));
+    const focusTarget = sourcesOpener?.closest?.(".research-sidebar") && !panel.classList.contains("panel-in") ? menuToggle : sourcesOpener;
+    if (focusTarget?.isConnected) focusTarget.focus({ preventScroll: true });
+  }
+  function sourcesHistoryChanged(event) {
+    if (event.state?.atlasSourcesPage && matchMedia("(max-width: 790px)").matches) openMobileSources(false);
+    else restoreSourcesPage();
+  }
+  window.addEventListener("popstate", sourcesHistoryChanged);
+  function sourcesViewportChanged() {
+    if (sourcesPageOpen && !matchMedia("(max-width: 790px)").matches) {
+      restoreSourcesPage();
+      if (history.state?.atlasSourcesPage) {
+        const { atlasSourcesPage, ...state } = history.state;
+        history.replaceState(state, "", location.href);
+      }
+    }
+  }
+  window.addEventListener("resize", sourcesViewportChanged);
+  function openSources() {
+    if (matchMedia("(max-width: 790px)").matches) openMobileSources();
+    else sourcePopup?.open(!reduced());
+  }
+  function closeSources() {
+    if (!sourcesPageOpen) return safeClose(sourcePopup);
+    if (history.state?.atlasSourcesPage) history.back();
+    else restoreSourcesPage();
+  }
   const sheet = node("div", "sheet-modal analysis-control-sheet");
   sheet.id = "analysis-controls-sheet";
   sheet.setAttribute("aria-label", "Analysis controls");
@@ -1325,6 +1377,8 @@ export function createAppShell({
         syncFullscreenButton,
       );
       for (const controller of pathwaySuggestions) controller.destroy();
+      window.removeEventListener("popstate", sourcesHistoryChanged);
+      window.removeEventListener("resize", sourcesViewportChanged);
       document.removeEventListener("keydown", onModalKeydown);
       observer.disconnect();
       appearanceObserver.disconnect();
