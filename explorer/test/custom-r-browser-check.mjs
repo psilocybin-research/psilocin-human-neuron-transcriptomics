@@ -48,7 +48,7 @@ for (const value of ["gene", "cohort", "profiles", "threshold", "bayesian"]) {
     .click();
   await run();
   if (value === "bayesian") {
-    const text = await page.locator(".custom-r-console").textContent();
+    const text = await page.getByLabel("R console output", { exact: true }).textContent();
     assert.match(text, /0\.325/);
     assert.match(text, /grid-edge mass/);
   }
@@ -81,10 +81,10 @@ async function call(type, kind = "core") {
   );
 }
 await page.getByRole("button", {name:"Install app", exact:true}).click();
-await page.locator(".pwa-r-choice").click();
+await page.locator(".pwa-r-choice").filter({has: page.getByLabel("Include offline R runtime", {exact:true})}).click();
 assert.equal(await page.getByLabel("Include offline R runtime", {exact:true}).isChecked(), true);
 await page.getByRole("button", {name:"Prepare offline", exact:true}).click();
-await page.getByText("Offline R ready", {exact:true}).waitFor({timeout:180000});
+await page.getByText("Offline tools ready", {exact:true}).waitFor({timeout:180000});
 await page.locator(".pwa-dialog.modal-in").getByRole("button", {name:"Done", exact:true}).click();
 console.log("F7 optional install and real-data R readiness passed");
 await call("VERIFY", "r");

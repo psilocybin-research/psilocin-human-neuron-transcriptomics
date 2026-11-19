@@ -1,3 +1,4 @@
+import { researchSuggestions } from "./research-search.js";
 import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup } from "./structure-preview.js";
 import { createResearchTables } from "./research-tables.js";
@@ -19,7 +20,7 @@ import {
   destroySheet,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
-import { createGeneAutocomplete, geneSuggestions } from "./gene-suggestions.js";
+import { createGeneAutocomplete } from "./gene-suggestions.js";
 import { createPathwayAutocomplete } from "./pathway-autocomplete.js";
 import { uiIcon } from "./icons.js";
 import { themeScientificPlots } from "./plot-theme.js";
@@ -62,6 +63,8 @@ export function createAppShell({
   plotNotices,
   initial,
   enhanceFigures,
+  researchActions = [],
+  onPathway,
 }) {
   root.id = "psilocin-app";
   root.dataset.inputModality = "pointer";
@@ -127,6 +130,10 @@ export function createAppShell({
     nav.querySelector(":scope > ul").append(item);
     return button;
   }
+  utilityItem("Search atlas", "search", () => {
+    if (!panel.classList.contains("panel-in-breakpoint")) panelInstance?.close(false);
+    autocomplete?.open();
+  });
   const tourItem = utilityItem("Atlas tour", "information", openTour);
   nav
     .querySelector('[data-section-item="overview"]')
@@ -161,8 +168,17 @@ export function createAppShell({
   titleGlass.append(sectionTitle, subtitle);
   titles.append(titleGlass);
   const right = node("div", "right");
-  const find = iconAction("Find a gene", "search", () => autocomplete?.open());
+  const find = iconAction("Search atlas", "search", () => autocomplete?.open());
   find.classList.add("desktop-gene-finder");
+  find.setAttribute("aria-keyshortcuts", "Control+k Meta+k");
+  const openSearch = event => {
+    if (!(event.ctrlKey || event.metaKey) || event.altKey || event.key.toLowerCase() !== "k") return;
+    if (event.target.closest?.(".cm-editor,textarea,[contenteditable=true]")) return;
+    if (root.dataset.modalOpen === "true") return;
+    event.preventDefault();
+    autocomplete?.open();
+  };
+  document.addEventListener("keydown", openSearch);
   const appearanceButton = iconAction(
     "Dark mode",
     "appearance",
@@ -1283,52 +1299,52 @@ export function createAppShell({
       view,
       openerEl: find,
       openIn: "popup",
-      pageTitle: "Find a gene",
+      pageTitle: "Search atlas",
       popupPush: true,
       popupSwipeToClose: "to-bottom",
       requestSourceOnOpen: true,
       popupCloseLinkText: "Done",
-      searchbarPlaceholder: "Symbol, Ensembl ID or verified alias",
+      searchbarPlaceholder: "Gene, pathway, workspace or action",
       searchbarDisableText: "Cancel",
-      closeOnSelect: true,
+      closeOnSelect: false,
+      routableModals: false,
+      animate: false,
       valueProperty: "id",
       textProperty: "text",
       limit: 100,
       renderItem(item) {
-        const parts = item.text.split(" · ");
-        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${genePreviewMarkup({ id: parts[1] || "" }) ? `<div class="item-media">${genePreviewMarkup({ id: parts[1] })}</div>` : ""}<div class="item-inner"><div class="item-title"><strong>${escapeHTML(parts[0])}</strong></div><div class="item-subtitle gene-finder-id">${escapeHTML(parts[1] || "")}</div>${parts.length > 2 ? `<div class="item-text">${escapeHTML(parts.slice(2).join(" · "))}</div>` : ""}</div></label></li>`;
+        const geneId = String(item.value).startsWith("gene:") ? String(item.value).slice(5) : "";
+        const preview = geneId ? genePreviewMarkup({id: geneId}) : "";
+        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${preview ? `<div class="item-media">${preview}</div>` : ""}<div class="item-inner"><div class="item-title">${escapeHTML(item.text)}</div></div></label></li>`;
       },
-      notFoundText: "No matching filtered gene. Absence is not a null result.",
+      notFoundText: "No match in the archived atlas. Try a gene ID, pathway or workspace name.",
       source(query, render) {
         const sequence = ++querySequence;
-        getGenes()
-          .then((genes) => {
-            if (sequence !== querySequence) return;
-            const q = query.trim().toUpperCase();
-
-            const aliases = new Map(
-              data.aliases
-                .filter((a) => a.current_symbol.toUpperCase().includes(q))
-                .map((a) => [a.selected_gene_id, a.current_symbol]),
-            );
-            const preferred = data.landscape
-              .map(
-                (g) => genes.find((r) => r.selected && r.symbol === g.gene)?.id,
-              )
-              .filter(Boolean);
-            const found = geneSuggestions(genes, data.aliases, q, preferred);
-            render(
-              found.slice(0, 100).map((g) => ({
-                id: g.id,
-                text: `${g.symbol} · ${g.id}${aliases.has(g.id) ? ` · alias ${aliases.get(g.id)}` : ""}${g.selected ? "" : " · additional gene ID"}`,
-              })),
-            );
-          })
-          .catch(() => render([]));
+        const suggestions = genes => researchSuggestions({genes, aliases: data.aliases,
+          pathways: data.pathways, tabs, actions: researchActions, query});
+        render(suggestions([]));
+        if (!query.trim()) return;
+        getGenes().then(genes => {
+          if (sequence === querySequence) render(suggestions(genes));
+        }).catch(() => {
+          if (sequence === querySequence) render([...suggestions([]), {
+            id: "unavailable", text: "Gene data unavailable · Type again to retry", kind: "unavailable",
+          }]);
+        });
       },
       on: {
         change(values) {
-          if (values[0]) go("genes", values[0].id);
+          const item = values[0];
+          if (!item || item.kind === "unavailable") return;
+          // Finish the modal lifecycle before changing route/state. Otherwise a
+          // route update can race the autocomplete's own router history cleanup.
+          autocomplete.once("closed", () => {
+            if (item.kind === "gene") go("genes", item.target);
+            else if (item.kind === "view") go(item.target);
+            else if (item.kind === "pathway") onPathway?.(item.target);
+            else if (item.kind === "action") researchActions.find(action => action.id === item.target)?.run();
+          });
+          autocomplete.close();
         },
       },
     });
@@ -1388,6 +1404,7 @@ export function createAppShell({
   }
   body.addEventListener("animationend", finishViewTransition);
   return {
+    openSearch: () => autocomplete?.open(),
     update,
     scroll,
     afterRender() {
@@ -1440,6 +1457,7 @@ export function createAppShell({
       window.removeEventListener("popstate", sourcesHistoryChanged);
       window.removeEventListener("resize", sourcesViewportChanged);
       document.removeEventListener("keydown", onModalKeydown);
+      document.removeEventListener("keydown", openSearch);
       observer.disconnect();
       appearanceObserver.disconnect();
       root.removeEventListener("change", analysisControlChanged, true);

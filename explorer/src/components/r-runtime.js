@@ -1,4 +1,5 @@
-// A fresh worker per run isolates R state and makes Stop terminate computation.
+// Each instance owns a worker. Callers may retain it explicitly between cells;
+// close() terminates computation and releases service-worker progress listeners.
 const base = new URL("./", document.baseURI);
 export const rBase = new URL("webr/", base);
 export async function createRRuntime({ onResource } = {}) {

@@ -37,7 +37,9 @@
     "test:molecular-previews": "node test/molecular-previews-browser-check.mjs",
     "test:custom-r": "node test/custom-r-browser-check.mjs",
     "test:r-reports": "node test/r-report-browser-check.mjs",
-    "test:network-3d": "node test/oxphos-network-browser-check.mjs && node test/oxphos-network-offline-check.mjs"
+    "test:network-3d": "node test/oxphos-network-browser-check.mjs && node test/oxphos-network-offline-check.mjs",
+    "test:research-integration": "node test/research-integration-browser-check.mjs",
+    "test:shared-r": "node test/shared-r-browser-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",

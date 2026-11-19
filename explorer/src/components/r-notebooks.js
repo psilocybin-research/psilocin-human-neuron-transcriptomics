@@ -1,3 +1,4 @@
+import {notebookPublication} from "./notebook-publication.js";
 // Local notebooks contain researcher-authored material only. They never execute on load.
 import { createElement as el } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
@@ -93,6 +94,15 @@ export function validateWorkspace(value) {
       : notebooks[0].id,
   };
 }
+export async function verifyNotebookArchive(value, cryptoAPI = globalThis.crypto) {
+  const {integrity, ...payload} = value || {};
+  if (integrity?.algorithm !== "SHA-256" || !/^[a-f0-9]{64}$/.test(integrity.sha256 || ""))
+    throw Error("Choose a notebook export with a SHA-256 integrity record.");
+  const bytes = new TextEncoder().encode(JSON.stringify(payload));
+  const hash = [...new Uint8Array(await cryptoAPI.subtle.digest("SHA-256", bytes))].map(x => x.toString(16).padStart(2, "0")).join("");
+  if (hash !== integrity.sha256) throw Error("Notebook checksum mismatch. The file is altered or incomplete; nothing was imported.");
+  return validateWorkspace(payload);
+}
 export function openNotebookStore(indexedDB = globalThis.indexedDB) {
   let connection;
   const open = () =>
@@ -154,6 +164,7 @@ export function createRNotebooks({
   initialCode,
   getSources,
   onCellChange,
+  onNotebookChange,
   onStatus,
 }) {
   const store = openNotebookStore();
@@ -188,7 +199,7 @@ export function createRNotebooks({
   const mode = el(
     "p",
     "note",
-    "Each code cell runs in a fresh R worker against the archived tables. Other cells are not replayed; keep required definitions in the same cell. Drafts and the last 20 run records per cell are saved locally. Browser storage can be cleared; export notebooks to keep a copy.",
+    "Each cell starts a fresh R session. Include its required definitions in that cell, or enable a shared session. Drafts and the last 20 runs per cell are saved on this device; export notebooks to keep a copy.",
   );
   const notebook = () =>
     workspace.notebooks.find((book) => book.id === workspace.active);
@@ -243,7 +254,10 @@ export function createRNotebooks({
     }
     history.hidden = !cell()?.runs?.length;
   }
+  let renderedNotebook;
   function render() {
+    if (renderedNotebook && renderedNotebook !== workspace.active) onNotebookChange?.();
+    renderedNotebook = workspace.active;
     books.replaceChildren(
       ...workspace.notebooks.map((book) => {
         const option = el("option", "", book.title);
@@ -405,7 +419,7 @@ export function createRNotebooks({
       exported_utc: new Date().toISOString(),
       provenance: getSources(),
       execution:
-        "Fresh isolated webR worker per code cell; drafts never auto-run",
+        "Explicit runs only; execution_mode, session_id and prior_cells in each run record distinguish isolated cells from shared sessions. Drafts never auto-run.",
       classification:
         "researcher-generated exploratory notebooks; archived inputs remain immutable",
     };
@@ -441,13 +455,12 @@ export function createRNotebooks({
       if (!file.files[0]) return;
       if (file.files[0].size > 20 * 1024 * 1024)
         throw Error("Notebook import is limited to 20 MB.");
-      const imported = validateWorkspace(
-        JSON.parse(await file.files[0].text()),
-      );
+      const imported = await verifyNotebookArchive(JSON.parse(await file.files[0].text()));
       root.f7.dialog.confirm(
         "Replace the notebooks on this device with this file? Export existing notebooks first. Imported code will not run.",
         "Import notebooks",
         () => {
+          onNotebookChange?.();
           workspace = imported;
           activeCell = notebook().cells[0]?.id;
           render();
@@ -473,6 +486,12 @@ export function createRNotebooks({
     importButton,
     file,
   );
+  for (const [format, title] of [["html", "Download notebook HTML"], ["qmd", "Download Quarto source"], ["Rmd", "Download R Markdown"]]) {
+    managementActions.append(action(title, "download", () => {
+      capture();
+      downloadFile(`research-notebook.${format}`, notebookPublication(notebook(), format), format === "html" ? "text/html" : "text/plain");
+    }));
+  }
   management.append(el("summary", "", "Notebook actions"), managementActions);
   toolbar.append(books, newBook, addCode, addMarkdown, exportButton);
   const builder = createRRecipeBuilder({
@@ -529,6 +548,12 @@ export function createRNotebooks({
     });
   const api = {
     element: host,
+    notebookId: () => workspace.active,
+    setSessionMode(shared) {
+      mode.textContent = shared
+        ? "Cells share R objects within this notebook until reset, stop, an error, navigation or reload. Frozen input tables and the seed refresh on each run; the results object is cleared. Run records include preceding cells in execution order. Saved cells never run automatically. Export notebooks to keep a copy."
+        : "Each cell starts a fresh R session. Include its required definitions in that cell. Drafts and the last 20 runs per cell are saved on this device; export notebooks to keep a copy.";
+    },
     current: () => {
       capture();
       return cell();

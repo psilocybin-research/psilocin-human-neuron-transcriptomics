@@ -121,7 +121,7 @@ try {
   await page.keyboard.press("Escape");
   await page.locator(".research-sidebar").waitFor({ state: "hidden" });
   await page.setViewportSize({ width: 1440, height: 960 });
-  await page.getByRole("button", { name: "Find a gene", exact: true }).click();
+  await page.locator(".desktop-gene-finder").click();
   await page
     .locator(".autocomplete-popup.modal-in[data-shell-modal-ready=true]")
     .waitFor();

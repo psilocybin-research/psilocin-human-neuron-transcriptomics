@@ -1,6 +1,6 @@
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { plotPalette } from "./plot-theme.js";
-import { parseExploratoryCSV, exploratoryColumns, exploratoryPoints, EXPLORATORY_PREVIEW_LIMITS } from "./exploratory-result-data.js";
+import { parseExploratoryCSV, exploratoryColumns, exploratoryPoints, EXPLORATORY_PREVIEW_LIMITS, exploratoryNetworkValues } from "./exploratory-result-data.js";
 
 const element = (tag, className, text) => {
   const node = document.createElement(tag);
@@ -10,13 +10,31 @@ const element = (tag, className, text) => {
 };
 
 /** A linked preview of user-computed results; never modifies archived findings. */
-export function createExploratoryResultChart({ csv, run, onSelectGene }) {
+export function createExploratoryResultChart({ csv, run, onSelectGene, onNetwork }) {
   const root = element("section", "exploratory-result-chart");
   root.append(element("div", "eyebrow", "USER EXPLORATORY RESULTS"), element("h3", "", "Explore computed results"), element("p", "note", "Values come directly from this R run’s results CSV. This display is separate from the frozen analysis; choosing axes does not fit a model or recalculate statistics."));
   if (run?.run_utc) root.append(element("p", "note", `Recorded run (UTC): ${run.run_utc}`));
   if (typeof run?.id === "string" || typeof run?.id === "number") root.append(element("p", "note", `Run: ${run.id}`));
   const parsed = parseExploratoryCSV(csv), columns = exploratoryColumns(parsed);
   root.dispose = () => {};
+  if (onNetwork && columns.length) {
+    const tools = element("div", "custom-r-toolbar");
+    const values = element("select"); values.setAttribute("aria-label", "3D overlay value");
+    for (const column of columns) {
+      const option = element("option", "", column.name); option.value = column.index; values.append(option);
+    }
+    const send = element("button", "button button-tonal", "Show R values in 3D"); send.type = "button";
+    const message = element("p", "note", "Map one numerical value per exact Ensembl ID onto the 113-gene membership network. This is an exploratory overlay, not a molecular measurement.");
+    message.setAttribute("role", "status");
+    send.onclick = async () => {
+      try {
+        send.disabled = true;
+        await onNetwork(exploratoryNetworkValues(parsed, Number(values.value)));
+      } catch (error) { message.textContent = error.message; }
+      finally { send.disabled = false; }
+    };
+    tools.append(values, send); root.append(tools, message);
+  }
   if (parsed.error || columns.length < 2) {
     root.append(element("p", "note", parsed.error || "A scatterplot will be available when results.csv contains at least two numerical columns with finite values."));
     return root;
@@ -30,7 +48,7 @@ export function createExploratoryResultChart({ csv, run, onSelectGene }) {
   useGene.type = "button";
   useGene.hidden = true;
   root.append(controls, status, stage, selected, useGene);
-  let xIndex = columns[0].index, yIndex = columns[1].index, selectedPoint = null, disposed = false, frame;
+  let xIndex = columns[0].index, yIndex = columns[1].index, selectedPoint = null, disposed = false, frame, observedWidth = -1;
   const columnName = (index) => columns.find((column) => column.index === index)?.name || `Column ${index + 1}`;
   function axis(title, value, change) {
     const label = element("label", "control");
@@ -80,7 +98,10 @@ export function createExploratoryResultChart({ csv, run, onSelectGene }) {
     selected.textContent = selectedPoint ? describe(selectedPoint) : "Select a point to inspect its CSV values. Gene linking requires an exact ENSG identifier in a gene_id, id, ensembl or ensembl_gene_id column.";
     useGene.hidden = !selectedPoint?.geneId || typeof onSelectGene !== "function";
   }
-  const observer = new ResizeObserver(() => {
+  const observer = new ResizeObserver(entries => {
+    const width = Math.round(entries[0].contentRect.width);
+    if (width === observedWidth) return;
+    observedWidth = width;
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(render);
   });

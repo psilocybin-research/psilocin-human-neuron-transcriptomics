@@ -66,3 +66,23 @@ export function figureSpecification(data, genes, provenance, options) {
     rows: figureRows(data, genes, settings),
   };
 }
+
+// An executable, portable Plot module accompanies the declarative specification.
+// Exact data travel with the module; no fetch from a mutable scientific source.
+export function figurePlotModule(spec) {
+  const s = validateFigureOptions(spec.settings);
+  const common = `width: ${s.width}, height: 440, marginLeft: 90, marginBottom: 65, style: {background: "white", color: "#203837", fontSize: "12px"}, ariaLabel: spec.title, ariaDescription: spec.caveat`;
+  let options;
+  if (s.mode === 'scatter') options = `${common},
+    x: {domain: spec.encodings.axis_domain, label: "Day 1 / common control · log₂FC", grid: ${s.grid}},
+    y: {domain: spec.encodings.axis_domain, label: "Day 3 / common control · log₂FC", grid: ${s.grid}},
+    color: {domain: ["Day 1 only", "Shared", "Day 3 only"], range: ["#56b4e9", "#222222", "#d55e00"], legend: true},
+    marks: [Plot.ruleX([0]), Plot.ruleY([0]), Plot.line(spec.encodings.axis_domain.map(x => ({x,y:x})), {x:"x", y:"y", strokeDasharray:"4,4"}), Plot.dot(spec.rows, {x:"day1_log2fc",y:"day3_log2fc",fill:"leading_edge",r:4,title:"gene"})${s.labels ? ', Plot.text(spec.rows,{x:"day1_log2fc",y:"day3_log2fc",text:"gene",dy:-9})' : ''}]`;
+  else if (s.mode === 'intervals') options = `${common}, marginLeft: 175,
+    x: {label: "log₂ fold change · approximate 95% Wald interval", grid: ${s.grid}}, y: {label: null},
+    marks: [Plot.ruleX([0]), Plot.ruleY(spec.rows,{y:"contrast",x1:"lower_wald_95",x2:"upper_wald_95",stroke:"#245b83"}),Plot.dot(spec.rows,{x:"log2FoldChange",y:"contrast",fill:"#245b83"})]`;
+  else options = `${common},
+    x: {domain: ["Control","Day 1","Day 3"],label:null}, y:{label:"VST expression",grid:${s.grid}},fx:{label:"Differentiation block"},
+    marks:[Plot.dot(spec.rows,{x:"condition",y:"vst",fx:"block",fill:"block",r:5})]`;
+  return `// Psilocin Atlas · archived-data figure. Observable Plot 0.6.19.\n// Install @observablehq/plot@0.6.19; import this ES module in a browser or a DOM-enabled notebook.\n// Source data, SHA-256 references and scientific qualifications are included below.\nimport * as Plot from "@observablehq/plot";\nexport const spec = ${JSON.stringify({...spec, renderer:{library:'@observablehq/plot',version:'0.6.19'}, export_style:'fixed light publication palette'}, null, 2)};\nexport const figure = Plot.plot({${options}});\nexport default figure;\n`;
+}

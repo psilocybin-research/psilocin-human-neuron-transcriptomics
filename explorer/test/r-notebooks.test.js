@@ -88,3 +88,13 @@ test("power recipe states its hypothetical independent-unit assumptions", () => 
   assert.match(code, /standardized_effect <- 0.8/);
   assert.throws(() => buildResearchRecipe({ recipe: "power", effect: 0 }));
 });
+
+test('notebook imports verify complete payload integrity before accepting data', async () => {
+ const {verifyNotebookArchive} = await import('../src/components/r-notebooks.js');
+ const payload={schema:notebookSchema,notebooks:[createNotebook('Test','stop("never execute")')]};
+ const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(payload))))].map(x=>x.toString(16).padStart(2,'0')).join('');
+ const doc={...payload,integrity:{algorithm:'SHA-256',sha256:hash}};
+ assert.equal((await verifyNotebookArchive(doc)).notebooks[0].title,'Test');
+ doc.notebooks[0].title='Tampered';await assert.rejects(verifyNotebookArchive(doc),/checksum mismatch/);
+ await assert.rejects(verifyNotebookArchive(payload),/integrity record/);
+});

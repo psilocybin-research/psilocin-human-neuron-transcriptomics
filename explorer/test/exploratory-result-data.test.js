@@ -38,3 +38,12 @@ test("bounded previews discard incomplete records and reject malformed CSV", () 
   assert.equal(huge.truncated, true);
   assert.deepEqual(huge.rows, [["1", "2"]]);
 });
+
+test('network overlay rejects ambiguous duplicates and truncated evidence', async () => {
+ const {exploratoryNetworkValues} = await import('../src/components/exploratory-result-data.js');
+ const parsed = parseExploratoryCSV('id,value\nENSG00000123456,0.123456789012345\nUNKNOWN,9\nENSG00000123457,NA');
+ assert.deepEqual(exploratoryNetworkValues(parsed,1).values,[{id:'ENSG00000123456',value:0.123456789012345}]);
+ assert.equal(exploratoryNetworkValues(parsed,1).omitted,2);
+ assert.throws(()=>exploratoryNetworkValues({...parsed,truncated:true},1),/complete/);
+ assert.throws(()=>exploratoryNetworkValues(parseExploratoryCSV('id,value\nENSG00000123456,1\nENSG00000123456,2'),1),/occur once/);
+});

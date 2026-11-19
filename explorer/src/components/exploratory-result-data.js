@@ -92,3 +92,19 @@ export function exploratoryPoints(parsed, xIndex, yIndex) {
     return x !== null && y !== null ? [{ x, y, rowIndex, geneId: exactGeneIdentifier(parsed, row) }] : [];
   });
 }
+
+/** Explicit one-value-per-exact-ID contract for a user-generated 3D overlay. */
+export function exploratoryNetworkValues(parsed, valueIndex) {
+  if (parsed.error || parsed.truncated) throw Error('Use a complete, valid result table of at most 1,000 rows for a network overlay.');
+  if (!Number.isInteger(valueIndex) || valueIndex < 0 || valueIndex >= parsed.headers.length) throw Error('Choose a numerical value column.');
+  const seen = new Set(), values = [];
+  let omitted = 0;
+  for (const row of parsed.rows) {
+    const id = exactGeneIdentifier(parsed, row), value = numericCSVValue(row[valueIndex]);
+    if (!id || value === null) { omitted++; continue; }
+    if (seen.has(id)) throw Error('Each exact gene ID must occur once. Filter to one contrast or explicitly aggregate in R before mapping.');
+    seen.add(id); values.push({id, value});
+  }
+  if (!values.length) throw Error('No finite values with exact Ensembl gene IDs were found.');
+  return {schema: 'psilocin-atlas/exploratory-overlay/v1', classification: 'user-exploratory', column: parsed.headers[valueIndex], values, omitted};
+}

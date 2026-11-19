@@ -1,3 +1,4 @@
+import {validateResearchCSV, RESEARCH_IMPORT_MAX_BYTES} from "./research-import.js";
 import {
   vectorSetup,
   vectorFinish,
@@ -42,13 +43,11 @@ export function createCustomR({
   const intro = el(
     "p",
     "note",
-    "Run editable R examples against archived atlas tables, entirely in a separate worker on your device. Code runs only when you choose Run. Base and recommended R packages are included; additional packages need a compatible webR repository and a connection.",
+    "Analyze archived tables in local R notebooks. Code runs only when you choose Run.",
   );
-  const warning = el(
-    "p",
-    "callout",
-    "Custom outputs are exploratory and separate from the archived results. These tables contain fitted estimates and VST profiles, not raw counts for refitting DESeq2. Three differentiation blocks, shared controls and unresolved control harvest timing limit inference. The examples do not establish mitochondrial function or rejuvenation.",
-  );
+  const warning = el("details", "research-studio-boundaries");
+  warning.append(el("summary", "", "Exploratory analyses · data and interpretation limits"),
+    el("p", "note", "Outputs are separate from archived findings. Inputs are fitted estimates and VST profiles, not raw counts for DESeq2. Three differentiation blocks, shared controls and unresolved control harvest timing limit inference. RNA differences do not establish mitochondrial function or rejuvenation. Base and recommended R packages are included; additional packages require a compatible WebAssembly repository and a connection."));
   const selector = el("select");
   selector.setAttribute("aria-label", "R example");
   for (const example of rExamples) {
@@ -91,6 +90,45 @@ export function createCustomR({
       );
     else replace();
   });
+  let localImport = null;
+  let sharedSession = false, kernelBook = null, kernelHistory = [], kernelId = null;
+  const sessionMode = el("input");
+  sessionMode.type = "checkbox";
+  sessionMode.setAttribute("aria-label", "Share R session between cells");
+  const sessionLabel = el("label", "research-session-mode");
+  sessionLabel.append(sessionMode, document.createTextNode("Share R session between cells"));
+  const resetSession = action("Reset R session", "close", () => terminate("R session reset. Run a cell to start a new session."));
+  sessionMode.onchange = () => {
+    terminate("R session reset. The execution mode has changed.");
+    sharedSession = sessionMode.checked;
+    notebooks.setSessionMode(sharedSession);
+  };
+  const importData = el("details", "research-studio-import");
+  importData.append(el("summary", "", "Import a research table"));
+  const importFile = el("input");
+  importFile.type = "file"; importFile.accept = ".csv,text/csv";
+  importFile.setAttribute("aria-label", "Import research CSV");
+  const importStatus = el("p", "note", "UTF-8 CSV · up to 2 MB, 1,000 rows and 100 columns. Available as user_data in R. Kept only in this open notebook; included in report source exports. No file is uploaded. Changing the file resets R.");
+  importStatus.setAttribute("role", "status");
+  const clearImport = action("Remove imported table", "close", () => {
+    terminate("R session reset after removing imported data.");
+    localImport = null; importFile.value = ""; importStatus.textContent = "No imported table. Archived data remain available.";
+  });
+  importFile.onchange = async () => {
+    const file = importFile.files[0]; if (!file || busy) return;
+    const bookId = notebooks.notebookId();
+    try {
+      if (file.size > RESEARCH_IMPORT_MAX_BYTES) throw Error("Choose a CSV no larger than 2 MB.");
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const info = validateResearchCSV(new TextDecoder("utf-8", {fatal: true}).decode(bytes));
+      const sha256 = await digest(bytes);
+      if (!host.isConnected || busy || bookId !== notebooks.notebookId()) return;
+      terminate("R session reset for the imported table.");
+      localImport = {bytes, name: file.name, ...info, sha256};
+      importStatus.textContent = `${file.name}: ${info.rows} rows × ${info.columns.length} columns. Use user_data in R. User-imported data; separate from archived evidence. Included in report source exports.`;
+    } catch (error) { importStatus.textContent = `Import rejected: ${error.message}${localImport ? " Previous table retained." : " No table imported."}`; }
+  };
+  importData.append(importFile, clearImport, importStatus);
   const timeLimit = el("select");
   timeLimit.setAttribute("aria-label", "R execution time limit");
   for (const minutes of [5, 10, 30, 60]) {
@@ -128,6 +166,8 @@ export function createCustomR({
     selector,
     load,
     run,
+    sessionLabel,
+    resetSession,
     limitField,
     action("Download R", "download", () =>
       downloadFile("psilocin-custom-analysis.R", code.value, "text/plain"),
@@ -231,6 +271,10 @@ export function createCustomR({
       bayesian_sources: bayesian.source_sha256,
     }),
     onStatus: (message) => showToast(message),
+    onNotebookChange: () => {
+      localImport = null; importFile.value = ""; importStatus.textContent = "No table imported in this notebook.";
+      if (runtime) terminate("R session reset for the selected notebook.");
+    },
     onCellChange: (cell) => {
       label.hidden = cell?.kind !== "code";
       run.disabled = cell?.kind !== "code";
@@ -286,6 +330,7 @@ export function createCustomR({
     intro,
     warning,
     notebooks.element,
+    importData,
     toolbar,
     progress.panel,
     label,
@@ -380,6 +425,9 @@ export function createCustomR({
     run.disabled = value || notebooks.current()?.kind !== "code";
     load.disabled = value;
     timeLimit.disabled = value;
+    sessionMode.disabled = value;
+    importFile.disabled = clearImport.disabled = value;
+    resetSession.disabled = value;
     limitField.disabled = value;
     stop.disabled = !value;
     root.dataset.rBusy = String(value);
@@ -390,6 +438,8 @@ export function createCustomR({
     clearTimeout(timer);
     runtime?.close();
     runtime = undefined;
+    kernelBook = null; kernelHistory = []; kernelId = null;
+    root.dataset.rSession = "closed";
     endActivity?.();
     endActivity = undefined;
     controls(false);
@@ -397,16 +447,31 @@ export function createCustomR({
     status.textContent = message;
     progress.finish(message);
   }
+  function finishRun(message, failed) {
+    if (!sharedSession || failed) return terminate(message, failed);
+    ++epoch;
+    clearTimeout(timer);
+    endActivity?.(); endActivity = undefined;
+    controls(false);
+    root.dataset.rSession = "ready";
+    progress.finish(`${message} R session retained.`);
+  }
   async function execute() {
     if (busy) return;
     host.dispatchEvent(new CustomEvent("atlas:r-start", { bubbles: true }));
     if (notebooks.current()?.kind !== "code")
       return showToast("Select an R code cell to run.");
     const executingCell = notebooks.current().id;
+    const bookId = notebooks.notebookId();
+    if (runtime && kernelBook !== bookId) terminate("R session reset for this notebook.");
     if (root.dataset.reportBusy === "true")
       return showToast("Finish or cancel report preparation first.");
     if (!code.value.trim() || code.value.length > 65536) {
       showToast("Enter R code, up to 65,536 characters.");
+      return;
+    }
+    if (sharedSession && kernelHistory.reduce((n, step) => n + step.replay.length, 0) > 1_000_000) {
+      showToast("Export your runs and reset the R session before continuing; its replay history has reached 1 MB.");
       return;
     }
     persist();
@@ -416,6 +481,8 @@ export function createCustomR({
       ticket = ++epoch;
     controls(true);
     resultsCSV = "";
+    inspector.hidden = true;
+    inspectorText.textContent = "";
     record = undefined;
     csv.disabled = session.disabled = true;
     releasePlotURLs();
@@ -456,24 +523,22 @@ export function createCustomR({
         "Loading the webR interface",
         "Opening the locally hosted webR 0.6.0 JavaScript interface.",
       );
-      const instance = await createRRuntime({
-        onResource: (file) => {
-          if (ticket === epoch) progress.resource(file);
-        },
-      });
-      if (ticket !== epoch) {
-        instance.close();
-        return;
+      if (!runtime) {
+        const instance = await createRRuntime({
+          onResource: (file) => { if (ticket === epoch) progress.resource(file); },
+        });
+        if (ticket !== epoch) { instance.close(); return; }
+        runtime = instance;
+        kernelBook = bookId;
+        kernelId = crypto.randomUUID();
+        progress.stage(2, "Starting R", "Loading the optional local R runtime.");
+        await runtime.init();
+      } else {
+        progress.stage(2, "Continuing R session", "Using objects from earlier cells in this notebook session.");
       }
-      runtime = instance;
-      progress.stage(
-        2,
-        "Starting the R worker",
-        "Loading WebAssembly, base R and numerical libraries. The browser downloads required files or reads the saved offline runtime. First startup can take longer.",
-      );
-      await runtime.init();
-      progress.note("R worker initialized successfully.");
       if (ticket !== epoch) return;
+      root.dataset.rSession = "busy";
+      progress.note("R worker ready.");
       const inputs = {
         genes,
         pathways: data.pathways,
@@ -521,15 +586,20 @@ export function createCustomR({
           `${name}: ${rows.length.toLocaleString()} rows · ${(bytes.byteLength / 1e6).toFixed(2)} MB loaded`,
         );
       }
+      const inputNames = Object.keys(inputs);
+      if (localImport) {
+        await runtime.FS.writeFile("/home/web_user/user_data.csv", localImport.bytes);
+        reportInputs["data/user_data.csv"] = localImport.bytes;
+        hashes.user_data = {rows: localImport.rows, sha256: localImport.sha256, classification: "user-imported", name: localImport.name};
+        inputNames.push("user_data");
+      }
       const shelter = await new runtime.Shelter();
-      const wrapped = `${vectorSetup}\nset.seed(20261118)\n${Object.keys(inputs)
-        .map(
-          (name) =>
-            `${name} <- read.csv('/home/web_user/${name}.csv', stringsAsFactors=FALSE, check.names=FALSE, na.strings=c('', 'NA', 'null'))`,
-        )
-        .join(
-          "\n",
-        )}\ntryCatch({\n${script}\n}, finally={${vectorFinish}})\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
+      // Refresh frozen inputs and remove only the previous result artifact. Other
+      // user objects survive in explicitly shared sessions. No saved code is replayed.
+      const setup = `set.seed(20261118)\n${inputNames.map(name =>
+        `${name} <- read.csv('/home/web_user/${name}.csv', stringsAsFactors=FALSE, check.names=FALSE, na.strings=c('', 'NA', 'null'))`
+      ).join("\n")}\nif (exists('results', envir=.GlobalEnv, inherits=FALSE)) rm(results, envir=.GlobalEnv)\nunlink('/home/web_user/results.csv')`;
+      const wrapped = `${vectorSetup}\n${setup}\ntryCatch({\n${script}\n}, finally={${vectorFinish}})\nif (exists('results',inherits=FALSE) && is.data.frame(results)) write.csv(results,'/home/web_user/results.csv',row.names=FALSE)\n`;
       progress.stage(
         4,
         "Running your R script",
@@ -630,7 +700,11 @@ export function createCustomR({
       record = {
         schema_version: 1,
         run_utc: new Date().toISOString(),
-        code: script,
+        code: [...kernelHistory.map(step => step.replay), `${setup}\n${script}`].join("\n\n# Next explicitly executed cell\n"),
+        cell_code: script,
+        execution_mode: sharedSession ? "shared-notebook-session" : "isolated-cell",
+        session_id: kernelId,
+        prior_cells: kernelHistory.map(({cell_id, code, sha256}) => ({cell_id, code, sha256})),
         seed: 20261118,
         execution_limit_seconds: executionLimitSeconds,
         archive_doi: "10.5281/zenodo.23283595",
@@ -660,7 +734,8 @@ export function createCustomR({
       session.disabled = false;
       reports.setReady(!record.error);
       await shelter.purge();
-      terminate(
+      kernelHistory.push({cell_id: executingCell, code: script, sha256: await digest(encoder.encode(script)), replay: `${setup}\n${script}`});
+      finishRun(
         record.error
           ? "R reported an error. Check the console and try again."
           : `Analysis complete.${captured.images.length > 4 ? " First four plots retained." : ""}`,

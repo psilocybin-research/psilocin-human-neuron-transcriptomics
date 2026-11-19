@@ -5042,3 +5042,18 @@ body {
 .method-comparison-card[hidden] { display:none; }
 .exploratory-result-chart { padding:16px; margin:18px 0; border:1px solid var(--research-border); border-radius:14px; background:var(--research-surface); }
 .exploratory-result-stage { min-width:0; width:100%; }
+
+/* Research Studio uses the shared workstation palette and type rhythm. */
+.research-app .research-studio-boundaries {
+  margin: .75rem 0 1rem;
+  padding: .75rem 1rem;
+  border: 1px solid var(--f7-list-item-border-color, #9ca9b344);
+  border-radius: .75rem;
+}
+.research-app .research-studio-boundaries summary { cursor: pointer; font-size: .875rem; font-weight: 600; }
+.research-app .research-session-mode { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; font-size: .875rem; }
+.research-app .research-session-mode input { width: 20px; height: 20px; accent-color: var(--f7-theme-color); }
+.research-app .research-studio-notebooks .note,
+.research-app .custom-r-workspace > .note { font-size: .875rem; }
+.research-app .autocomplete-popup .item-title { white-space: normal; overflow-wrap: anywhere; font-size: .875rem; }
+.research-app .autocomplete-popup .item-content { min-height: 48px; }

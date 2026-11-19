@@ -238,7 +238,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
     ["methods", "Methods & provenance"],
-    ["custom-r", "Custom R analysis"],
+    ["custom-r", "Research Studio"],
   ];
   let tab = "overview",
     selected = "GPX4",
@@ -744,7 +744,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
   }, "secondary");
-  sessionBar.append(previousSelection, nextSelection, toR, collectionButton, exportSession, collectionHost);
+  sessionBar.append(button("Search atlas", () => shell?.openSearch(), "secondary"), previousSelection, nextSelection, toR, collectionButton, exportSession, collectionHost);
   let observedResearch = researchStore.getState();
   const unsubscribeResearch = researchStore.subscribe(state => {
     const previous = observedResearch;
@@ -909,7 +909,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     }
     return logos;
   }
-  let networkPanel, networkLoading, networkStorage;
+  let networkPanel, networkLoading, networkStorage, exploratoryOverlay;
   function openMembershipNetwork() {
     if (root.querySelector(".oxphos-network-fullscreen")) return;
     const previousFocus = document.activeElement;
@@ -983,6 +983,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         .then(({ createOxphosNetwork }) => {
           networkPanel.replaceChildren(
             createOxphosNetwork({
+              initialOverlay: exploratoryOverlay,
               initialGene: researchStore.getState().gene,
               initialContrast: researchStore.getState().contrast,
               onSelection: selection => {
@@ -1031,8 +1032,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       el(
         "h1",
         "",
-        "Metabolic and redox transcription after brief psilocin exposure in human iPSC-derived cortical neurons",
+        "A brief perturbation. A broad transcriptional signature.",
       ),
+      el("p", "note", "Psilocin human-neuron transcriptomics"),
       el(
         "p",
         "standfirst",
@@ -1325,7 +1327,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   function landscape() {
     body.append(
       heading(
-        "The OXPHOS landscape",
+        "OXPHOS landscape",
         "All 113 leading-edge genes, grouped descriptively by function. Select a row to inspect its exact effects and nine expression profiles.",
       ),
     );
@@ -1354,7 +1356,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       heat = el("div", "heatmap-scroll"),
       detail = el("aside", "gene-detail");
     split.dataset.fullscreenHost = "true";
-    split.dataset.fullscreenTitle = "The OXPHOS landscape";
+    split.dataset.fullscreenTitle = "OXPHOS landscape";
     split.dataset.fullscreenInfo =
       "Select a gene row to retain its exact effects and nine-profile detail alongside the heatmap.";
     split.append(heat, detail);
@@ -2511,7 +2513,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   function robustness() {
     body.append(
       heading(
-        "Directional stability and sensitivity analyses",
+        "Robustness & sensitivity",
         "Direction agreement across the frozen block omissions and RNA-quality checks. Significance in every small subset was not required.",
       ),
     );
@@ -3014,7 +3016,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(
       heading(
         "Research Studio",
-        "Local R notebooks, editable analyses and reproducible research reports",
+        "R notebooks and reproducible research reports",
       ),
       host,
     );
@@ -3028,6 +3030,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     const exploratoryHost = el("div");
     let outputVersion = 0;
     workspace.addEventListener("atlas:r-start", () => {
+      exploratoryOverlay = null;
+      networkPanel?.querySelector(".oxphos-network-3d")?.setExploratoryOverlay?.(null);
       ++outputVersion;
       exploratoryHost.querySelector(".exploratory-result-chart")?.dispose?.();
       exploratoryHost.replaceChildren();
@@ -3042,6 +3046,18 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         const { createExploratoryResultChart } = await import("./exploratory-result-chart.js");
         if (!workspace.isConnected || version !== outputVersion) return;
         exploratoryHost.replaceChildren(createExploratoryResultChart({ csv: output.resultsCSV, run: output.record,
+          onNetwork: async overlay => {
+            const bytes = new TextEncoder().encode(output.resultsCSV);
+            const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(value => value.toString(16).padStart(2, "0")).join("");
+            if (!workspace.isConnected || version !== outputVersion) throw Error("The active result changed. Select the current result table.");
+            // Validate against the exact archived network identities before opening.
+            const geneIds = new Set((await getGenes()).filter(g => g.selected && data.landscape.some(row => row.gene === g.symbol)).map(g => g.id));
+            if (!overlay.values.some(row => geneIds.has(row.id))) throw Error("No exact IDs match the 113 archived network genes. No symbol-based mapping was attempted.");
+            exploratoryOverlay = {...overlay, results_sha256: hash, run_utc: output.record.run_utc,
+              archive_doi: output.record.archive_doi, inputs: output.record.inputs};
+            networkPanel?.querySelector(".oxphos-network-3d")?.setExploratoryOverlay?.(exploratoryOverlay);
+            openMembershipNetwork();
+          },
           onSelectGene: async id => {
             const records = await getGenes();
             if (!records.some(g => g.id === id)) return;
@@ -3062,7 +3078,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(
       heading(
         "Methods & provenance",
-        "A static view of an archived analysis. Browser interactions select and display results; they do not refit DESeq2, rerun enrichment or create new confirmatory tests.",
+        "Archived evidence retains its original models and statistical families. Research Studio runs explicitly requested exploratory R analyses separately; they do not alter the frozen findings.",
       ),
     );
     const methodGrid = el("div", "methods-grid");
@@ -3218,9 +3234,19 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     plotNotices: branding.plotNotices,
     initial: tab,
     enhanceFigures: enhancePlots,
+    onPathway: value => researchStore.update({pathway: value, view: "pathways"}),
+    researchActions: [
+      {id: "send-r", title: "Send selection to R", run: () => sendSelectionToR()},
+      {id: "undo", title: "Undo research selection", run: () => researchStore.undo()},
+      {id: "redo", title: "Redo research selection", run: () => researchStore.redo()},
+      {id: "collections", title: "Open gene collections", run: () => { collectionButton.click(); sessionBar.scrollIntoView({block: "nearest"}); }},
+      {id: "export", title: "Export research selections", run: () => exportSession.click()},
+    ],
   });
   render();
   root.destroy = () => {
+    body.querySelector(".research-figure-builder")?.dispose?.();
+    networkPanel?.querySelector(".oxphos-network-3d")?.destroy?.();
     unsubscribeResearch();
     collectionsView?.dispose?.();
     body.querySelector(".exploratory-result-chart")?.dispose?.();

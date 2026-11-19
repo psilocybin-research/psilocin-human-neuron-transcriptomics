@@ -3,7 +3,7 @@ import { downloadFile } from "./file-download.js";
 import { contrasts, fmt, sci, csvText, leadingEdgeColors } from "./format.js";
 import { finite } from "./comparison-data.js";
 import { plotPalette } from "./plot-theme.js";
-import { figureModes, figureCaveat, validateFigureOptions, figureSpecification } from "./research-figure-data.js";
+import { figureModes, figureCaveat, validateFigureOptions, figureSpecification, figurePlotModule } from "./research-figure-data.js";
 
 const element = (tag, className, text) => {
   const node = document.createElement(tag);
@@ -26,7 +26,7 @@ export function createResearchFigureBuilder({ data, provenance, getGenes = async
   const downloads = element("div", "button-row");
   body.append(controls, status, stage, downloads, element("p", "note", figureCaveat));
   let settings = validateFigureOptions({ gene: data.landscape[0]?.gene });
-  let genes = [], genesReady = false, genesRequest, svg, specification, disposed = false, frame;
+  let genes = [], genesReady = false, genesRequest, svg, specification, disposed = false, frame, observedWidth = -1;
 
   const select = (title, options, value, change) => {
     const label = element("label", "control");
@@ -85,6 +85,9 @@ export function createResearchFigureBuilder({ data, provenance, getGenes = async
   });
   addDownload("Download figure specification", () => {
     if (specification) downloadFile(`oxphos-${settings.mode}-specification.json`, JSON.stringify(specification, null, 2), "application/json");
+  });
+  addDownload("Download Plot code", () => {
+    if (specification) downloadFile(`oxphos-${settings.mode}.js`, figurePlotModule(specification), "text/javascript");
   });
   addDownload("Download source rows", () => {
     if (specification) downloadFile(`oxphos-${settings.mode}.csv`, csvText(specification.rows));
@@ -153,7 +156,10 @@ export function createResearchFigureBuilder({ data, provenance, getGenes = async
     stage.replaceChildren(svg);
     downloads.hidden = !rows.length;
   }
-  const observer = new ResizeObserver(() => {
+  const observer = new ResizeObserver(entries => {
+    const width = Math.round(entries[0].contentRect.width);
+    if (width === observedWidth) return;
+    observedWidth = width;
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(render);
   });

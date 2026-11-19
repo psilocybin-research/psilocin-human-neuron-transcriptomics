@@ -26,7 +26,7 @@ const hoverNumber = (value, probability = false) =>
         : value.toFixed(3);
 const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
-export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, onResearch, onSelection = () => {} }) {
+export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
   root.setAttribute("aria-label", "3D OXPHOS gene–pathway membership");
   const genes = snapshot.nodes.filter((n) => n.type === "gene");
@@ -52,6 +52,10 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     proteinSelection,
     activeResearchPanel,
     entranceOpacity = 1;
+  let overlay = null, overlayValues = new Map(), overlayLimit = 1;
+  const nodeColour = (n, d = day) => overlay
+    ? (overlayValues.has(n.id) ? color(overlayValues.get(n.id), overlayLimit) : "#808080")
+    : color(n.effects[d]?.log2FoldChange, snapshot.limit);
   const objects = new Map();
   const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
@@ -359,7 +363,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
           "oxphos-membership-network.json",
           JSON.stringify(
             {
-              schema_version: 1,
+              schema_version: 2,
+              camera: graph ? {position: {...graph.cameraPosition()}, target: {x: graph.controls().target.x, y: graph.controls().target.y, z: graph.controls().target.z}, up: {x: graph.camera().up.x, y: graph.camera().up.y, z: graph.camera().up.z}, fov: graph.camera().fov, aspect: graph.camera().aspect} : null,
+              renderer: {three: "0.187.0", force_graph: "1.80.2"},
+              user_exploratory_overlay: overlay,
+              overlay_colour_domain: overlay ? [-overlayLimit, 0, overlayLimit] : null,
               archive: "10.5281/zenodo.23283595",
               view_url: location.href,
               displayed_contrasts: [
@@ -1011,7 +1019,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         const mesh = map.get(n.id);
         if (mesh) {
           mesh.children[0].material.color.set(
-            color(n.effects[effectDay]?.log2FoldChange, snapshot.limit),
+            nodeColour(n, effectDay),
           );
           if (
             mesh.children[0].material.transparent !==
@@ -1024,7 +1032,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
           mesh.children[0].material.depthWrite = !focused || n.id === selected;
           mesh.children[1].visible = n.id === selected;
           const fdr = n.effects[effectDay]?.padj;
-          mesh.children[2].visible = Number.isFinite(fdr) && fdr < 0.05;
+          mesh.children[2].visible = !overlay && Number.isFinite(fdr) && fdr < 0.05;
         }
       }
       for (const n of snapshot.nodes.filter((n) => n.type !== "gene")) {
@@ -1204,6 +1212,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       return `${label(n.pathway)} · archived membership, not a molecular interaction`;
     return (
       `${n.symbol} · ${n.id}\n` +
+      (overlay ? `USER EXPLORATORY ${overlay.column}: ${overlayValues.has(n.id) ? overlayValues.get(n.id) : "not mapped"}\nArchived evidence:\n` : "") +
       n.effects
         .map(
           (e, i) =>
@@ -1236,11 +1245,34 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       `Day ${d ? 3 : 1} / common control · ${significantCount(d)} gene FDR < 0.05`;
     leftStage.dataset.timepoint = caption(day);
     status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${significantCount(day)} gene FDR < 0.05 · vs common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
+    if (overlay) status.textContent = `USER EXPLORATORY · ${overlay.column} · ${overlayValues.size}/113 exact IDs mapped · grey: no mapped value · archived evidence remains in Evidence`;
     shown = 12;
     renderList();
     renderSelected();
+    if (overlay && selected) selectedPanel.prepend(el("p", "callout", `User exploratory ${overlay.column}: ${overlayValues.has(selected) ? overlayValues.get(selected) : "not mapped"}. Archived statistics below remain unchanged.`));
     updateGraph();
   }
+  const archivedLegend = legend.textContent;
+  const archivedScale = legendCompact.cloneNode(true);
+  const removeOverlay = button("Show archived colours", () => root.setExploratoryOverlay(null), "close");
+  removeOverlay.hidden = true;
+  exports.prepend(removeOverlay);
+  root.setExploratoryOverlay = value => {
+    overlay = value?.classification === "user-exploratory" ? structuredClone(value) : null;
+    overlayValues = new Map((overlay?.values || []).filter(row => genes.some(g => g.id === row.id) && Number.isFinite(row.value)).map(row => [row.id, row.value]));
+    overlayLimit = Math.max(Number.MIN_VALUE, ...[...overlayValues.values()].map(Math.abs));
+    root.dataset.exploratoryOverlay = String(Boolean(overlay));
+    removeOverlay.hidden = !overlay;
+    significanceKey.hidden = Boolean(overlay);
+    days.setAttribute("aria-label", overlay ? "Archived evidence day; R overlay is unchanged" : "3D effect time point");
+    uncertaintyLabel.hidden = Boolean(overlay);
+    if (overlay) { uncertainty = "all"; uncertaintySelect.value = "all"; }
+    legend.textContent = overlay ? `USER EXPLORATORY: ${overlay.column}. Exact IDs only; ${overlayValues.size} mapped, ${overlay.values.length - overlayValues.size} outside this network, ${overlay.omitted} rows without an ID or finite value. Blue −${overlayLimit}; white 0; rust +${overlayLimit}. Grey = no value. No significance halos. Values are not archived findings or measured molecular properties. Source CSV SHA-256: ${overlay.results_sha256 || "unavailable"}.` : archivedLegend;
+    legendCompact.replaceChildren(...(overlay ? [el("span", "", `R: ${overlay.column} · ±${overlayLimit.toPrecision(3)}`)] : [...archivedScale.cloneNode(true).childNodes]));
+    legendCompact.title = overlay ? "User exploratory values. Grey means not mapped. See About & data for provenance." : archivedScale.title;
+    refresh();
+  };
+  if (initialOverlay) root.setExploratoryOverlay(initialOverlay);
   let resize, intersection, detachObserver, entranceFrame;
   function finishEntrance() {
     if (!cameraTransition || root.dataset.entranceReady === "true") return;
@@ -1371,7 +1403,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
           if (n.type === "gene") {
             const geometry = new api.SphereGeometry(4.3, 40, 28),
               material = new api.MeshBasicMaterial({
-                color: color(n.effects[day]?.log2FoldChange, snapshot.limit),
+                color: nodeColour(n),
               }),
               outline = new api.MeshBasicMaterial({
                 color: "#e6b854",

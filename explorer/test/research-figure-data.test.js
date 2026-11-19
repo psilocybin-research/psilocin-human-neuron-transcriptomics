@@ -49,3 +49,16 @@ test("figure specifications are declarative, bounded and retain rows through JSO
   assert.deepEqual(JSON.parse(JSON.stringify(spec)), spec);
   assert.equal(spec.encodings.axis_domain[0], -spec.encodings.axis_domain[1]);
 });
+
+test('portable Plot source carries full numerical data, pinned renderer and qualifications', async () => {
+ const {figurePlotModule} = await import('../src/components/research-figure-data.js');
+ for (const mode of ['scatter','intervals','profiles']) {
+   const spec=figureSpecification(data,genes,provenance,{mode,gene:'GPX4'});
+   const source=figurePlotModule(spec);
+   const embedded=JSON.parse(source.split('export const spec = ')[1].split(';\nexport const figure')[0]);
+   assert.deepEqual(embedded.rows,spec.rows);
+   assert.deepEqual(embedded.sources,spec.sources);
+   assert.equal(embedded.renderer.version,'0.6.19');
+   assert.match(embedded.caveat,/not nine independent/);
+ }
+});

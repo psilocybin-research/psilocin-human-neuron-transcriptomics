@@ -176,7 +176,7 @@ try {
     await page.screenshot({ path: `/tmp/atlas-methods-${width}.png` });
     if (width >= 1180) {
       await page
-        .getByRole("button", { name: "Find a gene", exact: true })
+        .locator(".desktop-gene-finder")
         .click();
       await page.locator(".autocomplete-popup.modal-in").waitFor();
       await page.locator(".autocomplete-popup .item-radio").first().waitFor();

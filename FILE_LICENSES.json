@@ -4609,6 +4609,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/notebook-publication.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/oxphos-network-3d.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4735,7 +4741,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/research-import.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/research-navigation.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/research-search.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5025,6 +5043,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/notebook-publication.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/oxphos-network-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -5145,7 +5169,31 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/research-export-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/research-figure-data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/research-import.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/research-integration-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/research-search.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5170,6 +5218,12 @@
     ]
   },
   "explorer/test/settings-scroll-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/shared-r-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -8287,7 +8341,7 @@
       "2011 John Resig",
       "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
       "2016 cheminfo",
-      "2015 Michaël Zasso",
+      "2015 Micha\u00ebl Zasso",
       "2017 Photopea"
     ]
   },

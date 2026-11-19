@@ -179,7 +179,7 @@ export function reportFiles(run, title, author = "") {
         (path) =>
           `${path.split("/")[1].replace(".csv", "")} <- read.csv('${path}', stringsAsFactors=FALSE, check.names=FALSE, na.strings=c('', 'NA', 'null'))`,
       )
-      .join("\n")}\n${record.code}\n`,
+      .join("\n")}\n${record.code.replaceAll("/home/web_user/", "data/")}\n`,
   );
   add("results.csv", resultsCSV);
   add("console.txt", record.console);
