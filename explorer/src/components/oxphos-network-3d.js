@@ -498,9 +498,99 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     "Effect colour uses the same zero-centred scale on both days. Cyan marks archived gene FDR < 0.05. Gold marks selection; a two-second gold pulse locates a search result, not statistical confidence. Significance on one day alone is not evidence of a difference between days.";
   dock.prepend(legendCompact, significanceKey);
   viewer.append(topbar, dock);
+
+  // On phones one F7 side panel owns the controls and the network's detail views.
+  const mobileControls = matchMedia("(max-width: 767px)");
+  const mobilePanel = el("aside", "panel panel-right panel-cover oxphos-mobile-panel");
+  mobilePanel.id = "oxphos-mobile-controls";
+  mobilePanel.setAttribute("aria-label", "Network controls");
+  const mobileHeader = el("header", "oxphos-mobile-header");
+  const mobileBack = button("Back", () => showMobileMode("controls"), "back");
+  const mobileTitle = el("h2", "", "Network controls");
+  const mobileDone = button("Close", () => closeMobileControls(), "close");
+  mobileHeader.append(mobileBack, mobileTitle, mobileDone);
+  const mobileScroll = el("div", "oxphos-mobile-scroll");
+  const mobileMain = el("div", "oxphos-mobile-main");
+  const mobileDetail = el("div", "oxphos-mobile-detail");
+  mobileDetail.hidden = true;
+  mobileScroll.append(mobileMain, mobileDetail);
+  mobilePanel.append(mobileHeader, mobileScroll);
+  const mobileFab = el("div", "fab fab-right-bottom oxphos-mobile-fab");
+  const mobileFabButton = el("a", "external");
+  mobileFabButton.setAttribute("role", "button");
+  mobileFabButton.setAttribute("aria-label", "Open network controls");
+  mobileFabButton.setAttribute("aria-haspopup", "dialog");
+  mobileFabButton.setAttribute("aria-controls", mobilePanel.id);
+  mobileFabButton.setAttribute("aria-expanded", "false");
+  mobileFabButton.tabIndex = 0;
+  mobileFabButton.title = "Network controls";
+  mobileFabButton.append(uiIcon("controls"));
+  mobileFab.append(mobileFabButton);
+  root.append(mobilePanel, mobileFab);
+  let mobilePanelInstance, mobileMode = "controls";
+  const mobileSections = {
+    search: () => [listRegion],
+    gene: () => [selectedPanel],
+    filters: () => [controls],
+    about: () => [heading, qualification, legend, gesture, exports, provenance.element],
+  };
+  function showMobileMode(kind) {
+    for (const child of [...mobileDetail.children]) panels.append(child);
+    mobileMode = kind;
+    mobileMain.hidden = kind !== "controls";
+    mobileDetail.hidden = kind === "controls";
+    mobileBack.hidden = kind === "controls";
+    mobileTitle.textContent = {
+      controls: "Network controls", search: "Find a gene", gene: "Linked gene evidence",
+      filters: "Network filters", about: "Membership & data",
+    }[kind];
+    mobilePanel.setAttribute("aria-label", mobileTitle.textContent);
+    if (kind !== "controls") mobileDetail.append(...mobileSections[kind]());
+    mobileScroll.scrollTop = 0;
+  }
+  function closeMobileControls(animate = true) {
+    if (mobilePanelInstance?.opened) mobilePanelInstance.close(animate && !matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+  function openMobileControls(kind = "controls") {
+    const app = document.querySelector("#psilocin-app")?.f7;
+    if (!app) return;
+    showMobileMode(kind);
+    mobilePanelInstance ||= app.panel.create({
+      el: mobilePanel, containerEl: root, side: "right", effect: "cover", backdrop: true,
+      on: {
+        open: () => mobileFabButton.setAttribute("aria-expanded", "true"),
+        closed: () => { mobileFabButton.setAttribute("aria-expanded", "false"); showMobileMode("controls"); },
+      },
+    });
+    if (!mobilePanelInstance.opened) mobilePanelInstance.open(!matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (kind === "search") setTimeout(() => { if (mobilePanelInstance?.opened && mobileMode === "search") search.focus(); }, 250);
+  }
+  mobileFabButton.onclick = (event) => {
+    event.preventDefault();
+    event.preventF7Router = true;
+    if (graph) openMobileControls();
+  };
+  mobileFabButton.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") { event.preventDefault(); mobileFabButton.click(); }
+  });
+  function syncMobileControls() {
+    if (mobileControls.matches) {
+      mobileMain.append(identity, status, days, displayControls, cameraTools, evidenceTools, dock, proteinTools);
+    } else {
+      closeMobileControls(false);
+      showMobileMode("controls");
+      topbar.append(identity, days, displayControls, status);
+      viewer.insertBefore(cameraTools, evidenceTools);
+      viewer.append(dock, proteinTools);
+    }
+  }
+  mobileControls.addEventListener("change", syncMobileControls);
+  syncMobileControls();
   function fullscreenChanged() {
-    if (!document.fullscreenElement && !document.webkitFullscreenElement)
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
       closeDrawer();
+      closeMobileControls(false);
+    }
   }
   function closeDrawer() {
     if (drawerBody)
@@ -540,6 +630,11 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
   const desktopEvidence = matchMedia("(min-width: 1100px)");
   function openDrawer(kind) {
     closeDrawer();
+    if (mobileControls.matches) {
+      evidenceAside.hidden = true;
+      openMobileControls(kind);
+      return;
+    }
     if (kind === "gene" && desktopEvidence.matches) {
       evidenceBody.append(selectedPanel);
       evidenceAside.hidden = false;
@@ -831,6 +926,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       const b = button(n.symbol, () => {
         choose(n, true, false);
         closeDrawer();
+        closeMobileControls(false);
         evidenceAside.hidden = true;
         sceneEffects?.locate(n.id);
         nodeProtein?.clear();
@@ -1154,6 +1250,9 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     resize?.disconnect();
     intersection?.disconnect();
     closeDrawer();
+    closeMobileControls(false);
+    mobileControls.removeEventListener("change", syncMobileControls);
+    mobilePanelInstance?.destroy();
     bloom?.dispose();
     detachObserver?.disconnect();
     document.removeEventListener("visibilitychange", visibility);
@@ -1185,6 +1284,33 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
     const s = new api.Sprite(material);
     s.scale.set(235, 24, 1);
     return s;
+  }
+  function activateNetworkNode(n, event) {
+    document.querySelector("#psilocin-app")?.hapticSelection?.(event);
+    if (n.type === "gene") {
+      choose(n);
+      if (labelsToggle.checked) showNodeProtein(n);
+    } else {
+      const memberIds = new Set(
+        snapshot.links
+          .filter((l) => endpoints(l)[1] === n.id)
+          .map((l) => endpoints(l)[0]),
+      );
+      searchCount.textContent = `${label(n.pathway)} · ${memberIds.size} genes from this 113-gene union. Select a gene to inspect statistics.`;
+      query = "";
+      search.value = "";
+      geneList.replaceChildren();
+      for (const g of genes.filter(
+        (g) => memberIds.has(g.id) && visible(g),
+      )) {
+        const b = button(g.symbol, () => choose(g));
+        b.setAttribute("aria-pressed", String(g.id === selected));
+        geneList.append(b);
+      }
+      more.hidden = true;
+      openDrawer("search");
+      showToast(`Selected gene set: ${label(n.pathway)}.`, { container: drawer?.isConnected ? drawer : root });
+    }
   }
   async function start() {
     try {
@@ -1268,31 +1394,10 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
           stage.style.cursor = n ? "pointer" : "grab";
           updateGraph();
         })
-        .onNodeClick((n) => {
-          if (n.type === "gene") {
-            choose(n);
-            if (labelsToggle.checked) showNodeProtein(n);
-          } else {
-            const memberIds = new Set(
-              snapshot.links
-                .filter((l) => endpoints(l)[1] === n.id)
-                .map((l) => endpoints(l)[0]),
-            );
-            searchCount.textContent = `${label(n.pathway)} · ${memberIds.size} genes from this 113-gene union. Select a gene to inspect statistics.`;
-            query = "";
-            search.value = "";
-            geneList.replaceChildren();
-            for (const g of genes.filter(
-              (g) => memberIds.has(g.id) && visible(g),
-            )) {
-              const b = button(g.symbol, () => choose(g));
-              b.setAttribute("aria-pressed", String(g.id === selected));
-              geneList.append(b);
-            }
-            more.hidden = true;
-            openDrawer("search");
-            showToast(`Selected gene set: ${label(n.pathway)}.`, { container: drawer?.isConnected ? drawer : root });
-          }
+        .onNodeClick((n, event) => {
+          // Touch uses a synchronous raycast below; the renderer's deferred hover
+          // can otherwise miss quick taps or select a previously hovered node.
+          if (event?.pointerType !== "touch") activateNetworkNode(n, event);
         })
         .graphData({
           nodes: structuredClone(snapshot.nodes),
@@ -1331,6 +1436,37 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
       }
       const canvas = stage.querySelector("canvas");
       canvas.setAttribute("aria-hidden", "true");
+      const touchRay = new api.Raycaster(), touchPoint = new api.Vector2();
+      let nodeTouch;
+      canvas.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "touch") return;
+        if (event.isPrimary === false) { nodeTouch = undefined; return; }
+        nodeTouch = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+      });
+      canvas.addEventListener("pointermove", (event) => {
+        if (nodeTouch && event.pointerId === nodeTouch.id && Math.hypot(event.clientX - nodeTouch.x, event.clientY - nodeTouch.y) > 10) nodeTouch.moved = true;
+      });
+      canvas.addEventListener("pointercancel", () => { nodeTouch = undefined; });
+      canvas.addEventListener("pointerup", (event) => {
+        const press = nodeTouch;
+        nodeTouch = undefined;
+        if (!press || press.moved || event.pointerId !== press.id || proteinScene) return;
+        const rect = canvas.getBoundingClientRect();
+        touchPoint.set(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2);
+        graph.camera().updateMatrixWorld();
+        graph.scene().updateMatrixWorld(true);
+        touchRay.setFromCamera(touchPoint, graph.camera());
+        const permitted = relatedPathways();
+        const candidates = graph.graphData().nodes.filter((node) => node.type === "gene" ? visible(node) : permitted.has(node.id));
+        const meshNodes = new Map(candidates.map((node) => [objects.get(node.id)?.children[0], node]));
+        meshNodes.delete(undefined);
+        const hit = touchRay.intersectObjects([...meshNodes.keys()], false)[0];
+        if (hit) {
+          const node = meshNodes.get(hit.object);
+          // Wait until the tap's click finishes so it cannot immediately close the new panel.
+          setTimeout(() => { if (!destroyed) activateNetworkNode(node, event); }, 0);
+        }
+      });
       canvas.addEventListener("webglcontextlost", (e) => {
         e.preventDefault();
         status.textContent =
@@ -1348,6 +1484,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         if (entries[0].isIntersecting && !document.hidden) {
           graph.resumeAnimation();
         } else {
+          closeMobileControls(false);
           graph.pauseAnimation();
         }
       });

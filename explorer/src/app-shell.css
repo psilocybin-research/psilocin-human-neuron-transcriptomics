@@ -4925,3 +4925,94 @@ body {
     padding-bottom:calc(96px + env(safe-area-inset-bottom));
   }
 }
+/* A single Framework7 panel keeps mobile network controls and details together. */
+#psilocin-app .oxphos-mobile-fab { display:none; }
+@media(max-width:767px) {
+  #psilocin-app .oxphos-mobile-fab { display:block; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); }
+  #psilocin-app .oxphos-mobile-fab > a {
+    background:var(--network-glass); color:var(--network-glass-text);
+    border:1px solid var(--network-glass-border); backdrop-filter:blur(18px) saturate(145%);
+    -webkit-backdrop-filter:blur(18px) saturate(145%); cursor:pointer;
+  }
+  #psilocin-app .oxphos-mobile-fab svg { width:24px; height:24px; }
+  #psilocin-app .oxphos-mobile-panel {
+    --f7-panel-right-width:min(300px, calc(100vw - 88px));
+    background:var(--research-page); color:var(--research-text); overflow:hidden;
+    box-shadow:-8px 0 30px #0003;
+  }
+  #psilocin-app .oxphos-network-3d > .panel-backdrop { background:rgba(3,12,20,.22); }
+  #psilocin-app .oxphos-mobile-header {
+    display:flex; align-items:center; gap:8px; min-height:64px; padding:8px 12px;
+    background:var(--research-surface); border-bottom:1px solid var(--research-border);
+  }
+  #psilocin-app .oxphos-mobile-header h2 { flex:1; min-width:0; font-size:16px; margin:0; color:var(--research-text); }
+  #psilocin-app .oxphos-mobile-header .button { flex:none; width:auto; min-height:44px; padding:8px; }
+  #psilocin-app .oxphos-mobile-header .button[hidden] { display:none; }
+  #psilocin-app .oxphos-mobile-header .button:last-child span { display:none; }
+  #psilocin-app .oxphos-mobile-scroll { height:calc(100% - 64px); overflow:auto; overscroll-behavior:contain; padding:14px 14px calc(24px + env(safe-area-inset-bottom)); }
+  #psilocin-app .oxphos-mobile-main:not([hidden]) { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-identity { color:var(--research-text); text-shadow:none; margin:0; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-identity span { color:var(--research-muted); }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-status { color:var(--research-muted)!important; text-shadow:none; margin:0; max-width:none; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-days { width:100%; padding:3px; border-radius:12px; background:var(--research-selected); }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-days .button[aria-pressed=true] { background:var(--f7-theme-color); color:#fff; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-display-controls { display:flex; flex-direction:column; gap:8px; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-layout-direct {
+    display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:44px;
+    padding:6px 10px; border:1px solid var(--research-border); border-radius:12px;
+    color:var(--research-text); background:var(--research-surface); font-size:13px;
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools {
+    position:static; transform:none; display:flex; flex-wrap:wrap; gap:6px; padding:0; max-width:none;
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools[hidden] { display:none; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera .button,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions .button,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-protein-tools .button {
+    flex:1 1 auto; width:auto; min-height:44px; padding:8px 10px;
+    background:var(--research-selected); color:var(--research-on-selected); border:0; font-size:12px;
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-camera .button span,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-evidence-actions .button span { display:inline; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock {
+    position:static; transform:none; display:flex; flex-wrap:wrap; justify-content:stretch;
+    width:auto; max-width:none; padding:0; background:none; border:0; box-shadow:none; backdrop-filter:none;
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock:before { display:none; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock .oxphos-3d-scale,
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-significance-key {
+    flex-basis:100%; color:var(--research-muted); text-shadow:none; background:none;
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-dock .button {
+    flex:1 1 auto; width:auto; min-height:44px; background:var(--research-selected); color:var(--research-on-selected);
+  }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-controls { align-items:stretch; flex-direction:column; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-filter { min-width:0; width:100%; }
+  #psilocin-app .oxphos-mobile-panel .oxphos-3d-gene-list { max-height:none; }
+  #psilocin-app .oxphos-network-3d > .toast {
+    bottom:calc(8px + env(safe-area-inset-bottom)); left:12px; right:80px; width:auto;
+    max-width:none; margin:0; border-radius:14px; z-index:20000;
+  }
+}
+
+.oxphos-network-preview { position:relative; }
+.oxphos-network-preview-fullscreen {
+  position:absolute; top:12px; right:12px; display:grid; place-items:center;
+  width:40px; height:40px; border-radius:50%; color:#174b70;
+  background:rgba(232,242,251,.88); border:1px solid #ffffff80;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); pointer-events:none;
+}
+.oxphos-network-preview-fullscreen svg { width:20px; height:20px; }
+.dark .oxphos-network-preview-fullscreen { color:#d5eaf7; background:rgba(18,38,55,.8); border-color:#aed7f03d; }
+
+@media (hover:none) and (prefers-reduced-motion:no-preference) {
+  #psilocin-app .f7-press.active-state::after { opacity:.35; }
+  #psilocin-app svg [role="button"]:active { filter:drop-shadow(0 0 2px #6cb3da88); }
+}
+@media(max-width:767px) {
+  #psilocin-app .oxphos-mobile-panel:is(.panel-in,.panel-out) { display:flex; flex-direction:column; }
+  #psilocin-app .oxphos-mobile-header { flex:none; padding-top:max(8px, env(safe-area-inset-top)); }
+  #psilocin-app .oxphos-mobile-scroll { flex:1; min-height:0; height:auto; }
+}

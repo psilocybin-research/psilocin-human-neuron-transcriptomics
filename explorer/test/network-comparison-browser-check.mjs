@@ -52,6 +52,7 @@ try {
         document.querySelector(".oxphos-network-3d")?.dataset.entranceReady ===
         "true",
     );
+    if (width < 768) await root.getByRole("button", { name: "Open network controls" }).click();
     assert.match(
       await root
         .locator(".oxphos-3d-pane")
@@ -78,7 +79,7 @@ try {
       .getByRole("button", { name: "Statistical comparison", exact: true })
       .click();
     const panel = p.locator(
-      width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer",
+      width >= 1100 ? ".oxphos-3d-evidence" : width < 768 ? ".oxphos-mobile-panel" : ".oxphos-3d-drawer",
     );
     await panel.getByRole("tab", { name: "Compare", exact: true }).waitFor();
     const point = panel.locator("svg [role=button]").filter({ hasText: "" });
@@ -111,7 +112,7 @@ try {
         .getAttribute("aria-selected"),
       "true",
     );
-    await panel.getByRole("button", { name: "Done", exact: true }).click();
+    await panel.getByRole("button", { name: width < 768 ? "Back" : "Done", exact: true }).click();
     await p
       .locator(".oxphos-3d-layout-direct").filter({ hasText: "Layout" })
       .click();
@@ -127,12 +128,12 @@ try {
       .selectOption("both05");
     const expected = archive.filter((g) => retainedGene(g, "both05")).length;
     assert.match(
-      await root.locator(".oxphos-3d-status").innerText(),
+      await root.locator(".oxphos-3d-status").textContent(),
       new RegExp(`${expected} / 113.*both days`),
     );
     await p
-      .locator(".oxphos-3d-drawer")
-      .getByRole("button", { name: "Done", exact: true })
+      .locator(width < 768 ? ".oxphos-mobile-panel" : ".oxphos-3d-drawer")
+      .getByRole("button", { name: width < 768 ? "Close" : "Done", exact: true })
       .click();
     assert.equal(
       await root

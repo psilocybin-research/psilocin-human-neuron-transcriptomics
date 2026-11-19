@@ -10,6 +10,7 @@ try {
   for (const width of [390, 1440]) {
     const context = await browser.newContext({
       viewport: { width, height: 1000 },
+      hasTouch: width < 768,
     });
     const page = await context.newPage(),
       errors = [],
@@ -22,6 +23,8 @@ try {
     });
     await context.addInitScript(() => {
       Element.prototype.requestFullscreen = undefined;
+      window.testHaptics = [];
+      Object.defineProperty(Navigator.prototype, "vibrate", { configurable: true, value: (duration) => { window.testHaptics.push(duration); return true; } });
     });
     await page.goto(base);
     await page.locator("#psilocin-app[data-framework7]").waitFor();
@@ -42,13 +45,19 @@ try {
       640 / (2 * tangent * aspect),
     );
     const scale = bounds.height / (2 * tangent * (distance - node.z));
-    await page.mouse.move(
-      bounds.x + bounds.width / 2 + node.x * scale,
-      bounds.y + bounds.height / 2 - node.y * scale,
-    );
-    await page.waitForTimeout(300);
-    await page.mouse.down();
-    await page.mouse.up();
+    const x = bounds.x + bounds.width / 2 + node.x * scale;
+    const y = bounds.y + bounds.height / 2 - node.y * scale;
+    if (width < 768) {
+      await page.evaluate(() => { window.testHaptics = []; });
+      await page.touchscreen.tap(x, y);
+      await page.waitForFunction(() => window.testHaptics.length > 0);
+      assert.deepEqual(await page.evaluate(() => window.testHaptics), [6]);
+    } else {
+      await page.mouse.move(x, y);
+      await page.waitForTimeout(300);
+      await page.mouse.down();
+      await page.mouse.up();
+    }
     await page.waitForTimeout(2000);
     await page.waitForFunction(
       () =>
@@ -61,12 +70,12 @@ try {
         "false",
     );
     const evidence = page.locator(
-      width >= 1100 ? ".oxphos-3d-evidence" : ".oxphos-3d-drawer",
+      width >= 1100 ? ".oxphos-3d-evidence" : width < 768 ? ".oxphos-mobile-panel" : ".oxphos-3d-drawer",
     );
     await evidence
       .getByRole("heading", { name: "Linked gene evidence", exact: true })
       .waitFor();
-    await evidence.getByRole("button", { name: "Done", exact: true }).click();
+    await evidence.getByRole("button", { name: width < 768 ? "Close" : "Done", exact: true }).click();
     const open = root.getByRole("button", {
       name: "Expand structure for NDUFB7",
       exact: true,
@@ -92,12 +101,13 @@ try {
       .locator(".network-protein-overlay")
       .waitFor({ state: "detached" });
     assert.equal(await root.getAttribute("data-node-protein-ready"), "true");
-    const outside = await root.locator(".oxphos-3d-identity").boundingBox();
+    const outside = await (width < 768 ? root : root.locator(".oxphos-3d-identity")).boundingBox();
     await page.mouse.click(outside.x + 4, outside.y + 4);
     await page.waitForFunction(() =>
       document.querySelector(".oxphos-network-3d")?.dataset.nodeProteinReady === "false");
+    if (width < 768) await root.getByRole("button", { name: "Open network controls" }).click();
     await root.getByRole("button", { name: "Find gene", exact: true }).click();
-    const drawer = page.locator(".oxphos-3d-drawer");
+    const drawer = page.locator(width < 768 ? ".oxphos-mobile-panel" : ".oxphos-3d-drawer");
     await drawer.getByRole("searchbox").fill("NDUFA1");
     await drawer.getByRole("button", { name: "NDUFA1", exact: true }).click();
     await page.waitForFunction(() =>
@@ -113,7 +123,8 @@ try {
 
     assert.equal(await root.getAttribute("data-node-protein-ready"), "false");
     assert.equal(await root.locator(".network-node-protein-caption").isHidden(), true);
-    assert.equal(await root.getByRole("button", { name: "Layout", exact: true }).isVisible(), true);
+    if (width < 768) await root.getByRole("button", { name: "Open network controls" }).click();
+    await root.getByRole("switch", { name: "Layered network layout", exact: true }).waitFor({ state: "visible" });
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []);
     console.log(

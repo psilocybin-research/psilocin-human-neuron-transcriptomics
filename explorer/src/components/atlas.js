@@ -999,7 +999,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "oxphos-network-preview-overlay",
       "Explore OXPHOS network in 3D",
     );
-    networkPreview.append(networkImage, previewOverlay);
+    const previewFullscreen = el("span", "oxphos-network-preview-fullscreen");
+    previewFullscreen.setAttribute("aria-hidden", "true");
+    previewFullscreen.append(uiIcon("fullscreen"));
+    networkPreview.append(networkImage, previewOverlay, previewFullscreen);
     // Use F7's native ripple locally without enabling it across scientific plots.
     let previewRipple;
     networkPreview.onpointerdown = event => {

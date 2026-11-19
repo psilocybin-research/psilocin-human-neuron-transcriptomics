@@ -1030,7 +1030,7 @@ export function createAppShell({
       event.preventDefault();
       event.stopPropagation();
       if (modal === panel) safeClose(panelInstance);
-      else safeClose(modal.f7Modal);
+      else safeClose(modal.f7Panel || modal.f7Modal);
     } else if (event.key === "Tab") {
       const options = focusables(modal);
       if (!options.length) {
@@ -1109,6 +1109,42 @@ export function createAppShell({
         );
     }
   };
+  // One short pulse for a deliberate touch activation, never for drag, hover or mouse.
+  let touchStart, lastCanvasTap = 0, lastPulse = 0;
+  function pulse() {
+    const now = performance.now();
+    if (reduced() || document.hidden || now - lastPulse < 120 || typeof navigator.vibrate !== "function") return;
+    try { navigator.vibrate(6); lastPulse = now; } catch { /* Haptics are optional. */ }
+  }
+  function touchDown(event) {
+    if (event.pointerType !== "touch" || !event.isTrusted) return;
+    if (event.isPrimary === false) { touchStart = undefined; return; }
+    touchStart = { id: event.pointerId, x: event.clientX, y: event.clientY, target: event.target };
+  }
+  function touchMove(event) {
+    if (touchStart && event.pointerId === touchStart.id && Math.hypot(event.clientX - touchStart.x, event.clientY - touchStart.y) > 10) touchStart.moved = true;
+  }
+  function touchUp(event) {
+    if (event.pointerType !== "touch" || !event.isTrusted || !touchStart || event.pointerId !== touchStart.id) return;
+    const start = touchStart;
+    touchStart = undefined;
+    if (start.moved || Math.hypot(event.clientX - start.x, event.clientY - start.y) > 10) return;
+    const target = start.target instanceof Element ? start.target : start.target?.parentElement;
+    if (!target || target.closest("[inert],[disabled],[aria-disabled=true]")) return;
+    if (target.closest(".oxphos-3d-pane canvas")) { lastCanvasTap = performance.now(); return; }
+    const action = target.closest('button,a[href],[role="button"],[role="switch"],input[type="checkbox"],select,summary,label');
+    if (action && (!action.matches("label") || action.querySelector('input:not([disabled]),select:not([disabled])'))) pulse();
+  }
+  function touchCancel() { touchStart = undefined; }
+  root.hapticSelection = (event) => {
+    if (!event?.isTrusted || !lastCanvasTap || performance.now() - lastCanvasTap > 800) return;
+    lastCanvasTap = 0;
+    pulse();
+  };
+  root.addEventListener("pointerdown", touchDown, true);
+  root.addEventListener("pointermove", touchMove, true);
+  root.addEventListener("pointerup", touchUp, true);
+  root.addEventListener("pointercancel", touchCancel, true);
   root.addEventListener("pointerdown", startPress);
   root.addEventListener("pointermove", movePress);
   document.addEventListener("pointerup", endPress);
@@ -1407,6 +1443,11 @@ export function createAppShell({
       observer.disconnect();
       appearanceObserver.disconnect();
       root.removeEventListener("change", analysisControlChanged, true);
+      root.removeEventListener("pointerdown", touchDown, true);
+      root.removeEventListener("pointermove", touchMove, true);
+      root.removeEventListener("pointerup", touchUp, true);
+      root.removeEventListener("pointercancel", touchCancel, true);
+      delete root.hapticSelection;
       root.removeEventListener("pointerdown", startPress);
       root.removeEventListener("pointermove", movePress);
       document.removeEventListener("pointerup", endPress);
