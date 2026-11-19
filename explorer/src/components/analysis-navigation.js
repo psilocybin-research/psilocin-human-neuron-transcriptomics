@@ -10,7 +10,7 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
   const search=el('form','searchbar searchbar-inline analysis-search');search.setAttribute('role','search');search.onsubmit=e=>e.preventDefault();
   const searchInner=el('div','searchbar-inner'),inputWrap=el('div','searchbar-input-wrap'),input=el('input');input.type='search';input.placeholder='Find analyses';input.setAttribute('aria-label','Find analyses');
   const searchIcon=el('i','searchbar-icon');searchIcon.setAttribute('aria-hidden','true');inputWrap.append(input,searchIcon);searchInner.append(inputWrap);search.append(searchInner);
-  const groups=el('div','list accordion-list analysis-groups'),groupList=el('ul');groups.append(groupList);
+  const groups=el('div','list analysis-groups'),groupList=el('ul');groups.append(groupList);
   function group(name,key,initial){
     const row=el('li','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('role','button');
     const label=el('div','item-inner'),text=el('span','item-title',name),count=el('span','item-after');label.append(text,count);toggle.append(label);
@@ -65,5 +65,5 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     const header=el('div','analysis-trash-header');header.append(el('h3','','Trash'),action('Done','close',()=>trashModal.close()));inner.append(handle,header,el('p','note','Restore analyses with their recorded outputs. Permanent deletion cannot be undone.'),el('div','analysis-trash-items'));sheet.append(inner);root.append(sheet);
     trashModal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,swipeToClose:true,swipeHandler:handle,on:{closed(instance){trashModal=undefined;destroySheet(instance);sheet.remove();trash.focus();}}});renderTrash();trashModal.open();
   }
-  return {render,setBusy,openTrash,destroy(){disposed=true;books.removeEventListener('sortable:sort',onSort);if(trashModal){const instance=trashModal;trashModal=undefined;instance.close(false);}}};
+  return {render,setBusy,openTrash,reveal(){query='';input.value='';writePreference(`atlas-analysis-group-${language}-personal`,'true');},destroy(){disposed=true;books.removeEventListener('sortable:sort',onSort);if(trashModal){const instance=trashModal;trashModal=undefined;instance.close(false);}}};
 }

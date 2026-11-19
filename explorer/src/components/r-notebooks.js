@@ -198,7 +198,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   function changed(){revision++;status.textContent='Saving…';clearTimeout(saveTimer);saveTimer=setTimeout(save,400);}
   function cleanup(){for(const cm of editors.values())cm.destroy();editors.clear();for(const view of sceneViews)view.destroy?.();sceneViews.clear();}
   function activate(item){if(item.id===activeCell || (busy&&item.id!==activeCell))return;activeCell=item.id;for(const row of list.children)row.classList.toggle('is-active',row.dataset.cellId===item.id);onCellChange?.(item);}
-  function chooseBook(book){if(busy)return;onNotebookChange?.();workspace.active=book.id;activeCell=book.cells[0].id;render();changed();root.workspaceShell?.closeNavigation();}
+  function chooseBook(book){if(busy)return;onNotebookChange?.();workspace.active=book.id;activeCell=book.cells[0].id;navigation?.reveal();render();changed();root.workspaceShell?.closeNavigation();}
   function renderOutput(item, container){
     for(const view of container.querySelectorAll(".scientific-scene")){view.destroy?.();sceneViews.delete(view);}
     container.replaceChildren();const run=item.runs?.at(-1);if(!run){container.append(el('p','note','Results appear here after execution.'));return;}
@@ -235,7 +235,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   }
   function restoreBook(bookId) {
     if(busy)return;
-    try{if(!restoreAnalysis(workspace,bookId))return;onNotebookChange?.();selectCurrent();render();changed();save();}catch(error){onStatus?.(error.message);}
+    try{if(!restoreAnalysis(workspace,bookId))return;onNotebookChange?.();selectCurrent();navigation.reveal();render();changed();save();}catch(error){onStatus?.(error.message);}
   }
   function duplicateBook(book) {
     if(busy||workspace.notebooks.length>=30)return;

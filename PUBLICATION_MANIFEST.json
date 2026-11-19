@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1376,
-  "total_bytes": 687406039,
+  "total_bytes": 687406570,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3364,8 +3364,8 @@
     },
     {
       "path": "explorer/src/components/analysis-navigation.js",
-      "bytes": 10336,
-      "sha256": "9b3df35e6d01c60d43f76711399e1b2acf93f35b7702749a7723146089d26911"
+      "bytes": 10424,
+      "sha256": "6c3cb2499d21c5e16772e9bd34460610379a13127b01d57a3e58f3dbc136b5d1"
     },
     {
       "path": "explorer/src/components/analysis-options.js",
@@ -3624,8 +3624,8 @@
     },
     {
       "path": "explorer/src/components/python-lab.js",
-      "bytes": 18111,
-      "sha256": "20efd7c6a087f487cd12457066682506d6d67c224da882d9536c4c2834f7bea1"
+      "bytes": 18153,
+      "sha256": "b83cb43145afa9884113a5a1f5b89a43bc8c12c0ec9c770d033ea2d203eaccfd"
     },
     {
       "path": "explorer/src/components/python-notebooks.js",
@@ -3649,8 +3649,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 31418,
-      "sha256": "e22426e8c69834bfa0854adef82d7a759193ee57948991106f39716f18357e87"
+      "bytes": 31459,
+      "sha256": "cfc8dbfdb649a2323db59bfbba48473a2514e1b8f2487a7f10da6124d616ad3c"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3854,8 +3854,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 4656,
-      "sha256": "1f8319fdbc2a81f84737504d90ca68cd531b930195806c53fe3378614f12c37a"
+      "bytes": 5016,
+      "sha256": "42278c3e7dc4302336f0f40fcd0fe9fdec972a497311d5ab0aa74fa761d8950b"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
