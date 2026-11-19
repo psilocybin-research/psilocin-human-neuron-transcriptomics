@@ -1184,7 +1184,7 @@ export function createOxphosNetwork({ onEvidence, initialGene }) {
         .nodeThreeObject((n) => {
           const container = new api.Group();
           if (n.type === "gene") {
-            const geometry = new api.SphereGeometry(4.3, 20, 14),
+            const geometry = new api.SphereGeometry(4.3, 40, 28),
               material = new api.MeshBasicMaterial({
                 color: color(n.effects[day]?.log2FoldChange, snapshot.limit),
               }),

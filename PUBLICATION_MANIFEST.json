@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1305,
-  "total_bytes": 686726719,
+  "total_bytes": 686727525,
   "status": "pass",
   "failures": [],
   "files": [
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 150053,
-      "sha256": "3561abb48f00c964807a8979c8d16d07c263532c27a1f4096eb562378222745c"
+      "bytes": 150561,
+      "sha256": "ee380d7d3450bb42b7b1bde5938019452a41c56ec58a05b43f01ff7e44e3dc2f"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/assets/oxphos-network-preview.webp",
-      "bytes": 102482,
-      "sha256": "52836192006059bf0509f23d48a90987d20697a7d4f35540c129a053b2a381aa"
+      "bytes": 102780,
+      "sha256": "57c5b79287751cc04365e122284034310cb23e09c9c02972a5f8fb4595459fe0"
     },
     {
       "path": "explorer/src/assets/public-context/00-7362e986eae43ad2.json",
@@ -3530,7 +3530,7 @@
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
       "bytes": 51362,
-      "sha256": "4e8d8db64306dab8eea3797659c848645e5bbc8a97f24ad6d8ccc8701a685ea9"
+      "sha256": "53ca2ea269258f8c1a10e286621247606c94d7c247f5f1ae054ff1d98ccdffa3"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",

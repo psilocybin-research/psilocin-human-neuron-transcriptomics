@@ -4855,3 +4855,18 @@ body {
 /* Keep feedback above the network without covering the tools dock. */
 #psilocin-app .oxphos-network-3d > .toast { bottom:calc(116px + env(safe-area-inset-bottom)); z-index:20; }
 #psilocin-app .oxphos-3d-topbar .oxphos-3d-status { line-height:1.5; max-width:min(100%, 390px); }
+
+/* Readable feedback against both the atlas and its dark 3D canvas. */
+#psilocin-app .toast {
+  --f7-toast-bg-color:#e8f2fb;
+  --f7-toast-text-color:#152e42;
+  color:#152e42; background-color:#e8f2fb;
+}
+#psilocin-app .toast .toast-text { color:inherit; }
+#psilocin-app .toast .toast-button { color:#174b70; }
+.dark #psilocin-app .toast {
+  --f7-toast-bg-color:#1b3046;
+  --f7-toast-text-color:#f2f8fc;
+  color:#f2f8fc; background-color:#1b3046;
+}
+.dark #psilocin-app .toast .toast-button { color:#c9e6f8; }
