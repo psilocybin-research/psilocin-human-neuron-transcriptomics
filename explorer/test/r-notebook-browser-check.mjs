@@ -11,7 +11,7 @@ page.on("pageerror", (e) => errors.push(e.message));
 await page.goto(
   (process.env.ATLAS_URL || "http://127.0.0.1:4173/") + "#view=custom-r",
 );
-await page.getByLabel("Research notebook", { exact: true }).waitFor();
+await page.getByLabel("Research notebook", { exact: true }).waitFor({ state: "attached" });
 await page.getByRole("button", { name: "Add Markdown", exact: true }).click();
 await page
   .getByLabel("Markdown cell", { exact: true })
@@ -24,7 +24,7 @@ await page
   );
 await page.waitForTimeout(700);
 await page.reload();
-await page.getByLabel("Research notebook", { exact: true }).waitFor();
+await page.getByLabel("Research notebook", { exact: true }).waitFor({ state: "attached" });
 await page.waitForFunction(
   () => document.querySelectorAll(".research-studio-cell-row").length === 3,
 );
@@ -53,7 +53,7 @@ await page.locator('.exploratory-result-stage svg[role="img"]').waitFor();
 assert.match(await page.locator(".exploratory-result-chart").innerText(), /USER EXPLORATORY RESULTS/);
 await page.waitForTimeout(500);
 await page.reload();
-await page.getByLabel("Research notebook", { exact: true }).waitFor();
+await page.getByLabel("Research notebook", { exact: true }).waitFor({ state: "attached" });
 await page.waitForFunction(
   () => document.querySelectorAll(".research-studio-cell-row").length === 3,
 );

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1324,
-  "total_bytes": 686881515,
+  "total_bytes": 686881578,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3969,8 +3969,8 @@
     },
     {
       "path": "explorer/test/r-notebook-browser-check.mjs",
-      "bytes": 3887,
-      "sha256": "711f7c002b42002ddc65290c2e4219ccb8ce621c3da87a6e751673be59b5caa3"
+      "bytes": 3950,
+      "sha256": "894395019a8728efdeff37feb45c44079e83ae8bf251d13c26abfacc3b6b8dfd"
     },
     {
       "path": "explorer/test/r-notebooks.test.js",
