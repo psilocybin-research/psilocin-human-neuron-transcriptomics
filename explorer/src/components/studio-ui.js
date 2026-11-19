@@ -2,17 +2,17 @@ import {createElement as el, readPreference, writePreference} from './interface-
 
 export function studioMenu(root, anchor, title, items) {
   const entries = items.filter(item => item && item.available !== false);
-  let modal;
+  let modal, selectedItem;
   const choose = item => {
-    modal.once('closed', () => setTimeout(() => item.run?.(), 0));
-    modal.close();
+    selectedItem = item;
+    modal.close(false);
   };
   const on = {open(instance) {
     for(const target of instance.el.querySelectorAll('.actions-button:not(.actions-label)')) {
       target.setAttribute('role','button');target.tabIndex=0;
       target.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();target.click();}};
     }
-  },closed() { setTimeout(() => modal?.destroy(), 0); }};
+  },closed() { const item=selectedItem;selectedItem=undefined;setTimeout(() => {modal?.destroy();item?.run?.();}, 0); }};
   if (matchMedia('(max-width: 700px)').matches) {
     modal = root.f7.actions.create({buttons: [[{text: title, label: true}, ...entries.map(item => ({text: item.label, close: false, color: item.destructive ? 'red' : undefined, onClick: () => choose(item)}))], [{text: 'Cancel', color: 'gray'}]], on});
     modal.open();

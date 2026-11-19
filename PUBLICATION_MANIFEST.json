@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1367,
-  "total_bytes": 687304209,
+  "total_bytes": 687304250,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3764,8 +3764,8 @@
     },
     {
       "path": "explorer/src/components/studio-ui.js",
-      "bytes": 3327,
-      "sha256": "1ef1a0fd725d96a00b8cb7032430c3010c7945e88dd1b10ad2df0d8f1884e5d5"
+      "bytes": 3368,
+      "sha256": "dd12c648d0652269272fdf20a80204060297b30166c743cbab1bdc25e9eef481"
     },
     {
       "path": "explorer/src/components/synopsis-data.js",
