@@ -29,8 +29,7 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     disposed = false,
     previewPosition,
     previewSide,
-    placementChangedAt = 0,
-    evidenceExpanded = false;
+    placementChangedAt = 0;
   const caption = el("div", "network-node-protein-caption");
   caption.hidden = true;
   const leader = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -139,11 +138,37 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
       `${model.scope} Cα backbone trace; not measured by this RNA-seq experiment. Drag to rotate; pinch or scroll to zoom.`,
     );
     const panels = el("div", "network-protein-overlay-panels");
+    const card = createAccordion(gene.symbol, "card network-protein-info-card");
+    const cardItem = card.element.querySelector(".accordion-item");
+    const cardToggle = card.element.querySelector(".gene-annotation-toggle");
+    const cardTitle = card.element.querySelector(".item-title");
+    const proteinName = gene.proteins?.[0]?.name || "Protein structure context";
+    cardTitle.append(el("span", "network-protein-card-subtitle", `${proteinName} · ${model.provider} ${model.model}`));
+    cardToggle.setAttribute("aria-label", `Expand ${gene.symbol} information and statistics`);
+    cardItem.addEventListener("accordion:open", () => {
+      panels.classList.add("network-protein-info-open");
+      card.body.parentElement.setAttribute("aria-hidden", "false");
+    });
+    cardItem.addEventListener("accordion:close", () => {
+      panels.classList.remove("network-protein-info-open", "network-protein-info-fullscreen");
+      card.body.parentElement.setAttribute("aria-hidden", "true");
+    });
+    const expandInfo = el("button", "button button-tonal network-protein-info-expand");
+    expandInfo.type = "button";
+    expandInfo.append(uiIcon("fullscreen"));
+    expandInfo.title = "Expand gene information";
+    expandInfo.setAttribute("aria-label", "Expand gene information");
+    expandInfo.setAttribute("aria-pressed", "false");
+    expandInfo.onclick = () => {
+      const full = panels.classList.toggle("network-protein-info-fullscreen");
+      expandInfo.replaceChildren(uiIcon(full ? "fullscreenExit" : "fullscreen"));
+      expandInfo.setAttribute("aria-pressed", String(full));
+      expandInfo.setAttribute("aria-label", full ? "Restore information card" : "Expand gene information");
+    };
     const context = createAccordion(
       "Gene and structure context",
       "network-protein-context",
     );
-    const contextItem = context.element.querySelector(".accordion-item");
     const protein = gene.proteins?.[0];
     context.body.append(
       el("p", "network-protein-identity", `${gene.symbol} · ${gene.id}`),
@@ -156,13 +181,6 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
       "Gene statistics · archived RNA-seq",
       "network-protein-statistics",
     );
-    const evidenceItem = evidence.element.querySelector(".accordion-item");
-    evidenceItem.addEventListener("accordion:open", () => {
-      evidenceExpanded = true;
-    });
-    evidenceItem.addEventListener("accordion:close", () => {
-      evidenceExpanded = false;
-    });
     const table = el("table");
     const header = el("tr");
     for (const title of ["Contrast", "log₂FC", "95% Wald interval", "Gene FDR"])
@@ -200,11 +218,11 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
         "Approximate 95% Wald intervals: log₂FC ± 1.96 SE. Gene FDR is the archived transcriptome-wide correction. Day/control differences do not establish a treatment-by-time interaction. Protein structure is external context, not a measured molecular change.",
       ),
     );
-    panels.append(context.element, evidence.element);
+    card.body.append(expandInfo, el("h3", "", "Archived gene statistics"), ...evidence.body.childNodes,
+      el("h3", "", "Gene and structure context"), ...context.body.childNodes);
+    panels.append(card.element);
     host.append(surface, heading, note, panels);
     root.append(host);
-    if (evidenceExpanded)
-      root.closest("#psilocin-app")?.f7?.accordion.open(evidenceItem, false);
     const inertStates = [...root.children]
       .filter((element) => element !== host)
       .map((element) => [element, element.inert]);

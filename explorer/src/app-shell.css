@@ -5953,3 +5953,48 @@ body {
 }
 /* Evidence sheets expose gene handoffs once, in their persistent header. */
 #psilocin-app .research-evidence-sheet .gene-context-actions > :is(.gene-send-r-shortcut,.gene-network-shortcut){display:none}
+/* Molecular context starts as one small card and expands only on request. */
+#psilocin-app .network-protein-overlay-panels{bottom:90px;left:16px;right:16px;width:min(380px,calc(100% - 32px));max-width:none;max-height:calc(100% - 180px);overflow:visible;display:block}
+#psilocin-app .network-protein-info-card{margin:0;border:1px solid var(--atlas-control-edge);border-radius:18px;overflow:hidden;background:var(--research-surface);color:var(--research-text);box-shadow:var(--f7-glass-shadow)}
+#psilocin-app .network-protein-info-card .item-title{white-space:normal;font-weight:650;line-height:1.4}
+#psilocin-app .network-protein-card-subtitle{display:block;font-size:11px;font-weight:400;color:var(--research-muted);margin-top:3px}
+#psilocin-app .network-protein-info-card .gene-annotation-toggle{padding-block:8px}
+#psilocin-app .network-protein-info-card .accordion-item-content{max-height:46dvh;overflow:auto;overscroll-behavior:contain}
+#psilocin-app .network-protein-info-card .gene-annotation-body{padding:0 14px 16px}
+#psilocin-app .network-protein-info-card h3{font-size:14px;margin:14px 0 10px}
+#psilocin-app .network-protein-info-card table{font-size:12px;width:100%}
+#psilocin-app .network-protein-info-card :is(th,td){padding:8px;text-align:right;white-space:nowrap}
+#psilocin-app .network-protein-info-card :is(th,td):first-child{text-align:left}
+#psilocin-app .network-protein-info-expand{float:right;width:36px;height:36px;padding:8px;border-radius:50%}
+#psilocin-app .network-protein-info-open{width:min(640px,calc(100% - 32px))}
+#psilocin-app .network-protein-info-fullscreen{inset:76px 16px 16px;width:auto;z-index:3;max-height:none}
+#psilocin-app .network-protein-info-fullscreen .network-protein-info-card{height:100%;display:flex;flex-direction:column}
+#psilocin-app .network-protein-info-fullscreen .network-protein-info-card>ul{margin:0;height:100%}
+#psilocin-app .network-protein-info-fullscreen .accordion-item{height:100%;display:flex;flex-direction:column}
+#psilocin-app .network-protein-info-fullscreen .accordion-item-content{max-height:none;flex:1;min-height:0}
+@media(max-width:650px){
+ #psilocin-app .network-protein-overlay-panels{bottom:100px;left:12px;right:12px;width:auto;max-height:calc(100% - 180px)}
+ #psilocin-app .network-protein-info-card .accordion-item-content{max-height:50dvh}
+ #psilocin-app .network-protein-info-fullscreen{inset:76px 12px 12px;max-height:none}
+ #psilocin-app .network-protein-info-fullscreen .accordion-item-content{max-height:none}
+}
+/* Desktop scene identity, day, display switches and status share one left edge. */
+@media(min-width:768px){
+ #psilocin-app .oxphos-3d-topbar{width:340px;gap:10px;align-items:flex-start}
+ #psilocin-app .oxphos-3d-topbar .oxphos-3d-days{align-self:flex-start;margin:0;flex:none}
+ #psilocin-app .oxphos-3d-topbar .oxphos-3d-display-controls{
+   display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:0;
+   border:1px solid var(--network-glass-border);border-radius:14px;
+   background:var(--network-glass);backdrop-filter:blur(18px) saturate(145%);
+   -webkit-backdrop-filter:blur(18px) saturate(145%);padding:3px;
+ }
+ #psilocin-app .oxphos-3d-topbar .oxphos-3d-layout-direct{
+   border:0;border-radius:10px;background:transparent;backdrop-filter:none;
+   -webkit-backdrop-filter:none;min-height:40px;gap:10px;padding:4px 9px;
+ }
+ #psilocin-app .oxphos-3d-topbar .oxphos-3d-layout-direct+ .oxphos-3d-layout-direct{border-left:1px solid var(--network-glass-border);border-radius:0 10px 10px 0}
+ #psilocin-app .oxphos-3d-topbar .oxphos-3d-status{
+   margin:0;padding:7px 9px;white-space:pre-line;line-height:1.6;font-size:11px;
+   color:#d7e7f3;background:#081322e8;border-radius:9px;text-shadow:none;
+ }
+}

@@ -131,7 +131,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   layoutLabel.title = "Off: complex groups. On: gene–set layers. Both show the same memberships.";
   const layoutSwitch = el("span", "toggle");
   layoutSwitch.append(layoutToggle, el("span", "toggle-icon"));
-  layoutLabel.append(el("span", "", "Layout"), layoutSwitch);
+  layoutLabel.append(el("span", "", "Layered layout"), layoutSwitch);
   layoutToggle.onchange = () =>
     transitionLayout(layoutToggle.checked ? "layers" : "complex");
   const labelsLabel = el("label", "oxphos-3d-layout-direct");
@@ -845,9 +845,21 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   };
   function orientToGene(gene) {
     if (!graph || destroyed) return;
-    // Preserve the overview for context, then ease towards the requested gene.
-    choose(gene, true, false);
-    sceneEffects?.locate(gene.id, 4500);
+    clearTimeout(orientationTimer);
+    choose(gene, false, false);
+    reset(false);
+    sceneEffects?.locate(gene.id, 6500);
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      orientationTimer = setTimeout(() => {
+        if (destroyed || selected !== gene.id || proteinScene) return;
+        const node = graph.graphData().nodes.find(n => n.id === gene.id);
+        if (!node) return;
+        const position = graph.cameraPosition(), origin = graph.controls().target;
+        // A small pan and ten-percent zoom preserve the surrounding network.
+        const target = Object.fromEntries(["x", "y", "z"].map(k => [k, origin[k] + (node[k] - origin[k]) * 0.2]));
+        cameraTransition.move(Object.fromEntries(["x", "y", "z"].map(k => [k, target[k] + (position[k] - origin[k]) * 0.9])), target, 2200);
+      }, 1800);
+    }
     networkToast(`${gene.symbol} is highlighted in gold. Drag to explore; open Evidence for its statistics.`);
   }
   function renderSelected() {
@@ -1128,11 +1140,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         )
         .linkOpacity(0.28 * entranceOpacity);
     }
-    for (const item of labels)
-      item.sprite.visible =
-        labelsToggle.checked && layoutMode === "complex" &&
-        !focused &&
-        (filter === "all" || item.key === filter);
+    for (const item of labels) {
+      item.sprite.visible = labelsToggle.checked && (item.nodeId
+        ? layoutMode === "layers" && related.has(item.nodeId) && (!focused || memberships.has(item.nodeId))
+        : layoutMode === "complex" && !focused && (filter === "all" || item.key === filter));
+    }
   }
   let layoutFrame;
   const layerPositions = new Map();
@@ -1162,6 +1174,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     if (!graph) return;
     cancelAnimationFrame(layoutFrame);
     layoutMode = mode;
+    layoutToggle.checked = mode === "layers";
     root.dataset.layout = mode;
     const began = performance.now(),
       duration = matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -1178,6 +1191,9 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       ]),
     );
     layoutToggle.disabled = true;
+    // Keep the scene engine ticking for the entire morph. Every node is pinned
+    // to interpolated coordinates, so edges follow without a force relaxation.
+    graph.cooldownTicks(Infinity).d3AlphaMin(0).resumeAnimation();
     const move = (time) => {
       if (destroyed) return;
       const t = duration ? Math.min(1, (time - began) / duration) : 1,
@@ -1191,11 +1207,16 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
             node["f" + key] = node[key];
           }
         }
-        // With cooldownTicks=0 this updates fixed positions and edges without a force simulation.
+        for (const item of labels) {
+          if (!item.nodeId) continue;
+          const node = scene.graphData().nodes.find(n => n.id === item.nodeId);
+          if (node) item.sprite.position.set(node.x + 82, node.y + 16, node.z);
+        }
         scene.d3ReheatSimulation();
       }
       if (t < 1) layoutFrame = requestAnimationFrame(move);
       else {
+        graph.cooldownTicks(0).d3ReheatSimulation();
         layoutToggle.disabled = false;
         root.dataset.layoutReady = "true";
       }
@@ -1308,7 +1329,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     const caption = (d) =>
       `Day ${d ? 3 : 1} / common control · ${significantCount(d)} gene FDR < 0.05`;
     leftStage.dataset.timepoint = caption(day);
-    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]} · ${significantCount(day)} gene FDR < 0.05 · vs common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
+    status.textContent = `${count} / 113 genes · ${uncertaintyLabels[uncertainty]}
+${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common control${filter === "V" ? " · no complex V subunits in this union" : ""}`;
     if (overlay) status.textContent = `USER EXPLORATORY · ${overlay.column} · ${overlayValues.size}/113 exact IDs mapped · grey: no mapped value · archived evidence remains in Evidence`;
     shown = 12;
     renderList();
@@ -1337,7 +1359,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     refresh();
   };
   if (initialOverlay) root.setExploratoryOverlay(initialOverlay);
-  let resize, intersection, detachObserver, entranceFrame, introTimer;
+  let resize, intersection, detachObserver, entranceFrame, introTimer, orientationTimer;
   function finishEntrance(playLayoutIntroduction = false) {
     if (!cameraTransition || root.dataset.entranceReady === "true") return;
     cancelAnimationFrame(entranceFrame);
@@ -1362,8 +1384,13 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       }, 1080);
     }
   }
+  function interruptIntroduction() {
+    finishEntrance(false);
+    clearTimeout(orientationTimer);
+    cameraTransition?.stop();
+  }
   for (const event of ["pointerdown", "wheel", "keydown"])
-    root.addEventListener(event, finishEntrance, {
+    root.addEventListener(event, interruptIntroduction, {
       capture: true,
       passive: true,
     });
@@ -1372,10 +1399,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     destroyed = true;
     cameraTransition?.stop();
     for (const event of ["pointerdown", "wheel", "keydown"])
-      root.removeEventListener(event, finishEntrance, true);
+      root.removeEventListener(event, interruptIntroduction, true);
     cancelAnimationFrame(entranceFrame);
     cancelAnimationFrame(layoutFrame);
     clearTimeout(introTimer);
+    clearTimeout(orientationTimer);
     if (proteinScene) {
       graph?.scene().remove(proteinScene.group);
       proteinScene.dispose();
@@ -1570,6 +1598,14 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         s.position.set(group.x, group.y + 70, group.z);
         graph.scene().add(s);
         labels.push({ sprite: s, key: group.key });
+      }
+      for (const node of snapshot.nodes.filter(n => n.type !== "gene")) {
+        const text = sprite(label(node.pathway), palette.text);
+        text.scale.set(140, 15, 1);
+        text.position.set(node.x + 82, node.y + 16, node.z);
+        text.visible = false;
+        graph.scene().add(text);
+        labels.push({sprite: text, nodeId: node.id});
       }
       const canvas = stage.querySelector("canvas");
       canvas.setAttribute("aria-hidden", "true");
