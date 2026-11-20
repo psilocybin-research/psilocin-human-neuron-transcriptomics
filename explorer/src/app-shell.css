@@ -5554,3 +5554,23 @@ body {
 #psilocin-app .analysis-search .searchbar-disable-button{position:absolute;z-index:2;right:4px;top:0;margin:0;width:40px;height:40px;background:transparent;box-shadow:none}
 #psilocin-app .analysis-search-suggestion .item-inner{flex:1}
 @media(max-width:900px){#psilocin-app .analysis-search-suggestion .item-after{display:none}}
+
+/* Workspace language chooser: compact F7 cards with the unaltered language marks. */
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs{align-items:stretch;padding:4px;gap:4px}
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs>.workspace-language-tab{display:flex!important;flex:1 1 0;min-width:0;min-height:68px;height:68px;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 4px!important}
+#psilocin-app .workspace-language-label{font-size:10px;line-height:1.1;font-weight:650;letter-spacing:.01em}
+#psilocin-app .workspace-language-logo{display:block;width:34px;height:31px;object-fit:contain;object-position:center}
+#psilocin-app .workspace-language-tab[aria-selected=false] .workspace-language-logo{opacity:.82}
+#psilocin-app .workspace-language-tab[aria-selected=true] .workspace-language-logo{opacity:1}
+@media(max-width:900px){#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs>.workspace-language-tab{min-height:68px;height:68px}}
+
+/* The embedded network uses the shared glass pane alone; its wrapper stays transparent. */
+@media(max-width:767px){
+  #psilocin-app .oxphos-mobile-toolbar{background:transparent!important;border-top:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner{padding:3px 12px!important}
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-pane{background-color:var(--f7-glass-bg-color)!important;border:1px solid #ffffff80;border-radius:22px;box-shadow:var(--f7-glass-shadow);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px)}
+}
+/* Day controls sit over a dark scientific scene and need a stable, legible foreground. */
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=false]{color:#123e5e!important;text-shadow:none!important;font-weight:650}
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=true]{color:#fff!important;background:#235780!important;text-shadow:none!important}
+.dark #psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=false]{color:#e5f4ff!important}

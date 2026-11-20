@@ -7,6 +7,7 @@ import {downloadFile} from './file-download.js';
 import {createScientificScene} from './scientific-scene.js';
 import {validateResearchCSV} from './research-import.js';
 
+
 export function createResearchStudio(options) {
   const {root,data,getGenes,getSelection}=options;
   const host=el('section','custom-r-workspace research-studio-workspace');
@@ -16,7 +17,15 @@ export function createResearchStudio(options) {
   function button(label,fn){const b=el('button','button',label);b.type='button';b.onclick=fn;return b;}
   for(const [key,title] of [['r','R Studio'],['python','Python Lab'],['projects','Projects'],['reports','Reports']]){
     const panel=el('section',`studio-language-panel studio-${key}-panel`);panel.hidden=key!=='r';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-label',title);panel.id=`workspace-${key}-${crypto.randomUUID()}`;panels.set(key,panel);
-    const b=button(title,()=>show(key));b.setAttribute('role','tab');b.id=`${panel.id}-tab`;b.setAttribute('aria-controls',panel.id);b.tabIndex=key==='r'?0:-1;panel.setAttribute('aria-labelledby',b.id);b.setAttribute('aria-selected',String(key==='r'));buttons.set(key,b);tabs.append(b);
+    const b=button(title,()=>show(key));
+    if(key==='r'||key==='python'){
+      const logo=el('img','workspace-language-logo');
+      logo.src=key==='r'?options.rLogo:options.pythonLogo;
+      logo.alt='';logo.setAttribute('aria-hidden','true');
+      b.classList.add('workspace-language-tab');
+      b.replaceChildren(el('span','workspace-language-label',title),logo);
+    }
+    b.setAttribute('role','tab');b.id=`${panel.id}-tab`;b.setAttribute('aria-controls',panel.id);b.tabIndex=key==='r'?0:-1;panel.setAttribute('aria-labelledby',b.id);b.setAttribute('aria-selected',String(key==='r'));buttons.set(key,b);tabs.append(b);
   }
   tabs.onkeydown=event=>{const items=[...tabs.querySelectorAll(':scope > button')],index=items.indexOf(document.activeElement);if(index<0||!['ArrowUp','ArrowDown','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?items.length-1:(index+(event.key==='ArrowDown'?1:items.length-1))%items.length;items[next].focus();};
   const r=createCustomR({...options,onOpenReports:()=>show("reports"),onTransferToPython:async dataset=>{await accept(dataset);await show('python');python.refreshDatasets();}});

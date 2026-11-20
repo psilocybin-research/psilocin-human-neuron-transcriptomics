@@ -590,7 +590,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     el(
       "p",
       "",
-      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
+      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. The workspace uses the unmodified R logo © 2016 The R Foundation under CC BY-SA 4.0, and the unmodified Python logo solely to identify the Python programming language; Python and the Python Logo are trademarks of the Python Software Foundation, and this project is not affiliated with the PSF. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
     ),
   );
   const softwareCredits = el("p", "");
@@ -3063,7 +3063,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     );
     if (!host.isConnected) return;
     const workspace = createResearchStudio({ data, getGenes, provenance, root,
-      bayesian: branding.bayesian, getSelection: () => researchStore.getState(),
+      bayesian: branding.bayesian, rLogo: branding.rLogo, pythonLogo: branding.pythonLogo, getSelection: () => researchStore.getState(),
       onRestoreProject: selection => researchStore.update(selection),
       onOpenSystems:()=>openSystemsExplorer(),
       onInspectSelection:()=>persistentInspector.toggle(true),
