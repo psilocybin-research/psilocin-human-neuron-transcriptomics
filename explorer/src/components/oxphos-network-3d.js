@@ -475,8 +475,6 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     ...(dockSendToR ? [dockSendToR] : []),
     button("About & data", () => openDrawer("about"), "information"),
   );
-  const sendGeneToR = onResearch ? button("Send gene to R", () => { if (selected) onResearch(selected); }, "custom-r") : null;
-  if (sendGeneToR) evidenceTools.append(sendGeneToR);
   evidenceTools.append(
     button(
       "Statistical comparison",
