@@ -3097,6 +3097,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       onOpenSystems:()=>openSystemsExplorer(),
       onInspectSelection:()=>persistentInspector.toggle(true),
       onOpenCollections:()=>openCollections(true),
+      onOpenGeneEvidence: id => { researchStore.update({gene:id}); go("genes", id); },
+      onOpenNetwork: id => { researchStore.update({gene:id}); openMembershipNetwork(); },
       onSelectGene: id => researchStore.update({gene:id}),
       onSceneStructure: gene => { researchStore.update({gene}); persistentInspector.toggle(true); },
       onSceneNetwork: spec => { exploratoryOverlay={schema:"psilocin-atlas/exploratory-overlay/v1",classification:"user-exploratory",column:spec.value_label,omitted:0,values:spec.data.map(row=>({id:row.id,value:row.value})),results_sha256:spec.source.sha256||spec.source.code_sha256,run_utc:spec.source.run_utc,archive_doi:spec.source.archive_doi};networkPanel?.querySelector(".oxphos-network-3d")?.setExploratoryOverlay?.(exploratoryOverlay);openMembershipNetwork(); }

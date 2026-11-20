@@ -826,6 +826,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       api,
       root,
       graphs: () => [graph],
+      onResearch: id => onResearch?.(id),
+      onEvidence: id => onEvidence?.(id),
     });
     nodeProtein.show(gene);
   }

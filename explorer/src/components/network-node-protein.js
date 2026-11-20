@@ -11,7 +11,7 @@ import { publicRequest } from "./protein-data.js";
 import { createSceneBackbone } from "./network-molecule.js";
 
 // Structural context is a separate scene object, never a membership node or edge.
-export function createNodeProtein({ api, root, graphs }) {
+export function createNodeProtein({ api, root, graphs, onResearch, onEvidence }) {
   let generation = 0,
     model,
     gene,
@@ -106,17 +106,49 @@ export function createNodeProtein({ api, root, graphs }) {
     heading.append(
       el("strong", "", `${gene.symbol} · ${model.provider} ${model.model}`),
     );
+    const overlayActions = el("div", "network-protein-overlay-actions");
+    if (onResearch) {
+      const sendToR = el("button", "button button-tonal labelled-icon-action");
+      sendToR.type = "button";
+      sendToR.append(uiIcon("custom-r"), el("span", "", "Send to R"));
+      sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
+      sendToR.onclick = () => { closeOverlay(); onResearch(gene.id); };
+      overlayActions.append(sendToR);
+    }
+    if (onEvidence) {
+      const evidenceLink = el("button", "button button-tonal labelled-icon-action");
+      evidenceLink.type = "button";
+      evidenceLink.append(uiIcon("genes"), el("span", "", "Evidence"));
+      evidenceLink.setAttribute("aria-label", `Open archived evidence for ${gene.symbol}`);
+      evidenceLink.onclick = () => { closeOverlay(); onEvidence(gene.id); };
+      overlayActions.append(evidenceLink);
+    }
     const close = el("button", "button button-tonal molecular-overlay-close");
     close.append(uiIcon("close"));
     close.setAttribute("aria-label", "Close structure");
     close.type = "button";
     close.onclick = () => closeOverlay();
-    heading.append(close);
+    overlayActions.append(close);
+    heading.append(overlayActions);
     const surface = el("div", "network-protein-overlay-surface");
     const note = el(
       "p",
       "network-protein-overlay-note",
       `${model.scope} Cα backbone trace; not measured by this RNA-seq experiment. Drag to rotate; pinch or scroll to zoom.`,
+    );
+    const panels = el("div", "network-protein-overlay-panels");
+    const context = createAccordion(
+      "Gene and structure context",
+      "network-protein-context",
+    );
+    const contextItem = context.element.querySelector(".accordion-item");
+    const protein = gene.proteins?.[0];
+    context.body.append(
+      el("p", "network-protein-identity", `${gene.symbol} · ${gene.id}`),
+      el("p", "note", `${gene.displayGroup || `Respiratory complex ${gene.complex}`} · ${gene.leadingEdge} OXPHOS leading-edge category.`),
+      el("p", "note", protein ? `${protein.name} · UniProt ${protein.accession}.` : "No mapped protein record in the archived network."),
+      el("p", "note", `Structure: ${model.provider} ${model.model} · ${model.scope}. ${gene.basis}`),
+      el("p", "note", "The structure is external molecular context. It is not an observed molecular measurement in this RNA-seq experiment."),
     );
     const evidence = createAccordion(
       "Gene statistics · archived RNA-seq",
@@ -166,7 +198,8 @@ export function createNodeProtein({ api, root, graphs }) {
         "Approximate 95% Wald intervals: log₂FC ± 1.96 SE. Gene FDR is the archived transcriptome-wide correction. Day/control differences do not establish a treatment-by-time interaction. Protein structure is external context, not a measured molecular change.",
       ),
     );
-    host.append(surface, heading, note, evidence.element);
+    panels.append(context.element, evidence.element);
+    host.append(surface, heading, note, panels);
     root.append(host);
     if (evidenceExpanded)
       root.closest("#psilocin-app")?.f7?.accordion.open(evidenceItem, false);

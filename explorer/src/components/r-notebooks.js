@@ -351,6 +351,13 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
       );
     },
     addCode:source=>appendCell('code',source),
+    insertSelectionReference(selection) {
+      const values = Array.isArray(selection?.genes) ? selection.genes : selection?.gene ? [selection.gene] : [];
+      const identifiers = values.map(item => typeof item === "string" ? item : item?.id || item?.symbol).filter(item => typeof item === "string").slice(0, 5000);
+      if (!identifiers.length) return;
+      const literal = value => JSON.stringify(String(value).replace(/[\u0000-\u001f]/g, ""));
+      appendCell("code", `# Active Atlas selection; inserted explicitly. No code has run.\nselected_ids <- c(${identifiers.map(literal).join(", ")})\n# Use: subset(genes, id %in% selected_ids | symbol %in% selected_ids)`);
+    },
     addRecipe(recipeId){const recipe=rExamples.find(item=>item.id===recipeId);if(recipe)appendCell('code',recipe.code);},
     async destroy(){navigation.destroy();undoToast?.close(false);layout.destroy();clearTimeout(saveTimer);runAllCancelled=true;cleanup();clearTimeout(saveTimer);if(ready)await store.write(structuredClone(workspace)).catch(()=>{});destroyed=true;await store.close().catch(()=>{});}
   };

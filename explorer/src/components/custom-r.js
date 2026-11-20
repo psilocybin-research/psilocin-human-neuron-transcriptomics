@@ -21,7 +21,8 @@ import { createRProgress } from "./r-progress.js";
 import { rExamples } from "./r-examples.js";
 import { createRNotebooks } from "./r-notebooks.js";
 import { createRRuntime } from "./r-runtime.js";
-import { csvText } from "./format.js";
+import { csvText, label } from "./format.js";
+import { genePreviewMarkup } from "./structure-preview.js";
 import { downloadFile } from "./file-download.js";
 import { showToast } from "./app-toast.js";
 import { beginActivity } from "./app-activity.js";
@@ -51,6 +52,8 @@ export function createCustomR({
   onOpenSystems,
   onOpenReports,
   onInspectSelection,
+  onOpenGeneEvidence,
+  onOpenNetwork,
 }) {
   const host = el("section", "custom-r-workspace");
   const intro = el(
@@ -375,7 +378,41 @@ export function createCustomR({
   notebooks.layout.variables.append(variables.element);
   const selectionContext=el('p','note');
   const syncSelectionContext=()=>{const value=getSelection?.()||{};selectionContext.textContent=[value.gene,value.pathway,value.contrast].filter(Boolean).join(' · ')||'No gene or pathway selected';};syncSelectionContext();notebooks.layout.selection.prepend(selectionContext);
-  host.syncWorkspaceContext=syncSelectionContext;
+  const selectionCard=el('section','list accordion-list studio-selection-card');
+  const selectionItem=el('div','accordion-item'),selectionToggle=el('a','item-link item-content accordion-item-toggle f7-press');
+  selectionToggle.href='#';selectionToggle.setAttribute('aria-label','Expand active Atlas selection');
+  const selectionInner=el('div','item-inner'),selectionTitle=el('div','item-title','Atlas selection'),selectionAfter=el('div','item-after');
+  selectionInner.append(selectionTitle,selectionAfter);selectionToggle.append(selectionInner);
+  const selectionContent=el('div','accordion-item-content'),selectionBody=el('div','studio-selection-card-body');selectionContent.append(selectionBody);selectionItem.append(selectionToggle,selectionContent);selectionCard.append(selectionItem);selectionCard.hidden=true;
+  let selectionCardToken=0;
+  const selectionIds=value=>Array.isArray(value?.genes)?value.genes:value?.gene?[value.gene]:[];
+  async function syncSelectionCard(value=getSelection?.()) {
+    const token=++selectionCardToken,ids=selectionIds(value).map(item=>typeof item==='string'?item:item?.id||item?.symbol).filter(Boolean);
+    if(!ids.length){selectionCard.hidden=true;return;}
+    const genes=await getGenes();if(token!==selectionCardToken||!selectionCard.isConnected)return;
+    const matches=ids.map(id=>genes.find(g=>g.id===id||g.symbol===id)).filter(Boolean);
+    const gene=matches[0],multiple=ids.length>1;
+    selectionCard.hidden=false;
+    selectionTitle.textContent=multiple?`${ids.length} selected genes`:gene?.symbol||ids[0];
+    selectionAfter.textContent=multiple?'Atlas selection':gene?.id||ids[0];
+    selectionBody.replaceChildren();
+    if(gene){
+      const overview=el('div','studio-selection-overview'),preview=genePreviewMarkup(gene);
+      if(preview){const thumb=el('span','studio-selection-thumb');thumb.innerHTML=preview;thumb.setAttribute('aria-hidden','true');overview.append(thumb);}
+      const identity=el('div','studio-selection-identity');identity.append(el('strong','',gene.symbol),el('span','identifier',gene.id));
+      const context=data.landscape?.find(row=>row.gene===gene.symbol),memberships=Object.entries(data.membership||{}).filter(([,symbols])=>symbols.includes(gene.symbol)).map(([id])=>label(id));
+      identity.append(el('span','note',context?.functional_group||memberships.slice(0,2).join(' · ')||'Archived gene-level estimates'));
+      overview.append(identity);selectionBody.append(overview);
+    }
+    selectionBody.append(el('p','note',multiple?'Current Atlas selection. These identifiers are available for exploratory R work; no code has run.':'Sent from the Atlas. This archived gene record is available for exploratory R work; no code has run.'));
+    const actions=el('div','studio-selection-actions');
+    const insert=action('Insert R reference','plus',()=>{notebooks.insertSelectionReference({...value,gene:gene?.id||ids[0],genes:multiple?ids:undefined});showToast('R reference inserted. It has not run.');});actions.append(insert);
+    if(gene){const evidence=action('View evidence','genes',()=>onOpenGeneEvidence?.(gene.id));actions.append(evidence);if(data.landscape?.some(row=>row.gene===gene.symbol)){const network=action('Open 3D','landscape',()=>onOpenNetwork?.(gene.id));network.title='Open this gene in the 3D OXPHOS network';actions.append(network);}}
+    selectionBody.append(actions);
+  }
+  notebooks.element.prepend(selectionCard);
+  host.syncWorkspaceContext=()=>{syncSelectionContext();syncSelectionCard();};
+  syncSelectionCard();
   // Full figures and tables remain inline; inspector contains indexes, not duplicates.
   host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();notebooks.tools.querySelector('.research-studio-import')?.setAttribute('open','');notebooks.openTools();}});
   host.workspaceNavigation=notebooks.sidebar;
@@ -874,8 +911,11 @@ export function createCustomR({
     importStatus.textContent=`${name}: ${info.rows} rows × ${info.columns.length} columns. Available as user_data; transferred exploratory data.`;
     notebooks.addCode("# Transferred exploratory table; no archived findings are changed.\nresults <- user_data\nprint(head(results))");
   };
-  host.setResearchSelection = (selection) =>
+  host.setResearchSelection = (selection) => {
     notebooks.appendSelection(selection);
+    syncSelectionContext();
+    syncSelectionCard(selection);
+  };
   host.updateContext = host.setResearchSelection;
   host.destroy = () => {
     persist();
