@@ -2036,6 +2036,16 @@ body {
   flex: 1;
   padding: 24px;
 }
+/* Reading pages may gain blur as material moves behind their fixed header.
+   Data views deliberately keep their navigation geometry unchanged. */
+#psilocin-app .sources-header{
+  transition:background-color 180ms ease,backdrop-filter 180ms ease,box-shadow 180ms ease;
+}
+#psilocin-app .sources-layout[data-scrolled="true"] .sources-header{
+  background:color-mix(in srgb,var(--research-surface) 78%,transparent);
+  backdrop-filter:saturate(150%) blur(18px);-webkit-backdrop-filter:saturate(150%) blur(18px);
+  box-shadow:0 8px 20px color-mix(in srgb,var(--research-text) 8%,transparent);
+}
 @media (max-width: 790px) {
   #psilocin-app .research-sources {
     width: 100%;
@@ -3492,6 +3502,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  margin-bottom: 16px;
   min-width: 0;
   font-size: 12px;
   font-weight: 600;
@@ -3516,6 +3527,34 @@ body {
 @media (max-width: 700px) {
   #psilocin-app .pathway-explorer > .tree-toolbar {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* The representation is a reading-mode choice, not a filter. Keep it available
+   while the pathway result scrolls, without pinning the larger query controls. */
+@media (max-width: 1179px) {
+  #psilocin-app .pathway-explorer > .tree-display-control {
+    position: sticky;
+    top: calc(var(--f7-navbar-height) + env(safe-area-inset-top) + 8px);
+    z-index: 24;
+    margin: 0 -8px 16px;
+    padding: 8px;
+    border: 1px solid color-mix(in srgb, var(--research-border) 86%, transparent);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--research-surface) 88%, transparent);
+    box-shadow: 0 8px 18px #17304712;
+    backdrop-filter: saturate(150%) blur(16px);
+    -webkit-backdrop-filter: saturate(150%) blur(16px);
+  }
+  #psilocin-app .pathway-explorer > .tree-display-control .tree-view-toggle {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  #psilocin-app .pathway-explorer > .tree-display-control {
+    background: var(--research-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 #psilocin-app .research-message-dialog {
@@ -4508,7 +4547,7 @@ body {
     background:var(--research-surface);
     border-bottom:1px solid var(--research-border);
   }
-  #psilocin-app .pathway-explorer > .tree-toolbar > .tree-display-control { display:none; }
+  #psilocin-app .pathway-explorer > .tree-display-control { display:none; }
   #psilocin-app .pathway-explorer > .tree-toolbar { grid-template-columns:minmax(0,1fr); }
   #psilocin-app .desktop-pathway-display strong { margin-right:8px;font-size:14px; }
   #psilocin-app .desktop-pathway-display .button { width:auto;min-height:44px;padding-inline:18px; }
@@ -4939,6 +4978,15 @@ body {
   #psilocin-app[data-sources-open="true"] .analysis-fab {
     visibility:hidden;opacity:0;pointer-events:none;
   }
+}
+
+/* References are a self-contained reading layer: use the iOS-style 3D page
+   flip there only, rather than making routine scientific navigation theatrical. */
+@media(max-width:790px) and (prefers-reduced-motion:no-preference){
+  #psilocin-app .sources-mobile-page{transform-origin:100% 50%;animation:atlas-sources-flip-in 360ms cubic-bezier(.2,.72,.2,1) both}
+  #psilocin-app .sources-mobile-page.sources-flip-out{transform-origin:100% 50%;animation:atlas-sources-flip-out 260ms cubic-bezier(.4,0,1,.3) both}
+  @keyframes atlas-sources-flip-in{from{opacity:.35;transform:perspective(1100px) rotateY(-18deg) translateX(8%)}to{opacity:1;transform:perspective(1100px) rotateY(0) translateX(0)}}
+  @keyframes atlas-sources-flip-out{from{opacity:1;transform:perspective(1100px) rotateY(0) translateX(0)}to{opacity:.35;transform:perspective(1100px) rotateY(18deg) translateX(8%)}}
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
@@ -5479,6 +5527,24 @@ body {
 #psilocin-app[data-glass-effects=true] .research-nav .item-content.active :is(.item-title,.item-title span) { color:var(--research-accent); }
 #psilocin-app .workspace-inspector-tabs { gap:4px; }
 #psilocin-app .workspace-inspector-tabs > .button { border-radius:10px; }
+
+/* Explanatory disclosures are the only cards that expand: provenance and
+   interpretation gain a clear reading boundary without turning data into UI. */
+#psilocin-app :is(.study-script-provenance,.research-sources .citation-disclosure,.gene-connection-details){
+  border:1px solid var(--atlas-control-edge);border-radius:12px;background:var(--research-surface);
+  overflow:hidden;transition:border-color 180ms ease,box-shadow 180ms ease;
+}
+#psilocin-app :is(.study-script-provenance,.research-sources .citation-disclosure,.gene-connection-details)>summary{
+  padding:0 12px;list-style-position:inside;
+}
+#psilocin-app :is(.study-script-provenance,.research-sources .citation-disclosure,.gene-connection-details)[open]{
+  border-color:color-mix(in srgb,var(--research-accent) 34%,var(--research-border));
+  box-shadow:0 4px 12px color-mix(in srgb,var(--research-accent) 9%,transparent);
+}
+#psilocin-app :is(.study-script-provenance,.research-sources .citation-disclosure,.gene-connection-details)>:not(summary){
+  margin-left:12px;margin-right:12px;
+}
+@media(prefers-reduced-motion:reduce){#psilocin-app :is(.sources-header,.study-script-provenance,.research-sources .citation-disclosure,.gene-connection-details){transition:none}}
 #psilocin-app[data-glass-effects=true] :is(
   .button-tonal:not(.button-fill):not(.primary):not(.color-red):not(.text-color-red),
   .research-nav .item-content:not(.active),
@@ -5566,7 +5632,19 @@ body {
 
 /* The embedded network uses the shared glass pane alone; its wrapper stays transparent. */
 @media(max-width:767px){
-  #psilocin-app .oxphos-mobile-toolbar{background:transparent!important;border-top:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  /* F7's toolbar substrate and separator are useful for the atlas page, but
+     would create a rectangular band over the WebGL scene. Only the pane is a
+     surface here; every wrapper is deliberately transparent. */
+  #psilocin-app .oxphos-mobile-toolbar,
+  #psilocin-app .oxphos-mobile-toolbar::before,
+  #psilocin-app .oxphos-mobile-toolbar::after,
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner,
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner::before,
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner::after{
+    background:transparent!important;background-image:none!important;
+    border:0!important;box-shadow:none!important;
+    backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  }
   #psilocin-app .oxphos-mobile-toolbar .toolbar-inner{padding:3px 12px!important}
   #psilocin-app .oxphos-mobile-toolbar .toolbar-pane{background-color:var(--f7-glass-bg-color)!important;border:1px solid #ffffff80;border-radius:22px;box-shadow:var(--f7-glass-shadow);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px)}
 }
@@ -5594,3 +5672,49 @@ body {
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::before,
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::after{scale:var(--atlas-glass-rest-scale,1)}
 @media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1.18;--atlas-glass-pressed-scale:1.30}}
+
+/* The embedded OXPHOS navigator is the same five-slot mobile navigator as the
+   atlas bar.  Keep its outer rhythm and its frosted pane identical so moving
+   between a scientific scene and the atlas never feels like entering another UI. */
+@media(max-width:767px){
+  #psilocin-app .oxphos-network-3d{--network-tool-height:calc(66px + env(safe-area-inset-bottom))}
+  #psilocin-app .research-tabbar .toolbar-inner,
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner{height:66px;padding:3px 12px!important;gap:8px}
+  #psilocin-app .research-tabbar .toolbar-pane,
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-pane{
+    display:flex;align-items:stretch;width:100%;height:60px;gap:4px;padding:3px 5px;
+    border:1px solid #ffffff80;border-radius:22px;
+  }
+}
+
+/* The scene continues behind the floating mobile navigator.  The navigator's
+   pane is the only visible surface, matching the atlas bar without a dark band. */
+@media(max-width:767px){
+  #psilocin-app .oxphos-3d-immersive .oxphos-3d-stage{bottom:0}
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="open"] .oxphos-3d-stage{bottom:var(--network-inspector-height)}
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="expanded"] .oxphos-3d-stage{bottom:0}
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="expanded"] .oxphos-mobile-inspector{
+    inset:0;height:auto;bottom:0;border-radius:0;z-index:12;padding-top:env(safe-area-inset-top);
+  }
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="expanded"] .oxphos-mobile-toolbar{visibility:hidden;pointer-events:none}
+}
+
+/* Network feedback keeps the shared F7 toast typography and surface. Only its
+   lower-left placement differs so it stays clear of the right-side controls. */
+#psilocin-app .toast.oxphos-network-toast{
+  --f7-toast-bg-color:#e8f2fb;--f7-toast-text-color:#152e42;
+  color:#152e42;background-color:#e8f2fb;border:1px solid #ffffff99;
+  border-radius:14px;box-shadow:0 8px 24px #071b2c2e;
+}
+
+/* A gene sheet can use the whole available scene when the reader wants the
+   statistical table, provenance and qualifications without a cramped scroll. */
+#psilocin-app .oxphos-3d-drawer.oxphos-3d-drawer-expanded{height:100%;max-height:100%;border-radius:0}
+#psilocin-app .oxphos-drawer-expand{margin-left:auto}
+.dark #psilocin-app .toast.oxphos-network-toast{
+  --f7-toast-bg-color:#1b3046;--f7-toast-text-color:#f2f8fc;
+  color:#f2f8fc;background-color:#1b3046;border-color:#ffffff2e;
+}
+
+/* F7, rather than browser title bubbles, owns hover hints on precision devices. */
+#psilocin-app .tooltip.atlas-f7-tooltip{max-width:min(280px,calc(100vw - 24px));font-size:12px;line-height:1.35}

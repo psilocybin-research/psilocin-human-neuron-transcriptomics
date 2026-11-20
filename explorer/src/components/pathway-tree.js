@@ -97,7 +97,9 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
   const downloads = node('div', 'tree-actions');
   const guidance = createAccordion('How to read pathway evidence', 'pathway-reading-guide');
   guidance.body.append(explanation);
-  root.append(toolbar, legend, shortcuts, notice, tools, canvas, downloads, guidance.element);
+  // Keep the mode switch independent of filtering controls: on compact screens it
+  // can remain in reach while the user reads the selected representation.
+  root.append(displayControl, toolbar, legend, shortcuts, notice, tools, canvas, downloads, guidance.element);
   let genes, branches = [], loadError = false, drawToken = 0, networkMount;let scrollToDisplay=Boolean(state.scrollToPlot);state.scrollToPlot=false;
   const loadStatus = loadingMessage('Loading archived gene estimates…'); canvas.append(loadStatus);
   const notify = () => onState();

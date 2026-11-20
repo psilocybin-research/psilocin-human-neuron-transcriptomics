@@ -19,6 +19,7 @@ import {
   prepareExternalLinks,
   useModalPush,
   destroySheet,
+  installFramework7Tooltips,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
 import { createGeneAutocomplete } from "./gene-suggestions.js";
@@ -99,7 +100,8 @@ export function createAppShell({
     sourcePopup,
     autocomplete,
     tourPopup,
-    sharePopover;
+    sharePopover,
+    disposeTooltips;
   let searchCleanupPending = false, searchReopenRequested = false, searchCleanupTimer;
   function openAtlasSearch() {
     if (!autocomplete || disposed || autocomplete.opened) return;
@@ -368,6 +370,10 @@ export function createAppShell({
   sourceBar.append(node("h2", "", "References & citation"), sourceClose);
   const sourceScroll = node("div", "sources-content");
   sourceScroll.append(top);
+  const syncSourcesScrollSurface = () => {
+    sourcePage.dataset.scrolled = String(sourceScroll.scrollTop > 8);
+  };
+  sourceScroll.addEventListener("scroll", syncSourcesScrollSurface, { passive: true });
   const license = node(
     "a",
     "external ui-license",
@@ -392,7 +398,7 @@ export function createAppShell({
   const mobileSourcePage = node("section", "page page-current research-sources sources-mobile-page");
   mobileSourcePage.dataset.name = "references";
   mobileSourcePage.setAttribute("aria-label", "References and citation");
-  let sourcesPageOpen = false, sourcesOpener, previousQuickState;
+  let sourcesPageOpen = false, sourcesClosing = false, sourcesOpener, previousQuickState;
   function openMobileSources(pushHistory = true) {
     if (sourcesPageOpen) return;
     sourcesPageOpen = true;
@@ -413,29 +419,46 @@ export function createAppShell({
     sourceClose.setAttribute("aria-label", "Back from references");
     sourceClose.replaceChildren(uiIcon("back"), node("span", "", "Back"));
     sourceScroll.scrollTop = 0;
+    syncSourcesScrollSurface();
     if (pushHistory) history.pushState({ ...history.state, atlasSourcesPage: true }, "", location.href);
     sourceClose.focus({ preventScroll: true });
   }
-  function restoreSourcesPage() {
-    if (!sourcesPageOpen) return;
-    sourcesPageOpen = false;
-    delete root.dataset.sourcesOpen;
-    source.append(sourcePage);
-    page.append(bottom);
-    quick.forEach((button, index) => {
-      const active = previousQuickState?.[index] === "page";
-      button.classList.toggle("tab-link-active", active);
-      button.setAttribute("aria-current", active ? "page" : "false");
-      if (button.dataset.quick === "sources") button.setAttribute("aria-haspopup", "dialog");
-    });
-    syncQuickHighlight();
-    mobileSourcePage.remove();
-    page.style.display = "";
-    page.inert = false;
-    sourceClose.setAttribute("aria-label", "Close sources");
-    sourceClose.replaceChildren(uiIcon("close"), node("span", "", "Close"));
-    const focusTarget = sourcesOpener?.closest?.(".research-sidebar") && !panel.classList.contains("panel-in") ? menuToggle : sourcesOpener;
-    if (focusTarget?.isConnected) focusTarget.focus({ preventScroll: true });
+  function restoreSourcesPage(animate = !reduced()) {
+    if (!sourcesPageOpen || sourcesClosing) return;
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      sourcesClosing = false;
+      mobileSourcePage.classList.remove("sources-flip-out");
+      sourcesPageOpen = false;
+      delete root.dataset.sourcesOpen;
+      source.append(sourcePage);
+      page.append(bottom);
+      quick.forEach((button, index) => {
+        const active = previousQuickState?.[index] === "page";
+        button.classList.toggle("tab-link-active", active);
+        button.setAttribute("aria-current", active ? "page" : "false");
+        if (button.dataset.quick === "sources") button.setAttribute("aria-haspopup", "dialog");
+      });
+      syncQuickHighlight();
+      mobileSourcePage.remove();
+      page.style.display = "";
+      page.inert = false;
+      sourceClose.setAttribute("aria-label", "Close sources");
+      sourceClose.replaceChildren(uiIcon("close"), node("span", "", "Close"));
+      const focusTarget = sourcesOpener?.closest?.(".research-sidebar") && !panel.classList.contains("panel-in") ? menuToggle : sourcesOpener;
+      if (focusTarget?.isConnected) focusTarget.focus({ preventScroll: true });
+    };
+    if (!animate) { finish(); return; }
+    sourcesClosing = true;
+    const fallback = setTimeout(finish, 420);
+    mobileSourcePage.addEventListener("animationend", () => {
+      clearTimeout(fallback);
+      finish();
+    }, { once: true });
+    mobileSourcePage.classList.add("sources-flip-out");
+    return;
   }
   function sourcesHistoryChanged(event) {
     if (event.state?.atlasSourcesPage && matchMedia("(max-width: 790px)").matches) openMobileSources(false);
@@ -444,7 +467,7 @@ export function createAppShell({
   window.addEventListener("popstate", sourcesHistoryChanged);
   function sourcesViewportChanged() {
     if (sourcesPageOpen && !matchMedia("(max-width: 790px)").matches) {
-      restoreSourcesPage();
+      restoreSourcesPage(false);
       if (history.state?.atlasSourcesPage) {
         const { atlasSourcesPage, ...state } = history.state;
         history.replaceState(state, "", location.href);
@@ -454,7 +477,11 @@ export function createAppShell({
   window.addEventListener("resize", sourcesViewportChanged);
   function openSources() {
     if (matchMedia("(max-width: 790px)").matches) openMobileSources();
-    else sourcePopup?.open(!reduced());
+    else {
+      sourceScroll.scrollTop = 0;
+      syncSourcesScrollSurface();
+      sourcePopup?.open(!reduced());
+    }
   }
   function navigateFromSources(id) {
     if (sourcesPageOpen) {
@@ -598,7 +625,7 @@ export function createAppShell({
     closeControls();
     const candidates = [
       ...body.querySelectorAll(
-        ":scope>.controls,:scope>.comparison-controls,.comparative-views>.comparison-controls,.pathway-explorer .tree-toolbar",
+        ":scope>.controls,:scope>.comparison-controls,.comparative-views>.comparison-controls,.pathway-explorer > .tree-display-control,.pathway-explorer .tree-toolbar",
       ),
     ];
     if (!candidates.length) {
@@ -1285,7 +1312,7 @@ export function createAppShell({
         touchRipple: false,
         touchHighlight: root.dataset.glassEffects === "true" && !reduced(),
         touchHighlightElements:
-          "#psilocin-app[data-glass-effects=true]:not([data-reduced-motion=true]) .f7-press:not(.tab-link)",
+          ".toolbar-pane, .navbar .left, .navbar .right, .popover-inner, .actions-group:not(.actions-grid .actions-group), .searchbar-input-wrap, .searchbar-disable-button, .subnavbar, .searchbar-input-wrap .autocomplete-dropdown, .messagebar-area, .notification, .toast, .fab > a, #psilocin-app[data-glass-effects=true]:not([data-reduced-motion=true]) .f7-press:not(.tab-link)",
       },
       panel: { swipe: false },
       sheet: {
@@ -1458,13 +1485,7 @@ export function createAppShell({
         },
       },
     });
-    if (matchMedia("(pointer:fine)").matches)
-      for (const b of root.querySelectorAll(".shell-icon"))
-        app.tooltip.create({
-          targetEl: b,
-          text: b.getAttribute("aria-label"),
-          trigger: "hover",
-        });
+    disposeTooltips = installFramework7Tooltips(root, app);
     const syncNavigation = () => {
       for (const modal of [controlsSheet, sourcePopup, tourPopup]) {
         if (!modal || modal.opened) continue;
@@ -1550,6 +1571,7 @@ export function createAppShell({
       clearTimeout(searchCleanupTimer);
       clearTimeout(positionTimer);
       scroll.removeEventListener("scroll", rememberViewPosition);
+      sourceScroll.removeEventListener("scroll", syncSourcesScrollSurface);
       pwa?.destroy();
       researchTables?.destroy();
       evidenceSheet.destroy();
@@ -1582,6 +1604,7 @@ export function createAppShell({
       document.removeEventListener("pointerup", endPress);
       document.removeEventListener("pointercancel", endPress);
       cancelAnimationFrame(enhanceFrame);
+      disposeTooltips?.();
       app?.destroy();
     },
   };

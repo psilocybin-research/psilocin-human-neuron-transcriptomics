@@ -42,7 +42,11 @@ try {
       requests.some((u) => /network-3d\.[a-f0-9]+\.js/.test(u)),
       false,
     );
-    assert.equal(await open.locator("svg").count(), 0);
+    assert.equal(
+      await open.locator(".oxphos-network-preview-fullscreen svg").count(),
+      1,
+      "the preview communicates that it opens the immersive 3D view",
+    );
     const placement = await open.evaluate((n) => {
       const other = [
         ...n.parentElement.querySelectorAll(":scope > button"),

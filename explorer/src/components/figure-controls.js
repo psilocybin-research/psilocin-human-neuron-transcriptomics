@@ -2,7 +2,7 @@ import { createElement as el } from "./interface-utils.js";
 import { uiIcon as icon } from "./icons.js";
 // Shared figure controls for SVG, canvas and HTML scientific displays.
 function button(text, fn, cls) {
-  const n = el("button", `button button-tonal f7-press ${cls || ""}`, text);
+  const n = el("button", `button button-tonal f7-press prevent-active-state-propagation ${cls || ""}`, text);
   n.type = "button";
   n.onclick = fn;
   return n;

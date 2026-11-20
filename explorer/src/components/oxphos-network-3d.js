@@ -57,8 +57,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     ? (overlayValues.has(n.id) ? color(overlayValues.get(n.id), overlayLimit) : "#808080")
     : color(n.effects[d]?.log2FoldChange, snapshot.limit);
   const objects = new Map();
-  const networkToast = (message, container = root) =>
-    showToast(message, { container, closeButton: false });
+  const networkToast = (message, container = root) => {
+    const toast = showToast(message, { container, closeButton: false });
+    toast?.el.classList.add("oxphos-network-toast");
+    return toast;
+  };
   const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
     meshes = new Map(),
@@ -521,7 +524,16 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   const mobileHeader = el("header", "oxphos-mobile-header");
   const mobileTitle = el("h2", "", "Network controls");
   const mobileDone = button("Close controls", () => closeMobileControls(), "close");
-  mobileHeader.append(mobileTitle, mobileDone);
+  const mobileExpand = button("Expand evidence", () => {
+    const expanded = root.dataset.mobileInspector === "expanded";
+    root.dataset.mobileInspector = expanded ? "open" : "expanded";
+    mobileExpand.setAttribute("aria-pressed", String(!expanded));
+    mobileExpand.setAttribute("aria-label", expanded ? "Expand gene evidence" : "Collapse gene evidence");
+    mobileExpand.replaceChildren(uiIcon(expanded ? "fullscreen" : "fullscreenExit"));
+  }, "fullscreen");
+  mobileExpand.classList.add("oxphos-mobile-expand");
+  mobileExpand.hidden = true;
+  mobileHeader.append(mobileTitle, mobileExpand, mobileDone);
   const mobileScroll = el("div", "oxphos-mobile-inspector-scroll");
   mobileScroll.tabIndex = -1;
   mobilePanel.append(mobileHeader, mobileScroll);
@@ -570,6 +582,9 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     root.dataset.mobileInspector = "closed";
     const previous = mobileMode;
     mobileMode = "";
+    mobileExpand.hidden = true;
+    mobileExpand.setAttribute("aria-pressed", "false");
+    mobileExpand.replaceChildren(uiIcon("fullscreen"));
     updateMobileButtons();
     if (mobilePanel.contains(document.activeElement)) mobileButtons.get(previous)?.focus({ preventScroll: true });
   }
@@ -580,6 +595,10 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       else child.remove();
     }
     mobileMode = kind;
+    mobileExpand.hidden = kind !== "gene";
+    mobileExpand.setAttribute("aria-pressed", "false");
+    mobileExpand.setAttribute("aria-label", "Expand gene evidence");
+    mobileExpand.replaceChildren(uiIcon("fullscreen"));
     mobileTitle.textContent = {
       controls: "View controls", search: "Find a gene", gene: "Linked gene evidence",
       filters: "Network filters", about: "Membership & data",
@@ -683,7 +702,20 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     const handle = el("div", "sheet-handle"),
       header = el("header", "evidence-sheet-header"),
       done = button("Done", () => drawerInstance?.close(), "done");
-    header.append(el("h2", "", title), done);
+    const drawerTitle = el("h2", "", title);
+    header.append(drawerTitle);
+    if (kind === "gene") {
+      const expand = button("Expand gene evidence", () => {
+        const expanded = drawer.classList.toggle("oxphos-3d-drawer-expanded");
+        expand.setAttribute("aria-pressed", String(expanded));
+        expand.setAttribute("aria-label", expanded ? "Collapse gene evidence" : "Expand gene evidence");
+        expand.replaceChildren(uiIcon(expanded ? "fullscreenExit" : "fullscreen"));
+      }, "fullscreen");
+      expand.classList.add("oxphos-drawer-expand");
+      expand.setAttribute("aria-pressed", "false");
+      header.append(expand);
+    }
+    header.append(done);
     drawerBody = el("div", "sheet-modal-inner oxphos-3d-drawer-body");
     const items = {
       search: [listRegion],
@@ -1279,8 +1311,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     refresh();
   };
   if (initialOverlay) root.setExploratoryOverlay(initialOverlay);
-  let resize, intersection, detachObserver, entranceFrame;
-  function finishEntrance() {
+  let resize, intersection, detachObserver, entranceFrame, introTimer;
+  function finishEntrance(playLayoutIntroduction = false) {
     if (!cameraTransition || root.dataset.entranceReady === "true") return;
     cancelAnimationFrame(entranceFrame);
     cameraTransition?.stop();
@@ -1289,6 +1321,15 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     entranceOpacity = 1;
     graph?.linkOpacity(0.28);
     root.dataset.entranceReady = "true";
+    if (playLayoutIntroduction && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      root.dataset.layoutIntroduction = "running";
+      transitionLayout("layers");
+      introTimer = setTimeout(() => {
+        if (destroyed || root.dataset.layoutIntroduction !== "running") return;
+        transitionLayout("complex");
+        root.dataset.layoutIntroduction = "complete";
+      }, 1080);
+    }
   }
   for (const event of ["pointerdown", "wheel", "keydown"])
     root.addEventListener(event, finishEntrance, {
@@ -1303,6 +1344,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       root.removeEventListener(event, finishEntrance, true);
     cancelAnimationFrame(entranceFrame);
     cancelAnimationFrame(layoutFrame);
+    clearTimeout(introTimer);
     if (proteinScene) {
       graph?.scene().remove(proteinScene.group);
       proteinScene.dispose();
@@ -1652,7 +1694,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
           for (const item of labels)
             item.sprite.material.opacity = ease((elapsed - 900) / 260);
           if (elapsed < 1200) entranceFrame = requestAnimationFrame(appear);
-          else finishEntrance();
+          else finishEntrance(true);
         };
         entranceFrame = requestAnimationFrame(appear);
       } else finishEntrance();

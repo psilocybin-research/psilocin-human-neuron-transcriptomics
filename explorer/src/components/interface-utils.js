@@ -75,6 +75,49 @@ export function prepareExternalLinks(root) {
   }
 }
 
+// Native title bubbles look different across browsers and can linger over an
+// adjacent control.  On precision-pointer devices, give every ordinary hint
+// one Framework7 iOS tooltip instead. Touch users retain clear visible labels
+// and aria names, rather than receiving hover-only UI.
+export function installFramework7Tooltips(root, app) {
+  if (!app?.tooltip || !matchMedia("(hover: hover) and (pointer: fine)").matches)
+    return () => {};
+  const instances = new Set();
+  const attach = (target) => {
+    if (!(target instanceof Element) || target.dataset.f7TooltipManaged === "true") return;
+    const text = target.getAttribute("title")?.trim();
+    if (!text) return;
+    target.dataset.f7TooltipManaged = "true";
+    target.removeAttribute("title");
+    if (!target.getAttribute("aria-label") && !target.textContent.trim())
+      target.setAttribute("aria-label", text);
+    const instance = app.tooltip.create({
+      targetEl: target,
+      text,
+      trigger: "hover",
+      cssClass: "atlas-f7-tooltip",
+    });
+    instances.add(instance);
+  };
+  const scan = (scope) => {
+    if (scope instanceof Element && scope.hasAttribute("title")) attach(scope);
+    scope.querySelectorAll?.("[title]").forEach(attach);
+  };
+  scan(root);
+  const observer = new MutationObserver((records) => {
+    for (const record of records) {
+      if (record.type === "attributes") attach(record.target);
+      else record.addedNodes.forEach(scan);
+    }
+  });
+  observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["title"] });
+  return () => {
+    observer.disconnect();
+    instances.forEach((instance) => instance.destroy());
+    instances.clear();
+  };
+}
+
 let accordionSequence = 0;
 export function createAccordion(title, className = "") {
   const element = createElement(

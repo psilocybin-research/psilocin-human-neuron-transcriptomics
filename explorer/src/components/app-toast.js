@@ -26,4 +26,5 @@ export function showToast(message, { container: preferredContainer, closeButton 
   toast.el.setAttribute("aria-live", "polite");
   active = toast;
   toast.open(!matchMedia("(prefers-reduced-motion: reduce)").matches);
+  return toast;
 }

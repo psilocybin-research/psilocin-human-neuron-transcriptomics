@@ -65,6 +65,21 @@ export function studioResizer(host, property, {label, initial, min, max, reverse
 }
 
 export function confirmPermanentDeletion(root, onDelete) {
+  if (matchMedia('(max-width: 700px)').matches) {
+    const modal = root.f7.actions.create({
+      buttons: [
+        [
+          {text: 'Delete analysis permanently?', label: true},
+          {text: 'Saved code and recorded outputs will be removed. This cannot be undone.', label: true},
+          {text: 'Delete permanently', color: 'red', close: true, onClick: onDelete},
+        ],
+        [{text: 'Cancel', color: 'gray'}],
+      ],
+      on: {closed(){setTimeout(()=>modal.destroy(),0);}},
+    });
+    modal.open();
+    return modal;
+  }
   const dialog = root.f7.dialog.create({
     title: 'Delete permanently?',
     text: 'This analysis and its saved outputs will be permanently deleted. This cannot be undone.',
