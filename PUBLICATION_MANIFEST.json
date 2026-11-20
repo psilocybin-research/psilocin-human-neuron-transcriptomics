@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1384,
-  "total_bytes": 687559506,
+  "total_bytes": 687559758,
   "status": "pass",
   "failures": [],
   "files": [
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 228913,
-      "sha256": "d63bf5e8522feb65e9694abf689d7edb80d00308ec114775fe02b170b476ae69"
+      "bytes": 229165,
+      "sha256": "e015793048bf06d7c93f3ce771bf4a86fd0e2272482516548ae9bff4cc8b7bad"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",

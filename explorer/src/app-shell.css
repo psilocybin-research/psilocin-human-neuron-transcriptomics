@@ -5005,6 +5005,11 @@ body {
 
 /* Mobile tools occupy a shallow inspector beneath a resized, unobstructed canvas. */
 .oxphos-mobile-inspector, .oxphos-mobile-toolbar { display:none; }
+/* Framework7's generic `.toolbar` display rule is loaded after some atlas
+   styles. Keep the scene-only navigator out of intermediate/desktop layouts. */
+@media(min-width:768px) {
+  #psilocin-app .oxphos-mobile-toolbar { display:none !important; }
+}
 @media(max-width:767px) {
   #psilocin-app .oxphos-network-3d {
     --network-tool-height:calc(62px + env(safe-area-inset-bottom));
