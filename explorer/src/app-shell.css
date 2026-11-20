@@ -5578,3 +5578,14 @@ body {
 /* The official Python artwork has more internal padding than the R mark. */
 #psilocin-app .workspace-language-logo-r{width:34px;height:31px}
 #psilocin-app .workspace-language-logo-python{width:39px;height:35px}
+
+/* Contextual evidence actions: one compact F7 segmented group in the sheet header. */
+#psilocin-app .evidence-sheet-header h2{flex:1;min-width:0}
+#psilocin-app .evidence-sheet-context-actions{display:flex;flex:none;align-items:center;gap:2px;padding:3px;border-radius:14px;background:var(--atlas-control-glass);border:1px solid var(--atlas-control-edge)}
+#psilocin-app .evidence-sheet-context-actions>.button{display:inline-flex;align-items:center;justify-content:center;gap:3px;min-height:34px!important;height:34px;padding:4px 7px!important;margin:0;border-radius:10px;background:transparent;color:var(--research-accent);font-size:11px;font-weight:650}
+#psilocin-app .evidence-sheet-context-actions>.button svg{width:15px;height:15px}
+#psilocin-app .evidence-sheet-context-actions>.button:hover,#psilocin-app .evidence-sheet-context-actions>.button:focus-visible{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow)}
+@media(max-width:420px){#psilocin-app .evidence-sheet-header{gap:8px;padding-inline:16px}#psilocin-app .evidence-sheet-context-actions>.button{width:34px;padding:4px!important}#psilocin-app .evidence-sheet-context-actions>.button span{display:none}#psilocin-app .evidence-sheet-header>.button span{font-size:12px}}
+
+/* Give the iOS glass press lens a little more presence without crossing neighbouring tabs. */
+@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-pressed-scale:1.28}}

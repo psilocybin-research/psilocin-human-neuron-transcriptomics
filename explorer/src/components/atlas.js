@@ -740,6 +740,13 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     if (gene) sendSelectionToR({ ...researchStore.getState(), gene });
   };
   root.addEventListener("atlas:send-gene-to-r", sendMolecularGeneToR);
+  const openGeneInOxphosNetwork = event => {
+    const gene = event.detail?.gene;
+    if (!gene) return;
+    researchStore.update({ gene });
+    openMembershipNetwork();
+  };
+  root.addEventListener("atlas:open-oxphos-network", openGeneInOxphosNetwork);
   const sessionBar = el("section", "research-session-actions");
   sessionBar.setAttribute("aria-label", "Research selection history");
   const previousSelection = button("Undo selection", () => researchStore.undo(), "secondary");
@@ -818,6 +825,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.querySelector(".exploratory-result-chart")?.dispose?.();
     body.querySelector(".custom-r-workspace")?.destroy?.();
     root.removeEventListener("atlas:send-gene-to-r", sendMolecularGeneToR);
+    root.removeEventListener("atlas:open-oxphos-network", openGeneInOxphosNetwork);
     body.replaceChildren();
     Promise.resolve(
       {
@@ -1619,6 +1627,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     contextActions.append(contextShortcut);
     container.append(contextActions);
     const info = landscapeMap.get(gene.symbol);
+    container.dataset.sendGeneToR = gene.id;
+    if (info) container.dataset.openOxphosNetwork = "true";
+    else delete container.dataset.openOxphosNetwork;
     if (info)
       container.append(
         el("p", "", info.functional_group),

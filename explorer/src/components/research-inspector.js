@@ -228,7 +228,10 @@ export function createResearchInspector({ root, store, getGenes, data,
       content.append(el("p", "note", "Adjusted P values retain their archived gene-level correction. SE is the coefficient standard error. The Day 3 / Day 1 comparison is between treated samples; common controls do not identify a treatment-by-time interaction. Transcript abundance is not protein activity."));
       const links = el("div", "research-inspector-actions");
       const payload = () => ({ gene, geneId: gene.id, state: store.getState() });
-      for (const [title, callback] of [["Send to R", onSendToR], ["Open 3D network", onOpenNetwork], ["Compare gene", onCompare], ["Add to notebook", onAddToNotebook]]) {
+      const availableActions = [["Send to R", onSendToR]];
+      if (memberships.includes("HALLMARK_OXIDATIVE_PHOSPHORYLATION")) availableActions.push(["View in 3D OXPHOS network", onOpenNetwork]);
+      availableActions.push(["Compare gene", onCompare], ["Add to notebook", onAddToNotebook]);
+      for (const [title, callback] of availableActions) {
         if (callback) links.append(action(title, () => {
           store.update({ gene: gene.id });
           if (mobile.matches) toggle(false);

@@ -13,11 +13,13 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
   const handle = node("div", "sheet-handle"),
     header = node("header", "evidence-sheet-header"),
     title = node("h2"),
+    contextActions = node("div", "segmented evidence-sheet-context-actions"),
     done = node("button", "button button-tonal labelled-icon-action");
   done.type = "button";
   done.append(uiIcon("done"), node("span", "", "Done"));
   const content = node("div", "sheet-modal-inner evidence-sheet-content");
-  header.append(title, done);
+  contextActions.hidden = true;
+  header.append(title, contextActions, done);
   sheet.append(handle, header, content);
   root.append(sheet);
   let instance, panel, placeholder;
@@ -33,11 +35,41 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
   }
   done.onclick = () =>
     instance?.close(sheet.dataset.shellModalReady === "true");
+  function runContext(type, gene) {
+    const dispatch = () => root.dispatchEvent(new CustomEvent(type, { detail: { gene } }));
+    if (instance?.opened) {
+      instance.once("closed", dispatch);
+      instance.close(sheet.dataset.shellModalReady === "true");
+    } else dispatch();
+  }
+  function renderContextActions(target) {
+    contextActions.replaceChildren();
+    const gene = target?.dataset?.sendGeneToR;
+    if (!gene) { contextActions.hidden = true; return; }
+    const toR = node("button", "button button-tonal labelled-icon-action");
+    toR.type = "button";
+    toR.setAttribute("aria-label", `Send ${gene} to R Studio`);
+    toR.title = "Send gene to R Studio";
+    toR.append(uiIcon("custom-r"), node("span", "", "To R"));
+    toR.onclick = () => runContext("atlas:send-gene-to-r", gene);
+    contextActions.append(toR);
+    if (target.dataset.openOxphosNetwork === "true") {
+      const network = node("button", "button button-tonal labelled-icon-action");
+      network.type = "button";
+      network.setAttribute("aria-label", `View ${gene} in the 3D OXPHOS network`);
+      network.title = "View in 3D OXPHOS network";
+      network.append(uiIcon("landscape"), node("span", "", "3D"));
+      network.onclick = () => runContext("atlas:open-oxphos-network", gene);
+      contextActions.append(network);
+    }
+    contextActions.hidden = false;
+  }
   function inspect(event) {
     const target = event.detail?.target;
     if (!target?.isConnected) return;
     event.stopPropagation();
     title.textContent = event.detail.title || "Selected evidence";
+    renderContextActions(target);
     if (panel === target && instance?.opened) return;
     close(false);
     destroySheet(instance);
