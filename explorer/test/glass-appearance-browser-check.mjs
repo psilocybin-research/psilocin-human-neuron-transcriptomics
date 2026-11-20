@@ -70,10 +70,17 @@ try {
  await page.locator('.research-tabbar').screenshot({path:`${output}/bottom-bar-dark-active-glass.png`,animations:'disabled'});
  await page.setViewportSize({width:1440,height:960});
  await darkMode.tap();await page.waitForFunction(()=>!document.documentElement.classList.contains('dark'));
+ await page.locator('.desktop-gene-finder').click();
+ const finder=page.locator('.autocomplete-popup.modal-in');await finder.waitFor();
+ await finder.locator('input[type=search]').fill('appearance settings');
+ const appearanceSetting=finder.getByRole('radio',{name:/Appearance settings.*Switch to dark mode/i});
+ await appearanceSetting.waitFor();await appearanceSetting.click();
+ await finder.waitFor({state:'detached'});
+ await page.waitForFunction(()=>document.documentElement.classList.contains('dark'));
  await page.screenshot({path:`${output}/desktop-glass.png`});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.reducedMotion==='true');
  assert.equal(await page.evaluate(()=>document.querySelector('#psilocin-app').f7.params.touch.touchHighlight),false);
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({checks:'persistent active/released glass, sidebar and Sources synchronization, no false active destination, press containment, transparent tab, always-on glass, direct dark mode, reduced motion, no runtime errors',geometry,screenshots:output}));
+ console.log(JSON.stringify({checks:'persistent active/released glass, sidebar and Sources synchronization, no false active destination, press containment, transparent tab, always-on glass, direct dark mode, Gene Finder appearance setting, reduced motion, no runtime errors',geometry,screenshots:output}));
 } finally {await browser.close();}

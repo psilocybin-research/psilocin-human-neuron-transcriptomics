@@ -5366,7 +5366,11 @@ body {
 #psilocin-app .sidebar-context-switch > .button[aria-selected=true] { color:var(--research-accent);font-weight:650; }
 #psilocin-app .sidebar-context-wrap { flex:1;min-height:0;height:0; }
 #psilocin-app .sidebar-context-wrap > .tabs { transition-timing-function:cubic-bezier(.2,.7,.2,1); }
-#psilocin-app .sidebar-context-wrap > .tabs > .tab { height:100%;min-width:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable; }
+#psilocin-app .sidebar-context-wrap > .tabs > .tab { height:100%;min-width:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:auto; }
+/* The workspace uses the same quiet, scrollable navigation treatment as Atlas.
+   Wheel, touch and keyboard scrolling remain available without a spare rail. */
+#psilocin-app .sidebar-workspace-pane { scrollbar-width:none; }
+#psilocin-app .sidebar-workspace-pane::-webkit-scrollbar { display:none; }
 #psilocin-app .sidebar-atlas-pane .research-nav { margin-top:0; }
 #psilocin-app .sidebar-workspace-pane .workspace-sidebar-content { min-height:100%;padding:0 4px; }
 #psilocin-app .sidebar-workspace-pane .analysis-navigation { position:relative;height:auto;min-height:0; }
