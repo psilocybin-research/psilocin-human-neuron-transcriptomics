@@ -5056,11 +5056,10 @@ body {
   }
 }
 
-/* References enter with Framework7's native f7-flip route transition and return
-   with its quieter f7-fade transition. The persistent atlas tab bar is a sibling
-   of both pages and therefore remains stationary. */
+/* References use Framework7's native f7-fade transition in both directions.
+   The persistent atlas tab bar is a sibling of both pages and remains stationary. */
 @media(max-width:790px) and (prefers-reduced-motion:no-preference){
-  #psilocin-app .research-main:is(.router-transition-f7-flip-forward,.router-transition-f7-fade-backward){z-index:5000}
+  #psilocin-app .research-main:is(.router-transition-f7-fade-forward,.router-transition-f7-fade-backward){z-index:5000}
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {

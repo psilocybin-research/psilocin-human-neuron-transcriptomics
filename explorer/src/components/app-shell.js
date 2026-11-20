@@ -464,7 +464,7 @@ export function createAppShell({
     sourceScroll.scrollTop = 0;
     syncSourcesScrollSurface();
     if (pushHistory) history.pushState({ ...history.state, atlasSourcesPage: true }, "", location.href);
-    runSourcesTransition("flip", "forward", () => {
+    runSourcesTransition("fade", "forward", () => {
       page.style.display = "none";
       mobileSourcePage.classList.add("page-current");
       sourceClose.focus({ preventScroll: true });
