@@ -1,3 +1,4 @@
+import { createGeneIdentity } from "./structure-preview.js";
 import { showToast } from "./app-toast.js";
 import { createCameraTransition } from "./network-camera.js";
 import { retainedGene, uncertaintyLabels } from "./network-statistics.js";
@@ -455,12 +456,14 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     ramp,
     el("span", "", `+${snapshot.limit} log₂FC`),
   );
+  const zeroLabel = el("span", "oxphos-scale-zero", "0");
+  ramp.append(zeroLabel);
   legendCompact.title =
     "Identical zero-centred log₂ fold-change scale on both days. Grey means unavailable; node size carries no statistic.";
   const dock = el("nav", "oxphos-3d-dock");
   dock.setAttribute("aria-label", "Network tools");
   const selectedSummary = button(
-    "Select a gene",
+    "Gene evidence",
     () => openDrawer("gene"),
     "genes",
   );
@@ -477,7 +480,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   );
   evidenceTools.append(
     button(
-      "Statistical comparison",
+      "Compare",
       () => {
         researchTab = "compare";
         choose(
@@ -630,8 +633,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     } else {
       topbar.append(identity, days, displayControls, status);
       dock.prepend(legendCompact);
-      viewer.insertBefore(cameraTools, evidenceTools);
-      viewer.append(dock, proteinTools);
+      dock.append(evidenceTools);
+      viewer.append(cameraTools, dock, proteinTools);
     }
   }
   mobileControls.addEventListener("change", syncMobileControls);
@@ -834,12 +837,27 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     if (["day1_vs_control", "day3_vs_control"].includes(selection.contrast))
       day = selection.contrast === "day3_vs_control" ? 1 : 0;
     const gene = genes.find(n => n.id === selection.gene || n.symbol === selection.gene);
-    if (gene && gene.id !== selected) choose(gene, true, false);
+    if (gene) {
+      if (root.dataset.entranceReady === "true") orientToGene(gene);
+      else selected = gene.id;
+    }
     refresh();
   };
+  function orientToGene(gene) {
+    if (!graph || destroyed) return;
+    // Preserve the overview for context, then ease towards the requested gene.
+    choose(gene, true, false);
+    sceneEffects?.locate(gene.id, 4500);
+    networkToast(`${gene.symbol} is highlighted in gold. Drag to explore; open Evidence for its statistics.`);
+  }
   function renderSelected() {
-    if (sendGeneToR) sendGeneToR.disabled = !selected;
     if (dockSendToR) dockSendToR.disabled = !selected;
+    selectedSummary.disabled = !selected;
+    evidenceTools.firstElementChild.disabled = !selected;
+    const selectedGene = genes.find(g => g.id === selected);
+    const evidenceLabel = selectedGene ? `${selectedGene.symbol} · evidence` : "Gene evidence";
+    selectedSummary.setAttribute("aria-label", evidenceLabel);
+    selectedSummary.querySelector("span").textContent = evidenceLabel;
     const scrollHost = selectedPanel.closest(
       ".oxphos-3d-evidence-body,.oxphos-3d-drawer-body,.oxphos-mobile-inspector-scroll",
     );
@@ -1008,6 +1026,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         sceneEffects?.locate(n.id);
         nodeProtein?.clear();
       });
+      b.replaceChildren(createGeneIdentity(n, {compact:true}));
+      b.setAttribute("aria-label", `Locate ${n.symbol} in the network`);
       b.setAttribute("aria-pressed", String(selected === n.id));
       b.title = n.id;
       geneList.append(b);
@@ -1327,6 +1347,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     entranceOpacity = 1;
     graph?.linkOpacity(0.28);
     root.dataset.entranceReady = "true";
+    const requestedGene = genes.find(gene => gene.id === selected);
+    if (requestedGene) {
+      orientToGene(requestedGene);
+      return;
+    }
     if (playLayoutIntroduction && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       root.dataset.layoutIntroduction = "running";
       transitionLayout("layers");
@@ -1415,6 +1440,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         (g) => memberIds.has(g.id) && visible(g),
       )) {
         const b = button(g.symbol, () => choose(g));
+        b.replaceChildren(createGeneIdentity(g, {compact:true}));
+        b.setAttribute("aria-label", `Inspect ${g.symbol}`);
         b.setAttribute("aria-pressed", String(g.id === selected));
         geneList.append(b);
       }
@@ -1472,11 +1499,10 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
               color: "#83dcff",
               wireframe: true,
               transparent: true,
-              opacity: 0.72,
+              opacity: 0.38,
               toneMapped: false,
               depthWrite: false,
             });
-            significanceMaterial.color.multiplyScalar(1.65);
             const significance = new api.Mesh(
               new api.SphereGeometry(4.3, 10, 7),
               significanceMaterial,

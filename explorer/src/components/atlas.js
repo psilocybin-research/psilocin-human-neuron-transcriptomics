@@ -700,8 +700,13 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   footer.append(datasets);
   footer.prepend(sourceLogos("footer"));
   root.append(top, body, footer);
+  let workspaceVisited = tab === "custom-r";
   function go(next, gene) {
     if (next === tab && !gene) return;
+    if (next === "custom-r" && !workspaceVisited) {
+      root.dataset.nextViewTransition = "flip";
+      workspaceVisited = true;
+    }
     shell?.closeOverlays();
     const previous = location.href,
       changed = next !== tab;
@@ -734,7 +739,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   function sendSelectionToR(selection = researchStore.getState()) {
     const current = body.querySelector(".custom-r-workspace");
     if (tab === "custom-r" && current?.setResearchSelection) current.setResearchSelection(selection);
-    else { pendingRSelection = selection; go("custom-r"); }
+    else {
+      pendingRSelection = selection;
+      root.dataset.nextViewTransition = "flip";
+      workspaceVisited = true;
+      go("custom-r");
+    }
   }
   const sendMolecularGeneToR = event => {
     const gene = event.detail?.gene;

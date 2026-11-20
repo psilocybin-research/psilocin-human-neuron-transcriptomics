@@ -1,7 +1,7 @@
 import {createAnalysisNavigation} from './analysis-navigation.js';
 import {moveAnalysisToTrash, restoreAnalysis, reorderAnalysis} from './analysis-lifecycle.js';
 import {parsePythonNotebooks, parsePythonWorkspace, retainPythonRun} from './python-notebooks.js';
-import {createElement as el, escapeHTML} from './interface-utils.js';
+import {createElement as el, escapeHTML, createAccordion} from './interface-utils.js';
 import {createREditor} from '../assets/vendor/r-editor.js';
 import {createPythonRuntime, sha256Text} from './python-runtime.js';
 import {downloadFile} from './file-download.js';
@@ -33,6 +33,22 @@ if data:
                             "minimum": min(values), "maximum": max(values)})
 print(f"Numeric columns summarized: {len(results)}")
 `;
+
+const starterCode = {
+  summary: { title: 'Numeric summary', code: example },
+  preview: { title: 'Preview selected rows', code: `# Inspect the selected archived or transferred table.
+print(f"Dataset: {dataset_name}; rows: {len(data)}")
+results = data[:25]
+` },
+  missingness: { title: 'Missingness audit', code: `# Exploratory missing-value count for the selected table.
+results = []
+if data:
+    for column in data[0]:
+        missing = sum(row.get(column) in (None, "") for row in data)
+        results.append({"column": column, "missing": missing, "rows": len(data)})
+print(f"Audited {len(results)} columns in {dataset_name}")
+` },
+};
 function newBook() { return {id: crypto.randomUUID(), name: 'Python analysis', code: example, runs: []}; }
 function readBooks() {
   try { return parsePythonNotebooks(localStorage.getItem(storageKey)); } catch {}
@@ -49,8 +65,19 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   const emptyState=el('div','python-empty-state');emptyState.append(el('p','note','No personal Python analyses. Create an analysis or restore one from Trash.'),button('New analysis',createAnalysis));
   const intro = el('p', 'note', 'Optional Python Lab for exploratory table analysis. R remains the primary research environment.');
   const toolbar = el('div', 'custom-r-toolbar');
-  const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook');notebooks.hidden=true;
+  // Analyses live in the workspace sidebar. The top selector is reserved for
+  // working code starters, so it always changes what appears in the editor.
+  const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook'); notebooks.hidden=true;
+  const starter = el('select'); starter.setAttribute('aria-label', 'Python code starter');
+  for (const [id, value] of Object.entries(starterCode)) { const option=el('option','',value.title); option.value=id; starter.append(option); }
   const datasets = el('select'); datasets.setAttribute('aria-label', 'Python dataset');
+  const datasetGuide = createAccordion('Python inputs & variables', 'python-data-guide');
+  const datasetGuideItem = datasetGuide.element.querySelector('.accordion-item');
+  datasetGuideItem.classList.add('accordion-item-opened');
+  const datasetGuideBody = datasetGuide.body;
+  datasetGuideBody.append(el('p','note','Choose an archived or transferred table above. Each run receives a fresh namespace: data is the selected table as a list of row dictionaries; dataset_name is its name; datasets maps every available table name to its rows. CSV values are strings, so convert numerical columns explicitly.'));
+  const datasetGuideList = el('div','python-dataset-list'); datasetGuideBody.append(datasetGuideList);
+
   const editor = createREditor(current?.code||'', {label: 'Python code', language: 'python'});
   const status = el('p', 'note python-lab-status', 'Python is not loaded. Choose Run Python or Initialize Python when ready.');
   status.setAttribute('role', 'status');
@@ -69,6 +96,12 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   run.classList.add('studio-primary-run','primary','button-fill');
   const stop = button('Stop Python', () => reset('Python stopped. The worker was reset.'));
   const initialize = button('Initialize Python', initializePython);
+  const loadStarter = button('Load starter', () => {
+    const source = starterCode[starter.value]; if (!source || editor.value === source.code) return;
+    const apply = () => { editor.value = source.code; save(); status.textContent = `Loaded ${source.title} starter. It has not run.`; };
+    if (editor.value.trim()) root.f7.dialog.confirm('Replace the editor with this Python starter? Your current script remains available in browser history only if saved or downloaded.', 'Load Python starter', apply);
+    else apply();
+  });
   const more = button('Python actions', () => studioMenu(root, more, 'Python notebook', [
     {label: 'New analysis', run: createAnalysis},
     {label: 'Rename', available:!!current, run:()=>renameAnalysis(current)},
@@ -87,10 +120,10 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     catch (error) { status.textContent = `Transfer failed: ${error.message}`; }
   });
   const exports = el('div', 'custom-r-toolbar'); exports.append(csv, provenance); if (onTransferToR) exports.append(transfer);
-  toolbar.append(notebooks, datasets, run, stop, initialize, more);
-  host.append(heading, intro, toolbar, emptyState, editor, status, history, consoleOutput, result, exports, inspector, limits);
+  toolbar.append(starter, loadStarter, datasets, run, stop, initialize, more);
+  host.append(heading, intro, datasetGuide.element, toolbar, emptyState, editor, status, history, consoleOutput, result, exports, inspector, limits);
   function setBusy(value) {
-    busy = value; history.disabled = value || !current?.runs?.length; initialize.disabled = datasets.disabled = more.disabled = value;run.disabled=notebooks.disabled=value||!current;editor.inert=value||!current;navigation?.setBusy(value);
+    busy = value; history.disabled = value || !current?.runs?.length; initialize.disabled = datasets.disabled = starter.disabled = loadStarter.disabled = more.disabled = value;run.disabled=notebooks.disabled=value||!current;editor.inert=value||!current;navigation?.setBusy(value);
     host.classList.toggle('python-empty',!current);emptyState.hidden=!!current;
     stop.disabled = !value; csv.disabled = transfer.disabled = value || !record?.csv; provenance.disabled = value || !record;
     host.setAttribute('aria-busy', String(value));
@@ -138,6 +171,14 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     datasets.replaceChildren(...items.map(item => { const option = el('option', '', item.name); option.value = item.name; return option; }));
     if (names.has(selected)) datasets.value = selected;
     if (!items.length) { const option = el('option', '', 'No selected table'); option.value = ''; datasets.append(option); }
+    datasetGuideList.replaceChildren();
+    for (const item of items) {
+      const row = el('article', 'python-dataset-row');
+      const columns = String(item.csv).split(/\r?\n/, 1)[0].split(',').filter(Boolean);
+      row.append(el('strong','',item.name), el('span','note', `${item.provenance?.classification === 'archived' ? 'Archived input' : 'Transferred exploratory input'} · ${item.provenance?.rows ?? 'unknown'} rows · ${columns.length} columns`), el('span','note', columns.slice(0, 8).join(' · ') + (columns.length > 8 ? ' …' : '')));
+      datasetGuideList.append(row);
+    }
+    if (!items.length) datasetGuideList.append(el('p','note','No datasets are available in this workspace.'));
     return items;
   }
   async function execute() {

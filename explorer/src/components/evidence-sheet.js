@@ -50,7 +50,7 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
     toR.type = "button";
     toR.setAttribute("aria-label", `Send ${gene} to R Studio`);
     toR.title = "Send gene to R Studio";
-    toR.append(uiIcon("custom-r"), node("span", "", "To R"));
+    toR.append(uiIcon("custom-r"));
     toR.onclick = () => runContext("atlas:send-gene-to-r", gene);
     contextActions.append(toR);
     if (target.dataset.openOxphosNetwork === "true") {
@@ -58,7 +58,7 @@ export function createEvidenceSheet({ root, getApp, preparePanel }) {
       network.type = "button";
       network.setAttribute("aria-label", `View ${gene} in the 3D OXPHOS network`);
       network.title = "View in 3D OXPHOS network";
-      network.append(uiIcon("landscape"), node("span", "", "3D"));
+      network.append(uiIcon("landscape"));
       network.onclick = () => runContext("atlas:open-oxphos-network", gene);
       contextActions.append(network);
     }

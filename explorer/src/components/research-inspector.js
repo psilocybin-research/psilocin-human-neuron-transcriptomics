@@ -1,3 +1,4 @@
+import { createGeneContextCard, createGeneIdentity } from "./structure-preview.js";
 import { createElement as el, destroySheet } from "./interface-utils.js";
 import { contrasts, label, fmt, sci } from "./format.js";
 import { RESEARCH_DATASET } from "./research-store.js";
@@ -174,7 +175,9 @@ export function createResearchInspector({ root, store, getGenes, data,
         const list = el("details"); list.append(el("summary", "", "Select an exact archived gene"));
         const members = new Set(membership);
         for (const gene of genes.filter(gene => gene.selected && members.has(gene.symbol))) {
-          list.append(action(`${gene.symbol} · ${gene.id}`, () => store.update({gene: gene.id})));
+          const select = action("", () => store.update({gene: gene.id}));
+          select.append(createGeneIdentity(gene, {compact:true}));
+          list.append(select);
         }
         content.append(list);
         return;
@@ -184,7 +187,8 @@ export function createResearchInspector({ root, store, getGenes, data,
         return;
       }
       const { gene, effects, memberships, membershipMapped } = evidence;
-      content.append(el("h3", "", gene.symbol), el("p", "research-inspector-id", gene.id));
+      const geneCard = createGeneContextCard(gene, { context: data.landscape?.find(row => row.gene === gene.symbol)?.functional_group || "Archived estimates across three contrasts" });
+      content.append(geneCard.element);
       const source = el("a", "external", `Archived evidence · ${RESEARCH_DATASET.version}`);
       source.href = `https://doi.org/${RESEARCH_DATASET.doi}`;
       source.target = "_blank"; source.rel = "noopener noreferrer";

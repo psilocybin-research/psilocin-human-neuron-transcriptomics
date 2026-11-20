@@ -1,3 +1,4 @@
+import { createGeneIdentity, createGeneThumbnail } from "./structure-preview.js";
 import { createAccordion, createElement as el } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import {
@@ -106,19 +107,34 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
       const section = el("section", "research-collection-saved");
       section.append(el("h4", "", collection.name), el("p", "note", `${collection.genes.length} archived gene IDs`));
       const buttons = el("div", "actions");
-      if (onSendToR) buttons.append(action("Send to Custom R", () => onSendToR([...collection.genes])));
+      if (onSendToR) buttons.append(action("Send to R", () => onSendToR([...collection.genes])));
       buttons.append(
         action("Download JSON", () => downloadFile("gene-collection.json", JSON.stringify(collectionDocument(collection), null, 2), "application/json")),
         action("Download GMT", () => downloadFile("gene-collection.gmt", collectionGMT(collection), "text/tab-separated-values")),
         action("Remove", () => store.update({ collections: store.getState().collections.filter((item) => item.id !== collection.id) })),
       );
       section.append(buttons);
+      const previews = el("div", "collection-gene-previews");
+      previews.setAttribute("aria-label", "Available protein structure previews");
+      let previewCount = 0;
+      for (const id of collection.genes) {
+        const gene = byId.get(id), thumb = createGeneThumbnail(gene);
+        if (!thumb) continue;
+        const open = action("", () => onSelectGene?.(id), "collection-preview-action");
+        open.setAttribute("aria-label", `Inspect ${gene.symbol}`);
+        open.title = `${gene.symbol} · protein structure preview`;
+        open.disabled = !onSelectGene;
+        open.append(thumb); previews.append(open);
+        if (++previewCount === 4) break;
+      }
+      if (previewCount) section.append(previews);
       if (onSelectGene) {
         const details = el("details"), list = el("ul");
         details.append(el("summary", "", "Inspect collection genes"));
         for (const id of collection.genes) {
           const item = el("li"), gene = byId.get(id);
-          const select = action(`${gene?.symbol || id} · ${id}`, () => onSelectGene(id));
+          const select = action("", () => onSelectGene(id), "collection-gene-row");
+          select.append(createGeneIdentity(gene || {id}, {compact:true}));
           select.disabled = !gene;
           item.append(select); list.append(item);
         }

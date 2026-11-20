@@ -49,9 +49,9 @@ export function createNetworkSceneEffects({ root, reducedMotion }) {
       hovered = id || "";
       animate();
     },
-    locate(id) {
+    locate(id, duration = 2000) {
       located = id;
-      locateUntil = performance.now() + 2000;
+      locateUntil = performance.now() + duration;
       animate();
     },
     refresh: animate,

@@ -22,7 +22,7 @@ import { rExamples } from "./r-examples.js";
 import { createRNotebooks } from "./r-notebooks.js";
 import { createRRuntime } from "./r-runtime.js";
 import { csvText, label } from "./format.js";
-import { genePreviewMarkup } from "./structure-preview.js";
+import { geneStructurePreview, createGeneIdentity } from "./structure-preview.js";
 import { downloadFile } from "./file-download.js";
 import { showToast } from "./app-toast.js";
 import { beginActivity } from "./app-activity.js";
@@ -75,13 +75,13 @@ export function createCustomR({
   let initialSource = savedCode ?? rExamples[0].code;
   Object.defineProperty(code, "value", {configurable:true, get:()=>initialSource, set:value=>{initialSource=value;}});
   code.destroy = () => {};
-  const label = el(
+  const codeLabel = el(
     "label",
     "",
     "Editable R code · Tab to indent · Ctrl/⌘ + Enter to run",
   );
-  label.htmlFor = "atlas-r-code";
-  code.id = label.htmlFor;
+  codeLabel.htmlFor = "atlas-r-code";
+  code.id = codeLabel.htmlFor;
   const toolbar = el("div", "custom-r-toolbar");
   function action(text, icon, fn) {
     const b = el("button", "button button-tonal labelled-icon-action");
@@ -309,7 +309,7 @@ export function createCustomR({
       if (runtime) terminate("R session reset for the selected notebook.");
     },
     onCellChange: (cell) => {
-      label.hidden = cell?.kind !== "code";
+      codeLabel.hidden = cell?.kind !== "code";
       run.disabled = cell?.kind !== "code";
       const previous = cell?.runs?.at(-1);
       releasePlotURLs();
@@ -393,21 +393,35 @@ export function createCustomR({
     const matches=ids.map(id=>genes.find(g=>g.id===id||g.symbol===id)).filter(Boolean);
     const gene=matches[0],multiple=ids.length>1;
     selectionCard.hidden=false;
-    selectionTitle.textContent=multiple?`${ids.length} selected genes`:gene?.symbol||ids[0];
-    selectionAfter.textContent=multiple?'Atlas selection':gene?.id||ids[0];
+    selectionTitle.replaceChildren(multiple ? document.createTextNode(`${ids.length} selected genes`) : gene ? createGeneIdentity(gene, {compact:true}) : document.createTextNode(ids[0]));
+    selectionAfter.textContent=multiple?'Atlas selection':'';
     selectionBody.replaceChildren();
     if(gene){
-      const overview=el('div','studio-selection-overview'),preview=genePreviewMarkup(gene);
-      if(preview){const thumb=el('span','studio-selection-thumb');thumb.innerHTML=preview;thumb.setAttribute('aria-hidden','true');overview.append(thumb);}
-      const identity=el('div','studio-selection-identity');identity.append(el('strong','',gene.symbol),el('span','identifier',gene.id));
+      const overview=el('div','studio-selection-overview');
+      const identity=el('div','studio-selection-identity');
       const context=data.landscape?.find(row=>row.gene===gene.symbol),memberships=Object.entries(data.membership||{}).filter(([,symbols])=>symbols.includes(gene.symbol)).map(([id])=>label(id));
       identity.append(el('span','note',context?.functional_group||memberships.slice(0,2).join(' · ')||'Archived gene-level estimates'));
+      const model=geneStructurePreview(gene);
+      if(model)identity.append(el('span','note',`${model.provider} · ${model.accession} · ${model.model}. ${model.scope}`));
       overview.append(identity);selectionBody.append(overview);
     }
     selectionBody.append(el('p','note',multiple?'Current Atlas selection. These identifiers are available for exploratory R work; no code has run.':'Sent from the Atlas. This archived gene record is available for exploratory R work; no code has run.'));
     const actions=el('div','studio-selection-actions');
     const insert=action('Insert R reference','plus',()=>{notebooks.insertSelectionReference({...value,gene:gene?.id||ids[0],genes:multiple?ids:undefined});showToast('R reference inserted. It has not run.');});actions.append(insert);
-    if(gene){const evidence=action('View evidence','genes',()=>onOpenGeneEvidence?.(gene.id));actions.append(evidence);if(data.landscape?.some(row=>row.gene===gene.symbol)){const network=action('Open 3D','landscape',()=>onOpenNetwork?.(gene.id));network.title='Open this gene in the 3D OXPHOS network';actions.append(network);}}
+    if(gene){
+      const evidence=action('', 'genes',()=>onOpenGeneEvidence?.(gene.id));
+      evidence.classList.add('studio-selection-icon-action');
+      evidence.setAttribute('aria-label',`Open ${gene.symbol} evidence`);
+      evidence.title=`Open ${gene.symbol} evidence`;
+      actions.append(evidence);
+      if(data.landscape?.some(row=>row.gene===gene.symbol)){
+        const network=action('', 'landscape',()=>onOpenNetwork?.(gene.id));
+        network.classList.add('studio-selection-icon-action');
+        network.setAttribute('aria-label',`View ${gene.symbol} in the 3D OXPHOS network`);
+        network.title='View in 3D OXPHOS network';
+        actions.append(network);
+      }
+    }
     selectionBody.append(actions);
   }
   notebooks.element.prepend(selectionCard);

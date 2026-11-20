@@ -82,13 +82,23 @@ export function prepareExternalLinks(root) {
 export function installFramework7Tooltips(root, app) {
   if (!app?.tooltip || !matchMedia("(hover: hover) and (pointer: fine)").matches)
     return () => {};
-  const instances = new Set();
+  const instances = new Map();
+  const release = (target) => {
+    const entry = instances.get(target);
+    if (!entry) return;
+    entry.instance.hide?.();
+    entry.instance.destroy?.();
+    for (const [type, listener] of entry.listeners)
+      target.removeEventListener(type, listener);
+    instances.delete(target);
+  };
   const attach = (target) => {
-    if (!(target instanceof Element) || target.dataset.f7TooltipManaged === "true") return;
+    if (!(target instanceof Element) || instances.has(target)) return;
     const text = target.getAttribute("title")?.trim();
     if (!text) return;
-    target.dataset.f7TooltipManaged = "true";
+    // Remove native title before F7 can react, so only one tooltip system owns it.
     target.removeAttribute("title");
+    target.dataset.f7TooltipManaged = "true";
     if (!target.getAttribute("aria-label") && !target.textContent.trim())
       target.setAttribute("aria-label", text);
     const instance = app.tooltip.create({
@@ -97,24 +107,34 @@ export function installFramework7Tooltips(root, app) {
       trigger: "hover",
       cssClass: "atlas-f7-tooltip",
     });
-    instances.add(instance);
+    const hide = () => instance.hide?.();
+    const listeners = [["mouseleave", hide], ["blur", hide], ["pointerdown", hide], ["keydown", hide]];
+    listeners.forEach(([type, listener]) => target.addEventListener(type, listener));
+    instances.set(target, { instance, listeners });
   };
   const scan = (scope) => {
-    if (scope instanceof Element && scope.hasAttribute("title")) attach(scope);
+    if (!(scope instanceof Element)) return;
+    if (scope.hasAttribute("title")) attach(scope);
     scope.querySelectorAll?.("[title]").forEach(attach);
   };
   scan(root);
   const observer = new MutationObserver((records) => {
     for (const record of records) {
       if (record.type === "attributes") attach(record.target);
-      else record.addedNodes.forEach(scan);
+      else {
+        record.removedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          if (instances.has(node)) release(node);
+          node.querySelectorAll?.("[data-f7-tooltip-managed]").forEach(release);
+        });
+        record.addedNodes.forEach(scan);
+      }
     }
   });
   observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["title"] });
   return () => {
     observer.disconnect();
-    instances.forEach((instance) => instance.destroy());
-    instances.clear();
+    [...instances.keys()].forEach(release);
   };
 }
 

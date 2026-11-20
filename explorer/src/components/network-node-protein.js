@@ -110,7 +110,8 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     if (onResearch) {
       const sendToR = el("button", "button button-tonal labelled-icon-action");
       sendToR.type = "button";
-      sendToR.append(uiIcon("custom-r"), el("span", "", "Send to R"));
+      sendToR.append(uiIcon("custom-r"));
+      sendToR.title = "Send to R Studio";
       sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
       sendToR.onclick = () => { closeOverlay(); onResearch(gene.id); };
       overlayActions.append(sendToR);
@@ -118,7 +119,8 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     if (onEvidence) {
       const evidenceLink = el("button", "button button-tonal labelled-icon-action");
       evidenceLink.type = "button";
-      evidenceLink.append(uiIcon("genes"), el("span", "", "Evidence"));
+      evidenceLink.append(uiIcon("genes"));
+      evidenceLink.title = "Open archived gene evidence";
       evidenceLink.setAttribute("aria-label", `Open archived evidence for ${gene.symbol}`);
       evidenceLink.onclick = () => { closeOverlay(); onEvidence(gene.id); };
       overlayActions.append(evidenceLink);

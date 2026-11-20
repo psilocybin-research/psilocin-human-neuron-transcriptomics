@@ -78,7 +78,11 @@ export function createAppShell({
   const panel = node("aside", "panel panel-left panel-cover research-sidebar");
   panel.id = "research-sidebar";
   panel.setAttribute("aria-label", "Research navigation");
-  const sidebarHead = node("div", "sidebar-brand");
+  const sidebarHead = node("button", "sidebar-brand");
+  sidebarHead.type = "button";
+  sidebarHead.setAttribute("aria-label", "Psilocin Transcriptome Atlas — return to overview");
+  sidebarHead.title = "Return to Atlas overview";
+  sidebarHead.onclick = () => go("overview");
   sidebarHead.append(
     node("span", "brand-symbol", "ψ"),
     node("div", "sidebar-brand-text", "Psilocin Transcriptome Atlas"),
@@ -628,6 +632,7 @@ export function createAppShell({
   let disposed = false,
     lastTab = initial,
     viewTransitionPending = false,
+    viewTransitionEffect = "fade",
     controlMoves = [],
     enhanceFrame,
     querySequence = 0,
@@ -722,6 +727,8 @@ export function createAppShell({
     if (tab !== lastTab) {
       lastTab = tab;
       viewTransitionPending = Boolean(app) && !reduced();
+      viewTransitionEffect = root.dataset.nextViewTransition === "flip" ? "flip" : "fade";
+      delete root.dataset.nextViewTransition;
       restoreViewPosition = true;
       clearTimeout(positionTimer);
       positionTimer = setTimeout(() => restorePositionWhenReady(true), 2500);
@@ -1588,7 +1595,7 @@ export function createAppShell({
   update(initial);
   function finishViewTransition(event) {
     if (event.target === body) {
-      body.classList.remove("research-view-enter");
+      body.classList.remove("research-view-enter", "research-view-enter-flip");
       finishRendering?.();
       finishRendering = undefined;
     }
@@ -1607,15 +1614,16 @@ export function createAppShell({
         return;
       }
       viewTransitionPending = false;
-      body.classList.remove("research-view-enter");
+      body.classList.remove("research-view-enter", "research-view-enter-flip");
       void body.offsetWidth;
       body.classList.add("research-view-enter");
+      if (viewTransitionEffect === "flip") body.classList.add("research-view-enter-flip");
     },
     beforeRender() {
       evidenceSheet.close(false);
       finishRendering?.();
       finishRendering = beginActivity("Opening research view");
-      body.classList.remove("research-view-enter");
+      body.classList.remove("research-view-enter", "research-view-enter-flip");
       analysisLauncher.close(false);
       if (controlsSheet?.opened) closeControls();
     },

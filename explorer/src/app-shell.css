@@ -5060,6 +5060,9 @@ body {
    The persistent atlas tab bar is a sibling of both pages and remains stationary. */
 @media(max-width:790px) and (prefers-reduced-motion:no-preference){
   #psilocin-app .research-main:is(.router-transition-f7-fade-forward,.router-transition-f7-fade-backward){z-index:5000}
+  /* F7's ordinary previous-page offset belongs to slide routes. Sources is a
+     fade route, so suppress that inherited transform to avoid a lateral jump. */
+  #psilocin-app .research-main:is(.router-transition-f7-fade-forward,.router-transition-f7-fade-backward)>.page{transform:none!important}
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
@@ -5828,3 +5831,125 @@ body {
 #psilocin-app .studio-selection-identity .note{margin:0;font-size:11px}
 #psilocin-app .studio-selection-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 #psilocin-app .studio-selection-actions>.button{min-height:36px;margin:0;font-size:11px}
+/* The first workspace arrival and explicit Atlas → R handoffs use the iOS-style
+   card flip; ordinary research routes retain the quieter F7 fade. */
+#psilocin-app .sidebar-brand{appearance:none;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%}
+#psilocin-app .sidebar-brand:focus-visible{outline:2px solid var(--research-accent);outline-offset:4px;border-radius:12px}
+#psilocin-app .research-content-inner:has(> .research-view-enter-flip){perspective:1200px}
+#psilocin-app .research-view-enter.research-view-enter-flip{--f7-page-flip-transition-duration:360ms;transform-style:preserve-3d;animation:f7-flip-next-to-current var(--f7-page-flip-transition-duration) forwards}
+@media(prefers-reduced-motion:reduce){#psilocin-app .research-view-enter.research-view-enter-flip{animation:none}}
+/* Sheet-level contextual destinations use compact, tooltip-labelled iOS controls. */
+#psilocin-app .evidence-sheet-context-actions>.button{width:34px;padding:4px!important}
+#psilocin-app .evidence-sheet-context-actions>.button span{display:none}
+#psilocin-app .network-protein-overlay-actions{display:flex;align-items:center;gap:6px}
+#psilocin-app .network-protein-overlay-actions>.button{width:38px;min-width:38px;height:38px;padding:0;border-radius:50%;display:grid;place-items:center}
+#psilocin-app .network-protein-overlay-actions>.button span{display:none}
+#psilocin-app .studio-selection-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+#psilocin-app .studio-selection-icon-action{width:36px;min-width:36px;height:36px;padding:0;border-radius:50%;display:grid;place-items:center}
+#psilocin-app .studio-selection-icon-action span{display:none}
+#psilocin-app .python-data-guide{margin:10px 0 14px}
+#psilocin-app .python-dataset-list{display:grid;gap:8px;margin-top:10px}
+#psilocin-app .python-dataset-row{display:grid;gap:2px;padding:10px 12px;border:1px solid var(--research-border);border-radius:12px;background:var(--research-surface-high)}
+#psilocin-app .python-dataset-row .note{font-size:12px;overflow-wrap:anywhere}
+/* Shared gene identity: compact, attributed protein previews with exact IDs. */
+#psilocin-app .gene-identity{display:flex;align-items:center;gap:12px;min-width:0;text-align:left;white-space:normal}
+#psilocin-app .gene-identity-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+#psilocin-app .gene-identity-text .identifier{font-size:11px;overflow-wrap:anywhere;color:var(--research-muted)}
+#psilocin-app .gene-identity-thumb{display:grid;place-items:center;flex:0 0 64px;width:64px;min-height:54px;border-radius:10px;overflow:hidden;background:color-mix(in srgb,var(--research-accent) 6%,var(--research-surface))}
+#psilocin-app .gene-identity-thumb[hidden]{display:none}
+#psilocin-app .gene-identity-thumb .gene-structure-preview{display:flex;flex-direction:column;align-items:center;width:100%}
+#psilocin-app .gene-identity-thumb img{display:block;width:60px;height:45px;object-fit:contain}
+#psilocin-app .gene-identity-thumb .gene-preview-source{font-size:9px;line-height:12px}
+#psilocin-app .gene-identity-compact{gap:9px}
+#psilocin-app .gene-identity-compact .gene-identity-thumb{flex-basis:46px;width:46px;min-height:42px}
+#psilocin-app .gene-identity-compact .gene-identity-thumb img{width:44px;height:32px}
+#psilocin-app .gene-context-card{margin:0 0 14px;border:1px solid var(--research-border);border-radius:16px;overflow:hidden;box-shadow:none}
+#psilocin-app .gene-context-card .item-title{white-space:normal;min-width:0}
+#psilocin-app .gene-context-card .gene-annotation-toggle{padding-block:10px}
+#psilocin-app .gene-context-card .gene-annotation-body{padding:0 14px 14px}
+#psilocin-app .collection-gene-previews{display:flex;gap:8px;margin:8px 0 12px;flex-wrap:wrap}
+#psilocin-app .collection-preview-action{width:64px;height:auto;padding:0;border-radius:12px;background:transparent}
+#psilocin-app .collection-gene-row{justify-content:flex-start;height:auto;min-height:52px;width:100%;padding:7px 10px;text-align:left}
+#psilocin-app .oxphos-3d-gene-list>.button:has(.gene-identity){height:auto;min-height:54px;justify-content:flex-start;padding:6px 10px}
+#psilocin-app .studio-selection-card .item-title:has(.gene-identity){white-space:normal;min-width:0}
+/* Desktop research actions share one floating glass control pane. */
+@media(min-width:768px){
+  #psilocin-app .oxphos-3d-immersive .oxphos-3d-dock{width:560px;max-width:calc(100% - 32px);grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:10px;box-sizing:border-box}
+  #psilocin-app .oxphos-3d-dock .oxphos-3d-evidence-actions{display:contents;position:static;max-width:none}
+  #psilocin-app .oxphos-3d-dock>.button{grid-row:3}
+  #psilocin-app .oxphos-3d-dock>.button:nth-of-type(1){grid-column:1}
+  #psilocin-app .oxphos-3d-dock>.button:nth-of-type(2){grid-column:2}
+  #psilocin-app .oxphos-3d-dock .oxphos-3d-selected-summary{grid-column:3;grid-row:3}
+  #psilocin-app .oxphos-3d-dock .oxphos-3d-evidence-actions>.button:first-child{grid-column:4;grid-row:3}
+  #psilocin-app .oxphos-3d-dock>.oxphos-3d-send-to-r{grid-column:1 / 3;grid-row:4}
+  #psilocin-app .oxphos-3d-dock>.button:last-of-type{grid-column:3 / 5;grid-row:4}
+  #psilocin-app .oxphos-3d-dock .button{min-width:0;font-size:12px;gap:5px;padding:7px 8px;white-space:normal;line-height:1.25;height:auto}
+  #psilocin-app .oxphos-3d-dock .oxphos-3d-scale{grid-row:1;padding-bottom:12px}
+  #psilocin-app .oxphos-3d-dock .oxphos-3d-significance-key{grid-row:2;margin:0 0 4px;text-align:center}
+}
+#psilocin-app .oxphos-3d-ramp{position:relative;overflow:visible}
+#psilocin-app .oxphos-scale-zero{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:10px;line-height:12px;color:inherit}
+/* Mobile network controls form one legible, visually aligned dock and inspector. */
+@media(max-width:767px){
+  #psilocin-app .oxphos-network-3d{
+    --network-control-ink:#163b55;
+    --network-control-muted:#365367;
+    --network-control-surface:rgba(237,246,252,.94);
+    --network-panel-surface:#f5f9fc;
+    --network-control-edge:rgba(255,255,255,.8);
+  }
+  .dark #psilocin-app .oxphos-network-3d{
+    --network-control-ink:#edf6ff;
+    --network-control-muted:#c2d6e8;
+    --network-control-surface:rgba(29,49,67,.96);
+    --network-panel-surface:#172b3c;
+    --network-control-edge:rgba(190,218,239,.3);
+  }
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-pane{
+    background:var(--network-control-surface)!important;
+    border-color:var(--network-control-edge);
+  }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link,
+  #psilocin-app .oxphos-mobile-toolbar .tab-link span,
+  #psilocin-app .oxphos-mobile-toolbar .tab-link svg{
+    color:var(--network-control-ink)!important;opacity:1;text-shadow:none;
+  }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link{font-weight:600}
+  #psilocin-app .oxphos-mobile-toolbar .tab-link-active{font-weight:750}
+  #psilocin-app .oxphos-mobile-toolbar .tab-link-active svg{stroke-width:1.8}
+  #psilocin-app .oxphos-mobile-inspector:not([hidden]){
+    left:12px;right:12px;bottom:calc(var(--network-tool-height) + 5px);
+    border:1px solid var(--network-control-edge);border-radius:22px;
+    background:var(--network-panel-surface);color:var(--network-control-ink);
+    box-shadow:0 8px 28px #0003;
+    animation:network-inspector-arrive 220ms var(--f7-sheet-transition-timing-function,ease) both;
+  }
+  #psilocin-app .oxphos-mobile-header{
+    padding:5px 10px 5px 16px;background:var(--network-control-surface);
+    border-bottom:1px solid var(--research-border);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  }
+  #psilocin-app .oxphos-mobile-header h2,
+  #psilocin-app .oxphos-mobile-header .button{color:var(--network-control-ink)}
+  #psilocin-app .oxphos-mobile-inspector-scroll{padding:12px 14px 16px}
+  #psilocin-app .oxphos-mobile-inspector-scroll :is(.note,p){color:var(--network-control-muted)}
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="open"] .oxphos-3d-stage{
+    bottom:calc(var(--network-tool-height) + var(--network-inspector-height) + 10px);
+  }
+  #psilocin-app .oxphos-3d-immersive .oxphos-3d-stage{transition:bottom 220ms var(--f7-sheet-transition-timing-function,ease)}
+  #psilocin-app .oxphos-network-3d[data-mobile-inspector="expanded"] .oxphos-mobile-inspector{
+    inset:0;height:auto;border:0;border-radius:0;animation:none;
+  }
+}
+@keyframes network-inspector-arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  #psilocin-app .oxphos-mobile-inspector:not([hidden]){animation:none}
+  #psilocin-app .oxphos-3d-immersive .oxphos-3d-stage{transition:none}
+}
+@media(min-width:768px){
+  #psilocin-app .oxphos-3d-topbar{display:flex;flex-direction:column;align-items:flex-start;flex-wrap:nowrap;gap:8px}
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-display-controls{flex-basis:auto;margin:0}
+  #psilocin-app .oxphos-3d-topbar .oxphos-3d-identity{margin:0}
+}
+/* Evidence sheets expose gene handoffs once, in their persistent header. */
+#psilocin-app .research-evidence-sheet .gene-context-actions > :is(.gene-send-r-shortcut,.gene-network-shortcut){display:none}
