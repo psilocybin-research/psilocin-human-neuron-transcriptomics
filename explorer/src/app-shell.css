@@ -975,6 +975,19 @@ body {
   color: var(--f7-theme-color);
   margin-top: 5px;
 }
+#psilocin-app .autocomplete-popup .gene-finder-glyph {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  color: var(--research-accent);
+  background: color-mix(in srgb, var(--research-accent) 10%, transparent);
+}
+#psilocin-app .autocomplete-popup .gene-finder-glyph svg {
+  width: 22px;
+  height: 22px;
+}
 #psilocin-app .mobile-analysis-summary {
   display: none;
 }

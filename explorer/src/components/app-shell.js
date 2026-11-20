@@ -1,7 +1,7 @@
 import { createSidebarContext } from "./sidebar-context.js";
 import { geneSuggestions } from "./gene-search-data.js";
 import { brandGlyph } from "./app-brand.js";
-import { genePreviewMarkup } from "./structure-preview.js";
+import { genePreviewMarkup, geneStructurePreview } from "./structure-preview.js";
 import { createResearchTables } from "./research-tables.js";
 import { createPwa } from "./app-pwa.js";
 import { showToast } from "./app-toast.js";
@@ -1413,19 +1413,28 @@ export function createAppShell({
         const gene = item.gene || finderGenes.get(geneId);
         if (!gene)
           return `<li><div class="item-content"><div class="item-inner"><div class="item-title">${escapeHTML(item.text || "Gene result unavailable")}</div></div></div></li>`;
-        const preview = genePreviewMarkup(gene);
+        // Show a real structure thumbnail when a curated model is available.
+        // Other archived genes deliberately retain the shared gene glyph: we do
+        // not imply that an unmodelled gene has a molecular structure preview.
+        const preview = genePreviewMarkup(gene) || `<span class="gene-finder-glyph" aria-hidden="true">${uiIcon("genes").outerHTML}</span>`;
         const aliases = gene.aliases?.length
           ? `Verified alias: ${gene.aliases.join(", ")}`
           : gene.selected
             ? "Archived rank representative"
             : "Archived gene ID";
-        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${preview ? `<div class="item-media">${preview}</div>` : ""}<div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(aliases)}</div></div></label></li>`;
+        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i><div class="item-media">${preview}</div><div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(aliases)}</div></div></label></li>`;
       },
       notFoundText: "No archived gene match. Try a gene symbol, Ensembl ID or verified alias.",
       source(query, render) {
         const sequence = ++querySequence;
         const suggestions = genes => {
-          const matches = geneSuggestions(genes, data.aliases, query);
+          // Initial results are useful before a query: representative archived
+          // genes with a curated molecular preview lead the stable default list.
+          // Typed searches retain the ordinary exact/prefix relevance ranking.
+          const preferred = query.trim()
+            ? []
+            : genes.filter((gene) => gene.selected && geneStructurePreview(gene)).map((gene) => gene.id);
+          const matches = geneSuggestions(genes, data.aliases, query, preferred);
           finderGenes = new Map(matches.map((gene) => [gene.id, gene]));
           return matches.map((gene) => ({
             id: `gene:${gene.id}`,
@@ -1436,11 +1445,6 @@ export function createAppShell({
             gene,
           }));
         };
-        if (!query.trim()) {
-          finderGenes = new Map();
-          render([]);
-          return;
-        }
         getGenes().then(genes => {
           if (sequence === querySequence) render(suggestions(genes));
         }).catch(() => {
