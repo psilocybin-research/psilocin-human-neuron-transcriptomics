@@ -825,8 +825,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.querySelector(".research-figure-builder")?.dispose?.();
     body.querySelector(".exploratory-result-chart")?.dispose?.();
     body.querySelector(".custom-r-workspace")?.destroy?.();
-    root.removeEventListener("atlas:send-gene-to-r", sendMolecularGeneToR);
-    root.removeEventListener("atlas:open-oxphos-network", openGeneInOxphosNetwork);
+    // These root-level research actions outlive individual page renders.
+    // Removing them here stranded contextual controls after the first navigation.
     body.replaceChildren();
     Promise.resolve(
       {
