@@ -2894,15 +2894,10 @@ body {
   font-weight: 650;
   cursor: pointer;
 }
-#psilocin-app .autocomplete-popup .finder-fuzzy-control input {
-  position: absolute;
+#psilocin-app .autocomplete-popup .finder-fuzzy-control .icon-checkbox {
+  flex: 0 0 auto;
 }
-#psilocin-app .autocomplete-popup .finder-fuzzy-control .toggle-icon {
-  width: 32px;
-  height: 20px;
-  border-radius: 999px;
-}
-#psilocin-app .autocomplete-popup .finder-fuzzy-control.is-active {
+#psilocin-app .autocomplete-popup .finder-fuzzy-control:has(input:checked) {
   color: var(--research-accent);
 }
 
@@ -3528,12 +3523,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: fit-content;
+  max-width: 100%;
   margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--research-border) 86%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--f7-glass-bg-color) 84%, var(--research-surface));
+  box-shadow: var(--f7-glass-shadow);
+  backdrop-filter: saturate(150%) blur(16px);
+  -webkit-backdrop-filter: saturate(150%) blur(16px);
   min-width: 0;
   font-size: 12px;
   font-weight: 600;
   color: var(--research-text);
 }
+#psilocin-app .tree-display-control > span { padding-inline: 4px; }
 #psilocin-app .tree-toolbar .tree-member-control {
   grid-column: 1 / -1;
 }
@@ -3619,11 +3624,30 @@ body {
   min-width: 0;
   min-height: 0;
 }
-#psilocin-app .overlap-figure > .network-view-toggle {
-  flex: 0 0 auto;
+#psilocin-app .network-view-disclosure {
+  width: min(100%, 420px);
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--research-border) 86%, transparent);
+  border-radius: 16px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--f7-glass-bg-color) 84%, var(--research-surface));
+  box-shadow: var(--f7-glass-shadow);
+  backdrop-filter: saturate(150%) blur(16px);
+  -webkit-backdrop-filter: saturate(150%) blur(16px);
+}
+#psilocin-app .network-view-disclosure > .accordion-item > .accordion-item-toggle {
+  min-height: 44px;
+  color: var(--research-text);
+}
+#psilocin-app .network-view-disclosure .item-after { color: var(--research-accent); font-weight: 650; }
+#psilocin-app .network-view-disclosure .accordion-item-content { padding: 0 8px 8px; }
+#psilocin-app .network-view-disclosure .network-view-toggle {
+  display: flex;
   flex-wrap: wrap;
+  gap: 5px;
   margin: 0;
 }
+#psilocin-app .network-view-disclosure .network-view-toggle .button { flex: 1 1 118px; }
 #psilocin-app
   .figure-shell:is(:fullscreen, :-webkit-full-screen)
   > .overlap-figure {
@@ -3788,6 +3812,20 @@ body {
 }
 #psilocin-app .gene-autocomplete-host .gene-suggestions {
   top: 100%;
+  width: 100%;
+  max-height: min(44dvh, 420px);
+  overflow: auto;
+  border: 1px solid var(--research-outline);
+  border-radius: 0 0 14px 14px;
+  background: var(--research-surface);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--research-text) 18%, transparent);
+  -webkit-overflow-scrolling: touch;
+}
+#psilocin-app .gene-autocomplete-host:has(.gene-suggestions) .gene-search-field {
+  border-radius: 14px 14px 0 0;
+}
+#psilocin-app .gene-autocomplete-host .gene-suggestions .item-content {
+  min-height: 58px;
 }
 #psilocin-app .gene-suggestions .item-text {
   color: var(--research-muted);
@@ -5013,11 +5051,11 @@ body {
   }
 }
 
-/* References use Framework7's native f7-flip route transition. The persistent
-   atlas tab bar is a sibling of both pages and therefore remains stationary. */
+/* References enter with Framework7's native f7-flip route transition and return
+   with its quieter f7-fade transition. The persistent atlas tab bar is a sibling
+   of both pages and therefore remains stationary. */
 @media(max-width:790px) and (prefers-reduced-motion:no-preference){
-  #psilocin-app .research-main.router-transition-f7-flip-forward,
-  #psilocin-app .research-main.router-transition-f7-flip-backward{z-index:5000}
+  #psilocin-app .research-main:is(.router-transition-f7-flip-forward,.router-transition-f7-fade-backward){z-index:5000}
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
@@ -5709,13 +5747,11 @@ body {
 #psilocin-app .evidence-sheet-context-actions>.button:hover,#psilocin-app .evidence-sheet-context-actions>.button:focus-visible{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow)}
 @media(max-width:420px){#psilocin-app .evidence-sheet-header{gap:8px;padding-inline:16px}#psilocin-app .evidence-sheet-context-actions>.button{width:34px;padding:4px!important}#psilocin-app .evidence-sheet-context-actions>.button span{display:none}#psilocin-app .evidence-sheet-header>.button span{font-size:12px}}
 
-/* Give the iOS glass press lens a little more presence without crossing neighbouring tabs. */
-@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-pressed-scale:1.28}}
-
-/* The selected mobile destination keeps a gently expanded resting lens; press expands it further. */
+/* The mobile tab bar keeps one fixed-size glass lens. Press feedback changes only
+   its light, so repeated navigation never makes the persistent bar appear to grow. */
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::before,
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::after{scale:var(--atlas-glass-rest-scale,1)}
-@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1.18;--atlas-glass-pressed-scale:1.30}}
+@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1;--atlas-glass-pressed-scale:1}}
 
 /* The embedded OXPHOS navigator is the same five-slot mobile navigator as the
    atlas bar.  Keep its outer rhythm and its frosted pane identical so moving

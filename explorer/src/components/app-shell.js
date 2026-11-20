@@ -200,16 +200,14 @@ export function createAppShell({
     finderSelection.classList.add("finder-selection-menu");
   }
   let fuzzyMatching = false;
-  const fuzzyControl = node("label", "toggle finder-fuzzy-control");
+  const fuzzyControl = node("label", "checkbox finder-fuzzy-control");
   fuzzyControl.title = "Optionally include approximate gene-name matches";
   const fuzzyInput = node("input");
   fuzzyInput.type = "checkbox";
-  fuzzyInput.setAttribute("role", "switch");
   fuzzyInput.setAttribute("aria-label", "Include approximate gene matches");
-  fuzzyControl.append(node("span", "finder-fuzzy-label", "Fuzzy"), fuzzyInput, node("span", "toggle-icon"));
+  fuzzyControl.append(fuzzyInput, node("i", "icon-checkbox"), node("span", "finder-fuzzy-label", "Fuzzy"));
   fuzzyInput.onchange = () => {
     fuzzyMatching = fuzzyInput.checked;
-    fuzzyControl.classList.toggle("is-active", fuzzyMatching);
     autocomplete?.source(autocomplete?.searchbar?.inputEl?.value || "");
   };
   const openSearch = event => {
@@ -422,12 +420,13 @@ export function createAppShell({
   mobileSourcePage.dataset.name = "references";
   mobileSourcePage.setAttribute("aria-label", "References and citation");
   let sourcesPageOpen = false, sourcesClosing = false, sourcesOpener, previousQuickState;
-  function runSourcesFlip(direction, complete) {
+  function runSourcesTransition(effect, direction, complete) {
     if (reduced()) { complete(); return; }
     const forward = direction === "forward";
     const outgoing = forward ? page : mobileSourcePage;
     const incoming = forward ? mobileSourcePage : page;
-    main.classList.add(`router-transition-f7-flip-${direction}`);
+    const transitionClass = `router-transition-f7-${effect}-${direction}`;
+    main.classList.add(transitionClass);
     outgoing.classList.remove("page-previous", "page-next");
     outgoing.classList.add("page-current");
     incoming.classList.remove("page-current", "page-previous", "page-next");
@@ -436,12 +435,12 @@ export function createAppShell({
     const finish = () => {
       if (finished) return;
       finished = true;
-      main.classList.remove(`router-transition-f7-flip-${direction}`);
+      main.classList.remove(transitionClass);
       outgoing.classList.remove("page-current", "page-previous", "page-next");
       incoming.classList.remove("page-current", "page-previous", "page-next");
       complete();
     };
-    const fallback = setTimeout(finish, 760);
+    const fallback = setTimeout(finish, effect === "flip" ? 760 : 560);
     incoming.addEventListener("animationend", () => { clearTimeout(fallback); finish(); }, { once: true });
   }
   function openMobileSources(pushHistory = true) {
@@ -465,7 +464,7 @@ export function createAppShell({
     sourceScroll.scrollTop = 0;
     syncSourcesScrollSurface();
     if (pushHistory) history.pushState({ ...history.state, atlasSourcesPage: true }, "", location.href);
-    runSourcesFlip("forward", () => {
+    runSourcesTransition("flip", "forward", () => {
       page.style.display = "none";
       mobileSourcePage.classList.add("page-current");
       sourceClose.focus({ preventScroll: true });
@@ -499,7 +498,7 @@ export function createAppShell({
     if (!animate) { finish(); return; }
     sourcesClosing = true;
     page.style.display = "";
-    runSourcesFlip("backward", finish);
+    runSourcesTransition("fade", "backward", finish);
     return;
   }
   function sourcesHistoryChanged(event) {

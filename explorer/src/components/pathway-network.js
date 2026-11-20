@@ -51,7 +51,18 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
  for(const p of [...graph.pairs].sort((a,b)=>(b.jaccard??-1)-(a.jaccard??-1)||a.key.localeCompare(b.key))){const o=el('option','',`${graph.nodes.find(n=>n.id===p.source).short} ↔ ${graph.nodes.find(n=>n.id===p.target).short} · ${p.shared??'unavailable'} shared`);o.value=p.key;pairSelect.append(o);}
  pairSelect.value=state.edge;pairSelect.onchange=()=>{const p=graph.pairs.find(p=>p.key===pairSelect.value);if(p)chooseEdge(p);};pairLabel.append(pairSelect);root.append(pairLabel);
  const content = el('div', 'network-content');
- const viewOptions=el('div','overlap-view-options');const figure=el('div','overlap-figure');figure.dataset.fullscreenHost='';figure.dataset.fullscreenTitle='Gene-set overlap';figure.dataset.fullscreenInfo='Alternative views of literal frozen gene-set membership. Overlap does not establish biological interaction or independent statistical support.';figure.append(viewOptions,views,content);root.append(figure);
+ const viewOptions=el('div','overlap-view-options');
+ const viewDisclosure=el('div','list accordion-list network-view-disclosure');
+ const disclosureItem=el('div','accordion-item');
+ const disclosureToggle=el('a','item-link item-content accordion-item-toggle f7-press');
+ disclosureToggle.href='#'; disclosureToggle.setAttribute('aria-label','Choose an overlap representation');
+ const disclosureInner=el('div','item-inner');
+ const disclosureTitle=el('div','item-title','Overlap representation');
+ const disclosureValue=el('div','item-after');
+ disclosureInner.append(disclosureTitle,disclosureValue); disclosureToggle.append(disclosureInner);
+ const disclosureContent=el('div','accordion-item-content'); disclosureContent.append(views);
+ disclosureItem.append(disclosureToggle,disclosureContent); viewDisclosure.append(disclosureItem);
+ const figure=el('div','overlap-figure');figure.dataset.fullscreenHost='';figure.dataset.fullscreenTitle='Gene-set overlap';figure.dataset.fullscreenInfo='Alternative views of literal frozen gene-set membership. Overlap does not establish biological interaction or independent statistical support.';figure.append(viewOptions,viewDisclosure,content);root.append(figure);
  const defaultLegend=legend.textContent,defaultCount=count.textContent;
  const exports = el('div','tree-actions network-downloads');
  renderOverlap(false);
@@ -60,6 +71,7 @@ export function createPathwayNetwork({data, provenance, genes, state, contrast, 
   legend.textContent=defaultLegend;count.textContent=defaultCount;
   thresholdSelect.disabled=state.networkView==='upset';
   views.querySelectorAll('button').forEach(b=>{const active=b.dataset.overlapView===state.networkView;b.setAttribute('aria-pressed',String(active));b.classList.toggle('button-active',active);});
+  disclosureValue.textContent=views.querySelector(`[data-overlap-view="${state.networkView}"]`)?.textContent || 'Network';
  if (state.networkView === 'pairs') drawPairs();
  else if (state.networkView === 'matrix') drawMatrix();
  else if (state.networkView === 'chord') drawChord();

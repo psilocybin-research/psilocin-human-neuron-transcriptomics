@@ -60,6 +60,8 @@ export function createGeneAutocomplete({ app, input, data }) {
   });
   function decorate() {
     if (!instance?.el) return;
+    input.dataset.geneAutocompleteReady = "true";
+    input.dispatchEvent(new CustomEvent("atlas:gene-autocomplete-ready", { bubbles: true }));
     instance.el.classList.add("pathway-suggestions", "gene-suggestions");
     const list = instance.el.querySelector("ul");
     list.id = id;
@@ -84,6 +86,7 @@ export function createGeneAutocomplete({ app, input, data }) {
     input,
     destroy() {
       input.removeEventListener("keydown", key);
+      delete input.dataset.geneAutocompleteReady;
       instance.destroy();
     },
   };

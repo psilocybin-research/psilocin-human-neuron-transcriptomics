@@ -1821,7 +1821,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "Clear",
       () => {
         search.value = "";
-        searchResults();
+        search.dispatchEvent(new Event("input", { bubbles: true }));
         search.focus();
       },
       "gene-search-clear",
@@ -1850,7 +1850,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       scope,
       (v) => {
         scope = v;
-        searchResults();
+        search.dispatchEvent(new Event("input", { bubbles: true }));
       },
     );
     const selection = el("div", "gene-current");
@@ -1880,6 +1880,11 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.append(panel, layout);
     sidebar.append(summary, results, more);
     layout.append(sidebar, detail);
+    // The page-level finder mirrors the F7 autocomplete used in the global search.
+    // Keep the raw result list only as a no-JavaScript/F7 fallback.
+    search.addEventListener("atlas:gene-autocomplete-ready", () => {
+      sidebar.hidden = true;
+    });
     geneDetail(detail, selected);
     const genes = await getGenes();
     if (!search.isConnected) return;
@@ -2097,6 +2102,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     };
     updateSelection();
     searchResults();
+    shell?.afterRender();
   }
 
   function pathways() {
