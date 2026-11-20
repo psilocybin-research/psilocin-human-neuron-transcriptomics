@@ -5589,3 +5589,8 @@ body {
 
 /* Give the iOS glass press lens a little more presence without crossing neighbouring tabs. */
 @media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-pressed-scale:1.28}}
+
+/* The selected mobile destination keeps a gently expanded resting lens; press expands it further. */
+#psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::before,
+#psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::after{scale:var(--atlas-glass-rest-scale,1)}
+@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1.18;--atlas-glass-pressed-scale:1.30}}
