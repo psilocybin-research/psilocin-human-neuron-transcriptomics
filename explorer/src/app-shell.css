@@ -5747,11 +5747,10 @@ body {
 #psilocin-app .evidence-sheet-context-actions>.button:hover,#psilocin-app .evidence-sheet-context-actions>.button:focus-visible{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow)}
 @media(max-width:420px){#psilocin-app .evidence-sheet-header{gap:8px;padding-inline:16px}#psilocin-app .evidence-sheet-context-actions>.button{width:34px;padding:4px!important}#psilocin-app .evidence-sheet-context-actions>.button span{display:none}#psilocin-app .evidence-sheet-header>.button span{font-size:12px}}
 
-/* The mobile tab bar keeps one fixed-size glass lens. Press feedback changes only
-   its light, so repeated navigation never makes the persistent bar appear to grow. */
+/* The selected mobile destination keeps the established expanded glass lens. */
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::before,
 #psilocin-app .research-tabbar .tab-link-highlight:not(.tab-link-highlight-pressed)::after{scale:var(--atlas-glass-rest-scale,1)}
-@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1;--atlas-glass-pressed-scale:1}}
+@media(max-width:767px){#psilocin-app .research-tabbar{--atlas-glass-rest-scale:1.18;--atlas-glass-pressed-scale:1.30}}
 
 /* The embedded OXPHOS navigator is the same five-slot mobile navigator as the
    atlas bar.  Keep its outer rhythm and its frosted pane identical so moving
