@@ -1,5 +1,4 @@
 import { createSidebarContext } from "./sidebar-context.js";
-import { createAppearanceControls } from "./appearance-controls.js";
 import { researchSuggestions } from "./research-search.js";
 import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup } from "./structure-preview.js";
@@ -71,6 +70,9 @@ export function createAppShell({
 }) {
   root.id = "psilocin-app";
   root.dataset.inputModality = "pointer";
+  // The navigation treatment is a core part of the interface, rather than a
+  // preference. Reduced-transparency remains an operating-system preference.
+  root.dataset.glassEffects = "true";
   root.classList.add("research-app");
   const panel = node("aside", "panel panel-left panel-cover research-sidebar");
   panel.id = "research-sidebar";
@@ -203,6 +205,8 @@ export function createAppShell({
     toggleAppearance,
   );
   appearanceButton.classList.add("appearance-toggle");
+  appearanceButton.setAttribute("role", "switch");
+  appearanceButton.setAttribute("aria-checked", "false");
   const sourcesButton = iconAction("Sources", "book", openSources);
   sourcesButton.classList.add("desktop-sources");
   const shareControl = iconAction("Share analysis", "share", () =>
@@ -319,9 +323,6 @@ export function createAppShell({
   main.append(page);
   views.append(main);
   root.replaceChildren(panel, views);
-  const appearanceControls = createAppearanceControls({
-    root, getApp: () => app, trigger: appearanceButton, toggleDark: toggleAppearance, reduced,
-  });
 
   let workspaceOwner,focusNavigationState;
   root.workspaceShell={mountNavigation(element){
@@ -525,7 +526,7 @@ export function createAppShell({
   };
   function syncAppearance() {
     const dark = Boolean(app?.darkMode);
-    appearanceControls.sync();
+    appearanceButton.setAttribute("aria-checked", String(dark));
     appearanceButton
       .querySelector("svg")
       ?.replaceWith(uiIcon(dark ? "sun" : "appearance"));
@@ -540,10 +541,11 @@ export function createAppShell({
   }
   const syncMotion = () => {
     root.dataset.reducedMotion = String(reduced());
-    appearanceControls.sync();
-    if (app)
+    if (app) {
+      app.params.touch.touchHighlight = !reduced();
       for (const name of ["popup", "popover", "sheet"])
         app.params[name].animate = !reduced();
+    }
   };
   motionPreference.addEventListener("change", syncMotion);
   let disposed = false,
@@ -1545,7 +1547,6 @@ export function createAppShell({
       document.removeEventListener("pointerup", endPress);
       document.removeEventListener("pointercancel", endPress);
       cancelAnimationFrame(enhanceFrame);
-      appearanceControls.destroy();
       app?.destroy();
     },
   };
