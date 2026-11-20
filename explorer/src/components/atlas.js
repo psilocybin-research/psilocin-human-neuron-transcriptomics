@@ -700,13 +700,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   footer.append(datasets);
   footer.prepend(sourceLogos("footer"));
   root.append(top, body, footer);
-  let workspaceVisited = tab === "custom-r";
   function go(next, gene) {
     if (next === tab && !gene) return;
-    if (next === "custom-r" && !workspaceVisited) {
-      root.dataset.nextViewTransition = "flip";
-      workspaceVisited = true;
-    }
     shell?.closeOverlays();
     const previous = location.href,
       changed = next !== tab;
@@ -741,8 +736,6 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     if (tab === "custom-r" && current?.setResearchSelection) current.setResearchSelection(selection);
     else {
       pendingRSelection = selection;
-      root.dataset.nextViewTransition = "flip";
-      workspaceVisited = true;
       go("custom-r");
     }
   }
@@ -975,7 +968,6 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     storage.hidden = true;
     root.append(storage);
     networkPanel ||= el("section", "oxphos-network-sheet-content");
-    networkPanel.querySelector(".oxphos-network-3d")?.setResearchSelection?.(researchStore.getState());
     storage.append(networkPanel);
     const host = el("section", "oxphos-network-fullscreen");
     host.setAttribute("role", "dialog");
@@ -999,6 +991,8 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     content.append(networkPanel);
     host.append(toolbar, content);
     root.append(host);
+    // Reframe reused networks only after their canvas has a visible size.
+    networkPanel.querySelector(".oxphos-network-3d")?.setResearchSelection?.(researchStore.getState());
     let entered = false;
     function restore() {
       storage.append(networkPanel);

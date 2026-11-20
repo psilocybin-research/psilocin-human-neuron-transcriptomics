@@ -1,3 +1,4 @@
+import { overviewPose, gentleFocusPose } from "./network-framing.js";
 import { createGeneIdentity } from "./structure-preview.js";
 import { showToast } from "./app-toast.js";
 import { createCameraTransition } from "./network-camera.js";
@@ -30,6 +31,8 @@ const exact = (value) =>
 export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
   root.setAttribute("aria-label", "3D OXPHOS gene–pathway membership");
+  root.dataset.layout = "complex";
+  root.dataset.layoutReady = "true";
   const genes = snapshot.nodes.filter((n) => n.type === "gene");
   let day = initialContrast === "day3_vs_control" ? 1 : 0,
     filter = "all",
@@ -45,6 +48,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     api,
     destroyed = false,
     sceneEffects,
+    selectedGeneLabel,
     nodeProtein,
     nodeProteinRequest = 0,
     hoveredId = "",
@@ -66,8 +70,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
     meshes = new Map(),
-    labels = [],
-    textSprites = [];
+    labels = [];
   const heading = el("h3", "", "OXPHOS gene–pathway membership");
   const qualification = el(
     "p",
@@ -262,19 +265,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       );
       return;
     }
-    const aspect = Math.max(
-      0.3,
-      leftStage.clientWidth / Math.max(1, leftStage.clientHeight),
-    );
-    const distance = Math.max(
-      520 / (2 * Math.tan((Math.PI * graph.camera().fov) / 360)),
-      640 / (2 * Math.tan((Math.PI * graph.camera().fov) / 360) * aspect),
-    );
-    cameraTransition.move(
-      { x: 0, y: 0, z: distance },
-      { x: 0, y: 0, z: 0 },
-      animate ? 950 : 0,
-    );
+    const pose = overviewPose(graph.graphData().nodes.filter(visible), leftStage.clientWidth / Math.max(1, leftStage.clientHeight), graph.camera().fov);
+    cameraTransition.move(pose.position, pose.target, animate ? 850 : 0);
   }
   cameraTools.setAttribute("role", "toolbar");
   cameraTools.setAttribute("aria-label", "Camera controls");
@@ -782,7 +774,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         .map((l) => endpoints(l)[1]),
     );
   }
-  function choose(n, focus = true, showEvidence = true) {
+  function choose(n, focus = false, showEvidence = true) {
+    clearTimeout(orientationTimer);
     if (proteinScene) closeProteinScene();
     const selectionChanged = selected !== n.id;
     if (selectionChanged) nodeProtein?.clear();
@@ -795,27 +788,15 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     // Let Framework7 finish the pressed state before replacing search rows.
     requestAnimationFrame(() => { if (!destroyed) renderList(); });
     updateGraph();
+    if (selectionChanged) sceneEffects?.locate(n.id, 4500);
     if (showEvidence) openDrawer("gene");
-    if (selectionChanged)
+    if (selectionChanged && showEvidence)
       networkToast(`Selected gene: ${n.symbol}.`, showEvidence && drawer?.isConnected ? drawer : root);
     const position =
       graph?.graphData().nodes.find((node) => node.id === n.id) || n;
     if (focus && graph) {
-      const p = graph.cameraPosition(),
-        t = graph.controls().target;
-      const distance = Math.hypot(p.x - t.x, p.y - t.y, p.z - t.z) || 1;
-      const focusDistance = Math.max(440, Math.min(700, distance));
-      const target = { x: position.x, y: position.y, z: position.z };
-      cameraTransition.move(
-        Object.fromEntries(
-          ["x", "y", "z"].map((k) => [
-            k,
-            target[k] + ((p[k] - t[k]) * focusDistance) / distance,
-          ]),
-        ),
-        target,
-        900,
-      );
+      const pose = gentleFocusPose({position:graph.cameraPosition(),target:graph.controls().target}, position, .3, .94);
+      cameraTransition.move(pose.position, pose.target, 1000);
     }
   }
   async function showNodeProtein(gene) {
@@ -854,10 +835,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         if (destroyed || selected !== gene.id || proteinScene) return;
         const node = graph.graphData().nodes.find(n => n.id === gene.id);
         if (!node) return;
-        const position = graph.cameraPosition(), origin = graph.controls().target;
-        // A small pan and ten-percent zoom preserve the surrounding network.
-        const target = Object.fromEntries(["x", "y", "z"].map(k => [k, origin[k] + (node[k] - origin[k]) * 0.2]));
-        cameraTransition.move(Object.fromEntries(["x", "y", "z"].map(k => [k, target[k] + (position[k] - origin[k]) * 0.9])), target, 2200);
+        const pose = gentleFocusPose({position:graph.cameraPosition(),target:graph.controls().target}, node);
+        cameraTransition.move(pose.position, pose.target, 2200);
       }, 1800);
     }
     networkToast(`${gene.symbol} is highlighted in gold. Drag to explore; open Evidence for its statistics.`);
@@ -1004,6 +983,9 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         "Clear selection",
         () => {
           selected = "";
+          clearTimeout(orientationTimer);
+          sceneEffects?.clear();
+          nodeProtein?.clear();
           selectedSummary.setAttribute("aria-label", "Select a gene");
           selectedSummary.querySelector("span").textContent = "Select a gene";
           renderSelected();
@@ -1035,7 +1017,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         closeDrawer();
         closeMobileControls(false);
         evidenceAside.hidden = true;
-        sceneEffects?.locate(n.id);
+        sceneEffects?.locate(n.id, 4500);
         nodeProtein?.clear();
       });
       b.replaceChildren(createGeneIdentity(n, {compact:true}));
@@ -1061,6 +1043,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     if (proteinScene) {
       graph.nodeVisibility(() => false).linkVisibility(() => false);
       labels.forEach((item) => (item.sprite.visible = false));
+      if (selectedGeneLabel) selectedGeneLabel.visible = false;
       return;
     }
     const related = relatedPathways();
@@ -1140,6 +1123,22 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         )
         .linkOpacity(0.28 * entranceOpacity);
     }
+    if (selectedGeneLabel) {
+      const node = graph.graphData().nodes.find(n => n.id === selected);
+      selectedGeneLabel.visible = Boolean(labelsToggle.checked && node && visible(node));
+      if (node) {
+        const record = selectedGeneLabel.userData.caption;
+        if (record.text !== node.symbol) {
+          const ctx = record.canvas.getContext("2d");
+          ctx.clearRect(0, 0, record.canvas.width, record.canvas.height);
+          ctx.font = "600 32px system-ui"; ctx.textAlign = "center"; ctx.fillStyle = "#ffe6a3";
+          ctx.fillText(node.symbol, 384, 35);
+          record.text = node.symbol; record.texture.needsUpdate = true;
+        }
+        selectedGeneLabel.position.set(node.x, node.y + 16, node.z);
+      }
+    }
+    sceneEffects?.refresh();
     for (const item of labels) {
       item.sprite.visible = labelsToggle.checked && (item.nodeId
         ? layoutMode === "layers" && related.has(item.nodeId) && (!focused || memberships.has(item.nodeId))
@@ -1170,8 +1169,15 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
         z: 0,
       }),
     );
-  function transitionLayout(mode) {
-    if (!graph) return;
+  function transitionLayout(mode, { automatic = false } = {}) {
+    if (!graph || proteinScene) return;
+    if (!automatic) {
+      clearTimeout(introTimer);
+      clearTimeout(orientationTimer);
+      root.dataset.layoutIntroduction = "cancelled";
+    }
+    cameraTransition?.stop();
+    nodeProtein?.clear();
     cancelAnimationFrame(layoutFrame);
     layoutMode = mode;
     layoutToggle.checked = mode === "layers";
@@ -1194,9 +1200,10 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     // Keep the scene engine ticking for the entire morph. Every node is pinned
     // to interpolated coordinates, so edges follow without a force relaxation.
     graph.cooldownTicks(Infinity).d3AlphaMin(0).resumeAnimation();
+    if (bloom) bloom.enabled = false;
     const move = (time) => {
       if (destroyed) return;
-      const t = duration ? Math.min(1, (time - began) / duration) : 1,
+      const t = duration ? Math.min(1, Math.max(0, (time - began) / duration)) : 1,
         ease = t * t * t * (t * (t * 6 - 15) + 10);
       for (const scene of scenes) {
         for (const node of scene.graphData().nodes) {
@@ -1212,13 +1219,19 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
           const node = scene.graphData().nodes.find(n => n.id === item.nodeId);
           if (node) item.sprite.position.set(node.x + 82, node.y + 16, node.z);
         }
+        if (selectedGeneLabel) {
+          const active = scene.graphData().nodes.find(n => n.id === selected);
+          if (active) selectedGeneLabel.position.set(active.x, active.y + 16, active.z);
+        }
         scene.d3ReheatSimulation();
       }
       if (t < 1) layoutFrame = requestAnimationFrame(move);
       else {
         graph.cooldownTicks(0).d3ReheatSimulation();
+        if (bloom) bloom.enabled = bloomEnabled;
         layoutToggle.disabled = false;
         root.dataset.layoutReady = "true";
+        if (!automatic) networkToast(mode === "layers" ? "Layered layout · genes on the left, gene sets on the right." : "Complex layout · genes grouped by respiratory subunit annotation.");
       }
     };
     root.dataset.layoutReady = "false";
@@ -1376,10 +1389,10 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
     }
     if (playLayoutIntroduction && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       root.dataset.layoutIntroduction = "running";
-      transitionLayout("layers");
+      transitionLayout("layers", {automatic:true});
       introTimer = setTimeout(() => {
         if (destroyed || root.dataset.layoutIntroduction !== "running") return;
-        transitionLayout("complex");
+        transitionLayout("complex", {automatic:true});
         root.dataset.layoutIntroduction = "complete";
       }, 1080);
     }
@@ -1387,6 +1400,8 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
   function interruptIntroduction() {
     finishEntrance(false);
     clearTimeout(orientationTimer);
+    clearTimeout(introTimer);
+    root.dataset.layoutIntroduction = "cancelled";
     cameraTransition?.stop();
   }
   for (const event of ["pointerdown", "wheel", "keydown"])
@@ -1427,6 +1442,9 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
   function visibility() {
     if (!graph) return;
     if (document.hidden || !stage.getClientRects().length) {
+      clearTimeout(orientationTimer);
+      clearTimeout(introTimer);
+      cameraTransition?.stop();
       graph.pauseAnimation();
     } else {
       graph.resumeAnimation();
@@ -1444,8 +1462,8 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
     const texture = new api.CanvasTexture(canvas),
       material = new api.SpriteMaterial({ map: texture, depthTest: false });
     resources.push(texture, material);
-    textSprites.push({ canvas, texture, text });
     const s = new api.Sprite(material);
+    s.userData.caption = { canvas, texture, text };
     s.scale.set(235, 24, 1);
     return s;
   }
@@ -1491,6 +1509,10 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         accent: "#6ebcdb",
       };
       stage.replaceChildren(leftStage);
+      const geneGeometry = new api.SphereGeometry(4.3, 18, 12);
+      const haloGeometry = new api.SphereGeometry(4.3, 8, 6);
+      const pathwayGeometry = new api.OctahedronGeometry(6);
+      resources.push(geneGeometry, haloGeometry, pathwayGeometry);
       graph = new api.ForceGraph3D(leftStage, {
         controlType: "orbit",
         rendererConfig: {
@@ -1510,7 +1532,7 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         .nodeThreeObject((n) => {
           const container = new api.Group();
           if (n.type === "gene") {
-            const geometry = new api.SphereGeometry(4.3, 40, 28),
+            const geometry = geneGeometry,
               material = new api.MeshBasicMaterial({
                 color: nodeColour(n),
               }),
@@ -1532,24 +1554,24 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
               depthWrite: false,
             });
             const significance = new api.Mesh(
-              new api.SphereGeometry(4.3, 10, 7),
+              haloGeometry,
               significanceMaterial,
             );
             significance.scale.setScalar(1.22);
             significance.visible = false;
             container.add(mesh, ring, significance);
-            resources.push(significance.geometry, significanceMaterial);
+            resources.push(significanceMaterial);
             meshes.set(n.id, container);
-            resources.push(geometry, material, outline);
+            resources.push(material, outline);
           } else {
-            const geometry = new api.OctahedronGeometry(6),
+            const geometry = pathwayGeometry,
               material = new api.MeshBasicMaterial({
                 color: palette.accent,
                 toneMapped: false,
               });
             material.color.multiplyScalar(1.5);
             container.add(new api.Mesh(geometry, material));
-            resources.push(geometry, material);
+            resources.push(material);
           }
           objects.set(n.id, container);
           return container;
@@ -1585,9 +1607,17 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         motion: () => !matchMedia("(prefers-reduced-motion: reduce)").matches,
         onState: (moving) => {
           root.dataset.cameraMoving = String(moving);
+          if (bloom) bloom.enabled = bloomEnabled && !moving && root.dataset.layoutReady !== "false";
         },
       });
-      graph.controls().addEventListener("start", cameraTransition.stop);
+      graph.controls().addEventListener("start", () => {
+        cameraTransition.stop();
+        clearTimeout(orientationTimer);
+        if (bloom) bloom.enabled = false;
+      });
+      graph.controls().addEventListener("end", () => {
+        if (bloom) bloom.enabled = bloomEnabled && root.dataset.layoutReady !== "false";
+      });
       graph.controls().enableDamping = true;
       // Labels are annotations, not graph nodes. No absent complex is drawn.
       for (const group of snapshot.groups) {
@@ -1607,6 +1637,10 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         graph.scene().add(text);
         labels.push({sprite: text, nodeId: node.id});
       }
+      selectedGeneLabel = sprite("", "#ffe6a3");
+      selectedGeneLabel.scale.set(100, 12, 1);
+      selectedGeneLabel.visible = false;
+      graph.scene().add(selectedGeneLabel);
       const canvas = stage.querySelector("canvas");
       canvas.setAttribute("aria-hidden", "true");
       const touchRay = new api.Raycaster(), touchPoint = new api.Vector2();

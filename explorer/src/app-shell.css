@@ -5831,13 +5831,9 @@ body {
 #psilocin-app .studio-selection-identity .note{margin:0;font-size:11px}
 #psilocin-app .studio-selection-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 #psilocin-app .studio-selection-actions>.button{min-height:36px;margin:0;font-size:11px}
-/* The first workspace arrival and explicit Atlas → R handoffs use the iOS-style
-   card flip; ordinary research routes retain the quieter F7 fade. */
+/* Brand navigation returns to the overview. */
 #psilocin-app .sidebar-brand{appearance:none;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%}
 #psilocin-app .sidebar-brand:focus-visible{outline:2px solid var(--research-accent);outline-offset:4px;border-radius:12px}
-#psilocin-app .research-content-inner:has(> .research-view-enter-flip){perspective:1200px}
-#psilocin-app .research-view-enter.research-view-enter-flip{--f7-page-flip-transition-duration:360ms;transform-style:preserve-3d;animation:f7-flip-next-to-current var(--f7-page-flip-transition-duration) forwards}
-@media(prefers-reduced-motion:reduce){#psilocin-app .research-view-enter.research-view-enter-flip{animation:none}}
 /* Sheet-level contextual destinations use compact, tooltip-labelled iOS controls. */
 #psilocin-app .evidence-sheet-context-actions>.button{width:34px;padding:4px!important}
 #psilocin-app .evidence-sheet-context-actions>.button span{display:none}

@@ -93,11 +93,13 @@ export function installFramework7Tooltips(root, app) {
     instances.delete(target);
   };
   const attach = (target) => {
-    if (!(target instanceof Element) || instances.has(target)) return;
+    if (!(target instanceof Element)) return;
     const text = target.getAttribute("title")?.trim();
     if (!text) return;
     // Remove native title before F7 can react, so only one tooltip system owns it.
     target.removeAttribute("title");
+    const managed = instances.get(target);
+    if (managed) { managed.instance.setText(text); return; }
     target.dataset.f7TooltipManaged = "true";
     if (!target.getAttribute("aria-label") && !target.textContent.trim())
       target.setAttribute("aria-label", text);
@@ -118,6 +120,9 @@ export function installFramework7Tooltips(root, app) {
     scope.querySelectorAll?.("[title]").forEach(attach);
   };
   scan(root);
+  const hideAll = () => instances.forEach(({instance}) => instance.hide?.());
+  for (const event of ["pointerdown", "scroll", "keydown"])
+    root.addEventListener(event, hideAll, {capture:true, passive:true});
   const observer = new MutationObserver((records) => {
     for (const record of records) {
       if (record.type === "attributes") attach(record.target);
@@ -134,6 +139,8 @@ export function installFramework7Tooltips(root, app) {
   observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["title"] });
   return () => {
     observer.disconnect();
+    for (const event of ["pointerdown", "scroll", "keydown"])
+      root.removeEventListener(event, hideAll, true);
     [...instances.keys()].forEach(release);
   };
 }

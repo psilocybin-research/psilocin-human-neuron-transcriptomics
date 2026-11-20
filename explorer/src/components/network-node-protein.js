@@ -51,7 +51,10 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     const current = overlay;
     overlay = undefined;
     cancelAnimationFrame(overlayFrame);
+    let finished = false;
     const finish = () => {
+      if (finished) return;
+      finished = true;
       current.renderer.dispose();
       current.renderer.forceContextLoss();
       current.controls.dispose();
@@ -61,7 +64,9 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
         element.inert = value;
       });
       current.host.remove();
-      current.returnFocus?.focus();
+      if (!disposed && root.isConnected && !document.hidden)
+        graphs().forEach(graph => graph?.resumeAnimation());
+      if (current.returnFocus?.isConnected) current.returnFocus.focus({preventScroll:true});
     };
     if (immediate || reduced()) finish();
     else
@@ -73,7 +78,7 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
           ],
           { duration: 380, easing: "cubic-bezier(.4,0,.2,1)" },
         )
-        .finished.then(finish);
+        .finished.then(finish, finish);
     root.dataset.structureOverlay = "false";
   }
   function clear() {
@@ -112,7 +117,7 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
       sendToR.append(uiIcon("custom-r"));
       sendToR.title = "Send to R Studio";
       sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
-      sendToR.onclick = () => { closeOverlay(); onResearch(gene.id); };
+      sendToR.onclick = () => { closeOverlay(true); onResearch(gene.id); };
       overlayActions.append(sendToR);
     }
     if (onEvidence) {
@@ -121,7 +126,7 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
       evidenceLink.append(uiIcon("genes"));
       evidenceLink.title = "Open archived gene evidence";
       evidenceLink.setAttribute("aria-label", `Open archived evidence for ${gene.symbol}`);
-      evidenceLink.onclick = () => { closeOverlay(); onEvidence(gene.id); };
+      evidenceLink.onclick = () => { closeOverlay(true); onEvidence(gene.id); };
       overlayActions.append(evidenceLink);
     }
     const close = el("button", "button button-tonal molecular-overlay-close");
@@ -152,6 +157,9 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     cardItem.addEventListener("accordion:close", () => {
       panels.classList.remove("network-protein-info-open", "network-protein-info-fullscreen");
       card.body.parentElement.setAttribute("aria-hidden", "true");
+      expandInfo.replaceChildren(uiIcon("fullscreen"));
+      expandInfo.setAttribute("aria-pressed", "false");
+      expandInfo.setAttribute("aria-label", "Expand gene information");
     });
     const expandInfo = el("button", "button button-tonal network-protein-info-expand");
     expandInfo.type = "button";
@@ -270,6 +278,7 @@ export function createNodeProtein({ api, root, graphs, onResearch, onEvidence })
     );
     const resize = new ResizeObserver(fit);
     resize.observe(surface);
+    graphs().forEach(graph => graph?.pauseAnimation());
     overlay = {
       host,
       renderer,

@@ -1,4 +1,4 @@
-// Finite hover easing and a two-second search locator; no continuous scene effects.
+// Finite interaction feedback; reduced motion uses one steady marker, not a frame loop.
 export function createNetworkSceneEffects({ root, reducedMotion }) {
   let frame,
     start = 0,
@@ -6,28 +6,27 @@ export function createNetworkSceneEffects({ root, reducedMotion }) {
     disposed = false,
     hovered = "",
     located = "",
-    locateUntil = 0;
+    locateUntil = 0,
+    locateStarted = 0,
+    expiry;
   function draw(time) {
     frame = undefined;
     if (disposed || document.hidden || !root.isConnected) return;
     const dt = Math.min(50, time - (last || time));
     last = time;
-    const motion = reducedMotion();
+    const reduce = reducedMotion();
     root.dataset.locatingGene = time < locateUntil ? located : "";
     root.dispatchEvent(
       new CustomEvent("network:effectframe", {
         detail: {
           located: time < locateUntil ? located : "",
-          pulse: reducedMotion()
-            ? 1
-            : 0.5 +
-              0.5 * Math.sin(((time - locateUntil + 2000) * Math.PI) / 450),
+          pulse: reduce ? 0.4 : 0.5 + 0.5 * Math.sin(((time - locateStarted) * Math.PI) / 700),
           hovered,
-          blend: motion ? 1 : 1 - Math.exp(-dt / 100),
+          blend: reduce ? 1 : 1 - Math.exp(-dt / 100),
         },
       }),
     );
-    if (time < locateUntil + 700 || (!motion && time - start < 1100))
+    if (!reduce && (time < locateUntil + 400 || time - start < 600))
       frame = requestAnimationFrame(draw);
   }
   function animate() {
@@ -51,13 +50,24 @@ export function createNetworkSceneEffects({ root, reducedMotion }) {
     },
     locate(id, duration = 2000) {
       located = id;
-      locateUntil = performance.now() + duration;
+      locateStarted = performance.now();
+      locateUntil = locateStarted + duration;
+      clearTimeout(expiry);
+      expiry = setTimeout(animate, duration + 1);
+      animate();
+    },
+    clear() {
+      located = "";
+      hovered = "";
+      locateUntil = 0;
+      clearTimeout(expiry);
       animate();
     },
     refresh: animate,
     dispose() {
       disposed = true;
       cancelAnimationFrame(frame);
+      clearTimeout(expiry);
       document.removeEventListener("visibilitychange", visibility);
     },
   };

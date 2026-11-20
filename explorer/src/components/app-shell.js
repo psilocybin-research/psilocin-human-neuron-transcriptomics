@@ -444,7 +444,7 @@ export function createAppShell({
       incoming.classList.remove("page-current", "page-previous", "page-next");
       complete();
     };
-    const fallback = setTimeout(finish, effect === "flip" ? 760 : 560);
+    const fallback = setTimeout(finish, 560);
     incoming.addEventListener("animationend", () => { clearTimeout(fallback); finish(); }, { once: true });
   }
   function openMobileSources(pushHistory = true) {
@@ -632,7 +632,6 @@ export function createAppShell({
   let disposed = false,
     lastTab = initial,
     viewTransitionPending = false,
-    viewTransitionEffect = "fade",
     controlMoves = [],
     enhanceFrame,
     querySequence = 0,
@@ -727,8 +726,6 @@ export function createAppShell({
     if (tab !== lastTab) {
       lastTab = tab;
       viewTransitionPending = Boolean(app) && !reduced();
-      viewTransitionEffect = root.dataset.nextViewTransition === "flip" ? "flip" : "fade";
-      delete root.dataset.nextViewTransition;
       restoreViewPosition = true;
       clearTimeout(positionTimer);
       positionTimer = setTimeout(() => restorePositionWhenReady(true), 2500);
@@ -1595,7 +1592,7 @@ export function createAppShell({
   update(initial);
   function finishViewTransition(event) {
     if (event.target === body) {
-      body.classList.remove("research-view-enter", "research-view-enter-flip");
+      body.classList.remove("research-view-enter");
       finishRendering?.();
       finishRendering = undefined;
     }
@@ -1614,16 +1611,15 @@ export function createAppShell({
         return;
       }
       viewTransitionPending = false;
-      body.classList.remove("research-view-enter", "research-view-enter-flip");
+      body.classList.remove("research-view-enter");
       void body.offsetWidth;
       body.classList.add("research-view-enter");
-      if (viewTransitionEffect === "flip") body.classList.add("research-view-enter-flip");
     },
     beforeRender() {
       evidenceSheet.close(false);
       finishRendering?.();
       finishRendering = beginActivity("Opening research view");
-      body.classList.remove("research-view-enter", "research-view-enter-flip");
+      body.classList.remove("research-view-enter");
       analysisLauncher.close(false);
       if (controlsSheet?.opened) closeControls();
     },
