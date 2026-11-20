@@ -4368,6 +4368,18 @@
       "Google DeepMind and EMBL-EBI / AlphaFold Protein Structure Database; original PDB depositors / wwPDB, as identified in previews.json and coordinate files"
     ]
   },
+  "explorer/src/assets/python-logo.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/r-logo.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/assets/structure-previews.js": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -4436,12 +4448,6 @@
     ]
   },
   "explorer/src/components/app-toast.js": {
-    "spdx": "MIT",
-    "copyright": [
-      "2026 Christopher B. Germann"
-    ]
-  },
-  "explorer/src/components/appearance-controls.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -8639,7 +8645,7 @@
       "2011 John Resig",
       "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
       "2016 cheminfo",
-      "2015 Michaël Zasso",
+      "2015 Micha\u00ebl Zasso",
       "2017 Photopea"
     ]
   },
