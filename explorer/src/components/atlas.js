@@ -1614,6 +1614,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       identity.append(preview, text);
       container.append(identity);
     }
+    const info = landscapeMap.get(gene.symbol);
     const contextShortcut = iconButton(
       "Gene & protein info",
       "information",
@@ -1636,9 +1637,23 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
     sendToR.title = "Send this exact archived gene to R Studio";
     const contextActions = el("div", "gene-context-actions");
-    contextActions.append(sendToR, contextShortcut);
+    contextActions.append(sendToR);
+    if (info) {
+      const openNetwork = iconButton(
+        "View in 3D",
+        "landscape",
+        () => container.dispatchEvent(new CustomEvent("atlas:open-oxphos-network", {
+          bubbles: true,
+          detail: { gene: gene.id },
+        })),
+        "button button-tonal labelled-icon-action gene-network-shortcut",
+      );
+      openNetwork.setAttribute("aria-label", `View ${gene.symbol} in the 3D OXPHOS network`);
+      openNetwork.title = "View this gene in the 3D OXPHOS network";
+      contextActions.append(openNetwork);
+    }
+    contextActions.append(contextShortcut);
     container.append(contextActions);
-    const info = landscapeMap.get(gene.symbol);
     container.dataset.sendGeneToR = gene.id;
     if (info) container.dataset.openOxphosNetwork = "true";
     else delete container.dataset.openOxphosNetwork;
