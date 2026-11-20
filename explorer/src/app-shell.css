@@ -3266,17 +3266,8 @@ body {
   perspective: 3000px;
 }
 #psilocin-app .research-view-enter {
-  --f7-page-dive-transition-duration: 240ms;
-  animation: f7-dive-next-to-current var(--f7-page-dive-transition-duration)
-    ease-out both;
-  transform-origin: top center;
-}
-@media (min-width: 851px) {
-  #psilocin-app .research-view-enter {
-    --f7-page-fade-transition-duration: 200ms;
-    animation-name: f7-fade-in;
-    animation-duration: var(--f7-page-fade-transition-duration, 200ms);
-  }
+  --f7-page-fade-transition-duration: 200ms;
+  animation: f7-fade-in var(--f7-page-fade-transition-duration) ease-out both;
 }
 @media (prefers-reduced-motion: reduce) {
   #psilocin-app :is(.research-evidence-sheet, .analysis-control-sheet, .research-sources, .atlas-tour) {
@@ -5017,13 +5008,11 @@ body {
   }
 }
 
-/* References are a self-contained reading layer: use the iOS-style 3D page
-   flip there only, rather than making routine scientific navigation theatrical. */
+/* References use Framework7's native f7-flip route transition. The persistent
+   atlas tab bar is a sibling of both pages and therefore remains stationary. */
 @media(max-width:790px) and (prefers-reduced-motion:no-preference){
-  #psilocin-app .sources-mobile-page{transform-origin:100% 50%;animation:atlas-sources-flip-in 360ms cubic-bezier(.2,.72,.2,1) both}
-  #psilocin-app .sources-mobile-page.sources-flip-out{transform-origin:100% 50%;animation:atlas-sources-flip-out 260ms cubic-bezier(.4,0,1,.3) both}
-  @keyframes atlas-sources-flip-in{from{opacity:.35;transform:perspective(1100px) rotateY(-18deg) translateX(8%)}to{opacity:1;transform:perspective(1100px) rotateY(0) translateX(0)}}
-  @keyframes atlas-sources-flip-out{from{opacity:1;transform:perspective(1100px) rotateY(0) translateX(0)}to{opacity:.35;transform:perspective(1100px) rotateY(18deg) translateX(8%)}}
+  #psilocin-app .research-main.router-transition-f7-flip-forward,
+  #psilocin-app .research-main.router-transition-f7-flip-backward{z-index:5000}
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
@@ -5416,6 +5405,14 @@ body {
 }
 #psilocin-app .research-tabbar .tab-link-highlight::before,
 #psilocin-app .research-tabbar .tab-link-highlight::after { transition-duration:180ms; }
+/* Page changes must never make persistent navigation appear to travel. The
+   selected destination is updated synchronously; touch feedback still uses
+   Framework7's native press lens. */
+#psilocin-app .research-tabbar.tabbar-highlight-snap .tab-link-highlight,
+#psilocin-app .research-tabbar.tabbar-highlight-snap .tab-link-highlight::before,
+#psilocin-app .research-tabbar.tabbar-highlight-snap .tab-link-highlight::after {
+  transition-duration: 0ms !important;
+}
 
 /* Controls use an inexpensive tint and edge, not dozens of nested backdrop blurs. */
 #psilocin-app[data-glass-effects=true] :is(.button-tonal,.research-nav .item-content,.studio-book-entry .swipeout-content > button,.workspace-inspector-tabs .button) {

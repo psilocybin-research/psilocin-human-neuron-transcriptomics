@@ -330,9 +330,19 @@ export function createAppShell({
     bottom.dataset.activeDestination = active?.dataset.quick || "";
     // F7 only follows its own tab events automatically. Our scientific views
     // also navigate through the sidebar, history and the mobile Sources page.
-    if (active) app?.toolbar.setHighlight(bottom);
+    if (!active) return;
+    // A section transition belongs to the scientific page, not to persistent
+    // navigation. Snap F7's moving indicator to its destination, while its
+    // independent iOS press lens remains available during touch interaction.
+    bottom.classList.add("tabbar-highlight-snap");
+    app?.toolbar.setHighlight(bottom);
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      bottom.classList.remove("tabbar-highlight-snap"),
+    ));
   }
-  page.append(navbar, scroll, bottom);
+  // The tab bar is app-level navigation, not page content. Keeping it beside
+  // routed pages prevents it from joining a page transition.
+  page.append(navbar, scroll);
   const progress = createAppProgress({
     root,
     page,
@@ -342,7 +352,7 @@ export function createAppShell({
     getApp: () => app,
   });
   let finishRendering;
-  main.append(page);
+  main.append(page, bottom);
   views.append(main);
   root.replaceChildren(panel, views);
 
@@ -412,13 +422,34 @@ export function createAppShell({
   mobileSourcePage.dataset.name = "references";
   mobileSourcePage.setAttribute("aria-label", "References and citation");
   let sourcesPageOpen = false, sourcesClosing = false, sourcesOpener, previousQuickState;
+  function runSourcesFlip(direction, complete) {
+    if (reduced()) { complete(); return; }
+    const forward = direction === "forward";
+    const outgoing = forward ? page : mobileSourcePage;
+    const incoming = forward ? mobileSourcePage : page;
+    main.classList.add(`router-transition-f7-flip-${direction}`);
+    outgoing.classList.remove("page-previous", "page-next");
+    outgoing.classList.add("page-current");
+    incoming.classList.remove("page-current", "page-previous", "page-next");
+    incoming.classList.add(forward ? "page-next" : "page-previous");
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      main.classList.remove(`router-transition-f7-flip-${direction}`);
+      outgoing.classList.remove("page-current", "page-previous", "page-next");
+      incoming.classList.remove("page-current", "page-previous", "page-next");
+      complete();
+    };
+    const fallback = setTimeout(finish, 760);
+    incoming.addEventListener("animationend", () => { clearTimeout(fallback); finish(); }, { once: true });
+  }
   function openMobileSources(pushHistory = true) {
     if (sourcesPageOpen) return;
     sourcesPageOpen = true;
     root.dataset.sourcesOpen = "true";
     sourcesOpener = document.activeElement;
     page.inert = true;
-    page.style.display = "none";
     previousQuickState = quick.map((button) => button.getAttribute("aria-current"));
     quick.forEach((button) => {
       const active = button.dataset.quick === "sources";
@@ -427,14 +458,18 @@ export function createAppShell({
       if (active) button.removeAttribute("aria-haspopup");
     });
     syncQuickHighlight();
-    mobileSourcePage.append(sourcePage, bottom);
+    mobileSourcePage.append(sourcePage);
     main.append(mobileSourcePage);
     sourceClose.setAttribute("aria-label", "Back from references");
     sourceClose.replaceChildren(uiIcon("back"), node("span", "", "Back"));
     sourceScroll.scrollTop = 0;
     syncSourcesScrollSurface();
     if (pushHistory) history.pushState({ ...history.state, atlasSourcesPage: true }, "", location.href);
-    sourceClose.focus({ preventScroll: true });
+    runSourcesFlip("forward", () => {
+      page.style.display = "none";
+      mobileSourcePage.classList.add("page-current");
+      sourceClose.focus({ preventScroll: true });
+    });
   }
   function restoreSourcesPage(animate = !reduced()) {
     if (!sourcesPageOpen || sourcesClosing) return;
@@ -443,11 +478,9 @@ export function createAppShell({
       if (finished) return;
       finished = true;
       sourcesClosing = false;
-      mobileSourcePage.classList.remove("sources-flip-out");
       sourcesPageOpen = false;
       delete root.dataset.sourcesOpen;
       source.append(sourcePage);
-      page.append(bottom);
       quick.forEach((button, index) => {
         const active = previousQuickState?.[index] === "page";
         button.classList.toggle("tab-link-active", active);
@@ -465,12 +498,8 @@ export function createAppShell({
     };
     if (!animate) { finish(); return; }
     sourcesClosing = true;
-    const fallback = setTimeout(finish, 420);
-    mobileSourcePage.addEventListener("animationend", () => {
-      clearTimeout(fallback);
-      finish();
-    }, { once: true });
-    mobileSourcePage.classList.add("sources-flip-out");
+    page.style.display = "";
+    runSourcesFlip("backward", finish);
     return;
   }
   function sourcesHistoryChanged(event) {
