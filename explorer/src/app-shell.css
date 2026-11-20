@@ -5574,3 +5574,7 @@ body {
 #psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=false]{color:#123e5e!important;text-shadow:none!important;font-weight:650}
 #psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=true]{color:#fff!important;background:#235780!important;text-shadow:none!important}
 .dark #psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .oxphos-3d-days .button[aria-pressed=false]{color:#e5f4ff!important}
+
+/* The official Python artwork has more internal padding than the R mark. */
+#psilocin-app .workspace-language-logo-r{width:34px;height:31px}
+#psilocin-app .workspace-language-logo-python{width:39px;height:35px}

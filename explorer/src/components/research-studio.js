@@ -19,7 +19,7 @@ export function createResearchStudio(options) {
     const panel=el('section',`studio-language-panel studio-${key}-panel`);panel.hidden=key!=='r';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-label',title);panel.id=`workspace-${key}-${crypto.randomUUID()}`;panels.set(key,panel);
     const b=button(title,()=>show(key));
     if(key==='r'||key==='python'){
-      const logo=el('img','workspace-language-logo');
+      const logo=el('img',`workspace-language-logo workspace-language-logo-${key}`);
       logo.src=key==='r'?options.rLogo:options.pythonLogo;
       logo.alt='';logo.setAttribute('aria-hidden','true');
       b.classList.add('workspace-language-tab');
