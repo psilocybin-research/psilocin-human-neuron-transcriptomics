@@ -1,5 +1,5 @@
 import { createSidebarContext } from "./sidebar-context.js";
-import { researchSuggestions } from "./research-search.js";
+import { geneSuggestions } from "./gene-search-data.js";
 import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup } from "./structure-preview.js";
 import { createResearchTables } from "./research-tables.js";
@@ -190,7 +190,13 @@ export function createAppShell({
   const find = iconAction("Search atlas", "search", openAtlasSearch);
   find.classList.add("desktop-gene-finder");
   find.setAttribute("aria-keyshortcuts", "Control+k Meta+k");
-  if(onSelectionMenu){const selection=iconAction("Selection","controls",()=>onSelectionMenu(selection));selection.classList.add("shell-selection-menu");right.append(selection);}
+  let finderSelection;
+  if (onSelectionMenu) {
+    finderSelection = iconAction("Selection", "controls", () =>
+      onSelectionMenu(finderSelection),
+    );
+    finderSelection.classList.add("finder-selection-menu");
+  }
   const openSearch = event => {
     if (!(event.ctrlKey || event.metaKey) || event.altKey || event.key.toLowerCase() !== "k") return;
     if (event.target.closest?.(".cm-editor,textarea,[contenteditable=true]")) return;
@@ -276,10 +282,11 @@ export function createAppShell({
   bottomInner.append(bottomPane);
   const quick = [];
   for (const [id, title] of [
-    ["sources", "Sources"],
+    ["overview", "Overview"],
     ["genes", "Genes"],
     ["pathways", "Pathways"],
     ["comparison", "Compare"],
+    ["sources", "Sources"],
   ]) {
     const b = action(
       "",
@@ -389,6 +396,7 @@ export function createAppShell({
   function openMobileSources(pushHistory = true) {
     if (sourcesPageOpen) return;
     sourcesPageOpen = true;
+    root.dataset.sourcesOpen = "true";
     sourcesOpener = document.activeElement;
     page.inert = true;
     page.style.display = "none";
@@ -411,6 +419,7 @@ export function createAppShell({
   function restoreSourcesPage() {
     if (!sourcesPageOpen) return;
     sourcesPageOpen = false;
+    delete root.dataset.sourcesOpen;
     source.append(sourcePage);
     page.append(bottom);
     quick.forEach((button, index) => {
@@ -1350,14 +1359,12 @@ export function createAppShell({
     });
     if (stored("atlas-sidebar", "expanded") === "collapsed")
       panelInstance.disableVisibleBreakpoint();
-    const finderActions = () => [
-      ...researchActions,
-      {
-        id: "toggle-appearance",
-        title: `Appearance settings · Switch to ${app?.darkMode ? "light" : "dark"} mode`,
-        run: toggleAppearance,
-      },
-    ];
+    let finderGenes = new Map();
+    const mountFinderSelection = () => {
+      const actions = autocomplete?.modal?.el?.querySelector(".navbar .right");
+      if (finderSelection && actions && !actions.contains(finderSelection))
+        actions.prepend(finderSelection);
+    };
     autocomplete = app.autocomplete.create({
       view,
       openIn: "popup",
@@ -1366,7 +1373,7 @@ export function createAppShell({
       popupSwipeToClose: "to-bottom",
       requestSourceOnOpen: true,
       popupCloseLinkText: "Done",
-      searchbarPlaceholder: "Gene, pathway, workspace or action",
+      searchbarPlaceholder: "Gene symbol, Ensembl ID or verified alias",
       searchbarDisableText: "Cancel",
       closeOnSelect: false,
       routableModals: false,
@@ -1375,26 +1382,49 @@ export function createAppShell({
       textProperty: "text",
       limit: 100,
       renderItem(item) {
-        const geneId = String(item.value).startsWith("gene:") ? String(item.value).slice(5) : "";
-        const preview = geneId ? genePreviewMarkup({id: geneId}) : "";
-        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${preview ? `<div class="item-media">${preview}</div>` : ""}<div class="item-inner"><div class="item-title">${escapeHTML(item.text)}</div></div></label></li>`;
+        const geneId = String(item.value || item.id || "").replace(/^gene:/, "");
+        const gene = item.gene || finderGenes.get(geneId);
+        if (!gene)
+          return `<li><div class="item-content"><div class="item-inner"><div class="item-title">${escapeHTML(item.text || "Gene result unavailable")}</div></div></div></li>`;
+        const preview = genePreviewMarkup(gene);
+        const aliases = gene.aliases?.length
+          ? `Verified alias: ${gene.aliases.join(", ")}`
+          : gene.selected
+            ? "Archived rank representative"
+            : "Archived gene ID";
+        return `<li><label class="item-radio item-content"><input type="radio" name="${escapeHTML(item.inputName)}" value="${escapeHTML(item.value)}" aria-label="${escapeHTML(item.text)}" ${item.selected ? "checked" : ""}><i class="icon icon-radio"></i>${preview ? `<div class="item-media">${preview}</div>` : ""}<div class="item-inner"><div class="item-title">${escapeHTML(gene.symbol)}</div><div class="item-subtitle">${escapeHTML(gene.id)}</div><div class="item-text">${escapeHTML(aliases)}</div></div></label></li>`;
       },
-      notFoundText: "No match in the archived atlas. Try a gene ID, pathway or workspace name.",
+      notFoundText: "No archived gene match. Try a gene symbol, Ensembl ID or verified alias.",
       source(query, render) {
         const sequence = ++querySequence;
-        const suggestions = genes => researchSuggestions({genes, aliases: data.aliases,
-          pathways: data.pathways, tabs, actions: finderActions(), query});
-        render(suggestions([]));
-        if (!query.trim()) return;
+        const suggestions = genes => {
+          const matches = geneSuggestions(genes, data.aliases, query);
+          finderGenes = new Map(matches.map((gene) => [gene.id, gene]));
+          return matches.map((gene) => ({
+            id: `gene:${gene.id}`,
+            value: `gene:${gene.id}`,
+            text: `${gene.symbol} · ${gene.id}`,
+            kind: "gene",
+            target: gene.id,
+            gene,
+          }));
+        };
+        if (!query.trim()) {
+          finderGenes = new Map();
+          render([]);
+          return;
+        }
         getGenes().then(genes => {
           if (sequence === querySequence) render(suggestions(genes));
         }).catch(() => {
-          if (sequence === querySequence) render([...suggestions([]), {
+          if (sequence === querySequence) render([{
             id: "unavailable", text: "Gene data unavailable · Type again to retry", kind: "unavailable",
           }]);
         });
       },
       on: {
+        open() { requestAnimationFrame(mountFinderSelection); },
+        opened: mountFinderSelection,
         closed() {
           ++querySequence;
           searchCleanupPending = true;
@@ -1423,9 +1453,6 @@ export function createAppShell({
           // route update can race the autocomplete's own router history cleanup.
           autocomplete.once("closed", () => {
             if (item.kind === "gene") go("genes", item.target);
-            else if (item.kind === "view") go(item.target);
-            else if (item.kind === "pathway") onPathway?.(item.target);
-            else if (item.kind === "action") finderActions().find(action => action.id === item.target)?.run();
           });
           autocomplete.close();
         },

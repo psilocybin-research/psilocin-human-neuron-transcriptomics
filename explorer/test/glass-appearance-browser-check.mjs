@@ -72,11 +72,12 @@ try {
  await darkMode.tap();await page.waitForFunction(()=>!document.documentElement.classList.contains('dark'));
  await page.locator('.desktop-gene-finder').click();
  const finder=page.locator('.autocomplete-popup.modal-in');await finder.waitFor();
- await finder.locator('input[type=search]').fill('appearance settings');
- const appearanceSetting=finder.getByRole('radio',{name:/Appearance settings.*Switch to dark mode/i});
- await appearanceSetting.waitFor();await appearanceSetting.click();
+ await finder.locator('input[type=search]').fill('GPX4');
+ await finder.getByRole('radio',{name:/GPX4.*ENSG/i}).waitFor();
+ assert.equal(await finder.getByRole('button',{name:'Selection',exact:true}).count(),1);
+ assert.equal(await finder.getByText(/workspace|action|pathway/i).count(),0,'Gene Finder stays focused on genes');
+ await finder.getByRole('button',{name:'Done',exact:true}).click();
  await finder.waitFor({state:'detached'});
- await page.waitForFunction(()=>document.documentElement.classList.contains('dark'));
  await page.screenshot({path:`${output}/desktop-glass.png`});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.reducedMotion==='true');

@@ -14,6 +14,7 @@ import {
 import { trackActivity } from "./app-activity.js";
 import { Plot, scientificPlot, plotWidth } from "./scientific-plot.js";
 import { enhancePlots } from "./figure-controls.js";
+import { contrasts } from "./format.js";
 function action(text, fn) {
   const button = el("button", "button button-tonal", text);
   button.type = "button";
@@ -100,7 +101,26 @@ function featurePlot(protein) {
   block.append(details);
   return block;
 }
-function structureOption(parent, model, predicted = false, authorize) {
+function molecularStatistics(gene) {
+  const section = el("section", "molecular-fullscreen-statistics");
+  section.append(el("h3", "", `${gene.symbol} · archived gene statistics`));
+  const table = el("table", "data-table");
+  const head = el("tr");
+  for (const label of ["Contrast", "log₂FC", "SE", "Gene FDR", "Approx. 95% interval"])
+    head.append(el("th", "", label));
+  table.append(head);
+  const number = value => Number.isFinite(value) ? Number(value).toPrecision(4) : "Not available";
+  for (const [index, effect] of (gene.effects || []).entries()) {
+    const row = el("tr"), lower = effect.log2FoldChange - 1.96 * effect.lfcSE,
+      upper = effect.log2FoldChange + 1.96 * effect.lfcSE;
+    for (const value of [contrasts[index] || `Contrast ${index + 1}`, number(effect.log2FoldChange), number(effect.lfcSE), number(effect.padj), Number.isFinite(lower) && Number.isFinite(upper) ? `${number(lower)} to ${number(upper)}` : "Not available"])
+      row.append(el("td", "", value));
+    table.append(row);
+  }
+  section.append(table, el("p", "note", "Archived gene-level estimates. Intervals are log₂FC ± 1.96 SE (approximate Wald intervals). Structural models are external context and do not change these estimates."));
+  return section;
+}
+function structureOption(parent, model, predicted = false, authorize, gene) {
   const row = el("div", "protein-model-option");
   row.append(
     el("strong", "", `${predicted ? "Predicted" : "PDB"} · ${model.id}`),
@@ -146,6 +166,8 @@ function structureOption(parent, model, predicted = false, authorize) {
         viewport.dataset.fullscreenLabel = "Fullscreen";
         viewport.dataset.fullscreenTitle = `${predicted ? "Predicted" : "PDB"} protein structure ${model.id}`;
         viewport.dataset.fullscreenInfo = `${predicted ? "Predicted model, not experimental evidence. Local pLDDT confidence is not cellular activity." : "Deposited PDB coordinate model; may include partners, fragments and engineered sequences."} Coordinate source: ${model.url}`;
+        viewport.dataset.molecularGeneId = gene.id;
+        viewport.molecularStatistics = () => molecularStatistics(gene);
         enhancePlots(row, { nested: true });
       }
     } catch (error) {
@@ -167,6 +189,7 @@ function structureOption(parent, model, predicted = false, authorize) {
   parent.append(row);
 }
 function proteinCard(
+  gene,
   protein,
   result,
   { structures = false, opened = false } = {},
@@ -232,6 +255,7 @@ function proteinCard(
           },
           false,
           result.authorize,
+          gene,
         );
       count += 5;
       more.hidden = count >= protein.pdb.length;
@@ -277,6 +301,7 @@ function proteinCard(
             { ...model, accession: protein.accession },
             true,
             result.authorize,
+            gene,
           );
         predicted.append(
           link("AlphaFold API source ↗", response.source),
@@ -432,6 +457,7 @@ export async function proteinContext(
           },
           preferredModel.provider === "AlphaFold",
           authorize,
+          gene,
         );
       }
     }
@@ -481,6 +507,7 @@ export async function proteinContext(
         },
         false,
         result.authorize,
+        gene,
       );
     }
   } else if (!preferred) {
@@ -499,7 +526,7 @@ export async function proteinContext(
     root.append(el("h4", "", `Reviewed protein records · ${reviewed.length}`));
   for (const protein of reviewed)
     root.append(
-      proteinCard(protein, result, {
+      proteinCard(gene, protein, result, {
         structures,
         opened: !structures
           ? protein === reviewed[0]
@@ -523,7 +550,7 @@ export async function proteinContext(
     function appendUnreviewed() {
       const batch = unreviewed.slice(shown, shown + 20);
       for (const protein of batch)
-        additional.body.append(proteinCard(protein, result, { structures }));
+        additional.body.append(proteinCard(gene, protein, result, { structures }));
       shown += batch.length;
       more.hidden = shown >= unreviewed.length;
       more.textContent = `Show more unreviewed proteins · ${shown} of ${unreviewed.length}`;

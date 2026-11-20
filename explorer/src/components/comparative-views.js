@@ -852,9 +852,12 @@ export function createComparativeViews({
       ...(scatter ? points.map((p) => Math.abs(p.y)) : []),
     );
     const extent = state.range === "all" ? full * 1.03 : +state.range;
-    const left = W < 500 ? 55 : 80,
-      right = W - 22,
-      top = 55,
+    // Observable Plot places the vertical axis label inside the left margin.
+    // A generous mobile lane avoids clipping it against the figure edge or tools.
+    const compact = W < 500,
+      left = compact ? 88 : 96,
+      right = W - (compact ? 18 : 26),
+      top = compact ? 72 : 64,
       bottom = 545;
     const x = (v) => left + ((v + extent) / (2 * extent)) * (right - left),
       maxY = scatter ? extent : 50;

@@ -2118,11 +2118,8 @@ body {
 #psilocin-app .research-sources :is(.header-repository, .ui-license) {
   color: var(--research-accent);
 }
-@media (max-width: 1179px) {
-  #psilocin-app .research-navbar .desktop-gene-finder {
-    display: none;
-  }
-}
+/* Gene Finder is the stable, compact entry point in the header at every width. */
+#psilocin-app .research-navbar .desktop-gene-finder { display:inline-flex; }
 
 /* Continuous research outline: whole rows, aligned evidence, no action chips. */
 #psilocin-app .tree-canvas {
@@ -2855,6 +2852,13 @@ body {
 #psilocin-app .autocomplete-popup .popup-close {
   min-height: 44px;
   gap: 6px;
+}
+#psilocin-app .autocomplete-popup .finder-selection-menu {
+  width:44px;
+  min-width:44px;
+  min-height:44px;
+  margin-inline-end:4px;
+  color:var(--research-accent);
 }
 
 #psilocin-app .footer-source-logos {
@@ -4140,6 +4144,7 @@ body {
 #psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) {
   display: flex;
   flex-direction: column;
+  overflow:auto;
 }
 #psilocin-app .figure-shell:is(:fullscreen, :-webkit-full-screen) > .molecular-viewport {
   width: 100%;
@@ -4147,6 +4152,12 @@ body {
 #psilocin-app .figure-shell:is(:fullscreen, :-webkit-full-screen) > .molecular-viewport .molecular-stage {
   height: max(260px, calc(100dvh - 250px));
 }
+#psilocin-app .molecular-fullscreen-action { display:none; }
+#psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) .molecular-fullscreen-action { display:inline-flex;align-items:center;gap:6px; }
+#psilocin-app .molecular-fullscreen-statistics { display:block;margin:12px 16px 20px;padding:14px;border:1px solid var(--research-border);border-radius:12px;background:var(--research-surface);color:var(--research-text); }
+#psilocin-app .molecular-fullscreen-statistics h3 { margin:0 0 10px;font-size:15px; }
+#psilocin-app .molecular-fullscreen-statistics table { width:100%;font-variant-numeric:tabular-nums; }
+#psilocin-app .molecular-fullscreen-statistics :is(th,td) { padding:7px 8px;text-align:left; }
 
 #psilocin-app .gene-information-sheet.gene-annotation {
   margin: 0;
@@ -4581,8 +4592,9 @@ body {
 #psilocin-app .oxphos-3d-stage>.inline-loading { position:absolute;inset:45% 20px auto;text-align:center;color:#d6eafa;justify-content:center; }
 #psilocin-app .oxphos-3d-topbar { position:absolute;top:16px;left:16px;max-width:calc(100% - 130px);pointer-events:none; }
 #psilocin-app .oxphos-3d-topbar .oxphos-3d-days { pointer-events:auto;background:#13283b;width:190px;padding:3px;border:1px solid #2b4a61;border-radius:12px; }
-#psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .button { background:transparent;color:#a5bfd2;border-radius:9px; }
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-topbar .button { background:transparent;color:#e8f5ff;border-radius:9px;text-shadow:0 1px 2px #07121dcc; }
 #psilocin-app .oxphos-3d-immersive .oxphos-3d-days .button[aria-pressed=true] { color:#fff;background:#235780;box-shadow:0 2px 12px #02071066; }
+#psilocin-app .oxphos-3d-immersive .oxphos-3d-days .button[aria-pressed=false] { color:#e8f5ff;opacity:1; }
 #psilocin-app .oxphos-3d-status { font-size:12px;color:#9eb7c9;max-width:350px;text-shadow:0 1px 3px #000;margin:10px 0; }
 #psilocin-app .oxphos-3d-dock { position:absolute;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:6px;border:1px solid #375164;border-radius:18px;background:#112537e8;box-shadow:0 6px 28px #0006;backdrop-filter:blur(14px);width:max-content;max-width:calc(100% - 24px); }
 #psilocin-app .oxphos-3d-dock .button,#psilocin-app .oxphos-3d-camera .button { color:#d5eaf7;background:#17354a;min-height:44px;padding:8px 14px; }
@@ -4924,6 +4936,9 @@ body {
   #psilocin-app .sources-mobile-page .sources-content {
     padding-bottom:calc(96px + env(safe-area-inset-bottom));
   }
+  #psilocin-app[data-sources-open="true"] .analysis-fab {
+    visibility:hidden;opacity:0;pointer-events:none;
+  }
 }
 .oxphos-network-preview { position:relative; }
 .oxphos-network-preview-fullscreen {
@@ -4956,18 +4971,21 @@ body {
   #psilocin-app .oxphos-mobile-toolbar {
     display:block; position:absolute; left:0; right:0; bottom:0; top:auto;
     height:var(--network-tool-height); padding-bottom:env(safe-area-inset-bottom);
-    background:var(--research-surface); color:var(--research-text); z-index:6;
-    border-top:1px solid var(--research-border); box-sizing:border-box;
+    background:var(--research-bars); color:var(--research-text); z-index:6;
+    border-top:1px solid #c8d6e580; box-sizing:border-box;
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:none;
   }
-  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner { height:62px; padding:0 4px; }
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-inner { height:62px; padding:5px 12px; gap:8px; }
+  #psilocin-app .oxphos-mobile-toolbar .toolbar-pane { display:flex;align-items:stretch;width:100%;height:100%; }
   #psilocin-app .oxphos-mobile-toolbar .tab-link {
-    display:flex; flex-direction:column; justify-content:center; gap:3px;
-    flex:1; height:56px; min-width:0; padding:4px 2px; border-radius:10px;
-    background:transparent; color:var(--research-muted); font-size:11px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px;
+    flex:1; height:54px; min-width:0; padding:5px 4px; border-radius:16px;
+    background:transparent; color:#536b80; font-size:11px; line-height:1.2;
   }
-  #psilocin-app .oxphos-mobile-toolbar .tab-link span { display:block; }
-  #psilocin-app .oxphos-mobile-toolbar .tab-link svg { width:20px; height:20px; }
-  #psilocin-app .oxphos-mobile-toolbar .tab-link-active { background:var(--research-selected); color:var(--f7-theme-color); }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link span { display:block;font-size:10px; }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link svg { width:23px; height:23px; }
+  #psilocin-app .oxphos-mobile-toolbar .tab-link-active { background:transparent;color:var(--research-accent);font-weight:650; }
   #psilocin-app .oxphos-mobile-inspector:not([hidden]) {
     display:flex; flex-direction:column; position:absolute; left:0; right:0;
     bottom:var(--network-tool-height); height:var(--network-inspector-height);
@@ -5225,21 +5243,42 @@ body {
 /* Analysis navigation: shallow grouping, document rows and explicit gesture modes. */
 #psilocin-app .analysis-navigation.page{position:relative;width:auto;height:auto;transform:none;background:transparent;z-index:auto}
 #psilocin-app .analysis-navigation>.page-content{height:auto;padding:0;overflow:visible}
-#psilocin-app .analysis-search{margin:8px 0;height:36px;background:transparent;box-shadow:none;border-radius:6px;--f7-searchbar-input-height:32px}
-#psilocin-app .analysis-search .searchbar-inner{padding:0}
-#psilocin-app .analysis-search input{font-size:13px}
-#psilocin-app .analysis-groups{margin:8px 0;background:transparent;--f7-list-bg-color:transparent;--f7-list-item-min-height:36px;--f7-list-item-padding-horizontal:6px;--f7-list-item-title-font-size:12px}
+#psilocin-app .analysis-navigation .studio-sidebar-head{position:relative;min-height:36px;isolation:isolate}
+#psilocin-app .analysis-search-toggle{width:36px;min-width:36px;height:36px;padding:8px;border-radius:50%;color:var(--research-accent);background:transparent;transition:opacity .18s ease,transform .24s ease}
+#psilocin-app .analysis-search-toggle svg{display:block!important;width:19px;height:19px}
+#psilocin-app .analysis-search{--f7-searchbar-height:40px;position:absolute!important;z-index:3;inset:-2px 0 auto!important;width:100%;height:40px!important;margin:0!important;background:transparent!important;opacity:0;pointer-events:none;transform:scale(.96);transform-origin:right center;transition:opacity .18s ease,transform .24s cubic-bezier(.2,.75,.2,1)}
+#psilocin-app .analysis-search.searchbar-enabled{opacity:1;pointer-events:auto;transform:scale(1)}
+#psilocin-app .analysis-search>.searchbar-inner{position:relative;display:flex;min-width:0;height:40px;padding:0;overflow:visible}
+#psilocin-app .analysis-search .searchbar-input-wrap{height:40px;min-height:40px;border:0;border-radius:22px;background:var(--f7-glass-bg-color);box-shadow:var(--f7-glass-shadow)}
+#psilocin-app .analysis-search input{height:40px;font-size:13px;color:var(--research-text)}
+#psilocin-app .analysis-search .input-clear-button{display:grid;place-items:center;width:32px;height:32px;right:4px;margin-top:-16px;border:0;border-radius:50%;background:transparent;color:var(--research-muted)}
+#psilocin-app .analysis-search .searchbar-disable-button{display:grid;place-items:center;flex:none;width:40px;height:40px;margin-left:8px;padding:8px;border:0;border-radius:50%;background:var(--f7-glass-bg-color);box-shadow:var(--f7-glass-shadow);color:var(--research-text);opacity:1;pointer-events:auto;transform:none}
+#psilocin-app .analysis-search .searchbar-disable-button svg{width:20px;height:20px}
+#psilocin-app .analysis-navigation.analysis-search-open .studio-sidebar-head>h3,#psilocin-app .analysis-navigation.analysis-search-open .studio-sidebar-head>.analysis-search-toggle,#psilocin-app .analysis-navigation.analysis-search-open .studio-sidebar-head>.button:not(.analysis-search-toggle){opacity:0;pointer-events:none}
+#psilocin-app .analysis-search-suggestions{margin:8px 0 8px;background:var(--f7-glass-bg-color);border:0;border-radius:12px;box-shadow:var(--f7-glass-shadow);overflow:hidden}
+#psilocin-app .analysis-search-suggestions ul{margin:0;padding:3px;list-style:none}
+#psilocin-app .analysis-search-suggestion{display:flex;width:100%;min-height:40px;padding:7px 9px;border:0;border-radius:9px;background:transparent;color:var(--research-text);text-align:left;align-items:center;gap:8px}
+#psilocin-app .analysis-search-suggestion:hover,#psilocin-app .analysis-search-suggestion:focus-visible{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow)}
+#psilocin-app .analysis-search-suggestion .item-inner{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:600}
+#psilocin-app .analysis-search-suggestion .item-after{margin-left:auto;flex:none;font-size:10px;color:var(--research-muted)}
+#psilocin-app .analysis-groups{margin:10px 0 0;background:transparent;--f7-list-bg-color:transparent;--f7-list-item-min-height:38px;--f7-list-item-padding-horizontal:0;--f7-list-item-title-font-size:12px}
 #psilocin-app .analysis-groups>ul:before,#psilocin-app .analysis-groups>ul:after,#psilocin-app .analysis-groups .item-inner:after{display:none}
 #psilocin-app .analysis-groups>.list{margin:0}
-#psilocin-app .analysis-groups .accordion-item-content{padding-left:4px}
+#psilocin-app .analysis-groups .accordion-item{border-bottom:1px solid color-mix(in srgb,var(--research-border) 72%,transparent)}
+#psilocin-app .analysis-groups .accordion-item:last-child{border-bottom:0}
+#psilocin-app .analysis-groups .accordion-item-toggle{min-height:38px;padding:0 4px;border-radius:8px;background:transparent;color:var(--research-text)}
+#psilocin-app .analysis-groups .accordion-item-toggle .item-title{font-size:12px;font-weight:650}
+#psilocin-app .analysis-groups .accordion-item-toggle .item-after{font-size:11px;color:var(--research-muted)}
+#psilocin-app .analysis-groups .accordion-item-opened>.accordion-item-toggle{color:var(--research-accent)}
+#psilocin-app .analysis-groups .accordion-item-content{padding:0 0 8px}
 #psilocin-app .studio-book-list{display:block;margin:2px 0;--f7-list-bg-color:transparent}
 #psilocin-app .studio-book-list>ul{background:transparent;margin:0;padding:0;list-style:none}
 #psilocin-app .studio-book-list>ul:before,#psilocin-app .studio-book-list>ul:after{display:none}
-#psilocin-app .studio-book-entry{display:block;position:relative;min-width:0;border-radius:5px;overflow:hidden}
-#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:var(--f7-panel-bg-color,var(--f7-page-bg-color));min-width:0}
+#psilocin-app .studio-book-entry{display:block;position:relative;min-width:0;border-radius:8px;overflow:hidden}
+#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:transparent;min-width:0}
 #psilocin-app .studio-book-entry .swipeout-content>.button{background:transparent;border-radius:4px;min-height:36px;font-size:12px;padding:6px 8px}
 #psilocin-app .studio-book-entry .swipeout-content>.button:first-child{flex:1;min-width:0;text-align:left;justify-content:flex-start;white-space:normal;height:auto;line-height:1.35;font-weight:400;overflow-wrap:anywhere}
-#psilocin-app .studio-book-entry .swipeout-content>.button[aria-current=true]{background:rgba(var(--f7-theme-color-rgb),.12);color:var(--f7-theme-color);font-weight:600}
+#psilocin-app .studio-book-entry .swipeout-content>.button[aria-current=true]{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow);color:var(--research-accent);font-weight:650}
 #psilocin-app .studio-book-entry .swipeout-content>.button:last-child{width:36px;min-width:36px;padding:4px}
 #psilocin-app .studio-book-entry .swipeout-content>.button:last-child svg{display:none}
 #psilocin-app .studio-book-entry .swipeout-actions-right>a{font-size:12px;padding:0 14px}
@@ -5249,8 +5288,10 @@ body {
 #psilocin-app .analysis-order-bar>.button{font-size:11px;min-height:30px;padding:4px 8px;background:transparent}
 #psilocin-app .analysis-order-bar>.note{font-size:10px;line-height:1.3}
 #psilocin-app .studio-archived-analyses{border:0;margin:0;padding:0}
-#psilocin-app .studio-archived-analyses>.note{font-size:11px;line-height:1.4;margin:4px 6px 8px}
-#psilocin-app .studio-archived-analyses>.button{display:flex;min-height:36px;width:100%;height:auto;white-space:normal;line-height:1.35;padding:6px 8px;background:transparent;font-size:12px;text-align:left;justify-content:flex-start}
+#psilocin-app .studio-archived-analyses>.note{font-size:11px;line-height:1.45;margin:4px 4px 8px;color:var(--research-muted)}
+#psilocin-app .studio-archived-analyses>.button{display:flex;min-height:38px;width:100%;height:auto;white-space:normal;line-height:1.35;padding:7px 8px;background:transparent;font-size:12px;text-align:left;justify-content:flex-start;border-radius:8px}
+#psilocin-app .studio-sidebar-resources{margin-top:14px;padding-top:10px}
+#psilocin-app .studio-sidebar-resources>.button{justify-content:flex-start;border-radius:8px;background:transparent}
 #psilocin-app .analysis-list-empty,#psilocin-app .analysis-search-empty{padding:8px;font-size:12px;line-height:1.5}
 #psilocin-app .studio-empty-state{padding:24px 8px;max-width:520px}
 #psilocin-app .analysis-trash-header{display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -5493,3 +5534,23 @@ body {
     bottom:calc(var(--network-tool-height,62px) + 8px);
   }
 }
+
+/* Analysis heading: matched compact actions; the full F7-style field appears on demand. */
+#psilocin-app .analysis-navigation .studio-sidebar-head{display:flex;align-items:center;gap:4px}
+#psilocin-app .analysis-navigation .studio-sidebar-head h3{flex:1;min-width:0;margin:0}
+#psilocin-app .analysis-navigation .analysis-new-button{display:inline-flex!important;align-items:center;gap:4px;min-width:0;height:32px;min-height:32px;padding:4px 9px!important;border-radius:16px;background:var(--atlas-control-glass);border:1px solid var(--atlas-control-edge);color:var(--research-accent);font-size:11px!important;font-weight:650;box-shadow:none}
+#psilocin-app .analysis-navigation .analysis-new-button svg{display:block!important;width:14px;height:14px}
+#psilocin-app .analysis-navigation .analysis-new-button:hover,#psilocin-app .analysis-navigation .analysis-new-button:focus-visible{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow)}
+#psilocin-app .analysis-navigation .analysis-search-toggle{display:grid!important;place-items:center;border:1px solid transparent}
+#psilocin-app .analysis-navigation .analysis-search-toggle:hover,#psilocin-app .analysis-navigation .analysis-search-toggle:focus-visible{background:var(--atlas-control-glass);border-color:var(--atlas-control-edge);box-shadow:var(--f7-glass-shadow-thumb)}
+/* Prevent older workspace button rules from turning the compact heading actions into full-width rows. */
+#psilocin-app .analysis-navigation .studio-sidebar-head h3{flex:1 1 0!important;flex-basis:0!important}
+#psilocin-app .analysis-navigation .studio-sidebar-head>.analysis-search-toggle{flex:0 0 36px!important;width:36px!important}
+#psilocin-app .analysis-navigation .studio-sidebar-head>.analysis-new-button{flex:0 0 auto!important;width:auto!important;max-width:none!important}
+/* Narrow drawer variant of the F7 expandable searchbar: close stays inside the field. */
+#psilocin-app .analysis-search>.searchbar-inner{width:100%}
+#psilocin-app .analysis-search .searchbar-input-wrap{width:100%}
+#psilocin-app .analysis-search input{padding-right:42px}
+#psilocin-app .analysis-search .searchbar-disable-button{position:absolute;z-index:2;right:4px;top:0;margin:0;width:40px;height:40px;background:transparent;box-shadow:none}
+#psilocin-app .analysis-search-suggestion .item-inner{flex:1}
+@media(max-width:900px){#psilocin-app .analysis-search-suggestion .item-after{display:none}}

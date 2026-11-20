@@ -735,6 +735,11 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     if (tab === "custom-r" && current?.setResearchSelection) current.setResearchSelection(selection);
     else { pendingRSelection = selection; go("custom-r"); }
   }
+  const sendMolecularGeneToR = event => {
+    const gene = event.detail?.gene;
+    if (gene) sendSelectionToR({ ...researchStore.getState(), gene });
+  };
+  root.addEventListener("atlas:send-gene-to-r", sendMolecularGeneToR);
   const sessionBar = el("section", "research-session-actions");
   sessionBar.setAttribute("aria-label", "Research selection history");
   const previousSelection = button("Undo selection", () => researchStore.undo(), "secondary");
@@ -812,6 +817,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.querySelector(".research-figure-builder")?.dispose?.();
     body.querySelector(".exploratory-result-chart")?.dispose?.();
     body.querySelector(".custom-r-workspace")?.destroy?.();
+    root.removeEventListener("atlas:send-gene-to-r", sendMolecularGeneToR);
     body.replaceChildren();
     Promise.resolve(
       {

@@ -1,15 +1,18 @@
 import {createElement as el, readPreference, writePreference, destroySheet} from './interface-utils.js';
 import {studioMenu} from './studio-ui.js';
 import {rExamples} from './r-examples.js';
+import {uiIcon} from './icons.js';
 
 // Navigation changes never rebuild the editor or execute a notebook.
 export function createAnalysisNavigation({root, sidebar, action, newBook, getWorkspace, isBusy, onChoose, onRename, onDuplicate, onTrash, onRestore, onReorder, onExport, onPermanentDelete, onArchived, onTools, onOpenSystems, examples=rExamples, language='r', maxActive=30}) {
-  let query='', reordering=false, trashModal, disposed=false;
+  let query='', searchOpen=false, reordering=false, trashModal, disposed=false, searchCloseTimer;
   const container=el('div','analysis-navigation page'),content=el('div','page-content');container.append(content);
-  const head=el('div','studio-sidebar-head');head.append(el('h3','','Analyses'),newBook);
-  const search=el('form','searchbar searchbar-inline analysis-search');search.setAttribute('role','search');search.onsubmit=e=>e.preventDefault();
+  const head=el('div','studio-sidebar-head'),searchToggle=el('button','button button-round analysis-search-toggle');searchToggle.type='button';searchToggle.setAttribute('aria-label','Find analyses');searchToggle.setAttribute('aria-expanded','false');searchToggle.append(uiIcon('search'));
+  newBook.classList.add('analysis-new-button');newBook.replaceChildren(uiIcon('plus'),el('span','','New'));newBook.setAttribute('aria-label','New analysis');newBook.title='New analysis';head.append(el('h3','','Analyses'),searchToggle,newBook);
+  const search=el('form','searchbar searchbar-expandable analysis-search');search.setAttribute('role','search');search.onsubmit=e=>e.preventDefault();
   const searchInner=el('div','searchbar-inner'),inputWrap=el('div','searchbar-input-wrap'),input=el('input');input.type='search';input.placeholder='Find analyses';input.setAttribute('aria-label','Find analyses');
-  const searchIcon=el('i','searchbar-icon');searchIcon.setAttribute('aria-hidden','true');inputWrap.append(input,searchIcon);searchInner.append(inputWrap);search.append(searchInner);
+  const searchIcon=el('i','searchbar-icon'),clear=el('button','input-clear-button'),closeSearch=el('button','searchbar-disable-button');clear.type=closeSearch.type='button';clear.setAttribute('aria-label','Clear analysis search');closeSearch.setAttribute('aria-label','Close analysis search');closeSearch.append(uiIcon('close'));clear.hidden=true;searchIcon.setAttribute('aria-hidden','true');inputWrap.append(input,searchIcon,clear);searchInner.append(inputWrap);search.append(searchInner,closeSearch);head.append(search);
+  const suggestions=el('div','list analysis-search-suggestions'),suggestionList=el('ul');suggestions.append(suggestionList);
   const groups=el('div','list analysis-groups'),groupList=el('ul');groups.append(groupList);
   function group(name,key,initial){
     const row=el('li','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('role','button');
@@ -34,9 +37,16 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     (optional?advanced:archived).append(button);scriptEntries.push({button,optional});
   }
   archive.body.append(archived);extensions.body.append(advanced);
-  const resources=el('div','studio-sidebar-resources'),trash=action('Trash','close',openTrash);resources.append(trash);if(onTools)resources.append(action('Data & settings','controls',onTools));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));
-  const empty=el('p','note analysis-search-empty','No matching analyses.');empty.setAttribute('role','status');content.append(head,search,groups,empty,resources);sidebar.append(container);
-  input.oninput=()=>{query=input.value.trim().toLocaleLowerCase();reordering=false;render();};
+  const resources=el('div','studio-sidebar-resources'),trash=action('Trash','close',openTrash);if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));if(onTools)resources.append(action('Data & settings','controls',onTools));resources.append(trash);
+  const empty=el('p','note analysis-search-empty','No matching analyses.');empty.setAttribute('role','status');content.append(head,suggestions,groups,empty,resources);sidebar.append(container);
+  function setSearchOpen(open,{focus=false}={}){searchOpen=open;container.classList.toggle('analysis-search-open',open);search.classList.toggle('searchbar-enabled',open);searchToggle.setAttribute('aria-expanded',String(open));clear.hidden=!query;if(open){render();if(focus)requestAnimationFrame(()=>input.focus());}else if(!query)render();}
+  searchToggle.onclick=()=>setSearchOpen(!searchOpen,{focus:!searchOpen});
+  closeSearch.onclick=()=>{input.value='';query='';setSearchOpen(false);searchToggle.focus();};
+  clear.onclick=()=>{input.value='';query='';clear.hidden=true;render();input.focus();};
+  input.onfocus=()=>{clearTimeout(searchCloseTimer);setSearchOpen(true);};
+  input.onblur=()=>{clearTimeout(searchCloseTimer);searchCloseTimer=setTimeout(()=>{if(!query)setSearchOpen(false);},140);};
+  input.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();input.value='';query='';setSearchOpen(false);searchToggle.focus();}else if(e.key==='ArrowDown'&&suggestionList.firstElementChild){e.preventDefault();suggestionList.querySelector('button')?.focus();}};
+  input.oninput=()=>{query=input.value.trim().toLocaleLowerCase();clear.hidden=!query;reordering=false;render();};
   function matches(title){return title.toLocaleLowerCase().includes(query);}
   function menuItems(book){const workspace=getWorkspace(),index=workspace.notebooks.indexOf(book);return [
     {label:'Rename',run:()=>onRename(book)},{label:'Duplicate',disabled:workspace.notebooks.length>=maxActive,run:()=>onDuplicate(book)},
@@ -61,6 +71,12 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     extensions.count.textContent=String(scriptEntries.filter(x=>x.optional).length);
     let archivedShown=0,advancedShown=0;
     for(const {button,optional} of scriptEntries){button.hidden=!matches(button.dataset.title);if(!button.hidden){if(optional)advancedShown++;else archivedShown++;}}
+    suggestionList.replaceChildren();
+    if(searchOpen){
+      const candidates=[...workspace.notebooks.filter(book=>matches(book.title)).map(book=>({title:book.title,detail:'My analysis',run:()=>onChoose(book)})),...scriptEntries.filter(({button})=>matches(button.dataset.title)).map(({button,optional})=>({title:button.dataset.title,detail:optional?'Exploratory extension':'Study result script',run:()=>onArchived(examples.find(example=>example.title===button.dataset.title))}))].slice(0,6);
+      for(const candidate of candidates){const row=el('li'),choice=el('button','item-content analysis-search-suggestion');choice.type='button';choice.append(el('div','item-inner',candidate.title),el('div','item-after',candidate.detail));choice.onclick=()=>{candidate.run();input.value='';query='';setSearchOpen(false);};row.append(choice);suggestionList.append(row);}
+      suggestions.hidden=!candidates.length;
+    }else suggestions.hidden=true;
     empty.hidden=shown+archivedShown+advancedShown>0||!query;
     personal.row.hidden=!!query&&!shown;
     archive.row.hidden=!scriptEntries.some(x=>!x.optional)||(!!query&&!archivedShown);
@@ -81,5 +97,5 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     const header=el('div','analysis-trash-header');header.append(el('h3','','Trash'),action('Done','close',()=>trashModal.close()));inner.append(handle,header,el('p','note','Restore analyses with their recorded outputs. Permanent deletion cannot be undone.'),el('div','analysis-trash-items'));sheet.append(inner);root.append(sheet);
     trashModal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,swipeToClose:true,swipeHandler:handle,on:{closed(instance){trashModal=undefined;destroySheet(instance);sheet.remove();trash.focus();}}});renderTrash();trashModal.open();
   }
-  return {render,setBusy,openTrash,reveal(){query='';input.value='';writePreference(`atlas-analysis-group-${language}-personal`,'true');},destroy(){disposed=true;books.removeEventListener('sortable:sort',onSort);if(trashModal){const instance=trashModal;trashModal=undefined;instance.close(false);}}};
+  return {render,setBusy,openTrash,reveal(){query='';input.value='';setSearchOpen(false);writePreference(`atlas-analysis-group-${language}-personal`,'true');},destroy(){disposed=true;clearTimeout(searchCloseTimer);books.removeEventListener('sortable:sort',onSort);if(trashModal){const instance=trashModal;trashModal=undefined;instance.close(false);}}};
 }

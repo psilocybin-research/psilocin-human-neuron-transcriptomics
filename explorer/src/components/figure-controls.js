@@ -189,9 +189,23 @@ export function enhancePlots(scope, { nested = false } = {}) {
       )
         ? plot.parentElement
         : plot);
+    // A figure can include a matrix, a linked gene-detail panel or other
+    // scientific context. Give an individual plot inside that outer figure its
+    // own destination so fullscreen means the plot, rather than the whole card.
+    const enclosingShell = host.closest(".figure-shell");
+    const shellContent = enclosingShell?.querySelector(
+      ":scope > [data-figure-content]",
+    );
+    // Only intentionally compound scientific layouts receive a second,
+    // plot-only fullscreen control. Other figures already own one concise
+    // toolbar; automatically adding another would duplicate Print/Fullscreen.
+    const nestedPlot = Boolean(
+      enclosingShell &&
+        host !== shellContent &&
+        shellContent?.matches("[data-nested-fullscreen],.landscape-layout"),
+    );
     if (
-      (host.closest(".figure-shell") &&
-        (!nested || scope.contains(host.closest(".figure-shell")))) ||
+      (enclosingShell && !nestedPlot) ||
       plot.closest("button,a,.figure-toolbar")
     )
       continue;
@@ -255,20 +269,34 @@ export function enhancePlots(scope, { nested = false } = {}) {
     }
     const print = button("", () => printFigure(shell, title), "figure-print");
     print.append(icon("print"));
-    full.setAttribute("aria-label", `View ${title} in full screen`);
-    full.title = "View plot and information in full screen";
+    full.classList.toggle("figure-fullscreen-focus", nestedPlot);
+    full.setAttribute(
+      "aria-label",
+      nestedPlot ? `View only ${title} in full screen` : `View ${title} in full screen`,
+    );
+    full.title = nestedPlot
+      ? "View only this plot in full screen"
+      : "View plot and information in full screen";
+    let molecularStats;
     const update = () => {
       const active =
         (document.fullscreenElement || document.webkitFullscreenElement) ===
         shell;
       full.setAttribute(
         "aria-label",
-        active ? "Exit full screen" : `View ${title} in full screen`,
+        active
+          ? "Exit full screen"
+          : nestedPlot
+            ? `View only ${title} in full screen`
+            : `View ${title} in full screen`,
       );
       full.title = active
         ? "Exit full screen"
-        : "View plot and information in full screen";
+        : nestedPlot
+          ? "View only this plot in full screen"
+          : "View plot and information in full screen";
       full.classList.toggle("figure-fullscreen-exit", active);
+      if (!active && molecularStats) molecularStats.hidden = true;
       full.replaceChildren(icon(active ? "close" : "fullscreen"));
       if (active) full.append(el("span", "", "Close"));
       else if (host.dataset.fullscreenLabel)
@@ -279,6 +307,25 @@ export function enhancePlots(scope, { nested = false } = {}) {
     print.setAttribute("aria-label", `Print ${title}`);
     print.title = "Print this plot and its visible information";
     pane.append(print);
+    if (host.molecularStatistics && host.dataset.molecularGeneId) {
+      const sendToR = button("", () => host.dispatchEvent(new CustomEvent("atlas:send-gene-to-r", {
+        bubbles: true, detail: { gene: host.dataset.molecularGeneId },
+      })), "molecular-fullscreen-action molecular-send-to-r");
+      sendToR.append(icon("custom-r"), el("span", "", "Send to R"));
+      sendToR.setAttribute("aria-label", `Send ${host.dataset.molecularGeneId} to R`);
+      const stats = button("", () => {
+        if (!molecularStats) {
+          molecularStats = host.molecularStatistics();
+          molecularStats.hidden = true;
+          shell.append(molecularStats);
+        }
+        molecularStats.hidden = !molecularStats.hidden;
+        stats.setAttribute("aria-expanded", String(!molecularStats.hidden));
+      }, "molecular-fullscreen-action molecular-stats-toggle");
+      stats.append(icon("information"), el("span", "", "More statistics"));
+      stats.setAttribute("aria-expanded", "false");
+      pane.append(sendToR, stats);
+    }
     host.before(shell);
     host.dataset.figureContent = "";
     shell.append(toolbar, context, host);

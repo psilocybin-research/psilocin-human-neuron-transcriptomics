@@ -57,6 +57,8 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     ? (overlayValues.has(n.id) ? color(overlayValues.get(n.id), overlayLimit) : "#808080")
     : color(n.effects[d]?.log2FoldChange, snapshot.limit);
   const objects = new Map();
+  const networkToast = (message, container = root) =>
+    showToast(message, { container, closeButton: false });
   const leftStage = el("div", "oxphos-3d-pane");
   const resources = [],
     meshes = new Map(),
@@ -87,7 +89,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       day = i;
       onSelection({ contrast: day === 0 ? "day1_vs_control" : "day3_vs_control" });
       refresh();
-      showToast(`Showing Day ${i === 0 ? 1 : 3} / common control.`, { container: root });
+      networkToast(`Showing Day ${i === 0 ? 1 : 3} / common control.`);
     });
     days.append(b);
     return b;
@@ -114,7 +116,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     filter = filterSelect.value;
     refresh();
     const group = filter === "all" ? "All 113 archived genes" : filterSelect.selectedOptions[0].textContent;
-    showToast(`Showing ${group}.`, { container: drawer?.isConnected ? drawer : root });
+    networkToast(`Showing ${group}.`, drawer?.isConnected ? drawer : root);
   };
   filterLabel.append(filterSelect);
   const layoutLabel = el("label", "oxphos-3d-layout-direct");
@@ -146,7 +148,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       nodeProtein?.clear();
     }
     updateGraph();
-    showToast(labelsToggle.checked ? "Network labels and structure previews on." : "Network labels and structure previews off.", { container: root });
+    networkToast(labelsToggle.checked ? "Network labels and structure previews on." : "Network labels and structure previews off.");
   };
   controls.append(
     el(
@@ -171,7 +173,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   uncertaintySelect.onchange = () => {
     uncertainty = uncertaintySelect.value;
     refresh();
-    showToast(`Filter: ${uncertaintyLabels[uncertainty]}.`, { container: drawer?.isConnected ? drawer : root });
+    networkToast(`Filter: ${uncertaintyLabels[uncertainty]}.`, drawer?.isConnected ? drawer : root);
   };
   uncertaintyLabel.append(uncertaintySelect);
   controls.append(
@@ -523,10 +525,10 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   const mobileScroll = el("div", "oxphos-mobile-inspector-scroll");
   mobileScroll.tabIndex = -1;
   mobilePanel.append(mobileHeader, mobileScroll);
-  const mobileToolbar = el("nav", "toolbar tabbar oxphos-mobile-toolbar");
+  const mobileToolbar = el("nav", "toolbar tabbar tabbar-labels research-tabbar oxphos-mobile-toolbar");
   mobileToolbar.setAttribute("aria-label", "3D research tools");
-  const mobileToolbarInner = el("div", "toolbar-inner");
-  mobileToolbar.append(mobileToolbarInner);
+  const mobileToolbarInner = el("div", "toolbar-inner"), mobileToolbarPane = el("div", "toolbar-pane");
+  mobileToolbarInner.append(mobileToolbarPane); mobileToolbar.append(mobileToolbarInner);
   const mobileButtons = new Map();
   const mobileMain = el("div", "oxphos-mobile-view-controls");
   let mobileMode = "";
@@ -549,15 +551,19 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     b.classList.add("tab-link", "f7-press");
     b.setAttribute("aria-controls", mobilePanel.id);
     b.setAttribute("aria-expanded", "false");
-    mobileButtons.set(kind, b); mobileToolbarInner.append(b);
+    mobileButtons.set(kind, b); mobileToolbarPane.append(b);
   }
   root.append(mobilePanel, mobileToolbar);
   function updateMobileButtons() {
+    let activeKind = "";
     for (const [kind, b] of mobileButtons) {
       const active = !mobilePanel.hidden && mobileMode === kind;
       b.classList.toggle("tab-link-active", active);
       b.setAttribute("aria-expanded", String(active));
+      if (active) activeKind = kind;
     }
+    mobileToolbar.dataset.activeDestination = activeKind;
+    root.f7?.toolbar?.setHighlight?.(mobileToolbar);
   }
   function closeMobileControls() {
     mobilePanel.hidden = true;
@@ -753,7 +759,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     updateGraph();
     if (showEvidence) openDrawer("gene");
     if (selectionChanged)
-      showToast(`Selected gene: ${n.symbol}.`, { container: showEvidence && drawer?.isConnected ? drawer : root });
+      networkToast(`Selected gene: ${n.symbol}.`, showEvidence && drawer?.isConnected ? drawer : root);
     const position =
       graph?.graphData().nodes.find((node) => node.id === n.id) || n;
     if (focus && graph) {
@@ -1366,7 +1372,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       }
       more.hidden = true;
       openDrawer("search");
-      showToast(`Selected gene set: ${label(n.pathway)}.`, { container: drawer?.isConnected ? drawer : root });
+      networkToast(`Selected gene set: ${label(n.pathway)}.`, drawer?.isConnected ? drawer : root);
     }
   }
   async function start() {

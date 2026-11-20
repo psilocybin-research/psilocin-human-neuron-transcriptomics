@@ -1,7 +1,7 @@
 import { escapeHTML } from "./interface-utils.js";
 // Concise feedback for completed actions; never imply that a file was saved.
 let active;
-export function showToast(message, { container: preferredContainer } = {}) {
+export function showToast(message, { container: preferredContainer, closeButton = true } = {}) {
   const app = document.querySelector("#psilocin-app")?.f7;
   if (!app) return;
   active?.close(false);
@@ -13,7 +13,7 @@ export function showToast(message, { container: preferredContainer } = {}) {
     position: "bottom",
     horizontalPosition: "center",
     closeTimeout: 2800,
-    closeButton: true,
+    closeButton,
     closeButtonText: "Close",
     destroyOnClose: true,
     on: {
