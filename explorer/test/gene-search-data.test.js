@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { geneSuggestions } from "../src/components/gene-search-data.js";
+import { fuzzyGeneSuggestions, geneSuggestions } from "../src/components/gene-search-data.js";
 const genes = [
   { id: "E1.1", symbol: "ATP5A1", selected: true },
   { id: "E1.2", symbol: "ATP5A1", selected: false },
@@ -39,6 +39,13 @@ test("exact symbols precede prefixes and initial suggestions honor the selected 
 });
 test("unknown identifiers return no fabricated matches", () => {
   assert.deepEqual(geneSuggestions(genes, aliases, "not-a-gene"), []);
+});
+test("fuzzy matching is opt-in, conservative and keeps verified aliases", () => {
+  assert.deepEqual(fuzzyGeneSuggestions(genes, aliases, "AT").map((g) => g.id), []);
+  const matches = fuzzyGeneSuggestions(genes, aliases, "ATP5F1B");
+  assert.equal(matches[0].id, "E1.1");
+  assert.equal(matches[0].fuzzy, true);
+  assert.ok(matches[0].aliases.includes("ATP5F1A"));
 });
 test("cached searches retain the top twenty and isolate datasets and returned aliases", () => {
   const many = Array.from({ length: 80 }, (_, i) => ({

@@ -1,5 +1,5 @@
 import { createSidebarContext } from "./sidebar-context.js";
-import { geneSuggestions } from "./gene-search-data.js";
+import { fuzzyGeneSuggestions, geneSuggestions } from "./gene-search-data.js";
 import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup, geneStructurePreview } from "./structure-preview.js";
 import { createResearchTables } from "./research-tables.js";
@@ -199,6 +199,19 @@ export function createAppShell({
     );
     finderSelection.classList.add("finder-selection-menu");
   }
+  let fuzzyMatching = false;
+  const fuzzyControl = node("label", "finder-fuzzy-control");
+  fuzzyControl.title = "Optionally include approximate gene-name matches";
+  const fuzzyInput = node("input");
+  fuzzyInput.type = "checkbox";
+  fuzzyInput.setAttribute("role", "switch");
+  fuzzyInput.setAttribute("aria-label", "Include approximate gene matches");
+  fuzzyControl.append(node("span", "finder-fuzzy-label", "Fuzzy"), fuzzyInput, node("span", "toggle-icon"));
+  fuzzyInput.onchange = () => {
+    fuzzyMatching = fuzzyInput.checked;
+    fuzzyControl.classList.toggle("is-active", fuzzyMatching);
+    autocomplete?.source(autocomplete?.searchbar?.inputEl?.value || "");
+  };
   const openSearch = event => {
     if (!(event.ctrlKey || event.metaKey) || event.altKey || event.key.toLowerCase() !== "k") return;
     if (event.target.closest?.(".cm-editor,textarea,[contenteditable=true]")) return;
@@ -1397,8 +1410,9 @@ export function createAppShell({
     ].map(([symbol, id]) => ({symbol, id, selected: true, aliases: []}));
     const mountFinderSelection = () => {
       const actions = autocomplete?.modal?.el?.querySelector(".navbar .right");
-      if (finderSelection && actions && !actions.contains(finderSelection))
-        actions.prepend(finderSelection);
+      if (!actions) return;
+      if (!actions.contains(fuzzyControl)) actions.prepend(fuzzyControl);
+      if (finderSelection && !actions.contains(finderSelection)) actions.prepend(finderSelection);
     };
     autocomplete = app.autocomplete.create({
       view,
@@ -1425,8 +1439,10 @@ export function createAppShell({
         // Other archived genes deliberately retain the shared gene glyph: we do
         // not imply that an unmodelled gene has a molecular structure preview.
         const preview = genePreviewMarkup(gene) || `<span class="gene-finder-glyph" aria-hidden="true">${uiIcon("genes").outerHTML}</span>`;
-        const aliases = gene.aliases?.length
-          ? `Verified alias: ${gene.aliases.join(", ")}`
+        const aliases = gene.fuzzy
+          ? "Possible fuzzy match"
+          : gene.aliases?.length
+            ? `Verified alias: ${gene.aliases.join(", ")}`
           : gene.selected
             ? "Archived rank representative"
             : "Archived gene ID";
@@ -1440,6 +1456,7 @@ export function createAppShell({
           render(matches.map((gene) => ({
             id: `gene:${gene.id}`, value: `gene:${gene.id}`,
             text: `${gene.symbol} · ${gene.id}`, kind: 'gene', target: gene.id, gene,
+            fuzzy: Boolean(gene.fuzzy),
           })));
         };
         if (!query.trim()) showGenes(finderInitialGenes);
@@ -1450,8 +1467,11 @@ export function createAppShell({
           const preferred = query.trim()
             ? []
             : genes.filter((gene) => gene.selected && geneStructurePreview(gene)).map((gene) => gene.id);
-          const matches = geneSuggestions(genes, data.aliases, query, preferred);
-          return matches;
+          const exact = geneSuggestions(genes, data.aliases, query, preferred);
+          if (!fuzzyMatching) return exact;
+          return [...exact, ...fuzzyGeneSuggestions(genes, data.aliases, query).filter(
+            (gene) => !exact.some((match) => match.id === gene.id),
+          )].slice(0, 20);
         };
         getGenes().then(genes => {
           if (sequence === querySequence) showGenes(suggestions(genes));

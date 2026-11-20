@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1384,
-  "total_bytes": 687561636,
+  "total_bytes": 687565422,
   "status": "pass",
   "failures": [],
   "files": [
@@ -284,13 +284,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 201617,
-      "sha256": "913f2c511d3d151c8c28b460acaf94805475886058c19506d0d501055051682f"
+      "bytes": 201983,
+      "sha256": "bfa1a6d11734256dbb8ca9cbfb4af53a6ba1d8128cf64f48cb2e1d9b804e7195"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 4002,
-      "sha256": "1d71934e924b01bb031d40dca7ed4125252c2c3907b8575fb4c32d28462f6713"
+      "bytes": 4026,
+      "sha256": "e99d2add050da533a4f7af1d0b268a9d7939b4968dc8d5fc143ccec2d159d140"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 229751,
-      "sha256": "996aa627d801b624d19441a172c46e49a326b8750797661e5140d8a4c6abfb93"
+      "bytes": 230363,
+      "sha256": "575c28c2d5dfb6c0c07c89eefe5d0f728f596b41972ec0853a7226b6e10dc793"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3414,8 +3414,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 62607,
-      "sha256": "020bc046917dbc6f4fbf8492287609bafb2bdfc789c8e825ebe071932b478ccb"
+      "bytes": 63689,
+      "sha256": "a706df66f20dcd3849ebaf9493c82c7d2820338171acaecea8083b446bb5ab8e"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/gene-search-data.js",
-      "bytes": 2469,
-      "sha256": "8ed1bd77032f9505b7d26772a332b450f27c16cd7c85725bffd83cdf362a0acd"
+      "bytes": 3779,
+      "sha256": "20dd139602da78b7c47045e2577f359d4b54c81e154afce1e0bbf2dd8157fb64"
     },
     {
       "path": "explorer/src/components/gene-suggestions.js",
@@ -3969,8 +3969,8 @@
     },
     {
       "path": "explorer/test/gene-search-data.test.js",
-      "bytes": 2249,
-      "sha256": "734fd835532bd43ca818fd7884a52fced8d8afe312f9df234e855990db143924"
+      "bytes": 2641,
+      "sha256": "756b25cbea8b088e869b4ea8ad16873fd8857bc99809f2fc3207f9366950119e"
     },
     {
       "path": "explorer/test/glass-appearance-browser-check.mjs",
