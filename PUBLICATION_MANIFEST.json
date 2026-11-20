@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1376,
-  "total_bytes": 687407148,
+  "file_count": 1383,
+  "total_bytes": 687514193,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 272160,
-      "sha256": "126e86cb82730700fe007c6db42e88ee13cb03b374ed7247fedc32e20c835e0f"
+      "bytes": 273152,
+      "sha256": "af028db012088664781b29d00bf422022c2eba542807ae00b9b2d00e3948af49"
     },
     {
       "path": "LICENSE.md",
@@ -304,8 +304,8 @@
     },
     {
       "path": "explorer/scripts/capture-network-preview.mjs",
-      "bytes": 2138,
-      "sha256": "c75cc74bccfe1ee1e1dbf84ac8ade03dbb78419b04660aafdd7f05e54271e58b"
+      "bytes": 2334,
+      "sha256": "5b36cb8685bcf0552bf174cf27a73eb5510ed4d71b1bd2f7a4f0b0fa146dc63e"
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
@@ -364,8 +364,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 7590,
-      "sha256": "98ed47f1f99e9a8c7fe9a75a6e9a9d47ef5234db9109d818762b9f3902e9f0a5"
+      "bytes": 8152,
+      "sha256": "7009f2a1ecbed785a85b335c8677786f53062568a91167701124788f441ab3c6"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -394,8 +394,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 195506,
-      "sha256": "b5f4ea5862d2e6c188434ea17e08881fb6c0df234d439530a9bc713713a42cbc"
+      "bytes": 210130,
+      "sha256": "ad59353c73f094f5e0f426ee8e5a4e130404d6123cfe44bcac0c889101f38b96"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -436,6 +436,16 @@
       "path": "explorer/src/assets/elife-logo.svg",
       "bytes": 7861,
       "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
+    },
+    {
+      "path": "explorer/src/assets/oxphos-network-preview-480.webp",
+      "bytes": 19958,
+      "sha256": "73272d4a7845a94ac68351f1ccf5fc7d14f67369b1d998595bd611af028cbd9f"
+    },
+    {
+      "path": "explorer/src/assets/oxphos-network-preview-768.webp",
+      "bytes": 48396,
+      "sha256": "42e76f2f5a754b0b6d6f71fd75ec0510796c5348f6177c449c3cdc5b2a35bb51"
     },
     {
       "path": "explorer/src/assets/oxphos-network-preview.webp",
@@ -3364,8 +3374,8 @@
     },
     {
       "path": "explorer/src/components/analysis-navigation.js",
-      "bytes": 10424,
-      "sha256": "6c3cb2499d21c5e16772e9bd34460610379a13127b01d57a3e58f3dbc136b5d1"
+      "bytes": 11659,
+      "sha256": "63c98dc3eaf5313957de580e9bac74618c4269fe61c9c8234d6ef8d085c68946"
     },
     {
       "path": "explorer/src/components/analysis-options.js",
@@ -3394,13 +3404,18 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 57947,
-      "sha256": "f1043bd397967d822256f6a200d8183a1ff4c3068fc5f08e807ea98925d7729b"
+      "bytes": 58860,
+      "sha256": "72e9083b1cd257390c0975ec3d9d098d486aa624bf1b1a63393345a316451697"
     },
     {
       "path": "explorer/src/components/app-toast.js",
       "bytes": 977,
       "sha256": "5b523ce17284e851ccacf3474c632c71497464817892c3f1f05e8bb2d7b4b62e"
+    },
+    {
+      "path": "explorer/src/components/appearance-controls.js",
+      "bytes": 3089,
+      "sha256": "e556a09e65843b77b79471e268340895468ec288198c12c2226dcf9d2f40636e"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -3409,8 +3424,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 127747,
-      "sha256": "b82ccad9fe749bcb027246978567ea487ad73bfb2d30d505a8af849f87122806"
+      "bytes": 128022,
+      "sha256": "323e9548e7df1e80154a8647dbe264aeb8bd786828a41b583019426a490a8714"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3558,6 +3573,11 @@
       "sha256": "ac585b5547427e2d9b8ba5cd3fa96378acb2348080a29e531cf1c56536bd0d22"
     },
     {
+      "path": "explorer/src/components/network-preview-asset.js",
+      "bytes": 604,
+      "sha256": "f6ec62a2a04812f6d0037c548ed7d5529909fab5534bd097dcb548f8cfa28a34"
+    },
+    {
       "path": "explorer/src/components/network-scene-effects.js",
       "bytes": 1806,
       "sha256": "8ef210dcc943d3d27c23f93f64f5e3b290114e57c21d5490a2291d73417b1e8e"
@@ -3624,8 +3644,8 @@
     },
     {
       "path": "explorer/src/components/python-lab.js",
-      "bytes": 18153,
-      "sha256": "b83cb43145afa9884113a5a1f5b89a43bc8c12c0ec9c770d033ea2d203eaccfd"
+      "bytes": 18220,
+      "sha256": "70b0cae79f18990b92c18b835b88c9d4136fdd5756ecc83bde1ce7ff3c25dd39"
     },
     {
       "path": "explorer/src/components/python-notebooks.js",
@@ -3649,8 +3669,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 31459,
-      "sha256": "cfc8dbfdb649a2323db59bfbba48473a2514e1b8f2487a7f10da6124d616ad3c"
+      "bytes": 31527,
+      "sha256": "7f5b3d37cce22ccb4facf93f41ef7d55f7a4e5da1079b23578b33b017c1cdbdf"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3739,8 +3759,8 @@
     },
     {
       "path": "explorer/src/components/research-studio.js",
-      "bytes": 11114,
-      "sha256": "6a07183e8409b07454bd29509a1835d5a57d25343fd5a3a9c198f5e8dd75de76"
+      "bytes": 11918,
+      "sha256": "0f0e69799486430c60ebfa0293d6e407c44bbd385a0fe589ee1bdbbd132d224d"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -3776,6 +3796,11 @@
       "path": "explorer/src/components/scientific-session.js",
       "bytes": 20697,
       "sha256": "df0a26f42a8261efbd4450fa44f23148ceff7c2f327a2a9da9f71d58c5ef10b5"
+    },
+    {
+      "path": "explorer/src/components/sidebar-context.js",
+      "bytes": 2494,
+      "sha256": "bfb50e3e66adf3ecd2d029d48c0f2c43d682607acd5c668f047d1144ca09071d"
     },
     {
       "path": "explorer/src/components/structure-preview.js",
@@ -3814,8 +3839,8 @@
     },
     {
       "path": "explorer/src/components/workspace-layout.js",
-      "bytes": 10105,
-      "sha256": "975c6cad3dcfc4677715ee914cd954f7ec6d22a4ee4a172ed339c964a38f9c58"
+      "bytes": 10532,
+      "sha256": "200fd04ee9b700ef4e596f32270752c7a598ab361ffc212a205f355837c2ebbe"
     },
     {
       "path": "explorer/src/data/atlas.json",
@@ -3854,8 +3879,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 5008,
-      "sha256": "e0c0a3d669890ef7d09fef2ec293e553113036c483ae5b5f96b88ef1dc84ac1b"
+      "bytes": 5120,
+      "sha256": "1d4ce7ac74c31b3ce0d29db8a9d36827c6db0fbd55a64b86af7b6eb39a76b00a"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
@@ -3941,6 +3966,11 @@
       "path": "explorer/test/gene-search-data.test.js",
       "bytes": 2249,
       "sha256": "734fd835532bd43ca818fd7884a52fced8d8afe312f9df234e855990db143924"
+    },
+    {
+      "path": "explorer/test/glass-appearance-browser-check.mjs",
+      "bytes": 7360,
+      "sha256": "62710e52adcfe19557fbd457fa49c5058f387729e0b22c689a4b6e5c47f8aa01"
     },
     {
       "path": "explorer/test/icon-ui-browser-check.mjs",
@@ -4246,6 +4276,11 @@
       "path": "explorer/test/shared-r-browser-check.mjs",
       "bytes": 5413,
       "sha256": "a7640aca09cbc813af9186920620e258e421c5cbc83e6c37eb319b4215a07ac4"
+    },
+    {
+      "path": "explorer/test/sidebar-context-browser-check.mjs",
+      "bytes": 4869,
+      "sha256": "1b822b56c1f8c45e5d9e3b863b11e826f98990aa21cec9b36e8f633361a3fc8a"
     },
     {
       "path": "explorer/test/smart-select-browser-check.mjs",

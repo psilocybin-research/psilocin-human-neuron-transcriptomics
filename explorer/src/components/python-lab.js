@@ -66,6 +66,7 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     const node = el('button', 'button button-tonal', text); node.type = 'button'; node.onclick = action; return node;
   }
   const run = button('Run Python', execute);
+  run.classList.add('studio-primary-run','primary','button-fill');
   const stop = button('Stop Python', () => reset('Python stopped. The worker was reset.'));
   const initialize = button('Initialize Python', initializePython);
   const more = button('Python actions', () => studioMenu(root, more, 'Python notebook', [

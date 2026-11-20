@@ -1,3 +1,4 @@
+import {networkPreviewSizes, networkPreviewSrcset} from "./network-preview-asset.js";
 import {studioMenu} from "./studio-ui.js";
 import {showToast} from "./app-toast.js";
 import { createResearchInspector } from "./research-inspector.js";
@@ -1113,6 +1114,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "oxphos-network-preview.webp",
       document.baseURI,
     ).href;
+    networkImage.srcset = networkPreviewSrcset(document.baseURI);
+    networkImage.sizes = networkPreviewSizes;
+    networkImage.fetchPriority = "high";
+    networkImage.loading = "eager";
     networkImage.width = 982;
     networkImage.height = 714;
     networkImage.decoding = "async";

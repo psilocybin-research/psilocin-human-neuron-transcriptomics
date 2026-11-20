@@ -51,6 +51,8 @@ if not box: raise RuntimeError('Empty network preview')
 im=im.crop(box)
 im.thumbnail((1200,900),Image.Resampling.LANCZOS)
 im.save('explorer/src/assets/oxphos-network-preview.webp','WEBP',quality=90,method=6)
+for width in (480,768):
+    im.resize((width,round(im.height*width/im.width)),Image.Resampling.LANCZOS).save(f'explorer/src/assets/oxphos-network-preview-{width}.webp','WEBP',quality=84,method=6)
 `,
   ],
   { cwd: new URL("../../", import.meta.url) },

@@ -455,6 +455,18 @@
       "eLife Sciences Publications Ltd"
     ]
   },
+  "explorer/src/assets/oxphos-network-preview-480.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/oxphos-network-preview-768.webp": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/assets/oxphos-network-preview.webp": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -4429,6 +4441,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/appearance-controls.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/atlas-tour.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4610,6 +4628,12 @@
     ]
   },
   "explorer/src/components/network-node-protein.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/network-preview-asset.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4879,6 +4903,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/sidebar-context.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/structure-preview.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5074,6 +5104,12 @@
     ]
   },
   "explorer/test/gene-search-data.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/glass-appearance-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5440,6 +5476,12 @@
     ]
   },
   "explorer/test/shared-r-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/sidebar-context-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -8597,7 +8639,7 @@
       "2011 John Resig",
       "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
       "2016 cheminfo",
-      "2015 Micha\u00ebl Zasso",
+      "2015 Michaël Zasso",
       "2017 Photopea"
     ]
   },

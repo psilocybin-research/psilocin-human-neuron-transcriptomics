@@ -5264,3 +5264,234 @@ body {
 #psilocin-app .python-empty .r-code-editor,#psilocin-app .python-empty>.cm-editor{display:none}
 #psilocin-app .workspace-sidebar-content .studio-sidebar[hidden]{display:none!important}
 #psilocin-app .python-lab [hidden]{display:none!important}
+
+/* Shared, optional iOS glass treatment. Scientific surfaces remain opaque. */
+#psilocin-app {
+  --atlas-control-glass: color-mix(in srgb, var(--research-glass-solid) 74%, transparent);
+  --atlas-control-edge: color-mix(in srgb, var(--research-accent) 18%, transparent);
+  --atlas-glass-pressed-scale: 1.16;
+}
+#psilocin-app .appearance-popover { width: min(320px, calc(100vw - 24px)); }
+#psilocin-app .appearance-popover .popover-inner { padding: 20px; }
+#psilocin-app .appearance-popover h3 { margin: 0 0 14px; font-size: 17px; }
+#psilocin-app .appearance-option { display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:52px; }
+#psilocin-app .appearance-option > label:first-child { cursor:pointer;font-weight:550; }
+#psilocin-app .appearance-note { margin:12px 0 18px;line-height:1.5; }
+
+/* F7 already draws the moving tab indicator: do not paint a second tile. */
+#psilocin-app .research-tabbar .tab-link,
+#psilocin-app .research-tabbar .tab-link:is(.tab-link-active,.active-state,:active) {
+  background: transparent;
+  box-shadow: none;
+}
+#psilocin-app .research-tabbar .tab-link::after { content:none; }
+#psilocin-app .research-tabbar .tab-link-highlight-pressed::before,
+#psilocin-app .research-tabbar .tab-link-highlight-pressed::after {
+  scale: var(--atlas-glass-pressed-scale);
+}
+#psilocin-app .research-tabbar .tab-link-highlight::before,
+#psilocin-app .research-tabbar .tab-link-highlight::after { transition-duration:180ms; }
+
+/* Controls use an inexpensive tint and edge, not dozens of nested backdrop blurs. */
+#psilocin-app[data-glass-effects=true] :is(.button-tonal,.research-nav .item-content,.studio-book-entry .swipeout-content > button,.workspace-inspector-tabs .button) {
+  transition: background-color 140ms ease, box-shadow 140ms ease;
+}
+#psilocin-app[data-glass-effects=true] .button-tonal:not(.button-fill):not(.color-red):not(.tab-link):not([aria-selected=true]):not(.button-active) {
+  background:var(--atlas-control-glass);
+  border-color:var(--atlas-control-edge);
+}
+#psilocin-app[data-glass-effects=true] :is(.research-nav .item-content.active,.studio-book-entry button[aria-current=true],.workspace-inspector-tabs .button-active) {
+  background:color-mix(in srgb, var(--research-selected) 65%, transparent);
+  color:var(--research-on-selected);
+  box-shadow:var(--f7-glass-shadow-thumb);
+}
+#psilocin-app[data-glass-effects=true] :is(.button-tonal,.research-nav .item-content,.studio-book-entry .swipeout-content > button):is(.active-state,[data-mouse-pressed=true]):not(.tab-link) {
+  box-shadow:var(--f7-glass-shadow-thumb);
+}
+#psilocin-app[data-glass-effects=true] .button-fill:is(.active-state,[data-mouse-pressed=true]) {
+  box-shadow:inset 0 1px 0 #ffffff66,inset 0 0 0 1px #ffffff33;
+}
+#psilocin-app :is(.button,.research-nav .item-content,.tab-link):focus-visible {
+  outline:2px solid var(--research-accent);outline-offset:3px;
+}
+/* An optional solid appearance also covers existing F7 glass surfaces. */
+#psilocin-app[data-glass-effects=false] {
+  --f7-glass-bg-color:var(--research-glass-solid);
+  --f7-glass-shadow:none;
+  --f7-glass-shadow-thumb:none;
+  --atlas-glass-pressed-scale:1;
+}
+#psilocin-app[data-glass-effects=false] :is(.research-sidebar,.toolbar-pane,.research-navbar .left,.research-navbar .right,.research-title-glass,.popover-inner,.actions-group,.analysis-fab > a,.fab-morph-target,.studio-menu-popover .popover-inner,.oxphos-3d-dock,.oxphos-3d-protein-tools,.oxphos-3d-topbar,.searchbar-input-wrap,.toast,.workspace-inspector-panel) {
+  background:var(--research-glass-solid);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+#psilocin-app[data-glass-effects=false] :is(.f7-press::after,.research-navbar .navbar-bg::before) {
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+#psilocin-app[data-glass-effects=false] .f7-press::after { content:none; }
+#psilocin-app[data-glass-effects=false] .research-tabbar .tab-link-highlight::after { opacity:0; }
+#psilocin-app[data-glass-effects=false] .research-tabbar .tab-link-highlight::before { opacity:1; }
+@media (prefers-reduced-motion:reduce) {
+  #psilocin-app { --atlas-glass-pressed-scale:1; }
+  #psilocin-app :is(.button,.item-content,.tab-link-highlight::before,.tab-link-highlight::after) { transition:none; }
+}
+
+/* One persistent active lens. Press brightens and enlarges the same surface. */
+#psilocin-app[data-glass-effects=true] .research-tabbar .tab-link-highlight::after {
+  inset:5px 7px;
+  opacity:1;
+  background:linear-gradient(155deg,#ffffff55 0%,#ffffff12 46%,#ffffff2b 100%);
+  box-shadow:inset 0 1px 0 #ffffffd9,inset 0 -1px 0 #ffffff80,
+    inset 1px 0 0 #ffffff99,inset -1px 0 0 #ffffff80,
+    inset 0 0 9px #ffffff66,0 2px 5px #17364f26;
+}
+#psilocin-app[data-glass-effects=true] .research-tabbar .tab-link-highlight::before {
+  inset:5px 7px;opacity:0;background:transparent;
+}
+#psilocin-app[data-glass-effects=true] .research-tabbar .tab-link-highlight-pressed::after {
+  background:linear-gradient(155deg,#ffffffa6 0%,#ffffff30 46%,#ffffff66 100%);
+}
+#psilocin-app .research-tabbar .tab-link-active { color:var(--research-accent);font-weight:650; }
+/* No false destination on Overview, Workspace or other unmapped views. The
+   indicator still appears while directly interacting with the tab bar. */
+#psilocin-app .research-tabbar[data-active-destination=""] .tab-link-highlight:not(.tab-link-highlight-pressed) { opacity:0; }
+#psilocin-app .research-tabbar .tab-link-highlight { pointer-events:none; }
+.dark #psilocin-app[data-glass-effects=true] .research-tabbar .tab-link-highlight::after {
+  background:linear-gradient(155deg,#ffffff2e 0%,#ffffff08 46%,#ffffff1a 100%);
+  box-shadow:inset 0 1px 0 #ffffffa6,inset 0 -1px 0 #ffffff4d,
+    inset 1px 0 0 #ffffff59,inset -1px 0 0 #ffffff40,
+    inset 0 0 9px #ffffff26,0 2px 6px #0003;
+}
+
+/* One left panel, two clearly labelled navigation contexts; F7 owns the slide. */
+#psilocin-app .research-sidebar { overflow:hidden; }
+#psilocin-app .research-sidebar > :is(.sidebar-brand,.sidebar-subtitle,.sidebar-context-switch) { flex-shrink:0; }
+#psilocin-app .sidebar-context-switch { margin:4px 0 16px;min-height:44px; }
+#psilocin-app .sidebar-context-switch > .button { flex:1;min-height:44px;font-size:13px;background:transparent;color:var(--research-muted); }
+#psilocin-app .sidebar-context-switch > .button[aria-selected=true] { color:var(--research-accent);font-weight:650; }
+#psilocin-app .sidebar-context-wrap { flex:1;min-height:0;height:0; }
+#psilocin-app .sidebar-context-wrap > .tabs { transition-timing-function:cubic-bezier(.2,.7,.2,1); }
+#psilocin-app .sidebar-context-wrap > .tabs > .tab { height:100%;min-width:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable; }
+#psilocin-app .sidebar-atlas-pane .research-nav { margin-top:0; }
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-content { min-height:100%;padding:0 4px; }
+#psilocin-app .sidebar-workspace-pane .analysis-navigation { position:relative;height:auto;min-height:0; }
+#psilocin-app .sidebar-workspace-pane .analysis-navigation > .page-content { position:relative;height:auto;overflow:visible;padding-top:0; }
+#psilocin-app[data-glass-effects=true] .sidebar-context-switch .segmented-highlight { background:var(--atlas-control-glass);box-shadow:var(--f7-glass-shadow-thumb); }
+#psilocin-app[data-glass-effects=false] .sidebar-context-switch .segmented-highlight { background:var(--research-selected);box-shadow:none; }
+@media (prefers-reduced-motion:reduce) {
+  #psilocin-app .sidebar-context-wrap > .tabs { transition-duration:0ms; }
+}
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs { display:flex!important;gap:4px;border-radius:14px;background:var(--atlas-control-glass);padding:4px; }
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs > .button { flex:1;justify-content:center;min-height:44px;height:auto;padding:6px 4px;border-radius:11px; }
+#psilocin-app .sidebar-workspace-pane .workspace-sidebar-tabs > [aria-selected=true] { background:var(--research-selected);color:var(--research-accent);box-shadow:var(--f7-glass-shadow-thumb); }
+#psilocin-app .sidebar-workspace-pane .workspace-extra-tools { margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--atlas-control-edge); }
+#psilocin-app .workspace-extra-tools > summary { cursor:pointer;min-height:44px;align-content:center;font-size:13px;font-weight:600; }
+#psilocin-app .workspace-extra-tabs { display:grid;gap:4px; }
+#psilocin-app .workspace-extra-tabs .button { justify-content:flex-start;min-height:44px;background:transparent; }
+#psilocin-app .study-script-provenance { margin:4px 0 12px; }
+#psilocin-app .study-script-provenance > summary { min-height:44px;align-content:center;cursor:pointer;font-size:12px; }
+#psilocin-app .sidebar-workspace-pane .studio-archived-analyses { margin:4px 0;padding:0;border:0; }
+#psilocin-app .sidebar-workspace-pane .studio-archived-analyses > .button { width:100%;min-height:44px;justify-content:flex-start;text-align:left;white-space:normal;line-height:1.35;padding:8px 10px;margin:2px 0; }
+#psilocin-app .sidebar-workspace-pane .analysis-groups .accordion-item-toggle { min-height:44px; }
+/* Execution is the primary action; nearby tools stay secondary. */
+#psilocin-app .studio-primary-run { background:#235780!important;color:#fff!important;border-color:#235780; }
+#psilocin-app .studio-primary-run:is(:active,.active-state) { background:#194462!important; }
+#psilocin-app .studio-run-all { background:var(--atlas-control-glass);color:var(--research-accent); }
+/* Reserve the hero's geometry before its image decodes; keep the timeline stable. */
+#psilocin-app .hero button.oxphos-network-preview { aspect-ratio:982 / 714; }
+#psilocin-app .hero button.oxphos-network-preview img { width:100%;height:100%;aspect-ratio:982 / 714;object-fit:contain; }
+
+.dark #psilocin-app[data-glass-effects=true] .research-tabbar .tab-link-highlight-pressed::after {
+  background:linear-gradient(155deg,#ffffff66 0%,#ffffff14 46%,#ffffff40 100%);
+}
+
+/* Reusable selection glass: small controls reflect light without nested blur.
+   Only navigation and controls opt in; scientific marks and editors do not. */
+#psilocin-app[data-glass-effects=true] {
+  --atlas-selection-glass:linear-gradient(155deg,#ffffff70 0%,#ffffff18 48%,#ffffff40 100%);
+  --atlas-selection-shadow:inset 0 1px 0 #ffffffd9,inset 0 -1px 0 #ffffff80,
+    inset 1px 0 0 #ffffff80,inset -1px 0 0 #ffffff66,0 1px 3px #17364f14;
+  --atlas-control-pressed:linear-gradient(155deg,#ffffff99,#ffffff26 48%,#ffffff55);
+}
+.dark #psilocin-app[data-glass-effects=true] {
+  --atlas-selection-glass:linear-gradient(155deg,#ffffff30 0%,#ffffff08 48%,#ffffff1a 100%);
+  --atlas-selection-shadow:inset 0 1px 0 #ffffff80,inset 0 -1px 0 #ffffff40,
+    inset 1px 0 0 #ffffff40,inset -1px 0 0 #ffffff30,0 1px 3px #0002;
+  --atlas-control-pressed:linear-gradient(155deg,#ffffff4d,#ffffff12 48%,#ffffff26);
+}
+#psilocin-app[data-glass-effects=true] :is(
+  .research-nav .item-content.active,
+  .studio-book-entry button[aria-current=true],
+  .workspace-sidebar-tabs > [aria-selected=true],
+  .workspace-extra-tabs > [aria-selected=true],
+  .workspace-inspector-tabs > [aria-selected=true]
+) {
+  background:var(--atlas-selection-glass);
+  box-shadow:var(--atlas-selection-shadow);
+  color:var(--research-accent);
+  border-radius:10px;
+  font-weight:650;
+}
+#psilocin-app[data-glass-effects=true] .sidebar-context-switch .segmented-highlight {
+  background:var(--atlas-selection-glass);
+  box-shadow:var(--atlas-selection-shadow);
+}
+#psilocin-app[data-glass-effects=true] .research-nav .item-content.active :is(.item-title,.item-title span) { color:var(--research-accent); }
+#psilocin-app .workspace-inspector-tabs { gap:4px; }
+#psilocin-app .workspace-inspector-tabs > .button { border-radius:10px; }
+#psilocin-app[data-glass-effects=true] :is(
+  .button-tonal:not(.button-fill):not(.primary):not(.color-red):not(.text-color-red),
+  .research-nav .item-content:not(.active),
+  .studio-book-entry .swipeout-content > button:not([aria-current=true])
+):is(.active-state,[data-mouse-pressed=true]):not(:disabled):not(.tab-link) {
+  background:var(--atlas-control-pressed);
+  box-shadow:var(--atlas-selection-shadow);
+}
+/* Menus have one frosted container; rows stay clear until interacted with. */
+#psilocin-app[data-glass-effects=true] :is(.studio-menu,.appearance-popover,.share-popover) .popover-inner {
+  background:var(--f7-glass-bg-color);
+  box-shadow:var(--f7-glass-shadow);
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+}
+#psilocin-app :is(.studio-menu,.appearance-popover,.share-popover) .popover-inner .button:not(.button-fill) {
+  background:transparent;
+}
+#psilocin-app[data-glass-effects=true] .studio-menu .button:not(:disabled):is(:hover,.active-state,:focus-visible) {
+  background:var(--atlas-control-pressed);
+  box-shadow:var(--atlas-selection-shadow);
+  border-radius:8px;
+}
+#psilocin-app[data-glass-effects=true] :is(.toolbar-pane,.popover-inner) .button-tonal:not(.button-fill):not(.button-active):not([aria-selected=true]):not(.active-state):not([data-mouse-pressed=true]) {
+  background:transparent;
+}
+/* Glass-off removes reflection from contextual menus and selected controls too. */
+#psilocin-app[data-glass-effects=false] :is(.studio-menu,.appearance-popover,.share-popover) .popover-inner {
+  background:var(--research-glass-solid);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+#psilocin-app[data-glass-effects=false] :is(.workspace-sidebar-tabs,.workspace-extra-tabs,.workspace-inspector-tabs) > [aria-selected=true] {
+  background:var(--research-selected);color:var(--research-accent);box-shadow:none;
+}
+#psilocin-app[data-glass-effects=true] .workspace-inspector-tabs > .button[aria-selected=true] {
+  background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow);color:var(--research-accent);
+}
+/* Destructive meaning must override generic scientific button colours. */
+#psilocin-app .studio-menu .button.text-color-red,
+#psilocin-app .actions-button.color-red { color:var(--f7-color-red,#c62828); }
+/* Network feedback sits at the lower-left, independent of F7's centred default. */
+#psilocin-app :is(.oxphos-network-3d,.oxphos-3d-drawer) > .toast {
+  left:max(12px,env(safe-area-inset-left));
+  right:auto;
+  width:max-content;
+  max-width:min(390px,calc(100% - 24px));
+  margin-left:0;
+  margin-right:0;
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  z-index:20000;
+}
+@media(max-width:700px) {
+  #psilocin-app .oxphos-network-3d > .toast {
+    bottom:calc(var(--network-tool-height,62px) + 8px);
+  }
+}

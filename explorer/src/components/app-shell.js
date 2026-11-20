@@ -1,3 +1,5 @@
+import { createSidebarContext } from "./sidebar-context.js";
+import { createAppearanceControls } from "./appearance-controls.js";
 import { researchSuggestions } from "./research-search.js";
 import { brandGlyph } from "./app-brand.js";
 import { genePreviewMarkup } from "./structure-preview.js";
@@ -157,7 +159,10 @@ export function createAppShell({
   });
   const installButton = utilityItem("Install app", "download", () => {});
   installButton.disabled = true;
-  panel.append(sidebarHead, sidebarSub, nav);
+  panel.append(sidebarHead, sidebarSub);
+  const sidebarContext = createSidebarContext({
+    panel, nav, getApp: () => app, openWorkspace: () => go("custom-r"), reduced,
+  });
   const views = node("div", "views research-views"),
     main = node("div", "view view-main research-main"),
     page = node("div", "page page-current research-page");
@@ -198,7 +203,6 @@ export function createAppShell({
     toggleAppearance,
   );
   appearanceButton.classList.add("appearance-toggle");
-  appearanceButton.setAttribute("role", "switch");
   const sourcesButton = iconAction("Sources", "book", openSources);
   sourcesButton.classList.add("desktop-sources");
   const shareControl = iconAction("Share analysis", "share", () =>
@@ -295,6 +299,13 @@ export function createAppShell({
     quick.push(b);
   }
   bottom.append(bottomInner);
+  function syncQuickHighlight() {
+    const active = quick.find(button => button.classList.contains("tab-link-active"));
+    bottom.dataset.activeDestination = active?.dataset.quick || "";
+    // F7 only follows its own tab events automatically. Our scientific views
+    // also navigate through the sidebar, history and the mobile Sources page.
+    if (active) app?.toolbar.setHighlight(bottom);
+  }
   page.append(navbar, scroll, bottom);
   const progress = createAppProgress({
     root,
@@ -308,10 +319,16 @@ export function createAppShell({
   main.append(page);
   views.append(main);
   root.replaceChildren(panel, views);
-  const workspaceSlot=node('div','workspace-navigation-slot');workspaceSlot.hidden=true;nav.querySelector('[data-section-item="custom-r"]')?.append(workspaceSlot);
-  const workspaceItem=nav.querySelector('[data-section-item="custom-r"]'),workspaceMarker=document.createComment('workspace navigation position');workspaceItem.before(workspaceMarker);
+  const appearanceControls = createAppearanceControls({
+    root, getApp: () => app, trigger: appearanceButton, toggleDark: toggleAppearance, reduced,
+  });
+
   let workspaceOwner,focusNavigationState;
-  root.workspaceShell={mountNavigation(element){const owner=Symbol('workspace');workspaceOwner=owner;nav.querySelector('[data-section-item="overview"]')?.after(workspaceItem);workspaceSlot.replaceChildren(element);workspaceSlot.hidden=false;root.classList.add('workspace-mode');return ()=>{if(workspaceOwner!==owner)return;workspaceSlot.replaceChildren();workspaceMarker.after(workspaceItem);workspaceSlot.hidden=true;root.classList.remove('workspace-mode');workspaceOwner=undefined;};},
+  root.workspaceShell={mountNavigation(element){
+    const owner=Symbol('workspace');workspaceOwner=owner;
+    sidebarContext.mount(element);root.classList.add('workspace-mode');
+    return ()=>{if(workspaceOwner!==owner)return;sidebarContext.unmount();root.classList.remove('workspace-mode');workspaceOwner=undefined;};
+  },
     openNavigation(){panelInstance?.open(!reduced());},closeNavigation(){if(!panelInstance?.opened||panel.classList.contains('panel-in-breakpoint'))return Promise.resolve();return new Promise(resolve=>{panelInstance.once('closed',resolve);panelInstance.close(!reduced());});},
     setFocus(value){if(value){if(focusNavigationState!==undefined)return;focusNavigationState=!!panelInstance?.visibleBreakpointDisabled;panelInstance?.disableVisibleBreakpoint();panelInstance?.close(false);}else if(focusNavigationState!==undefined){if(!focusNavigationState)panelInstance?.enableVisibleBreakpoint();focusNavigationState=undefined;}},
     syncTools(){analysisLauncher.setAvailable(!!root.workspaceTools||Boolean(body.querySelector('.controls,.comparison-controls,.tree-toolbar')));}
@@ -381,6 +398,7 @@ export function createAppShell({
       button.setAttribute("aria-current", active ? "page" : "false");
       if (active) button.removeAttribute("aria-haspopup");
     });
+    syncQuickHighlight();
     mobileSourcePage.append(sourcePage, bottom);
     main.append(mobileSourcePage);
     sourceClose.setAttribute("aria-label", "Back from references");
@@ -400,6 +418,7 @@ export function createAppShell({
       button.setAttribute("aria-current", active ? "page" : "false");
       if (button.dataset.quick === "sources") button.setAttribute("aria-haspopup", "dialog");
     });
+    syncQuickHighlight();
     mobileSourcePage.remove();
     page.style.display = "";
     page.inert = false;
@@ -506,8 +525,7 @@ export function createAppShell({
   };
   function syncAppearance() {
     const dark = Boolean(app?.darkMode);
-    appearanceButton.title = `Switch to ${dark ? "light" : "dark"} mode`;
-    appearanceButton.setAttribute("aria-checked", String(dark));
+    appearanceControls.sync();
     appearanceButton
       .querySelector("svg")
       ?.replaceWith(uiIcon(dark ? "sun" : "appearance"));
@@ -522,6 +540,7 @@ export function createAppShell({
   }
   const syncMotion = () => {
     root.dataset.reducedMotion = String(reduced());
+    appearanceControls.sync();
     if (app)
       for (const name of ["popup", "popover", "sheet"])
         app.params[name].animate = !reduced();
@@ -620,6 +639,7 @@ export function createAppShell({
   }
   function update(tab) {
     navigation.activate(tab, app);
+    if (tab !== "custom-r") sidebarContext.atlas();
     if (tab !== lastTab) {
       lastTab = tab;
       viewTransitionPending = Boolean(app) && !reduced();
@@ -633,8 +653,9 @@ export function createAppShell({
       b.classList.toggle("tab-link-active", active);
       b.setAttribute("aria-current", active ? "page" : "false");
     }
+    syncQuickHighlight();
     if (
-      panelInstance?.opened &&
+      tab !== "custom-r" && panelInstance?.opened &&
       !panel.classList.contains("panel-in-breakpoint")
     )
       safeClose(panelInstance);
@@ -736,19 +757,24 @@ export function createAppShell({
       scrollToUpdatedResult();
     });
   }
+  const pressEnhanced = new WeakSet();
   function enhance() {
     if (!app) return;
     prepareExternalLinks(root);
     enhanceFigures?.(body);
     themeScientificPlots(body);
     root.dataset.reducedMotion = String(reduced());
-    for (const el of root.querySelectorAll(
+    // Read new controls in one batch before writing classes; never repeat style
+    // queries for the same node on unrelated plot/console DOM mutations.
+    const freshPressNodes = [...root.querySelectorAll(
       "button:not(.matrix-cell),.overview-source-link,summary.tree-focus,.research-smart-select,.item-radio,.item-checkbox",
-    )) {
-      el.classList.add("f7-press");
-      if (getComputedStyle(el).position === "static")
-        el.classList.add("f7-press-anchor");
-    }
+    )].filter(element => !pressEnhanced.has(element));
+    const needsAnchor = freshPressNodes.map(element => getComputedStyle(element).position === "static");
+    freshPressNodes.forEach((element,index) => {
+      pressEnhanced.add(element);
+      element.classList.add("f7-press");
+      if (needsAnchor[index]) element.classList.add("f7-press-anchor");
+    });
     for (const instance of smartInstances) {
       if (!instance.el?.isConnected && !instance.opened) {
         instance.destroy();
@@ -1126,7 +1152,7 @@ export function createAppShell({
   }
   function startPress(event) {
     root.dataset.inputModality = "pointer";
-    if (event.pointerType !== "mouse" || event.button !== 0 || reduced())
+    if (event.pointerType !== "mouse" || event.button !== 0 || reduced() || root.dataset.glassEffects !== "true")
       return;
     const target = event.target.closest(".f7-press");
     if (!target || target.disabled) return;
@@ -1246,9 +1272,9 @@ export function createAppShell({
       touch: {
         activeState: true,
         touchRipple: false,
-        touchHighlight: true,
+        touchHighlight: root.dataset.glassEffects === "true" && !reduced(),
         touchHighlightElements:
-          "#psilocin-app:not([data-reduced-motion=true]) .f7-press",
+          "#psilocin-app[data-glass-effects=true]:not([data-reduced-motion=true]) .f7-press:not(.tab-link)",
       },
       panel: { swipe: false },
       sheet: {
@@ -1519,6 +1545,7 @@ export function createAppShell({
       document.removeEventListener("pointerup", endPress);
       document.removeEventListener("pointercancel", endPress);
       cancelAnimationFrame(enhanceFrame);
+      appearanceControls.destroy();
       app?.destroy();
     },
   };

@@ -1,3 +1,4 @@
+import {networkPreviewSizes, networkPreviewCandidates, networkPreviewName} from "../src/components/network-preview-asset.js";
 import { brandIcon } from "../src/components/app-brand.js";
 import { transform } from "esbuild";
 import { minify as minifyHTML } from "html-minifier-terser";
@@ -27,6 +28,9 @@ html = html.replace(/<meta name="viewport"[^>]*>/,
 const runtimeStyles = (await readdir(new URL('_file/assets/vendor/', output))).filter(name => /^framework7\.[a-f0-9]+\.css$/.test(name));
 if (runtimeStyles.length !== 1) throw new Error('Expected one content-hashed F7 stylesheet');
 html = html.replace('<head>', `<head>\n<link rel="preload" as="style" href="./_file/assets/vendor/${runtimeStyles[0]}" fetchpriority="high">`);
+// Discover the LCP image before the app's module graph initializes it.
+const previewSrcset = networkPreviewCandidates.map(width => `./${networkPreviewName(width)} ${width}w`).join(', ');
+html = html.replace('<head>', `<head>\n<link rel="preload" as="image" href="./oxphos-network-preview.webp" imagesrcset="${previewSrcset}" imagesizes="${networkPreviewSizes}" fetchpriority="high">`);
 // Inline, dependency-free first paint: no request or runtime is needed to show the mark.
 html = html.replace('</head>', `<style>
 #atlas-boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-content:center;justify-items:center;gap:18px;background:#f7f9fc;color:#235780;font:500 15px system-ui;text-align:center;padding:24px}
@@ -91,7 +95,10 @@ await cp(new URL('../vendor/webr-source/', import.meta.url), new URL('webr-sourc
 await rm(new URL('latex/', output), {recursive:true, force:true});
 await cp(new URL('../vendor/latex/', import.meta.url), new URL('latex/', output), {recursive:true});
 
-await copyFile(new URL("../src/assets/oxphos-network-preview.webp", import.meta.url), new URL("oxphos-network-preview.webp", output));
+for (const width of networkPreviewCandidates) {
+  const name = networkPreviewName(width);
+  await copyFile(new URL(`../src/assets/${name}`, import.meta.url), new URL(name, output));
+}
 
 // Python is separately requested; never included in the core offline runtime.
 await rm(new URL('python/', output), {recursive:true, force:true});

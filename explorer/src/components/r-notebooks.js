@@ -249,7 +249,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     list.replaceChildren();
     const empty = !notebook();
     runCell.disabled=runAll.disabled=exportButton.disabled=empty||busy;
-    if(empty){const message=el('div','studio-empty-state');message.append(el('h3','','No personal analyses'),el('p','note','Create an analysis, open an archived reproduction, or restore an analysis from Trash.'),action('New analysis','plus',newNotebook));list.append(message);insert.hidden=true;onCellChange?.(undefined);layout?.refreshFigures();return;}
+    if(empty){const message=el('div','studio-empty-state');message.append(el('h3','','No personal analyses'),el('p','note','Create an analysis, open a study result script, or restore an analysis from Trash.'),action('New analysis','plus',newNotebook));list.append(message);insert.hidden=true;onCellChange?.(undefined);layout?.refreshFigures();return;}
     insert.hidden=false;
     notebook().cells.forEach((item,index)=>{
       const row=el('article','studio-inline-cell');row.dataset.cellId=item.id;row.classList.toggle('is-active',item.id===activeCell);
@@ -288,6 +288,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     ...[['html','HTML (.html)'],['qmd','Quarto (.qmd)'],['Rmd','R Markdown (.Rmd)']].map(([format,label])=>({label,run:()=>downloadFile(`research-notebook.${format}`,notebookPublication(notebook(),format),format==='html'?'text/html':'text/plain')})),
     {label:'R script (.R)',run:()=>downloadFile('research-notebook.R',notebook().cells.filter(x=>x.kind==='code').map(x=>x.source).join('\n\n'),'text/plain')},...getExports()
   ]));
+  runCell.classList.add('studio-primary-run','primary','button-fill');
   runAll.classList.add('studio-run-all');interrupt.classList.add('studio-interrupt');
   const more=action('More','controls',()=>studioMenu(root,more,'Research tools',[{label:'Run all cells',run:()=>runAll.click()},{label:'Import analyses',run:()=>importBook.click()},{label:'Restart & run all',run:()=>{onRestart?.();runAll.click();}},{label:'Research tools',run:()=>openTools()},{label:'Molecular systems',available:!!onOpenSystems,run:onOpenSystems},{label:'Focus mode',run:()=>focus.click()},{label:'Toggle inspector',run:()=>{layout?.toggleInspector();}},{label:'Toggle console',run:()=>{layout?.openConsole();}}]));
   const openBooks=action('Notebooks','menu',()=>root.workspaceShell?.openNavigation());

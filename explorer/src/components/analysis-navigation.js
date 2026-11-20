@@ -17,13 +17,23 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     const body=el('div','accordion-item-content');body.id=`analysis-group-${language}-${key}`;toggle.setAttribute('aria-controls',body.id);
     const expanded=readPreference(`atlas-analysis-group-${language}-${key}`,String(initial))==='true';row.classList.toggle('accordion-item-opened',expanded);toggle.setAttribute('aria-expanded',String(expanded));
     for(const [event,open] of [['accordion:open',true],['accordion:close',false]])row.addEventListener(event,()=>{toggle.setAttribute('aria-expanded',String(open));if(!query)writePreference(`atlas-analysis-group-${language}-${key}`,String(open));});
-    toggle.onkeydown=e=>{if(e.key===' '){e.preventDefault();toggle.click();}};row.append(toggle,body);groupList.append(row);return {row,toggle,body,count};
+    toggle.onkeydown=e=>{if(e.key===' '){e.preventDefault();toggle.click();}};row.append(toggle,body);groupList.append(row);return {row,toggle,body,count,key,initial};
   }
-  const personal=group('My analyses','personal',true),archive=group('Archived analyses','archived',false);
+  const archive=group('Study result scripts','study',true),personal=group('My analyses','personal',true),extensions=group('Exploratory extensions','extensions',false);
   const orderBar=el('div','analysis-order-bar'),orderToggle=action('Reorder','controls',()=>{reordering=!reordering;render();}),orderHelp=el('span','note','Drag a handle or use its arrow keys.');orderBar.append(orderToggle,orderHelp);
   const books=el('div','list sortable studio-book-list'),bookList=el('ul');books.append(bookList);personal.body.append(orderBar,books);
-  const archived=el('div','studio-archived-analyses');archived.append(el('p','note','Reproductions of archived analyses. Opening creates an editable personal copy; code does not run automatically.'));
-  for(const example of examples){const button=action(example.title,'custom-r',()=>onArchived(example));button.dataset.title=example.title;button.title='Create editable copy';archived.append(button);}archive.body.append(archived);
+  const archived=el('div','studio-archived-analyses'),advanced=el('div','studio-archived-analyses');
+  archived.append(el('p','note','Inspect archived results from our re-analysis of Schmidt et al. Choose a script to create an editable copy.'));
+  const provenance=el('details','study-script-provenance');provenance.append(el('summary','','What these scripts reproduce'),el('p','note','These scripts reconstruct summaries and plots from archived estimates. They do not refit the original RNA-seq models or rerun enrichment. Changing parameters creates an exploratory analysis; the archived results stay unchanged.'));
+  archived.append(provenance);
+  advanced.append(el('p','note','Optional diagnostics and model exploration. These are not additional confirmatory results. The Bayesian script uses browser quadrature, not the archived PyMC sampler.'));
+  const scriptEntries=[];
+  for(const example of examples){
+    const optional=['threshold','bayesian'].includes(example.id),button=action(example.title,'custom-r',()=>onArchived(example));
+    button.dataset.title=example.title;button.title='Create editable copy; code runs only when you choose Run';
+    (optional?advanced:archived).append(button);scriptEntries.push({button,optional});
+  }
+  archive.body.append(archived);extensions.body.append(advanced);
   const resources=el('div','studio-sidebar-resources'),trash=action('Trash','close',openTrash);resources.append(trash);if(onTools)resources.append(action('Data & settings','controls',onTools));if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));
   const empty=el('p','note analysis-search-empty','No matching analyses.');empty.setAttribute('role','status');content.append(head,search,groups,empty,resources);sidebar.append(container);
   input.oninput=()=>{query=input.value.trim().toLocaleLowerCase();reordering=false;render();};
@@ -46,11 +56,17 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
       else{const actions=el('div','swipeout-actions-right'),more=el('a','','More'),remove=el('a','color-red','Trash');more.href=remove.href='#';more.setAttribute('role','button');remove.setAttribute('role','button');more.setAttribute('aria-label',`More actions for ${book.title}`);remove.setAttribute('aria-label',`Move ${book.title} to Trash`);more.onclick=e=>{e.preventDefault();root.f7.swipeout.close(row,()=>studioMenu(root,menu,book.title,menuItems(book)));};remove.onclick=e=>{e.preventDefault();if(!isBusy())onTrash(book);};actions.append(more,remove);row.append(actions);}
       bookList.append(row);
     }
-    personal.count.textContent=String(workspace.notebooks.length);archive.count.textContent=String(examples.length);
-    let archivedShown=0;for(const b of archived.querySelectorAll(':scope > .button')){b.hidden=!matches(b.dataset.title);if(!b.hidden)archivedShown++;}
-    empty.hidden=shown+archivedShown>0||!query;personal.row.hidden=!!query&&!shown;archive.row.hidden=!examples.length||(!!query&&!archivedShown);
-    for(const section of [personal,archive]){const expanded=query?true:readPreference(`atlas-analysis-group-${language}-${section===personal?'personal':'archived'}`,String(section===personal))==='true';section.row.classList.toggle('accordion-item-opened',expanded);section.toggle.setAttribute('aria-expanded',String(expanded));section.body.style.height='';}
-    if(!workspace.notebooks.length&&!query)bookList.append(el('li','analysis-list-empty','No personal analyses. Create one or open an archived reproduction.'));
+    personal.count.textContent=String(workspace.notebooks.length);
+    archive.count.textContent=String(scriptEntries.filter(x=>!x.optional).length);
+    extensions.count.textContent=String(scriptEntries.filter(x=>x.optional).length);
+    let archivedShown=0,advancedShown=0;
+    for(const {button,optional} of scriptEntries){button.hidden=!matches(button.dataset.title);if(!button.hidden){if(optional)advancedShown++;else archivedShown++;}}
+    empty.hidden=shown+archivedShown+advancedShown>0||!query;
+    personal.row.hidden=!!query&&!shown;
+    archive.row.hidden=!scriptEntries.some(x=>!x.optional)||(!!query&&!archivedShown);
+    extensions.row.hidden=!scriptEntries.some(x=>x.optional)||(!!query&&!advancedShown);
+    for(const section of [archive,personal,extensions]){const expanded=query?true:readPreference(`atlas-analysis-group-${language}-${section.key}`,String(section.initial))==='true';section.row.classList.toggle('accordion-item-opened',expanded);section.toggle.setAttribute('aria-expanded',String(expanded));section.body.style.height='';}
+    if(!workspace.notebooks.length&&!query)bookList.append(el('li','analysis-list-empty','No personal analyses. Create one or open a study result script.'));
     trash.textContent=`Trash${workspace.trash?.length?` (${workspace.trash.length})`:''}`;
     content.scrollTop=scroll;
     if(focusId){const row=[...bookList.children].find(item=>item.dataset.bookId===focusId);row?.querySelector(focusedHandle?'.sortable-handler':'.swipeout-content > button')?.focus({preventScroll:true});}
