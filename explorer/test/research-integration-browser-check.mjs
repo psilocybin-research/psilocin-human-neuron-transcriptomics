@@ -45,9 +45,14 @@ try{for(const width of [390,820,1440]){
  assert.equal(await network.getAttribute('data-exploratory-overlay'),'true');
  assert.match(await network.locator('.oxphos-3d-status').innerText(),/2\/113 exact IDs mapped/);
  assert.equal(await network.locator('.oxphos-3d-significance-key').isVisible(),false);
- if(await network.locator('.oxphos-mobile-toolbar').isVisible())await network.locator('.oxphos-mobile-toolbar').getByRole('button',{name:'Data',exact:true}).click();
- else await network.getByRole('button',{name:'About & data',exact:true}).click();
- await network.getByRole('button',{name:'Download network data',exact:true}).click();
+ const mobileTools=network.locator('.oxphos-mobile-toolbar');
+ const mobileInspector=network.locator('.oxphos-mobile-inspector');
+ const dataDownload=mobileInspector.getByRole('button',{name:'Download network data',exact:true});
+ if(await mobileTools.isVisible()){
+  await mobileTools.getByRole('button',{name:'Data',exact:true}).click();
+  await mobileInspector.waitFor({state:'visible'});
+ } else await network.getByRole('button',{name:'About & data',exact:true}).click();
+ await (await mobileTools.isVisible()?dataDownload:network.getByRole('button',{name:'Download network data',exact:true})).click();
  const pending=page.waitForEvent('download');await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
  const download=await pending;const exported=JSON.parse(await readFile(await download.path(),'utf8'));
  assert.equal(exported.user_exploratory_overlay.values.length,2);
