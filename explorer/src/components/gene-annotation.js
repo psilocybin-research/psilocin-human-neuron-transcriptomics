@@ -215,10 +215,15 @@ export function geneAnnotation(gene) {
         el("h2", "", `${gene.symbol} · Public context`),
         el("p", "identifier", gene.id),
       );
+      const sendToR = el("button", "button button-tonal labelled-icon-action");
+      sendToR.type = "button";
+      sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
+      sendToR.title = "Send this exact archived gene to R Studio";
+      sendToR.append(uiIcon("custom-r"), el("span", "", "To R"));
       const done = el("button", "button button-tonal labelled-icon-action");
       done.type = "button";
       done.append(uiIcon("done"), el("span", "", "Done"));
-      header.append(identity, done);
+      header.append(identity, sendToR, done);
       const navigation = el(
         "div",
         "segmented segmented-strong gene-information-tabs",
@@ -417,6 +422,16 @@ export function geneAnnotation(gene) {
       });
       done.onclick = () =>
         instance.close(!matchMedia("(prefers-reduced-motion: reduce)").matches);
+      sendToR.onclick = () => {
+        const dispatch = () =>
+          root.dispatchEvent(
+            new CustomEvent("atlas:send-gene-to-r", { detail: { gene: gene.id } }),
+          );
+        if (instance.opened) {
+          instance.once("closed", dispatch);
+          instance.close(!matchMedia("(prefers-reduced-motion: reduce)").matches);
+        } else dispatch();
+      };
       active = {
         gene: gene.id,
         element: sheet,

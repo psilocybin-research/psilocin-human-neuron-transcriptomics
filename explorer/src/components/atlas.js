@@ -600,6 +600,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/LICENSE.md",
     ],
     ["CodeMirror dependency notices", branding.editorNotices],
+    ["Fuse.js approximate-search licence", branding.fuseNotices],
     [
       "3D network dependency notices",
       "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/third_party_licenses/network-3d.txt",
@@ -1623,8 +1624,19 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "aria-label",
       "View public gene and protein context",
     );
+    const sendToR = iconButton(
+      "Send to R",
+      "custom-r",
+      () => container.dispatchEvent(new CustomEvent("atlas:send-gene-to-r", {
+        bubbles: true,
+        detail: { gene: gene.id },
+      })),
+      "button button-tonal labelled-icon-action gene-send-r-shortcut",
+    );
+    sendToR.setAttribute("aria-label", `Send ${gene.symbol} to R Studio`);
+    sendToR.title = "Send this exact archived gene to R Studio";
     const contextActions = el("div", "gene-context-actions");
-    contextActions.append(contextShortcut);
+    contextActions.append(sendToR, contextShortcut);
     container.append(contextActions);
     const info = landscapeMap.get(gene.symbol);
     container.dataset.sendGeneToR = gene.id;

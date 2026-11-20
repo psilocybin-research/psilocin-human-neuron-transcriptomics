@@ -65,6 +65,55 @@ export async function confirmDownload(filename) {
   });
 }
 
+const EXPORT_CONTEXT = Object.freeze({
+  application: "Psilocin Transcriptome Atlas",
+  archive_doi: "10.5281/zenodo.23283595",
+  classification: "archived data or user-exploratory output, as identified within the file",
+});
+
+export function exportMetadata() {
+  const source = new URL(location.href);
+  // Test-only switches do not identify a reproducible scientific view.
+  source.searchParams.delete("offline-test");
+  return {
+    ...EXPORT_CONTEXT,
+    exported_utc: new Date().toISOString(),
+    source_url: source.href,
+  };
+}
+
+const text = value => typeof value === "string" ? value : value instanceof Blob ? null : new TextDecoder().decode(value);
+const escapeAttribute = value => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+const commentPrefix = filename => /\.(?:py|pyw)$/i.test(filename) ? "#" : /\.(?:r|rmd|qmd)$/i.test(filename) ? "#" : "#";
+function provenanceHeader(filename, meta) {
+  const prefix = commentPrefix(filename);
+  return `${prefix} ${meta.application}\n${prefix} Exported (UTC): ${meta.exported_utc}\n${prefix} Source view: ${meta.source_url}\n${prefix} Archived companion DOI: ${meta.archive_doi}\n${prefix} Classification: ${meta.classification}\n\n`;
+}
+function enrichJSON(value, meta) {
+  try {
+    const parsed = JSON.parse(value);
+    if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") return value;
+    return JSON.stringify({...parsed, export_metadata: meta}, null, 2);
+  } catch { return value; }
+}
+function enrichHTML(value, meta) {
+  const tags = `<meta name="application-name" content="${escapeAttribute(meta.application)}"><meta name="dc.source" content="${escapeAttribute(meta.source_url)}"><meta name="citation_doi" content="${escapeAttribute(meta.archive_doi)}"><meta name="dcterms.created" content="${escapeAttribute(meta.exported_utc)}"><script type="application/ld+json">${JSON.stringify(meta).replaceAll("<", "\\u003c")}</script>`;
+  return /<head(?:\s[^>]*)?>/i.test(value) ? value.replace(/<head(?:\s[^>]*)?>/i, match => `${match}${tags}`) : `<!doctype html><html lang="en"><head><meta charset="utf-8">${tags}</head><body>${value}</body></html>`;
+}
+function enrichExport(filename, content, type) {
+  const value = text(content);
+  if (value === null || /^image\//i.test(type) || /^(?:application\/pdf|application\/zip)/i.test(type)) return content;
+  const meta = exportMetadata();
+  if (/\.json$/i.test(filename) || /json/i.test(type)) return enrichJSON(value, meta);
+  if (/\.html?$/i.test(filename) || /html/i.test(type)) return enrichHTML(value, meta);
+  if (/\.(?:r|rmd|qmd|py|pyw|md|txt)$/i.test(filename)) return provenanceHeader(filename, meta) + value;
+  // CSV is intentionally left as a strict data table: comment headers break
+  // readers that implement RFC 4180 without a comment convention.
+  if (/csv/i.test(type) || /\.csv$/i.test(filename)) return value;
+  if (/^(?:text\/plain|text\/x-|application\/x-)/i.test(type)) return provenanceHeader(filename, meta) + value;
+  return value;
+}
+
 function saveURL(filename, href) {
   const anchor = document.createElement("a");
   anchor.href = href;
@@ -74,7 +123,8 @@ function saveURL(filename, href) {
 }
 export async function downloadFile(filename, content, type = "text/csv") {
   if (!(await confirmDownload(filename))) return false;
-  const url = URL.createObjectURL(new Blob([content], { type }));
+  const enriched = enrichExport(filename, content, type);
+  const url = URL.createObjectURL(new Blob([enriched], { type }));
   saveURL(filename, url);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   return true;

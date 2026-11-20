@@ -70,8 +70,9 @@ export function reportFiles(run, title, author = "") {
   const files = { ...inputs };
   const add = (name, text) => (files[name] = encode(text));
   const figures = vectorPlots
-    .map((plot, i) => {
+    .flatMap((plot, i) => {
       files[`figures/plot-${i + 1}.svg`] = plot.svg;
+      if (!plot.pdf) return [];
       files[`figures/plot-${i + 1}.pdf`] = plot.pdf;
       return `\\clearpage\\section{Figure ${i + 1}}\n\\begin{center}\\includegraphics[width=\\linewidth,height=.75\\textheight,keepaspectratio]{figures/plot-${i + 1}.pdf}\\end{center}\n`;
     })

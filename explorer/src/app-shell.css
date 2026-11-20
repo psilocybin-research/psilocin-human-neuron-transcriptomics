@@ -2896,8 +2896,6 @@ body {
 }
 #psilocin-app .autocomplete-popup .finder-fuzzy-control input {
   position: absolute;
-  opacity: 0;
-  pointer-events: none;
 }
 #psilocin-app .autocomplete-popup .finder-fuzzy-control .toggle-icon {
   width: 32px;
@@ -4221,6 +4219,13 @@ body {
 }
 #psilocin-app .molecular-fullscreen-action { display:none; }
 #psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) .molecular-fullscreen-action { display:inline-flex;align-items:center;gap:6px; }
+#psilocin-app .molecular-fullscreen-fab { display:none; }
+#psilocin-app .figure-shell:has(> .molecular-viewport):is(:fullscreen, :-webkit-full-screen) .molecular-fullscreen-fab {
+  display:inline-flex;position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:5;
+  align-items:center;gap:7px;min-height:48px;padding:0 16px;border-radius:24px;
+  background:var(--f7-glass-bg-color);color:var(--research-accent);box-shadow:var(--f7-glass-shadow);
+}
+#psilocin-app .molecular-fullscreen-fab svg { width:20px;height:20px; }
 #psilocin-app .molecular-fullscreen-statistics { display:block;margin:12px 16px 20px;padding:14px;border:1px solid var(--research-border);border-radius:12px;background:var(--research-surface);color:var(--research-text); }
 #psilocin-app .molecular-fullscreen-statistics h3 { margin:0 0 10px;font-size:15px; }
 #psilocin-app .molecular-fullscreen-statistics table { width:100%;font-variant-numeric:tabular-nums; }

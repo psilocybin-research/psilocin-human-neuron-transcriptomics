@@ -277,7 +277,17 @@ export function enhancePlots(scope, { nested = false } = {}) {
     full.title = nestedPlot
       ? "View only this plot in full screen"
       : "View plot and information in full screen";
-    let molecularStats;
+    let molecularStats, molecularFab;
+    const toggleMolecularStats = () => {
+      if (!molecularStats) {
+        molecularStats = host.molecularStatistics();
+        molecularStats.hidden = true;
+        shell.append(molecularStats);
+      }
+      molecularStats.hidden = !molecularStats.hidden;
+      stats?.setAttribute("aria-expanded", String(!molecularStats.hidden));
+      molecularFab?.setAttribute("aria-expanded", String(!molecularStats.hidden));
+    };
     const update = () => {
       const active =
         (document.fullscreenElement || document.webkitFullscreenElement) ===
@@ -314,21 +324,20 @@ export function enhancePlots(scope, { nested = false } = {}) {
       sendToR.append(icon("custom-r"), el("span", "", "Send to R"));
       sendToR.setAttribute("aria-label", `Send ${host.dataset.molecularGeneId} to R`);
       const stats = button("", () => {
-        if (!molecularStats) {
-          molecularStats = host.molecularStatistics();
-          molecularStats.hidden = true;
-          shell.append(molecularStats);
-        }
-        molecularStats.hidden = !molecularStats.hidden;
-        stats.setAttribute("aria-expanded", String(!molecularStats.hidden));
+        toggleMolecularStats();
       }, "molecular-fullscreen-action molecular-stats-toggle");
       stats.append(icon("information"), el("span", "", "More statistics"));
       stats.setAttribute("aria-expanded", "false");
       pane.append(sendToR, stats);
+      molecularFab = button("", toggleMolecularStats, "molecular-fullscreen-fab");
+      molecularFab.append(icon("information"), el("span", "", "Gene evidence"));
+      molecularFab.setAttribute("aria-label", `Show all available evidence for ${host.dataset.molecularGeneId}`);
+      molecularFab.setAttribute("aria-expanded", "false");
     }
     host.before(shell);
     host.dataset.figureContent = "";
     shell.append(toolbar, context, host);
+    if (molecularFab) shell.append(molecularFab);
     enhanceScrollbars(shell, host);
     let scaleViewport = host.matches(".plot-viewport")
       ? host

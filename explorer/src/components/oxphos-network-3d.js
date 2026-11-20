@@ -465,9 +465,14 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     "genes",
   );
   selectedSummary.classList.add("oxphos-3d-selected-summary");
+  const dockSendToR = onResearch
+    ? button("Send to R", () => { if (selected) onResearch(selected); }, "custom-r")
+    : null;
+  if (dockSendToR) dockSendToR.classList.add("oxphos-3d-send-to-r");
   dock.append(
     button("Find gene", () => openDrawer("search"), "search"),
     button("Filters", () => openDrawer("filters"), "controls"),
+    ...(dockSendToR ? [dockSendToR] : []),
     button("About & data", () => openDrawer("about"), "information"),
   );
   const sendGeneToR = onResearch ? button("Send gene to R", () => { if (selected) onResearch(selected); }, "custom-r") : null;
@@ -834,6 +839,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   };
   function renderSelected() {
     if (sendGeneToR) sendGeneToR.disabled = !selected;
+    if (dockSendToR) dockSendToR.disabled = !selected;
     const scrollHost = selectedPanel.closest(
       ".oxphos-3d-evidence-body,.oxphos-3d-drawer-body,.oxphos-mobile-inspector-scroll",
     );

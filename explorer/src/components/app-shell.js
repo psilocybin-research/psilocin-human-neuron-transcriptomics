@@ -200,7 +200,7 @@ export function createAppShell({
     finderSelection.classList.add("finder-selection-menu");
   }
   let fuzzyMatching = false;
-  const fuzzyControl = node("label", "finder-fuzzy-control");
+  const fuzzyControl = node("label", "toggle finder-fuzzy-control");
   fuzzyControl.title = "Optionally include approximate gene-name matches";
   const fuzzyInput = node("input");
   fuzzyInput.type = "checkbox";

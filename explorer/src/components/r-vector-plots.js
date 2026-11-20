@@ -24,17 +24,26 @@ export async function readVectorPlots(runtime) {
   const count = await runtime.evalRNumber("length(.atlas_graphics$plots)");
   const plots = [];
   for (let i = 1; i <= Math.min(count, 4); i++) {
+    // The SVG is the notebook preview and retained output. A PDF is useful for
+    // reports, but a missing browser PDF device must never discard that plot.
     await runtime.evalRVoid(`local({
       p <- .atlas_graphics$plots[[${i}]]
       grDevices::svg('/home/web_user/vector-${i}.svg', width=10, height=6.5, pointsize=14, bg='white')
       tryCatch(grDevices::replayPlot(p), finally=grDevices::dev.off())
-      grDevices::cairo_pdf('/home/web_user/vector-${i}.pdf', width=10, height=6.5, pointsize=14, bg='white', fallback_resolution=300)
-      tryCatch(grDevices::replayPlot(p), finally=grDevices::dev.off())
     })`);
-    plots.push({
-      svg: await runtime.FS.readFile(`/home/web_user/vector-${i}.svg`),
-      pdf: await runtime.FS.readFile(`/home/web_user/vector-${i}.pdf`),
-    });
+    const svg = await runtime.FS.readFile(`/home/web_user/vector-${i}.svg`);
+    let pdf;
+    try {
+      await runtime.evalRVoid(`local({
+        p <- .atlas_graphics$plots[[${i}]]
+        grDevices::pdf('/home/web_user/vector-${i}.pdf', width=10, height=6.5, pointsize=14, useDingbats=FALSE)
+        tryCatch(grDevices::replayPlot(p), finally=grDevices::dev.off())
+      })`);
+      pdf = await runtime.FS.readFile(`/home/web_user/vector-${i}.pdf`);
+    } catch {
+      // Reports omit only this PDF; the recorded SVG remains available.
+    }
+    plots.push({svg, pdf});
   }
   return plots;
 }

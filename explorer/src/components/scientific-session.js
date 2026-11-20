@@ -77,7 +77,10 @@ function normalizePayload(input) {
   requireValue(Array.isArray(input.transferred_datasets || []) && (input.transferred_datasets || []).length <= 10, 'Invalid transferred tables.');
   const transferred = (input.transferred_datasets || []).map(item => ({name: text(item.name, 'transferred table name'),
     csv: text(item.csv, 'transferred CSV', 2_000_000), provenance: plain(item.provenance) ? item.provenance : {}}));
+  const sourceURL = input.source_url === undefined ? undefined : text(input.source_url, 'source URL', 4096);
+  if (sourceURL !== undefined) { try { new URL(sourceURL); } catch { throw Error('Invalid source URL.'); } }
   return {schema: SCIENTIFIC_SESSION_SCHEMA, exported_utc: input.exported_utc || new Date().toISOString(),
+    ...(sourceURL === undefined ? {} : {source_url: sourceURL}),
     archive_doi: '10.5281/zenodo.23283595', classification: 'user-exploratory',
     selection: selection(input.selection), r, python_notebooks: normalizedPython, python_trash: pythonWorkspace.trash, projects, transferred_datasets: transferred};
 }
