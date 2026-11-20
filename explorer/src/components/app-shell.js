@@ -1387,6 +1387,14 @@ export function createAppShell({
     if (stored("atlas-sidebar", "expanded") === "collapsed")
       panelInstance.disableVisibleBreakpoint();
     let finderGenes = new Map();
+    // A small, verified subset of the archived catalogue renders immediately;
+    // full-text search still uses the complete asynchronously loaded catalogue.
+    const finderInitialGenes = [
+      ['MFN2', 'ENSG00000116688.12'], ['SDHB', 'ENSG00000117118.5'],
+      ['MRPS15', 'ENSG00000116898.7'], ['ATP6V0B', 'ENSG00000117410.9'],
+      ['UQCRH', 'ENSG00000173660.7'], ['NDUFS2', 'ENSG00000158864.8'],
+      ['SDHC', 'ENSG00000143252.10'], ['MGST3', 'ENSG00000143198.8'],
+    ].map(([symbol, id]) => ({symbol, id, selected: true, aliases: []}));
     const mountFinderSelection = () => {
       const actions = autocomplete?.modal?.el?.querySelector(".navbar .right");
       if (finderSelection && actions && !actions.contains(finderSelection))
@@ -1427,6 +1435,14 @@ export function createAppShell({
       notFoundText: "No archived gene match. Try a gene symbol, Ensembl ID or verified alias.",
       source(query, render) {
         const sequence = ++querySequence;
+        const showGenes = matches => {
+          finderGenes = new Map(matches.map((gene) => [gene.id, gene]));
+          render(matches.map((gene) => ({
+            id: `gene:${gene.id}`, value: `gene:${gene.id}`,
+            text: `${gene.symbol} · ${gene.id}`, kind: 'gene', target: gene.id, gene,
+          })));
+        };
+        if (!query.trim()) showGenes(finderInitialGenes);
         const suggestions = genes => {
           // Initial results are useful before a query: representative archived
           // genes with a curated molecular preview lead the stable default list.
@@ -1435,20 +1451,12 @@ export function createAppShell({
             ? []
             : genes.filter((gene) => gene.selected && geneStructurePreview(gene)).map((gene) => gene.id);
           const matches = geneSuggestions(genes, data.aliases, query, preferred);
-          finderGenes = new Map(matches.map((gene) => [gene.id, gene]));
-          return matches.map((gene) => ({
-            id: `gene:${gene.id}`,
-            value: `gene:${gene.id}`,
-            text: `${gene.symbol} · ${gene.id}`,
-            kind: "gene",
-            target: gene.id,
-            gene,
-          }));
+          return matches;
         };
         getGenes().then(genes => {
-          if (sequence === querySequence) render(suggestions(genes));
+          if (sequence === querySequence) showGenes(suggestions(genes));
         }).catch(() => {
-          if (sequence === querySequence) render([{
+          if (sequence === querySequence && query.trim()) render([{
             id: "unavailable", text: "Gene data unavailable · Type again to retry", kind: "unavailable",
           }]);
         });

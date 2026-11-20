@@ -5736,3 +5736,14 @@ body {
 
 /* F7, rather than browser title bubbles, owns hover hints on precision devices. */
 #psilocin-app .tooltip.atlas-f7-tooltip{max-width:min(280px,calc(100vw - 24px));font-size:12px;line-height:1.35}
+
+@media (max-width: 600px) {
+  #psilocin-app .autocomplete-popup .navbar-inner > .title {
+    left: 16px !important;
+    right: 150px;
+    max-width: none;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
