@@ -1350,6 +1350,14 @@ export function createAppShell({
     });
     if (stored("atlas-sidebar", "expanded") === "collapsed")
       panelInstance.disableVisibleBreakpoint();
+    const finderActions = () => [
+      ...researchActions,
+      {
+        id: "toggle-appearance",
+        title: `Appearance settings · Switch to ${app?.darkMode ? "light" : "dark"} mode`,
+        run: toggleAppearance,
+      },
+    ];
     autocomplete = app.autocomplete.create({
       view,
       openIn: "popup",
@@ -1375,7 +1383,7 @@ export function createAppShell({
       source(query, render) {
         const sequence = ++querySequence;
         const suggestions = genes => researchSuggestions({genes, aliases: data.aliases,
-          pathways: data.pathways, tabs, actions: researchActions, query});
+          pathways: data.pathways, tabs, actions: finderActions(), query});
         render(suggestions([]));
         if (!query.trim()) return;
         getGenes().then(genes => {
@@ -1417,7 +1425,7 @@ export function createAppShell({
             if (item.kind === "gene") go("genes", item.target);
             else if (item.kind === "view") go(item.target);
             else if (item.kind === "pathway") onPathway?.(item.target);
-            else if (item.kind === "action") researchActions.find(action => action.id === item.target)?.run();
+            else if (item.kind === "action") finderActions().find(action => action.id === item.target)?.run();
           });
           autocomplete.close();
         },
