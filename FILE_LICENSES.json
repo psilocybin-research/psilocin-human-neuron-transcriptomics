@@ -4699,6 +4699,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/mitochondrial-enrichment-model.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-enrichment-plot.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/mitochondrial-explorer.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4976,6 +4988,12 @@
     ]
   },
   "explorer/src/components/residue-mapping.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/respiratory-schematic.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

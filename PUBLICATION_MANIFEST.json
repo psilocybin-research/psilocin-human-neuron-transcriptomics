@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1409,
-  "total_bytes": 688965422,
+  "file_count": 1412,
+  "total_bytes": 688987168,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 277226,
-      "sha256": "c9862252bc5484259ba6be2944c8cd0c2505b78a394fea10acb1abe9dde1e440"
+      "bytes": 277666,
+      "sha256": "ae454bc753cf5baeb475d113b2aadeeba3774db07de155522699ea3b4b284670"
     },
     {
       "path": "LICENSE.md",
@@ -384,8 +384,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 8152,
-      "sha256": "7009f2a1ecbed785a85b335c8677786f53062568a91167701124788f441ab3c6"
+      "bytes": 8181,
+      "sha256": "92240a067388a37aaf557c03ebf07d1cc25cc1930a8caa5e01e968cd9024b240"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -414,8 +414,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 250837,
-      "sha256": "bacf53e31bda7c4b0fc28a779dd792cf96279a6208787de0b22f09721e034962"
+      "bytes": 253742,
+      "sha256": "0aac89350c71dacb9462b6d521b44a24932318f31e37d3f72b26ad903db79d6f"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3484,8 +3484,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 134000,
-      "sha256": "92001d9decf59a7be02335cfbab977ba19dc5e9ec16c5c92efc3224d5eba78bc"
+      "bytes": 134128,
+      "sha256": "b9cc5c9ccecc76f19c8b51b2e81789db680cb654e68eec15c92b9f7968488e28"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3628,9 +3628,19 @@
       "sha256": "d75ad8b8201fe6b0498f42c878af790aedd799085ee868c9d7d9d5907fa69305"
     },
     {
+      "path": "explorer/src/components/mitochondrial-enrichment-model.js",
+      "bytes": 1994,
+      "sha256": "727ee3cd827e8bc7efb9bec9494ae443e8054b090d245ef358479d2d2bf0f652"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-enrichment-plot.js",
+      "bytes": 9477,
+      "sha256": "64c4950626a0f3bc73653b25bbf9102dcf45d9c2c5d086bcdd75cbf7fcf1fd1d"
+    },
+    {
       "path": "explorer/src/components/mitochondrial-explorer.js",
-      "bytes": 10660,
-      "sha256": "e5384a66da5ee3b2ac697131fdb4404df74e902b0d0039e479ef4f164e977f3b"
+      "bytes": 10646,
+      "sha256": "38b689eb849c1141afcf91da3ec520341fd6e8cae4c8d87ccc89a1bb51c3b6be"
     },
     {
       "path": "explorer/src/components/mitochondrial-mapping.js",
@@ -3863,6 +3873,11 @@
       "sha256": "c3c50972a30671fdace840fd3ed3996c7c058aadc189e4d5d2de0413de1743af"
     },
     {
+      "path": "explorer/src/components/respiratory-schematic.js",
+      "bytes": 3424,
+      "sha256": "fdbff4a1a4a1c7315183b82d7cefad0b33e703a892f50b150245ea18d5dd335a"
+    },
+    {
       "path": "explorer/src/components/scientific-plot.js",
       "bytes": 4368,
       "sha256": "5c7c6db0b4a4f1937592ffd4a1051d6a2ece50122d609678e53827f431aea164"
@@ -4084,13 +4099,13 @@
     },
     {
       "path": "explorer/test/mitochondrial-browser-check.mjs",
-      "bytes": 2762,
-      "sha256": "06f8f89594f5bf4523f6da7f1004bd73e1d19d650ffaa229408848e29e8274bd"
+      "bytes": 4136,
+      "sha256": "3ff23ee81137bfe8a18aac851b50210cafd8407913a72777a12d8d001d9dd07b"
     },
     {
       "path": "explorer/test/mitochondrial-context.test.js",
-      "bytes": 3884,
-      "sha256": "129d374831824329def711956ab508dea51c073223491f01cee39a6540f08594"
+      "bytes": 5080,
+      "sha256": "913e65665b02c96fa62b1477835b1cd2ce108b3d71620ade314ea7576d45442b"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
@@ -5854,8 +5869,8 @@
     },
     {
       "path": "reports/mitocarta_followup_methods.md",
-      "bytes": 3946,
-      "sha256": "8ce0acb4f36b078e355c070238804c070a5979a1b329e3070130a6cf8fe56418"
+      "bytes": 4739,
+      "sha256": "672adfa3e2d267de2aafc1cd4e1b33270f60b706b9e136f7f9c88f319810ddc3"
     },
     {
       "path": "reports/oxphos_alias_sensitivity.md",

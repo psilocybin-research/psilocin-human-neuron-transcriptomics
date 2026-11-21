@@ -1,3 +1,5 @@
+import { createRespiratorySchematic } from "./respiratory-schematic.js";
+import { createMitochondrialEnrichmentPlot } from "./mitochondrial-enrichment-plot.js";
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el, createAccordion, loadingMessage } from "./interface-utils.js";
 import { mitochondrialSnapshot, mitochondrialEnrichment, mitochondrialAuditURL } from "./mitochondrial-data.js";
@@ -22,27 +24,21 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
     ? { element: el("section", "mitochondrial-explorer mitochondrial-page-content"), body: el("div", "gene-annotation-body") }
     : createAccordion("Respiratory complexes · complete curated membership", "mitochondrial-explorer");
   if (standalone) {
-    card.element.append(el("h2", "", "Respiratory complexes"), card.body);
+    card.element.append(card.body);
   }
   card.body.append(el("p", "note", "Explore complete MitoCarta memberships alongside archived RNA estimates. Open a gene for its effect intervals and nine block-by-condition expression profiles. This external reference extends beyond the selected 113-gene OXPHOS landscape."));
   const host = el("div"); card.body.append(host);
-  let loaded = false;
+  let loaded = false, pairedPlot;
+  card.element.dispose = () => pairedPlot?.dispose();
   async function load() {
     if (loaded) return;
     loaded = true; host.replaceChildren(loadingMessage("Loading curated mitochondrial context…"));
     try {
-      const [snapshot, genes] = await Promise.all([mitochondrialSnapshot(), getGenes()]);
+      const [snapshot, genes, enrichmentData] = await Promise.all([mitochondrialSnapshot(), getGenes(), mitochondrialEnrichment()]);
       if (!card.element.isConnected) return;
       host.replaceChildren();
-      const schematic = el("div", "respiratory-schematic"); schematic.setAttribute("role", "group"); schematic.setAttribute("aria-label", "Choose a respiratory complex");
       let complex = "I", role = "Structural subunit";
-      const complexButtons = new Map();
-      for (const id of ["I", "II", "III", "IV", "V"]) {
-        const names = {I:"NADH entry",II:"Succinate entry",III:"Cytochrome bc₁",IV:"Oxygen reduction",V:"ATP synthase"};
-        const button = action("", () => { complex = id; render(); }, "button respiratory-complex");
-        button.append(el("strong", "", `Complex ${id}`), el("span", "", names[id])); button.setAttribute("aria-pressed", "false");
-        complexButtons.set(id, button); schematic.append(button);
-      }
+      const schematic = createRespiratorySchematic((id) => { complex = id; render(); });
       const reference = el("p", "note", "Reference organization in the inner mitochondrial membrane. Electron transfer: I / II → ubiquinone → III → cytochrome c → IV. Complex V uses the proton gradient. This diagram does not show measured flux, activity or physical distances.");
       const roleGroup = el("div", "segmented segmented-strong mitochondrial-role-control"); roleGroup.setAttribute("role", "group"); roleGroup.setAttribute("aria-label", "Respiratory membership type");
       const roleButtons = new Map();
@@ -56,7 +52,12 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
         try { const {openComplexIPilot} = await import("./complex-i-pilot.js"); await openComplexIPilot({genes, onGene}); }
         finally { pilot.disabled = false; }
       });
-      host.append(schematic, reference, roleGroup, status, table.wrap, pilot,
+      pairedPlot = createMitochondrialEnrichmentPlot({
+        data: enrichmentData, snapshot, genes, onGene,
+        onComplex: (selection) => { complex = selection.complex; role = selection.role; render(); },
+      });
+      host.append(pairedPlot.element, el("h2", "", "Respiratory-chain reference"), schematic.element, reference,
+        el("p", "note respiratory-scroll-hint", "Select a complex to inspect its genes below. On narrow screens, scroll the reference diagram horizontally. The 3D assembly is optional exploration."), roleGroup, status, table.wrap, pilot,
         el("p", "note", "Blue to orange: signed RNA log₂FC on a fixed ±2.5 scale. Numerical values retain the full effect range. Missing archived results are not evidence of unchanged expression; their exclusion reason is not inferred."));
       const audit = el("a", "", "Download complete identifier-mapping audit"); audit.href = await mitochondrialAuditURL(); audit.download = "mitocarta-3.0-mapping-audit.csv";
       host.append(audit, el("p", "note", `MitoCarta ${snapshot.metadata.release} · ${snapshot.entries.length} curated genes · retrieved ${snapshot.metadata.retrievedAt}. ${snapshot.metadata.license}. ${snapshot.metadata.citation}`), sourceLink("Annotation source and documentation ↗", snapshot.metadata.source));
@@ -69,7 +70,7 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
         catch { enrichment.body.replaceChildren(el("p", "note", "Exploratory results could not load.")); enrichmentLoaded = false; }
       });
       function render() {
-        complexButtons.forEach((button, id) => {button.classList.toggle("is-selected", id === complex); button.setAttribute("aria-pressed", String(id === complex));});
+        schematic.select(complex);
         roleButtons.forEach((button, id) => {button.classList.toggle("button-active", id === role); button.setAttribute("aria-pressed", String(id === role));});
         const members = complexMembers(snapshot, complex, role), day1 = coverage(members, genes, 0), day3 = coverage(members, genes, 1);
         status.textContent = `Complex ${complex} · ${members.length} curated ${role.toLowerCase()}s. Available estimates: Day 1 ${day1.estimated}, Day 3 ${day3.estimated}. No archived record ${day1.absent}; ambiguous ${day1.ambiguous}; non-estimable Day 1 ${day1.nonestimable}, Day 3 ${day3.nonestimable}. Counts are genes, not protein copies; alternatives need not coexist in one assembly.`;

@@ -831,6 +831,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     });
     shell?.update(tab);
     disposeMethods();
+    body.querySelector(".mitochondrial-explorer")?.dispose?.();
     body.querySelector(".comparative-views")?.dispose?.();
     body.querySelector(".research-figure-builder")?.dispose?.();
     body.querySelector(".exploratory-result-chart")?.dispose?.();
@@ -3386,6 +3387,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     body.querySelector(".exploratory-result-chart")?.dispose?.();
     body.querySelector(".custom-r-workspace")?.destroy?.();
     disposeMethods();
+    body.querySelector(".mitochondrial-explorer")?.dispose?.();
     body.querySelector(".comparative-views")?.dispose?.();
     removeEventListener("hashchange", reloadFromLocation);
     shell.destroy();

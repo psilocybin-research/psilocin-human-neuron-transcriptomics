@@ -57,3 +57,20 @@ test('exploratory outputs match the frozen inputs and joint BH family, including
   else {assert.equal(row.pvalue,null);assert.equal(row.qvalue,null);}
  }
 });
+
+test('paired overview is function-selected, keeps untested complex II and shares the full-universe NES axis', async()=>{
+ const {enrichmentPlotModel,mitochondrialOverview,pathwayComplex}=await import('../src/components/mitochondrial-enrichment-model.js');
+ const overview=enrichmentPlotModel(enrichment),all=enrichmentPlotModel(enrichment,'all');
+ assert.deepEqual(overview.domain,mitochondrialOverview);
+ assert.equal(overview.rows.length,mitochondrialOverview.length*2);
+ assert.equal(all.domain.length,76);
+ assert.equal(all.rows.length,152);
+ assert.equal(overview.extent,all.extent);
+ assert.ok(overview.rows.filter(r=>r.pathway==='CII_subunits').every(r=>r.NES===null&&!r.significant));
+ assert.equal(overview.rows.find(r=>r.pathway==='CIV_subunits'&&r.day===1).significant,false);
+ assert.equal(overview.rows.find(r=>r.pathway==='CIV_subunits'&&r.day===3).significant,true);
+ assert.deepEqual(pathwayComplex('CV_assembly_factors'),{complex:'V',role:'Assembly factor'});
+ assert.equal(pathwayComplex('Translation'),null);
+ const modified={...enrichment,results:enrichment.results.map(row=>({...row,qvalue:1}))};
+ assert.deepEqual(enrichmentPlotModel(modified).domain,overview.domain);
+});

@@ -5998,10 +5998,6 @@ body {
 #psilocin-app .mitochondrial-context-card{margin:12px 0}
 #psilocin-app .mitochondrial-pathways{padding-left:20px;font-size:12px;line-height:1.6}
 #psilocin-app .mitochondrial-explorer{margin:16px 0;border:1px solid var(--f7-list-outline-border-color,var(--f7-list-border-color));border-radius:18px;overflow:hidden}
-#psilocin-app .respiratory-schematic{display:grid;grid-template-columns:repeat(5,minmax(108px,1fr));gap:8px;overflow-x:auto;padding:6px 2px 14px}
-#psilocin-app .respiratory-complex{height:auto;min-height:76px;display:flex;flex-direction:column;justify-content:center;gap:5px;white-space:normal;border:1px solid var(--f7-list-border-color);border-radius:14px;background:var(--f7-block-strong-bg-color);color:var(--f7-text-color);font-size:11px;line-height:1.3;padding:12px}
-#psilocin-app .respiratory-complex strong{font-size:14px}
-#psilocin-app .respiratory-complex.is-selected{border-color:var(--f7-theme-color);background:var(--f7-theme-color);color:#fff}
 #psilocin-app .mitochondrial-role-control{max-width:420px;margin:14px 0}
 #psilocin-app .mitochondrial-gene-link{height:auto;min-height:44px;padding:0;text-align:left;justify-content:flex-start;white-space:normal}
 #psilocin-app .mitochondrial-gene-link .gene-identity{max-width:260px}
@@ -6024,10 +6020,49 @@ body {
 #psilocin-app .complex-i-gene-actions .button{width:44px;height:40px}
 #psilocin-app .complex-i-gene-card{margin:10px 0}
 @media(max-width:767px){
- #psilocin-app .respiratory-schematic{grid-template-columns:repeat(5,112px)}
  #psilocin-app .mitochondrial-explorer .gene-identity-thumb{display:none}
  #psilocin-app .mitochondrial-explorer td,#psilocin-app .mitochondrial-explorer th{padding:10px 8px}
  #psilocin-app .complex-i-sheet{height:94dvh;--f7-sheet-height:94dvh}
 }
 #psilocin-app .mitochondrial-page-content{padding:16px}
 #psilocin-app .mitochondrial-page-content>h2{margin:0 0 12px;font-size:18px}
+/* Paired NES evidence stays separate from the reference respiratory topology. */
+#psilocin-app .mitochondrial-paired-enrichment{margin:8px 0 28px;min-width:0}
+#psilocin-app .mitochondrial-paired-enrichment>h2{margin:6px 0 12px}
+#psilocin-app .mito-plot-scope{max-width:460px;margin:16px 0}
+#psilocin-app .mito-dot-legend{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:12px;line-height:1.5;margin:14px 0}
+#psilocin-app .mito-dot-legend>span{display:flex;align-items:center;gap:7px}
+#psilocin-app .mito-dot-legend i{width:10px;height:10px;display:inline-block;border-radius:50%}
+#psilocin-app .mito-dot-viewport{width:100%;min-width:0;max-height:780px;overflow:auto;border:1px solid var(--f7-list-border-color);border-radius:14px;background:var(--plot-background,#fff)}
+#psilocin-app .mito-dot-chart{width:100%;min-width:280px}
+#psilocin-app .mito-dot-chart svg{display:block}
+#psilocin-app .mito-dot-chart [role=button]:focus{outline:2px solid var(--f7-theme-color);outline-offset:4px}
+#psilocin-app .mito-pathway-picker{display:flex;align-items:center;gap:12px;margin:18px 0;font-size:13px}
+#psilocin-app .mito-pathway-picker select{flex:1;min-width:0;min-height:44px;border:1px solid var(--f7-list-border-color);border-radius:10px;background:var(--f7-block-strong-bg-color);color:var(--f7-text-color);padding:8px}
+#psilocin-app .mito-pathway-detail{padding:16px;border:1px solid var(--f7-list-border-color);border-radius:14px;margin-top:14px}
+#psilocin-app .mito-pathway-detail>h3{margin-top:0}
+#psilocin-app .mito-detail-controls{max-width:420px;margin:12px 0}
+#psilocin-app .mito-pathway-genes{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;max-height:300px;overflow:auto}
+#psilocin-app .mito-pathway-genes>li{min-width:0}
+#psilocin-app .mito-pathway-genes .button{height:auto;min-height:48px;justify-content:flex-start;padding:6px 10px;text-align:left;max-width:100%;white-space:normal}
+#psilocin-app .respiratory-chain-scroll{overflow-x:auto;width:100%;border-radius:14px;color:var(--f7-text-color)}
+#psilocin-app .respiratory-chain-scroll>svg{display:block;width:100%;min-width:620px;height:auto}
+#psilocin-app .respiratory-membrane{fill:var(--f7-theme-color);fill-opacity:.07;stroke:var(--f7-theme-color);stroke-opacity:.3}
+#psilocin-app .respiratory-carrier{fill:var(--f7-block-strong-bg-color);stroke:var(--f7-text-color)}
+#psilocin-app .respiratory-complex-node{cursor:pointer}
+#psilocin-app .respiratory-complex-node>rect{fill:var(--f7-block-strong-bg-color);stroke:var(--f7-theme-color);stroke-width:1.5}
+#psilocin-app .respiratory-chain-scroll text{fill:currentColor}
+#psilocin-app .respiratory-complex-node.is-selected>rect{fill:var(--f7-theme-color)}
+#psilocin-app .respiratory-complex-node.is-selected text{fill:#fff}
+#psilocin-app .respiratory-complex-node:focus{outline:none}
+#psilocin-app .respiratory-complex-node:focus>rect{stroke-width:4}
+@media(max-width:599px){
+ #psilocin-app .mito-pathway-picker{display:block}
+ #psilocin-app .mito-pathway-picker>span{display:block;margin-bottom:8px}
+ #psilocin-app .mito-pathway-picker select{width:100%}
+ #psilocin-app .mito-pathway-detail{padding:12px}
+ #psilocin-app .mito-pathway-genes{grid-template-columns:1fr}
+}
+#psilocin-app .mitochondrial-page-content>.gene-annotation-body{grid-template-columns:minmax(0,1fr);padding:0}
+#psilocin-app .mitochondrial-page-content>.gene-annotation-body>*{min-width:0;max-width:100%}
+#psilocin-app .mito-plot-scope .button,#psilocin-app .mito-detail-controls .button{white-space:normal;height:auto;min-height:44px;line-height:1.35;padding:8px;font-size:12px}
