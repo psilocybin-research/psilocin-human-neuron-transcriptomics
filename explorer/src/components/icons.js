@@ -8,6 +8,7 @@ const names = {
   pathways: "arrow_branch",
   mitocarta: "square_grid_3x2",
   robustness: "checkmark_shield",
+  bayesian: "chart_bar",
   comparison: "chart_bar",
   methods: "book",
   "custom-r": "chevron_left_slash_chevron_right",

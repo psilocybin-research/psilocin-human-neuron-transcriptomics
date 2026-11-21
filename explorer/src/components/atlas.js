@@ -243,6 +243,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["pathways", "Pathways"],
     ["mitocarta", "MitoCarta"],
     ["robustness", "Robustness"],
+    ["bayesian", "Bayesian OXPHOS"],
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
     ["methods", "Methods & provenance"],
@@ -833,6 +834,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     });
     shell?.update(tab);
     disposeMethods();
+    for (const panel of body.querySelectorAll(".directional-evidence")) panel.dispose?.();
     body.querySelector(".mitochondrial-explorer")?.dispose?.();
     body.querySelector(".comparative-views")?.dispose?.();
     body.querySelector(".research-figure-builder")?.dispose?.();
@@ -849,6 +851,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         pathways,
         mitocarta,
         robustness,
+        bayesian: bayesianView,
         dna: dnaView,
         comparison: comparisonView,
         methods,
@@ -868,6 +871,16 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     nextSelection.disabled = !researchStore.canRedo();
     enhancePlots(body);
     shell?.afterRender();
+  }
+  async function bayesianView() {
+    body.append(heading("Bayesian OXPHOS", "Exploratory directional evidence, prior assumptions and expression-score uncertainty across three paired differentiation blocks."));
+    const host=el("div", "bayesian-analysis-page");
+    host.append(loadingMessage("Loading Bayesian OXPHOS analysis…"));
+    body.append(host);
+    const {createDirectionalEvidence}=await import("./bayesian-directional.js");
+    if(!host.isConnected)return;
+    host.replaceChildren(createDirectionalEvidence());
+    enhancePlots(host);
   }
   function comparisonView() {
     const host = el("div");
@@ -2661,6 +2674,9 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       }),
     );
     body.append(controls);
+    if (pathway === "HALLMARK_OXIDATIVE_PHOSPHORYLATION") {
+      body.append(button("Bayesian OXPHOS · explore directional evidence and priors", () => go("bayesian"), "secondary"));
+    }
     const rows = data.sensitivities.filter(
       (r) => r.pathway === pathway && r.contrast === contrast,
     );

@@ -1,0 +1,19 @@
+{
+  "classification": "post hoc exploratory directional evidence; existing posterior directions were already known",
+  "hypotheses": {
+    "H_plus": "mu_day > 0",
+    "H_minus": "mu_day <= 0"
+  },
+  "prior_odds": 1,
+  "input_sha256": "fc187a00d0fd24ee88345b3fcfb5498c765bc2eafd1bfc8ef2c5f9d3cadc45d1",
+  "plan_sha256": "fb6ebd2930d102369dc7ae891a186dc0df7d196bf18e0c83424599c79d621413",
+  "analysis_code_sha256": "4556da2c6bd1b63f697ef12101cc8b771865bc288721fbed14e40e1e2e00cc5d",
+  "archived_posterior_sha256": "4c2f1a7a07d36ab26e8e2b7487e1dd9f422f4a5d952246c4e39ac51fa3793394",
+  "python": "3.10.12",
+  "numpy": "1.26.4",
+  "scipy": "1.15.3",
+  "all_numerically_resolved": true,
+  "maximum_log10_bf_grid_difference": 0.00017194843317958064,
+  "maximum_edge_mass": 8.034997827323116e-07,
+  "not_point_null": true
+}

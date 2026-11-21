@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "classification": "post hoc exploratory directional evidence; existing posterior directions were already known",
+  "input": "tables/bayesian_oxphos/paired_scores.csv",
+  "score": "mean log2(DESeq2-normalized count + 1) across all 182 originally mapped OXPHOS genes",
+  "units": "three paired differentiation blocks across two backgrounds",
+  "hypotheses": {"H_plus": "mu_day > 0", "H_minus": "mu_day <= 0"},
+  "comparison": "each day versus common controls, marginalizing the other mean and shared covariance; not a point-null Bayes factor",
+  "encompassing_prior": "independent zero-centered normal mean priors; half-normal marginal residual SDs; LKJ(eta) correlation",
+  "prior_hypothesis_odds": 1,
+  "bayes_factor": "posterior odds / prior odds for the two normalized sign-truncated encompassing priors, with identical inherited nuisance priors",
+  "baseline": {"effect_sd": 0.5, "residual_sd": 0.5, "eta": 2},
+  "declared_sensitivity": {"effect_sd": [0.25, 0.5, 1], "residual_sd": [0.25, 0.5, 1], "eta": [2]},
+  "additional_correlation_sensitivity": {"effect_sd": [0.5], "residual_sd": [0.5], "eta": [1, 4]},
+  "interactive_bounds": {"effect_sd": [0.125, 2], "residual_sd": [0.125, 2], "eta": [1, 4]},
+  "likelihood_sensitivity": "all existing Student-t(4) baseline posterior sign summaries retained separately; no new Student-t quadrature fit",
+  "numerics": {"method": "analytic conditional normal means; log-SD and linear-rho trapezoid quadrature for covariance", "grid": [90, 151], "refined_grid": [130, 221], "rho_bound": 0.9995, "sd_lower": 0.0001, "sd_upper": "max(8 * residual_sd, 6 * maximum observed marginal SD)", "log_bf_tolerance": 0.02, "edge_mass_tolerance": 0.001},
+  "reporting": "retain all declared settings, block observations, score intervals and directional Bayes factors; no discovery threshold, selected best prior, point-null claim, equivalence threshold or independent confirmation",
+  "limitations": ["unresolved common-control harvest composition", "three blocks do not imply three independent donors", "no treatment-by-time interaction", "relative RNA score is not mitochondrial function", "priors are sensitivity assumptions without external biological calibration", "browser changes are exploratory and do not modify the archive"]
+}

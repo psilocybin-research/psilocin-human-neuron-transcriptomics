@@ -162,7 +162,13 @@ summarize <- function(m,v) {
 results <- data.frame(parameter=c("mu_day1_vs_control","mu_day3_vs_control","treated_day_difference"),
   rbind(summarize(m1,V11), summarize(m3,V22), summarize(m3-m1,V11+V22-2*V12)),
   effect_sd=effect_sd,residual_sd=residual_sd,correlation_eta=correlation_eta)
+# Directional comparison: normalized sign restrictions of the same proper prior.
+# Prior P(mu>0)=0.5, so BF+/minus equals posterior odds; NOT a point-null BF.
+results$prior_probability_positive <- 0.5
+results$bf_positive_nonpositive <- results$probability_gt_zero / (1-results$probability_gt_zero)
+results$log10_bf_positive_nonpositive <- log10(results$bf_positive_nonpositive)
 print(results)
+cat("Directional BF compares positive with nonpositive score shifts, not an exact-zero null.\n")
 cat("Original NUTS summaries for matching prior scales (if archived):\n")
 print(subset(bayesian_archive, likelihood=="normal" & effect_sd==results$effect_sd[1] & residual_sd==results$residual_sd[1]))
 par(mar=c(5,12,3,1))

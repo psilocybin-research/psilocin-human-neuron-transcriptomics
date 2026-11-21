@@ -40,7 +40,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
   for (const [key, title, sections] of [
     ["molecular", "Molecular evidence", ["landscape", "genes"]],
     ["pathways", "Pathways & comparisons", ["pathways", "mitocarta", "comparison"]],
-    ["confidence", "Confidence & interpretation", ["robustness", "dna"]],
+    ["confidence", "Confidence & interpretation", ["robustness", "bayesian", "dna"]],
   ]) {
     const opened = groupChoices[key] ?? key === "molecular",
       li = node(

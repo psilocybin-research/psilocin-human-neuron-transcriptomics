@@ -67,6 +67,8 @@ A separate post hoc Bayesian analysis estimates full-set OXPHOS expression shift
 
 See the [results](reports/bayesian_oxphos_results.md), [methods](reports/bayesian_oxphos_methods.md) and [reproduction instructions](reports/bayesian_oxphos_reproduction.md). The archive includes all ten declared models, original and remedial diagnostics, complete posterior/predictive draws and verified derived inputs. The interactive atlas retains its gene/pathway scope.
 
+An additional [exploratory directional evidence analysis](reports/bayesian_directional_results.md) compares positive with nonpositive OXPHOS score shifts using normalized restrictions of the same encompassing prior. It reports the complete prior-sensitivity grid, block observations, deterministic quadrature checks and interactive prior controls on the **Bayesian OXPHOS** page under Confidence & interpretation. These directional Bayes factors re-express posterior sign information; they are not point-null tests or independent confirmation, and do not replace the archived estimates.
+
 ## Atlas views
 
 [Genes](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=genes) · [Pathways](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=pathways) · [Robustness](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=robustness) · [DNA maintenance](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=dna) · [Methods & sources](https://psilocybin-research.github.io/psilocin-human-neuron-transcriptomics/#view=methods)

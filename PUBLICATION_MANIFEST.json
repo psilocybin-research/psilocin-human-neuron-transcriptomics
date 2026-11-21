@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1438,
-  "total_bytes": 726585383,
+  "file_count": 1463,
+  "total_bytes": 727607300,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 281412,
-      "sha256": "cf9b36581b36f28d353ab7395ca9555465cb1f90e200b39e2be7e50656f178aa"
+      "bytes": 285123,
+      "sha256": "3678e68e9fc5dbbc8b8fed11a2625ef95ae00a0f6254452c8a3adf3a9dd57d01"
     },
     {
       "path": "LICENSE.md",
@@ -159,8 +159,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18884,
-      "sha256": "0fa0ebdcfaaf9f73cd2e11f336792666c86dbd3eefb17db65d76fe7ac1334b9e"
+      "bytes": 19472,
+      "sha256": "0aa64e456fe81b159417bab84ea0330f9de0f17ab2d403678959f6c17b51a296"
     },
     {
       "path": "REUSE.toml",
@@ -176,6 +176,11 @@
       "path": "config/analysis.yaml",
       "bytes": 2919,
       "sha256": "93335f1fab8f6c9d7a708d7015c3d04feed70fbde112175f7342e258b4a8390b"
+    },
+    {
+      "path": "config/bayesian_directional_v1.json",
+      "bytes": 2288,
+      "sha256": "fb6ebd2930d102369dc7ae891a186dc0df7d196bf18e0c83424599c79d621413"
     },
     {
       "path": "config/bayesian_oxphos_v1.json",
@@ -219,8 +224,8 @@
     },
     {
       "path": "config/public_release_outputs.json",
-      "bytes": 7420,
-      "sha256": "7d80db2fe2d5036762c70ebeec6b54a8c181b36f2d674f63cf01afb214bf0b29"
+      "bytes": 7647,
+      "sha256": "2c4f420eb5732036914c12c63cde86447deb81a5a1004a818553a65dd9bcc37e"
     },
     {
       "path": "config/targeted_redox_v1.json",
@@ -384,8 +389,8 @@
     },
     {
       "path": "explorer/scripts/prepare-network-3d.mjs",
-      "bytes": 4267,
-      "sha256": "387f8327402d85e42c3ece3ad5519c60626520781a13b09b40a591c95c2ddbb0"
+      "bytes": 4576,
+      "sha256": "6c5e5f1223b4429b250c89c56ab82f0cae02405463c6de0aaac1612d2baf5a06"
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
@@ -429,8 +434,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 274389,
-      "sha256": "7ac038038073410204e5037b9f89d900d6babb03933652b4b1fdf5db4ebe561a"
+      "bytes": 276656,
+      "sha256": "558359a2152786b07db614ca6b1eaa3d689692811fadf757d05b4426567ce258"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3499,8 +3504,18 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 134790,
-      "sha256": "6da4ff197cec346921699f45927a7e0b720d765c3e5b3b1895a39ee8a0cb3191"
+      "bytes": 135695,
+      "sha256": "1b65d4a5de9060c8817f55909db720912da4ce98ba6f0e9f3a24c8f888b41b08"
+    },
+    {
+      "path": "explorer/src/components/bayesian-directional-model.js",
+      "bytes": 6020,
+      "sha256": "28dda0bdab969c66a53f53ee82dcbce906046ed3ffe812a0e32a3755575b4867"
+    },
+    {
+      "path": "explorer/src/components/bayesian-directional.js",
+      "bytes": 26443,
+      "sha256": "5d9b48bcd062e9aed0f8c625e7ee331b424e5d7c394aa07098a3662ac778540e"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3599,8 +3614,8 @@
     },
     {
       "path": "explorer/src/components/icons.js",
-      "bytes": 2792,
-      "sha256": "e3348c0bb910d5aecf2b95b4568e9481b1e3cf4038b61a86751b2493ad98914d"
+      "bytes": 2817,
+      "sha256": "5a330b526add7135fadaab1f8c5c0c2a8de3b991176dc8541c40c2574ef29567"
     },
     {
       "path": "explorer/src/components/interface-utils.js",
@@ -3629,8 +3644,8 @@
     },
     {
       "path": "explorer/src/components/method-comparison.js",
-      "bytes": 13905,
-      "sha256": "bc883983d139954fdd09eaf63b6476a8921710709caddf5dc1cdfef54ad481c6"
+      "bytes": 14322,
+      "sha256": "71fe10fd36913e302a140e1f7e8ac6b7251184aba4ba383122928349c44dde5b"
     },
     {
       "path": "explorer/src/components/mitochondrial-card.js",
@@ -3778,6 +3793,11 @@
       "sha256": "2647c6f54be81ab507932d8292464601758bfc737e721350cf20241d1278df05"
     },
     {
+      "path": "explorer/src/components/prior-range.js",
+      "bytes": 4191,
+      "sha256": "48d7eba48aaaae0ca9097a434cb115535870fd47c3caebd1cf92c601d1a7d54a"
+    },
+    {
       "path": "explorer/src/components/protein-context.js",
       "bytes": 19468,
       "sha256": "4cc66487b5200fc317873e41529b02e6aa05ef50fd02031af63ef5a76dc3d164"
@@ -3809,8 +3829,8 @@
     },
     {
       "path": "explorer/src/components/r-examples.js",
-      "bytes": 9588,
-      "sha256": "b9eeb2c7e5f82351ed200c72e108b07ee86bfa329a1d454048c56afb8591fb69"
+      "bytes": 10063,
+      "sha256": "ece78becbb6cc3dc06246aa0db71dfce444fcbb32507d85e9c011019d25205ae"
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
@@ -3889,8 +3909,8 @@
     },
     {
       "path": "explorer/src/components/research-navigation.js",
-      "bytes": 3166,
-      "sha256": "738d2b8ac096dfd8236f22b9d77ee5a5992569bdcb46fe8e05af9ed80cc4f7fc"
+      "bytes": 3178,
+      "sha256": "5373687132b4ddeed355c3aa8d2c589eb1832b0cb45af0a24d49049498d8fb11"
     },
     {
       "path": "explorer/src/components/research-search.js",
@@ -4003,6 +4023,11 @@
       "sha256": "8326664da0d1156bfb5172be2429a6d16a6e81936cedb1aa7eb634cbd6d78230"
     },
     {
+      "path": "explorer/src/data/bayesian-directional.json",
+      "bytes": 71837,
+      "sha256": "2b352b5bab71f0068ddd8d9e9c5de43a0664742e0efedf43741967397a7a96f2"
+    },
+    {
       "path": "explorer/src/data/bayesian.json",
       "bytes": 27319,
       "sha256": "7a37af5bf014613854b686ecf4234d75a13c5994a58427f03d5583cbe75c2e98"
@@ -4049,8 +4074,18 @@
     },
     {
       "path": "explorer/test/app-shell-browser-check.mjs",
-      "bytes": 11738,
-      "sha256": "2b0b4d8ee6eaf864ed81ad762ec07daf3955e74410febe0f5ba534c6d53f6814"
+      "bytes": 11760,
+      "sha256": "2c002571f99827211f1d66eb1bb4ddd42b407b6fe2cc03036ccd5f237bb7e9ff"
+    },
+    {
+      "path": "explorer/test/bayesian-directional-browser-check.mjs",
+      "bytes": 6588,
+      "sha256": "739a8a1091c2fd6f6967ef53b8576f174491438a2b9853d1721c6e946a0fadc9"
+    },
+    {
+      "path": "explorer/test/bayesian-directional.test.js",
+      "bytes": 2544,
+      "sha256": "1847c9cf627d0e55666cd4798074853fe957731aeeed54cc01eefe7d795e9ab0"
     },
     {
       "path": "explorer/test/browser-check.mjs",
@@ -5153,6 +5188,56 @@
       "sha256": "4c04d3240de6cd3e7f59e081756168faa8566f8a8b97251400770939815c344a"
     },
     {
+      "path": "figures/bayesian_directional/directional_analysis_figures.pdf",
+      "bytes": 53513,
+      "sha256": "dfaa459e11d275a8ae935624c223b0489b16561e3f25d72384d4e2625c0cf633"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_annotated_evidence.pdf",
+      "bytes": 33473,
+      "sha256": "de352ba04c0a7dbec4beafbed193051678fea00537f3824f41103ee83c45ba87"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_annotated_evidence.png",
+      "bytes": 210796,
+      "sha256": "a5bc913bde527ad14b6ff5cb30f11a0071f62759ebe01370766426d0e59ea35b"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_annotated_evidence.svg",
+      "bytes": 61960,
+      "sha256": "632f195546f8bc2e2a11a81807c9976326e1b909b26f8766abd0822517f24c4f"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_prior_sensitivity.pdf",
+      "bytes": 29707,
+      "sha256": "c73d1bd91415b8d7e0ef1c48687683f62b81f14af8b7d94a7c7ab6ab354c2b08"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_prior_sensitivity.png",
+      "bytes": 131006,
+      "sha256": "ab49795d920ebba7ab242c556cbb03f4095f16df25ce632c64d86ac7665e2431"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_prior_sensitivity.svg",
+      "bytes": 33430,
+      "sha256": "c18a238abeecff6ab5aec99a3e01c7370edd2389b8494302b2b874d3d7cbf2f7"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_uncertainty.pdf",
+      "bytes": 29819,
+      "sha256": "57ce3b88ab9810c128c3d1911f72494374ae7b4bc79aeeeca6d20add27faf036"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_uncertainty.png",
+      "bytes": 204061,
+      "sha256": "a513ee0c73f12223b5bc621ad3bd9d9bc59564de668287581d130d0c597d1f57"
+    },
+    {
+      "path": "figures/bayesian_directional/directional_uncertainty.svg",
+      "bytes": 41577,
+      "sha256": "599c20ad04d15ce26d61c5e79c5661e865af21bf5c855c7cc9afe526e9a2a526"
+    },
+    {
       "path": "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf",
       "bytes": 21685,
       "sha256": "65b206fbaa856b4972660273696d9a9a53c5b0c25f32a402893c03b08e2e9240"
@@ -5948,6 +6033,16 @@
       "sha256": "0ab3ab66e6033361057e4b35ef9351b518294dcb19543df1b90ffc5dbaebd650"
     },
     {
+      "path": "reports/bayesian_directional_plan_v1.md",
+      "bytes": 2093,
+      "sha256": "e4953ca626ebaa5d80462c802da2315389ce6d571083ae7dc2833b1281523f1b"
+    },
+    {
+      "path": "reports/bayesian_directional_results.md",
+      "bytes": 8551,
+      "sha256": "080958d6f083a1144e1685ef7b463eab87f9589ee24d41ced2761d3e83684cf5"
+    },
+    {
       "path": "reports/bayesian_oxphos_methods.md",
       "bytes": 6513,
       "sha256": "6f0d0abbb1438eae995998548a1b74d88e96bdc8b0da5b99a00ee556accc5f4d"
@@ -6273,6 +6368,11 @@
       "sha256": "3afe60c8ce4a28b51ac6c3b11cac7d7d6c9dd9d2210b9c962365b21ac41cc144"
     },
     {
+      "path": "src/transcriptomics/bayesian_directional.py",
+      "bytes": 7038,
+      "sha256": "4556da2c6bd1b63f697ef12101cc8b771865bc288721fbed14e40e1e2e00cc5d"
+    },
+    {
       "path": "src/transcriptomics/bayesian_oxphos.py",
       "bytes": 9850,
       "sha256": "c07a78581beff8b230e435b6c4e3f5ecf27c3c853d8747622b3836cd45d165e4"
@@ -6331,6 +6431,11 @@
       "path": "src/transcriptomics/oxphos_gene_heatmap.R",
       "bytes": 10691,
       "sha256": "83ab9acfc72bb30d5d2c577b453c4e3e78c5927e6a18819e9beee13dc31e6628"
+    },
+    {
+      "path": "src/transcriptomics/plot_bayesian_directional.py",
+      "bytes": 8281,
+      "sha256": "a08dd562677acd5a7a187cf7acb023479f56b6d68028a778a751b0cc068cc4d4"
     },
     {
       "path": "src/transcriptomics/plot_bayesian_oxphos.py",
@@ -6396,6 +6501,26 @@
       "path": "src/zenodo_release.py",
       "bytes": 11800,
       "sha256": "7c65497e279defd85699b0db2dfb179093fe6cfe89469622e1ead4dada4159d1"
+    },
+    {
+      "path": "tables/bayesian_directional/archived_directional.csv",
+      "bytes": 3650,
+      "sha256": "33bbeb9acafc4e2313fbf9b84545e98df63c289226ed2a64fd45b82ba15665b4"
+    },
+    {
+      "path": "tables/bayesian_directional/baseline_densities.csv",
+      "bytes": 27015,
+      "sha256": "88211f19480cb02254808aaaa45621f159634fd86093ccd6f75029df628b15b9"
+    },
+    {
+      "path": "tables/bayesian_directional/normal_sensitivity.csv",
+      "bytes": 6262,
+      "sha256": "5718d55fa0284b63c01a3677743b91c5d60fc61c8e2b608ea6cd624b197ac853"
+    },
+    {
+      "path": "tables/bayesian_directional/provenance.json",
+      "bytes": 816,
+      "sha256": "b85cdfe4893caed174be111e432be194e3e432c8db9652bfecdb7f6f91e8b190"
     },
     {
       "path": "tables/bayesian_oxphos/diagnostics.csv",

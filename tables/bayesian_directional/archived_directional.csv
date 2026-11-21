@@ -1,0 +1,21 @@
+fit,likelihood,day,effect_sd,residual_sd,probability_positive,bf_positive_nonpositive,log10_bf,source
+normal_effect0.25_residual0.25,normal,Day 1,0.25,0.25,0.987375,78.20792079207922,1.893250740043088,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.25_residual0.25,normal,Day 3,0.25,0.25,0.93740625,14.976035946080877,1.1753968738062786,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.25_residual0.5,normal,Day 1,0.25,0.5,0.959875,23.922118380062326,1.3787996351840963,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.25_residual0.5,normal,Day 3,0.25,0.5,0.8919375,8.2539039907461,0.9166594128656418,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.25_residual1,normal,Day 1,0.25,1.0,0.93575,14.564202334630343,1.1632867037831272,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.25_residual1,normal,Day 3,0.25,1.0,0.86621875,6.474889044615746,0.811232330633754,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual0.25,normal,Day 1,0.5,0.25,0.9920625,124.98425196850327,2.09685529529576,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual0.25,normal,Day 3,0.5,0.25,0.9479375,18.207683073229287,1.2602546853594425,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual0.5,normal,Day 1,0.5,0.5,0.97578125,40.29032258064524,1.6052007445398637,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual0.5,normal,Day 3,0.5,0.5,0.90446875,9.467778868171415,0.9762481058841634,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual1,normal,Day 1,0.5,1.0,0.95375,20.621621621621614,1.3143228138878853,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect0.5_residual1,normal,Day 3,0.5,1.0,0.8759375,7.06045340050378,0.8488325909971711,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual0.25,normal,Day 1,1.0,0.25,0.99175,120.21212121212152,2.079948260596264,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual0.25,normal,Day 3,1.0,0.25,0.9535625,20.534320323014796,1.3124803324709344,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual0.5,normal,Day 1,1.0,0.5,0.976,40.66666666666663,1.6092385759550853,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual0.5,normal,Day 3,1.0,0.5,0.90878125,9.962658444672831,0.998375241415452,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual1,normal,Day 1,1.0,1.0,0.95609375,21.775800711743752,1.3379741332915684,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+normal_effect1_residual1,normal,Day 3,1.0,1.0,0.88075,7.385744234800841,0.8683942641411286,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+student_t4_effect0.5_residual0.5,student_t4,Day 1,0.5,0.5,0.9785625,45.64723032069971,1.6594144315323525,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty
+student_t4_effect0.5_residual0.5,student_t4,Day 3,0.5,0.5,0.91375,10.594202898550718,1.0250682862206049,transformed archived NUTS sign probability; subject to Monte Carlo uncertainty

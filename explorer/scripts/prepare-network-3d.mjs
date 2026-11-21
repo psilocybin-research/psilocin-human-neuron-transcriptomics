@@ -118,3 +118,7 @@ const sources = Object.fromEntries(await Promise.all(sourceFiles.map(async (path
 ])));
 await writeFile(new URL("method-comparison-data.js", output),
   `export default ${JSON.stringify({ schema: 1, archive: "10.5281/zenodo.23283595", camera: csvParse(cameraSource), bayesian, sources })};\n`);
+
+// Versioned exploratory directional analysis; separate from archived summaries.
+const directional = JSON.parse(await readFile(new URL('src/data/bayesian-directional.json', root), 'utf8'));
+await writeFile(new URL('bayesian-directional-data.js', output), `export default ${JSON.stringify(directional)};\n`);

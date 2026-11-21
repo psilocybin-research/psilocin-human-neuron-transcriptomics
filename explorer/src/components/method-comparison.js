@@ -1,3 +1,4 @@
+import { createDirectionalEvidence } from './bayesian-directional.js';
 import snapshot from '../assets/vendor/method-comparison-data.js';
 import { selectMethodResults } from './method-comparison-data.js';
 import { createElement as el, createAccordion } from './interface-utils.js';
@@ -54,7 +55,7 @@ export function createMethodComparison({ data, pathway = OXPHOS, contrast = 'day
   const selected = selectMethodResults(data, snapshot, pathway, contrast);
   root.dataset.pathway = pathway; root.dataset.contrast = contrast;
   root.append(el('h3', '', 'Compare methods'), el('p', 'note', `${label(pathway)} · ${contrasts[contrast]}`));
-  root.append(el('p', 'callout', 'Archived results from the same experiment. Methods test different questions; their statistics are presented separately. No model is refitted and no correction is recomputed.'));
+  root.append(el('p', 'callout', 'Archived results from the same experiment. Methods test different questions; their statistics are presented separately. Archived panels retain their original estimates and corrections. The separate Directional panel provides an explicitly exploratory prior-sensitive calculation.'));
   const agreement = section('Interpretation across methods', pathway === OXPHOS
     ? contrast === 'day3_vs_day1'
       ? 'The archived treated-day contrast compares treated profiles. It does not estimate a treatment-by-time interaction. Read enrichment direction, CAMERA settings and posterior uncertainty together.'
@@ -125,11 +126,14 @@ export function createMethodComparison({ data, pathway = OXPHOS, contrast = 'day
     ]));
   };
   choice.onchange = renderSpecs; specs.append(choice, specBody); renderSpecs(); root.append(specs);
+  const directional = pathway === OXPHOS ? createDirectionalEvidence() : null;
+  if (directional) root.append(directional);
   const navigation = el('div', 'segmented segmented-strong method-comparison-tabs');
   navigation.setAttribute('role', 'tablist');
   navigation.setAttribute('aria-label', 'Method results');
   const panels = new Map([['summary', agreement], ['enrichment', primary], ['camera', camera], ['bayesian', bayes], ['specifications', specs]]);
-  const titles = { summary: 'Summary', enrichment: 'Enrichment', camera: 'CAMERA', bayesian: 'Bayesian', specifications: 'Specifications' };
+  if (directional) panels.set('directional', directional);
+  const titles = { directional: 'Directional', summary: 'Summary', enrichment: 'Enrichment', camera: 'CAMERA', bayesian: 'Bayesian', specifications: 'Specifications' };
   const buttons = new Map();
   function show(key) {
     for (const [id, panel] of panels) {
@@ -175,6 +179,6 @@ export function createMethodComparison({ data, pathway = OXPHOS, contrast = 'day
     p.append(a, el('code', '', `SHA-256 ${hash}`)); sources.body.append(p);
   }
   root.append(sources.element);
-  root.dispose = () => resize?.disconnect();
+  root.dispose = () => { resize?.disconnect(); directional?.dispose(); };
   return root;
 }

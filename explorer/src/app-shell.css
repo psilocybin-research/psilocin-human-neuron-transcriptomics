@@ -6343,3 +6343,30 @@ body {
 #psilocin-app .atlas-3d-fullscreen-toolbar .button.figure-fullscreen-exit { background:transparent;color:var(--f7-theme-color);margin:0;top:auto;transform:none; }
 
 #psilocin-app .atlas-3d-tool-field .research-smart-select .item-after { display:block;color:var(--research-muted); }
+
+#psilocin-app .directional-evidence { min-width:0; }
+#psilocin-app .directional-summary { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px; }
+#psilocin-app .directional-summary .card { margin:0; }
+#psilocin-app .directional-evidence .tree-actions { flex-wrap:wrap;gap:8px; }
+#psilocin-app .directional-evidence h5 { margin:24px 0 10px;font-size:15px; }
+#psilocin-app .directional-evidence>.list { margin:16px 0; }
+#psilocin-app .method-comparison-tabs { flex-wrap:wrap; }
+
+#psilocin-app .directional-sensitivity-chart text { pointer-events:none; }
+
+#psilocin-app .directional-plot-panels { display:grid;grid-template-columns:minmax(0,1fr);gap:16px; }
+#psilocin-app .directional-plot-panels>section { min-width:0; }
+#psilocin-app .directional-plot-panels h6 { margin:8px 0;font-size:14px; }
+
+#psilocin-app .prior-range-item .item-inner { display:block;width:100%;padding:14px 16px 18px; }
+#psilocin-app .prior-range-heading { display:flex;align-items:center;justify-content:space-between;gap:12px; }
+#psilocin-app .prior-range-value { font-variant-numeric:tabular-nums;font-weight:650;color:var(--f7-theme-color); }
+#psilocin-app .prior-scale-range { margin:18px 10px 24px;width:calc(100% - 20px); }
+#psilocin-app .prior-scale-range [role=slider]:focus-visible { outline:3px solid var(--f7-theme-color);outline-offset:5px; }
+#psilocin-app .directional-bf-hero { display:flex;align-items:center;justify-content:space-between;gap:16px; }
+#psilocin-app .directional-bf-metrics { display:flex;flex-direction:column;gap:5px;min-width:0; }
+#psilocin-app .directional-bf-label { font-size:13px;font-weight:650; }
+#psilocin-app .directional-bf-value { font-size:clamp(30px,5vw,42px);line-height:1.1;font-variant-numeric:tabular-nums;color:var(--f7-theme-color); }
+#psilocin-app .directional-bf-explanation { font-size:14px;line-height:1.5;margin:14px 0 8px; }
+#psilocin-app .directional-probability-wheel { flex:none;width:60px;height:60px;border-radius:50%;background:conic-gradient(#235780 0 var(--directional-positive-share),#aeb9c2 var(--directional-positive-share) 100%);border:2px solid var(--research-border);box-shadow:inset 0 0 0 2px #ffffff80; }
+#psilocin-app .bayesian-analysis-page { max-width:1100px;margin-inline:auto; }

@@ -2,6 +2,10 @@
   "schema_version": 1,
   "scope": "Explicit allowlist of derived result files approved for the public reproducibility repository. No directory-level table copy is permitted.",
   "approved_outputs": [
+    "tables/bayesian_directional/archived_directional.csv",
+    "tables/bayesian_directional/baseline_densities.csv",
+    "tables/bayesian_directional/normal_sensitivity.csv",
+    "tables/bayesian_directional/provenance.json",
     "tables/bayesian_oxphos/diagnostics.csv",
     "tables/bayesian_oxphos/membership.csv",
     "tables/bayesian_oxphos/paired_scores.csv",

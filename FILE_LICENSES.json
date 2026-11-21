@@ -131,6 +131,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "config/bayesian_directional_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "config/bayesian_oxphos_v1.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -4549,6 +4555,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/bayesian-directional-model.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/bayesian-directional.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/bundled-overlap.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4879,6 +4897,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/prior-range.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/protein-context.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5150,6 +5174,12 @@
       "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
     ]
   },
+  "explorer/src/data/bayesian-directional.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/data/bayesian.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -5206,6 +5236,18 @@
     ]
   },
   "explorer/test/app-shell-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/bayesian-directional-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/bayesian-directional.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -6621,6 +6663,66 @@
       "R Core Team and the component authors identified in the upstream distribution notices"
     ]
   },
+  "figures/bayesian_directional/directional_analysis_figures.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_annotated_evidence.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_annotated_evidence.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_annotated_evidence.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_prior_sensitivity.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_prior_sensitivity.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_prior_sensitivity.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_uncertainty.pdf": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_uncertainty.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "figures/bayesian_directional/directional_uncertainty.svg": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "figures/bayesian_oxphos/bayesian_oxphos_intervals.pdf": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -7578,6 +7680,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "reports/bayesian_directional_plan_v1.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "reports/bayesian_directional_results.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "reports/bayesian_oxphos_methods.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -7971,6 +8085,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "src/transcriptomics/bayesian_directional.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "src/transcriptomics/bayesian_oxphos.py": {
     "spdx": "MIT",
     "copyright": [
@@ -8038,6 +8158,12 @@
     ]
   },
   "src/transcriptomics/oxphos_gene_heatmap.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "src/transcriptomics/plot_bayesian_directional.py": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -8117,6 +8243,30 @@
   },
   "src/zenodo_release.py": {
     "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_directional/archived_directional.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_directional/baseline_densities.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_directional/normal_sensitivity.csv": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/bayesian_directional/provenance.json": {
+    "spdx": "CC-BY-4.0",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
