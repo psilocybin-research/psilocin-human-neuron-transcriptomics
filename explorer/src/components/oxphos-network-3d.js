@@ -1,3 +1,4 @@
+import { complexVContext } from './mitochondrial-enrichment-model.js';
 import { overviewPose, gentleFocusPose } from "./network-framing.js";
 import { createGeneIdentity } from "./structure-preview.js";
 import { showToast } from "./app-toast.js";
@@ -320,6 +321,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     el("p", "note", snapshot.annotations.scope),
     el("p", "note", snapshot.annotations.source_snapshot),
     el("p", "note", snapshot.annotations.complex_v_note),
+    el("p", "note", complexVContext),
     el(
       "p",
       "note",

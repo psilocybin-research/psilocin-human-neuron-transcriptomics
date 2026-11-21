@@ -1,0 +1,41 @@
+{
+  "structure": "PDB 9TI4 assembly 1",
+  "coordinateSource": "https://files.rcsb.org/download/9TI4.cif.gz",
+  "originalCompressedSha256": "f76d56197bbc69b93096d0b9f37629b08afbff37d587b9716c2bf52879e6dcd2",
+  "retrievedAt": "2026-11-21",
+  "authoringTools": {
+    "Blender": "5.2.4",
+    "Molecular Nodes": "520.2.0"
+  },
+  "files": {
+    "9TI4-molecular-nodes.png": {
+      "bytes": 1326944,
+      "sha256": "ac6276e037ef26cb2d27ec5957a41d3dd3f2137e6fdb733543c697596a98fe4e"
+    },
+    "9TI4.cif": {
+      "bytes": 14360169,
+      "sha256": "03dbc44e1f478745601b4939abe3ee84bc6f80a09f57a4f208080c8c8dd64415"
+    },
+    "molecular-nodes-audit.json": {
+      "bytes": 1093,
+      "sha256": "12901bf9693445d0c6a45cb53d3cb438fa99acd5b2402ade25153d403fb7baf0"
+    },
+    "9TI4-molecular-nodes.glb": {
+      "bytes": 21489636,
+      "sha256": "1f7185b7a5c3272ccc052cf984faa85176998a59ba792a929d38a0176fc30a39"
+    },
+    "membrane-context.glb": {
+      "bytes": 151928,
+      "sha256": "4273fa92a3c40c20dbdba2789026a97f91bbe55127007469221ef92af76ad523"
+    },
+    "molstar-NOTICES.txt": {
+      "bytes": 3655,
+      "sha256": "36fff69f769afdbc28d081913ffb225fd2cb41281d8bf2a6357ece977ea4078e"
+    },
+    "NOTICES.txt": {
+      "bytes": 1788,
+      "sha256": "9e6a4215e35f12b0bdbddbd07edf787062498045c0f370cb0d0729667ef41de9"
+    }
+  },
+  "limits": "Reference coordinates, measured RNA estimates and illustrative membrane geometry are distinct. No measured protein abundance, activity, conformation or assembly change."
+}

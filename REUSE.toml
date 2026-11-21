@@ -317,3 +317,21 @@ path = ["explorer/src/assets/mitochondria/**", "tables/mitocarta_followup/**"]
 precedence = "override"
 SPDX-FileCopyrightText = ["2020 MitoCarta authors (Rath et al.), Broad Institute", "2026 Christopher B. Germann"]
 SPDX-License-Identifier = "CC-BY-NC-4.0"
+
+[[annotations]]
+path = "explorer/vendor/molecular/9TI4.cif"
+precedence = "override"
+SPDX-FileCopyrightText = "PDB 9TI4 deposit authors"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "explorer/vendor/molecular/molecular-nodes-audit.json"
+precedence = "override"
+SPDX-FileCopyrightText = ["MitoCarta3.0 authors", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "CC-BY-NC-4.0"
+
+[[annotations]]
+path = "explorer/vendor/molecular/molstar-NOTICES.txt"
+precedence = "override"
+SPDX-FileCopyrightText = "Mol* contributors and bundled dependency authors; see file"
+SPDX-License-Identifier = "MIT AND BSD-3-Clause"

@@ -1,3 +1,4 @@
+import { complexVContext } from './mitochondrial-enrichment-model.js';
 import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import { createMitochondrialExplorer } from "./mitochondrial-explorer.js";
 import {networkPreviewSizes, networkPreviewSrcset} from "./network-preview-asset.js";
@@ -593,7 +594,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     el(
       "p",
       "",
-      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. The workspace uses the unmodified R logo © 2016 The R Foundation under CC BY-SA 4.0, and the unmodified Python logo solely to identify the Python programming language; Python and the Python Logo are trademarks of the Python Software Foundation, and this project is not affiliated with the PSF. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
+      "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. Molecular inspection uses Mol* 5.13.1 (MIT), with reproducible MolViewSpec scenes. Reference artwork and schematic GLB assets were authored with Blender 5.2.4 (GPL-3.0-or-later) and Molecular Nodes 520.2.0 (GPL-3.0-or-later); these authoring tools are not browser runtimes. PDB 9TI4 coordinates (CC0) and PDBe SIFTS mappings are attributed separately from MitoCarta-derived annotations (CC BY-NC 4.0). The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. The workspace uses the unmodified R logo © 2016 The R Foundation under CC BY-SA 4.0, and the unmodified Python logo solely to identify the Python programming language; Python and the Python Logo are trademarks of the Python Software Foundation, and this project is not affiliated with the PSF. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
     ),
   );
   const mitochondrialCitation = el("p", "", "Mitochondrial context: Rath S, Sharma R, Gupta R, et al. MitoCarta3.0. Nucleic Acids Research. 2021;49(D1):D1541–D1547. CC BY-NC 4.0. Annotations and exploratory follow-up are distinct from the frozen primary evidence. ");
@@ -608,6 +609,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ],
     ["CodeMirror dependency notices", branding.editorNotices],
     ["Fuse.js approximate-search licence", branding.fuseNotices],
+    ["Molecular visualization licences and sources", new URL("molecular/NOTICES.txt",document.baseURI).href],
     [
       "3D network dependency notices",
       "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics/blob/main/third_party_licenses/network-3d.txt",
@@ -1402,11 +1404,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     const interpretation = createAccordion("What the follow-up shows", "mitocarta-interpretation");
     interpretation.body.append(
       el("p", "", "Complete curated gene sets show positive enrichment of complex I, III and V structural subunits at both days. Complex IV subunits meet the joint corrected threshold at Day 3 only; this difference in significance does not establish a temporal change. Complex II has four structural genes and was not tested under the predefined ten-gene minimum."),
-      el("p", "", "Mitochondrial translation, ribosomal genes, protein import and OXPHOS assembly factors also show positive enrichment at both days. Complex V illustrates why absence from the selected 113-gene display cannot establish absence of a broader transcriptional pattern."),
+      el("p", "", "Mitochondrial translation, ribosomal genes, protein import and OXPHOS assembly factors also show positive enrichment at both days."),
+      el("p", "", complexVContext),
       el("p", "note", "Of 149 pathways per contrast, 76 meet the size rules. Joint BH correction covers 152 tests: 38 pathways meet q < 0.05 at Day 1 and 40 at Day 3, with 33 shared. Sets overlap substantially. The mitochondrial ROS/glutathione set differs from the earlier targeted redox panels and does not overturn their conclusions. Mitochondrial DNA maintenance meets the threshold at Day 1 only."),
       el("p", "note", "These are RNA-level associations, not measurements of ATP production, protein abundance or respiratory function. Three differentiation blocks, shared controls and unresolved control timing remain limitations. Existing estimated-correlation CAMERA did not support OXPHOS at its corrected threshold; this follow-up does not resolve that sensitivity."),
     );
-    body.append(interpretation.element, createMitochondrialExplorer({ getGenes, onGene: (gene) => go("genes", gene.id), standalone: true }));
+    body.append(interpretation.element, createMitochondrialExplorer({ getGenes, onGene: (gene) => go("genes", gene.id), onUncertainty: () => go("robustness"), initialView: params.get("mitoview"), standalone: true }));
   }
   function landscape() {
     body.append(

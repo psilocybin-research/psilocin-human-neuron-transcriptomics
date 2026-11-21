@@ -109,3 +109,5 @@ for (const name of ['pyodide.mjs','pyodide.asm.mjs','pyodide.asm.wasm','python_s
 }
 await copyFile(new URL('../vendor/python/NOTICES.txt', import.meta.url), new URL('python/NOTICES.txt', output));
 await copyFile(new URL('../vendor/python/PROVENANCE.json', import.meta.url), new URL('python/PROVENANCE.json', output));
+
+await cp(new URL("../vendor/molecular/", import.meta.url), new URL("molecular/", output), {recursive:true});

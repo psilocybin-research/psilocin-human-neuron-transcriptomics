@@ -19,7 +19,7 @@ async function walk(directory, path = "") {
       ].includes(name) &&
       !name.endsWith(".map") &&
       !/^public-context\/(?:extended|models|predictions)\//.test(name) &&
-      !name.startsWith("webr-source/")
+      !name.startsWith("webr-source/") && !name.startsWith("molecular/")
     ) {
       const data = await readFile(new URL(item.name, directory));
       files.push({ path: name, bytes: data.length, sha256: sha(data) });

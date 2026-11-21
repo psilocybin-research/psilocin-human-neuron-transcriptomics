@@ -299,6 +299,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/author-complex-i-reference.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/author-membrane-context.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/build-complex-i-pilot.py": {
     "spdx": "MIT",
     "copyright": [
@@ -354,6 +366,12 @@
     ]
   },
   "explorer/scripts/prepare-atlas.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/prepare-molecular.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4735,6 +4753,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/mitochondrial-molstar.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-spatial-context.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/molecular-viewer.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5284,6 +5314,12 @@
     ]
   },
   "explorer/test/mitochondrial-context.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/molecular-integration-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5863,6 +5899,55 @@
     "spdx": "LicenseRef-LaTeX-Distribution",
     "copyright": [
       "Siglum, BusyTeX, TeX Live, LaTeX package and font authors identified in the original distribution notices"
+    ]
+  },
+  "explorer/vendor/molecular/9TI4-molecular-nodes.glb": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/9TI4-molecular-nodes.png": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/9TI4.cif": {
+    "spdx": "CC0-1.0",
+    "copyright": [
+      "PDB 9TI4 deposit authors"
+    ]
+  },
+  "explorer/vendor/molecular/NOTICES.txt": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/PROVENANCE.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/membrane-context.glb": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/molecular-nodes-audit.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "MitoCarta3.0 authors",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/vendor/molecular/molstar-NOTICES.txt": {
+    "spdx": "MIT AND BSD-3-Clause",
+    "copyright": [
+      "Mol* contributors and bundled dependency authors; see file"
     ]
   },
   "explorer/vendor/python/NOTICES.txt": {

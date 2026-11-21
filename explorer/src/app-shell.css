@@ -6112,3 +6112,46 @@ body {
 @media(prefers-reduced-transparency:reduce){
  #psilocin-app .mito-viewbar{background:var(--research-surface);backdrop-filter:none;-webkit-backdrop-filter:none}
 }
+
+#psilocin-app .mito-pathway-detail>.button{height:auto;min-height:44px;max-width:100%;white-space:normal;line-height:1.4;padding:8px 12px;margin:8px 0;text-align:left}
+#psilocin-app .mito-coverage-inspect{width:100%;justify-content:flex-start}
+#psilocin-app .complex-i-fade{display:flex;align-items:center;gap:8px;width:auto;min-height:44px;font-size:13px;cursor:pointer}
+
+/* Molecular controls reuse the atlas list, accordion and segmented surfaces. */
+#psilocin-app :is(.molecular-workbench,.mitochondrial-spatial-context) .molecular-stage{position:relative;height:clamp(320px,56dvh,620px);width:100%;background:#081521;border-radius:16px;overflow:hidden;isolation:isolate;touch-action:none}
+#psilocin-app :is(.molecular-workbench,.mitochondrial-spatial-context) .molecular-stage .msp-plugin{position:absolute;inset:0;font-family:var(--f7-font-family);font-size:12px}
+#psilocin-app :is(.molecular-workbench,.mitochondrial-spatial-context) .molecular-stage canvas{display:block;max-width:100%}
+#psilocin-app .molecular-workbench,#psilocin-app .mitochondrial-spatial-context{min-width:0}
+#psilocin-app .molecular-actionbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+#psilocin-app .molecular-actionbar .button{min-height:44px;height:auto;white-space:normal;line-height:1.4;padding:8px 12px}
+#psilocin-app .molecular-settings{margin:8px 0;border-radius:14px;overflow:hidden}
+#psilocin-app .molecular-settings select{min-height:44px;width:100%;color:var(--f7-text-color);background:transparent}
+#psilocin-app .molecular-gene-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0}
+#psilocin-app .molecular-gene-header h4{margin:0}
+#psilocin-app .molecular-gene-header .segmented{flex-shrink:0}
+#psilocin-app .molecular-gene-header .button{width:44px;height:44px}
+#psilocin-app .molecular-gene-header svg{width:18px;height:18px}
+#psilocin-app .molecular-complex-buttons{margin:12px 0;max-width:430px}
+#psilocin-app .molecular-complex-buttons .button{min-height:44px;flex:1}
+#psilocin-app .molecular-nodes-reference img{display:block;max-width:100%;height:auto;border-radius:14px;background:#081521}
+#psilocin-app .molecular-workbench>.molecular-options{margin:12px 0}
+#psilocin-app .mito-view-switcher .button{white-space:normal;height:auto;min-height:44px;line-height:1.3;padding:8px;font-size:12px}
+@media(max-width:700px){#psilocin-app :is(.molecular-workbench,.mitochondrial-spatial-context) .molecular-stage{height:400px}#psilocin-app .molecular-gene-header{align-items:flex-start}#psilocin-app .molecular-gene-evidence th,#psilocin-app .molecular-gene-evidence td{font-size:11px;padding:8px}}
+
+/* Atlas/F7 owns controls; Mol* supplies the molecular canvas and picking only. */
+#psilocin-app .molecular-workbench .msp-viewport-top-left-controls,
+#psilocin-app .molecular-workbench .msp-viewport-controls,
+#psilocin-app .molecular-workbench .msp-selection-viewport-controls,
+#psilocin-app .molecular-workbench .msp-snapshot-description-wrapper,
+#psilocin-app .molecular-workbench .msp-animation-viewport-controls{display:none!important;pointer-events:none!important}
+#psilocin-app .molecular-colour-bar{max-width:500px;margin:16px 0 8px}
+#psilocin-app .molecular-colour-bar .button{flex:1;min-width:0;min-height:44px;height:auto;padding:8px;line-height:1.3}
+#psilocin-app .molecular-gene-evidence.card{margin:16px 0;border:1px solid var(--f7-list-outline-border-color,var(--f7-list-border-color));box-shadow:none;border-radius:16px;overflow:hidden}
+#psilocin-app .molecular-gene-evidence .card-header{margin:0;padding:14px 16px;min-height:64px;background:var(--f7-block-strong-bg-color)}
+#psilocin-app .molecular-gene-evidence>.note{padding:0 16px 14px;margin:0}
+#psilocin-app .molecular-gene-evidence .table-scroll{margin:0;border-radius:0}
+#psilocin-app .molecular-workbench .molecular-actionbar{justify-content:flex-end;margin:8px 0}
+#psilocin-app .molecular-workbench .molecular-settings .item-title{font-size:13px;font-weight:600}
+#psilocin-app .molecular-workbench .research-smart-select{width:100%;max-width:100%;border-radius:12px}
+#psilocin-app .molecular-workbench .molecular-settings .item-inner{min-width:0}
+#psilocin-app .molecular-workbench .msp-highlight-toast-wrapper{max-width:calc(100% - 24px);font-size:11px;line-height:1.4;pointer-events:none}

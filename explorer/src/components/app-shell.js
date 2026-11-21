@@ -888,7 +888,7 @@ export function createAppShell({
       ...sheetBody.querySelectorAll("select"),
       ...analysisLauncher.body.querySelectorAll("select"),
     ]) {
-      if (smartNodes.has(select) || select.multiple) continue;
+      if (smartNodes.has(select) || select.multiple || select.closest(".msp-plugin")) continue;
       const hadFocus = document.activeElement === select;
       const title =
         select.getAttribute("aria-label") ||

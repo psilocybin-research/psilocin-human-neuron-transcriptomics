@@ -12,8 +12,8 @@
     "test:tree": "node test/tree-browser-check.mjs",
     "test:network": "node test/network-browser-check.mjs",
     "test:comparison": "node test/comparison-browser-check.mjs",
-    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs && node scripts/prepare-network-3d.mjs",
-    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs && node scripts/prepare-network-3d.mjs",
+    "prebuild": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs && node scripts/prepare-network-3d.mjs && node scripts/prepare-molecular.mjs",
+    "predev": "node scripts/prepare-ui.mjs && node scripts/prepare-plots.mjs && node scripts/prepare-molecules.mjs && node scripts/prepare-atlas.mjs && node scripts/prepare-network-3d.mjs && node scripts/prepare-molecular.mjs",
     "test:app": "node test/app-shell-browser-check.mjs",
     "test:tour": "node test/tour-browser-check.mjs",
     "test:plot-theme": "node test/plot-theme-browser-check.mjs",
@@ -68,6 +68,7 @@
     "framework7": "9.3.0",
     "framework7-icons": "5.0.5",
     "fuse.js": "7.1.0",
+    "molstar": "5.13.1",
     "pyodide": "314.0.8",
     "three": "0.187.0"
   },

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1414,
-  "total_bytes": 689006838,
+  "file_count": 1428,
+  "total_bytes": 726498481,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 277956,
-      "sha256": "9f057701b486036539a5bb14a2691fa98eb320b84a8ae33cb4557745f862a95b"
+      "bytes": 280015,
+      "sha256": "d7409c899ec33a0bfe9d5ad594ae790e03c5c5e74a0b2ff75811428137cb8ac3"
     },
     {
       "path": "LICENSE.md",
@@ -164,13 +164,13 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 12148,
-      "sha256": "9ca4cc242ede210c361122abf068607481bb157f3caadc9702f46a46e716c955"
+      "bytes": 12777,
+      "sha256": "aab94b2bd0b7928cfcd4f74d1d1027bd3500318d99cf4592c8e964331ab61cd6"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 5509,
-      "sha256": "d51eeb699eac975f6c7e2f44bf48d8a377dd37db0924a3d0d7609e6d63e7adc6"
+      "bytes": 6679,
+      "sha256": "3a1939516800cbaa68e056086c7b70fd56666646d6131cb313127551fe288440"
     },
     {
       "path": "config/analysis.yaml",
@@ -294,13 +294,13 @@
     },
     {
       "path": "explorer/package-lock.json",
-      "bytes": 201983,
-      "sha256": "bfa1a6d11734256dbb8ca9cbfb4af53a6ba1d8128cf64f48cb2e1d9b804e7195"
+      "bytes": 298354,
+      "sha256": "ec0006dd0770c2110469862ff76320f8d8cd23b9140bad3581b5cf25584b5577"
     },
     {
       "path": "explorer/package.json",
-      "bytes": 4096,
-      "sha256": "dcbb8e976af67bb4a85a83c706a7e83ef596d51dfe72d00b33de2e03c5a983cf"
+      "bytes": 4197,
+      "sha256": "6b577609d3992095e5b3743ef2f3f8bc247d231ef0b77f34e9e9f733e8f5e168"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -311,6 +311,16 @@
       "path": "explorer/screenshots/landscape.png",
       "bytes": 266555,
       "sha256": "c3d63fb2f42efa20dbb7515031cb667a135f989051b32a7fafed960fd8f57088"
+    },
+    {
+      "path": "explorer/scripts/author-complex-i-reference.py",
+      "bytes": 4816,
+      "sha256": "fa06774454074f7f1487bd5726caa182012e8119a2770805aa61173c4370b6b7"
+    },
+    {
+      "path": "explorer/scripts/author-membrane-context.py",
+      "bytes": 1812,
+      "sha256": "1fa7f7695e13bf68a4ee991ef487aaa15cbdf77f2a2c7b8ec7a90f70844e37ff"
     },
     {
       "path": "explorer/scripts/build-complex-i-pilot.py",
@@ -334,8 +344,8 @@
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
-      "bytes": 800,
-      "sha256": "7671153355c490271f7d328587b2a41410174e83ec047b1e2668da8de508cb91"
+      "bytes": 896,
+      "sha256": "de151d00fe905f2583c2fbe8a6aa514a6421c9218e3d0e7b04b3d3997bff3776"
     },
     {
       "path": "explorer/scripts/normalize-public-context.mjs",
@@ -363,6 +373,11 @@
       "sha256": "bedb4634fd6e9adbc608e85c2eac80d5ea819df44cfd779ce3ae048d92b83bed"
     },
     {
+      "path": "explorer/scripts/prepare-molecular.mjs",
+      "bytes": 1043,
+      "sha256": "f8968ff386739903ac5f33fc404ac13f16e308eb7ba4589b69fa5adf31128663"
+    },
+    {
       "path": "explorer/scripts/prepare-molecules.mjs",
       "bytes": 1507,
       "sha256": "303cdb197182661dc92db0b14efa38a668489f8205af23d2a4c357818850f885"
@@ -374,8 +389,8 @@
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
-      "bytes": 3213,
-      "sha256": "db9f3d559be6998feab57da452c623025b3661786d7aedc3fd1e5ac615a4a9e1"
+      "bytes": 3247,
+      "sha256": "130df21fd22ead89f92ffd1868c37fca51a21c9f82c0a392229f216389d91d66"
     },
     {
       "path": "explorer/scripts/prepare-plots.mjs",
@@ -384,8 +399,8 @@
     },
     {
       "path": "explorer/scripts/prepare-site.mjs",
-      "bytes": 8181,
-      "sha256": "92240a067388a37aaf557c03ebf07d1cc25cc1930a8caa5e01e968cd9024b240"
+      "bytes": 8291,
+      "sha256": "8d034d20c3bdafb37e03dd7e34fbe61f9c660b5987f7e3c783fbbed17d3f7986"
     },
     {
       "path": "explorer/scripts/prepare-structure-previews.mjs",
@@ -414,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 258293,
-      "sha256": "e52597acc0c42e01b2c9f43f99197f93cfbac0890902367312567b2ae69e76e7"
+      "bytes": 262603,
+      "sha256": "c8210e804827e3eb26f9364559d5a9d75e818e124101b24d1e4b44d256c7ee1e"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3464,8 +3479,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 65231,
-      "sha256": "7c319312ad46276adcca3d929cb078a95ddb1c6221576b69ce613dd8585914c0"
+      "bytes": 65264,
+      "sha256": "ed990a41e764302bd3db96c8d3cd81c838893799309933deae4beb8829a9064f"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3484,8 +3499,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 134227,
-      "sha256": "206657a6be3d061ff582c643bcd1b765aad9c1949bb82fee992bf43da8ebfda8"
+      "bytes": 134790,
+      "sha256": "6da4ff197cec346921699f45927a7e0b720d765c3e5b3b1895a39ee8a0cb3191"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3504,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/complex-i-pilot.js",
-      "bytes": 11665,
-      "sha256": "10c59dde6c235f3b59b8803d894a11c28147fe426e758a65512d32f117ce75fb"
+      "bytes": 15535,
+      "sha256": "ef1657af00af224f2e67c6c08d099d72a0c8a10a20047c686633992bc6af8846"
     },
     {
       "path": "explorer/src/components/custom-r.js",
@@ -3629,13 +3644,13 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-enrichment-model.js",
-      "bytes": 2156,
-      "sha256": "e03dbf3279105a87c32b00b2abd7daf8dea18854e80ad932ceae4bbfd60d3f52"
+      "bytes": 3556,
+      "sha256": "c5086cd2573f00192b26f3e9a6141375789554f7d2f4b057f730dcab11824edf"
     },
     {
       "path": "explorer/src/components/mitochondrial-enrichment-plot.js",
-      "bytes": 9442,
-      "sha256": "5c80a9023c302272a18cb2590f74b22e5d3824d7f29b86b831eed1274f4064f5"
+      "bytes": 11268,
+      "sha256": "0935756e7c9bba06f38f6a49bc59fd0b983f3b7fede374be1f94d4012c442cef"
     },
     {
       "path": "explorer/src/components/mitochondrial-evidence-panel.js",
@@ -3644,8 +3659,8 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-explorer.js",
-      "bytes": 16024,
-      "sha256": "9dc9652948ebcdb82227aecfaba85da595c89524b3b06c8134b129f5ea2b9a71"
+      "bytes": 17579,
+      "sha256": "804c64bf82c192aa7028d724fddfe5d7dafe7584904862a58e20b39113f0de9e"
     },
     {
       "path": "explorer/src/components/mitochondrial-gene-row.js",
@@ -3656,6 +3671,16 @@
       "path": "explorer/src/components/mitochondrial-mapping.js",
       "bytes": 1293,
       "sha256": "2d72813a58648c3eaff0242621174461914162c2e496fa9137f92de0769aa432"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-molstar.js",
+      "bytes": 16864,
+      "sha256": "80aed64c4f59df726de498940f21b3b796e774a3f2767a5e6aab7f9a827ce2a4"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-spatial-context.js",
+      "bytes": 6506,
+      "sha256": "1d186996800e99d513d68b3a26199ed05e43cc52980e4d3e5ee3a76215311b86"
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
@@ -3704,8 +3729,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 73076,
-      "sha256": "82908fb3312e9f9cbabd8bd0ee3d85ec892456d39729ecc18cef05f8bf695bfe"
+      "bytes": 73185,
+      "sha256": "0cd0630012089779262e920e99d6f2de6fd9f558f9af9b0a0549398911ba8af6"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -4109,13 +4134,18 @@
     },
     {
       "path": "explorer/test/mitochondrial-browser-check.mjs",
-      "bytes": 7229,
-      "sha256": "895ffa40557578a56d9c228fc7401207dd32068cc04c0776a3e05fc4505d454c"
+      "bytes": 8896,
+      "sha256": "419a6307496b10f78fa9faba81f5cbc1ebd98923bba5b15571dab7ba49446841"
     },
     {
       "path": "explorer/test/mitochondrial-context.test.js",
-      "bytes": 5590,
-      "sha256": "0eea50ab16f86627d0d2a54f362729a35ab3a5488c62c469fc594d1b6cf42739"
+      "bytes": 7075,
+      "sha256": "e4884357dc417b8b6b9fb0277ce6790e5b2d547bd42b7e5cbbf2d2edc08ca853"
+    },
+    {
+      "path": "explorer/test/molecular-integration-browser-check.mjs",
+      "bytes": 3631,
+      "sha256": "8e30094c1235ff852ca5ceae2181cd646534c1397d64e1c183361d6389d27565"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
@@ -4596,6 +4626,46 @@
       "path": "explorer/vendor/latex/worker.js",
       "bytes": 129880,
       "sha256": "8eadd5609ef98040768b36fd803d2f3c38b8bc45186f89e97ce0538459bc531d"
+    },
+    {
+      "path": "explorer/vendor/molecular/9TI4-molecular-nodes.glb",
+      "bytes": 21489636,
+      "sha256": "1f7185b7a5c3272ccc052cf984faa85176998a59ba792a929d38a0176fc30a39"
+    },
+    {
+      "path": "explorer/vendor/molecular/9TI4-molecular-nodes.png",
+      "bytes": 1326944,
+      "sha256": "ac6276e037ef26cb2d27ec5957a41d3dd3f2137e6fdb733543c697596a98fe4e"
+    },
+    {
+      "path": "explorer/vendor/molecular/9TI4.cif",
+      "bytes": 14360169,
+      "sha256": "03dbc44e1f478745601b4939abe3ee84bc6f80a09f57a4f208080c8c8dd64415"
+    },
+    {
+      "path": "explorer/vendor/molecular/NOTICES.txt",
+      "bytes": 1788,
+      "sha256": "9e6a4215e35f12b0bdbddbd07edf787062498045c0f370cb0d0729667ef41de9"
+    },
+    {
+      "path": "explorer/vendor/molecular/PROVENANCE.json",
+      "bytes": 1516,
+      "sha256": "93d059c41b42e16d05e27a1a6f2314e203d69941c9218ea04c83e636fb65341e"
+    },
+    {
+      "path": "explorer/vendor/molecular/membrane-context.glb",
+      "bytes": 151928,
+      "sha256": "4273fa92a3c40c20dbdba2789026a97f91bbe55127007469221ef92af76ad523"
+    },
+    {
+      "path": "explorer/vendor/molecular/molecular-nodes-audit.json",
+      "bytes": 1093,
+      "sha256": "12901bf9693445d0c6a45cb53d3cb438fa99acd5b2402ade25153d403fb7baf0"
+    },
+    {
+      "path": "explorer/vendor/molecular/molstar-NOTICES.txt",
+      "bytes": 3655,
+      "sha256": "36fff69f769afdbc28d081913ffb225fd2cb41281d8bf2a6357ece977ea4078e"
     },
     {
       "path": "explorer/vendor/python/NOTICES.txt",
@@ -5879,8 +5949,8 @@
     },
     {
       "path": "reports/mitocarta_followup_methods.md",
-      "bytes": 4739,
-      "sha256": "672adfa3e2d267de2aafc1cd4e1b33270f60b706b9e136f7f9c88f319810ddc3"
+      "bytes": 7105,
+      "sha256": "b520c74300a7592902c71a3b49323accb46ea9a39cbffdea655764cc7468aa43"
     },
     {
       "path": "reports/oxphos_alias_sensitivity.md",
@@ -5889,8 +5959,8 @@
     },
     {
       "path": "reports/oxphos_network_3d_methods.md",
-      "bytes": 13078,
-      "sha256": "1d4f5b83b2f4fdb56bdd6bd2c4efda33a1bace361df585941c725b63c5e12a1f"
+      "bytes": 13566,
+      "sha256": "24de4efdd90f52c7a80f827584ea62fbdebf851d30f7df70410fd03644186f92"
     },
     {
       "path": "reports/schmidt_control_resolution.md",

@@ -83,3 +83,29 @@ test('complex selection and enrichment identifiers round-trip without changing t
   assert.deepEqual(pathwayComplex(pathway),{complex,role});
  }
 });
+
+test('functional scopes partition all tested pathways without changing axis or significance',async()=>{
+ const {enrichmentPlotModel,mitochondrialGroups}=await import('../src/components/mitochondrial-enrichment-model.js');
+ const full=enrichmentPlotModel(enrichment,'all'), seen=[];
+ for(const group of Object.keys(mitochondrialGroups)){
+  const subset=enrichmentPlotModel(enrichment,'all',group);
+  assert.equal(subset.extent,full.extent);
+  assert.ok(subset.rows.every(row=>row.hierarchy.split('.')[0]===group));
+  seen.push(...subset.domain);
+ }
+ assert.deepEqual(seen.sort(),[...full.domain].sort());
+ assert.equal(new Set(seen).size,full.domain.length);
+});
+test('numerical-floor q labels distinguish precision limits from untested results',async()=>{
+ const {enrichmentQLabel}=await import('../src/components/mitochondrial-enrichment-model.js');
+ for(const row of enrichment.results){
+  const label=enrichmentQLabel(row,enrichment.metadata);
+  if(row.status!=='tested')assert.equal(label,row.status);
+  else assert.equal(label.includes('†'),row.pvalue<=enrichment.metadata.eps);
+ }
+});
+test('complex IV missing members and complete complex V coverage remain auditable',()=>{
+ const iv=complexMembers(snapshot,'IV','Structural subunit');
+ assert.deepEqual(iv.filter(e=>!archivedGene(e,genes)).map(e=>e.symbol).sort(),['COX4I2','COX6A2','COX7A1','COX7B2','COX8C']);
+ assert.equal(complexMembers(snapshot,'V','Structural subunit').filter(e=>archivedGene(e,genes)).length,21);
+});

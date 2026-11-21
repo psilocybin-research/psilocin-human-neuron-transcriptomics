@@ -1,8 +1,10 @@
+import {createMolecularViewer} from './mitochondrial-molstar.js';
+import {createMitochondrialSpatialContext,createMolecularNodesReference} from './mitochondrial-spatial-context.js';
 import { createRespiratorySchematic } from "./respiratory-schematic.js";
 import { createMitochondrialEnrichmentPlot } from "./mitochondrial-enrichment-plot.js";
 import { createMitochondrialEvidencePanel } from "./mitochondrial-evidence-panel.js";
 import { mitochondrialGeneRow } from "./mitochondrial-gene-row.js";
-import { complexPathway, pathwayComplex, mitochondrialPathwayName } from "./mitochondrial-enrichment-model.js";
+import { complexPathway, pathwayComplex, mitochondrialPathwayName, enrichmentQLabel, precisionNote } from "./mitochondrial-enrichment-model.js";
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el, createAccordion, loadingMessage } from "./interface-utils.js";
 import { mitochondrialSnapshot, mitochondrialEnrichment, mitochondrialAuditURL } from "./mitochondrial-data.js";
@@ -37,18 +39,20 @@ function createTable(headers) {
   wrap.append(table);
   return { wrap, body };
 }
-export function createMitochondrialExplorer({ getGenes, onGene, standalone = false }) {
+export function createMitochondrialExplorer({ getGenes, onGene, onUncertainty, initialView = "enrichment", standalone = false }) {
   const card = standalone
     ? { element: el("section", "mitochondrial-explorer mitochondrial-page-content"), body: el("div", "gene-annotation-body") }
     : createAccordion("MitoCarta · exploratory follow-up", "mitochondrial-explorer");
   if (standalone) card.element.append(card.body);
   const host = el("div");
   card.body.append(host);
-  let loaded = false, disposed = false, pairedPlot, evidence;
+  let loaded = false, disposed = false, pairedPlot, evidence, molecular, spatial;
   card.element.dispose = () => {
     disposed = true;
     pairedPlot?.dispose();
     evidence?.dispose();
+    molecular?.dispose();
+    spatial?.dispose();
   };
   async function load() {
     if (loaded || disposed) return;
@@ -75,7 +79,7 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
       navigation.setAttribute("aria-label", "MitoCarta view");
       const layout = el("div", "mito-workbench-layout"), tabs = el("div", "tabs mito-workbench-tabs");
       const panes = new Map(), tabButtons = new Map();
-      for (const [key, name] of [["enrichment", "Enrichment"], ["complexes", "Complexes"], ["structure", "Structure"]]) {
+      for (const [key, name] of [["enrichment", "Enrichment"], ["complexes", "Complexes"], ["structure", "Structure"], ["spatial", "Spatial context"]]) {
         const pane = el("section", `tab mito-workbench-pane${key === activeView ? " tab-active" : ""}`);
         pane.id = `${id}-${key}`;
         pane.setAttribute("role", "tabpanel");
@@ -124,6 +128,13 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
         el("p", "note", "Blue to orange: signed RNA log₂FC on a fixed ±2.5 scale. Numerical values retain the full effect range. Missing results are not evidence of unchanged expression; their exclusion reason is not inferred."),
       );
 
+      molecular = createMolecularViewer({genes,onGene:openGene,onSendGene:sendGene});
+      panes.get("structure").append(molecular.element);
+      spatial = createMitochondrialSpatialContext({onComplex:value=>{chooseComplex(value,"Structural subunit");evidence.present();}});
+      panes.get("spatial").append(spatial.element);
+      const reference = createAccordion("Reference rendering · Molecular Nodes", "molecular-nodes-disclosure");
+      reference.element.addEventListener("accordion:beforeopen",()=>{if(!reference.body.childElementCount)reference.body.append(createMolecularNodesReference());});
+      panes.get("structure").append(reference.element);
       const structureCard = el("div", "card mito-structure-card");
       const structureBody = el("div", "card-content card-content-padding");
       const structureSelection = el("p", "note mito-structure-selection");
@@ -145,11 +156,12 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
         pilot, sourceLink("PDB structure and validation ↗", "https://www.rcsb.org/structure/9TI4"),
       );
       structureCard.append(structureBody);
-      panes.get("structure").append(structureCard);
+      const lightweight=createAccordion("Lightweight Cα viewer", "molecular-lightweight-disclosure");lightweight.body.append(structureCard);panes.get("structure").append(lightweight.element);
 
       pairedPlot = createMitochondrialEnrichmentPlot({
         data: enrichmentData, snapshot, genes, onGene: openGene, onSendGene: sendGene,
         evidenceHost: evidence.content,
+        onUncertainty: onUncertainty ? () => evidence.afterClose(onUncertainty) : undefined,
         onInspect: (value) => updateSelection(value, true),
       });
       panes.get("enrichment").append(pairedPlot.element);
@@ -243,12 +255,17 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
           button.tabIndex = name === key ? 0 : -1;
         });
         card.element.dataset.mitoView = key;
+        molecular.setVisible(key==="structure");
+        if(key==="structure")requestAnimationFrame(()=>molecular.activate());
+        if(key==="spatial")requestAnimationFrame(()=>spatial.activate());
       }
       updateSelection(selection);
-      showView("enrichment");
+      showView(panes.has(initialView)?initialView:"enrichment");
     } catch {
       pairedPlot?.dispose();
       evidence?.dispose();
+      molecular?.dispose();
+      spatial?.dispose();
       loaded = false;
       if (!disposed) host.replaceChildren(el("p", "note", "Mitochondrial context could not load."), action("Retry context", load));
     }
@@ -272,12 +289,12 @@ async function renderEnrichment(host) {
     table.body.replaceChildren();
     for (const result of data.results.filter((r) => r.contrast === contrast)) {
       const row = el("tr");
-      [result.pathway.replaceAll("_", " "), `${result.curatedSize} / ${result.matchedSize}`, fmt(result.NES), result.pvalue !== null && result.pvalue <= data.metadata.eps ? `≤ ${data.metadata.eps}` : sci(result.pvalue), result.status === "tested" ? sci(result.qvalue) : result.status].forEach((text) => row.append(el("td", "", text)));
+      [result.pathway.replaceAll("_", " "), `${result.curatedSize} / ${result.matchedSize}`, fmt(result.NES), result.pvalue !== null && result.pvalue <= data.metadata.eps ? `≤ ${data.metadata.eps}` : sci(result.pvalue), enrichmentQLabel(result, data.metadata)].forEach((text) => row.append(el("td", "", text)));
       table.body.append(row);
     }
   }
   const download = action("Download all 298 rows", async () => downloadFile("mitocarta-exploratory-all-pathways.csv", await FileAttachment("../assets/mitochondria/enrichment.csv").text(), "text/csv"));
   const plan = el("a", "", "Frozen analysis plan"); plan.href = await FileAttachment("../assets/mitochondria/analysis-plan.json").url(); plan.download = "mitocarta-exploratory-plan.json";
-  host.append(controls, table.wrap, download, plan, el("p", "note", "P-values at the fixed numerical floor are shown as bounds; their precision is not resolved below that floor. Three differentiation blocks, unresolved control timing and correlation-sensitive pathway evidence limit interpretation. Treated Day 3 / Day 1 is not a treatment-by-time interaction."));
+  host.append(el("p", "note", precisionNote), controls, table.wrap, download, plan, el("p", "note", "P-values at the fixed numerical floor are shown as bounds; their precision is not resolved below that floor. Three differentiation blocks, unresolved control timing and correlation-sensitive pathway evidence limit interpretation. Treated Day 3 / Day 1 is not a treatment-by-time interaction."));
   render();
 }
