@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1436,
-  "total_bytes": 726564402,
+  "file_count": 1437,
+  "total_bytes": 726580207,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 281126,
-      "sha256": "a8ad3e342308c18fe07e1896c9deb36cdfb0f8550185cb49580f517a5a11f270"
+      "bytes": 281267,
+      "sha256": "470a0a7e80bb6c72d4c0f94c798da02206e46e1b7367038249112e09e97b00b2"
     },
     {
       "path": "LICENSE.md",
@@ -409,8 +409,8 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 4904,
-      "sha256": "1c0e7c5eb3e53d123f3a52d83dacdaa75aadbe73a09111600127a932ccec3db4"
+      "bytes": 4923,
+      "sha256": "85e4344d9bb412a2fdfaf554f236f925ef8be6826e4265158ca249b9047761a2"
     },
     {
       "path": "explorer/scripts/r-editor-entry.js",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 270219,
-      "sha256": "5513bc91e172e4e842808ffeb2b62171cc6ada84a9768a41587cf311adf73c02"
+      "bytes": 272660,
+      "sha256": "ad762817f51285aa64a2632a289cb78a4ee341941fec5d3934b3f5492666a647"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3479,8 +3479,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 67172,
-      "sha256": "c10d055746902ea75619914210cf4040fe3409d289530f5356647ab9bfd0705a"
+      "bytes": 67572,
+      "sha256": "a954807ca155f68f2bb59165ace190712000b9b73a898a1bd8ed1b53366afbe1"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3544,8 +3544,8 @@
     },
     {
       "path": "explorer/src/components/expression-comparisons.js",
-      "bytes": 14965,
-      "sha256": "1ee2ffe14881729ff7efe7427cad55a3c17d68cf2a1a231fbe087c142ecef794"
+      "bytes": 14978,
+      "sha256": "854531478c24968353098941d825bbf2835420b206e251ddb911ad6a8b17a6cd"
     },
     {
       "path": "explorer/src/components/figure-controls.js",
@@ -3604,8 +3604,8 @@
     },
     {
       "path": "explorer/src/components/interface-utils.js",
-      "bytes": 3839,
-      "sha256": "d6ad99e88f9c69d430af2801278dab31282b5cd0d7c3bc895f163cacd2b5dd28"
+      "bytes": 4307,
+      "sha256": "72d9487a557010edfbc8a9ded42b5bfff212b170f820acd26c6759bdd745c40d"
     },
     {
       "path": "explorer/src/components/intersection-data.js",
@@ -3674,8 +3674,8 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-molstar.js",
-      "bytes": 19288,
-      "sha256": "ae1db6fbf19f19db47281eab9ed732732429f9283aabec5b5df9d5d1a91dea50"
+      "bytes": 19090,
+      "sha256": "f0bb8e68b75e165e0d0af48793a4d66613758fd6536204b0656fdcd7f7d9e998"
     },
     {
       "path": "explorer/src/components/mitochondrial-spatial-context.js",
@@ -3689,8 +3689,8 @@
     },
     {
       "path": "explorer/src/components/molecular-tools.js",
-      "bytes": 13454,
-      "sha256": "754e92e1fd4fc5a87228a68a5444607ec11e6da594aff557464b0fee81ee0331"
+      "bytes": 14482,
+      "sha256": "3ea74a0834eaa624fbb70d0c99d4cbe8568565463736a268fec3c9ae816cbdb7"
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
@@ -3859,8 +3859,8 @@
     },
     {
       "path": "explorer/src/components/research-dataset-browser.js",
-      "bytes": 2037,
-      "sha256": "6f949011e1813d13648ec0f0326036d51e7425b3763d562b6adb3883d084e2a8"
+      "bytes": 4193,
+      "sha256": "ebdc5d5cf2bfa04f58bad99c6b6cb9fe51d42fb460a2b300e9b4f601df99fb18"
     },
     {
       "path": "explorer/src/components/research-datasets.js",
@@ -3989,8 +3989,8 @@
     },
     {
       "path": "explorer/src/components/visualization-tools.js",
-      "bytes": 12207,
-      "sha256": "31d45a7762187114da481e1ad9e8c098a1aa94d370139d52681ec115f01bc02d"
+      "bytes": 15404,
+      "sha256": "cb489a89b3e4e455f87d94100af48589f862438b6b5cd263179dade5b67815f6"
     },
     {
       "path": "explorer/src/components/workspace-layout.js",
@@ -4098,6 +4098,11 @@
       "sha256": "22791692a89cd4a31fecc9fda5e1e6b3ce27cafd6f9140cfc3fa8422cb024c75"
     },
     {
+      "path": "explorer/test/f7-data-surfaces-browser-check.mjs",
+      "bytes": 2809,
+      "sha256": "f787bdb9a651cad2973e9222071e0ba84740d11b24d207a054c81f1f05094693"
+    },
+    {
       "path": "explorer/test/f7-interaction-browser-check.mjs",
       "bytes": 3861,
       "sha256": "448c2621b74d276cec370f8a705c342b7e8b7edc5df5527ccc73610979608087"
@@ -4179,8 +4184,8 @@
     },
     {
       "path": "explorer/test/molecular-integration-browser-check.mjs",
-      "bytes": 4109,
-      "sha256": "2c678d379a701c6f16adb2e04b7571ee1175b111b86338f19722077d8d41bbc6"
+      "bytes": 4106,
+      "sha256": "abaccc77b6daff5ebafadd823a25d6063cadb5b82e23da62ae65873909b2b65c"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
@@ -4194,8 +4199,8 @@
     },
     {
       "path": "explorer/test/molecular-tools-browser-check.mjs",
-      "bytes": 5898,
-      "sha256": "9f0adf8e228a8de9a096e2d524d53cf4e49d160d9189c2da1fbb26b458813cf5"
+      "bytes": 9216,
+      "sha256": "7fdc059e896adf09c65337cf7255e30d5755694de6a209d72a5b20db744ae31c"
     },
     {
       "path": "explorer/test/navigation-glass-browser-check.mjs",
@@ -4374,8 +4379,8 @@
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
-      "bytes": 7103,
-      "sha256": "ec0b678164a62b898c2034750ca2336efe4d42f534a2043d96472623249d3af1"
+      "bytes": 7119,
+      "sha256": "ada4be87d7eb4572f13d5416158aa3a4436947aaec25f05312e59207eeb8087c"
     },
     {
       "path": "explorer/test/research-collections.test.js",

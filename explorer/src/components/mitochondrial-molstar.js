@@ -44,10 +44,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
   const list = el("ul");
   controls.append(list);
   function select(label, items) {
-    const li = el("li", "item-content item-input"),
-      inner = el("div", "item-inner"),
-      title = el("div", "item-title item-label", label),
-      wrap = el("div", "item-input-wrap"),
+    const li = el("li", "atlas-3d-tool-field"),
       input = el("select");
     input.setAttribute("aria-label", label);
     for (const [value, text] of items) {
@@ -55,9 +52,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       o.value = value;
       input.append(o);
     }
-    wrap.append(input);
-    inner.append(title, wrap);
-    li.append(inner);
+    li.append(input);
     list.append(li);
     return input;
   }

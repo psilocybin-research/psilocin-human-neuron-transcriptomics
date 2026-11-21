@@ -5265,6 +5265,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/f7-data-surfaces-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/f7-interaction-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [

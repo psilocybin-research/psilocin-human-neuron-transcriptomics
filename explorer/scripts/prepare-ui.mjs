@@ -32,6 +32,7 @@ const components = [
     "radio",
     "preloader",
     "grid",
+    "breadcrumbs",
   ]),
 ];
 const stylesheet = (

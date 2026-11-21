@@ -1,10 +1,11 @@
 import {
   createElement as el,
-  createAccordion,
+  createSheetToolbar,
   closeSheet,
   destroySheet,
 } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
+let toolSectionSequence = 0;
 
 // One F7 interaction contract for molecular, network and spatial renderers.
 export function createVisualizationTools({
@@ -53,8 +54,9 @@ export function createVisualizationTools({
   const navigation = el("div", "atlas-3d-tools-navigation");
   const shortcuts = el(
     "nav",
-    "segmented segmented-raised atlas-3d-tools-shortcuts",
+    "segmented segmented-strong atlas-3d-tools-shortcuts",
   );
+  shortcuts.setAttribute("role", "tablist");
   shortcuts.setAttribute("aria-label", "Quick access to molecular tools");
   const breadcrumbs = el("nav", "breadcrumbs atlas-3d-breadcrumbs");
   breadcrumbs.setAttribute("aria-label", "3D tool location");
@@ -66,18 +68,15 @@ export function createVisualizationTools({
     close();
   };
   viewCrumb.append(viewLink);
-  const divider = () => el("span", "breadcrumbs-item-divider");
+  const divider = () => el("span", "breadcrumbs-separator");
   const toolsCrumb = el("span", "breadcrumbs-item"),
     toolsLink = el("a", "breadcrumbs-item-link", "Tools");
   toolsLink.href = "#";
   toolsLink.onclick = (e) => {
     e.preventDefault();
-    content.closest(".atlas-3d-tools-scroll")?.scrollTo({
-      top: 0,
-      behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
-        ? "instant"
-        : "smooth",
-    });
+    activateSection(
+      sections.find((group) => group.button.style.order === "0") || sections[0],
+    );
   };
   toolsCrumb.append(toolsLink);
   const currentCrumb = el(
@@ -88,7 +87,8 @@ export function createVisualizationTools({
   currentCrumb.setAttribute("aria-current", "page");
   breadcrumbs.append(viewCrumb, divider(), toolsCrumb, divider(), currentCrumb);
   navigation.append(breadcrumbs, shortcuts);
-  content.append(navigation);
+  const tabPages = el("div", "tabs atlas-3d-tool-pages");
+  content.append(navigation, tabPages);
   let sheet,
     sheetElement,
     popup,
@@ -97,67 +97,94 @@ export function createVisualizationTools({
     previousFocus,
     placeholder;
   const sections = [];
-  function section(name, { open = false, shortcut, icon = "controls" } = {}) {
-    const group = createAccordion(name, "atlas-3d-tools-section");
-    const item = group.element.querySelector(".accordion-item");
-    const toggle = group.element.querySelector(".gene-annotation-toggle");
-    const panel = group.element.querySelector(".accordion-item-content");
-    content.append(group.element);
-    if (open) {
-      item.classList.add("accordion-item-opened");
-      toggle.setAttribute("aria-expanded", "true");
-      panel.setAttribute("aria-hidden", "false");
+  let activeSection;
+  function activateSection(group) {
+    if (!group) return;
+    activeSection = group;
+    for (const other of sections) {
+      const active = other === group;
+      other.button.classList.toggle("button-active", active);
+      other.button.setAttribute("aria-selected", String(active));
+      other.button.tabIndex = active ? 0 : -1;
+      other.element.setAttribute("aria-hidden", String(!active));
     }
-    group.element.addEventListener("accordion:opened", () => {
-      currentCrumb.textContent = name;
-    });
-    if (shortcut) {
-      const button = el("button", "button atlas-3d-tools-shortcut");
-      button.type = "button";
-      button.append(uiIcon(icon), el("span", "", shortcut));
-      button.setAttribute("aria-label", `Open ${name}`);
-      button.setAttribute("aria-controls", panel.id);
-      button.setAttribute("aria-expanded", String(open));
-      const scrollToSection = () => {
-        const scroll = content.closest(".atlas-3d-tools-scroll");
-        if (!scroll) return;
-        scroll.scrollTo({
-          top:
-            scroll.scrollTop +
-            group.element.getBoundingClientRect().top -
-            scroll.getBoundingClientRect().top -
-            navigation.offsetHeight -
-            8,
-          behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
-            ? "instant"
-            : "smooth",
-        });
-      };
-      button.onclick = () => {
-        currentCrumb.textContent = name;
-        if (item.classList.contains("accordion-item-opened")) scrollToSection();
-        else {
-          item.addEventListener("accordion:opened", scrollToSection, {
-            once: true,
-          });
-          app.accordion.open(item);
-        }
-      };
-      item.addEventListener("accordion:open", () =>
-        button.setAttribute("aria-expanded", "true"),
-      );
-      item.addEventListener("accordion:close", () =>
-        button.setAttribute("aria-expanded", "false"),
-      );
-      shortcuts.append(button);
-    }
-    sections.push(group);
-    return group.body;
+    if (app && group.element.isConnected) app.tab.show(group.element, false);
+    else
+      for (const other of sections)
+        other.element.classList.toggle("tab-active", other === group);
+    currentCrumb.textContent = group.name;
+    content.closest(".atlas-3d-tools-scroll")?.scrollTo({ top: 0 });
+    content.dispatchEvent(new Event("tools:section"));
   }
-  function action(host, label, callback, icon = "controls") {
-    const button = el("button", "button button-tonal atlas-3d-tool-action");
+  function section(
+    name,
+    { open = false, shortcut, icon = "controls", order = sections.length } = {},
+  ) {
+    const element = el("section", "tab atlas-3d-tools-section");
+    element.id = `atlas-tools-${++toolSectionSequence}`;
+    element.setAttribute("role", "tabpanel");
+    const heading = el("div", "block-title", name);
+    const body = el("div", "atlas-3d-tools-section-body");
+    element.append(heading, body);
+    tabPages.append(element);
+    const button = el("button", "button atlas-3d-tools-shortcut");
+    button.id = `${element.id}-tab`;
     button.type = "button";
-    button.append(uiIcon(icon), el("span", "", label));
+    button.style.order = String(order);
+    button.append(uiIcon(icon), el("span", "", shortcut || name));
+    button.setAttribute("role", "tab");
+    button.setAttribute("aria-label", `Open ${name}`);
+    button.setAttribute("aria-controls", element.id);
+    element.setAttribute("aria-labelledby", button.id);
+    const group = { name, element, body, button };
+    sections.push(group);
+    shortcuts.append(button);
+    button.onclick = () => activateSection(group);
+    if (!activeSection || open) activateSection(group);
+    else {
+      element.setAttribute("aria-hidden", "true");
+      button.setAttribute("aria-selected", "false");
+      button.tabIndex = -1;
+    }
+    return body;
+  }
+  shortcuts.onkeydown = (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const ordered = [...sections].sort(
+      (a, b) => Number(a.button.style.order) - Number(b.button.style.order),
+    );
+    const index = ordered.indexOf(activeSection),
+      next =
+        event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? ordered.length - 1
+            : (index + (event.key === "ArrowRight" ? 1 : -1) + ordered.length) %
+              ordered.length;
+    activateSection(ordered[next]);
+    ordered[next].button.focus();
+  };
+  function action(host, label, callback, icon = "controls") {
+    let list = host.lastElementChild;
+    if (!list?.classList.contains("atlas-3d-action-list")) {
+      list = el(
+        "div",
+        "list list-strong list-dividers inset atlas-3d-action-list",
+      );
+      list.append(el("ul"));
+      host.append(list);
+    }
+    const row = el("li"),
+      button = el("button", "item-link item-content atlas-3d-tool-action");
+    button.type = "button";
+    const media = el("span", "item-media"),
+      inner = el("span", "item-inner");
+    media.append(uiIcon(icon));
+    inner.append(el("span", "item-title", label));
+    button.append(media, inner);
+    row.append(button);
+    list.firstChild.append(row);
     button.setAttribute("aria-label", label);
     button.onclick = async () => {
       if (button.disabled) return;
@@ -177,7 +204,6 @@ export function createVisualizationTools({
         if (!disposed) button.disabled = false;
       }
     };
-    host.append(button);
     return button;
   }
   function close() {
@@ -193,9 +219,53 @@ export function createVisualizationTools({
     sheetElement?.remove();
     sheetElement = undefined;
     destroySheet(old);
+    surface.style.removeProperty("--atlas-tools-inset");
+    surface.classList.remove("atlas-3d-tools-docked");
+    window.removeEventListener("resize", layoutTools);
+    onResize();
     trigger.setAttribute("aria-expanded", "false");
     if (previousFocus?.isConnected)
       previousFocus.focus({ preventScroll: true });
+  }
+  function layoutTools() {
+    if (!sheetElement) return;
+    const nonmodal = String(matchMedia("(min-width:768px)").matches);
+    if (sheet?.opened && sheetElement.dataset.nonmodal !== nonmodal) {
+      sheet.close(false);
+      requestAnimationFrame(() => {
+        if (!disposed) open();
+      });
+      return;
+    }
+    const dock =
+      surface.querySelector(".molecular-renderer-host") &&
+      matchMedia("(min-width:900px)").matches &&
+      surface.clientWidth >= 720;
+    sheetElement.classList.toggle("atlas-3d-tools-dock", Boolean(dock));
+    surface.classList.toggle("atlas-3d-tools-docked", Boolean(dock));
+    const previousInset = surface.style.getPropertyValue("--atlas-tools-inset");
+    if (dock) {
+      const rect = surface.getBoundingClientRect(),
+        width = 340;
+      const top = expanded ? 76 : Math.max(rect.top + 64, 76),
+        bottom = expanded
+          ? innerHeight - 12
+          : Math.min(rect.bottom, innerHeight - 12);
+      const height = Math.max(280, bottom - top);
+      Object.assign(sheetElement.style, {
+        top: `${top}px`,
+        right: `${Math.max(12, innerWidth - rect.right + 12)}px`,
+        bottom: "auto",
+        width: `${width}px`,
+        height: `${height}px`,
+      });
+      surface.style.setProperty("--atlas-tools-inset", `${width + 24}px`);
+    } else {
+      sheetElement.removeAttribute("style");
+      surface.style.removeProperty("--atlas-tools-inset");
+    }
+    if (previousInset !== surface.style.getPropertyValue("--atlas-tools-inset"))
+      requestAnimationFrame(onResize);
   }
   function open() {
     if (disposed || !app) return;
@@ -211,17 +281,26 @@ export function createVisualizationTools({
     );
     sheetElement.setAttribute("aria-label", title);
     sheetElement.setAttribute("role", "dialog");
+    sheetElement.dataset.nonmodal = String(
+      matchMedia("(min-width:768px)").matches,
+    );
+    sheetElement.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        close();
+      }
+    });
     const handle = el("div", "sheet-handle"),
-      header = el("header", "evidence-sheet-header"),
-      heading = el("h2", "", title),
-      expand = el("button", "button button-tonal"),
-      done = el("button", "button button-tonal", "Done");
+      expand = el("button", "link"),
+      done = el("button", "link", "Done");
     expand.type = done.type = "button";
     expand.setAttribute("aria-label", "Expand 3D tools");
     expand.setAttribute("aria-pressed", "false");
     expand.append(uiIcon("fullscreen"));
     expand.onclick = () => {
       expanded = !expanded;
+      layoutTools();
       sheetElement.classList.toggle("atlas-3d-tools-expanded", expanded);
       expand.setAttribute(
         "aria-label",
@@ -233,14 +312,17 @@ export function createVisualizationTools({
       );
     };
     done.onclick = close;
-    header.append(heading, expand, done);
+    const header = createSheetToolbar(title, [expand, done]);
     const inner = el("div", "sheet-modal-inner atlas-3d-tools-scroll");
     content.hidden = false;
     inner.append(content);
+    if (activeSection) activateSection(activeSection);
     sheetElement.append(handle, header, inner);
     const container =
       document.fullscreenElement || document.webkitFullscreenElement || appRoot;
     container.append(sheetElement);
+    layoutTools();
+    window.addEventListener("resize", layoutTools);
     sheet = app.sheet.create({
       el: sheetElement,
       containerEl: container,
@@ -252,6 +334,7 @@ export function createVisualizationTools({
       push: false,
       on: {
         opened() {
+          layoutTools();
           content.dispatchEvent(new Event("tools:opened"));
         },
         closed() {
@@ -287,7 +370,10 @@ export function createVisualizationTools({
     }
     placeholder = el("span");
     surface.before(placeholder);
-    const element = el("section", "popup popup-tablet-fullscreen atlas-3d-fullscreen-popup");
+    const element = el(
+      "section",
+      "popup popup-tablet-fullscreen atlas-3d-fullscreen-popup",
+    );
     element.classList.toggle(
       "atlas-3d-fullscreen-has-control",
       Boolean(fullscreenButton),
@@ -344,6 +430,7 @@ export function createVisualizationTools({
       document.fullscreenElement === surface,
     );
     syncFullscreenControl();
+    layoutTools();
     onResize();
   };
   document.addEventListener("fullscreenchange", fullscreenChanged);

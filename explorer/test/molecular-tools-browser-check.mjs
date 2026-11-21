@@ -35,6 +35,97 @@ try {
   await fab.click();
   const tools = page.locator(".atlas-3d-tools-sheet.modal-in");
   await tools.waitFor();
+
+  assert.equal(
+    await tools.locator(".atlas-3d-tools-section.tab-active").count(),
+    1,
+  );
+  assert.equal(
+    await tools
+      .getByRole("tab", { name: "Open Representation & lighting", exact: true })
+      .getAttribute("aria-selected"),
+    "true",
+  );
+  if (
+    await tools.evaluate((el) => el.classList.contains("atlas-3d-tools-dock"))
+  ) {
+    const renderer = await workbench
+        .locator(".molecular-renderer-host")
+        .boundingBox(),
+      panel = await tools.boundingBox();
+    assert.ok(
+      renderer.x + renderer.width <= panel.x,
+      "docked tools reserve renderer space",
+    );
+    assert.equal(
+      await page.locator(".research-views").evaluate((el) => el.inert),
+      false,
+      "desktop inspector is nonmodal",
+    );
+  }
+  for (const dark of [false, true]) {
+    await page.evaluate(
+      (dark) => document.querySelector("#psilocin-app").f7.setDarkMode(dark),
+      dark,
+    );
+    await page.waitForTimeout(250);
+    const ratios = await tools
+      .locator(".atlas-3d-tools-shortcut")
+      .evaluateAll((buttons) => {
+        const rgba = (value) => {
+          const n = value.match(/[\d.]+/g)?.map(Number) || [0, 0, 0, 0];
+          return [n[0], n[1], n[2], n[3] ?? 1];
+        };
+        const blend = (a, b) =>
+          a.slice(0, 3).map((v, i) => v * a[3] + b[i] * (1 - a[3]));
+        const lum = (c) =>
+          c
+            .map((v) => {
+              v /= 255;
+              return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+            })
+            .reduce((n, v, i) => n + v * [0.2126, 0.7152, 0.0722][i], 0);
+        return buttons.map((button) => {
+          let bg = [255, 255, 255];
+          for (const node of [
+            ...(function* (el) {
+              for (; el; el = el.parentElement) yield el;
+            })(button),
+          ].reverse())
+            bg = blend(rgba(getComputedStyle(node).backgroundColor), bg);
+          const fg = blend(rgba(getComputedStyle(button).color), bg),
+            a = lum(fg),
+            b = lum(bg);
+          return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+        });
+      });
+    assert.ok(
+      ratios.every((ratio) => ratio >= 4.5),
+      `tool tab contrast ${dark ? "dark" : "light"}: ${ratios}`,
+    );
+  }
+  await page.evaluate(() =>
+    document.querySelector("#psilocin-app").f7.setDarkMode(false),
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".atlas-3d-tools-sheet.modal-in")?.dataset
+        .nonmodal === "false",
+  );
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".atlas-3d-tools-sheet.modal-in")?.dataset
+        .nonmodal === "true",
+  );
+  assert.equal(
+    await page.locator(".research-views").evaluate((el) => el.inert),
+    false,
+  );
+  await tools
+    .getByRole("tab", { name: "Open View & camera", exact: true })
+    .click();
   await tools
     .getByRole("button", { name: "Fit complete assembly", exact: true })
     .click();
@@ -43,7 +134,7 @@ try {
     "Selection & resolved sequence",
     "Gene evidence & source",
   ]) {
-    const shortcut = tools.getByRole("button", {
+    const shortcut = tools.getByRole("tab", {
       name: `Open ${name}`,
       exact: true,
     });
@@ -52,18 +143,22 @@ try {
       (label) =>
         document
           .querySelector(`button[aria-label="Open ${label}"]`)
-          ?.getAttribute("aria-expanded") === "true",
+          ?.getAttribute("aria-selected") === "true",
       name,
     );
     assert.equal(
       await tools.locator(".breadcrumbs-item-active").textContent(),
       name,
     );
+    if (name === "Selection & resolved sequence") {
+      await tools.locator(".atlas-3d-tools-residues li").first().waitFor();
+      assert.ok(
+        (await tools.locator(".atlas-3d-tools-residues li").count()) < 100,
+        "resolved sequence remains virtualized",
+      );
+    }
   }
-  await tools
-    .locator(".gene-annotation-toggle")
-    .filter({ hasText: /^Export$/ })
-    .click();
+  await tools.getByRole("tab", { name: "Open Export", exact: true }).click();
   await tools
     .getByRole("button", {
       name: "Download all mapped RNA data (.csv)",
@@ -98,11 +193,14 @@ try {
   await tools.waitFor();
   assert.equal(await tools.locator(".breadcrumbs").isVisible(), true);
   await tools
-    .getByRole("button", { name: "Open Gene evidence & source", exact: true })
+    .getByRole("tab", { name: "Open Gene evidence & source", exact: true })
     .click();
   await tools
     .locator(".molecular-gene-evidence .card-header")
     .waitFor({ state: "visible" });
+  await tools
+    .getByRole("tab", { name: "Open View & camera", exact: true })
+    .click();
   await tools
     .getByRole("button", { name: "Fullscreen / return", exact: true })
     .click();
@@ -116,7 +214,7 @@ try {
   await fab.click();
   await tools.waitFor();
   await tools
-    .getByRole("button", {
+    .getByRole("tab", {
       name: "Open Representation & lighting",
       exact: true,
     })
@@ -153,7 +251,7 @@ try {
   await choice.locator("label").filter({ hasText: "Light" }).click();
   await choice.waitFor({ state: "detached" });
   await tools
-    .getByRole("button", { name: "Open Gene evidence & source", exact: true })
+    .getByRole("tab", { name: "Open Gene evidence & source", exact: true })
     .click();
   await tools
     .locator(".molecular-gene-evidence .card-header")

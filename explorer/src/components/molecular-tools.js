@@ -28,21 +28,31 @@ export function createMolecularTools({
     return p;
   };
   function field(host, name, options, change) {
-    const label = el("label", "atlas-3d-field"),
+    const list = el(
+        "div",
+        "list list-strong list-dividers inset atlas-3d-field-list",
+      ),
+      ul = el("ul"),
+      row = el("li", "atlas-3d-tool-field"),
       select = el("select");
     select.setAttribute("aria-label", name);
-    label.append(el("span", "", name), select);
     for (const [value, text] of options) {
-      const o = el("option", "", text);
-      o.value = value;
-      select.append(o);
+      const option = el("option", "", text);
+      option.value = value;
+      select.append(option);
     }
     select.onchange = () => change?.(select.value);
-    host.append(label);
+    row.append(select);
+    ul.append(row);
+    list.append(ul);
+    host.append(list);
     return select;
   }
   function check(host, name, change) {
-    const label = el("label", "item-checkbox item-content"),
+    const list = el("div", "list list-strong list-dividers inset"),
+      ul = el("ul"),
+      row = el("li"),
+      label = el("label", "item-checkbox item-content"),
       input = el("input"),
       inner = el("div", "item-inner");
     input.type = "checkbox";
@@ -50,10 +60,17 @@ export function createMolecularTools({
     inner.append(el("span", "item-title", name));
     label.append(input, el("i", "icon icon-checkbox"), inner);
     input.onchange = () => change(input.checked);
-    host.append(label);
+    row.append(label);
+    ul.append(row);
+    list.append(ul);
+    host.append(list);
     return input;
   }
-  const view = hub.section("View & camera", { open: true });
+  const view = hub.section("View & camera", {
+    shortcut: "Camera",
+    icon: "overview",
+    order: 3,
+  });
   hub.action(
     view,
     "Fullscreen / return",
@@ -83,6 +100,8 @@ export function createMolecularTools({
     "controls",
   );
   const display = hub.section("Representation & lighting", {
+    open: true,
+    order: 0,
     shortcut: "Display",
     icon: "appearance",
   });
@@ -111,6 +130,7 @@ export function createMolecularTools({
       plugin().canvas3d.setProps({ renderer: { ambientIntensity: Number(v) } }),
   ).value = ".8";
   const selection = hub.section("Selection & resolved sequence", {
+    order: 1,
     shortcut: "Sequence",
     icon: "genes",
   });
@@ -143,12 +163,26 @@ export function createMolecularTools({
     },
     "close",
   );
-  const searchLabel = el("label", "atlas-3d-field"),
+  const searchLabel = el("form", "searchbar searchbar-inline"),
+    searchInner = el("div", "searchbar-inner"),
+    searchWrap = el("div", "searchbar-input-wrap"),
     search = el("input");
   search.type = "search";
   search.placeholder = "Residue number";
   search.setAttribute("aria-label", "Find resolved residue");
-  searchLabel.append(el("span", "", "Resolved residue search"), search);
+  searchWrap.append(
+    search,
+    el("i", "searchbar-icon"),
+    el("span", "input-clear-button"),
+  );
+  searchInner.append(searchWrap);
+  searchLabel.append(searchInner);
+  const residueSearch = app.searchbar.create({
+    el: searchLabel,
+    customSearch: true,
+    inline: true,
+    backdrop: false,
+  });
   const sequenceCount = el("p", "note"),
     scroll = el("div", "atlas-3d-tools-residues"),
     list = el("div", "list virtual-list");
@@ -220,13 +254,14 @@ export function createMolecularTools({
     });
     picked.textContent = `Reference residue ${b.dataset.residueNumber}${b.dataset.residueInsertion} · chain ${c.author}. RNA estimates apply to the gene, not this residue.`;
   };
-  hub.content.addEventListener("accordion:opened", () =>
+  hub.content.addEventListener("tools:section", () =>
     requestAnimationFrame(updateResidues),
   );
   hub.content.addEventListener("tools:opened", () =>
     requestAnimationFrame(updateResidues),
   );
   const evidence = hub.section("Gene evidence & source", {
+    order: 2,
     shortcut: "Gene info",
     icon: "information",
   });
@@ -261,7 +296,11 @@ export function createMolecularTools({
   pdb.target = "_blank";
   pdb.rel = "noopener noreferrer";
   evidence.append(pdb);
-  const exportPanel = hub.section("Export");
+  const exportPanel = hub.section("Export", {
+    shortcut: "Export",
+    icon: "download",
+    order: 4,
+  });
   hub.action(
     exportPanel,
     "Download molecular structure (.cif)",
@@ -333,7 +372,11 @@ export function createMolecularTools({
     saveScene,
     "download",
   );
-  const snapshots = hub.section("Saved views & playback");
+  const snapshots = hub.section("Saved views & playback", {
+    shortcut: "Saved views",
+    icon: "play",
+    order: 5,
+  });
   const snapshotSelect = field(snapshots, "Saved molecular view", [], () => {});
   const playbackStatus = el(
     "p",
@@ -354,6 +397,7 @@ export function createMolecularTools({
     });
     if ([...snapshotSelect.options].some((o) => o.value === previous))
       snapshotSelect.value = previous;
+    snapshotSelect.dispatchEvent(new Event("change", { bubbles: true }));
     playbackStatus.textContent = `${snapshotSelect.options.length} saved reference views · ${manager.state.isPlaying ? "playback active" : "not playing"}. Playback does not represent biological dynamics.`;
   }
   hub.action(
@@ -449,6 +493,7 @@ export function createMolecularTools({
       disposed = true;
       restoreEvidence();
       virtualList?.destroy();
+      residueSearch.destroy();
       snapshotSubscription?.unsubscribe();
       hub.dispose();
     },

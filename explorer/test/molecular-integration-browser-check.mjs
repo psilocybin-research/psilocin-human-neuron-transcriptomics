@@ -48,7 +48,7 @@ try {
     .click();
   const tools = p.locator(".atlas-3d-tools-sheet.modal-in");
   await tools
-    .getByRole("button", {
+    .getByRole("tab", {
       name: "Open Representation & lighting",
       exact: true,
     })

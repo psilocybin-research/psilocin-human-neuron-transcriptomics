@@ -896,7 +896,8 @@ export function createAppShell({
         select.getAttribute("aria-label") ||
         select.closest("label")?.querySelector("span")?.textContent ||
         "Select an option";
-      const wrap = node("span", "smart-select item-link research-smart-select");
+      const toolField = select.closest('.atlas-3d-tool-field');
+      const wrap = node("span", `smart-select item-link research-smart-select${toolField ? ' item-content' : ''}`);
       wrap.tabIndex = select.disabled ? -1 : 0;
       wrap.classList.toggle("disabled", select.disabled);
       wrap.setAttribute("aria-disabled", String(select.disabled));
@@ -914,9 +915,13 @@ export function createAppShell({
           "item-title",
           select.selectedOptions[0]?.textContent || "Choose",
         );
-      inner.append(text);
-      item.append(inner);
-      wrap.append(item);
+      if (toolField) {
+        text.className='item-after';
+        inner.append(node('span','item-title',title),text);
+        wrap.append(inner);
+      } else {
+        inner.append(text);item.append(inner);wrap.append(item);
+      }
       // Virtual lists require a page-content scroller, which popovers do not have.
       const choicePresentation = () =>
         select.options.length > 60
@@ -1114,6 +1119,11 @@ export function createAppShell({
     )
       return;
     if (el.matches(".panel.panel-in-breakpoint")) return;
+    if (el.dataset.nonmodal === 'true') {
+      el.setAttribute('role','region');
+      el.removeAttribute('aria-modal');
+      return;
+    }
     const fullscreen = document.fullscreenElement || document.webkitFullscreenElement;
     if (el.matches(".dialog") && fullscreen && !fullscreen.contains(el)) {
       fullscreen.append(el);

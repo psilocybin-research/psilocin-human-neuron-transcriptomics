@@ -1,5 +1,5 @@
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
-import { createElement as el } from "./interface-utils.js";
+import { createElement as el, createAccordion } from "./interface-utils.js";
 import { leadingEdgeColors, fmt } from "./format.js";
 const NS = "http://www.w3.org/2000/svg";
 const sn = (tag, a = {}, t) => {
@@ -382,10 +382,8 @@ export function expressionMatrix(data, genes, state, onSelect) {
     selectedPath.setAttribute("d", paths[1].join(""));
   }
   const root = el("section", "expression-matrix");
-  const tools = el("details", "comparison-bounds");
-  tools.append(
-    el("summary", "", "Keyboard-accessible profile region selection"),
-  );
+  const bounds = createAccordion('Keyboard-accessible profile region selection','comparison-bounds');
+  const tools = bounds.element;
   const fields = el("div", "comparison-bound-fields");
   const selects = [];
   for (const name of ["Horizontal profile", "Vertical profile"]) {
@@ -449,7 +447,7 @@ export function expressionMatrix(data, genes, state, onSelect) {
     feedback.textContent = `${chosen.length} genes selected.`;
   };
   fields.append(apply, feedback);
-  tools.append(fields);
+  bounds.body.append(fields);
   const sampleList = el("ol", "profile-legend");
   for (const s of samples)
     sampleList.append(el("li", "", `${s.block} · ${s.condition}`));

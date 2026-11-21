@@ -90,7 +90,7 @@ try {
           );
         }
         if (mode === "profiles") {
-          await page.locator(".comparison-bounds summary").first().click();
+          await page.locator(".comparison-bounds .gene-annotation-toggle").first().click();
           await page
             .getByRole("button", {
               name: "Select expression region",

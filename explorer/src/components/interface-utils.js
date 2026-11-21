@@ -5,6 +5,12 @@ export function createElement(tag, cls, text) {
   if (text !== undefined) n.textContent = text;
   return n;
 }
+// Native F7 sheet toolbar shared by scientific and workspace surfaces.
+export function createSheetToolbar(title, actions = []) {
+  const toolbar=createElement('div','toolbar toolbar-top atlas-sheet-toolbar');
+  const inner=createElement('div','toolbar-inner'),left=createElement('div','left'),right=createElement('div','right');
+  left.append(createElement('strong','',title));right.append(...actions);inner.append(left,right);toolbar.append(inner);return toolbar;
+}
 // Native F7 iOS preloader markup, shared by transient loading messages.
 export function setLoadingMessage(host, text) {
   const spinner = createElement("span", "preloader");
