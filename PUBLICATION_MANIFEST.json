@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1428,
-  "total_bytes": 726498481,
+  "total_bytes": 726498540,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4144,8 +4144,8 @@
     },
     {
       "path": "explorer/test/molecular-integration-browser-check.mjs",
-      "bytes": 3631,
-      "sha256": "8e30094c1235ff852ca5ceae2181cd646534c1397d64e1c183361d6389d27565"
+      "bytes": 3690,
+      "sha256": "b709e948cdb443be1194a0be0c1670b60eb2da13277873845aaa7a481b0c013a"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",

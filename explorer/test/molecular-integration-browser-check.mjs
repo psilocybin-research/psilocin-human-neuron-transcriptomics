@@ -81,12 +81,8 @@ try {
     .locator(".molecular-nodes-disclosure .gene-annotation-toggle")
     .click();
   await host.locator(".molecular-nodes-reference img").waitFor();
-  assert.equal(
-    await host
-      .locator(".molecular-nodes-reference img")
-      .evaluate((i) => i.complete && i.naturalWidth > 0),
-    true,
-  );
+  await host.locator(".molecular-nodes-reference img").evaluate((image) => image.decode());
+  assert.equal(await host.locator(".molecular-nodes-reference img").evaluate((image) => image.naturalWidth > 0), true);
   await host
     .getByRole("button", { name: /Send .* to R Studio/ })
     .last()
