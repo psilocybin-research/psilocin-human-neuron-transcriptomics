@@ -28,3 +28,7 @@ export function pathwayComplex(pathway) {
   const match = /^(CI|CII|CIII|CIV|CV)_(subunits|assembly_factors)$/.exec(pathway);
   return match ? {complex:match[1].slice(1),role:match[2] === 'subunits' ? 'Structural subunit' : 'Assembly factor'} : null;
 }
+
+export function complexPathway(complex, role = 'Structural subunit') {
+  return `C${complex}_${role === 'Assembly factor' ? 'assembly_factors' : 'subunits'}`;
+}

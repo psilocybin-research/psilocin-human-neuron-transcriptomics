@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1412,
-  "total_bytes": 688987168,
+  "file_count": 1414,
+  "total_bytes": 689006838,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 277666,
-      "sha256": "ae454bc753cf5baeb475d113b2aadeeba3774db07de155522699ea3b4b284670"
+      "bytes": 277956,
+      "sha256": "9f057701b486036539a5bb14a2691fa98eb320b84a8ae33cb4557745f862a95b"
     },
     {
       "path": "LICENSE.md",
@@ -414,8 +414,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 253742,
-      "sha256": "0aac89350c71dacb9462b6d521b44a24932318f31e37d3f72b26ad903db79d6f"
+      "bytes": 258293,
+      "sha256": "e52597acc0c42e01b2c9f43f99197f93cfbac0890902367312567b2ae69e76e7"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3434,8 +3434,8 @@
     },
     {
       "path": "explorer/src/components/analysis-navigation.js",
-      "bytes": 14727,
-      "sha256": "b7e3829152a8d915bb72c9a373220bdad2d092619cca36c873f94ef1f1d0769d"
+      "bytes": 14855,
+      "sha256": "30abdb84aa4cd5e05aae318b91077e01bef5d7973291012b7f275b8c3eede167"
     },
     {
       "path": "explorer/src/components/analysis-options.js",
@@ -3484,8 +3484,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 134128,
-      "sha256": "b9cc5c9ccecc76f19c8b51b2e81789db680cb654e68eec15c92b9f7968488e28"
+      "bytes": 134227,
+      "sha256": "206657a6be3d061ff582c643bcd1b765aad9c1949bb82fee992bf43da8ebfda8"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3629,18 +3629,28 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-enrichment-model.js",
-      "bytes": 1994,
-      "sha256": "727ee3cd827e8bc7efb9bec9494ae443e8054b090d245ef358479d2d2bf0f652"
+      "bytes": 2156,
+      "sha256": "e03dbf3279105a87c32b00b2abd7daf8dea18854e80ad932ceae4bbfd60d3f52"
     },
     {
       "path": "explorer/src/components/mitochondrial-enrichment-plot.js",
-      "bytes": 9477,
-      "sha256": "64c4950626a0f3bc73653b25bbf9102dcf45d9c2c5d086bcdd75cbf7fcf1fd1d"
+      "bytes": 9442,
+      "sha256": "5c80a9023c302272a18cb2590f74b22e5d3824d7f29b86b831eed1274f4064f5"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-evidence-panel.js",
+      "bytes": 4661,
+      "sha256": "9fb97ceb41cc23ebe92d912d6fd4f25060f3b8e3cf7f9327c6079a8c69006615"
     },
     {
       "path": "explorer/src/components/mitochondrial-explorer.js",
-      "bytes": 10646,
-      "sha256": "38b689eb849c1141afcf91da3ec520341fd6e8cae4c8d87ccc89a1bb51c3b6be"
+      "bytes": 16024,
+      "sha256": "9dc9652948ebcdb82227aecfaba85da595c89524b3b06c8134b129f5ea2b9a71"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-gene-row.js",
+      "bytes": 833,
+      "sha256": "3dd335af7ae2abff9d8a0e589f4bc650161447bbabedeff56d56797cba7907f2"
     },
     {
       "path": "explorer/src/components/mitochondrial-mapping.js",
@@ -4099,13 +4109,13 @@
     },
     {
       "path": "explorer/test/mitochondrial-browser-check.mjs",
-      "bytes": 4136,
-      "sha256": "3ff23ee81137bfe8a18aac851b50210cafd8407913a72777a12d8d001d9dd07b"
+      "bytes": 7229,
+      "sha256": "895ffa40557578a56d9c228fc7401207dd32068cc04c0776a3e05fc4505d454c"
     },
     {
       "path": "explorer/test/mitochondrial-context.test.js",
-      "bytes": 5080,
-      "sha256": "913e65665b02c96fa62b1477835b1cd2ce108b3d71620ade314ea7576d45442b"
+      "bytes": 5590,
+      "sha256": "0eea50ab16f86627d0d2a54f362729a35ab3a5488c62c469fc594d1b6cf42739"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",

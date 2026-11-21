@@ -74,3 +74,12 @@ test('paired overview is function-selected, keeps untested complex II and shares
  const modified={...enrichment,results:enrichment.results.map(row=>({...row,qvalue:1}))};
  assert.deepEqual(enrichmentPlotModel(modified).domain,overview.domain);
 });
+
+test('complex selection and enrichment identifiers round-trip without changing the selected contrast',async()=>{
+ const {complexPathway,pathwayComplex}=await import('../src/components/mitochondrial-enrichment-model.js');
+ for(const complex of ['I','II','III','IV','V'])for(const role of ['Structural subunit','Assembly factor']){
+  const pathway=complexPathway(complex,role);
+  assert.ok(enrichment.results.some(row=>row.pathway===pathway));
+  assert.deepEqual(pathwayComplex(pathway),{complex,role});
+ }
+});

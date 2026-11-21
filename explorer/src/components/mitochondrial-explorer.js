@@ -1,96 +1,256 @@
 import { createRespiratorySchematic } from "./respiratory-schematic.js";
 import { createMitochondrialEnrichmentPlot } from "./mitochondrial-enrichment-plot.js";
+import { createMitochondrialEvidencePanel } from "./mitochondrial-evidence-panel.js";
+import { mitochondrialGeneRow } from "./mitochondrial-gene-row.js";
+import { complexPathway, pathwayComplex, mitochondrialPathwayName } from "./mitochondrial-enrichment-model.js";
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el, createAccordion, loadingMessage } from "./interface-utils.js";
 import { mitochondrialSnapshot, mitochondrialEnrichment, mitochondrialAuditURL } from "./mitochondrial-data.js";
 import { complexMembers, archivedGene, coverage } from "./mitochondrial-mapping.js";
-import { createGeneIdentity } from "./structure-preview.js";
 import { color, fmt, sci } from "./format.js";
 import { downloadFile } from "./file-download.js";
 
+let sequence = 0;
 function action(text, callback, className = "button button-tonal") {
-  const button = el("button", className, text); button.type = "button"; button.onclick = callback; return button;
+  const button = el("button", className, text);
+  button.type = "button";
+  button.onclick = callback;
+  return button;
 }
 function sourceLink(text, href) {
-  const link = el("a", "external", text); link.href = href; link.target = "_blank"; link.rel = "noopener noreferrer"; return link;
+  const link = el("a", "external", text);
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  return link;
 }
 function createTable(headers) {
-  const wrap = el("div", "table-scroll data-table"), table = el("table"), head = el("thead"), row = el("tr"), body = el("tbody");
-  headers.forEach((title) => { const cell = el("th", "", title); cell.scope = "col"; row.append(cell); });
-  head.append(row); table.append(head, body); wrap.append(table); return {wrap, body};
+  const wrap = el("div", "table-scroll data-table"), table = el("table");
+  const head = el("thead"), row = el("tr"), body = el("tbody");
+  headers.forEach((title) => {
+    const cell = el("th", "", title);
+    cell.scope = "col";
+    row.append(cell);
+  });
+  head.append(row);
+  table.append(head, body);
+  wrap.append(table);
+  return { wrap, body };
 }
 export function createMitochondrialExplorer({ getGenes, onGene, standalone = false }) {
   const card = standalone
     ? { element: el("section", "mitochondrial-explorer mitochondrial-page-content"), body: el("div", "gene-annotation-body") }
-    : createAccordion("Respiratory complexes · complete curated membership", "mitochondrial-explorer");
-  if (standalone) {
-    card.element.append(card.body);
-  }
-  card.body.append(el("p", "note", "Explore complete MitoCarta memberships alongside archived RNA estimates. Open a gene for its effect intervals and nine block-by-condition expression profiles. This external reference extends beyond the selected 113-gene OXPHOS landscape."));
-  const host = el("div"); card.body.append(host);
-  let loaded = false, pairedPlot;
-  card.element.dispose = () => pairedPlot?.dispose();
+    : createAccordion("MitoCarta · exploratory follow-up", "mitochondrial-explorer");
+  if (standalone) card.element.append(card.body);
+  const host = el("div");
+  card.body.append(host);
+  let loaded = false, disposed = false, pairedPlot, evidence;
+  card.element.dispose = () => {
+    disposed = true;
+    pairedPlot?.dispose();
+    evidence?.dispose();
+  };
   async function load() {
-    if (loaded) return;
-    loaded = true; host.replaceChildren(loadingMessage("Loading curated mitochondrial context…"));
+    if (loaded || disposed) return;
+    loaded = true;
+    host.replaceChildren(loadingMessage("Loading curated mitochondrial context…"));
     try {
-      const [snapshot, genes, enrichmentData] = await Promise.all([mitochondrialSnapshot(), getGenes(), mitochondrialEnrichment()]);
-      if (!card.element.isConnected) return;
+      const [snapshot, genes, enrichmentData] = await Promise.all([
+        mitochondrialSnapshot(), getGenes(), mitochondrialEnrichment(),
+      ]);
+      if (disposed || !card.element.isConnected) return;
       host.replaceChildren();
-      let complex = "I", role = "Structural subunit";
-      const schematic = createRespiratorySchematic((id) => { complex = id; render(); });
-      const reference = el("p", "note", "Reference organization in the inner mitochondrial membrane. Electron transfer: I / II → ubiquinone → III → cytochrome c → IV. Complex V uses the proton gradient. This diagram does not show measured flux, activity or physical distances.");
-      const roleGroup = el("div", "segmented segmented-strong mitochondrial-role-control"); roleGroup.setAttribute("role", "group"); roleGroup.setAttribute("aria-label", "Respiratory membership type");
+      const appRoot = document.querySelector("#psilocin-app"), app = appRoot?.f7;
+      const id = `mitocarta-workbench-${++sequence}`;
+      let complex = "I", role = "Structural subunit", activeView = "enrichment";
+      let selection = { pathway: "OXPHOS", day: 1 };
+      evidence = createMitochondrialEvidencePanel();
+      const openGene = (gene) => evidence.afterClose(() => onGene(gene));
+      const sendGene = (gene) => evidence.afterClose(() => appRoot.dispatchEvent(
+        new CustomEvent("atlas:send-gene-to-r", { detail: { gene: gene.id } }),
+      ));
+      const viewbar = el("div", "mito-viewbar");
+      const navigation = el("div", "segmented segmented-strong mito-view-switcher");
+      navigation.setAttribute("role", "tablist");
+      navigation.setAttribute("aria-label", "MitoCarta view");
+      const layout = el("div", "mito-workbench-layout"), tabs = el("div", "tabs mito-workbench-tabs");
+      const panes = new Map(), tabButtons = new Map();
+      for (const [key, name] of [["enrichment", "Enrichment"], ["complexes", "Complexes"], ["structure", "Structure"]]) {
+        const pane = el("section", `tab mito-workbench-pane${key === activeView ? " tab-active" : ""}`);
+        pane.id = `${id}-${key}`;
+        pane.setAttribute("role", "tabpanel");
+        const button = action(name, () => showView(key), "button");
+        button.id = `${pane.id}-tab`;
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-controls", pane.id);
+        pane.setAttribute("aria-labelledby", button.id);
+        panes.set(key, pane);
+        tabButtons.set(key, button);
+        tabs.append(pane);
+        navigation.append(button);
+      }
+      navigation.onkeydown = (event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const keys = [...panes.keys()], current = keys.indexOf(activeView);
+        const index = event.key === "Home" ? 0 : event.key === "End" ? keys.length - 1
+          : (current + (event.key === "ArrowRight" ? 1 : -1) + keys.length) % keys.length;
+        showView(keys[index]);
+        tabButtons.get(keys[index]).focus();
+      };
+      viewbar.append(navigation, evidence.launcher);
+      layout.append(tabs, evidence.element);
+      host.append(viewbar, layout);
+
+      const schematic = createRespiratorySchematic((value) => chooseComplex(value));
+      const roleGroup = el("div", "segmented segmented-strong mitochondrial-role-control");
+      roleGroup.setAttribute("role", "group");
+      roleGroup.setAttribute("aria-label", "Respiratory membership type");
       const roleButtons = new Map();
       for (const name of ["Structural subunit", "Assembly factor"]) {
-        const button = action(`${name}s`, () => { role = name; render(); }, "button"); roleButtons.set(name, button); roleGroup.append(button);
+        const button = action(`${name}s`, () => chooseComplex(complex, name), "button");
+        roleButtons.set(name, button);
+        roleGroup.append(button);
       }
-      const status = el("p", "note mitochondrial-coverage"); status.setAttribute("aria-live", "polite");
+      const complexContext = el("p", "note mito-complex-context");
+      const status = el("p", "note mitochondrial-coverage");
+      status.setAttribute("aria-live", "polite");
       const table = createTable(["Gene / mapping", "Day 1 log₂FC", "Day 3 log₂FC"]);
+      panes.get("complexes").append(
+        el("h2", "", "Respiratory-chain reference"), schematic.element,
+        el("p", "note", "Reference organization: I / II → ubiquinone → III → cytochrome c → IV. Complex V uses the proton gradient. No measured flux, activity or physical distances are implied."),
+        el("p", "note respiratory-scroll-hint", "Select a complex to inspect its complete membership. On narrow screens, scroll the diagram horizontally."),
+        complexContext, roleGroup, status, table.wrap,
+        el("p", "note", "Blue to orange: signed RNA log₂FC on a fixed ±2.5 scale. Numerical values retain the full effect range. Missing results are not evidence of unchanged expression; their exclusion reason is not inferred."),
+      );
+
+      const structureCard = el("div", "card mito-structure-card");
+      const structureBody = el("div", "card-content card-content-padding");
+      const structureSelection = el("p", "note mito-structure-selection");
       const pilot = action("Explore human complex I in 3D", async () => {
         pilot.disabled = true;
-        try { const {openComplexIPilot} = await import("./complex-i-pilot.js"); await openComplexIPilot({genes, onGene}); }
-        finally { pilot.disabled = false; }
+        try {
+          const { openComplexIPilot } = await import("./complex-i-pilot.js");
+          await openComplexIPilot({ genes, onGene: openGene });
+        } finally {
+          pilot.disabled = false;
+        }
       });
+      structureBody.append(
+        el("div", "eyebrow", "OPTIONAL REFERENCE STRUCTURE"),
+        el("h2", "", "Human complex I"),
+        el("p", "", "45 deposited chains · 44 distinct archived genes · PDB 9TI4, assembly 1."),
+        structureSelection,
+        el("p", "note", "The pilot covers complex I only. Colours map archived RNA estimates onto an external Cα backbone; they do not measure protein abundance, conformation, assembly or respiratory activity."),
+        pilot, sourceLink("PDB structure and validation ↗", "https://www.rcsb.org/structure/9TI4"),
+      );
+      structureCard.append(structureBody);
+      panes.get("structure").append(structureCard);
+
       pairedPlot = createMitochondrialEnrichmentPlot({
-        data: enrichmentData, snapshot, genes, onGene,
-        onComplex: (selection) => { complex = selection.complex; role = selection.role; render(); },
+        data: enrichmentData, snapshot, genes, onGene: openGene, onSendGene: sendGene,
+        evidenceHost: evidence.content,
+        onInspect: (value) => updateSelection(value, true),
       });
-      host.append(pairedPlot.element, el("h2", "", "Respiratory-chain reference"), schematic.element, reference,
-        el("p", "note respiratory-scroll-hint", "Select a complex to inspect its genes below. On narrow screens, scroll the reference diagram horizontally. The 3D assembly is optional exploration."), roleGroup, status, table.wrap, pilot,
-        el("p", "note", "Blue to orange: signed RNA log₂FC on a fixed ±2.5 scale. Numerical values retain the full effect range. Missing archived results are not evidence of unchanged expression; their exclusion reason is not inferred."));
-      const audit = el("a", "", "Download complete identifier-mapping audit"); audit.href = await mitochondrialAuditURL(); audit.download = "mitocarta-3.0-mapping-audit.csv";
-      host.append(audit, el("p", "note", `MitoCarta ${snapshot.metadata.release} · ${snapshot.entries.length} curated genes · retrieved ${snapshot.metadata.retrievedAt}. ${snapshot.metadata.license}. ${snapshot.metadata.citation}`), sourceLink("Annotation source and documentation ↗", snapshot.metadata.source));
-      const enrichment = createAccordion("Exploratory follow-up enrichment · complete results", "mitochondrial-enrichment"); host.append(enrichment.element);
-      let enrichmentLoaded = false;
-      enrichment.element.addEventListener("accordion:beforeopen", async () => {
-        if (enrichmentLoaded) return;
-        enrichmentLoaded = true; enrichment.body.append(loadingMessage("Loading exploratory results…"));
-        try { await renderEnrichment(enrichment.body); }
-        catch { enrichment.body.replaceChildren(el("p", "note", "Exploratory results could not load.")); enrichmentLoaded = false; }
+      panes.get("enrichment").append(pairedPlot.element);
+
+      const resources = createAccordion("Results, downloads & provenance", "mitochondrial-enrichment mito-resources");
+      host.append(resources.element);
+      let resourcesLoaded = false;
+      resources.element.addEventListener("accordion:beforeopen", async () => {
+        if (resourcesLoaded) return;
+        resourcesLoaded = true;
+        resources.body.replaceChildren(loadingMessage("Loading complete results…"));
+        try {
+          await renderEnrichment(resources.body);
+          if (disposed) return;
+          const audit = el("a", "", "Download complete identifier-mapping audit");
+          audit.href = await mitochondrialAuditURL();
+          audit.download = "mitocarta-3.0-mapping-audit.csv";
+          resources.body.append(audit,
+            el("p", "note", `MitoCarta ${snapshot.metadata.release} · ${snapshot.entries.length} curated genes · retrieved ${snapshot.metadata.retrievedAt}. ${snapshot.metadata.license}. ${snapshot.metadata.citation}`),
+            sourceLink("Annotation source and documentation ↗", snapshot.metadata.source),
+          );
+        } catch {
+          resourcesLoaded = false;
+          resources.body.replaceChildren(el("p", "note", "Complete results could not load. Close and reopen to retry."));
+        }
       });
-      function render() {
+
+      function updateSelection(value, present = false) {
+        selection = value;
+        const mapped = pathwayComplex(value.pathway);
+        if (mapped) {
+          complex = mapped.complex;
+          role = mapped.role;
+        }
+        const name = mitochondrialPathwayName(value.pathway);
+        evidence.setSelection(name);
+        structureSelection.textContent = `Selected pathway: ${name} · Day ${value.day}. Switching views preserves this evidence selection.`;
+        card.element.dataset.pathway = value.pathway;
+        card.element.dataset.day = String(value.day);
+        complexContext.textContent = mapped
+          ? `Selected pathway: ${name} · Day ${value.day}. Membership and evidence use the same selection.`
+          : `Selected pathway: ${name} · Day ${value.day}. The reference browser shows complex ${complex}; select a complex to change the shared evidence selection.`;
+        renderComplex();
+        if (present) evidence.present();
+      }
+      function chooseComplex(value, membershipRole = role) {
+        complex = value;
+        role = membershipRole;
+        const next = { pathway: complexPathway(complex, role), day: selection.day };
+        pairedPlot.select(next.pathway, next.day, { notify: false, scope: "all" });
+        updateSelection(next);
+      }
+      function renderComplex() {
         schematic.select(complex);
-        roleButtons.forEach((button, id) => {button.classList.toggle("button-active", id === role); button.setAttribute("aria-pressed", String(id === role));});
-        const members = complexMembers(snapshot, complex, role), day1 = coverage(members, genes, 0), day3 = coverage(members, genes, 1);
+        roleButtons.forEach((button, name) => {
+          button.classList.toggle("button-active", name === role);
+          button.setAttribute("aria-pressed", String(name === role));
+        });
+        const members = complexMembers(snapshot, complex, role);
+        const day1 = coverage(members, genes, 0), day3 = coverage(members, genes, 1);
         status.textContent = `Complex ${complex} · ${members.length} curated ${role.toLowerCase()}s. Available estimates: Day 1 ${day1.estimated}, Day 3 ${day3.estimated}. No archived record ${day1.absent}; ambiguous ${day1.ambiguous}; non-estimable Day 1 ${day1.nonestimable}, Day 3 ${day3.nonestimable}. Counts are genes, not protein copies; alternatives need not coexist in one assembly.`;
         table.body.replaceChildren();
         for (const entry of members) {
           const row = el("tr"), identity = el("td"), gene = archivedGene(entry, genes);
-          if (gene) {
-            const select = action("", () => onGene(gene), "button mitochondrial-gene-link"); select.setAttribute("aria-label", `Open ${gene.symbol} gene evidence`); select.append(createGeneIdentity(gene,{compact:true})); identity.append(select);
-          } else identity.append(el("strong", "", entry.symbol), el("p", "note", entry.mappingStatus));
-          identity.append(el("span", "mitochondrial-gene-name", entry.name)); row.append(identity);
+          if (gene) identity.append(mitochondrialGeneRow(gene, { onGene: openGene, onSendGene: sendGene }));
+          else identity.append(el("strong", "", entry.symbol), el("p", "note", entry.mappingStatus));
+          identity.append(el("span", "mitochondrial-gene-name", entry.name));
+          row.append(identity);
           for (let index = 0; index < 2; index++) {
-            const value = gene?.effects[index]?.log2FoldChange, cell = el("td", "numeric mitochondrial-effect", fmt(value));
-            cell.style.backgroundColor = color(value, 2.5); row.append(cell);
+            const value = gene?.effects[index]?.log2FoldChange;
+            const cell = el("td", "numeric mitochondrial-effect", fmt(value));
+            cell.style.backgroundColor = color(value, 2.5);
+            row.append(cell);
           }
           table.body.append(row);
         }
       }
-      render();
+      function showView(key) {
+        activeView = key;
+        const pane = panes.get(key);
+        if (app) app.tab.show(pane, tabButtons.get(key), false);
+        panes.forEach((element, name) => {
+          element.hidden = name !== key;
+          element.inert = name !== key;
+          element.classList.toggle("tab-active", name === key);
+          element.setAttribute("aria-hidden", String(name !== key));
+        });
+        tabButtons.forEach((button, name) => {
+          button.classList.toggle("button-active", name === key);
+          button.setAttribute("aria-selected", String(name === key));
+          button.tabIndex = name === key ? 0 : -1;
+        });
+        card.element.dataset.mitoView = key;
+      }
+      updateSelection(selection);
+      showView("enrichment");
     } catch {
-      loaded = false; host.replaceChildren(el("p", "note", "Mitochondrial context could not load."), action("Retry context", load));
+      pairedPlot?.dispose();
+      evidence?.dispose();
+      loaded = false;
+      if (!disposed) host.replaceChildren(el("p", "note", "Mitochondrial context could not load."), action("Retry context", load));
     }
   }
   if (standalone) requestAnimationFrame(load);
@@ -99,7 +259,6 @@ export function createMitochondrialExplorer({ getGenes, onGene, standalone = fal
 }
 async function renderEnrichment(host) {
   const data = await mitochondrialEnrichment(); host.replaceChildren();
-  host.append(el("p", "callout", "Exploratory follow-up prompted by the original OXPHOS finding. These results use the same biological observations and are not independent validation. Frozen primary results and both CAMERA sensitivity settings remain unchanged."));
   host.append(el("p", "note", `${data.metadata.engine} · ${data.metadata.familySize} tests corrected jointly across both contrasts. All 149 pathways per contrast are reported; matched size 10–500. The ranking includes all 21,154 archived genes, without a mitochondrial-only background. Hierarchical pathways overlap and are not independent discoveries.`));
   const controls = el("div", "segmented segmented-strong"), table = createTable(["Pathway", "Curated / ranked", "NES", "Nominal p", "Joint BH q / status"]);
   let contrast = "day1_vs_control";

@@ -4711,7 +4711,19 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/mitochondrial-evidence-panel.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/mitochondrial-explorer.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-gene-row.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

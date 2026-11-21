@@ -1390,9 +1390,14 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     );
   }
   function mitocarta() {
+    const scope = el("div", "mitocarta-followup-scope");
+    scope.append(
+      el("span", "badge", "Exploratory follow-up"),
+      el("p", "note", "Same study observations, more detailed mitochondrial context. Primary results and CAMERA sensitivity analyses remain unchanged; this is not independent validation."),
+    );
     body.append(
       heading("MitoCarta · Mitochondrial pathways", "Curated gene context and exploratory transcriptional enrichment."),
-      el("p", "callout", "Exploratory follow-up to the original OXPHOS finding. These analyses use the same study observations; they are not independent validation and do not replace the primary results or CAMERA sensitivity analyses."),
+      scope,
     );
     const interpretation = createAccordion("What the follow-up shows", "mitocarta-interpretation");
     interpretation.body.append(

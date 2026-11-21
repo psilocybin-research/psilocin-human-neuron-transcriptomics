@@ -6066,3 +6066,49 @@ body {
 #psilocin-app .mitochondrial-page-content>.gene-annotation-body{grid-template-columns:minmax(0,1fr);padding:0}
 #psilocin-app .mitochondrial-page-content>.gene-annotation-body>*{min-width:0;max-width:100%}
 #psilocin-app .mito-plot-scope .button,#psilocin-app .mito-detail-controls .button{white-space:normal;height:auto;min-height:44px;line-height:1.35;padding:8px;font-size:12px}
+
+/* Shared MitoCarta selection: native tabs plus one responsive evidence surface. */
+#psilocin-app .mitocarta-followup-scope{display:flex;align-items:flex-start;gap:12px;margin:12px 0 18px}
+#psilocin-app .mitocarta-followup-scope>.badge{flex:none;height:auto;white-space:normal;line-height:1.5;padding:4px 10px;background:var(--f7-theme-color)}
+#psilocin-app .mitocarta-followup-scope>.note{margin:2px 0}
+#psilocin-app .mitochondrial-page-content{padding:0;border:0;overflow:visible}
+#psilocin-app .mito-viewbar{position:sticky;top:calc(var(--f7-navbar-height) + env(safe-area-inset-top) + 8px);z-index:24;display:flex;align-items:center;gap:12px;margin:0 0 20px;padding:8px;border:1px solid var(--research-border);border-radius:18px;background:color-mix(in srgb,var(--research-surface) 88%,transparent);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%)}
+#psilocin-app .mito-view-switcher{width:min(100%,460px)}
+#psilocin-app .mito-view-switcher .button{min-height:44px;font-size:13px}
+#psilocin-app .mito-workbench-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,350px);gap:20px;align-items:start;min-width:0}
+#psilocin-app .mito-workbench-tabs,#psilocin-app .mito-workbench-pane{min-width:0;width:100%}
+#psilocin-app .mito-workbench-pane[hidden],#psilocin-app .mito-evidence-panel[hidden],#psilocin-app .mito-evidence-launch[hidden]{display:none!important}
+#psilocin-app .mito-evidence-panel{position:sticky;top:calc(var(--f7-navbar-height) + env(safe-area-inset-top) + 100px);min-width:0;max-height:calc(100dvh - var(--f7-navbar-height) - 130px);overflow:auto;border:1px solid var(--research-border);border-radius:18px;background:var(--research-surface);padding:16px;box-sizing:border-box;scrollbar-gutter:stable}
+#psilocin-app .mito-evidence-heading{font-size:12px;margin:0 0 10px;color:var(--f7-theme-color)}
+#psilocin-app .mito-evidence-panel .mito-pathway-detail,#psilocin-app .mito-evidence-sheet .mito-pathway-detail{padding:0;margin:0;border:0}
+#psilocin-app .mito-evidence-host{min-width:0;max-width:100%}
+#psilocin-app .mito-evidence-host .mito-pathway-genes{display:block;max-height:360px}
+#psilocin-app .mito-evidence-host .mito-pathway-genes>li{margin-bottom:8px}
+#psilocin-app .mito-gene-actions{display:flex;align-items:center;gap:6px;min-width:0;width:100%}
+#psilocin-app .mito-gene-actions .mitochondrial-gene-link{flex:1;min-width:0;height:auto;min-height:44px;justify-content:flex-start;text-align:left;white-space:normal;padding:4px 0}
+#psilocin-app .mito-gene-actions .mito-gene-send{flex:none;min-height:40px!important;width:36px;padding:4px;justify-content:center;border-radius:10px}
+#psilocin-app .mito-gene-actions .gene-identity{min-width:0;max-width:100%}
+#psilocin-app .mito-gene-actions .gene-identity-text{min-width:0;overflow-wrap:anywhere}
+#psilocin-app .mito-gene-actions .gene-identity-thumb{width:46px;flex:none}
+#psilocin-app .mito-gene-actions .identifier{font-size:9px}
+#psilocin-app .mito-structure-card{margin:0;background:var(--research-surface)}
+#psilocin-app .mito-structure-card a{display:block;margin-top:16px;font-size:12px}
+#psilocin-app .mito-resources{margin-top:24px}
+#psilocin-app .mito-evidence-launch{height:44px;min-width:0;gap:8px}
+#psilocin-app .mito-evidence-launch>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#psilocin-app .mito-evidence-sheet{--f7-sheet-height:94dvh;height:94dvh;padding-top:0;--f7-sheet-push-border-radius:24px;border-radius:24px 24px 0 0}
+#psilocin-app .mito-evidence-sheet>.evidence-sheet-header{padding:8px 16px 12px;gap:8px;flex:none}
+#psilocin-app .mito-evidence-sheet>.evidence-sheet-header h2{font-size:15px;flex:1}
+#psilocin-app .mito-evidence-sheet .mito-evidence-sheet-content{flex:0 0 auto;box-sizing:border-box;height:calc(94dvh * var(--mito-evidence-ratio,.62) - 90px);overflow:auto;padding:14px 16px calc(20px + env(safe-area-inset-bottom))}
+#psilocin-app .mito-evidence-sheet .mito-evidence-expand{width:40px;min-width:40px}
+@media(max-width:1179px){
+ #psilocin-app .mito-workbench-layout{display:block}
+ #psilocin-app .mito-viewbar{display:grid;grid-template-columns:minmax(0,1fr)}
+ #psilocin-app .mito-view-switcher{width:100%}
+ #psilocin-app .mito-evidence-launch{width:100%}
+ #psilocin-app .mitocarta-followup-scope{display:block}
+ #psilocin-app .mitocarta-followup-scope>.note{margin-top:8px}
+}
+@media(prefers-reduced-transparency:reduce){
+ #psilocin-app .mito-viewbar{background:var(--research-surface);backdrop-filter:none;-webkit-backdrop-filter:none}
+}

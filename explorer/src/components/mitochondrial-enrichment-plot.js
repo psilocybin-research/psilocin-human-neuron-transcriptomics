@@ -1,16 +1,16 @@
 import { createElement as el } from './interface-utils.js';
 import { Plot, scientificPlot, interactiveMark } from './scientific-plot.js';
 import { fmt, sci, leadingEdgeColors } from './format.js';
-import { createGeneIdentity } from './structure-preview.js';
+import { mitochondrialGeneRow } from './mitochondrial-gene-row.js';
 import { archivedGene, stableGeneId } from './mitochondrial-mapping.js';
-import { enrichmentPlotModel, mitochondrialPathwayName, pathwayComplex } from './mitochondrial-enrichment-model.js';
+import { enrichmentPlotModel, mitochondrialPathwayName } from './mitochondrial-enrichment-model.js';
 
 const dayColor = day => leadingEdgeColors[day === 1 ? 'Day 1 only' : 'Day 3 only'];
 function button(text,callback){const node=el('button','button button-tonal',text);node.type='button';node.onclick=callback;return node;}
 function smallTable(headers,rows){const wrap=el('div','table-scroll data-table'),table=el('table'),head=el('thead'),body=el('tbody'),tr=el('tr');for(const name of headers){const cell=el('th','',name);cell.scope='col';tr.append(cell);}head.append(tr);rows.forEach(values=>{const row=el('tr');values.forEach(value=>row.append(el('td','',value)));body.append(row);});table.append(head,body);wrap.append(table);return wrap;}
-export function createMitochondrialEnrichmentPlot({data,snapshot,genes,onGene,onComplex}){
+export function createMitochondrialEnrichmentPlot({data,snapshot,genes,onGene,onSendGene,evidenceHost,onInspect}){
  const root=el('section','mitochondrial-paired-enrichment');
- root.append(el('div','eyebrow','EXPLORATORY FOLLOW-UP'),el('h2','','Mitochondrial gene-set enrichment'),el('p','note','Compare Day 1 and Day 3 against the common control. NES describes enrichment in ranked differential-expression statistics; it is not fold change, mitochondrial activity or a direct comparison between days.'));
+ root.append(el('h2','','Mitochondrial gene-set enrichment'),el('p','note','Compare Day 1 and Day 3 against the common control. NES describes enrichment in ranked differential-expression statistics; it is not fold change, mitochondrial activity or a direct comparison between days.'));
  const controls=el('div','segmented segmented-strong mito-plot-scope');controls.setAttribute('role','group');controls.setAttribute('aria-label','Enrichment plot pathway scope');
  let mode='overview',selected,memberScope='leading';
  const overview=button('Biological overview',()=>{mode='overview';render();}),all=button('All tested pathways',()=>{mode='all';render();});controls.append(overview,all);
@@ -21,8 +21,9 @@ export function createMitochondrialEnrichmentPlot({data,snapshot,genes,onGene,on
  viewport.append(chart);
  const selectionLabel=el('label','mito-pathway-picker'),picker=el('select');picker.setAttribute('aria-label','Inspect mitochondrial pathway');selectionLabel.append(el('span','','Inspect pathway'),picker);
  for(const path of snapshot.pathways){const option=el('option','',mitochondrialPathwayName(path.id));option.value=path.id;picker.append(option);}
- picker.onchange=()=>inspect(picker.value,1);
- root.append(controls,el('p','note','The biological overview is selected by function, not significance. All tested pathways and all 149 pathway details remain available. Select a dot or use the pathway selector for exact results and genes. Untested sets have no NES and are labelled explicitly.'),legend,viewport,selectionLabel,detail);
+ picker.onchange=()=>inspect(picker.value,selected?.day||1);
+ root.append(controls,el('p','note','The biological overview is selected by function, not significance. All tested pathways and all 149 pathway details remain available. Select a dot or use the pathway selector for exact results and genes. Untested sets have no NES and are labelled explicitly.'),legend,viewport,selectionLabel);
+ (evidenceHost || root).append(detail);
  let width=0,frame=0;
  const observer=new ResizeObserver(entries=>{
   const next=Math.round(entries[0].contentRect.width);if(next<1||next===width)return;width=next;
@@ -49,9 +50,9 @@ export function createMitochondrialEnrichmentPlot({data,snapshot,genes,onGene,on
   overview.classList.toggle('button-active',mode==='overview');overview.setAttribute('aria-pressed',String(mode==='overview'));
   all.classList.toggle('button-active',mode==='all');all.setAttribute('aria-pressed',String(mode==='all'));
  }
- function inspect(pathway,day){
-  selected={pathway,day};picker.value=pathway;memberScope='leading';renderDetails();
-  const mapping=pathwayComplex(pathway);if(mapping)onComplex?.(mapping);
+ function inspect(pathway,day,{notify=true,scope='leading'}={}){
+  selected={pathway,day};picker.value=pathway;memberScope=scope;renderDetails();
+  if(notify)onInspect?.({...selected});
  }
  function renderDetails(){
   const {pathway,day}=selected,rows=data.results.filter(r=>r.pathway===pathway),path=snapshot.pathways.find(p=>p.id===pathway);
@@ -61,16 +62,16 @@ export function createMitochondrialEnrichmentPlot({data,snapshot,genes,onGene,on
   detail.append(smallTable(['Contrast','NES','Nominal p','Joint BH q','Curated / ranked'],rows.map(r=>[`Day ${r.contrast==='day1_vs_control'?1:3} / common control`,fmt(r.NES),pvalue(r),r.status==='tested'?sci(r.qvalue):r.status,`${r.curatedSize} / ${r.matchedSize}`])));
   detail.append(el('p','note',`Original MitoCarta hierarchy: ${path.hierarchy.replaceAll('_',' ')}. ${result.status==='tested'?'Both days use the same joint 152-test correction; significance differences do not establish a change between days.':`Day ${day}: ${result.status}. No zero effect or null result is assigned.`}`));
   const days=el('div','segmented segmented-strong mito-detail-controls');days.setAttribute('role','group');days.setAttribute('aria-label','Leading-edge contrast');
-  [1,3].forEach(value=>{const b=button(`Day ${value} genes`,()=>{selected.day=value;renderDetails();});b.classList.toggle('button-active',value===day);b.setAttribute('aria-pressed',String(value===day));days.append(b);});
+  [1,3].forEach(value=>{const b=button(`Day ${value} genes`,()=>inspect(pathway,value,{scope:memberScope}));b.classList.toggle('button-active',value===day);b.setAttribute('aria-pressed',String(value===day));days.append(b);});
   const scopes=el('div','segmented segmented-strong mito-detail-controls');scopes.setAttribute('role','group');scopes.setAttribute('aria-label','Pathway gene scope');
   for(const [key,name] of [['leading','Leading edge'],['all','All curated members']]){const b=button(name,()=>{memberScope=key;renderDetails();});b.classList.toggle('button-active',memberScope===key);b.setAttribute('aria-pressed',String(memberScope===key));scopes.append(b);}
   const keys=new Set(path.members),members=snapshot.entries.filter(e=>keys.has(e.key)),leading=new Set(Array.isArray(result.leadingEdge)?result.leadingEdge:result.leadingEdge?[result.leadingEdge]:[]);
   const retained=members.filter(entry=>{const gene=archivedGene(entry,genes);return memberScope==='all'||(gene&&leading.has(stableGeneId(gene.id)));});
   const list=el('ul','mito-pathway-genes');
-  for(const entry of retained){const item=el('li'),gene=archivedGene(entry,genes);if(gene){const link=button('',()=>onGene(gene));link.setAttribute('aria-label',`Open ${gene.symbol} gene evidence`);link.append(createGeneIdentity(gene,{compact:true}));item.append(link);}else item.append(el('strong','',entry.symbol),el('span','note',entry.mappingStatus));list.append(item);}
+  for(const entry of retained){const item=el('li'),gene=archivedGene(entry,genes);if(gene){item.append(mitochondrialGeneRow(gene,{onGene,onSendGene}));}else item.append(el('strong','',entry.symbol),el('span','note',entry.mappingStatus));list.append(item);}
   detail.append(days,scopes,el('p','note',`${retained.length} / ${members.length} curated members shown. Day ${day} leading edges are selected by this enrichment result and are not an independent validation set. Source identity mappings and absent records are retained under All curated members.`),list);
   if(!retained.length)list.append(el('li','note',result.status==='tested'?'No leading-edge genes are available.':'No leading edge: this pathway was not tested. Choose All curated members to inspect its genes.'));
  }
- inspect('OXPHOS',1);
- return {element:root,dispose(){observer.disconnect();cancelAnimationFrame(frame);}};
+ inspect('OXPHOS',1,{notify:false});
+ return {element:root,select:inspect,getSelection:()=>({...selected}),dispose(){observer.disconnect();cancelAnimationFrame(frame);}};
 }
