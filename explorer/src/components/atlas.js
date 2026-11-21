@@ -208,7 +208,7 @@ function scaleKey(limit, title) {
 }
 export function createAtlas(data, provenance, loadGenes, branding = {}) {
   let shell;
-  let pendingRSelection;
+  let pendingRSelection, pendingRAnalysis;
   let collectionsView;
   let comparisonOpen = false;
   let comparisonSection = "summary";
@@ -749,6 +749,16 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       go("custom-r");
     }
   }
+  async function sendAnalysisToR(code) {
+    if (typeof code !== "string" || !code || code.length > 100000) return;
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if (document.fullscreenElement || document.webkitFullscreenElement) await exit.call(document);
+    const current = body.querySelector(".research-studio-workspace");
+    if (tab === "custom-r" && current?.addAnalysisCode) current.addAnalysisCode(code);
+    else { pendingRAnalysis = code; go("custom-r"); }
+    showToast("Analysis added to R as editable code. Press Run R to execute.");
+  }
+  root.addEventListener("atlas:send-analysis-to-r", event => sendAnalysisToR(event.detail?.code));
   const sendMolecularGeneToR = event => {
     const gene = event.detail?.gene;
     if (gene) sendSelectionToR({ ...researchStore.getState(), gene });
@@ -1059,6 +1069,13 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         .then(({ createOxphosNetwork }) => {
           networkPanel.replaceChildren(
             createOxphosNetwork({
+              onAnalysisToR: sendAnalysisToR,
+              onBayesian: () => {
+                const exit = document.exitFullscreen || document.webkitExitFullscreen;
+                if (document.fullscreenElement || document.webkitFullscreenElement)
+                  Promise.resolve(exit.call(document)).finally(() => go("bayesian"));
+                else go("bayesian");
+              },
               initialOverlay: exploratoryOverlay,
               initialGene: researchStore.getState().gene,
               initialContrast: researchStore.getState().contrast,
@@ -3212,6 +3229,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       } catch (error) { if (version === outputVersion) exploratoryHost.replaceChildren(note(error.message)); }
     });
     host.append(workspace, exploratoryHost);
+    if (pendingRAnalysis) {
+      workspace.addAnalysisCode(pendingRAnalysis);
+      pendingRAnalysis = undefined;
+    }
     if (pendingRSelection) {
       const selection = pendingRSelection;
       pendingRSelection = undefined;

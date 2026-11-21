@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1464,
-  "total_bytes": 728098404,
+  "file_count": 1468,
+  "total_bytes": 728118139,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 285259,
-      "sha256": "83ef1deb2ccfab3086b86b9c734fbf03bd949418c264e435105e6cfa653a8e56"
+      "bytes": 285818,
+      "sha256": "462e53c1d1d90f726ebaca6729cb8ef11720e1a981338ee154abe41b7d2d42b0"
     },
     {
       "path": "LICENSE.md",
@@ -439,8 +439,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 278437,
-      "sha256": "337c24dd211353b6ef77257070330abebd4e05189a9ece3e2b533932b6ddc6c7"
+      "bytes": 278941,
+      "sha256": "64d496e4fe8c63495c8cc205400dc345bcce32f2b1705731767cfce1ebd49f56"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 135723,
-      "sha256": "e28c613759e74532b67c37d1f4fb39644116a06c1ee593e2aa087adcc948db8c"
+      "bytes": 136937,
+      "sha256": "3085ec4cc9eed0a3e4d2364a99300fe27f744814159d991bac93383d16654a80"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -3519,8 +3519,13 @@
     },
     {
       "path": "explorer/src/components/bayesian-directional.js",
-      "bytes": 31366,
-      "sha256": "e1638846849ba817ecce06a00e1c8a8259a4e435e9376f821e8bec481e623895"
+      "bytes": 32130,
+      "sha256": "3ca42e788a484fe75d34496ae15f3819a3b6937f0731d2cc6a03fcfd6e40ba07"
+    },
+    {
+      "path": "explorer/src/components/bayesian-r-transfer.js",
+      "bytes": 2265,
+      "sha256": "f0c6be6835e4aa07660628acd0dff4fc67b5c494a2d8640e39512ba0a9b1458e"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3544,8 +3549,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 45415,
-      "sha256": "8f1d6bfd5de531a4bf3625118433899eede1adedc0457a995c5395e3837bb252"
+      "bytes": 45478,
+      "sha256": "788686a1ec6a17dbc67e27b32ee2ce855994521b6bae0280a7e4814c48f29a48"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3718,6 +3723,11 @@
       "sha256": "6457f628cfb649d6222b4643dcd16d4bee2cff13519bc59374b853bcaf2ffde1"
     },
     {
+      "path": "explorer/src/components/network-bayesian-evidence.js",
+      "bytes": 5634,
+      "sha256": "87ec115b6df31cce49f1aec57a6c0fc4fe18f40320da6cef10b95441222bab7d"
+    },
+    {
       "path": "explorer/src/components/network-camera.js",
       "bytes": 2839,
       "sha256": "c11dc097b932b33e3fa98681f766b12f164406cc9ea13481065b825a10851f60"
@@ -3759,8 +3769,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 74922,
-      "sha256": "9e25ba35b0644878dbbc259462a54bbb738463ea8c6ef5322406ce13fbb5414d"
+      "bytes": 77942,
+      "sha256": "baae5f8b8c2865b54cb81325415d000f7373f9fb2c28a5169bd4e9291916bdbe"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3929,8 +3939,8 @@
     },
     {
       "path": "explorer/src/components/research-studio.js",
-      "bytes": 12346,
-      "sha256": "5abe4efdde30183a662df20746ab6e638ad78c95509836390059b3c27f72449f"
+      "bytes": 12413,
+      "sha256": "500061530daafc3c14d99a3a3542923430c0f067303f29e01e85d8bd6fa3d2b1"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -4093,6 +4103,11 @@
       "sha256": "e51e61121391717803437db0587034ce983f1c251b7b993ac5719012822c8884"
     },
     {
+      "path": "explorer/test/bayesian-r-transfer.test.js",
+      "bytes": 882,
+      "sha256": "b77f940deec598471f1934ceeb6251121764b1f13c21928efe5a4a4c2a947609"
+    },
+    {
       "path": "explorer/test/browser-check.mjs",
       "bytes": 13269,
       "sha256": "a0596be606cb3429a3fe25df2c7aea494da3095f8a1baf33fbfa2a8f655f5a2c"
@@ -4253,6 +4268,11 @@
       "sha256": "e5dcf06761d1e2659852cd1a136555af6e9ae68eff5d890e46b1dcf942e94fab"
     },
     {
+      "path": "explorer/test/network-bayesian-browser-check.mjs",
+      "bytes": 4768,
+      "sha256": "ed82b274c1c6d62b2d9beb3bf027bb8e26a204c453202d34ab23ad7af8d43942"
+    },
+    {
       "path": "explorer/test/network-browser-check.mjs",
       "bytes": 10178,
       "sha256": "7bda55928bd3a3adb53b5bc52f92925924fed3d63be5352a7991c1a9a3de378d"
@@ -4294,8 +4314,8 @@
     },
     {
       "path": "explorer/test/node-protein-browser-check.mjs",
-      "bytes": 6084,
-      "sha256": "cad51e9d813927df309afdab441d2d648daa031c6630c6d01182088123b938f8"
+      "bytes": 6079,
+      "sha256": "69183aef39ed5d0bf2f8e88a8d07bd28339e792aa6f52255bacdf1fcf3ad6666"
     },
     {
       "path": "explorer/test/notebook-publication.test.js",

@@ -62,6 +62,7 @@ export function createResearchStudio(options) {
   const sharedNavigation=el('div','workspace-shared-navigation');sharedNavigation.append(button('Datasets',async()=>{await root.workspaceShell?.closeNavigation();r.openDatasets();}));if(options.onOpenCollections)sharedNavigation.append(button('Collections',async()=>{await root.workspaceShell?.closeNavigation();options.onOpenCollections();}));navigation.append(tabs,r.workspaceNavigation,extraTools,sharedNavigation);host.append(...panels.values());
   let releaseNavigation,disposed=false;const toolsOwner={showR:()=>show('r'),items:()=>r.workspaceActions()};
   const mount=()=>{if(disposed)return;if(!host.isConnected){requestAnimationFrame(mount);return;}releaseNavigation=root.workspaceShell?.mountNavigation(navigation);root.workspaceTools=toolsOwner;root.workspaceShell?.syncTools();};requestAnimationFrame(mount);
+  host.addAnalysisCode=code=>{show('r');r.addAnalysisCode(code);};
   host.setResearchSelection=selection=>{show('r');r.setResearchSelection(selection);};
   host.destroy=()=>{disposed=true;releaseNavigation?.();root.workspaceTools=undefined;root.workspaceShell?.syncTools();for(const scene of host.querySelectorAll('.scientific-scene'))scene.destroy?.();python?.destroy();r.destroy();};
   host.showWorkspace=show;

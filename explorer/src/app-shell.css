@@ -6403,3 +6403,9 @@ body {
 #psilocin-app .atlas-3d-fullscreen-done {
   top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));
 }
+#psilocin-app .network-bayesian-evidence { margin:0 0 16px; }
+#psilocin-app .network-bayesian-summary { min-width:0; }
+#psilocin-app .network-bayesian-day + .network-bayesian-day { border-top:1px solid var(--research-border);padding-top:12px; }
+#psilocin-app .network-bayesian-evidence .directional-bf-value { font-size:32px; }
+#psilocin-app .network-bayesian-evidence .directional-probability-wheel { width:48px;height:48px; }
+#psilocin-app .network-bayesian-explore .item-title { white-space:normal; }

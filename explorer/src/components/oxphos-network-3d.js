@@ -32,7 +32,7 @@ const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
 let layoutIntroductionShown = false;
 
-export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
+export function createOxphosNetwork({ onAnalysisToR, onBayesian, onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
   root.setAttribute("aria-label", "3D OXPHOS gene–pathway membership");
   const introduceLayout = !layoutIntroductionShown && !matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -292,6 +292,58 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     "Drag to rotate; use the wheel or pinch to zoom. Two-finger drag pans on touch screens. Camera buttons and the gene list provide alternatives. The page remains scrollable outside the viewer.",
   );
   const selectedPanel = el("section", "oxphos-3d-selected");
+  const bayesianHost = el("div", "oxphos-network-bayesian-host");
+  const geneEvidenceBody = el("div", "network-gene-evidence-body");
+  const evidenceTabs = el("div", "segmented segmented-strong network-evidence-tabs");
+  evidenceTabs.setAttribute("role", "tablist");
+  evidenceTabs.setAttribute("aria-label", "Evidence type");
+  const tabId = `network-evidence-${crypto.randomUUID()}`;
+  geneEvidenceBody.id = `${tabId}-gene`;
+  bayesianHost.id = `${tabId}-bayesian`;
+  geneEvidenceBody.setAttribute("role", "tabpanel");
+  bayesianHost.setAttribute("role", "tabpanel");
+  let evidenceTab = "gene";
+  const evidenceTabButtons = new Map();
+  function showEvidenceTab(key) {
+    evidenceTab = key;
+    geneEvidenceBody.hidden = key !== "gene";
+    bayesianHost.hidden = key !== "bayesian";
+    for (const [id, control] of evidenceTabButtons) {
+      control.classList.toggle("button-active", id === key);
+      control.setAttribute("aria-selected", String(id === key));
+      control.tabIndex = id === key ? 0 : -1;
+    }
+    if (key === "bayesian") ensureBayesianEvidence();
+  }
+  for (const [key, title] of [["gene", "Gene evidence"], ["bayesian", "Bayes factors"]]) {
+    const control = button(title, () => showEvidenceTab(key));
+    control.setAttribute("role", "tab");
+    control.id = `${tabId}-${key}-tab`;
+    control.setAttribute("aria-controls", `${tabId}-${key}`);
+    (key === "gene" ? geneEvidenceBody : bayesianHost).setAttribute("aria-labelledby", control.id);
+    control.onkeydown = event => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === "Home" ? "gene" : event.key === "End" ? "bayesian" : evidenceTab === "gene" ? "bayesian" : "gene";
+      showEvidenceTab(next); evidenceTabButtons.get(next).focus();
+    };
+    evidenceTabButtons.set(key, control); evidenceTabs.append(control);
+  }
+  selectedPanel.append(evidenceTabs, geneEvidenceBody, bayesianHost);
+  showEvidenceTab("gene");
+  let bayesianCard, bayesianLoading;
+  function ensureBayesianEvidence() {
+    if (bayesianCard || bayesianLoading || destroyed) return;
+    bayesianHost.replaceChildren(loadingMessage("Loading score-level Bayesian evidence…"));
+    bayesianLoading = import("./network-bayesian-evidence.js").then(({createNetworkBayesianEvidence}) => {
+      if (destroyed) return;
+      bayesianCard = createNetworkBayesianEvidence({day, onAnalysis: onBayesian, onSendToR: onAnalysisToR});
+      bayesianHost.replaceChildren(bayesianCard);
+    }).catch(() => {
+      if (!destroyed) bayesianHost.replaceChildren(el("p", "note", "Bayesian evidence could not load. Reopen Evidence to retry."));
+    }).finally(() => { bayesianLoading = undefined; });
+  }
+
   selectedPanel.setAttribute("aria-label", "Selected 3D gene statistics");
   const searchLabel = el(
     "label",
@@ -594,6 +646,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     if (mobilePanel.contains(document.activeElement)) mobileButtons.get(previous)?.focus({ preventScroll: true });
   }
   function openMobileControls(kind = "controls") {
+    if (kind === "gene" && evidenceTab === "bayesian") ensureBayesianEvidence();
     if (!mobileSections[kind]) return;
     for (const child of [...mobileScroll.children]) {
       if (child !== mobileMain) panels.append(child);
@@ -605,7 +658,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     mobileExpand.setAttribute("aria-label", "Expand gene evidence");
     mobileExpand.replaceChildren(uiIcon("fullscreen"));
     mobileTitle.textContent = {
-      controls: "View controls", search: "Find a gene", gene: "Linked gene evidence",
+      controls: "View controls", search: "Find a gene", gene: "OXPHOS evidence",
       filters: "Network filters", about: "Membership & data",
     }[kind];
     mobilePanel.setAttribute("aria-label", mobileTitle.textContent);
@@ -662,11 +715,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   }
   const evidenceAside = el("aside", "oxphos-3d-evidence");
   evidenceAside.hidden = true;
-  evidenceAside.setAttribute("aria-label", "Linked gene evidence");
+  evidenceAside.setAttribute("aria-label", "OXPHOS evidence");
   const evidenceHeader = el("header", "evidence-sheet-header");
   const evidenceBody = el("div", "oxphos-3d-evidence-body");
   evidenceHeader.append(
-    el("h2", "", "Linked gene evidence"),
+    el("h2", "", "OXPHOS evidence"),
     button(
       "Done",
       () => {
@@ -681,6 +734,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   viewer.append(evidenceAside);
   const desktopEvidence = matchMedia("(min-width: 1100px)");
   function openDrawer(kind) {
+    if (kind === "gene" && evidenceTab === "bayesian") ensureBayesianEvidence();
     closeDrawer();
     if (mobileControls.matches) {
       evidenceAside.hidden = true;
@@ -699,7 +753,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     drawer = el("section", "sheet-modal oxphos-3d-drawer");
     const title = {
       search: "Find a gene",
-      gene: "Linked gene evidence",
+      gene: "OXPHOS evidence",
       filters: "Network controls",
       about: "Membership & data",
     }[kind];
@@ -796,7 +850,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     requestAnimationFrame(() => { if (!destroyed) renderList(); });
     updateGraph();
     if (selectionChanged) sceneEffects?.locate(n.id, 4500);
-    if (showEvidence) openDrawer("gene");
+    if (showEvidence) { showEvidenceTab("gene"); openDrawer("gene"); }
     if (selectionChanged && showEvidence)
       networkToast(`Selected gene: ${n.symbol}.`, showEvidence && drawer?.isConnected ? drawer : root);
     const position =
@@ -850,7 +904,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   }
   function renderSelected() {
     if (dockSendToR) dockSendToR.disabled = !selected;
-    selectedSummary.disabled = !selected;
+    selectedSummary.disabled = false;
     evidenceTools.firstElementChild.disabled = !selected;
     const selectedGene = genes.find(g => g.id === selected);
     const evidenceLabel = selectedGene ? `${selectedGene.symbol} · evidence` : "Gene evidence";
@@ -861,10 +915,11 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     );
     const scrollPosition = scrollHost?.scrollTop || 0;
     activeResearchPanel?.dispose?.();
-    selectedPanel.replaceChildren();
+    geneEvidenceBody.replaceChildren();
+    bayesianCard?.setDay(day);
     const n = genes.find((g) => g.id === selected);
     if (!n) {
-      selectedPanel.append(
+      geneEvidenceBody.append(
         el(
           "p",
           "note",
@@ -873,7 +928,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       );
       return;
     }
-    selectedPanel.append(
+    geneEvidenceBody.append(
       el("h4", "", n.symbol),
       el(
         "p",
@@ -883,7 +938,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     );
     const linked = el("div", "oxphos-3d-linked-content");
     linked.append(loadingMessage("Loading archived evidence…"));
-    selectedPanel.append(linked);
+    geneEvidenceBody.append(linked);
     import("./oxphos-research-panel.js")
       .then(({ researchPanel }) => {
         if (selected === n.id && linked.isConnected) {
@@ -912,7 +967,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       })
       .catch((error) => linked.replaceChildren(el("p", "note", error.message)));
     if (!visible(n))
-      selectedPanel.append(
+      geneEvidenceBody.append(
         el(
           "p",
           "note",
@@ -957,7 +1012,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       "network-exact-statistics",
     );
     exactDetails.body.append(wrap);
-    selectedPanel.append(
+    geneEvidenceBody.append(
       exactDetails.element,
       el(
         "p",
@@ -968,7 +1023,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
     const memberships = snapshot.links
       .filter((l) => endpoints(l)[0] === n.id)
       .map((l) => label(endpoints(l)[1].slice(8)));
-    selectedPanel.append(
+    geneEvidenceBody.append(
       el(
         "p",
         "note",
@@ -983,7 +1038,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
       a.rel = "noopener noreferrer";
       source.append(a);
     }
-    selectedPanel.append(
+    geneEvidenceBody.append(
       source,
       button("Open archived gene evidence", () => onEvidence(n.id), "genes"),
       button(
@@ -1420,6 +1475,7 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
     if (destroyed) return;
     destroyed = true;
     sharedTools?.dispose();
+    bayesianCard?.dispose();
     cameraTransition?.stop();
     for (const event of ["pointerdown", "wheel", "keydown"])
       root.removeEventListener(event, interruptIntroduction, true);

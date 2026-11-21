@@ -73,7 +73,7 @@ try {
       width >= 1100 ? ".oxphos-3d-evidence" : width < 768 ? ".oxphos-mobile-panel" : ".oxphos-3d-drawer",
     );
     await evidence
-      .getByRole("heading", { name: "Linked gene evidence", exact: true })
+      .getByRole("heading", { name: "OXPHOS evidence", exact: true })
       .waitFor();
     await evidence.getByRole("button", { name: width < 768 ? "Close" : "Done", exact: true }).click();
     const open = root.getByRole("button", {

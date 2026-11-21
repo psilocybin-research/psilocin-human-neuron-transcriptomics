@@ -927,6 +927,7 @@ export function createCustomR({
     importStatus.textContent=`${name}: ${info.rows} rows × ${info.columns.length} columns. Available as user_data; transferred exploratory data.`;
     notebooks.addCode("# Transferred exploratory table; no archived findings are changed.\nresults <- user_data\nprint(head(results))");
   };
+  host.addAnalysisCode = code => { notebooks.addCode(code); };
   host.setResearchSelection = (selection) => {
     notebooks.appendSelection(selection);
     syncSelectionContext();

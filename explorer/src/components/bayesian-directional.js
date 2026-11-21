@@ -8,7 +8,7 @@ import { showToast } from "./app-toast.js";
 import { setLoadingMessage } from "./interface-utils.js";
 import { csvText } from "./format.js";
 
-export function createDirectionalEvidence() {
+export function createDirectionalEvidence({ onResult, onSendToR } = {}) {
   const root = el("section", "directional-evidence");
   root.append(
     el("h4", "", "Directional evidence · exploratory follow-up"),
@@ -88,7 +88,26 @@ export function createDirectionalEvidence() {
     reset = el("button", "button button-tonal", "Reset baseline"),
     save = el("button", "button button-tonal", "Download analysis JSON");
   for (const b of [run, reset, save]) b.type = "button";
-  actions.append(run, reset, save);
+  const sendR = el("button", "button button-tonal", "Open analysis in R");
+  sendR.type = "button";
+  sendR.onclick = async () => {
+    const { directionalRCode } = await import("./bayesian-r-transfer.js");
+    if (disposed) return;
+    const code = directionalRCode(
+      current.priors,
+      reference.scores.map((r) => [+r.day1_vs_control, +r.day3_vs_control]),
+      reference.provenance.input_sha256,
+    );
+    if (onSendToR) onSendToR(code);
+    else
+      root.dispatchEvent(
+        new CustomEvent("atlas:send-analysis-to-r", {
+          bubbles: true,
+          detail: { code },
+        }),
+      );
+  };
+  actions.append(run, reset, save, sendR);
   const status = el(
     "p",
     "note",
@@ -242,6 +261,7 @@ export function createDirectionalEvidence() {
     for (const field of Object.values(fields))
       field.init?.(document.querySelector("#psilocin-app")?.f7);
     const rows = current.summaries;
+    onResult?.(current);
     result.replaceChildren();
     for (const r of rows) {
       const card = el("div", "card"),
@@ -658,6 +678,7 @@ export function createDirectionalEvidence() {
         : null;
     run.disabled = true;
     save.disabled = true;
+    sendR.disabled = true;
     setControlsDisabled(true);
     root.setAttribute("aria-busy", "true");
     setLoadingMessage(
@@ -676,6 +697,7 @@ export function createDirectionalEvidence() {
     const finish = () => {
       run.disabled = false;
       save.disabled = false;
+      sendR.disabled = false;
       setControlsDisabled(false);
       root.removeAttribute("aria-busy");
       status.classList.remove("inline-loading");
@@ -733,6 +755,7 @@ export function createDirectionalEvidence() {
     stop();
     run.disabled = false;
     save.disabled = false;
+    sendR.disabled = false;
     setControlsDisabled(false);
     root.removeAttribute("aria-busy");
     status.classList.remove("inline-loading");
