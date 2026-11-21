@@ -1,0 +1,28 @@
+{
+  "status": "Exploratory post-primary follow-up",
+  "plan": "config/mitocarta_followup_v1.json",
+  "planSha256": "0840a72ebb880808def5c6d4b77c730baead34d3dffadf7d83bfdf016bab6f06",
+  "annotationSha256": "86dda324cf800e7e47fdbe7bc66918f517e21171d0d1492ed58cd61662e50023",
+  "family": "Joint BH across all tested pathway–contrast pairs",
+  "familySize": 152,
+  "seed": 20261121,
+  "eps": 1e-10,
+  "engine": "fgsea 1.38.0",
+  "R": "R version 4.6.1 (2026-06-24)",
+  "audits": {
+    "day1_vs_control": {
+      "rankedGenes": 21154,
+      "omittedNonfinite": 0,
+      "tiedStatisticOccurrences": 0,
+      "testedPathways": 76
+    },
+    "day3_vs_control": {
+      "rankedGenes": 21154,
+      "omittedNonfinite": 0,
+      "tiedStatisticOccurrences": 0,
+      "testedPathways": 76
+    }
+  },
+  "warnings": ["day1_vs_control For some pathways, in reality P-values are less than 1e-10. You can set the `eps` argument to zero for better estimation.", "day3_vs_control For some pathways, in reality P-values are less than 1e-10. You can set the `eps` argument to zero for better estimation."],
+  "limits": "Same study observations; not independent validation. No respiratory activity, protein abundance, protein conformation, or treatment-by-time inference. Three differentiation blocks and unresolved common-control timing remain limitations."
+}

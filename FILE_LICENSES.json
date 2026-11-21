@@ -156,6 +156,12 @@
       "2004-2026 Broad Institute, Inc., Massachusetts Institute of Technology, and Regents of the University of California"
     ]
   },
+  "config/mitocarta_followup_v1.json": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "config/oxphos_complex_membership.json": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -289,6 +295,18 @@
   },
   "explorer/screenshots/landscape.png": {
     "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/build-complex-i-pilot.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/build-mitochondrial-context.py": {
+    "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
@@ -453,6 +471,48 @@
     "spdx": "LicenseRef-Publisher-Branding",
     "copyright": [
       "eLife Sciences Publications Ltd"
+    ]
+  },
+  "explorer/src/assets/mitochondria/analysis-plan.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/mitochondria/annotations.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/mitochondria/complex-i.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/mitochondria/enrichment.csv": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/mitochondria/enrichment.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/assets/mitochondria/mapping-audit.csv": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
     ]
   },
   "explorer/src/assets/oxphos-network-preview-480.webp": {
@@ -4453,6 +4513,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/assembly-geometry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/atlas-tour.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4478,6 +4544,12 @@
     ]
   },
   "explorer/src/components/comparison-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/complex-i-pilot.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -4615,6 +4687,30 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/mitochondrial-card.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-data.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-explorer.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/mitochondrial-mapping.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/molecular-viewer.js": {
     "spdx": "MIT",
     "copyright": [
@@ -4622,6 +4718,12 @@
     ]
   },
   "explorer/src/components/network-camera.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/network-framing.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5145,6 +5247,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/mitochondrial-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/mitochondrial-context.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/molecular-previews-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -5188,6 +5302,12 @@
     ]
   },
   "explorer/test/network-effects-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/network-framing.test.js": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -7343,6 +7463,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "reports/mitocarta_followup_methods.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "reports/oxphos_alias_sensitivity.md": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -7718,6 +7844,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "src/transcriptomics/mitocarta_followup.R": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "src/transcriptomics/npp_figures.R": {
     "spdx": "MIT",
     "copyright": [
@@ -7967,6 +8099,27 @@
   "tables/dna_maintenance/telomere_decomposition.csv": {
     "spdx": "CC-BY-4.0",
     "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/mitocarta_followup/all_pathways.csv": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/mitocarta_followup/provenance.json": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "tables/mitocarta_followup/sessionInfo.txt": {
+    "spdx": "CC-BY-NC-4.0",
+    "copyright": [
+      "2020 MitoCarta authors (Rath et al.), Broad Institute",
       "2026 Christopher B. Germann"
     ]
   },
@@ -8645,7 +8798,7 @@
       "2011 John Resig",
       "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
       "2016 cheminfo",
-      "2015 Micha\u00ebl Zasso",
+      "2015 Michaël Zasso",
       "2017 Photopea"
     ]
   },

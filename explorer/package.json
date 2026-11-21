@@ -44,7 +44,8 @@
     "test:python": "node test/python-app-browser-check.mjs",
     "test:scenes": "node test/scientific-scene-r-browser-check.mjs",
     "test:session": "node test/research-session-browser-check.mjs",
-    "pretest": "node scripts/prepare-ui.mjs && node scripts/prepare-network-3d.mjs"
+    "pretest": "node scripts/prepare-ui.mjs && node scripts/prepare-network-3d.mjs",
+    "test:mitochondria": "node test/mitochondrial-browser-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",

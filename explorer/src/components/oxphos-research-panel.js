@@ -1,3 +1,4 @@
+import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import { createMethodComparison } from "./method-comparison.js";
 import { crossDayRows } from "./network-statistics.js";
 import data from "../assets/vendor/oxphos-research-data.js";
@@ -5,7 +6,6 @@ import {
   createElement as el,
   loadingMessage,
   createAccordion,
-  escapeHTML,
 } from "./interface-utils.js";
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { contrasts } from "./format.js";
@@ -87,33 +87,8 @@ export function researchPanel(
   nav.setAttribute("aria-label", "Linked gene research");
   const body = el("div", "research-panel-body");
   root.append(nav, body);
-  let tooltip;
-  const comparisonMarks = new Map();
-  const showComparisonTooltip = (mark, row) => {
-    const app = document.querySelector("#psilocin-app")?.f7;
-    if (!app) return;
-    tooltip ||= app.tooltip.create({
-      targetEl: mark,
-      trigger: "manual",
-      containerEl: document.fullscreenElement || root.closest(".oxphos-3d-drawer") || document.querySelector("#psilocin-app"),
-      cssClass: "network-statistical-tooltip",
-      text: "",
-    });
-    const display = (value) => value === null || value === undefined || value === "" || !Number.isFinite(+value) ? "Not estimable" : compact(value);
-    tooltip.setText(
-      `${escapeHTML(row.gene.symbol)}<br>` + row.gene.effects.slice(0, 2)
-        .map((effect, index) => `Day ${index ? 3 : 1}: log₂FC ${display(effect.log2FoldChange)}<br>SE ${display(effect.lfcSE)} · gene FDR ${display(effect.padj)}`)
-        .join("<br>"),
-    );
-    tooltip.show(mark);
-  };
-  const clearTooltip = () => {
-    tooltip?.destroy();
-    tooltip = undefined;
-    comparisonMarks.clear();
-  };
   let methodView;
-  root.dispose = () => { clearTooltip(); methodView?.dispose?.(); };
+  root.dispose = () => { methodView?.dispose?.(); };
   root.highlightGene = (id) => {
     for (const mark of body.querySelectorAll("[data-comparison-gene]")) {
       const hover = mark.dataset.comparisonGene === id;
@@ -122,9 +97,7 @@ export function researchPanel(
       mark.setAttribute("stroke-width", hover ? "2.5" : "1");
     }
     root.dataset.hoveredGene = id || "";
-    const match = comparisonMarks.get(id);
-    if (match && match.mark.isConnected) showComparisonTooltip(match.mark, match.row);
-    else tooltip?.hide();
+
   };
   let active = "",
     version = 0;
@@ -147,7 +120,6 @@ export function researchPanel(
   body.setAttribute("role", "tabpanel");
   async function show(key) {
     if (active === key) return;
-    clearTooltip();
     methodView?.dispose?.();
     active = key;
     onTab(key);
@@ -258,7 +230,6 @@ export function researchPanel(
                 const row = rows[args[0][i]];
                 if (!row) return;
                 mark.dataset.comparisonGene = row.gene.id;
-                comparisonMarks.set(row.gene.id, { mark, row });
                 const enter = () => onHover(row.gene.id);
                 const leave = () => onHover("");
                 mark.addEventListener("pointerenter", enter);
@@ -281,6 +252,7 @@ export function researchPanel(
     );
   }
   function evidence() {
+    appendMitochondrialCard(body, gene);
     body.append(el("h4", "", "Gene-level estimates"));
     const rows = gene.effects.flatMap((r, i) =>
       Number.isFinite(r?.log2FoldChange) &&

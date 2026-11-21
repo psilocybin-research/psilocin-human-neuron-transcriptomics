@@ -19,7 +19,6 @@ import {
   prepareExternalLinks,
   useModalPush,
   destroySheet,
-  installFramework7Tooltips,
 } from "./interface-utils.js";
 import { createResearchNavigation } from "./research-navigation.js";
 import { createGeneAutocomplete } from "./gene-suggestions.js";
@@ -104,8 +103,7 @@ export function createAppShell({
     sourcePopup,
     autocomplete,
     tourPopup,
-    sharePopover,
-    disposeTooltips;
+    sharePopover;
   let searchCleanupPending = false, searchReopenRequested = false, searchCleanupTimer;
   function openAtlasSearch() {
     if (!autocomplete || disposed || autocomplete.opened) return;
@@ -1549,7 +1547,6 @@ export function createAppShell({
         },
       },
     });
-    disposeTooltips = installFramework7Tooltips(root, app);
     const syncNavigation = () => {
       for (const modal of [controlsSheet, sourcePopup, tourPopup]) {
         if (!modal || modal.opened) continue;
@@ -1668,7 +1665,6 @@ export function createAppShell({
       document.removeEventListener("pointerup", endPress);
       document.removeEventListener("pointercancel", endPress);
       cancelAnimationFrame(enhanceFrame);
-      disposeTooltips?.();
       app?.destroy();
     },
   };

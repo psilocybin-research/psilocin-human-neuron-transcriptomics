@@ -12,6 +12,7 @@ Original documentation, figures, metadata created for this analysis, and derived
 
 ## Upstream and mixed-source files
 
+- MitoCarta3.0 annotations, linked mappings and exploratory mitochondrial outputs retain **CC BY-NC 4.0**. These files are an exception to the default CC BY terms; source attribution and exact paths are in the licence map and `THIRD_PARTY_NOTICES.md`.
 - MSigDB memberships are CC BY 4.0 with upstream attribution and collection-specific restriction review recorded in `metadata/gene_set_redistribution_review.json`.
 - Direct Reactome database annotations are CC0 1.0.
 - Dated Ensembl annotations follow Ensembl unrestricted data-use terms, with source descriptions and attribution retained. UniProt annotations and AlphaFold models are CC BY 4.0. PDB coordinate files retain CC0 1.0. OXPHOS model previews are CC BY 4.0, with per-model source and licence provenance in `explorer/src/assets/public-context/previews.json`.

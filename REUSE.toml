@@ -311,3 +311,9 @@ path = ["explorer/vendor/python/**"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Pyodide contributors", "Python Software Foundation and authors identified in the distribution notices", "Emscripten authors"]
 SPDX-License-Identifier = "LicenseRef-Python-Distribution"
+
+[[annotations]]
+path = ["explorer/src/assets/mitochondria/**", "tables/mitocarta_followup/**"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2020 MitoCarta authors (Rath et al.), Broad Institute", "2026 Christopher B. Germann"]
+SPDX-License-Identifier = "CC-BY-NC-4.0"

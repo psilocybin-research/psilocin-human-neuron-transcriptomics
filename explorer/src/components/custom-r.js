@@ -1,3 +1,4 @@
+import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import {openResearchDatasets} from "./research-dataset-browser.js";
 import {createRWorkspaceInspector} from "./r-workspace-inspector.js";
 import {archivedResearchTables,researchTableCSV} from "./research-datasets.js";
@@ -404,6 +405,7 @@ export function createCustomR({
       const model=geneStructurePreview(gene);
       if(model)identity.append(el('span','note',`${model.provider} · ${model.accession} · ${model.model}. ${model.scope}`));
       overview.append(identity);selectionBody.append(overview);
+      appendMitochondrialCard(selectionBody,gene);
     }
     selectionBody.append(el('p','note',multiple?'Current Atlas selection. These identifiers are available for exploratory R work; no code has run.':'Sent from the Atlas. This archived gene record is available for exploratory R work; no code has run.'));
     const actions=el('div','studio-selection-actions');

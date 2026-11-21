@@ -1,3 +1,4 @@
+import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import { loadLocalContext } from "./local-public-context.js";
 import {
   createElement as el,
@@ -62,6 +63,7 @@ async function annotation(gene, { live = false } = {}) {
     ),
   );
   result.append(fields, sourceLink("Ensembl API source ↗", record.source));
+  appendMitochondrialCard(result, gene);
   if (
     identity.archivedVersion !== null &&
     record.version !== null &&

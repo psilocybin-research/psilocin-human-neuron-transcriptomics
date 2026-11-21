@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "exploratory post-primary follow-up; specified before new enrichment results were inspected",
+  "frozen_at": "2026-11-21",
+  "question": "Which independently curated mitochondrial pathways show enrichment in the archived signed Wald-statistic rankings?",
+  "annotation_sha256": "86dda324cf800e7e47fdbe7bc66918f517e21171d0d1492ed58cd61662e50023",
+  "inputs": [
+    {
+      "file": "tables/transcriptomics/primary_day1_vs_control_genes.csv",
+      "sha256": "f1d4fbfaa6b55eabef36baaca50e9ca17aa4fbe7702310889347f7575f097a4e"
+    },
+    {
+      "file": "tables/transcriptomics/primary_day3_vs_control_genes.csv",
+      "sha256": "3e3744696c1915ac62a064cb3436698281fe38800f68d19aa9324d652afdde1d"
+    }
+  ],
+  "contrasts": [
+    "day1_vs_control",
+    "day3_vs_control"
+  ],
+  "pathways": "All 149 MitoCarta3.0 GMX pathways, including hierarchy parents; no selection by study results. Overlapping sets are not independent discoveries.",
+  "mapping": "Exact source-workbook Ensembl stable IDs. A MitoCarta record enters testing sets only if exactly one archived gene ID matches. All ambiguous or absent records are reported and excluded from set membership. No symbol or alias rescue.",
+  "ranking": "All archived genes with finite stat and nonempty stable Ensembl ID. No mitochondrial-only background. Duplicate stable IDs are an error. Descending signed Wald stat, ties broken by stable ID for reproducibility; values are not jittered.",
+  "engine": "fgsea::fgseaMultilevel",
+  "fgsea_version": "1.38.0",
+  "seed": 20261121,
+  "minSize": 10,
+  "maxSize": 500,
+  "eps": 1e-10,
+  "scoreType": "std",
+  "nPermSimple": 10000,
+  "nproc": 1,
+  "multiplicity": "One joint BH family across every tested pathway in both contrasts. Ineligible pathways are reported with exclusions and no p-value. If any eligible test fails, stop without reporting a complete family.",
+  "threshold": 0.05,
+  "reporting": "Report all 149 pathways for each contrast, nominal p, joint-family BH q, ES, NES, log2err, matched size, curated size, leading edge and exclusion reason. Export coverage and warnings. Do not select only significant results.",
+  "robustness": "Report rank ties, exact-ID coverage and pathway overlap; compare interpretation with existing primary fgsea and both CAMERA settings without replacing them. No extra methods or size thresholds in this first pass.",
+  "limits": "Same study observations; not independent validation. No respiratory activity, protein abundance, protein conformation, or treatment-by-time inference. Three differentiation blocks and unresolved common-control timing remain limitations."
+}

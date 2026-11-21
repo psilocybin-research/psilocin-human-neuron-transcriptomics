@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1384,
-  "total_bytes": 687566601,
+  "file_count": 1409,
+  "total_bytes": 688962569,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,13 +74,13 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 273280,
-      "sha256": "c3850d0b83b599bf7c60b8c9669d09d6af741ee9345891d9299f071276108069"
+      "bytes": 277222,
+      "sha256": "d79f0c8fc76890de648e5bba246909077183a266bd7c78bdd264f0237a8c7885"
     },
     {
       "path": "LICENSE.md",
-      "bytes": 2911,
-      "sha256": "e8f7b3b72881fa065aca6c5a18704399028ecb723007347a9ba796d673754dd4"
+      "bytes": 3163,
+      "sha256": "ffb2140cf3e06ccb88ee1c010d742c03c26a897cf449af8ae5c9f42ace8a1b56"
     },
     {
       "path": "LICENSES/Apache-2.0.txt",
@@ -96,6 +96,11 @@
       "path": "LICENSES/CC-BY-4.0.txt",
       "bytes": 17023,
       "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+    },
+    {
+      "path": "LICENSES/CC-BY-NC-4.0.txt",
+      "bytes": 17649,
+      "sha256": "cc97a2c4ff7723a1f25179dc7c18f676fa84191bbb36ea7d0061acaf3c102559"
     },
     {
       "path": "LICENSES/CC0-1.0.txt",
@@ -159,13 +164,13 @@
     },
     {
       "path": "REUSE.toml",
-      "bytes": 11873,
-      "sha256": "7a20fa6c29bb49fdccd0a4f1873ee43e923f7fc5a9b9537d73438e8d8d4926ba"
+      "bytes": 12148,
+      "sha256": "9ca4cc242ede210c361122abf068607481bb157f3caadc9702f46a46e716c955"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 3982,
-      "sha256": "8d832ce0b37ba27963cd131699815d25be7ea1c791e7c1d3add284789f703c56"
+      "bytes": 5509,
+      "sha256": "d51eeb699eac975f6c7e2f44bf48d8a377dd37db0924a3d0d7609e6d63e7adc6"
     },
     {
       "path": "config/analysis.yaml",
@@ -193,6 +198,11 @@
       "sha256": "b7bcd9e835c39913cdc1c272dab8baf9e10c2c7e3f31aee7ebe68e8de56ddfc8"
     },
     {
+      "path": "config/mitocarta_followup_v1.json",
+      "bytes": 2641,
+      "sha256": "0840a72ebb880808def5c6d4b77c730baead34d3dffadf7d83bfdf016bab6f06"
+    },
+    {
       "path": "config/oxphos_complex_membership.json",
       "bytes": 43152,
       "sha256": "80c2a7eac793de9ed6ec22c8fdd6dc6172563ebde3ed3fb8bf67147ea953ad1c"
@@ -209,8 +219,8 @@
     },
     {
       "path": "config/public_release_outputs.json",
-      "bytes": 7272,
-      "sha256": "3ffcf5d6279b665db16cbfb95d2d6fe289250aa933ccdf6e729ce0de37e6c45e"
+      "bytes": 7420,
+      "sha256": "7d80db2fe2d5036762c70ebeec6b54a8c181b36f2d674f63cf01afb214bf0b29"
     },
     {
       "path": "config/targeted_redox_v1.json",
@@ -289,8 +299,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 4026,
-      "sha256": "e99d2add050da533a4f7af1d0b268a9d7939b4968dc8d5fc143ccec2d159d140"
+      "bytes": 4096,
+      "sha256": "dcbb8e976af67bb4a85a83c706a7e83ef596d51dfe72d00b33de2e03c5a983cf"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -301,6 +311,16 @@
       "path": "explorer/screenshots/landscape.png",
       "bytes": 266555,
       "sha256": "c3d63fb2f42efa20dbb7515031cb667a135f989051b32a7fafed960fd8f57088"
+    },
+    {
+      "path": "explorer/scripts/build-complex-i-pilot.py",
+      "bytes": 5609,
+      "sha256": "b561d22c08e50c810b63b027f7c88352ae964fd63f9691d4e3f26a83084bbbda"
+    },
+    {
+      "path": "explorer/scripts/build-mitochondrial-context.py",
+      "bytes": 6310,
+      "sha256": "1e9d41f6abc84e1ad8ea6a0899ea07455e96d7aed1f2ded4bf707ec458905034"
     },
     {
       "path": "explorer/scripts/capture-network-preview.mjs",
@@ -394,8 +414,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 230057,
-      "sha256": "d1b69c9787e130bfe8379577849fa7a6dd6bf2ae32bca068d947315ad75aedb8"
+      "bytes": 250704,
+      "sha256": "bd85089aca34dd14b367a04fe6739f7d17361e5eb0f4ae23825c4d87bf5403e2"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -436,6 +456,36 @@
       "path": "explorer/src/assets/elife-logo.svg",
       "bytes": 7861,
       "sha256": "5bd57d9b20d9d6a8c7626ef2a057a8a540f81c39669a755f616e7e09f2fd73ac"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/analysis-plan.json",
+      "bytes": 2641,
+      "sha256": "0840a72ebb880808def5c6d4b77c730baead34d3dffadf7d83bfdf016bab6f06"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/annotations.json",
+      "bytes": 574626,
+      "sha256": "86dda324cf800e7e47fdbe7bc66918f517e21171d0d1492ed58cd61662e50023"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/complex-i.json",
+      "bytes": 275145,
+      "sha256": "b73ef0753eacc22248c99825972592e1ede7101bd851d74ef79835b967179c74"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/enrichment.csv",
+      "bytes": 95838,
+      "sha256": "27d828dcfd1903b076c54302cff2d4bc4c39c6b9656867724ec8050476a9ba59"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/enrichment.json",
+      "bytes": 142906,
+      "sha256": "4fc0c493f5b3071be5460ea3ba88d4aba2a3d3d1f63abcd95d1b5be75215d580"
+    },
+    {
+      "path": "explorer/src/assets/mitochondria/mapping-audit.csv",
+      "bytes": 75793,
+      "sha256": "dccd0147b6b63e51e5ea23d1d87520e3496d9b3a17b973604be2026411430f14"
     },
     {
       "path": "explorer/src/assets/oxphos-network-preview-480.webp",
@@ -3414,13 +3464,18 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 65174,
-      "sha256": "ee0f1cd5ca0f4c9138cd57beb40fe2530adda98d8c580ec195a180a775e5ccf1"
+      "bytes": 65231,
+      "sha256": "7c319312ad46276adcca3d929cb078a95ddb1c6221576b69ce613dd8585914c0"
     },
     {
       "path": "explorer/src/components/app-toast.js",
       "bytes": 1007,
       "sha256": "15d60556bde7b12776caba7116757db90d8195c469ceae7e238675d04b4177b0"
+    },
+    {
+      "path": "explorer/src/components/assembly-geometry.js",
+      "bytes": 519,
+      "sha256": "9cc5d585d9568197c61163c5118eadfb26cb3c199bbc19378b3e2798d82ea226"
     },
     {
       "path": "explorer/src/components/atlas-tour.js",
@@ -3429,8 +3484,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 129171,
-      "sha256": "b6666ed8873e93b2d50abea4ca42254b46f896651ddfed5b1e64ac274c26f075"
+      "bytes": 131790,
+      "sha256": "7989bf02294654108fa1559a869a7940bf71f80443ddffb6ce8fa1cf3636d28c"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3448,14 +3503,19 @@
       "sha256": "647a75cc8edccba0903b1258eb1024c17f9c77e02bda35d461cc079fd17a2555"
     },
     {
+      "path": "explorer/src/components/complex-i-pilot.js",
+      "bytes": 11665,
+      "sha256": "10c59dde6c235f3b59b8803d894a11c28147fe426e758a65512d32f117ce75fb"
+    },
+    {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 41240,
-      "sha256": "bff3fb93c2164160d94c0fb354ccccba9fa9f872dc3792a172e9cac80c6c2d46"
+      "bytes": 45415,
+      "sha256": "8f1d6bfd5de531a4bf3625118433899eede1adedc0457a995c5395e3837bb252"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
-      "bytes": 4048,
-      "sha256": "1ce0b61cdf2de4588fb71184e337aee86d6ebe5f67fa189ca0711e4eb832015d"
+      "bytes": 3998,
+      "sha256": "2ca9b42b7d17259ce66913e5baa324b527fb54543c0be50af8614a32466583e9"
     },
     {
       "path": "explorer/src/components/exploratory-result-chart.js",
@@ -3474,13 +3534,13 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 16525,
-      "sha256": "a4c593c99cfc04472b8d8d24dbcb27fa28f4304a7be9d8b4d2dfb4bf0121aad9"
+      "bytes": 17076,
+      "sha256": "3dfad898416c5d5aae7a16893f26c010842468f62dc0cd75087ad2c745d69298"
     },
     {
       "path": "explorer/src/components/file-download.js",
-      "bytes": 3950,
-      "sha256": "3816787f8eb5198c359374753e11f546a4e794341c60e000ea05fb2aa2754bf7"
+      "bytes": 7028,
+      "sha256": "65b8d0a9461226747a1682289a3ead541f33ec7b32fe862a81c0cf1e7c2a61a7"
     },
     {
       "path": "explorer/src/components/format.js",
@@ -3494,8 +3554,8 @@
     },
     {
       "path": "explorer/src/components/gene-annotation.js",
-      "bytes": 15853,
-      "sha256": "3f09ecdb456963bbae9c18fff72ac56766a6a27df10837de9e73407027719c2e"
+      "bytes": 16676,
+      "sha256": "3ead5d14bae59d418b169d1653687b3922a50e0a39a5e4220d194838146672f9"
     },
     {
       "path": "explorer/src/components/gene-diagnostics.js",
@@ -3514,8 +3574,8 @@
     },
     {
       "path": "explorer/src/components/gene-suggestions.js",
-      "bytes": 3344,
-      "sha256": "38abbcb8143abf5bafb07416b8e3d3d1b416582243d49d852568557568aeaa19"
+      "bytes": 3538,
+      "sha256": "ae3668fa23a5e194cc83a298fb14029ed232c401967e30b1c0a9eaaf941e44cb"
     },
     {
       "path": "explorer/src/components/hexbin-plot.js",
@@ -3529,8 +3589,8 @@
     },
     {
       "path": "explorer/src/components/interface-utils.js",
-      "bytes": 5537,
-      "sha256": "d0796f874056e961c0522fb36e96bf58e876418e7914834cd00b054ffd4842c2"
+      "bytes": 3839,
+      "sha256": "d6ad99e88f9c69d430af2801278dab31282b5cd0d7c3bc895f163cacd2b5dd28"
     },
     {
       "path": "explorer/src/components/intersection-data.js",
@@ -3558,6 +3618,26 @@
       "sha256": "bc883983d139954fdd09eaf63b6476a8921710709caddf5dc1cdfef54ad481c6"
     },
     {
+      "path": "explorer/src/components/mitochondrial-card.js",
+      "bytes": 2680,
+      "sha256": "764e2417efbfc5af1fc4bbd8965fc7deee5d8dd40b0f5488d69ddd031d31bfee"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-data.js",
+      "bytes": 630,
+      "sha256": "d75ad8b8201fe6b0498f42c878af790aedd799085ee868c9d7d9d5907fa69305"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-explorer.js",
+      "bytes": 10344,
+      "sha256": "fab16c09911a45a15019f06b81e09d48a2c8acd0a43f0ddc86a28d15dce8e252"
+    },
+    {
+      "path": "explorer/src/components/mitochondrial-mapping.js",
+      "bytes": 1293,
+      "sha256": "2d72813a58648c3eaff0242621174461914162c2e496fa9137f92de0769aa432"
+    },
+    {
       "path": "explorer/src/components/molecular-viewer.js",
       "bytes": 7306,
       "sha256": "1cf55c93d5465dbf903b8574d4b7ce9073af0c2b7d6158ce5cf8a174d18e5a81"
@@ -3568,14 +3648,19 @@
       "sha256": "c11dc097b932b33e3fa98681f766b12f164406cc9ea13481065b825a10851f60"
     },
     {
+      "path": "explorer/src/components/network-framing.js",
+      "bytes": 1234,
+      "sha256": "a088a7c00ebf761dc3dd14e36f656a86a6da43eb308630591345441d52d6d4c7"
+    },
+    {
       "path": "explorer/src/components/network-molecule.js",
       "bytes": 4629,
       "sha256": "3018068efeb21a318a497dad56c0831d3854dcbb9e362263845638b6c103e8e4"
     },
     {
       "path": "explorer/src/components/network-node-protein.js",
-      "bytes": 19131,
-      "sha256": "ac585b5547427e2d9b8ba5cd3fa96378acb2348080a29e531cf1c56536bd0d22"
+      "bytes": 23016,
+      "sha256": "92915270d406419028d841670af3a1429b2e2be7a93b4f2acc713e84c549a3f0"
     },
     {
       "path": "explorer/src/components/network-preview-asset.js",
@@ -3584,8 +3669,8 @@
     },
     {
       "path": "explorer/src/components/network-scene-effects.js",
-      "bytes": 1806,
-      "sha256": "8ef210dcc943d3d27c23f93f64f5e3b290114e57c21d5490a2291d73417b1e8e"
+      "bytes": 2087,
+      "sha256": "e2648e56a888fbd7a485d91a94e5ebd8012cf5716825a006361ee832e9c59631"
     },
     {
       "path": "explorer/src/components/network-statistics.js",
@@ -3594,13 +3679,13 @@
     },
     {
       "path": "explorer/src/components/notebook-publication.js",
-      "bytes": 3792,
-      "sha256": "66b2914d973232265db89a2483e8a8aef905d9fdec59617539ec2c3c03af1627"
+      "bytes": 3818,
+      "sha256": "c2e984c05190b33b7e21e127ddd88721d422ee7b12956cb11f5f0c459b7a7403"
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 67689,
-      "sha256": "1f055101a6ec189371bc1564c4e485df6a092085e5c4b56b1c7072476e59d76b"
+      "bytes": 73076,
+      "sha256": "82908fb3312e9f9cbabd8bd0ee3d85ec892456d39729ecc18cef05f8bf695bfe"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3609,8 +3694,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-research-panel.js",
-      "bytes": 14745,
-      "sha256": "56eb47c84847bd9e7e7425318d85f56064589000f45b82cf92f15e978bb5ad23"
+      "bytes": 13533,
+      "sha256": "c8c887e7327893a6244d54760b6bd7e44e36021d60b313a40e6a553a49680cf9"
     },
     {
       "path": "explorer/src/components/pathway-autocomplete.js",
@@ -3619,8 +3704,8 @@
     },
     {
       "path": "explorer/src/components/pathway-network.js",
-      "bytes": 30728,
-      "sha256": "ea9e0a64b2ff3e9685bb12ebd424fbfd9b38ffed28a86a74fdc90c42fc8160af"
+      "bytes": 31647,
+      "sha256": "8deeb046241a9c67b22b5f0614244959b6d4b7374028a99dd9ab040bf502391a"
     },
     {
       "path": "explorer/src/components/pathway-overlap.js",
@@ -3649,8 +3734,8 @@
     },
     {
       "path": "explorer/src/components/python-lab.js",
-      "bytes": 18220,
-      "sha256": "70b0cae79f18990b92c18b835b88c9d4136fdd5756ecc83bde1ce7ff3c25dd39"
+      "bytes": 21290,
+      "sha256": "d15e59d73c437b2255d06c30ffb36e2f088dfcbf57c16d06351eb09940db8c5b"
     },
     {
       "path": "explorer/src/components/python-notebooks.js",
@@ -3674,8 +3759,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 31527,
-      "sha256": "7f5b3d37cce22ccb4facf93f41ef7d55f7a4e5da1079b23578b33b017c1cdbdf"
+      "bytes": 32208,
+      "sha256": "86c2223f3f55ba498940a259ab231ce43cbcbb1c6f9ad9e9db19d37f648d525c"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3689,8 +3774,8 @@
     },
     {
       "path": "explorer/src/components/r-report.js",
-      "bytes": 20731,
-      "sha256": "7745de8f13dacd6dab64d0bdd6856fb60e34a6b707b92b6f1f1340c28415003b"
+      "bytes": 20767,
+      "sha256": "f73b8f099d2d920ef2ee46af627ef4bc981a8ecbd9737415465a412ed5b3fcc4"
     },
     {
       "path": "explorer/src/components/r-runtime.js",
@@ -3699,8 +3784,8 @@
     },
     {
       "path": "explorer/src/components/r-vector-plots.js",
-      "bytes": 1794,
-      "sha256": "a92f0ddd3ca2ee61cce65ad1942b07496ac16b445e8dd217099ad2f972f828f0"
+      "bytes": 2152,
+      "sha256": "d8ed9138e3e730b216fda275cbc75d2c5842131e3a274b7bd55537dd450a7bcf"
     },
     {
       "path": "explorer/src/components/r-workspace-inspector.js",
@@ -3714,8 +3799,8 @@
     },
     {
       "path": "explorer/src/components/research-collections.js",
-      "bytes": 7466,
-      "sha256": "b5c3d8f3ccbb4559994afc767ec5d837fcafe85c0de6d5cce0382dffcc71fd78"
+      "bytes": 8337,
+      "sha256": "85e31256f8649eeb52f6b86258b0f947063bf2ee7529ca1d5fab0f39145f97d4"
     },
     {
       "path": "explorer/src/components/research-dataset-browser.js",
@@ -3744,8 +3829,8 @@
     },
     {
       "path": "explorer/src/components/research-inspector.js",
-      "bytes": 19299,
-      "sha256": "4a1434e9184b7cbd721b2850a8ad952b52b7c3d3be3b7bc2a73115d76a5a9c30"
+      "bytes": 19588,
+      "sha256": "e10f21c24da1d44ed642a6b6725f11ea4437d99261d2eaf682eb3d4656e2ca86"
     },
     {
       "path": "explorer/src/components/research-navigation.js",
@@ -3764,8 +3849,8 @@
     },
     {
       "path": "explorer/src/components/research-studio.js",
-      "bytes": 12292,
-      "sha256": "e57d5067f6d70013b0aa78c059eca12f17989771887ea73dc318b694b88be60a"
+      "bytes": 12346,
+      "sha256": "5abe4efdde30183a662df20746ab6e638ad78c95509836390059b3c27f72449f"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -3799,8 +3884,8 @@
     },
     {
       "path": "explorer/src/components/scientific-session.js",
-      "bytes": 20697,
-      "sha256": "df0a26f42a8261efbd4450fa44f23148ceff7c2f327a2a9da9f71d58c5ef10b5"
+      "bytes": 20980,
+      "sha256": "bcaeb09eb4f0429eb086c3b1febb8e286c0a36a894cc6bc712192d5a3105e1bb"
     },
     {
       "path": "explorer/src/components/sidebar-context.js",
@@ -3809,8 +3894,8 @@
     },
     {
       "path": "explorer/src/components/structure-preview.js",
-      "bytes": 1333,
-      "sha256": "884e54e9eeaab5583970c2b0b0394be5d16d02b5d318178120ca7ef7515c3bd3"
+      "bytes": 3116,
+      "sha256": "5b54b6c6462b86e6760ec2abcc3c8585a23262316dd7b0fb25b8b0785356c88d"
     },
     {
       "path": "explorer/src/components/studio-ui.js",
@@ -3869,8 +3954,8 @@
     },
     {
       "path": "explorer/src/index.md",
-      "bytes": 2203,
-      "sha256": "3bf4c6de7348a05fd24fe77ff6b198918f0cb902359eec93416e6b4d1950135e"
+      "bytes": 2300,
+      "sha256": "f761e9bb4263c00b15ec55b85c4e0f23c5783e2e9d2e00905e36e2f53af8c57c"
     },
     {
       "path": "explorer/src/style.css",
@@ -3998,6 +4083,16 @@
       "sha256": "3727cfadfaa789553ba48449d39fdef95dde75485867266fd3a6745550f8973c"
     },
     {
+      "path": "explorer/test/mitochondrial-browser-check.mjs",
+      "bytes": 2629,
+      "sha256": "7881a9da54a3d3adc72c0affc660335241db74cd8f9337b81eac1bcc02977b41"
+    },
+    {
+      "path": "explorer/test/mitochondrial-context.test.js",
+      "bytes": 3884,
+      "sha256": "129d374831824329def711956ab508dea51c073223491f01cee39a6540f08594"
+    },
+    {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
       "bytes": 4549,
       "sha256": "87eebd44949ad13533de30a0a69acd83363d8d56abfc8ce6ab87f3854fd576ce"
@@ -4036,6 +4131,11 @@
       "path": "explorer/test/network-effects-browser-check.mjs",
       "bytes": 2211,
       "sha256": "ec9b55bb9e613997d9c5551d5f85b03806f77f59f85c7f3865b18d2ea95f0537"
+    },
+    {
+      "path": "explorer/test/network-framing.test.js",
+      "bytes": 1072,
+      "sha256": "ee056b25e9ec287928f75b7c72805720b06b800b08a2befcd69167575014ad1f"
     },
     {
       "path": "explorer/test/network-molecule.test.js",
@@ -5753,6 +5853,11 @@
       "sha256": "233b14055f254eee71651b8ed194c6ae5699f7c40b928d90380a558f5edf745e"
     },
     {
+      "path": "reports/mitocarta_followup_methods.md",
+      "bytes": 3946,
+      "sha256": "8ce0acb4f36b078e355c070238804c070a5979a1b329e3070130a6cf8fe56418"
+    },
+    {
       "path": "reports/oxphos_alias_sensitivity.md",
       "bytes": 3597,
       "sha256": "6164d1490a7566be178eddf03bad4c80449006c6bfb6a05ca3a7249c2eb6dd41"
@@ -6063,6 +6168,11 @@
       "sha256": "b2c65c3345d8b1625430329418405f1531adb1f0a2eeb7ca4317874555c50cc9"
     },
     {
+      "path": "src/transcriptomics/mitocarta_followup.R",
+      "bytes": 4807,
+      "sha256": "f04c869f84753244d11038b26ed67650be68f83b2484bf73062a72221241e75e"
+    },
+    {
       "path": "src/transcriptomics/npp_figures.R",
       "bytes": 10202,
       "sha256": "7b1b72fb925317d4e3c78dbe5c5c49540bebce110aa21872b09306719a94ed80"
@@ -6271,6 +6381,21 @@
       "path": "tables/dna_maintenance/telomere_decomposition.csv",
       "bytes": 18198,
       "sha256": "e3e2cbaf8c778086e34ccd471bfc1e565b113b699ae680ce199e0b234eb05607"
+    },
+    {
+      "path": "tables/mitocarta_followup/all_pathways.csv",
+      "bytes": 95838,
+      "sha256": "27d828dcfd1903b076c54302cff2d4bc4c39c6b9656867724ec8050476a9ba59"
+    },
+    {
+      "path": "tables/mitocarta_followup/provenance.json",
+      "bytes": 1339,
+      "sha256": "12524f9b23f8e645269d7067508b3e2d34850b55770fb0d15736633704655ea8"
+    },
+    {
+      "path": "tables/mitocarta_followup/sessionInfo.txt",
+      "bytes": 1512,
+      "sha256": "48c386048b542c0fee3096927340ce23059e1d73f308f17b49728a73f801b6dd"
     },
     {
       "path": "tables/oxphos_alias/alias_mapping.csv",

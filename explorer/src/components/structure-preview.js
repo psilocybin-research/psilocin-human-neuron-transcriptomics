@@ -1,3 +1,4 @@
+import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import { structurePreviews } from "../assets/structure-previews.js";
 import { createElement as el, escapeHTML, createAccordion } from "./interface-utils.js";
 export const geneStructurePreview = (gene) =>
@@ -53,5 +54,6 @@ export function createGeneContextCard(gene, { context = "Archived gene estimates
   const preview = geneStructurePreview(gene);
   if (preview) card.body.append(el("p", "note", `${preview.provider} · ${preview.accession} · ${preview.model}. ${preview.scope}`));
   card.body.append(el("p", "note", "Protein structure is external context; it is not a measured change in this RNA-seq experiment."));
+  appendMitochondrialCard(card.body, gene);
   return card;
 }

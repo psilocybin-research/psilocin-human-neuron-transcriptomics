@@ -1,3 +1,5 @@
+import { appendMitochondrialCard } from "./mitochondrial-card.js";
+import { createMitochondrialExplorer } from "./mitochondrial-explorer.js";
 import {networkPreviewSizes, networkPreviewSrcset} from "./network-preview-asset.js";
 import {studioMenu} from "./studio-ui.js";
 import {showToast} from "./app-toast.js";
@@ -593,6 +595,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       "The interface uses Framework7, Observable Framework and Observable Plot, D3 and 3Dmol.js. The optional OXPHOS membership view uses 3d-force-graph and Three.js, loaded on demand with original dependency notices. R code editing uses CodeMirror with its R language mode. Custom R analyses use webR 0.6.0 with its original distribution licences and source links. The workspace uses the unmodified R logo © 2016 The R Foundation under CC BY-SA 4.0, and the unmodified Python logo solely to identify the Python programming language; Python and the Python Logo are trademarks of the Python Software Foundation, and this project is not affiliated with the PSF. Optional local reports use Siglum 0.2.2, BusyTeX/pdfTeX, TeX Live 2026 and Latin Modern fonts; original compiler, package and font licences and corresponding-source links accompany the runtime and LaTeX archive. Component licences and molecular-data attribution are provided below and with the downloadable records. Consult Methods & provenance for the experimental design, statistical qualifications and input checksums.",
     ),
   );
+  const mitochondrialCitation = el("p", "", "Mitochondrial context: Rath S, Sharma R, Gupta R, et al. MitoCarta3.0. Nucleic Acids Research. 2021;49(D1):D1541–D1547. CC BY-NC 4.0. Annotations and exploratory follow-up are distinct from the frozen primary evidence. ");
+  const mitochondrialSource = el("a", "external", "Source and citation ↗");
+  mitochondrialSource.href = "https://doi.org/10.1093/nar/gkaa1011"; mitochondrialSource.target = "_blank"; mitochondrialSource.rel = "noopener noreferrer";
+  mitochondrialCitation.append(mitochondrialSource); citationGuidance.append(mitochondrialCitation);
   const softwareCredits = el("p", "");
   for (const [text, href] of [
     [
@@ -1407,6 +1413,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       scaleKey(2.5, "Expression · row z"),
       scaleKey(1.5, "Effect · log₂ fold change"),
     );
+    body.append(createMitochondrialExplorer({ getGenes, onGene: (gene) => go("genes", gene.id) }));
     body.append(controls);
     const split = el("div", "landscape-layout"),
       heat = el("div", "heatmap-scroll"),
@@ -1618,6 +1625,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       identity.append(preview, text);
       container.append(identity);
     }
+    appendMitochondrialCard(container, gene);
     const info = landscapeMap.get(gene.symbol);
     const contextShortcut = iconButton(
       "Gene & protein info",

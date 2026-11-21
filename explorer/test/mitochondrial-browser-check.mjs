@@ -1,0 +1,34 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
+const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+try{
+ await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=landscape');
+ await page.locator('[data-framework7]').waitFor();
+ const explorer=page.locator('.mitochondrial-explorer');
+ await explorer.locator('.gene-annotation-toggle').first().click();
+ await explorer.getByRole('button',{name:'Complex V ATP synthase'}).click();
+ await explorer.locator('.mitochondrial-coverage').filter({hasText:'21 curated structural subunits'}).waitFor();
+ await explorer.getByRole('button',{name:'Assembly factors',exact:true}).click();
+ await explorer.locator('.mitochondrial-coverage').filter({hasText:'5 curated assembly factors'}).waitFor();
+ await explorer.locator('.mitochondrial-enrichment .gene-annotation-toggle').click();
+ await explorer.getByRole('button',{name:'Download all 298 rows'}).waitFor();
+ assert.equal(await explorer.locator('.mitochondrial-enrichment tbody tr').count(),149);
+ await explorer.getByRole('button',{name:'Explore human complex I in 3D'}).click();
+ const sheet=page.locator('.complex-i-sheet');await sheet.locator('canvas').waitFor();
+ await sheet.getByText('45 / 45 deposited chains map uniquely',{exact:false}).waitFor();
+ await sheet.getByLabel('Select complex I subunit').selectOption({index:5});
+ await sheet.getByRole('button',{name:'Day 3',exact:true}).click();
+ await sheet.locator('.complex-i-selected-summary').filter({hasText:'Day 3:'}).waitFor();
+ await page.setViewportSize({width:390,height:844});
+ await sheet.getByRole('button',{name:'Reset view'}).click();
+ assert.equal(await sheet.evaluate(n=>n.scrollWidth>n.clientWidth+2),false);
+ await sheet.getByRole('button',{name:'Done',exact:true}).click();await sheet.waitFor({state:'detached'});
+ await explorer.getByRole('button',{name:'Explore human complex I in 3D'}).click();
+ await sheet.locator('canvas').waitFor();
+ await sheet.getByRole('button',{name:/Send .* to R Studio/}).click();
+ await page.waitForFunction(()=>location.hash.includes('view=custom-r'));
+ await sheet.waitFor({state:'detached'});
+ await page.locator('.studio-selection-card:not([hidden])').waitFor();
+ assert.deepEqual(errors,[]);console.log('PASS: complete membership, full exploratory results, 45-chain pilot, contrast switch, mobile sizing and disposal; no screenshots.');
+}finally{await browser.close();}
