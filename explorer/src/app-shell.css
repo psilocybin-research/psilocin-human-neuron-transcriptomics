@@ -6187,7 +6187,7 @@ body {
 @media(max-width:767px){#psilocin-app .oxphos-3d-viewer>.oxphos-3d-camera{display:none}}
 
 /* Brief, non-blocking F7 feedback; one surface at a time, including fullscreen. */
-#psilocin-app .atlas-feedback-sheet {
+#psilocin-app .atlas-feedback-notification {
   top: calc(env(safe-area-inset-top, 0px) + 8px);
   left: 12px;
   right: 12px;
@@ -6197,7 +6197,7 @@ body {
   margin-inline: auto;
   border-radius: 20px;
   color: var(--f7-text-color, #15384c);
-  background: var(--f7-sheet-bg-color, #f5fafc);
+  background: var(--f7-notification-bg-color, #f5fafc);
   border: 1px solid rgba(120, 150, 170, .25);
   box-shadow: 0 8px 28px rgba(0, 20, 35, .18);
   overflow: hidden;

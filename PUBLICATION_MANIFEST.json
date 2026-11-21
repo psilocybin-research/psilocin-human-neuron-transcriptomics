@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1433,
-  "total_bytes": 726547973,
+  "file_count": 1435,
+  "total_bytes": 726557279,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 280696,
-      "sha256": "88adca0e3d9b3896030a174d211098827000086356959be74fd5143bab3e6724"
+      "bytes": 280981,
+      "sha256": "57df736aacd9c70c448e582b4d15796e0359e7a57d617cf75f9758ddac41f95d"
     },
     {
       "path": "LICENSE.md",
@@ -339,8 +339,8 @@
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
-      "bytes": 1661,
-      "sha256": "9f91cbdb63f3ea547c3e5c163a8d29bbebb17f9bc97e0a14e39c1f2d274d4f54"
+      "bytes": 1737,
+      "sha256": "8c68728f9e17b343f81930a6e857b597698bbd411bc3fbcdfed992bd86ba685f"
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 269375,
-      "sha256": "4b4504e9d984ddff1f1d606eb491fb4b0a35c84b42216395361d3435ae5e40f1"
+      "bytes": 269389,
+      "sha256": "0847fb76d98748135dfaec0ed638732d6b84a43c0ac84868ec0598c45f45d5bd"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3479,13 +3479,13 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 66046,
-      "sha256": "a7265a633858bf8cc71af8a6fd7d4493f1b8041b092e7a1343ca21c7f224aa86"
+      "bytes": 67172,
+      "sha256": "c10d055746902ea75619914210cf4040fe3409d289530f5356647ab9bfd0705a"
     },
     {
       "path": "explorer/src/components/app-toast.js",
-      "bytes": 2664,
-      "sha256": "8a4004a963d0719eb4149923e4aab0f48e4a62b054796e0e5bd342e86864537e"
+      "bytes": 2851,
+      "sha256": "503d7bc1b0c1c3d760dc10e3bd996ca84dc3a63e2a42085ab53a2f6f04b8c2e1"
     },
     {
       "path": "explorer/src/components/assembly-geometry.js",
@@ -4096,6 +4096,16 @@
       "path": "explorer/test/exploratory-result-data.test.js",
       "bytes": 3220,
       "sha256": "22791692a89cd4a31fecc9fda5e1e6b3ce27cafd6f9140cfc3fa8422cb024c75"
+    },
+    {
+      "path": "explorer/test/f7-interaction-browser-check.mjs",
+      "bytes": 3861,
+      "sha256": "448c2621b74d276cec370f8a705c342b7e8b7edc5df5527ccc73610979608087"
+    },
+    {
+      "path": "explorer/test/feedback-notification-browser-check.mjs",
+      "bytes": 3757,
+      "sha256": "35d1d5d4ce4ae0d3923ebe6a8cdc951fabf582c6359b7c662cb7defad7d000a9"
     },
     {
       "path": "explorer/test/figure-controls-browser-check.mjs",

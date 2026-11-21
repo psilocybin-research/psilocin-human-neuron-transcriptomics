@@ -653,7 +653,8 @@ export function createAppShell({
   const smartInstances = new Set(),
     smartNodes = new WeakMap(),
     modalStack = [],
-    returnFocus = new WeakMap();
+    returnFocus = new WeakMap(),
+    fullscreenDialogBackdrops = new WeakMap();
   function closeControls() {
     for (const { element, placeholder, inline, hidden } of [
       ...controlMoves,
@@ -1096,14 +1097,14 @@ export function createAppShell({
       ...el.querySelectorAll('button,a[href],input,select,[tabindex="0"]'),
     ].filter(
       (n) =>
-        !n.disabled &&
-        n.getAttribute("aria-hidden") !== "true" &&
-        n.getClientRects().length,
+        !n.matches(':disabled,[tabindex="-1"],[aria-disabled="true"]') &&
+        !n.closest('[inert],[aria-hidden="true"]') &&
+        n.getClientRects().length &&
+        getComputedStyle(n).visibility !== "hidden",
     );
   }
   function modalOpen(e) {
     const el = e.target;
-    if (el.matches(".atlas-feedback-sheet")) return;
     if (el === source) root.dataset.sourcesOpen = "true";
     el.dataset.shellModalReady = "false";
     if (
@@ -1113,6 +1114,15 @@ export function createAppShell({
     )
       return;
     if (el.matches(".panel.panel-in-breakpoint")) return;
+    const fullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    if (el.matches(".dialog") && fullscreen && !fullscreen.contains(el)) {
+      fullscreen.append(el);
+      const backdrop = el.f7Modal?.backdropEl;
+      if (backdrop) {
+        fullscreen.append(backdrop);
+        fullscreenDialogBackdrops.set(el, backdrop);
+      }
+    }
     returnFocus.set(el, document.activeElement);
     el.setAttribute("role", el.matches(".dialog") ? "alertdialog" : "dialog");
     el.setAttribute("aria-modal", "true");
@@ -1146,6 +1156,11 @@ export function createAppShell({
   }
   function modalClosed(e) {
     const el = e.target;
+    const backdrop = fullscreenDialogBackdrops.get(el);
+    if (backdrop) {
+      root.append(backdrop);
+      fullscreenDialogBackdrops.delete(el);
+    }
     if (el === source) root.dataset.sourcesOpen = "false";
     const index = modalStack.indexOf(el);
     if (index < 0) return;
@@ -1177,6 +1192,12 @@ export function createAppShell({
           ?.focus({ preventScroll: true });
     }
     scheduleEnhance();
+  }
+  function modalWillDestroy(event) {
+    const instance = event.target.f7Panel || event.target.f7Modal;
+    // F7 detaches its outside-click/touch listeners on close, not on destroy.
+    if (instance?.opened) instance.close(false);
+    modalClosed(event);
   }
   const onModalKeydown = (event) => {
     if (event.key === "Tab") root.dataset.inputModality = "keyboard";
@@ -1225,6 +1246,8 @@ export function createAppShell({
     root.addEventListener(`${type}:open`, modalOpen);
     root.addEventListener(`${type}:opened`, modalOpened);
     root.addEventListener(`${type}:closed`, modalClosed);
+    // Some dynamic surfaces are destroyed directly rather than closed first.
+    root.addEventListener(`${type}:beforedestroy`, modalWillDestroy);
   }
   root.addEventListener(
     "click",
@@ -1313,6 +1336,7 @@ export function createAppShell({
   root.addEventListener("pointermove", movePress);
   document.addEventListener("pointerup", endPress);
   document.addEventListener("pointercancel", endPress);
+  window.addEventListener("blur", endPress);
   const tour = createAtlasTour({
     node,
     action,
@@ -1682,6 +1706,7 @@ export function createAppShell({
       root.removeEventListener("pointermove", movePress);
       document.removeEventListener("pointerup", endPress);
       document.removeEventListener("pointercancel", endPress);
+      window.removeEventListener("blur", endPress);
       cancelAnimationFrame(enhanceFrame);
       app?.destroy();
     },
