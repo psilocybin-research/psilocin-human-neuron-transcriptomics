@@ -30,17 +30,20 @@ const hoverNumber = (value, probability = false) =>
         : value.toFixed(3);
 const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
+let layoutIntroductionShown = false;
+
 export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
   root.setAttribute("aria-label", "3D OXPHOS gene–pathway membership");
-  root.dataset.layout = "complex";
+  const introduceLayout = !layoutIntroductionShown && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  root.dataset.layout = introduceLayout ? "layers" : "complex";
   root.dataset.layoutReady = "true";
   const genes = snapshot.nodes.filter((n) => n.type === "gene");
   let day = initialContrast === "day3_vs_control" ? 1 : 0,
     filter = "all",
     uncertainty = "all",
     researchTab = "evidence",
-    layoutMode = "complex",
+    layoutMode = introduceLayout ? "layers" : "complex",
     query = "",
     selected =
       genes.find((n) => n.symbol === initialGene || n.id === initialGene)?.id ||
@@ -1387,18 +1390,18 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
     graph?.linkOpacity(0.28);
     root.dataset.entranceReady = "true";
     const requestedGene = genes.find(gene => gene.id === selected);
-    if (requestedGene) {
+    if (requestedGene && !introduceLayout) {
       orientToGene(requestedGene);
       return;
     }
-    if (playLayoutIntroduction && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (playLayoutIntroduction && introduceLayout) {
       root.dataset.layoutIntroduction = "running";
-      transitionLayout("layers", {automatic:true});
+      layoutIntroductionShown = true;
       introTimer = setTimeout(() => {
         if (destroyed || root.dataset.layoutIntroduction !== "running") return;
         transitionLayout("complex", {automatic:true});
         root.dataset.layoutIntroduction = "complete";
-      }, 1080);
+      }, 5200);
     }
   }
   function interruptIntroduction() {
@@ -1592,9 +1595,16 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
           if (event?.pointerType !== "touch") activateNetworkNode(n, event);
         })
         .graphData({
-          nodes: structuredClone(snapshot.nodes),
+          nodes: structuredClone(snapshot.nodes).map(node => {
+            if (introduceLayout) {
+              const position = layerPositions.get(node.id);
+              Object.assign(node, position, {fx:position.x,fy:position.y,fz:position.z});
+            }
+            return node;
+          }),
           links: structuredClone(snapshot.links),
         });
+      if (introduceLayout) layoutIntroductionShown = true;
       graph.scene().background = new api.Color(palette.background);
       graph.renderer().setPixelRatio(Math.min(devicePixelRatio || 1, 2));
       cameraTransition = createCameraTransition({
@@ -1762,6 +1772,11 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
             }
           }
       });
+      layoutToggle.checked = layoutMode === "layers";
+      for (const item of labels) {
+        const node = graph.graphData().nodes.find(n => n.id === item.nodeId);
+        if (node) item.sprite.position.set(node.x + 82, node.y + 16, node.z);
+      }
       reset(false);
       updateGraph();
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {

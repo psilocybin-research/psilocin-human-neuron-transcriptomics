@@ -63,6 +63,12 @@ try {
       "desktop inspector is nonmodal",
     );
   }
+  await page.waitForTimeout(450);
+  const headerBox = await tools.locator('.atlas-sheet-toolbar').boundingBox();
+  const scrollBox = await tools.locator('.atlas-3d-tools-scroll').boundingBox();
+  const panelBox = await tools.boundingBox();
+  assert.ok(headerBox.y - panelBox.y < 24, 'panel header stays at its top');
+  assert.ok(headerBox.y + headerBox.height <= scrollBox.y + 1, 'navigation never overlaps header');
   for (const dark of [false, true]) {
     await page.evaluate(
       (dark) => document.querySelector("#psilocin-app").f7.setDarkMode(dark),
@@ -213,6 +219,15 @@ try {
   );
   await fab.click();
   await tools.waitFor();
+  await page.waitForTimeout(450);
+  const fullHeader = await tools.locator('.atlas-sheet-toolbar').boundingBox();
+  const fullScroll = await tools.locator('.atlas-3d-tools-scroll').boundingBox();
+  const fullPanel = await tools.boundingBox();
+  assert.ok(fullHeader.y - fullPanel.y < 24);
+  assert.ok(fullHeader.y + fullHeader.height <= fullScroll.y + 1);
+  const exitBox = await workbench.getByRole('button',{name:'Exit full screen',exact:true}).boundingBox();
+  assert.ok(exitBox.y >= 0 && exitBox.y + exitBox.height <= 900, 'fullscreen close is entirely visible');
+  assert.ok(exitBox.y + exitBox.height <= fullPanel.y, 'fullscreen close and tools panel stay separate');
   await tools
     .getByRole("tab", {
       name: "Open Representation & lighting",

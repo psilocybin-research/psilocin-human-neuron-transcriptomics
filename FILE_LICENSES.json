@@ -5433,6 +5433,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/network-introduction-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/network-molecule.test.js": {
     "spdx": "MIT",
     "copyright": [

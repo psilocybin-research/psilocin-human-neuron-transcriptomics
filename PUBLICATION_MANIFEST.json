@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1437,
-  "total_bytes": 726580207,
+  "file_count": 1438,
+  "total_bytes": 726585383,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 281267,
-      "sha256": "470a0a7e80bb6c72d4c0f94c798da02206e46e1b7367038249112e09e97b00b2"
+      "bytes": 281412,
+      "sha256": "cf9b36581b36f28d353ab7395ca9555465cb1f90e200b39e2be7e50656f178aa"
     },
     {
       "path": "LICENSE.md",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 272660,
-      "sha256": "ad762817f51285aa64a2632a289cb78a4ee341941fec5d3934b3f5492666a647"
+      "bytes": 274389,
+      "sha256": "7ac038038073410204e5037b9f89d900d6babb03933652b4b1fdf5db4ebe561a"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3739,8 +3739,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 74186,
-      "sha256": "0f7fc917ac5e4bae8528ae8ffa3ad4332d04e3bbba2c3e8d58d6ccb2384e652e"
+      "bytes": 74922,
+      "sha256": "9e25ba35b0644878dbbc259462a54bbb738463ea8c6ef5322406ce13fbb5414d"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -4199,8 +4199,8 @@
     },
     {
       "path": "explorer/test/molecular-tools-browser-check.mjs",
-      "bytes": 9216,
-      "sha256": "7fdc059e896adf09c65337cf7255e30d5755694de6a209d72a5b20db744ae31c"
+      "bytes": 10307,
+      "sha256": "6d8bb7b36f4ebd7c5ff41bcd11b65a68c205b6d4534ec69b647e6e1f258a5cb0"
     },
     {
       "path": "explorer/test/navigation-glass-browser-check.mjs",
@@ -4236,6 +4236,11 @@
       "path": "explorer/test/network-framing.test.js",
       "bytes": 1072,
       "sha256": "ee056b25e9ec287928f75b7c72805720b06b800b08a2befcd69167575014ad1f"
+    },
+    {
+      "path": "explorer/test/network-introduction-browser-check.mjs",
+      "bytes": 1475,
+      "sha256": "2ae68cb7a6caf390e7d88ba68286b665db3f46114537b580bf6c1263818e8fa0"
     },
     {
       "path": "explorer/test/network-molecule.test.js",
