@@ -1,3 +1,4 @@
+import {createVisualizationTools} from './visualization-tools.js';
 import { complexVContext } from './mitochondrial-enrichment-model.js';
 import { overviewPose, gentleFocusPose } from "./network-framing.js";
 import { createGeneIdentity } from "./structure-preview.js";
@@ -224,6 +225,7 @@ export function createOxphosNetwork({ onEvidence, initialGene, initialContrast, 
   const status = el("p", "note oxphos-3d-status");
   status.setAttribute("role", "status");
   status.setAttribute("aria-live", "polite");
+  let sharedTools;
   const viewer = el("div", "oxphos-3d-viewer");
   viewer.dataset.fullscreenHost = "true";
   viewer.dataset.fullscreenTitle = "3D OXPHOS membership network";
@@ -1414,6 +1416,7 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
   function destroy() {
     if (destroyed) return;
     destroyed = true;
+    sharedTools?.dispose();
     cameraTransition?.stop();
     for (const event of ["pointerdown", "wheel", "keydown"])
       root.removeEventListener(event, interruptIntroduction, true);
@@ -1824,6 +1827,13 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
     if (!root.isConnected) destroy();
   });
   detachObserver.observe(document.body, { childList: true, subtree: true });
+  sharedTools=createVisualizationTools({surface:viewer,title:'3D network tools',clearance:true,onResize:()=>window.dispatchEvent(new Event("resize"))});
+  const cameraSection=sharedTools.section('View & camera',{open:true});
+  sharedTools.action(cameraSection,'Zoom in',()=>cameraZoom(.8),'plus');
+  sharedTools.action(cameraSection,'Zoom out',()=>cameraZoom(1.25),'minus');
+  sharedTools.action(cameraSection,'Fit complete network',()=>reset(),'overview');
+  const evidenceSection=sharedTools.section('Selection & evidence');
+  for(const [label,kind,icon] of [['Find a gene','search','search'],['Selected gene evidence','gene','genes'],['Network display and filters','filters','controls'],['Sources and downloads','about','information']])sharedTools.action(evidenceSection,label,()=>{sharedTools.close();if(mobileControls.matches)openMobileControls(kind);else openDrawer(kind);},icon);
   root.destroy = destroy;
   requestAnimationFrame(() => start());
   return root;

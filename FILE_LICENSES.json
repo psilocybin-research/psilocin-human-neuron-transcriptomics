@@ -4765,6 +4765,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/molecular-export.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/src/components/molecular-tools.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/molecular-viewer.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5119,6 +5131,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/src/components/visualization-tools.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/src/components/workspace-layout.js": {
     "spdx": "MIT",
     "copyright": [
@@ -5319,6 +5337,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/molecular-export.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/molecular-integration-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -5332,6 +5356,12 @@
     ]
   },
   "explorer/test/molecular-previews.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/test/molecular-tools-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"

@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1428,
-  "total_bytes": 726498540,
+  "file_count": 1433,
+  "total_bytes": 726547973,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 280015,
-      "sha256": "d7409c899ec33a0bfe9d5ad594ae790e03c5c5e74a0b2ff75811428137cb8ac3"
+      "bytes": 280696,
+      "sha256": "88adca0e3d9b3896030a174d211098827000086356959be74fd5143bab3e6724"
     },
     {
       "path": "LICENSE.md",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 262603,
-      "sha256": "c8210e804827e3eb26f9364559d5a9d75e818e124101b24d1e4b44d256c7ee1e"
+      "bytes": 269375,
+      "sha256": "4b4504e9d984ddff1f1d606eb491fb4b0a35c84b42216395361d3435ae5e40f1"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3479,13 +3479,13 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 65264,
-      "sha256": "ed990a41e764302bd3db96c8d3cd81c838893799309933deae4beb8829a9064f"
+      "bytes": 66046,
+      "sha256": "a7265a633858bf8cc71af8a6fd7d4493f1b8041b092e7a1343ca21c7f224aa86"
     },
     {
       "path": "explorer/src/components/app-toast.js",
-      "bytes": 1007,
-      "sha256": "15d60556bde7b12776caba7116757db90d8195c469ceae7e238675d04b4177b0"
+      "bytes": 2664,
+      "sha256": "8a4004a963d0719eb4149923e4aab0f48e4a62b054796e0e5bd342e86864537e"
     },
     {
       "path": "explorer/src/components/assembly-geometry.js",
@@ -3519,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/complex-i-pilot.js",
-      "bytes": 15535,
-      "sha256": "ef1657af00af224f2e67c6c08d099d72a0c8a10a20047c686633992bc6af8846"
+      "bytes": 16356,
+      "sha256": "7c6240f41948272763243b1afe177c483236e00f481d69d9bfdf4dfba344d5b7"
     },
     {
       "path": "explorer/src/components/custom-r.js",
@@ -3674,18 +3674,28 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-molstar.js",
-      "bytes": 16864,
-      "sha256": "80aed64c4f59df726de498940f21b3b796e774a3f2767a5e6aab7f9a827ce2a4"
+      "bytes": 19288,
+      "sha256": "ae1db6fbf19f19db47281eab9ed732732429f9283aabec5b5df9d5d1a91dea50"
     },
     {
       "path": "explorer/src/components/mitochondrial-spatial-context.js",
-      "bytes": 6506,
-      "sha256": "1d186996800e99d513d68b3a26199ed05e43cc52980e4d3e5ee3a76215311b86"
+      "bytes": 7303,
+      "sha256": "b42941f209f1f0d616c9846a7beeee4ffe3e5da8172915c05b7c63aaebe56674"
+    },
+    {
+      "path": "explorer/src/components/molecular-export.js",
+      "bytes": 1939,
+      "sha256": "147de1b6678aed5b3483654ff068b3894e24f7be195d269dfea0cfaf77b098d3"
+    },
+    {
+      "path": "explorer/src/components/molecular-tools.js",
+      "bytes": 13385,
+      "sha256": "fd3e9bd3ad4fc5b2a0eacda96631fcf7124a5b03f182c42be37685dfd632e378"
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
-      "bytes": 7306,
-      "sha256": "1cf55c93d5465dbf903b8574d4b7ce9073af0c2b7d6158ce5cf8a174d18e5a81"
+      "bytes": 8340,
+      "sha256": "6457f628cfb649d6222b4643dcd16d4bee2cff13519bc59374b853bcaf2ffde1"
     },
     {
       "path": "explorer/src/components/network-camera.js",
@@ -3729,8 +3739,8 @@
     },
     {
       "path": "explorer/src/components/oxphos-network-3d.js",
-      "bytes": 73185,
-      "sha256": "0cd0630012089779262e920e99d6f2de6fd9f558f9af9b0a0549398911ba8af6"
+      "bytes": 74186,
+      "sha256": "0f7fc917ac5e4bae8528ae8ffa3ad4332d04e3bbba2c3e8d58d6ccb2384e652e"
     },
     {
       "path": "explorer/src/components/oxphos-network-data.js",
@@ -3779,8 +3789,8 @@
     },
     {
       "path": "explorer/src/components/python-lab.js",
-      "bytes": 21290,
-      "sha256": "d15e59d73c437b2255d06c30ffb36e2f088dfcbf57c16d06351eb09940db8c5b"
+      "bytes": 21229,
+      "sha256": "c97133217b53e35227c5ea7cecb6c95aeec3c871b1c99d1708eb1070b562eda4"
     },
     {
       "path": "explorer/src/components/python-notebooks.js",
@@ -3804,8 +3814,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 32208,
-      "sha256": "86c2223f3f55ba498940a259ab231ce43cbcbb1c6f9ad9e9db19d37f648d525c"
+      "bytes": 32134,
+      "sha256": "9f44809e899664b29867ea5037d780b1f55eebb4d3667e1f833b4bc9486ff735"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3978,6 +3988,11 @@
       "sha256": "5cca71478cae5f7d9c2ff8f218f9c899efdabb6780810e0f2a5fbd8da415c8da"
     },
     {
+      "path": "explorer/src/components/visualization-tools.js",
+      "bytes": 10505,
+      "sha256": "4a246fa8e694995a955229a85f6661b4680bb2ec6fe8aa996475aadf9d58e665"
+    },
+    {
       "path": "explorer/src/components/workspace-layout.js",
       "bytes": 10532,
       "sha256": "200fd04ee9b700ef4e596f32270752c7a598ab361ffc212a205f355837c2ebbe"
@@ -4143,9 +4158,14 @@
       "sha256": "e4884357dc417b8b6b9fb0277ce6790e5b2d547bd42b7e5cbbf2d2edc08ca853"
     },
     {
+      "path": "explorer/test/molecular-export.test.js",
+      "bytes": 1293,
+      "sha256": "e77ab62c6eb780f1b3f27a714df3bf78095e4cfed86884f6d9d527aaeb7ec473"
+    },
+    {
       "path": "explorer/test/molecular-integration-browser-check.mjs",
-      "bytes": 3690,
-      "sha256": "b709e948cdb443be1194a0be0c1670b60eb2da13277873845aaa7a481b0c013a"
+      "bytes": 4109,
+      "sha256": "2c678d379a701c6f16adb2e04b7571ee1175b111b86338f19722077d8d41bbc6"
     },
     {
       "path": "explorer/test/molecular-previews-browser-check.mjs",
@@ -4156,6 +4176,11 @@
       "path": "explorer/test/molecular-previews.test.js",
       "bytes": 2637,
       "sha256": "8acb7b7cd003ae15ac59d79efba534b949bee8a2da8658f91c00cd7a2b1f54a4"
+    },
+    {
+      "path": "explorer/test/molecular-tools-browser-check.mjs",
+      "bytes": 5898,
+      "sha256": "9f0adf8e228a8de9a096e2d524d53cf4e49d160d9189c2da1fbb26b458813cf5"
     },
     {
       "path": "explorer/test/navigation-glass-browser-check.mjs",
@@ -4214,8 +4239,8 @@
     },
     {
       "path": "explorer/test/oxphos-network-browser-check.mjs",
-      "bytes": 7672,
-      "sha256": "b945e2d485eca3fc404cafeb7ae70fdfa86cb4968ed9b66031f16d10c43fe606"
+      "bytes": 7752,
+      "sha256": "7b0cb4a477650383e82ceec938c9e5613c499554e6d7adbc5b4fac513814d2ed"
     },
     {
       "path": "explorer/test/oxphos-network-data.test.js",
@@ -4269,8 +4294,8 @@
     },
     {
       "path": "explorer/test/protein-context-browser-check.mjs",
-      "bytes": 10955,
-      "sha256": "3d5f549811ede7c9320254a50581acedd48039d3ab94d49f97f5b68e0dd61d14"
+      "bytes": 11035,
+      "sha256": "8118c37c3c708564c925414bbe2fc93769acc52574b1e329543a1b71839dc190"
     },
     {
       "path": "explorer/test/protein-data.test.js",

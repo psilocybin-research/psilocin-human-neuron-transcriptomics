@@ -1,3 +1,4 @@
+import {showToast} from "./app-toast.js";
 import {moveAnalysisToTrash, restoreAnalysis, reorderAnalysis} from "./analysis-lifecycle.js";
 import {createAnalysisNavigation} from "./analysis-navigation.js";
 import {createWorkspaceLayout} from "./workspace-layout.js";
@@ -221,16 +222,14 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   let undoToast;
   function undoMessage(text, undo) {
     undoToast?.close(false);
-    undoToast = root.f7.toast.create({text, closeButton: true, closeButtonText: 'Undo', closeTimeout: 8000, destroyOnClose: true,
-      on: {closeButtonClick(){if(!busy)undo();else onStatus?.('Interrupt execution before undoing. The analysis remains in Trash.');}}});
-    undoToast.open();
+    undoToast = showToast(text, {duration:8000, actionLabel:'Undo', onAction(){if(!busy)undo();else onStatus?.('Interrupt execution before undoing. The analysis remains in Trash.');}});
   }
   function selectCurrent() { activeCell=notebook()?.cells[0]?.id; }
   function deleteAnalysis(book) {
     if(busy || !book)return;
     try { const wasActive=workspace.active===book.id;if(!moveAnalysisToTrash(workspace,book.id))return;
       if(wasActive){onNotebookChange?.();selectCurrent();render();}else navigation.render();changed();save();
-      undoMessage(`Moved “${escapeHTML(book.title)}” to Trash.`,()=>restoreBook(book.id));
+      undoMessage(`Moved “${book.title}” to Trash.`,()=>restoreBook(book.id));
     } catch(error){onStatus?.(error.message);}
   }
   function restoreBook(bookId) {

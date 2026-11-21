@@ -185,7 +185,7 @@ try {
         .getAttribute("aria-selected"),
       "true",
     );
-    await page.screenshot({ path: `/tmp/atlas-protein-sheet-${width}.png` });
+    if (process.env.NO_SCREENSHOTS !== '1') await page.screenshot({ path: `/tmp/atlas-protein-sheet-${width}.png` });
     await page
       .getByRole("button", {
         name: "Download public protein context JSON",
@@ -252,7 +252,7 @@ try {
       (await page.locator(".molecular-stage").boundingBox()).height >
         before.height,
     );
-    await page.screenshot({ path: `/tmp/atlas-3d-fullscreen-${width}.png` });
+    if (process.env.NO_SCREENSHOTS !== '1') await page.screenshot({ path: `/tmp/atlas-3d-fullscreen-${width}.png` });
     await fullscreen.click();
     await page.waitForFunction(() => !document.fullscreenElement);
     await page

@@ -6155,3 +6155,141 @@ body {
 #psilocin-app .molecular-workbench .research-smart-select{width:100%;max-width:100%;border-radius:12px}
 #psilocin-app .molecular-workbench .molecular-settings .item-inner{min-width:0}
 #psilocin-app .molecular-workbench .msp-highlight-toast-wrapper{max-width:calc(100% - 24px);font-size:11px;line-height:1.4;pointer-events:none}
+
+/* Shared F7 tool surfaces for all scientific 3D renderers. */
+#psilocin-app .atlas-3d-fab{position:absolute;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:20;margin:0;width:48px;height:48px;}
+#psilocin-app .atlas-3d-fab>.button{width:48px;height:48px;min-width:48px;border-radius:50%;padding:0;background:var(--f7-bars-bg-color,#e8f2f8);color:var(--f7-theme-color);box-shadow:0 3px 15px #0003;border:1px solid #fff7;backdrop-filter:blur(18px);transform:none!important}
+#psilocin-app .atlas-3d-fab svg{width:22px;height:22px}
+#psilocin-app .atlas-3d-tools-sheet{height:min(72dvh,800px);--f7-sheet-height:min(72dvh,800px);border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column;background:var(--f7-block-strong-bg-color,#f7f9fc)}
+#psilocin-app .atlas-3d-tools-sheet.atlas-3d-tools-expanded{height:94dvh;--f7-sheet-height:94dvh}
+#psilocin-app .atlas-3d-tools-sheet .evidence-sheet-header{flex-shrink:0;gap:8px}
+#psilocin-app .atlas-3d-tools-sheet .evidence-sheet-header h2{flex:1;min-width:0}
+#psilocin-app .atlas-3d-tools-scroll{position:relative;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 14px max(18px,env(safe-area-inset-bottom))}
+#psilocin-app .atlas-3d-tools-section{margin:8px 0;border-radius:14px;overflow:hidden}
+#psilocin-app .atlas-3d-tools-section .gene-annotation-body{display:flex;flex-direction:column;gap:8px}
+#psilocin-app .atlas-3d-tool-action{justify-content:flex-start;gap:10px;height:auto;min-height:44px;white-space:normal;text-align:left;padding:9px 12px;line-height:1.4}
+#psilocin-app .atlas-3d-tool-action svg{width:18px;height:18px;flex-shrink:0}
+#psilocin-app .atlas-3d-tools-content label.atlas-3d-field{display:grid;gap:6px;font-size:13px;margin:6px 0}
+#psilocin-app .atlas-3d-field select,#psilocin-app .atlas-3d-field input[type=number],#psilocin-app .atlas-3d-field input[type=search]{width:100%;min-height:44px;padding:9px 12px;border-radius:12px;border:1px solid var(--f7-list-border-color,#ccd6dd);background:var(--f7-list-bg-color,#fff);color:var(--f7-text-color)}
+#psilocin-app .atlas-3d-tools-content .item-checkbox{min-height:44px}
+#psilocin-app .atlas-3d-fullscreen-popup{background:var(--f7-page-bg-color);padding:0;overflow:hidden}
+#psilocin-app .atlas-3d-fullscreen-popup>.molecular-stage,#psilocin-app .atlas-3d-fullscreen-popup>.complex-i-stage{width:100%;height:100dvh;border-radius:0}
+#psilocin-app .atlas-3d-fullscreen-done{position:absolute;top:max(12px,env(safe-area-inset-top));right:12px;z-index:30}
+#psilocin-app .atlas-3d-tools-residues{height:270px;overflow:auto;position:relative;margin:0;border:1px solid var(--f7-list-border-color);border-radius:12px}
+#psilocin-app .atlas-3d-tools-residues .item-content{height:48px;min-height:48px;width:100%;text-align:left;background:transparent;color:var(--f7-text-color)}
+#psilocin-app .atlas-3d-fullscreen .msp-plugin{height:100%;width:100%}
+#psilocin-app .molecular-stage:fullscreen,#psilocin-app .complex-i-stage:fullscreen{width:100vw;height:100dvh;border-radius:0}
+@media(max-width:767px){#psilocin-app .atlas-3d-fab-above-tabs{bottom:calc(82px + env(safe-area-inset-bottom,0px))}}
+@media(min-width:768px){#psilocin-app .atlas-3d-tools-sheet{width:420px;right:16px;left:auto;bottom:16px;border-radius:20px;box-shadow:0 12px 44px #0004;max-width:calc(100vw - 32px)}}
+#psilocin-app .atlas-3d-breadcrumbs{padding:8px 2px 12px;font-size:12px;display:flex;flex-wrap:wrap;gap:4px;white-space:normal;line-height:1.5}
+#psilocin-app .atlas-3d-breadcrumbs .breadcrumbs-item{min-width:0;white-space:normal}
+#psilocin-app .atlas-3d-breadcrumbs a{display:inline-flex;align-items:center;min-height:32px}
+@media(max-width:767px){#psilocin-app .oxphos-3d-viewer>.oxphos-3d-camera{display:none}}
+
+/* Brief, non-blocking F7 feedback; one surface at a time, including fullscreen. */
+#psilocin-app .atlas-feedback-sheet {
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
+  left: 12px;
+  right: 12px;
+  width: auto;
+  height: auto;
+  max-width: 480px;
+  margin-inline: auto;
+  border-radius: 20px;
+  color: var(--f7-text-color, #15384c);
+  background: var(--f7-sheet-bg-color, #f5fafc);
+  border: 1px solid rgba(120, 150, 170, .25);
+  box-shadow: 0 8px 28px rgba(0, 20, 35, .18);
+  overflow: hidden;
+  z-index: 13500;
+}
+#psilocin-app .atlas-feedback-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  height: auto;
+}
+#psilocin-app .atlas-feedback-message {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  max-height: 20vh;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+#psilocin-app .atlas-feedback-inner button { flex-shrink: 0; min-height: 36px; }
+#psilocin-app .atlas-feedback-close { width: 36px; padding: 0; }
+#psilocin-app .atlas-feedback-close svg { width: 18px; height: 18px; }
+
+#psilocin-app .molecular-renderer-host {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Keep frequent molecular tools reachable while their content scrolls. */
+#psilocin-app .atlas-3d-tools-navigation {
+  position: sticky;
+  top: -8px;
+  z-index: 3;
+  padding-bottom: 8px;
+  background: var(--f7-block-strong-bg-color, #f7f9fc);
+}
+#psilocin-app .atlas-3d-tools-shortcuts:empty { display: none; }
+#psilocin-app .atlas-3d-tools-shortcuts {
+  width: 100%;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  background: var(--f7-bars-bg-color, #e8f2f8);
+}
+#psilocin-app .atlas-3d-tools-shortcut {
+  min-width: 0;
+  min-height: 46px;
+  height: auto;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 4px;
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: normal;
+}
+#psilocin-app .atlas-3d-tools-shortcut svg { width: 17px; height: 17px; flex-shrink: 0; }
+#psilocin-app .atlas-3d-tools-shortcut[aria-expanded=true] {
+  background: var(--f7-theme-color);
+  color: #fff;
+  border-radius: 10px;
+}
+
+/* Reserve the bottom-right tool target when Mol* displays residue labels. */
+#psilocin-app .molecular-renderer-host .msp-highlight-toast-wrapper {
+  left: 10px;
+  right: 76px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  width: fit-content;
+  max-width: calc(100% - 86px);
+}
+#psilocin-app .molecular-renderer-host .msp-highlight-info {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: var(--f7-block-strong-bg-color, #f7f9fc);
+  color: var(--f7-text-color, #15384c);
+  opacity: 1;
+  box-shadow: 0 2px 12px #0002;
+}
+#psilocin-app .molecular-renderer-host .msp-highlight-simple-row { text-align: left; }
+#psilocin-app .atlas-3d-tools-sheet .research-smart-select {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  min-height: 44px;
+}
+#psilocin-app .atlas-3d-tools-sheet .molecular-settings { margin: 0; }

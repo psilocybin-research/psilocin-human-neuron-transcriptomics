@@ -1,3 +1,4 @@
+import {createVisualizationTools} from './visualization-tools.js';
 import { createElement as el, loadingMessage } from "./interface-utils.js";
 const url = (name) =>
   new URL(`molecular/${name}`, new URL("./", document.baseURI)).href;
@@ -34,6 +35,12 @@ export function createMitochondrialSpatialContext({ onComplex }) {
     });
   }
   let camera;
+  const sharedTools=createVisualizationTools({surface:stage,title:'3D spatial tools',onResize:()=>window.dispatchEvent(new Event('resize'))});
+  const viewTools=sharedTools.section('View & camera',{open:true});
+  sharedTools.action(viewTools,'Fullscreen / return',()=>sharedTools.toggleFullscreen(),'fullscreen');
+  sharedTools.action(viewTools,'Reset spatial view',()=>{if(camera&&orbit){camera.position.set(0,10,23);orbit.target.set(0,.8,0);orbit.update();render();}},'overview');
+  const complexTools=sharedTools.section('Respiratory complexes');
+  for(const id of ['I','II','III','IV','V'])sharedTools.action(complexTools,`Inspect complex ${id}`,()=>{sharedTools.close();select(id);},'pathways');
   function select(id) {
     for (const mesh of meshes)
       mesh.material.emissive.set(
@@ -142,6 +149,7 @@ export function createMitochondrialSpatialContext({ onComplex }) {
     element: root,
     activate,
     dispose() {
+      sharedTools.dispose();
       disposed = true;
       cancelAnimationFrame(frame);
       observer?.disconnect();

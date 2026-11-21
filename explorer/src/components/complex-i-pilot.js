@@ -1,3 +1,4 @@
+import {createVisualizationTools} from './visualization-tools.js';
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el, createAccordion, destroySheet, closeSheet } from "./interface-utils.js";
 import { color, fmt, sci } from "./format.js";
@@ -18,7 +19,7 @@ export async function openComplexIPilot({ genes, onGene }) {
   const controls = el("div", "complex-i-controls"), days = el("div", "segmented segmented-strong");
   days.setAttribute("role", "group"); days.setAttribute("aria-label", "Structure RNA overlay contrast");
   let contrast = 0, coloring = "rna", fadeOthers = false, selected, api, scene, camera, renderer, orbit, meshes = [], resources = [], disposed = false, renderPending = 0;
-  let snapshot, selectionOutline;
+  let snapshot, selectionOutline, sharedTools;
   const geneById = new Map(genes.map(gene => [gene.id, gene])), chainGenes = new Map(), identityIndices = new Map();
   const stage = el("div", "complex-i-stage");
   stage.tabIndex = 0;
@@ -120,13 +121,19 @@ export async function openComplexIPilot({ genes, onGene }) {
   }
   const instance = app.sheet.create({el:sheet, backdrop:true, closeByBackdropClick:true, swipeToClose:true, swipeHandler:handle, push:true,
     on:{closed() {
-      disposed = true; cancelAnimationFrame(renderPending); observer.disconnect(); orbit?.dispose();
+      sharedTools?.dispose();disposed = true; cancelAnimationFrame(renderPending); observer.disconnect(); orbit?.dispose();
       for (const resource of resources) resource.dispose();
       renderer?.dispose(); renderer?.forceContextLoss();
       if (active === instance) active = undefined;
       setTimeout(() => { destroySheet(instance); sheet.remove(); }, 0);
     }},
   });
+  sharedTools=createVisualizationTools({surface:stage,title:'3D reference tools',onResize:()=>{if(renderer){renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/Math.max(1,stage.clientHeight);camera.updateProjectionMatrix();render();}}});
+  const viewTools=sharedTools.section('View & camera',{open:true});
+  sharedTools.action(viewTools,'Fullscreen / return',()=>sharedTools.toggleFullscreen(),'fullscreen');
+  sharedTools.action(viewTools,'Fit complete assembly',fit,'overview');
+  const referenceTools=sharedTools.section('Selected subunit');
+  sharedTools.action(referenceTools,'Show gene evidence',()=>{sharedTools.close();selection.scrollIntoView({block:'nearest'});},'genes');
   active = instance; done.onclick = () => closeSheet(instance);
   const observer = new ResizeObserver(() => {
     if (!renderer || disposed) return;

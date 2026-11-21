@@ -1,11 +1,9 @@
+import { createMolecularTools } from "./molecular-tools.js";
 import { FileAttachment } from "observablehq:stdlib";
-import {
-  createElement as el,
-  createAccordion,
-  loadingMessage,
-} from "./interface-utils.js";
+import { createElement as el, loadingMessage } from "./interface-utils.js";
 import { color, fmt, sci } from "./format.js";
 import { uiIcon } from "./icons.js";
+import { molecularRNAExport, molecularCSV } from "./molecular-export.js";
 import { downloadFile } from "./file-download.js";
 let runtimePromise;
 async function runtime() {
@@ -113,11 +111,6 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
   isolateLabel.append(isolate, icon, inner);
   isolateRow.append(isolateLabel);
   list.append(isolateRow);
-  const options = createAccordion(
-    "Molecular display controls",
-    "molecular-options",
-  );
-  options.body.append(controls);
   const toolbar = el("div", "molecular-actionbar"),
     save = el("button", "button button-tonal", "Save scene"),
     reset = el("button", "button button-tonal", "Reset view");
@@ -130,8 +123,11 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       "Reference anatomy: categorical subunit identity; no experimental RNA effects encoded.",
     ),
     stage = el("div", "molecular-stage"),
+    rendererHost = el("div", "molecular-renderer-host"),
     status = loadingMessage("Loading human complex I…"),
     evidence = el("div", "card molecular-gene-evidence");
+  // Mol* owns and replaces its mount contents; F7 controls stay in a sibling layer.
+  stage.append(rendererHost);
   status.setAttribute("role", "status");
   stage.setAttribute(
     "aria-label",
@@ -148,7 +144,6 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
     toolbar,
     stage,
     legend,
-    options.element,
     status,
     evidence,
   );
@@ -204,6 +199,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       ? "#" + values.map((v) => (+v).toString(16).padStart(2, "0")).join("")
       : "#dedede";
   }
+  let tools;
   function details(c) {
     selected = c;
     chooser.value = c.label;
@@ -273,6 +269,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       ),
     );
     root.dataset.selectedGene = g?.id || "";
+    tools?.sync();
   }
   function specification() {
     const single = isolate.checked || representation.value !== "cartoon";
@@ -406,7 +403,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       }
       selected = chains[0];
       details(selected);
-      const instance = await molstar.Viewer.create(stage, {
+      const instance = await molstar.Viewer.create(rendererHost, {
         layoutIsExpanded: false,
         layoutShowControls: false,
         layoutShowRemoteState: false,
@@ -441,13 +438,23 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
         const label =
             library.lib.structure.StructureProperties.chain.label_asym_id(loc),
           chain = chains.find((c) => c.label === label);
-        if (chain) details(chain);
+        if (chain) {
+          details(chain);
+          const residue =
+            library.lib.structure.StructureProperties.residue.auth_seq_id(loc);
+          const name =
+            library.lib.structure.StructureProperties.atom.label_comp_id(loc);
+          tools?.showPicked(
+            `${name} ${residue} · chain ${chain.author}. Reference residue identity; RNA effects remain gene-level estimates.`,
+          );
+        }
       });
       observer = new ResizeObserver(() => {
         if (!disposed && stage.clientWidth) viewer?.handleResize();
       });
       observer.observe(stage);
       await apply();
+      tools.ready();
       if (!visible) viewer?.plugin.animationLoop.stop({ noDraw: true });
     } catch (error) {
       if (!disposed) {
@@ -481,6 +488,63 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
       "application/json",
     );
   reset.onclick = () => viewer?.plugin.managers.camera.reset();
+  tools = createMolecularTools({
+    surface: stage,
+    getViewer: () => viewer,
+    getChain: () => selected,
+    controls,
+    saveScene: () => save.onclick(),
+    reset: () => reset.onclick(),
+    structureURL: molecularURL("9TI4.cif"),
+    exportData: async (kind) => {
+      if (!chains.length)
+        throw new Error("The molecular mappings are still loading.");
+      const sourceURL = location.href;
+      if (kind === "mapping")
+        return downloadFile(
+          "9TI4-atlas-mapping-and-RNA.json",
+          JSON.stringify(
+            {
+              pdb_id: "9TI4",
+              assembly_id: "1",
+              source_structure: molecularURL("9TI4.cif"),
+              source_url: sourceURL,
+              interpretation:
+                "Reference coordinates; RNA effects are gene-level estimates, not protein abundance, conformation or respiratory activity.",
+              chains,
+              rna_estimates: molecularRNAExport(chains, gene, sourceURL),
+            },
+            null,
+            2,
+          ),
+          "application/json",
+        );
+      const selectedOnly = kind === "selected";
+      const rows = molecularRNAExport(
+        selectedOnly ? [selected] : chains,
+        gene,
+        sourceURL,
+      );
+      return downloadFile(
+        selectedOnly
+          ? `9TI4-${gene(selected)?.symbol || selected.author}-RNA.csv`
+          : "9TI4-mapped-genes-RNA.csv",
+        molecularCSV(rows),
+        "text/csv",
+      );
+    },
+    focusChain: () =>
+      viewer?.structureInteractivity({
+        elements: { label_asym_id: selected.label },
+        action: "focus",
+        focusOptions: {
+          durationMs: matchMedia("(prefers-reduced-motion:reduce)").matches
+            ? 0
+            : 500,
+        },
+      }),
+    evidenceElement: evidence,
+  });
   return {
     element: root,
     activate,
@@ -495,6 +559,7 @@ export function createMolecularViewer({ genes, onGene, onSendGene }) {
     dispose() {
       disposed = true;
       document.removeEventListener("visibilitychange", visibility);
+      tools.dispose();
       observer?.disconnect();
       viewer?.dispose();
       viewer = undefined;

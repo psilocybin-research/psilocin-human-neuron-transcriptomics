@@ -38,28 +38,47 @@ try {
     await host.locator(".msp-plugin .research-smart-select").count(),
     0,
   );
-  await host.locator(".molecular-options .gene-annotation-toggle").click();
   await host.getByRole("button", { name: "Day 3 RNA", exact: true }).click();
   await host
     .locator(".molecular-legend")
     .filter({ hasText: "Day 3 / common control" })
     .waitFor();
-  await host.getByRole("button", {name:"Choose Molecular representation",exact:true}).click();
-  const choice= p.locator('.research-choice-modal.modal-in');
-  await choice.locator('label').filter({hasText:'Surface · selected chain'}).click();
-  await choice.waitFor({state:'hidden'});
+  await host
+    .getByRole("button", { name: "Molecular tools", exact: true })
+    .click();
+  const tools = p.locator(".atlas-3d-tools-sheet.modal-in");
+  await tools
+    .getByRole("button", {
+      name: "Open Representation & lighting",
+      exact: true,
+    })
+    .click();
+  await tools
+    .getByRole("button", {
+      name: "Choose Molecular representation",
+      exact: true,
+    })
+    .click();
+  const choice = p.locator(".research-choice-modal.modal-in");
+  await choice
+    .locator("label")
+    .filter({ hasText: "Surface · selected chain" })
+    .click();
+  await choice.waitFor({ state: "hidden" });
   await host.locator(".molecular-workbench").waitFor();
   await p.waitForFunction(
     () =>
       !document.querySelector(".molecular-workbench").hasAttribute("aria-busy"),
   );
-  await host
+  await tools
     .getByLabel("Molecular subunit", { exact: true })
     .selectOption({ index: 5 });
   await p.waitForFunction(
     () =>
       !document.querySelector(".molecular-workbench").hasAttribute("aria-busy"),
   );
+  await tools.getByRole("button", { name: "Done", exact: true }).click();
+  await tools.waitFor({ state: "detached" });
   await host.getByRole("tab", { name: "Spatial context", exact: true }).click();
   await host.locator("[data-spatial-ready=true]").waitFor();
   await host
@@ -81,8 +100,15 @@ try {
     .locator(".molecular-nodes-disclosure .gene-annotation-toggle")
     .click();
   await host.locator(".molecular-nodes-reference img").waitFor();
-  await host.locator(".molecular-nodes-reference img").evaluate((image) => image.decode());
-  assert.equal(await host.locator(".molecular-nodes-reference img").evaluate((image) => image.naturalWidth > 0), true);
+  await host
+    .locator(".molecular-nodes-reference img")
+    .evaluate((image) => image.decode());
+  assert.equal(
+    await host
+      .locator(".molecular-nodes-reference img")
+      .evaluate((image) => image.naturalWidth > 0),
+    true,
+  );
   await host
     .getByRole("button", { name: /Send .* to R Studio/ })
     .last()

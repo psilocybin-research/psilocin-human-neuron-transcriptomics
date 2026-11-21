@@ -1,3 +1,5 @@
+import { createVisualizationTools } from "./visualization-tools.js";
+import { downloadFile } from "./file-download.js";
 import { FileAttachment } from "observablehq:stdlib";
 import { createElement as el } from "./interface-utils.js";
 import { confidenceColor, publicRequest } from "./protein-data.js";
@@ -18,13 +20,13 @@ export async function molecularViewer(
   if (!host.isConnected) return;
   if (active && active.host !== host) active.close();
   const stage = el("div", "molecular-stage");
-  stage.setAttribute("role", "img");
+  stage.setAttribute("role", "group");
   stage.setAttribute(
     "aria-label",
     `${predicted ? "Predicted" : "Deposited PDB"} protein structure ${model.id}. Drag to rotate; use the wheel or pinch to zoom. Source and sequence information follow.`,
   );
   host.replaceChildren(stage);
-  let viewer;
+  let viewer, tools;
   try {
     viewer = createViewer(stage, {
       backgroundColor: plotPalette(host).background,
@@ -132,6 +134,45 @@ export async function molecularViewer(
       ?.querySelector("[data-open-structure]");
     if (load) load.hidden = false;
   };
+  tools = createVisualizationTools({
+    surface: stage,
+    title: "Protein structure tools",
+    onResize: () => {
+      viewer.resize();
+      viewer.render();
+    },
+  });
+  const viewTools = tools.section("View & camera", { open: true });
+  tools.action(
+    viewTools,
+    "Fullscreen / return",
+    () => tools.toggleFullscreen(),
+    "fullscreen",
+  );
+  tools.action(
+    viewTools,
+    "Reset protein view",
+    () => reset.onclick(),
+    "overview",
+  );
+  tools.action(
+    viewTools,
+    "Rotate protein left",
+    () => turn.onclick(),
+    "controls",
+  );
+  const exports = tools.section("Structure downloads");
+  tools.action(
+    exports,
+    "Download protein coordinates (.cif)",
+    () =>
+      downloadFile(
+        `${model.id}.cif`,
+        new Blob([coordinates.value], { type: "chemical/x-mmcif" }),
+        "chemical/x-mmcif",
+      ),
+    "download",
+  );
   const session = { host, close: close.onclick };
   active = session;
   toolbar.append(turn, reset, close);
@@ -181,6 +222,7 @@ export async function molecularViewer(
   });
   detach.observe(app || document.body, { childList: true, subtree: true });
   function releaseViewer() {
+    tools?.dispose();
     viewer.clear();
     const canvas = stage.querySelector("canvas");
     const context = canvas?.getContext("webgl2") || canvas?.getContext("webgl");

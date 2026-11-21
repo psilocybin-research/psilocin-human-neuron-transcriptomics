@@ -61,7 +61,7 @@ try {
     assert.ok(placement.width > (width < 700 ? width - 70 : 600));
     await open.hover();
     await p.waitForTimeout(300);
-    await p.screenshot({ path: `${out}/overview-${width}.png` });
+    if (process.env.NO_SCREENSHOTS !== '1') await p.screenshot({ path: `${out}/overview-${width}.png` });
     await p.route(/network-3d\.[a-f0-9]+\.js/, async (r) => {
       await new Promise((r) => setTimeout(r, 300));
       await r.continue();
@@ -140,7 +140,7 @@ try {
       background.every((v, i) => Math.abs(v - [6, 13, 23][i]) <= 3),
       `dark canvas colour is not transformed twice: ${background}`,
     );
-    await p.screenshot({ path: `${out}/network-${width}.png` });
+    if (process.env.NO_SCREENSHOTS !== '1') await p.screenshot({ path: `${out}/network-${width}.png` });
     await root.getByRole("button", { name: "Filters", exact: true }).click();
     drawer = p.locator(".oxphos-3d-drawer");
     await drawer

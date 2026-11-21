@@ -887,6 +887,7 @@ export function createAppShell({
       ...body.querySelectorAll("select"),
       ...sheetBody.querySelectorAll("select"),
       ...analysisLauncher.body.querySelectorAll("select"),
+      ...root.querySelectorAll(".atlas-3d-tools-content select"),
     ]) {
       if (smartNodes.has(select) || select.multiple || select.closest(".msp-plugin")) continue;
       const hadFocus = document.activeElement === select;
@@ -922,6 +923,7 @@ export function createAppShell({
           : matchMedia("(max-width:700px)").matches
             ? "sheet"
             : "popover";
+      let fullscreenChoiceBackdrop;
       const instance = app.smartSelect.create({
         el: wrap,
         view,
@@ -945,9 +947,24 @@ export function createAppShell({
           beforeOpen(ss) {
             ss.params.openIn = choicePresentation();
           },
+          closed() {
+            if (fullscreenChoiceBackdrop) {
+              root.append(fullscreenChoiceBackdrop);
+              fullscreenChoiceBackdrop = undefined;
+            }
+          },
           open(ss) {
             const modal = ss.$containerEl?.[0];
             if (modal) {
+              const fullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+              if (fullscreen && !fullscreen.contains(modal)) {
+                fullscreen.append(modal);
+                const backdrop = modal.f7Modal?.backdropEl;
+                if (backdrop) {
+                  fullscreen.append(backdrop);
+                  fullscreenChoiceBackdrop = backdrop;
+                }
+              }
               modal.setAttribute("aria-label", title);
               const left = modal.querySelector(".toolbar-inner .left");
               if (left && !left.textContent)
@@ -1086,6 +1103,7 @@ export function createAppShell({
   }
   function modalOpen(e) {
     const el = e.target;
+    if (el.matches(".atlas-feedback-sheet")) return;
     if (el === source) root.dataset.sourcesOpen = "true";
     el.dataset.shellModalReady = "false";
     if (
