@@ -5337,6 +5337,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/mitocarta-fullscreen-browser-check.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/mitochondrial-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [

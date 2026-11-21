@@ -11,6 +11,9 @@ export function createVisualizationTools({
   surface,
   title = "3D tools",
   clearance = false,
+  fullscreenControl = false,
+  fullscreenTitle = title,
+  showTools = true,
   onResize = () => {},
 }) {
   const appRoot = document.querySelector("#psilocin-app"),
@@ -26,7 +29,26 @@ export function createVisualizationTools({
   trigger.setAttribute("aria-expanded", "false");
   trigger.append(uiIcon("controls"));
   fab.append(trigger);
-  surface.append(fab);
+  if (showTools) surface.append(fab);
+  let fullscreenToolbar, fullscreenButton;
+  if (fullscreenControl) {
+    fullscreenToolbar = el("div", "figure-toolbar atlas-3d-fullscreen-toolbar");
+    const pane = el("div", "toolbar-pane");
+    fullscreenButton = el(
+      "button",
+      "button button-tonal figure-fullscreen f7-press",
+    );
+    fullscreenButton.type = "button";
+    fullscreenButton.setAttribute(
+      "aria-label",
+      `View ${fullscreenTitle} in full screen`,
+    );
+    fullscreenButton.append(uiIcon("fullscreen"));
+    fullscreenButton.onclick = toggleFullscreen;
+    pane.append(fullscreenButton);
+    fullscreenToolbar.append(pane);
+    surface.append(fullscreenToolbar);
+  }
   const content = el("div", "atlas-3d-tools-content");
   const navigation = el("div", "atlas-3d-tools-navigation");
   const shortcuts = el(
@@ -265,7 +287,11 @@ export function createVisualizationTools({
     }
     placeholder = el("span");
     surface.before(placeholder);
-    const element = el("section", "popup atlas-3d-fullscreen-popup");
+    const element = el("section", "popup popup-tablet-fullscreen atlas-3d-fullscreen-popup");
+    element.classList.toggle(
+      "atlas-3d-fullscreen-has-control",
+      Boolean(fullscreenButton),
+    );
     element.setAttribute("aria-label", title);
     const done = el(
       "button",
@@ -278,6 +304,8 @@ export function createVisualizationTools({
     appRoot.append(element);
     popup = app.popup.create({
       el: element,
+      push: false,
+      swipeToClose: false,
       closeByBackdropClick: false,
       on: {
         opened: onResize,
@@ -288,18 +316,34 @@ export function createVisualizationTools({
           popup = undefined;
           element.remove();
           setTimeout(() => old.destroy(), 0);
+          syncFullscreenControl();
           onResize();
         },
       },
     });
     popup.open(!matchMedia("(prefers-reduced-motion:reduce)").matches);
+    syncFullscreenControl();
   }
   trigger.onclick = open;
+  function syncFullscreenControl() {
+    const active = document.fullscreenElement === surface || Boolean(popup);
+    surface.classList.toggle("atlas-3d-fullscreen", active);
+    if (!fullscreenButton) return;
+    fullscreenButton.setAttribute(
+      "aria-label",
+      active ? "Exit full screen" : `View ${fullscreenTitle} in full screen`,
+    );
+    fullscreenButton.setAttribute("aria-pressed", String(active));
+    fullscreenButton.classList.toggle("figure-fullscreen-exit", active);
+    fullscreenButton.replaceChildren(uiIcon(active ? "close" : "fullscreen"));
+    if (active) fullscreenButton.append(el("span", "", "Close"));
+  }
   const fullscreenChanged = () => {
     surface.classList.toggle(
       "atlas-3d-fullscreen",
       document.fullscreenElement === surface,
     );
+    syncFullscreenControl();
     onResize();
   };
   document.addEventListener("fullscreenchange", fullscreenChanged);
@@ -324,6 +368,7 @@ export function createVisualizationTools({
       }
       if (popup) popup.close(false);
       fab.remove();
+      fullscreenToolbar?.remove();
       content.remove();
     },
   };

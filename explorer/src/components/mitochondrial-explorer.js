@@ -1,3 +1,4 @@
+import {createVisualizationTools} from "./visualization-tools.js";
 import {createMolecularViewer} from './mitochondrial-molstar.js';
 import {createMitochondrialSpatialContext,createMolecularNodesReference} from './mitochondrial-spatial-context.js';
 import { createRespiratorySchematic } from "./respiratory-schematic.js";
@@ -46,13 +47,14 @@ export function createMitochondrialExplorer({ getGenes, onGene, onUncertainty, i
   if (standalone) card.element.append(card.body);
   const host = el("div");
   card.body.append(host);
-  let loaded = false, disposed = false, pairedPlot, evidence, molecular, spatial;
+  let loaded = false, disposed = false, pairedPlot, evidence, molecular, spatial, schematicTools;
   card.element.dispose = () => {
     disposed = true;
     pairedPlot?.dispose();
     evidence?.dispose();
     molecular?.dispose();
     spatial?.dispose();
+    schematicTools?.dispose();
   };
   async function load() {
     if (loaded || disposed) return;
@@ -107,6 +109,10 @@ export function createMitochondrialExplorer({ getGenes, onGene, onUncertainty, i
       host.append(viewbar, layout);
 
       const schematic = createRespiratorySchematic((value) => chooseComplex(value));
+      const schematicFigure = el('figure', 'figure-shell mito-reference-figure');
+      schematic.element.dataset.figureContent = '';
+      schematicFigure.append(schematic.element);
+      schematicTools = createVisualizationTools({surface:schematicFigure,title:'Respiratory-chain reference',fullscreenControl:true,showTools:false});
       const roleGroup = el("div", "segmented segmented-strong mitochondrial-role-control");
       roleGroup.setAttribute("role", "group");
       roleGroup.setAttribute("aria-label", "Respiratory membership type");
@@ -121,7 +127,7 @@ export function createMitochondrialExplorer({ getGenes, onGene, onUncertainty, i
       status.setAttribute("aria-live", "polite");
       const table = createTable(["Gene / mapping", "Day 1 log₂FC", "Day 3 log₂FC"]);
       panes.get("complexes").append(
-        el("h2", "", "Respiratory-chain reference"), schematic.element,
+        el("h2", "", "Respiratory-chain reference"), schematicFigure,
         el("p", "note", "Reference organization: I / II → ubiquinone → III → cytochrome c → IV. Complex V uses the proton gradient. No measured flux, activity or physical distances are implied."),
         el("p", "note respiratory-scroll-hint", "Select a complex to inspect its complete membership. On narrow screens, scroll the diagram horizontally."),
         complexContext, roleGroup, status, table.wrap,
@@ -266,6 +272,7 @@ export function createMitochondrialExplorer({ getGenes, onGene, onUncertainty, i
       evidence?.dispose();
       molecular?.dispose();
       spatial?.dispose();
+      schematicTools?.dispose();
       loaded = false;
       if (!disposed) host.replaceChildren(el("p", "note", "Mitochondrial context could not load."), action("Retry context", load));
     }

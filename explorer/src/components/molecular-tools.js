@@ -17,6 +17,8 @@ export function createMolecularTools({
   const hub = createVisualizationTools({
     surface,
     title: "Molecular tools",
+    fullscreenControl: true,
+    fullscreenTitle: "Human complex I",
     onResize: () => getViewer()?.handleResize(),
   });
   const app = document.querySelector("#psilocin-app")?.f7;

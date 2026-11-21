@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1435,
-  "total_bytes": 726557279,
+  "file_count": 1436,
+  "total_bytes": 726564402,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 280981,
-      "sha256": "57df736aacd9c70c448e582b4d15796e0359e7a57d617cf75f9758ddac41f95d"
+      "bytes": 281126,
+      "sha256": "a8ad3e342308c18fe07e1896c9deb36cdfb0f8550185cb49580f517a5a11f270"
     },
     {
       "path": "LICENSE.md",
@@ -429,8 +429,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 269389,
-      "sha256": "0847fb76d98748135dfaec0ed638732d6b84a43c0ac84868ec0598c45f45d5bd"
+      "bytes": 270219,
+      "sha256": "5513bc91e172e4e842808ffeb2b62171cc6ada84a9768a41587cf311adf73c02"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3659,8 +3659,8 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-explorer.js",
-      "bytes": 17579,
-      "sha256": "804c64bf82c192aa7028d724fddfe5d7dafe7584904862a58e20b39113f0de9e"
+      "bytes": 18058,
+      "sha256": "dc2b4a088279a03d63b7fe3ef59d15fc218583be802ed97de1851b0e89298bef"
     },
     {
       "path": "explorer/src/components/mitochondrial-gene-row.js",
@@ -3679,8 +3679,8 @@
     },
     {
       "path": "explorer/src/components/mitochondrial-spatial-context.js",
-      "bytes": 7303,
-      "sha256": "b42941f209f1f0d616c9846a7beeee4ffe3e5da8172915c05b7c63aaebe56674"
+      "bytes": 7378,
+      "sha256": "aa2dc0725d76cf4e638b82b0e76e6ad68a44872b694b4adb4c2e64e828a4a17d"
     },
     {
       "path": "explorer/src/components/molecular-export.js",
@@ -3689,8 +3689,8 @@
     },
     {
       "path": "explorer/src/components/molecular-tools.js",
-      "bytes": 13385,
-      "sha256": "fd3e9bd3ad4fc5b2a0eacda96631fcf7124a5b03f182c42be37685dfd632e378"
+      "bytes": 13454,
+      "sha256": "754e92e1fd4fc5a87228a68a5444607ec11e6da594aff557464b0fee81ee0331"
     },
     {
       "path": "explorer/src/components/molecular-viewer.js",
@@ -3989,8 +3989,8 @@
     },
     {
       "path": "explorer/src/components/visualization-tools.js",
-      "bytes": 10505,
-      "sha256": "4a246fa8e694995a955229a85f6661b4680bb2ec6fe8aa996475aadf9d58e665"
+      "bytes": 12207,
+      "sha256": "31d45a7762187114da481e1ad9e8c098a1aa94d370139d52681ec115f01bc02d"
     },
     {
       "path": "explorer/src/components/workspace-layout.js",
@@ -4156,6 +4156,11 @@
       "path": "explorer/test/method-comparison.test.js",
       "bytes": 1876,
       "sha256": "3727cfadfaa789553ba48449d39fdef95dde75485867266fd3a6745550f8973c"
+    },
+    {
+      "path": "explorer/test/mitocarta-fullscreen-browser-check.mjs",
+      "bytes": 3823,
+      "sha256": "dc112207406ce573cc73712b95f365808e38b4116b151ffc6711cbaf5419f9fa"
     },
     {
       "path": "explorer/test/mitochondrial-browser-check.mjs",

@@ -35,7 +35,7 @@ export function createMitochondrialSpatialContext({ onComplex }) {
     });
   }
   let camera;
-  const sharedTools=createVisualizationTools({surface:stage,title:'3D spatial tools',onResize:()=>window.dispatchEvent(new Event('resize'))});
+  const sharedTools=createVisualizationTools({surface:stage,title:'3D spatial tools',fullscreenControl:true,fullscreenTitle:'Respiratory-chain spatial context',onResize:()=>window.dispatchEvent(new Event('resize'))});
   const viewTools=sharedTools.section('View & camera',{open:true});
   sharedTools.action(viewTools,'Fullscreen / return',()=>sharedTools.toggleFullscreen(),'fullscreen');
   sharedTools.action(viewTools,'Reset spatial view',()=>{if(camera&&orbit){camera.position.set(0,10,23);orbit.target.set(0,.8,0);orbit.update();render();}},'overview');

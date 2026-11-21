@@ -6293,3 +6293,11 @@ body {
   min-height: 44px;
 }
 #psilocin-app .atlas-3d-tools-sheet .molecular-settings { margin: 0; }
+
+/* Scientific figures and 3D views share the same top-right fullscreen control. */
+#psilocin-app .atlas-3d-fullscreen-toolbar { position:absolute;top:10px;right:10px;z-index:25; }
+#psilocin-app .mito-reference-figure { position:relative;padding-top:58px;margin:0; }
+#psilocin-app .mito-reference-figure:is(:fullscreen,.atlas-3d-fullscreen) { width:100vw;height:100dvh;box-sizing:border-box;background:var(--f7-page-bg-color,#fff);display:flex;align-items:center;padding:70px 12px 20px;overflow:auto; }
+#psilocin-app .mito-reference-figure:is(:fullscreen,.atlas-3d-fullscreen) .respiratory-chain-scroll { width:100%; }
+#psilocin-app .atlas-3d-fullscreen-popup>.mito-reference-figure { width:100%;height:100dvh; }
+#psilocin-app .atlas-3d-fullscreen-popup.atlas-3d-fullscreen-has-control>.atlas-3d-fullscreen-done { display:none; }
