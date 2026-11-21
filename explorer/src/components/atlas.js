@@ -240,6 +240,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     ["landscape", "OXPHOS landscape"],
     ["genes", "Gene explorer"],
     ["pathways", "Pathways"],
+    ["mitocarta", "MitoCarta"],
     ["robustness", "Robustness"],
     ["dna", "DNA maintenance"],
     ["comparison", "Comparative views"],
@@ -843,6 +844,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         landscape,
         genesView,
         pathways,
+        mitocarta,
         robustness,
         dna: dnaView,
         comparison: comparisonView,
@@ -1386,6 +1388,20 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       button("View methods and provenance", () => go("methods"), "secondary"),
     );
   }
+  function mitocarta() {
+    body.append(
+      heading("MitoCarta · Mitochondrial pathways", "Curated gene context and exploratory transcriptional enrichment."),
+      el("p", "callout", "Exploratory follow-up to the original OXPHOS finding. These analyses use the same study observations; they are not independent validation and do not replace the primary results or CAMERA sensitivity analyses."),
+    );
+    const interpretation = createAccordion("What the follow-up shows", "mitocarta-interpretation");
+    interpretation.body.append(
+      el("p", "", "Complete curated gene sets show positive enrichment of complex I, III and V structural subunits at both days. Complex IV subunits meet the joint corrected threshold at Day 3 only; this difference in significance does not establish a temporal change. Complex II has four structural genes and was not tested under the predefined ten-gene minimum."),
+      el("p", "", "Mitochondrial translation, ribosomal genes, protein import and OXPHOS assembly factors also show positive enrichment at both days. Complex V illustrates why absence from the selected 113-gene display cannot establish absence of a broader transcriptional pattern."),
+      el("p", "note", "Of 149 pathways per contrast, 76 meet the size rules. Joint BH correction covers 152 tests: 38 pathways meet q < 0.05 at Day 1 and 40 at Day 3, with 33 shared. Sets overlap substantially. The mitochondrial ROS/glutathione set differs from the earlier targeted redox panels and does not overturn their conclusions. Mitochondrial DNA maintenance meets the threshold at Day 1 only."),
+      el("p", "note", "These are RNA-level associations, not measurements of ATP production, protein abundance or respiratory function. Three differentiation blocks, shared controls and unresolved control timing remain limitations. Existing estimated-correlation CAMERA did not support OXPHOS at its corrected threshold; this follow-up does not resolve that sensitivity."),
+    );
+    body.append(interpretation.element, createMitochondrialExplorer({ getGenes, onGene: (gene) => go("genes", gene.id), standalone: true }));
+  }
   function landscape() {
     body.append(
       heading(
@@ -1413,7 +1429,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
       scaleKey(2.5, "Expression · row z"),
       scaleKey(1.5, "Effect · log₂ fold change"),
     );
-    body.append(createMitochondrialExplorer({ getGenes, onGene: (gene) => go("genes", gene.id) }));
+    body.append(button("MitoCarta · complete mitochondrial context and exploratory follow-up", () => go("mitocarta"), "secondary"));
     body.append(controls);
     const split = el("div", "landscape-layout"),
       heat = el("div", "heatmap-scroll"),

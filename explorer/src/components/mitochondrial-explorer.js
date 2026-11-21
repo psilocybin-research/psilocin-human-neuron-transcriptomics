@@ -17,9 +17,14 @@ function createTable(headers) {
   headers.forEach((title) => { const cell = el("th", "", title); cell.scope = "col"; row.append(cell); });
   head.append(row); table.append(head, body); wrap.append(table); return {wrap, body};
 }
-export function createMitochondrialExplorer({ getGenes, onGene }) {
-  const card = createAccordion("Respiratory complexes · complete curated membership", "mitochondrial-explorer");
-  card.body.append(el("p", "note", "Explore complete MitoCarta memberships alongside archived RNA estimates. Open a gene for its effect intervals and nine block-by-condition expression profiles. This external reference extends beyond the selected 113-gene landscape below."));
+export function createMitochondrialExplorer({ getGenes, onGene, standalone = false }) {
+  const card = standalone
+    ? { element: el("section", "mitochondrial-explorer mitochondrial-page-content"), body: el("div", "gene-annotation-body") }
+    : createAccordion("Respiratory complexes · complete curated membership", "mitochondrial-explorer");
+  if (standalone) {
+    card.element.append(el("h2", "", "Respiratory complexes"), card.body);
+  }
+  card.body.append(el("p", "note", "Explore complete MitoCarta memberships alongside archived RNA estimates. Open a gene for its effect intervals and nine block-by-condition expression profiles. This external reference extends beyond the selected 113-gene OXPHOS landscape."));
   const host = el("div"); card.body.append(host);
   let loaded = false;
   async function load() {
@@ -55,7 +60,7 @@ export function createMitochondrialExplorer({ getGenes, onGene }) {
         el("p", "note", "Blue to orange: signed RNA log₂FC on a fixed ±2.5 scale. Numerical values retain the full effect range. Missing archived results are not evidence of unchanged expression; their exclusion reason is not inferred."));
       const audit = el("a", "", "Download complete identifier-mapping audit"); audit.href = await mitochondrialAuditURL(); audit.download = "mitocarta-3.0-mapping-audit.csv";
       host.append(audit, el("p", "note", `MitoCarta ${snapshot.metadata.release} · ${snapshot.entries.length} curated genes · retrieved ${snapshot.metadata.retrievedAt}. ${snapshot.metadata.license}. ${snapshot.metadata.citation}`), sourceLink("Annotation source and documentation ↗", snapshot.metadata.source));
-      const enrichment = createAccordion("Exploratory MitoCarta enrichment · complete results", "mitochondrial-enrichment"); host.append(enrichment.element);
+      const enrichment = createAccordion("Exploratory follow-up enrichment · complete results", "mitochondrial-enrichment"); host.append(enrichment.element);
       let enrichmentLoaded = false;
       enrichment.element.addEventListener("accordion:beforeopen", async () => {
         if (enrichmentLoaded) return;
@@ -87,7 +92,8 @@ export function createMitochondrialExplorer({ getGenes, onGene }) {
       loaded = false; host.replaceChildren(el("p", "note", "Mitochondrial context could not load."), action("Retry context", load));
     }
   }
-  card.element.addEventListener("accordion:beforeopen", load);
+  if (standalone) requestAnimationFrame(load);
+  else card.element.addEventListener("accordion:beforeopen", load);
   return card.element;
 }
 async function renderEnrichment(host) {

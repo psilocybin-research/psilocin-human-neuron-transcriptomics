@@ -39,7 +39,7 @@ export function createResearchNavigation({ nav, tabs, initial }) {
   navList.append(sectionItem("overview"));
   for (const [key, title, sections] of [
     ["molecular", "Molecular evidence", ["landscape", "genes"]],
-    ["pathways", "Pathways & comparisons", ["pathways", "comparison"]],
+    ["pathways", "Pathways & comparisons", ["pathways", "mitocarta", "comparison"]],
     ["confidence", "Confidence & interpretation", ["robustness", "dna"]],
   ]) {
     const opened = groupChoices[key] ?? key === "molecular",

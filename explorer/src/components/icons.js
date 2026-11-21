@@ -6,6 +6,7 @@ const names = {
   landscape: "square_grid_3x2",
   genes: "doc_text_search",
   pathways: "arrow_branch",
+  mitocarta: "square_grid_3x2",
   robustness: "checkmark_shield",
   comparison: "chart_bar",
   methods: "book",

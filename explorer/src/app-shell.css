@@ -6029,3 +6029,5 @@ body {
  #psilocin-app .mitochondrial-explorer td,#psilocin-app .mitochondrial-explorer th{padding:10px 8px}
  #psilocin-app .complex-i-sheet{height:94dvh;--f7-sheet-height:94dvh}
 }
+#psilocin-app .mitochondrial-page-content{padding:16px}
+#psilocin-app .mitochondrial-page-content>h2{margin:0 0 12px;font-size:18px}

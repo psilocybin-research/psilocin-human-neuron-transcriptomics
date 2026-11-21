@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({headless:true,...(process.env.BROWSER_PATH?{executablePath:process.env.BROWSER_PATH}:{})});
 const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 try{
- await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=landscape');
+ await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=mitocarta');
  await page.locator('[data-framework7]').waitFor();
  const explorer=page.locator('.mitochondrial-explorer');
- await explorer.locator('.gene-annotation-toggle').first().click();
+ await page.getByRole('heading',{name:'MitoCarta · Mitochondrial pathways',exact:true}).waitFor();
+ assert.equal(await page.locator('[data-section=mitocarta] .item-title').textContent(),'MitoCarta');
  await explorer.getByRole('button',{name:'Complex V ATP synthase'}).click();
  await explorer.locator('.mitochondrial-coverage').filter({hasText:'21 curated structural subunits'}).waitFor();
  await explorer.getByRole('button',{name:'Assembly factors',exact:true}).click();
