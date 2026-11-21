@@ -55,7 +55,10 @@ export function showToast(
   // Status dismissal must not depend on a CSS transition-end event, including
   // replacement during entrance, reduced motion, or a backgrounded browser.
   const nativeClose = notification.close.bind(notification);
-  notification.close = () => nativeClose(false);
+  notification.close = () => {
+    // Callers may retain a handle after auto-dismissal and F7 destruction.
+    if (notification.params) return nativeClose(false);
+  };
   function expire() {
     if (ttl > 0 && Date.now() >= deadline) notification.close();
   }

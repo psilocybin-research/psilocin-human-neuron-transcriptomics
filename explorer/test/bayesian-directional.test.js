@@ -74,3 +74,24 @@ test("invalid observations and priors fail explicitly", () => {
     directionalModel(scores, { effect_sd: 0, residual_sd: 0.5, eta: 2 }),
   );
 });
+
+test("all precomputed prior settings agree with refined references", () => {
+  assert.equal(data.precomputed.length, 11);
+  for (const model of data.precomputed) {
+    assert.equal(model.input_sha256, data.provenance.input_sha256);
+    assert.ok(model.numerically_resolved);
+    assert.ok(model.log10_bf_grid_difference < 0.02);
+    assert.ok(model.edge_mass < 0.001);
+    for (const row of model.summaries) {
+      const ref = data.settings.find(
+        (r) =>
+          r.day === row.day &&
+          r.effect_sd === model.priors.effect_sd &&
+          r.residual_sd === model.priors.residual_sd &&
+          r.eta === model.priors.eta,
+      );
+      assert.ok(Math.abs(row.log10_bf - ref.log10_bf) < 0.002);
+      assert.ok(row.density.some((d) => d.day === row.day));
+    }
+  }
+});

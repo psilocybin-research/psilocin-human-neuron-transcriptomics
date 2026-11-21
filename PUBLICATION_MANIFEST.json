@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1463,
-  "total_bytes": 727607300,
+  "file_count": 1464,
+  "total_bytes": 728097500,
   "status": "pass",
   "failures": [],
   "files": [
@@ -74,8 +74,8 @@
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 285123,
-      "sha256": "3678e68e9fc5dbbc8b8fed11a2625ef95ae00a0f6254452c8a3adf3a9dd57d01"
+      "bytes": 285259,
+      "sha256": "83ef1deb2ccfab3086b86b9c734fbf03bd949418c264e435105e6cfa653a8e56"
     },
     {
       "path": "LICENSE.md",
@@ -368,6 +368,11 @@
       "sha256": "60a0ba03fb75125a7c7d681c36dcfe8a411b1bc37cbb5661191f3e316ce2af97"
     },
     {
+      "path": "explorer/scripts/precompute-directional.mjs",
+      "bytes": 1529,
+      "sha256": "c8c9c872fd05addfb6eef0fbe06ae53a2fde2e070a1a05549d0b9466f65a2308"
+    },
+    {
       "path": "explorer/scripts/prepare-app-icons.mjs",
       "bytes": 1429,
       "sha256": "b85546c2cf2a6cc0a50cb0af389110a9646168663d10d4162eed874188d301dc"
@@ -434,8 +439,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 276656,
-      "sha256": "558359a2152786b07db614ca6b1eaa3d689692811fadf757d05b4426567ce258"
+      "bytes": 277853,
+      "sha256": "2e7d52516c75afa78414c18f112a3c2542fe4e738b91844d0fdd7046dcb610bc"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3489,8 +3494,8 @@
     },
     {
       "path": "explorer/src/components/app-toast.js",
-      "bytes": 2851,
-      "sha256": "503d7bc1b0c1c3d760dc10e3bd996ca84dc3a63e2a42085ab53a2f6f04b8c2e1"
+      "bytes": 2970,
+      "sha256": "1dcfb6cfa611ba15b1f6e6a610a53f765e1154e323371240907e3cecd6611609"
     },
     {
       "path": "explorer/src/components/assembly-geometry.js",
@@ -3514,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/bayesian-directional.js",
-      "bytes": 26443,
-      "sha256": "5d9b48bcd062e9aed0f8c625e7ee331b424e5d7c394aa07098a3662ac778540e"
+      "bytes": 31342,
+      "sha256": "da987a75c397172aaea93b4647e0bf962224c74cc7ed0b976b5231bed0ba81b0"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -4024,8 +4029,8 @@
     },
     {
       "path": "explorer/src/data/bayesian-directional.json",
-      "bytes": 71837,
-      "sha256": "2b352b5bab71f0068ddd8d9e9c5de43a0664742e0efedf43741967397a7a96f2"
+      "bytes": 553281,
+      "sha256": "49b7a61f803d6525e4132225000a2651a3a0d4587cd554394dee17eb318a37fa"
     },
     {
       "path": "explorer/src/data/bayesian.json",
@@ -4079,13 +4084,13 @@
     },
     {
       "path": "explorer/test/bayesian-directional-browser-check.mjs",
-      "bytes": 6588,
-      "sha256": "739a8a1091c2fd6f6967ef53b8576f174491438a2b9853d1721c6e946a0fadc9"
+      "bytes": 6675,
+      "sha256": "a10d6b889acb3cd3c8223db2ba0842f2e455cd62fa166c9e5ae0cc81de7ce735"
     },
     {
       "path": "explorer/test/bayesian-directional.test.js",
-      "bytes": 2544,
-      "sha256": "1847c9cf627d0e55666cd4798074853fe957731aeeed54cc01eefe7d795e9ab0"
+      "bytes": 3333,
+      "sha256": "e51e61121391717803437db0587034ce983f1c251b7b993ac5719012822c8884"
     },
     {
       "path": "explorer/test/browser-check.mjs",

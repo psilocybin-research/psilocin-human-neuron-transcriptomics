@@ -14,7 +14,7 @@ try {
     const errors = [];
     page.on("pageerror", (e) => {
       errors.push(e.message);
-      console.log("Browser error:", e.message);
+      console.log("Browser error:", e.stack);
     });
     await page.goto("http://127.0.0.1:4173/#view=bayesian");
     const panel = page.locator(".directional-evidence");
@@ -53,6 +53,7 @@ try {
       await panel.locator(".directional-density-chart").innerText(),
       /95% CrI/,
     );
+    assert.equal(await panel.locator("math").count(), 5);
     const slider = panel.getByRole("slider", {
       name: "Effect-prior SD",
       exact: true,
@@ -174,10 +175,10 @@ try {
       /Baseline deterministic/,
     );
     assert.deepEqual(errors, []);
-    // Cancel an in-flight worker when leaving the analysis.
-    await panel
-      .getByRole("button", { name: "Update priors", exact: true })
-      .click();
+    // A new, non-grid prior displays the loader; leaving cancels its worker.
+    await slider.focus();
+    await slider.press("ArrowRight");
+    await panel.locator(".preloader").waitFor();
     await page.evaluate(() => {
       window.priorRangeDisposals = 0;
       for (const range of document.querySelectorAll(".prior-scale-range"))

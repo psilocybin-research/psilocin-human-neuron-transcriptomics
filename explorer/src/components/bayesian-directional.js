@@ -4,6 +4,8 @@ import { directionalModel } from "./bayesian-directional-model.js";
 import { createElement as el, createAccordion } from "./interface-utils.js";
 import { Plot, scientificPlot, interactiveMark } from "./scientific-plot.js";
 import { downloadFile } from "./file-download.js";
+import { showToast } from "./app-toast.js";
+import { setLoadingMessage } from "./interface-utils.js";
 import { csvText } from "./format.js";
 
 export function createDirectionalEvidence() {
@@ -23,6 +25,23 @@ export function createDirectionalEvidence() {
       "Both hypotheses restrict the same proper, symmetric prior, giving prior odds 1:1. Effect and residual prior scales use mean log₂(normalized count + 1) units; eta controls the correlation prior. BF+/− equals posterior odds here. This re-expresses directional uncertainty; it is not independent evidence or a test of mitochondrial activity. Do not multiply the two dependent day-specific factors.",
     ),
   );
+  const formulaCard = el("div", "card card-outline directional-formulas");
+  const formulaBody = el("div", "card-content card-content-padding");
+  formulaBody.append(el("strong", "", "Directional comparison"));
+  formulaBody.insertAdjacentHTML(
+    "beforeend",
+    `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="H plus: mu d greater than zero; H minus: mu d less than or equal to zero"><msub><mi>H</mi><mo>+</mo></msub><mo>:</mo><msub><mi>μ</mi><mi>d</mi></msub><mo>&gt;</mo><mn>0</mn><mspace width="2em"/><msub><mi>H</mi><mo>−</mo></msub><mo>:</mo><msub><mi>μ</mi><mi>d</mi></msub><mo>≤</mo><mn>0</mn></math>
+  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Directional Bayes factor equals posterior odds divided by prior odds, which here equals p d divided by one minus p d"><msub><mi>BF</mi><mrow><mo>+</mo><mo>/</mo><mo>−</mo></mrow></msub><mo>=</mo><mfrac><mtext>posterior odds</mtext><mtext>prior odds</mtext></mfrac><mo>=</mo><mfrac><msub><mi>p</mi><mi>d</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>d</mi></msub></mrow></mfrac></math>`,
+  );
+  formulaBody.append(
+    el(
+      "p",
+      "note",
+      "Here p_d = P(μ_d > 0 | data). Symmetric encompassing priors give prior odds 1:1. The mean μ_d is the day-specific OXPHOS score shift, not mitochondrial activity; H− is not an exact-zero null.",
+    ),
+  );
+  formulaCard.append(formulaBody);
+  root.append(formulaCard);
   const controls = el("div", "list list-strong list-dividers inset"),
     ul = el("ul");
   controls.append(ul);
@@ -78,11 +97,14 @@ export function createDirectionalEvidence() {
   status.setAttribute("role", "status");
   const result = el("div", "directional-summary");
   result.setAttribute("aria-live", "polite");
-  const density = el("div", "directional-density-chart"),
+  const density = el("div", "directional-density-chart directional-summary"),
     blocks = el("div", "directional-block-chart"),
     sensitivity = el("div", "directional-sensitivity-chart"),
     robustness = el("div", "directional-robustness-chart");
-  root.append(
+  const priorCard = el("section", "card card-outline directional-prior-card");
+  const priorBody = el("div", "card-content card-content-padding");
+  priorBody.append(
+    el("h5", "", "Shared priors · both days"),
     controls,
     el(
       "p",
@@ -91,8 +113,11 @@ export function createDirectionalEvidence() {
     ),
     actions,
     status,
-    result,
-    el("h5", "", "Prior and posterior distributions"),
+  );
+  priorCard.append(priorBody);
+  root.append(
+    priorCard,
+    el("h5", "", "Directional evidence · prior and posterior"),
     density,
     el(
       "p",
@@ -125,6 +150,18 @@ export function createDirectionalEvidence() {
     "Model, numerical checks and complete exports",
     "directional-details",
   );
+  const modelMath = el("div", "directional-formulas");
+  modelMath.innerHTML = `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Paired block observations follow a bivariate normal with mean mu and covariance Sigma"><msub><mi>y</mi><mi>b</mi></msub><mo>∼</mo><msub><mi>Normal</mi><mn>2</mn></msub><mo>(</mo><mi>μ</mi><mo>,</mo><mi>Σ</mi><mo>)</mo><mspace width="1em"/><mi>Σ</mi><mo>=</mo><mi>D</mi><mi>R</mi><mi>D</mi></math>
+  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Mu d has normal prior zero s mu squared; sigma d has half normal prior s sigma; R has LKJ prior eta"><msub><mi>μ</mi><mi>d</mi></msub><mo>∼</mo><mi>Normal</mi><mo>(</mo><mn>0</mn><mo>,</mo><msubsup><mi>s</mi><mi>μ</mi><mn>2</mn></msubsup><mo>)</mo><mspace width="1em"/><msub><mi>σ</mi><mi>d</mi></msub><mo>∼</mo><mi>HalfNormal</mi><mo>(</mo><msub><mi>s</mi><mi>σ</mi></msub><mo>)</mo></math>
+  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="R has LKJ prior eta"><mi>R</mi><mo>∼</mo><mi>LKJ</mi><mo>(</mo><mi>η</mi><mo>)</mo></math>`;
+  modelMath.append(
+    el(
+      "p",
+      "note",
+      "b indexes the three paired blocks; d indexes Day 1 and Day 3. D = diag(σ₁, σ₃), and R is the correlation matrix. The effect slider sets s_μ; the residual slider sets s_σ. Normal uses variance as its second argument here.",
+    ),
+  );
+  details.body.append(modelMath);
   details.body.append(
     el(
       "p",
@@ -178,6 +215,16 @@ export function createDirectionalEvidence() {
       provenance: reference.provenance,
     },
     lastWidth = 0;
+  const cacheKey = (p) => [p.effect_sd, p.residual_sd, p.eta].join(":");
+  const cache = new Map(
+    (reference.precomputed || []).map((m) => [cacheKey(m.priors), m]),
+  );
+  cache.set(cacheKey(current.priors), current);
+  let feedback;
+  const notify = (message) => {
+    if (feedback?.params) feedback.close();
+    feedback = showToast(message, { duration: 2800 });
+  };
   const colour = { "Day 1": "#235780", "Day 3": "#a45114" };
   function choosePriors(r) {
     if (run.disabled) return;
@@ -246,6 +293,7 @@ export function createDirectionalEvidence() {
         ),
       );
       card.append(body);
+      card.dataset.day = r.day;
       result.append(card);
     }
     const densities = current.density || rows.flatMap((r) => r.density);
@@ -263,12 +311,15 @@ export function createDirectionalEvidence() {
     for (const r of rows) {
       const data = densities.filter((d) => d.day === r.day);
       const panel = el("section", "directional-density-panel");
+      panel.dataset.fullscreenHost = "";
+      panel.dataset.fullscreenTitle = `${r.day}: directional Bayesian evidence`;
+      const summary = el("div", "directional-day-summary");
+      summary.setAttribute("aria-live", "polite");
+      summary.append(
+        [...result.children].find((card) => card.dataset.day === r.day),
+      );
       panel.append(
-        el(
-          "h6",
-          "",
-          `${r.day} · BF+/− ${r.bf_positive_nonpositive.toFixed(2)}`,
-        ),
+        summary,
         scientificPlot({
           title: `${r.day}: prior, posterior and 95% credible interval; BF positive/nonpositive ${r.bf_positive_nonpositive.toFixed(2)}`,
           description: `Posterior mean ${r.mean.toFixed(3)}; 95% credible interval ${r.lower95.toFixed(3)} to ${r.upper95.toFixed(3)}. The Bayes factor compares positive with nonpositive shifts, not an exact-zero null.`,
@@ -591,6 +642,16 @@ export function createDirectionalEvidence() {
     const priors = Object.fromEntries(
       Object.entries(fields).map(([k, v]) => [k, +v.value]),
     );
+    const cached = cache.get(cacheKey(priors));
+    if (cached) {
+      current = { ...cached, source_url: location.href };
+      status.classList.remove("inline-loading");
+      status.textContent =
+        "Numerical checks passed. Previously computed result loaded immediately; no interpolation was used.";
+      render();
+      notify("Bayesian results updated from saved calculations.");
+      return;
+    }
     const focusedPrior =
       document.activeElement?.getAttribute("role") === "slider"
         ? document.activeElement
@@ -599,7 +660,10 @@ export function createDirectionalEvidence() {
     save.disabled = true;
     setControlsDisabled(true);
     root.setAttribute("aria-busy", "true");
-    status.textContent = "Computing paired model and checking a finer grid…";
+    setLoadingMessage(
+      status,
+      "Computing paired model and checking a finer grid…",
+    );
     url = URL.createObjectURL(
       new Blob(
         [
@@ -614,6 +678,7 @@ export function createDirectionalEvidence() {
       save.disabled = false;
       setControlsDisabled(false);
       root.removeAttribute("aria-busy");
+      status.classList.remove("inline-loading");
       stop();
       if (focusedPrior?.isConnected)
         focusedPrior.focus({ preventScroll: true });
@@ -623,6 +688,7 @@ export function createDirectionalEvidence() {
       status.textContent =
         "Calculation failed. The last completed result remains visible.";
       finish();
+      notify("Calculation failed. Previous results retained.");
     };
     worker.onmessage = ({ data }) => {
       if (disposed) return;
@@ -645,8 +711,15 @@ export function createDirectionalEvidence() {
         numerically_resolved: delta < 0.02 && data.b.edge_mass < 0.001,
       };
       status.textContent = `${current.numerically_resolved ? "Numerical checks passed." : "Numerical warning: do not interpret this setting without further refinement."} Maximum log₁₀ BF grid difference ${delta.toFixed(4)}; boundary mass ${data.b.edge_mass.toExponential(2)}. ${[priors.effect_sd, priors.residual_sd].some((v) => ![0.25, 0.5, 1].includes(v)) ? "Outside the declared archived prior-scale grid." : ""}`;
+      cache.set(cacheKey(priors), current);
+      if (cache.size > 32) cache.delete(cache.keys().next().value);
       render();
       finish();
+      notify(
+        current.numerically_resolved
+          ? "Bayesian results updated. Numerical checks passed."
+          : "Results updated with a numerical warning. Review the diagnostics.",
+      );
     };
     worker.postMessage({
       scores: reference.scores.map((r) => [
@@ -662,6 +735,7 @@ export function createDirectionalEvidence() {
     save.disabled = false;
     setControlsDisabled(false);
     root.removeAttribute("aria-busy");
+    status.classList.remove("inline-loading");
     for (const [k, f] of Object.entries(fields)) {
       f.value = k === "eta" ? "2" : "0.5";
       f.dispatchEvent(new Event("change", { bubbles: true }));
@@ -684,6 +758,7 @@ export function createDirectionalEvidence() {
   observer.observe(root);
   root.dispose = () => {
     disposed = true;
+    if (feedback?.params) feedback.close();
     stop();
     observer.disconnect();
     for (const field of Object.values(fields)) field.destroy?.();

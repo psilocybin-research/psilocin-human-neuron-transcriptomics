@@ -365,6 +365,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/precompute-directional.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/prepare-app-icons.mjs": {
     "spdx": "MIT",
     "copyright": [
