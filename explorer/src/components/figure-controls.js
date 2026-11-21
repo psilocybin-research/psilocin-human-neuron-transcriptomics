@@ -306,6 +306,7 @@ export function enhancePlots(scope, { nested = false } = {}) {
           ? "View only this plot in full screen"
           : "View plot and information in full screen";
       full.classList.toggle("figure-fullscreen-exit", active);
+      full.classList.toggle("atlas-fullscreen-close", active);
       if (!active && molecularStats) molecularStats.hidden = true;
       full.replaceChildren(icon(active ? "close" : "fullscreen"));
       if (active) full.append(el("span", "", "Close"));

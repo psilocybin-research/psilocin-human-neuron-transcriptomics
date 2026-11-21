@@ -47,8 +47,8 @@ export function createDirectionalEvidence() {
   controls.append(ul);
   const fields = {};
   for (const [key, title, values] of [
-    ["effect_sd", "Effect-prior SD", [0.125, 0.25, 0.5, 1, 2]],
-    ["residual_sd", "Residual-SD prior scale", [0.125, 0.25, 0.5, 1, 2]],
+    ["effect_sd", "Normal effect-prior SD", [0.125, 0.25, 0.5, 1, 2]],
+    ["residual_sd", "Half-Normal residual scale", [0.125, 0.25, 0.5, 1, 2]],
     ["eta", "Correlation prior · LKJ eta", [1, 2, 4]],
   ]) {
     if (key !== "eta") {
@@ -438,7 +438,7 @@ export function createDirectionalEvidence() {
             domain: [0.23, 1.08],
             ticks: [0.25, 0.5, 1],
             tickFormat: (d) => String(d),
-            label: "Effect-prior SD",
+            label: "Normal effect-prior SD",
           },
           y: {
             type: "log",
@@ -550,7 +550,7 @@ export function createDirectionalEvidence() {
         marginLeft: 45,
         marginBottom: 45,
         fx: { domain: ["Day 1", "Day 3"], label: null },
-        x: { label: "Effect-prior SD", domain: ["0.25", "0.5", "1"] },
+        x: { label: "Normal effect-prior SD", domain: ["0.25", "0.5", "1"] },
         y: { label: "Residual prior scale", domain: ["1", "0.5", "0.25"] },
         color: {
           type: "diverging",

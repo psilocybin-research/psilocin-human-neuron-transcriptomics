@@ -55,7 +55,7 @@ try {
     );
     assert.equal(await panel.locator("math").count(), 5);
     const slider = panel.getByRole("slider", {
-      name: "Effect-prior SD",
+      name: "Normal effect-prior SD",
       exact: true,
     });
     await slider.waitFor();

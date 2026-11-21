@@ -381,9 +381,10 @@ export function createVisualizationTools({
     element.setAttribute("aria-label", title);
     const done = el(
       "button",
-      "button button-tonal atlas-3d-fullscreen-done",
-      "Done",
+      "button button-tonal atlas-fullscreen-close atlas-3d-fullscreen-done",
     );
+    done.append(uiIcon("close"), el("span", "", "Close"));
+    done.setAttribute("aria-label", "Exit full screen");
     done.type = "button";
     done.onclick = () => popup.close();
     element.append(surface, done);
@@ -421,6 +422,7 @@ export function createVisualizationTools({
     );
     fullscreenButton.setAttribute("aria-pressed", String(active));
     fullscreenButton.classList.toggle("figure-fullscreen-exit", active);
+    fullscreenButton.classList.toggle("atlas-fullscreen-close", active);
     fullscreenButton.replaceChildren(uiIcon(active ? "close" : "fullscreen"));
     if (active) fullscreenButton.append(el("span", "", "Close"));
   }

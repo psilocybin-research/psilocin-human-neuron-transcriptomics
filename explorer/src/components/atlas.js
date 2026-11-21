@@ -1004,12 +1004,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     const close = button(
       "",
       () => document.exitFullscreen?.() || document.webkitExitFullscreen?.(),
-      "button button-round shell-icon app-fullscreen-toggle",
+      "button button-round atlas-fullscreen-close app-fullscreen-toggle",
     );
     close.setAttribute("aria-label", "Exit fullscreen");
     close.setAttribute("title", "Exit fullscreen");
     close.setAttribute("aria-pressed", "true");
-    close.append(uiIcon("fullscreenExit"));
+    close.append(uiIcon("close"), el("span", "", "Close"));
     toolbar.append(el("h2", "", "3D OXPHOS membership"), close);
     const content = el("div", "oxphos-network-fullscreen-content");
     content.append(networkPanel);

@@ -6315,7 +6315,7 @@ body {
 #psilocin-app .atlas-3d-tools-dock .evidence-sheet-header { min-height:52px;padding:8px 12px; }
 #psilocin-app .atlas-3d-tools-dock .evidence-sheet-header h2 { font-size:15px; }
 #psilocin-app .atlas-3d-fullscreen-toolbar .toolbar-pane { padding:0; }
-#psilocin-app .atlas-3d-fullscreen-toolbar .figure-fullscreen { background:transparent;box-shadow:none;border:0;color:var(--f7-theme-color,#235780); }
+
 
 #psilocin-app .sheet-modal>.atlas-sheet-toolbar { position:relative;flex-shrink:0;--f7-toolbar-height:52px; }
 #psilocin-app .atlas-sheet-toolbar .left { flex:1;min-width:0; }
@@ -6340,7 +6340,7 @@ body {
 #psilocin-app .atlas-3d-tools-dock .atlas-sheet-toolbar .right>button:first-child { display:none; }
 #psilocin-app .atlas-3d-fullscreen-toolbar { inset:12px 12px auto auto;padding:0;min-height:44px;margin:0; }
 #psilocin-app .atlas-3d-fullscreen-toolbar .toolbar-pane { min-height:44px;flex-wrap:nowrap; }
-#psilocin-app .atlas-3d-fullscreen-toolbar .button.figure-fullscreen-exit { background:transparent;color:var(--f7-theme-color);margin:0;top:auto;transform:none; }
+#psilocin-app .atlas-3d-fullscreen-toolbar .button.figure-fullscreen-exit { margin:0;top:auto;transform:none; }
 
 #psilocin-app .atlas-3d-tool-field .research-smart-select .item-after { display:block;color:var(--research-muted); }
 
@@ -6388,3 +6388,18 @@ body {
 #psilocin-app .directional-prior-card h5 { margin-top: 0; }
 
 #psilocin-app .directional-density-chart.directional-summary { display: block; }
+/* One close affordance for plots, molecular surfaces and membership networks. */
+#psilocin-app .button.atlas-fullscreen-close {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:auto;min-width:88px;min-height:44px;height:44px;padding:0 12px;
+  border-radius:14px;font-size:13px;line-height:1.2;
+  color:var(--f7-theme-color,#235780);
+  background:var(--research-surface,#f5faff);
+  border:1px solid var(--research-border,#d8e3ec);
+}
+#psilocin-app .atlas-fullscreen-close svg { width:18px;height:18px;flex:none; }
+#psilocin-app .atlas-3d-fullscreen-toolbar,
+#psilocin-app .oxphos-network-fullscreen .oxphos-network-closebar,
+#psilocin-app .atlas-3d-fullscreen-done {
+  top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));
+}

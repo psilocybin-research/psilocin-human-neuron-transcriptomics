@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1464,
-  "total_bytes": 728097500,
+  "total_bytes": 728098404,
   "status": "pass",
   "failures": [],
   "files": [
@@ -439,8 +439,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 277853,
-      "sha256": "2e7d52516c75afa78414c18f112a3c2542fe4e738b91844d0fdd7046dcb610bc"
+      "bytes": 278437,
+      "sha256": "337c24dd211353b6ef77257070330abebd4e05189a9ece3e2b533932b6ddc6c7"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3509,8 +3509,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 135695,
-      "sha256": "1b65d4a5de9060c8817f55909db720912da4ce98ba6f0e9f3a24c8f888b41b08"
+      "bytes": 135723,
+      "sha256": "e28c613759e74532b67c37d1f4fb39644116a06c1ee593e2aa087adcc948db8c"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -3519,8 +3519,8 @@
     },
     {
       "path": "explorer/src/components/bayesian-directional.js",
-      "bytes": 31342,
-      "sha256": "da987a75c397172aaea93b4647e0bf962224c74cc7ed0b976b5231bed0ba81b0"
+      "bytes": 31366,
+      "sha256": "e1638846849ba817ecce06a00e1c8a8259a4e435e9376f821e8bec481e623895"
     },
     {
       "path": "explorer/src/components/bundled-overlap.js",
@@ -3569,8 +3569,8 @@
     },
     {
       "path": "explorer/src/components/figure-controls.js",
-      "bytes": 17076,
-      "sha256": "3dfad898416c5d5aae7a16893f26c010842468f62dc0cd75087ad2c745d69298"
+      "bytes": 17139,
+      "sha256": "93e610fc36f519fa65764682c6d51571bb3d69b495248e929f088c54afd27907"
     },
     {
       "path": "explorer/src/components/file-download.js",
@@ -4014,8 +4014,8 @@
     },
     {
       "path": "explorer/src/components/visualization-tools.js",
-      "bytes": 15404,
-      "sha256": "cb489a89b3e4e455f87d94100af48589f862438b6b5cd263179dade5b67815f6"
+      "bytes": 15602,
+      "sha256": "9264b2dc6b56b30b4157de496d9eb8aadabbdd65939068b016d160388b5fba4c"
     },
     {
       "path": "explorer/src/components/workspace-layout.js",
@@ -4084,8 +4084,8 @@
     },
     {
       "path": "explorer/test/bayesian-directional-browser-check.mjs",
-      "bytes": 6675,
-      "sha256": "a10d6b889acb3cd3c8223db2ba0842f2e455cd62fa166c9e5ae0cc81de7ce735"
+      "bytes": 6682,
+      "sha256": "e272ddfeb36596ec7077993053df3a07100f0ffbe4df985e58b96303cbb88d23"
     },
     {
       "path": "explorer/test/bayesian-directional.test.js",
