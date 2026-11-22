@@ -83,5 +83,5 @@ const tabScroll = await popup.locator('.source-browser-tabs .toolbar-inner').eva
 });
 assert(tabScroll.scrollable && tabScroll.scrolled>0, 'Mobile source tabs should scroll horizontally');
 assert(await popup.evaluate(n=>n.scrollWidth<=n.clientWidth+1));
-await popup.getByRole('button',{name:'Close',exact:true}).click();await popup.waitFor({state:'hidden'});
+await popup.locator('.navbar .link.popup-close[aria-label="Close"]').click();await popup.waitFor({state:'hidden'});
 assert.deepEqual(errors,[]);await browser.close();console.log('Pinned source browser: F7 navigation, safe text, commit pinning, mobile width and close passed.');
