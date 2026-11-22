@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728142283,
+  "total_bytes": 728148307,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,13 +29,13 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 3245,
-      "sha256": "515c6fa9af0979646a6c3d1fd7d879adc404a3ce62d1d5053f0d33003d243ef0"
+      "bytes": 3290,
+      "sha256": "314fd6f7a3455d89a9ebb5c17daa3a4b058df36a925ebf3d49a2a1765e488ae8"
     },
     {
       "path": ".github/workflows/pages.yml",
-      "bytes": 937,
-      "sha256": "da6332c49ccf9edb82719bcece7eb976d9939072e68bb6a2a5c6127d7b72510e"
+      "bytes": 966,
+      "sha256": "372c9b8a9282c689d10fca27398dcc73d01609133e3d99bca3c1b291cf9895a1"
     },
     {
       "path": ".github/workflows/release.yml",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 280638,
-      "sha256": "5a78ef67a217404bfff0b789a9c085e2a2af958449309ff53c6614f3838d2ad1"
+      "bytes": 284537,
+      "sha256": "7ea913d511bc5371e64f4d0a318a1653ee50ff03093b8a6522b597e7f505200e"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3994,8 +3994,8 @@
     },
     {
       "path": "explorer/src/components/source-browser.js",
-      "bytes": 11560,
-      "sha256": "d326dfd341a204bb41e1ca04cdb87355f9c65670bae7f5e605b6443f79deef17"
+      "bytes": 11825,
+      "sha256": "fc8e462a62dd785b3b0fde418e491ac254461ef79e09eb697b5c62730e83bf74"
     },
     {
       "path": "explorer/src/components/source-markdown.js",
@@ -4574,8 +4574,8 @@
     },
     {
       "path": "explorer/test/source-browser-check.mjs",
-      "bytes": 3097,
-      "sha256": "9908bc8f54225cc5fe6705019e4f20e8295704381a27cef60fe20a6c384a9a78"
+      "bytes": 4883,
+      "sha256": "8ce21338b6659200aec853a61b265305015c758fb3f2c72355c423275b8be631"
     },
     {
       "path": "explorer/test/studio-browser-check.mjs",
