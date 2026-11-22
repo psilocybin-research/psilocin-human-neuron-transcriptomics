@@ -1,6 +1,6 @@
 import { renderSourceMarkdown } from "./source-markdown.js";
 import build from "../assets/vendor/app-build.js";
-import { createElement as el, loadingMessage, createAccordion } from "./interface-utils.js";
+import { createElement as el, loadingMessage } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 
 const repository = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics";
@@ -106,20 +106,21 @@ export function createSourceBrowser({ app, root }) {
     try {
       const text = await read("README.md", true); if (controller.signal.aborted) return;
       const block = el("div", "block source-browser-overview");
-      const card = el("div", "card card-outline");
-      const header = el("div", "card-header", "Source for this atlas build");
-      const body = el("div", "card-content card-content-padding");
-      body.append(
-        el("p", "", "Browse the exact published source, inspect repository files, or check recent changes on GitHub."),
-        el("p", "text-color-gray", `Pinned commit: ${build.commit.slice(0, 12)}`)
+      const heading = el("div", "source-browser-repository");
+      const headingText = el("div", "source-browser-repository-text");
+      headingText.append(
+        el("strong", "", "Published GitHub source"),
+        el("p", "", "Documentation and files from the exact revision used to build this atlas.")
       );
-      const footer = el("div", "card-footer");
-      footer.append(link("Open this revision on GitHub", sourceUrl(), "button button-tonal"));
-      card.append(header, body, footer);
-
-      const docs = createAccordion("Read full repository README", "source-browser-docs");
-      docs.body.append(renderSourceMarkdown(text, { repository, commit: build.commit }));
-      block.append(card, docs.element); host.replaceChildren(block);
+      heading.append(headingText, link("Open on GitHub", sourceUrl(), "button button-tonal source-browser-github-link"));
+      const readme = el("section", "source-browser-readme-section");
+      readme.setAttribute("aria-label", "Repository README");
+      readme.append(
+        el("h2", "source-browser-section-title", "Repository README"),
+        renderSourceMarkdown(text, { repository, commit: build.commit })
+      );
+      block.append(heading, readme);
+      host.replaceChildren(block);
     } catch (error) { failure(host, error, overview); }
   }
   const live = el("div", "block"), liveStatus = el("div");

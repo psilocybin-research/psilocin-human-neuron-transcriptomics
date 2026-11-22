@@ -23,7 +23,7 @@ await page.context().route('https://github.com/**', route=>route.fulfill({status
 await page.goto(process.env.ATLAS_URL || 'http://127.0.0.1:4173/');
 await page.locator('[data-framework7="9.3.0"]').waitFor();
 await page.getByRole('button',{name:'GitHub source',exact:true}).click();
-const popup=page.locator('.source-browser');await popup.locator('.source-browser-overview .card').waitFor();
+const popup=page.locator('.source-browser');await popup.locator('.source-browser-overview .source-readme').waitFor();
 const structure = await popup.evaluate(node => {
   const navbar = node.querySelector('.navbar');
   const bg = node.querySelector('.navbar-bg');
@@ -33,8 +33,8 @@ const structure = await popup.evaluate(node => {
     background: getComputedStyle(bg).backgroundImage,
     tabs: toolbar.querySelectorAll('.tab-link').length,
     isNativeTabbar: toolbar.classList.contains('tabbar-scrollable'),
-    hasCard: Boolean(node.querySelector('#source-overview .card')),
-    hasAccordion: Boolean(node.querySelector('#source-overview .source-browser-docs .accordion-item')),
+    hasReadme: Boolean(node.querySelector('#source-overview .source-readme')),
+    hasNoAccordion: !node.querySelector('#source-overview .accordion-item'),
     closeIsNativeLink: Boolean(node.querySelector('.navbar .link.popup-close')),
     closeBarGlass: getComputedStyle(node.querySelector('.navbar .right')).backgroundImage,
     closeBarColor: getComputedStyle(node.querySelector('.navbar .right')).backgroundColor,
@@ -45,15 +45,13 @@ const structure = await popup.evaluate(node => {
 assert.match(structure.header,/Source & reproducibility/);
 assert(!/gradient/.test(structure.background), 'Navbar should follow the native F7 theme');
 assert.equal(structure.tabs,4);
-assert(structure.isNativeTabbar && structure.hasCard && structure.hasAccordion && structure.closeIsNativeLink);
+assert(structure.isNativeTabbar && structure.hasReadme && structure.hasNoAccordion && structure.closeIsNativeLink);
 assert.equal(structure.closeBarGlass,'none');
 assert(['rgba(0, 0, 0, 0)','transparent'].includes(structure.closeBarColor),'Close control should not have a floating glass background');
 assert(structure.headerHeight>=48 && structure.headerHeight<=76);
 assert(structure.closeHeight>=40 && structure.closeHeight<=50);
-assert(!await popup.locator('#source-overview .source-browser-docs .accordion-item').evaluate(node=>node.classList.contains('accordion-item-opened')));
-await popup.locator('#source-overview .accordion-item .item-link').click();
-await popup.locator('#source-overview .accordion-item-opened').waitFor();
-assert.equal(await popup.locator('#source-overview .accordion-item .item-link').getAttribute('aria-expanded'),'true');
+assert.equal(await popup.locator('#source-overview .accordion-item').count(),0, 'README must not be hidden in an accordion');
+assert(await popup.locator('#source-overview .source-readme').isVisible(), 'README should be immediately visible');
 const overview = popup.locator('#source-overview');
 await page.waitForFunction(() => { const node=document.querySelector('.source-browser #source-overview'); return node && node.scrollHeight>node.clientHeight+100; }, null, { timeout: 5000 });
 const scrolled = await overview.evaluate(node=>{node.scrollTop=240;return node.scrollTop;});
@@ -81,14 +79,12 @@ assert.equal(await popup.locator('.source-readme strong').innerText(),'Formatted
 assert.match(await popup.locator('.source-readme a').getAttribute('href'),/blob\/[a-f0-9]{40}\/docs\/guide.md$/);
 assert.equal(await popup.locator('.source-readme [onerror],.source-readme script').count(),0);
 assert(await popup.locator('#source-overview .source-readme a').first().evaluate(a=>a.classList.contains('external')));
-const openSource = popup.getByRole('link',{name:'Open this revision on GitHub'});
+const openSource = popup.getByRole('link',{name:'Open on GitHub'});
 assert(await openSource.evaluate(a=>a.classList.contains('external') && a.target==='_blank'));
 const [openedSource] = await Promise.all([page.waitForEvent('popup'),openSource.click()]);
 await openedSource.waitForURL(/^https:\/\/github\.com\/psilocybin-research\//,{timeout:15000});
 assert.match(openedSource.url(),/^https:\/\/github\.com\/psilocybin-research\//);
 await openedSource.close();
-await popup.locator('#source-overview .accordion-item .item-link').click();
-await page.waitForFunction(() => document.querySelector('.source-browser #source-overview .accordion-item .item-link')?.getAttribute('aria-expanded') === 'false');
 await popup.getByText('Live',{exact:true}).click();await popup.getByRole('button',{name:'Check GitHub now'}).click();
 await popup.getByText('GitHub main is 2 commits ahead of this build.',{exact:true}).waitFor();
 await popup.getByText('A new change',{exact:true}).waitFor();
@@ -124,6 +120,13 @@ const tabScroll = await popup.locator('.source-browser-tabs .toolbar-inner').eva
   return { scrollable, scrolled: node.scrollLeft };
 });
 assert(tabScroll.scrollable && tabScroll.scrolled>0, 'Mobile source tabs should scroll horizontally');
+await popup.getByText('Overview',{exact:true}).click();
+assert(await popup.locator('#source-overview .source-readme').isVisible(), 'Mobile README must remain visible');
+const mobileLayout = await popup.locator('#source-overview').evaluate(node => ({
+  viewport: node.clientWidth, content: node.scrollWidth,
+  githubVisible: (() => { const a=node.querySelector('.source-browser-github-link'); return !!a && a.getBoundingClientRect().width>0; })()
+}));
+assert(mobileLayout.githubVisible && mobileLayout.content<=mobileLayout.viewport+1, 'Mobile overview must not clip content');
 assert(await popup.evaluate(n=>n.scrollWidth<=n.clientWidth+1));
 await popup.locator('.navbar .link.popup-close[aria-label="Close"]').click();await popup.waitFor({state:'hidden'});
 assert.deepEqual(errors,[]);await browser.close();console.log('Pinned source browser: F7 navigation, safe text, commit pinning, mobile width and close passed.');

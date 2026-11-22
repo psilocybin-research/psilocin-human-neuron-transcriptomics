@@ -6574,29 +6574,31 @@ body {
   display: block;
 }
 #psilocin-app .source-browser .source-browser-overview {
-  max-width: 720px;
-  margin: 0 auto;
+  width: min(100%, 900px); max-width: 900px; margin: 0 auto;
+  padding: 18px clamp(16px, 3vw, 32px) 48px; min-width: 0;
 }
-#psilocin-app .source-browser .source-browser-overview .card {
-  margin: 16px 0;
+#psilocin-app .source-browser .source-browser-repository {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 0 0 18px; min-width: 0; border-bottom: 1px solid var(--research-border);
 }
-#psilocin-app .source-browser .source-browser-docs {
-  margin: 12px 0;
+#psilocin-app .source-browser .source-browser-repository-text { flex: 1 1 auto; min-width: 0; }
+#psilocin-app .source-browser .source-browser-repository-text strong {
+  font-size: 15px; font-weight: 650; color: var(--research-text);
 }
-#psilocin-app .source-browser .source-browser-docs .item-content {
-  width: 100%;
-  min-height: 50px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  text-align: left;
+#psilocin-app .source-browser .source-browser-repository-text p {
+  margin: 5px 0 0; font-size: 12px; line-height: 1.6; color: var(--research-muted);
 }
-#psilocin-app .source-browser .source-browser-docs .item-title {
-  font-size: 13px;
+#psilocin-app .source-browser .source-browser-github-link {
+  flex: 0 0 auto; width: auto; max-width: 100%; min-height: 42px;
+  padding: 9px 15px; font-size: 12px; font-weight: 600; white-space: nowrap;
 }
-#psilocin-app .source-browser .source-browser-docs .gene-annotation-body {
-  padding: 0 8px 16px;
+#psilocin-app .source-browser .source-browser-readme-section { min-width: 0; padding-top: 18px; }
+#psilocin-app .source-browser .source-browser-section-title {
+  margin: 0 0 18px; font-size: 13px; font-weight: 650;
+  color: var(--research-muted); letter-spacing: .025em;
 }
+#psilocin-app .source-browser .source-readme { min-width: 0; }
+#psilocin-app .source-browser .source-readme :is(p, li, blockquote) { overflow-wrap: anywhere; }
 #psilocin-app .source-browser .breadcrumbs {
   flex-wrap: wrap;
   gap: 7px;
@@ -6735,6 +6737,11 @@ body {
 }
 #psilocin-app .source-browser .note { overflow-wrap: anywhere; }
 @media (max-width: 500px) {
+  #psilocin-app .source-browser .source-browser-overview { padding: 14px 16px 36px; }
+  #psilocin-app .source-browser .source-browser-repository {
+    align-items: flex-start; flex-direction: column; gap: 12px;
+  }
+  #psilocin-app .source-browser .source-browser-github-link { align-self: flex-start; }
   #psilocin-app .source-browser .source-browser-navbar .navbar-inner {
     padding: 0 8px 0 14px;
   }
