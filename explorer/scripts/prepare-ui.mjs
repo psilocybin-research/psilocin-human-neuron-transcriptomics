@@ -52,9 +52,15 @@ const css = await transform(stylesheet, {
   target: ["es2022"],
 });
 await writeFile(new URL("framework7.css", out), css.code);
+const sourceMarkdown = await build({
+  entryPoints: [fileURLToPath(new URL("scripts/source-markdown-entry.js", root))],
+  outfile: fileURLToPath(new URL("source-markdown.js", out)),
+  bundle: true, format: "esm", minify: true, target: ["es2022"],
+  legalComments: "inline", metafile: true,
+});
 const packages = [
   ...new Set(
-    Object.keys(result.metafile.inputs)
+    [...Object.keys(result.metafile.inputs), ...Object.keys(sourceMarkdown.metafile.inputs)]
       .map((p) => p.match(/node_modules\/((?:@[^/]+\/)?[^/]+)/)?.[1])
       .filter(Boolean),
   ),
@@ -67,7 +73,7 @@ for (const name of packages) {
       await readFile(new URL("package.json", directory), "utf8"),
     );
   let license;
-  for (const candidate of ["LICENSE", "LICENSE.md", "license", "license.md"]) {
+  for (const candidate of ["LICENSE", "LICENSE.md", "license", "license.md", "LICENSE-MIT.txt", "LICENSE.txt"]) {
     try {
       license = await readFile(new URL(candidate, directory), "utf8");
       break;

@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { build } from "esbuild";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -122,3 +123,8 @@ await writeFile(new URL("method-comparison-data.js", output),
 // Versioned exploratory directional analysis; separate from archived summaries.
 const directional = JSON.parse(await readFile(new URL('src/data/bayesian-directional.json', root), 'utf8'));
 await writeFile(new URL('bayesian-directional-data.js', output), `export default ${JSON.stringify(directional)};\n`);
+
+// Pin repository browsing to the source revision used by this build.
+const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: fileURLToPath(root), encoding: "utf8" }).trim();
+const dirty = Boolean(execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], { cwd: fileURLToPath(root), encoding: "utf8" }).trim());
+await writeFile(new URL("app-build.js", output), `export default ${JSON.stringify({commit, dirty})};\n`);

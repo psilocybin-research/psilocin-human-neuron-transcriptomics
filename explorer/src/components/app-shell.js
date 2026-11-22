@@ -1,3 +1,4 @@
+import { createSourceBrowser } from "./source-browser.js";
 import { createSidebarContext } from "./sidebar-context.js";
 import { fuzzyGeneSuggestions, geneSuggestions } from "./gene-search-data.js";
 import { brandGlyph } from "./app-brand.js";
@@ -162,6 +163,12 @@ export function createAppShell({
     if (!panel.classList.contains("panel-in-breakpoint"))
       panelInstance?.close(false);
     openSources();
+  });
+  let sourceBrowser;
+  utilityItem("GitHub source", "github", () => {
+    if (!panel.classList.contains("panel-in-breakpoint")) panelInstance?.close(false);
+    sourceBrowser ??= createSourceBrowser({ app, root });
+    sourceBrowser.open();
   });
   const installButton = utilityItem("Install app", "download", () => {});
   installButton.disabled = true;
@@ -1685,6 +1692,7 @@ export function createAppShell({
       clearTimeout(positionTimer);
       scroll.removeEventListener("scroll", rememberViewPosition);
       sourceScroll.removeEventListener("scroll", syncSourcesScrollSurface);
+      sourceBrowser?.destroy();
       pwa?.destroy();
       researchTables?.destroy();
       evidenceSheet.destroy();

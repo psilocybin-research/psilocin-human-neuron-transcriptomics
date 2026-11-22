@@ -6409,3 +6409,22 @@ body {
 #psilocin-app .network-bayesian-evidence .directional-bf-value { font-size:32px; }
 #psilocin-app .network-bayesian-evidence .directional-probability-wheel { width:48px;height:48px; }
 #psilocin-app .network-bayesian-explore .item-title { white-space:normal; }
+
+/* Native Framework7 repository browser; source content never becomes HTML. */
+#psilocin-app .source-browser .navbar .title { font-size:16px;white-space:normal; }
+#psilocin-app .source-browser .segmented { max-width:620px;margin:auto; }
+#psilocin-app .source-browser .item-content { width:100%;text-align:left; }
+#psilocin-app .source-browser .item-title { white-space:normal;overflow-wrap:anywhere; }
+#psilocin-app .source-browser .breadcrumbs { flex-wrap:wrap;gap:8px; }
+#psilocin-app .source-browser .breadcrumbs-item { border:0;background:transparent;color:var(--f7-theme-color);font:inherit;cursor:pointer; }
+#psilocin-app .source-browser .source-code { overflow:auto;max-width:100%;padding:16px;background:var(--f7-block-strong-bg-color);font-size:12px;tab-size:2; }
+#psilocin-app .source-browser .source-readme { white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.6; }
+#psilocin-app .source-browser .note { overflow-wrap:anywhere; }
+#psilocin-app .source-browser .source-readme { white-space:normal; }
+#psilocin-app .source-browser .source-readme img { max-width:100%;height:auto; }
+#psilocin-app .source-browser .source-readme pre { overflow:auto;padding:12px;background:var(--f7-block-strong-bg-color); }
+#psilocin-app .source-browser .source-readme table { display:block;overflow:auto;max-width:100%;border-collapse:collapse; }
+#psilocin-app .source-browser .source-readme th,
+#psilocin-app .source-browser .source-readme td { padding:8px;border:1px solid var(--research-border); }
+#psilocin-app .source-browser .source-readme h1 { font-size:24px;line-height:1.3; }
+#psilocin-app .source-browser .segmented .button { min-width:0;font-size:12px;padding-inline:6px; }
