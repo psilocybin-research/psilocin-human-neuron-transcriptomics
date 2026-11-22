@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728150120,
+  "total_bytes": 728156882,
   "status": "pass",
   "failures": [],
   "files": [
@@ -419,8 +419,8 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 5304,
-      "sha256": "46ea82f8625be90c1d9b11a8898842b2eda371e8045636673364b9eafc493e39"
+      "bytes": 5330,
+      "sha256": "4c142d70e1852918493e3a62745cea532de3cc11a2a7d9aa47d591d7af086902"
     },
     {
       "path": "explorer/scripts/r-editor-entry.js",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 283751,
-      "sha256": "271a49abcafc4b34a783c1fcf63a500b0a845179bdd51e7683f33ff1787392cf"
+      "bytes": 287838,
+      "sha256": "2979ed73cd654906a0bbfe66536f22ca6c0b1b1af1bf6382198ba245e6aa54ce"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3994,13 +3994,13 @@
     },
     {
       "path": "explorer/src/components/source-browser.js",
-      "bytes": 13035,
-      "sha256": "e8f0bafd577b7272990f2ef069414597644eb9b414d31d93f4a05f9a7c2ab226"
+      "bytes": 12803,
+      "sha256": "a86158a5f6bf0b7d23106a6e9471553568cafb72aeabfc8278ffb71dd251bc3e"
     },
     {
       "path": "explorer/src/components/source-markdown.js",
-      "bytes": 2280,
-      "sha256": "7159977f061644094fad112007b7615dbd50a957435d743fbe1863b552562695"
+      "bytes": 2320,
+      "sha256": "2f483277171b084bd5360412e8efb9c5ec60a3dc4b085ff3c702d551b6e65d25"
     },
     {
       "path": "explorer/src/components/structure-preview.js",
@@ -4574,8 +4574,8 @@
     },
     {
       "path": "explorer/test/source-browser-check.mjs",
-      "bytes": 6272,
-      "sha256": "bce067b9e27b83f9bccbbb7e81c6c19cd38ca25f32b6780897290b705eb985ec"
+      "bytes": 9113,
+      "sha256": "d19185a77c8d28ca88e975e54af827d3d93c2057fddbe494259e921994d9d10a"
     },
     {
       "path": "explorer/test/studio-browser-check.mjs",
