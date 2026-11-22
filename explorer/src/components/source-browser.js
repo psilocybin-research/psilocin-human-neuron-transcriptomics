@@ -1,6 +1,6 @@
 import { renderSourceMarkdown } from "./source-markdown.js";
 import build from "../assets/vendor/app-build.js";
-import { createElement as el, loadingMessage } from "./interface-utils.js";
+import { createElement as el, loadingMessage, createAccordion } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 
 const repository = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics";
@@ -11,7 +11,7 @@ export function sourceUrl(path = "") {
   return `${repository}/tree/${build.commit}/${path.split("/").map(encodeURIComponent).join("/")}`;
 }
 function link(text, href, cls = "button button-tonal") {
-  const a = el("a", cls, text);
+  const a = el("a", `${cls} external`, text);
   a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
   return a;
 }
@@ -23,15 +23,14 @@ export function createSourceBrowser({ app, root }) {
   const view = el("div", "view"), page = el("div", "page");
   const navbar = el("div", "navbar source-browser-navbar"), inner = el("div", "navbar-inner");
   navbar.append(el("div", "navbar-bg"));
-  const left = el("div", "left"), heading = el("div", "title source-browser-heading");
+  const heading = el("div", "title source-browser-heading");
   heading.append(
     el("strong", "source-browser-title", "Source & reproducibility"),
     el("small", "source-browser-revision", `Pinned revision · ${build.commit.slice(0, 12)}${build.dirty ? " · Uncommitted changes excluded" : ""}`)
   );
-  left.append(heading);
   const right = el("div", "right"), close = el("a", "link icon-only popup-close source-browser-close");
   close.href = "#"; close.setAttribute("aria-label", "Close"); close.append(uiIcon("close"));
-  right.append(close); inner.append(left, right); navbar.append(inner);
+  right.append(close); inner.append(heading, right); navbar.append(inner);
   const toolbar = el("div", "toolbar toolbar-top tabbar tabbar-scrollable source-browser-tabs");
   const toolbarInner = el("div", "toolbar-inner"), tabs = el("div", "tabs source-browser-content");
   const panels = new Map();
@@ -79,12 +78,16 @@ export function createSourceBrowser({ app, root }) {
       }
       block.append(crumbs); host.replaceChildren(block);
       if (Array.isArray(data)) {
-        const list = el("div", "list list-dividers"), ul = el("ul");
+        const list = el("div", "list list-dividers source-file-list"), ul = el("ul");
         for (const item of data.sort((a, b) => Number(b.type === "dir") - Number(a.type === "dir") || a.name.localeCompare(b.name))) {
-          const li = el("li"), button = el("button", "item-link item-content"), media = el("span", "item-media");
-          button.type = "button"; media.append(uiIcon(item.type === "dir" ? "methods" : "custom-r"));
+          const li = el("li"), button = el("a", "item-link item-content source-file-row"), media = el("span", "item-media");
+          button.href = "#";
+          button.setAttribute("aria-label", `${item.type === "dir" ? "Open folder" : "View file"}: ${item.name}`);
+          media.append(uiIcon(item.type === "dir" ? "folder" : "doc_text"));
           const text = el("span", "item-inner"); text.append(el("span", "item-title", item.name));
-          button.append(media, text); button.onclick = () => browse(item.path); li.append(button); ul.append(li);
+          button.append(media, text);
+          button.onclick = event => { event.preventDefault(); browse(item.path); };
+          li.append(button); ul.append(li);
         }
         list.append(ul); host.append(list);
         if (data.length >= 1000) block.append(el("p", "note", "GitHub limits directory listings to 1,000 entries. Open GitHub for the complete directory."));
@@ -114,16 +117,9 @@ export function createSourceBrowser({ app, root }) {
       footer.append(link("Open this revision on GitHub", sourceUrl(), "button button-tonal"));
       card.append(header, body, footer);
 
-      const list = el("div", "list accordion-list source-browser-docs"), ul = el("ul");
-      const item = el("li", "accordion-item");
-      const toggle = el("a", "item-link item-content");
-      toggle.href = "#";
-      toggle.append(el("div", "item-inner"));
-      toggle.querySelector(".item-inner").append(el("div", "item-title", "Read full repository README"));
-      const expanded = el("div", "accordion-item-content"), panel = el("div", "block");
-      panel.append(renderSourceMarkdown(text, { repository, commit: build.commit }));
-      expanded.append(panel); item.append(toggle, expanded); ul.append(item); list.append(ul);
-      block.append(card, list); host.replaceChildren(block);
+      const docs = createAccordion("Read full repository README", "source-browser-docs");
+      docs.body.append(renderSourceMarkdown(text, { repository, commit: build.commit }));
+      block.append(card, docs.element); host.replaceChildren(block);
     } catch (error) { failure(host, error, overview); }
   }
   const live = el("div", "block"), liveStatus = el("div");
@@ -146,7 +142,7 @@ export function createSourceBrowser({ app, root }) {
       card.append(body); liveStatus.replaceChildren(card);
       const commits = (data.commits || []).slice(-5).reverse();
       if (commits.length) {
-        const list = el("div", "list list-dividers"), ul = el("ul");
+        const list = el("div", "list list-dividers source-link-list"), ul = el("ul");
         for (const commit of commits) {
           const li = el("li"), a = link("", `${repository}/commit/${commit.sha}`, "item-link item-content"), inner = el("span", "item-inner");
           inner.append(el("span", "item-title", commit.commit.message.split("\n")[0])); a.append(inner); li.append(a); ul.append(li);
@@ -167,7 +163,7 @@ export function createSourceBrowser({ app, root }) {
   live.append(refresh, liveStatus); panels.get("live").append(live);
   const provenance = el("div", "block");
   provenance.append(el("p", "", "This browser reads the exact committed revision used to build the app. Cached files remain readable offline after opening them. GitHub’s latest branch may contain newer changes."), el("p", "note", `Commit: ${build.commit}`));
-  const links = el("div", "list list-dividers"), ul = el("ul");
+  const links = el("div", "list list-dividers source-link-list"), ul = el("ul");
   for (const [label, href] of [["Download this source revision", `${repository}/archive/${build.commit}.zip`], ["Citation", sourceUrl("CITATION.cff")], ["Licences", sourceUrl("LICENSE.md")], ["Frozen publication archive · v1.2.0", "https://doi.org/10.5281/zenodo.23283595"], ["Latest repository on GitHub", repository], ["Report an issue on GitHub", `${repository}/issues/new?body=${encodeURIComponent(`App source commit: ${build.commit}\n\nDescribe the issue and steps to reproduce:\n`)}`]]) {
     const li = el("li"), a = link("", href, "item-link item-content"), inner = el("span", "item-inner"); inner.append(el("span", "item-title", label)); a.append(inner); li.append(a); ul.append(li);
   }
