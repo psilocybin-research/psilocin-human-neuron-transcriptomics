@@ -54,6 +54,13 @@ assert.equal(await popup.locator('#source-overview .accordion-item').count(),0, 
 assert(await popup.locator('#source-overview .source-readme').isVisible(), 'README should be immediately visible');
 const overview = popup.locator('#source-overview');
 await page.waitForFunction(() => { const node=document.querySelector('.source-browser #source-overview'); return node && node.scrollHeight>node.clientHeight+100; }, null, { timeout: 5000 });
+// No additional blank navbar/toolbar offset above the README.
+const topGap = await popup.evaluate(node => {
+  const tabs = node.querySelector('.source-browser-tabs').getBoundingClientRect();
+  const repository = node.querySelector('#source-overview .source-browser-repository').getBoundingClientRect();
+  return repository.top - tabs.bottom;
+});
+assert(topGap >= 0 && topGap <= 32, `Unexpected blank space above repository overview: ${topGap}px`);
 const scrolled = await overview.evaluate(node=>{node.scrollTop=240;return node.scrollTop;});
 assert(scrolled>50);
 const relativePositions = await popup.evaluate(node=>{
