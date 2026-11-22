@@ -84,7 +84,7 @@ assert(await popup.locator('#source-overview .source-readme a').first().evaluate
 const openSource = popup.getByRole('link',{name:'Open this revision on GitHub'});
 assert(await openSource.evaluate(a=>a.classList.contains('external') && a.target==='_blank'));
 const [openedSource] = await Promise.all([page.waitForEvent('popup'),openSource.click()]);
-await openedSource.waitForLoadState('domcontentloaded');
+await openedSource.waitForURL(/^https:\/\/github\.com\/psilocybin-research\//,{timeout:15000});
 assert.match(openedSource.url(),/^https:\/\/github\.com\/psilocybin-research\//);
 await openedSource.close();
 await popup.locator('#source-overview .accordion-item .item-link').click();
@@ -107,7 +107,7 @@ assert.match(await popup.locator('#source-files pre.source-code').innerText(),/p
 const openFile = popup.getByRole('link',{name:'Open file on GitHub'});
 assert(await openFile.evaluate(a=>a.classList.contains('external')));
 const [openedFile] = await Promise.all([page.waitForEvent('popup'),openFile.click()]);
-await openedFile.waitForLoadState('domcontentloaded');
+await openedFile.waitForURL(/\/blob\/[a-f0-9]{40}\/src\/example\.py$/,{timeout:15000});
 assert.match(openedFile.url(),/\/blob\/[a-f0-9]{40}\/src\/example\.py$/);
 await openedFile.close();
 await popup.locator('#source-files .breadcrumbs-item').filter({hasText:'Repository'}).click();
