@@ -88,7 +88,7 @@ await openedSource.waitForLoadState('domcontentloaded');
 assert.match(openedSource.url(),/^https:\/\/github\.com\/psilocybin-research\//);
 await openedSource.close();
 await popup.locator('#source-overview .accordion-item .item-link').click();
-assert.equal(await popup.locator('#source-overview .accordion-item .item-link').getAttribute('aria-expanded'),'false');
+await page.waitForFunction(() => document.querySelector('.source-browser #source-overview .accordion-item .item-link')?.getAttribute('aria-expanded') === 'false');
 await popup.getByText('Live',{exact:true}).click();await popup.getByRole('button',{name:'Check GitHub now'}).click();
 await popup.getByText('GitHub main is 2 commits ahead of this build.',{exact:true}).waitFor();
 await popup.getByText('A new change',{exact:true}).waitFor();
