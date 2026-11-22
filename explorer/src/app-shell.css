@@ -6410,169 +6410,342 @@ body {
 #psilocin-app .network-bayesian-evidence .directional-probability-wheel { width:48px;height:48px; }
 #psilocin-app .network-bayesian-explore .item-title { white-space:normal; }
 
-/* Framework7 source browser: F7 navbar, tabbar, cards and accordion. */
+/* GitHub source browser: native Framework7 surfaces and the shared atlas palette. */
+#psilocin-app .source-browser {
+  --f7-navbar-height: 60px;
+  --f7-toolbar-height: 48px;
+}
 #psilocin-app .source-browser .page {
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-  height:100%;
-  overflow:hidden;
-  background:var(--f7-page-bg-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--f7-page-bg-color);
 }
 #psilocin-app .source-browser .source-browser-navbar {
-  position:relative;
-  inset:auto;
-  flex:0 0 64px;
-  height:64px;
-  width:100%;
-  z-index:3;
+  position: relative;
+  inset: auto;
+  flex: 0 0 60px;
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid var(--research-border);
+  z-index: 3;
 }
-#psilocin-app .source-browser .navbar-bg {
-  background:var(--f7-bars-bg-color);
-  -webkit-backdrop-filter:none;
-  backdrop-filter:none;
+#psilocin-app .source-browser .source-browser-navbar .navbar-bg {
+  background: var(--f7-bars-bg-color);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
-#psilocin-app .source-browser .navbar-inner {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  min-height:64px;
-  padding:0 14px 0 20px;
-  gap:8px;
+#psilocin-app .source-browser .source-browser-navbar .navbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+  gap: 12px;
+  padding: 0 12px 0 20px;
 }
 #psilocin-app .source-browser .source-browser-heading {
-  position:static;
-  left:auto;
-  transform:none;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-  gap:3px;
-  min-width:0;
-  max-width:100%;
-  margin:0;
-  text-align:left;
-  white-space:normal;
-  line-height:1.25;
+  position: static;
+  left: auto;
+  right: auto;
+  transform: none;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  text-align: left;
+  line-height: 1.25;
+  white-space: normal;
 }
 #psilocin-app .source-browser .source-browser-title {
-  color:var(--f7-text-color);
-  font-size:16px;
-  font-weight:650;
+  color: var(--f7-text-color);
+  font-size: 16px;
+  font-weight: 650;
 }
 #psilocin-app .source-browser .source-browser-revision {
-  color:var(--research-muted);
-  font-size:11px;
-  font-weight:400;
-  overflow-wrap:anywhere;
+  color: var(--research-muted);
+  font-size: 11px;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+#psilocin-app .source-browser .source-browser-navbar .right {
+  position: static;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#psilocin-app .source-browser .source-browser-navbar .right::before,
+#psilocin-app .source-browser .source-browser-navbar .right::after {
+  display: none;
 }
 #psilocin-app .source-browser .source-browser-close {
-  flex:0 0 44px;
-  width:44px;
-  height:44px;
-  min-width:44px;
-  min-height:44px;
-  padding:0;
-  color:var(--f7-theme-color);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  color: var(--f7-theme-color);
 }
-#psilocin-app .source-browser .source-browser-close svg { width:20px;height:20px; }
+#psilocin-app .source-browser .source-browser-close:hover,
+#psilocin-app .source-browser .source-browser-close:focus-visible {
+  background: var(--research-selected);
+}
+#psilocin-app .source-browser .source-browser-close svg {
+  width: 19px;
+  height: 19px;
+}
 #psilocin-app .source-browser .source-browser-tabs {
-  position:relative;
-  inset:auto;
-  z-index:2;
-  flex:0 0 48px;
-  height:48px;
-  width:100%;
-  background:var(--f7-bars-bg-color);
-  border-bottom:1px solid var(--research-border);
+  position: relative;
+  inset: auto;
+  flex: 0 0 48px;
+  width: 100%;
+  height: 48px;
+  background: var(--f7-bars-bg-color);
+  border-bottom: 1px solid var(--research-border);
+  box-shadow: none;
+  z-index: 2;
 }
 #psilocin-app .source-browser .source-browser-tabs .toolbar-inner {
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-  height:100%;
-  width:100%;
-  min-width:0;
-  padding:0 12px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  overscroll-behavior-x:contain;
-  -webkit-overflow-scrolling:touch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
 }
 #psilocin-app .source-browser .source-browser-tabs .tab-link {
-  flex:0 0 auto;
-  width:auto;
-  min-width:110px;
-  padding:0 12px;
-  white-space:nowrap;
+  flex: 0 0 auto;
+  min-width: 110px;
+  width: auto;
+  padding: 0 14px;
+  color: var(--research-muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+#psilocin-app .source-browser .source-browser-tabs .tab-link-active {
+  color: var(--f7-theme-color);
+  font-weight: 650;
 }
 #psilocin-app .source-browser .source-browser-content {
-  position:relative;
-  flex:1 1 auto;
-  min-height:0;
-  height:auto;
-  overflow:hidden;
+  position: relative;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
 }
 #psilocin-app .source-browser .source-browser-content > .page-content.tab {
-  position:absolute;
-  inset:0;
-  display:none;
-  width:100%;
-  height:100%;
-  overflow-x:hidden;
-  overflow-y:auto;
-  overscroll-behavior-y:contain;
-  -webkit-overflow-scrolling:touch;
-  background:var(--f7-page-bg-color);
+  position: absolute;
+  inset: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--f7-page-bg-color);
 }
-#psilocin-app .source-browser .source-browser-content > .page-content.tab-active { display:block; }
+#psilocin-app .source-browser .source-browser-content > .page-content.tab-active {
+  display: block;
+}
 #psilocin-app .source-browser .source-browser-overview {
-  max-width:720px;
-  margin:0 auto;
+  max-width: 720px;
+  margin: 0 auto;
 }
-#psilocin-app .source-browser .source-browser-overview .card { margin:16px 0; }
-#psilocin-app .source-browser .source-browser-docs { margin:16px 0; }
+#psilocin-app .source-browser .source-browser-overview .card {
+  margin: 16px 0;
+}
+#psilocin-app .source-browser .source-browser-docs {
+  margin: 12px 0;
+}
+#psilocin-app .source-browser .source-browser-docs .item-content {
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+#psilocin-app .source-browser .source-browser-docs .item-title {
+  font-size: 13px;
+}
+#psilocin-app .source-browser .source-browser-docs .gene-annotation-body {
+  padding: 0 8px 16px;
+}
+#psilocin-app .source-browser .breadcrumbs {
+  flex-wrap: wrap;
+  gap: 7px;
+}
+#psilocin-app .source-browser .breadcrumbs-item {
+  border: 0;
+  background: transparent;
+  color: var(--f7-theme-color);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+#psilocin-app .source-browser .source-file-list,
+#psilocin-app .source-browser .source-link-list {
+  max-width: 800px;
+  margin: 10px 16px 16px;
+  padding: 0;
+  border: 1px solid var(--research-border);
+  border-radius: 12px;
+  background: var(--f7-list-bg-color, var(--research-panel));
+  overflow: hidden;
+  box-shadow: none;
+}
+#psilocin-app .source-browser .source-file-list ul,
+#psilocin-app .source-browser .source-link-list ul {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+#psilocin-app .source-browser .source-file-list ul::before,
+#psilocin-app .source-browser .source-file-list ul::after,
+#psilocin-app .source-browser .source-link-list ul::before,
+#psilocin-app .source-browser .source-link-list ul::after {
+  display: none;
+}
+#psilocin-app .source-browser .source-file-list li,
+#psilocin-app .source-browser .source-link-list li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#psilocin-app .source-browser .source-file-row,
+#psilocin-app .source-browser .source-link-list .item-link {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--research-text);
+  text-align: left;
+}
+#psilocin-app .source-browser .source-file-row:hover,
+#psilocin-app .source-browser .source-file-row:focus-visible,
+#psilocin-app .source-browser .source-link-list .item-link:hover,
+#psilocin-app .source-browser .source-link-list .item-link:focus-visible {
+  background: var(--research-selected);
+}
+#psilocin-app .source-browser .source-file-row .item-media {
+  flex: 0 0 22px;
+  min-width: 22px;
+  margin: 0 8px 0 0;
+  padding: 0;
+  color: var(--f7-theme-color);
+}
+#psilocin-app .source-browser .source-file-row .item-media svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+#psilocin-app .source-browser .source-file-row .item-inner,
+#psilocin-app .source-browser .source-link-list .item-inner {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 50px;
+  margin: 0;
+  padding: 9px 26px 9px 0;
+  background: transparent;
+}
+#psilocin-app .source-browser .source-file-row .item-title,
+#psilocin-app .source-browser .source-link-list .item-title {
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 #psilocin-app .source-browser .source-readme {
-  white-space:normal;
-  overflow-wrap:anywhere;
-  line-height:1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
 }
-#psilocin-app .source-browser .source-readme h1 { font-size:22px;line-height:1.35; }
-#psilocin-app .source-browser .source-readme h2 { font-size:19px;line-height:1.4; }
-#psilocin-app .source-browser .source-readme h3 { font-size:16px;line-height:1.4; }
-#psilocin-app .source-browser .source-readme img { max-width:100%;height:auto; }
+#psilocin-app .source-browser .source-readme h1 {
+  font-size: 21px;
+  line-height: 1.35;
+}
+#psilocin-app .source-browser .source-readme h2 {
+  font-size: 18px;
+  line-height: 1.4;
+}
+#psilocin-app .source-browser .source-readme h3 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+#psilocin-app .source-browser .source-readme img {
+  max-width: 100%;
+  height: auto;
+}
 #psilocin-app .source-browser .source-readme pre,
 #psilocin-app .source-browser .source-code {
-  max-width:100%;
-  overflow:auto;
-  padding:12px;
-  background:var(--f7-block-strong-bg-color);
-  font-size:12px;
-  tab-size:2;
+  max-width: 100%;
+  overflow: auto;
+  padding: 12px;
+  background: var(--f7-block-strong-bg-color);
+  font-size: 12px;
+  tab-size: 2;
 }
 #psilocin-app .source-browser .source-readme table {
-  display:block;
-  overflow:auto;
-  max-width:100%;
-  border-collapse:collapse;
+  display: block;
+  max-width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
 }
-#psilocin-app .source-browser .source-readme th,
-#psilocin-app .source-browser .source-readme td { padding:8px;border:1px solid var(--research-border); }
-#psilocin-app .source-browser .note { overflow-wrap:anywhere; }
-#psilocin-app .source-browser .item-content { width:100%;text-align:left; }
-#psilocin-app .source-browser .item-title { white-space:normal;overflow-wrap:anywhere; }
-#psilocin-app .source-browser .breadcrumbs { flex-wrap:wrap;gap:8px; }
-#psilocin-app .source-browser .breadcrumbs-item {
-  border:0;
-  background:transparent;
-  color:var(--f7-theme-color);
-  font:inherit;
-  cursor:pointer;
+#psilocin-app .source-browser .source-readme :is(th, td) {
+  padding: 8px;
+  border: 1px solid var(--research-border);
 }
-@media (max-width:500px) {
-  #psilocin-app .source-browser .navbar-inner { padding:0 10px 0 14px; }
-  #psilocin-app .source-browser .source-browser-title { font-size:15px; }
-  #psilocin-app .source-browser .source-browser-overview .card { margin:12px 0; }
-  #psilocin-app .source-browser .source-readme h1 { font-size:20px; }
+#psilocin-app .source-browser .note { overflow-wrap: anywhere; }
+@media (max-width: 500px) {
+  #psilocin-app .source-browser .source-browser-navbar .navbar-inner {
+    padding: 0 8px 0 14px;
+  }
+  #psilocin-app .source-browser .source-browser-title {
+    font-size: 15px;
+  }
+  #psilocin-app .source-browser .source-file-list,
+  #psilocin-app .source-browser .source-link-list {
+    margin: 8px 10px 12px;
+  }
+  #psilocin-app .source-browser .source-readme h1 {
+    font-size: 19px;
+  }
 }

@@ -9,9 +9,17 @@ await page.route('https://api.github.com/repos/psilocybin-research/psilocin-huma
  const request=route.request(),url=new URL(request.url());apiRequests.push(url.href);
  const raw=request.headers().accept?.includes('raw');
  const path=url.pathname.split('/contents/')[1];
- await route.fulfill({status:200,contentType:raw?'text/plain':'application/json',body:raw?fixtureReadme:JSON.stringify(path?[{name:'example.py',path:'src/example.py',type:'file',size:12}]:[{name:'src',path:'src',type:'dir'}])});
+ const body = raw
+   ? (path==='src/example.py' ? 'print("hello")\\n' : fixtureReadme)
+   : JSON.stringify(path==='src/example.py'
+     ? {name:'example.py',path:'src/example.py',type:'file',size:15}
+     : path==='src'
+       ? [{name:'example.py',path:'src/example.py',type:'file',size:15}]
+       : [{name:'src',path:'src',type:'dir'}]);
+ await route.fulfill({status:200,contentType:raw?'text/plain':'application/json',body});
 });
 await page.route('**/compare/*', route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'ahead',ahead_by:2,commits:[{sha:'abc',commit:{message:'A new change'}}]})}));
+await page.context().route('https://github.com/**', route=>route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><title>Mock GitHub</title>'}));
 await page.goto(process.env.ATLAS_URL || 'http://127.0.0.1:4173/');
 await page.locator('[data-framework7="9.3.0"]').waitFor();
 await page.getByRole('button',{name:'GitHub source',exact:true}).click();
@@ -26,8 +34,10 @@ const structure = await popup.evaluate(node => {
     tabs: toolbar.querySelectorAll('.tab-link').length,
     isNativeTabbar: toolbar.classList.contains('tabbar-scrollable'),
     hasCard: Boolean(node.querySelector('#source-overview .card')),
-    hasAccordion: Boolean(node.querySelector('#source-overview .accordion-list')),
+    hasAccordion: Boolean(node.querySelector('#source-overview .source-browser-docs .accordion-item')),
     closeIsNativeLink: Boolean(node.querySelector('.navbar .link.popup-close')),
+    closeBarGlass: getComputedStyle(node.querySelector('.navbar .right')).backgroundImage,
+    closeBarColor: getComputedStyle(node.querySelector('.navbar .right')).backgroundColor,
     headerHeight: navbar.getBoundingClientRect().height,
     closeHeight: node.querySelector('.navbar .popup-close').getBoundingClientRect().height,
   };
@@ -36,11 +46,14 @@ assert.match(structure.header,/Source & reproducibility/);
 assert(!/gradient/.test(structure.background), 'Navbar should follow the native F7 theme');
 assert.equal(structure.tabs,4);
 assert(structure.isNativeTabbar && structure.hasCard && structure.hasAccordion && structure.closeIsNativeLink);
+assert.equal(structure.closeBarGlass,'none');
+assert(['rgba(0, 0, 0, 0)','transparent'].includes(structure.closeBarColor),'Close control should not have a floating glass background');
 assert(structure.headerHeight>=48 && structure.headerHeight<=76);
 assert(structure.closeHeight>=40 && structure.closeHeight<=50);
 assert(!await popup.locator('#source-overview .source-browser-docs .accordion-item').evaluate(node=>node.classList.contains('accordion-item-opened')));
 await popup.locator('#source-overview .accordion-item .item-link').click();
 await popup.locator('#source-overview .accordion-item-opened').waitFor();
+assert.equal(await popup.locator('#source-overview .accordion-item .item-link').getAttribute('aria-expanded'),'true');
 const overview = popup.locator('#source-overview');
 await page.waitForFunction(() => { const node=document.querySelector('.source-browser #source-overview'); return node && node.scrollHeight>node.clientHeight+100; }, null, { timeout: 5000 });
 const scrolled = await overview.evaluate(node=>{node.scrollTop=240;return node.scrollTop;});
@@ -67,14 +80,43 @@ assert.equal(await popup.locator('.source-readme h1').innerText(),'Repository');
 assert.equal(await popup.locator('.source-readme strong').innerText(),'Formatted');
 assert.match(await popup.locator('.source-readme a').getAttribute('href'),/blob\/[a-f0-9]{40}\/docs\/guide.md$/);
 assert.equal(await popup.locator('.source-readme [onerror],.source-readme script').count(),0);
+assert(await popup.locator('#source-overview .source-readme a').first().evaluate(a=>a.classList.contains('external')));
+const openSource = popup.getByRole('link',{name:'Open this revision on GitHub'});
+assert(await openSource.evaluate(a=>a.classList.contains('external') && a.target==='_blank'));
+const [openedSource] = await Promise.all([page.waitForEvent('popup'),openSource.click()]);
+await openedSource.waitForURL(/^https:\/\/github\.com\/psilocybin-research\//,{timeout:15000});
+assert.match(openedSource.url(),/^https:\/\/github\.com\/psilocybin-research\//);
+await openedSource.close();
+await popup.locator('#source-overview .accordion-item .item-link').click();
+await page.waitForFunction(() => document.querySelector('.source-browser #source-overview .accordion-item .item-link')?.getAttribute('aria-expanded') === 'false');
 await popup.getByText('Live',{exact:true}).click();await popup.getByRole('button',{name:'Check GitHub now'}).click();
 await popup.getByText('GitHub main is 2 commits ahead of this build.',{exact:true}).waitFor();
 await popup.getByText('A new change',{exact:true}).waitFor();
-await popup.getByText('Files',{exact:true}).click();await popup.locator('#source-files button.item-content').first().click();
-await popup.locator('#source-files .item-title').filter({hasText:'example.py'}).waitFor();
+await popup.getByText('Files',{exact:true}).click();
+const folderRow = popup.locator('#source-files .source-file-row').first();
+await folderRow.waitFor();
+assert.equal(await folderRow.locator('svg[data-f7-icon="folder"]').count(),1);
+assert(await folderRow.evaluate(a=>a.tagName==='A' && a.classList.contains('item-link')));
+await folderRow.click();
+const fileRow = popup.locator('#source-files .source-file-row').filter({hasText:'example.py'});
+await fileRow.waitFor();
+assert.equal(await fileRow.locator('svg[data-f7-icon="doc_text"]').count(),1);
+await fileRow.click();
+await popup.locator('#source-files pre.source-code').waitFor();
+assert.match(await popup.locator('#source-files pre.source-code').innerText(),/print\("hello"\)/);
+const openFile = popup.getByRole('link',{name:'Open file on GitHub'});
+assert(await openFile.evaluate(a=>a.classList.contains('external')));
+const [openedFile] = await Promise.all([page.waitForEvent('popup'),openFile.click()]);
+await openedFile.waitForURL(/\/blob\/[a-f0-9]{40}\/src\/example\.py$/,{timeout:15000});
+assert.match(openedFile.url(),/\/blob\/[a-f0-9]{40}\/src\/example\.py$/);
+await openedFile.close();
+await popup.locator('#source-files .breadcrumbs-item').filter({hasText:'Repository'}).click();
+await popup.locator('#source-files .source-file-row').first().waitFor();
 assert(apiRequests.every(url=>/ref=[a-f0-9]{40}/.test(url)));
 await popup.getByText('Reproducibility',{exact:true}).click();
 assert.match(await popup.locator('.tab-active').innerText(),/Frozen publication archive/);
+const archive = popup.getByRole('link',{name:'Download this source revision'});
+assert(await archive.evaluate(a=>a.classList.contains('external') && a.target==='_blank'));
 await page.setViewportSize({width:390,height:844});
 const tabScroll = await popup.locator('.source-browser-tabs .toolbar-inner').evaluate(node => {
   const scrollable = node.scrollWidth>node.clientWidth+1;
