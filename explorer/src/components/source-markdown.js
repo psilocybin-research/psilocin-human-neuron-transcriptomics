@@ -23,6 +23,7 @@ export function renderSourceMarkdown(text, { repository, commit, path = "README.
       const url = new URL(href, `${repository}/blob/${commit}/${directory}`);
       if (!["https:", "http:", "mailto:"].includes(url.protocol)) { anchor.removeAttribute("href"); continue; }
       anchor.href = url.href; anchor.target = "_blank"; anchor.rel = "noopener noreferrer";
+      anchor.classList.add("external");
     }
   }
   for (const image of fragment.querySelectorAll("img")) {
