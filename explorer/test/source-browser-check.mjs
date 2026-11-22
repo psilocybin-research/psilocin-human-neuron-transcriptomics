@@ -42,7 +42,7 @@ assert(!await popup.locator('#source-overview .source-browser-docs .accordion-it
 await popup.locator('#source-overview .accordion-item .item-link').click();
 await popup.locator('#source-overview .accordion-item-opened').waitFor();
 const overview = popup.locator('#source-overview');
-assert(await overview.evaluate(node=>node.scrollHeight>node.clientHeight+100));
+await page.waitForFunction(() => { const node=document.querySelector('.source-browser #source-overview'); return node && node.scrollHeight>node.clientHeight+100; }, null, { timeout: 5000 });
 const scrolled = await overview.evaluate(node=>{node.scrollTop=240;return node.scrollTop;});
 assert(scrolled>50);
 const relativePositions = await popup.evaluate(node=>{
