@@ -22,20 +22,26 @@ export function createSourceBrowser({ app, root }) {
   const popup = el("div", "popup source-browser");
   const view = el("div", "view"), page = el("div", "page");
   const navbar = el("div", "navbar"), inner = el("div", "navbar-inner");
-  inner.append(el("div", "title", "Source for this app build"));
-  const right = el("div", "right"), close = el("button", "button popup-close", "Close");
-  close.type = "button"; right.append(close); inner.append(right); navbar.append(inner);
-  const content = el("div", "page-content"), intro = el("div", "block");
-  intro.append(el("p", "note", `Pinned source · ${build.commit.slice(0, 12)}${build.dirty ? " · Local changes are not included in this source snapshot." : ""}`));
-  const segmented = el("div", "segmented segmented-strong"), tabs = el("div", "tabs");
+  navbar.append(el("div", "navbar-bg"));
+  const heading = el("div", "title source-browser-heading");
+  heading.append(
+    el("strong", "source-browser-title", "Source & reproducibility"),
+    el("span", "source-browser-revision", `Pinned revision · ${build.commit.slice(0, 12)}${build.dirty ? " · Uncommitted changes excluded" : ""}`)
+  );
+  const right = el("div", "right"), close = el("button", "button popup-close source-browser-close");
+  close.type = "button"; close.setAttribute("aria-label", "Close"); close.append(uiIcon("close"));
+  right.append(close); inner.append(heading, right); navbar.append(inner);
+  const toolbar = el("div", "toolbar toolbar-top tabbar tabbar-scrollable source-browser-tabs");
+  const toolbarInner = el("div", "toolbar-inner"), tabs = el("div", "tabs source-browser-content");
   const panels = new Map();
   for (const [id, label] of [["overview", "Overview"], ["files", "Files"], ["live", "Live"], ["build", "Reproducibility"]]) {
-    const button = el("a", `button tab-link${id === "overview" ? " tab-link-active" : ""}`, label);
-    button.href = `#source-${id}`; segmented.append(button);
-    const panel = el("div", `tab${id === "overview" ? " tab-active" : ""}`);
+    const button = el("a", `tab-link${id === "overview" ? " tab-link-active" : ""}`, label);
+    button.href = `#source-${id}`; toolbarInner.append(button);
+    const panel = el("div", `page-content tab${id === "overview" ? " tab-active" : ""}`);
     panel.id = `source-${id}`; panels.set(id, panel); tabs.append(panel);
   }
-  intro.append(segmented); content.append(intro, tabs); page.append(navbar, content); view.append(page); popup.append(view); root.append(popup);
+  toolbar.append(toolbarInner);
+  page.append(navbar, toolbar, tabs); view.append(page); popup.append(view); root.append(popup);
   const instance = app.popup.create({ el: popup, closeOnEscape: true });
   let request = 0, currentPath = "", loaded = false;
 
@@ -95,7 +101,7 @@ export function createSourceBrowser({ app, root }) {
     const host = panels.get("overview"); host.replaceChildren(loadingMessage("Loading repository overview…"));
     try {
       const text = await read("README.md", true); if (controller.signal.aborted) return;
-      const block = el("div", "block");
+      const block = el("div", "block source-browser-overview");
       block.append(link("Open this revision on GitHub", sourceUrl()), renderSourceMarkdown(text, { repository, commit: build.commit })); host.replaceChildren(block);
     } catch (error) { failure(host, error, overview); }
   }

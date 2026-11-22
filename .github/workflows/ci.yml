@@ -70,6 +70,7 @@ jobs:
           node test/r-variable-browser-check.mjs
           node test/workspace-layout-browser-check.mjs
           node test/analysis-navigation-browser-check.mjs
+          node test/source-browser-check.mjs
 
   bayesian-inputs:
     runs-on: ubuntu-latest
