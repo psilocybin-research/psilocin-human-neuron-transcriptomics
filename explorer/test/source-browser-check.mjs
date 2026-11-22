@@ -34,7 +34,7 @@ const structure = await popup.evaluate(node => {
     tabs: toolbar.querySelectorAll('.tab-link').length,
     isNativeTabbar: toolbar.classList.contains('tabbar-scrollable'),
     hasCard: Boolean(node.querySelector('#source-overview .card')),
-    hasAccordion: Boolean(node.querySelector('#source-overview .accordion-list')),
+    hasAccordion: Boolean(node.querySelector('#source-overview .source-browser-docs .accordion-item')),
     closeIsNativeLink: Boolean(node.querySelector('.navbar .link.popup-close')),
     closeBarGlass: getComputedStyle(node.querySelector('.navbar .right')).backgroundImage,
     closeBarColor: getComputedStyle(node.querySelector('.navbar .right')).backgroundColor,
