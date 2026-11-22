@@ -61,6 +61,7 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-browser-server.log 2>&1 &
           atlas_server_pid=$!
           trap 'kill "$atlas_server_pid"' EXIT
+          node test/source-browser-check.mjs
           node test/research-integration-browser-check.mjs
           node test/shared-r-browser-check.mjs
           node test/research-workstation-browser-check.mjs
@@ -70,7 +71,6 @@ jobs:
           node test/r-variable-browser-check.mjs
           node test/workspace-layout-browser-check.mjs
           node test/analysis-navigation-browser-check.mjs
-          node test/source-browser-check.mjs
 
   bayesian-inputs:
     runs-on: ubuntu-latest

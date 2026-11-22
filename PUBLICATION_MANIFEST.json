@@ -30,7 +30,7 @@
     {
       "path": ".github/workflows/ci.yml",
       "bytes": 3290,
-      "sha256": "0d8b5486bef8c18c06e46fdebf288b753d2ad7439f716ad3f7f2e458032ee3e6"
+      "sha256": "314fd6f7a3455d89a9ebb5c17daa3a4b058df36a925ebf3d49a2a1765e488ae8"
     },
     {
       "path": ".github/workflows/pages.yml",
