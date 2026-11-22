@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728148167,
+  "total_bytes": 728148307,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4574,8 +4574,8 @@
     },
     {
       "path": "explorer/test/source-browser-check.mjs",
-      "bytes": 4743,
-      "sha256": "8a0bf4830ef5e1480840aec944e26cd7904a78371bf01a0cd506113178660ab8"
+      "bytes": 4883,
+      "sha256": "8ce21338b6659200aec853a61b265305015c758fb3f2c72355c423275b8be631"
     },
     {
       "path": "explorer/test/studio-browser-check.mjs",

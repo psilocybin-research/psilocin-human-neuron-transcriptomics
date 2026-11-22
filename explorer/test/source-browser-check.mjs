@@ -26,8 +26,8 @@ const structure = await popup.evaluate(node => {
     tabs: toolbar.querySelectorAll('.tab-link').length,
     scrollHeight: overview.scrollHeight,
     clientHeight: overview.clientHeight,
-    navbarY: navbar.getBoundingClientRect().top,
-    toolbarY: toolbar.getBoundingClientRect().top,
+    navbarY: navbar.getBoundingClientRect().top - node.getBoundingClientRect().top,
+    toolbarY: toolbar.getBoundingClientRect().top - node.getBoundingClientRect().top,
   };
 });
 assert.match(structure.navbarBg,/gradient/);
@@ -36,8 +36,8 @@ assert(structure.scrollHeight>structure.clientHeight+100);
 const scrolled = await popup.locator('#source-overview').evaluate(node => { node.scrollTop=240; return node.scrollTop; });
 assert(scrolled>50);
 const fixed = await popup.evaluate(node => ({
-  navbarY: node.querySelector('.navbar').getBoundingClientRect().top,
-  toolbarY: node.querySelector('.source-browser-tabs').getBoundingClientRect().top,
+  navbarY: node.querySelector('.navbar').getBoundingClientRect().top - node.getBoundingClientRect().top,
+  toolbarY: node.querySelector('.source-browser-tabs').getBoundingClientRect().top - node.getBoundingClientRect().top,
 }));
 assert(Math.abs(fixed.navbarY-structure.navbarY)<2);
 assert(Math.abs(fixed.toolbarY-structure.toolbarY)<2);
