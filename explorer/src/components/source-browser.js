@@ -21,16 +21,17 @@ export function createSourceBrowser({ app, root }) {
   const controller = new AbortController();
   const popup = el("div", "popup source-browser");
   const view = el("div", "view"), page = el("div", "page");
-  const navbar = el("div", "navbar"), inner = el("div", "navbar-inner");
+  const navbar = el("div", "navbar source-browser-navbar"), inner = el("div", "navbar-inner");
   navbar.append(el("div", "navbar-bg"));
-  const heading = el("div", "title source-browser-heading");
+  const left = el("div", "left"), heading = el("div", "title source-browser-heading");
   heading.append(
     el("strong", "source-browser-title", "Source & reproducibility"),
-    el("span", "source-browser-revision", `Pinned revision · ${build.commit.slice(0, 12)}${build.dirty ? " · Uncommitted changes excluded" : ""}`)
+    el("small", "source-browser-revision", `Pinned revision · ${build.commit.slice(0, 12)}${build.dirty ? " · Uncommitted changes excluded" : ""}`)
   );
-  const right = el("div", "right"), close = el("button", "button popup-close source-browser-close");
-  close.type = "button"; close.setAttribute("aria-label", "Close"); close.append(uiIcon("close"));
-  right.append(close); inner.append(heading, right); navbar.append(inner);
+  left.append(heading);
+  const right = el("div", "right"), close = el("a", "link icon-only popup-close source-browser-close");
+  close.href = "#"; close.setAttribute("aria-label", "Close"); close.append(uiIcon("close"));
+  right.append(close); inner.append(left, right); navbar.append(inner);
   const toolbar = el("div", "toolbar toolbar-top tabbar tabbar-scrollable source-browser-tabs");
   const toolbarInner = el("div", "toolbar-inner"), tabs = el("div", "tabs source-browser-content");
   const panels = new Map();
@@ -102,7 +103,27 @@ export function createSourceBrowser({ app, root }) {
     try {
       const text = await read("README.md", true); if (controller.signal.aborted) return;
       const block = el("div", "block source-browser-overview");
-      block.append(link("Open this revision on GitHub", sourceUrl()), renderSourceMarkdown(text, { repository, commit: build.commit })); host.replaceChildren(block);
+      const card = el("div", "card card-outline");
+      const header = el("div", "card-header", "Source for this atlas build");
+      const body = el("div", "card-content card-content-padding");
+      body.append(
+        el("p", "", "Browse the exact published source, inspect repository files, or check recent changes on GitHub."),
+        el("p", "text-color-gray", `Pinned commit: ${build.commit.slice(0, 12)}`)
+      );
+      const footer = el("div", "card-footer");
+      footer.append(link("Open this revision on GitHub", sourceUrl(), "button button-tonal"));
+      card.append(header, body, footer);
+
+      const list = el("div", "list accordion-list source-browser-docs"), ul = el("ul");
+      const item = el("li", "accordion-item");
+      const toggle = el("a", "item-link item-content");
+      toggle.href = "#";
+      toggle.append(el("div", "item-inner"));
+      toggle.querySelector(".item-inner").append(el("div", "item-title", "Read full repository README"));
+      const expanded = el("div", "accordion-item-content"), panel = el("div", "block");
+      panel.append(renderSourceMarkdown(text, { repository, commit: build.commit }));
+      expanded.append(panel); item.append(toggle, expanded); ul.append(item); list.append(ul);
+      block.append(card, list); host.replaceChildren(block);
     } catch (error) { failure(host, error, overview); }
   }
   const live = el("div", "block"), liveStatus = el("div");
