@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728200864,
+  "total_bytes": 728209162,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 5515,
-      "sha256": "6c5c007da4e00f5559a776c0c7da8c95d84729293595685c1ee33be50a4a2496"
+      "bytes": 5582,
+      "sha256": "978e65b2b1a499b4f79a0b75c12952a45b6b1df395c8f7fdc55d749cb8688998"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 302437,
-      "sha256": "61328ddadf467bb7c1944bb83a7a6f26e6af0e5b4f0c936189032339b0c0c61c"
+      "bytes": 307799,
+      "sha256": "462fcc0246e73b77c7a8ce46bc77a8eaf5734826a374116e3f8620e5d331e36e"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3494,8 +3494,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 70186,
-      "sha256": "2bc0bb63b5bb7c070ae02743465f152ca23570763eea1508fb1b5355748142a9"
+      "bytes": 70794,
+      "sha256": "51fbc960f2f74b651f9f221be112e22a6c889307e58d7325639ca4f8484dc0ef"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 137224,
-      "sha256": "6d20da77fb89bfd349fd7678d6138cefef67a472662549b035d482c76add4b5c"
+      "bytes": 137473,
+      "sha256": "709f306b3b516e5556aad20bc1c01404413aebf55c9716ae25d018b10fb8b336"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -3979,8 +3979,8 @@
     },
     {
       "path": "explorer/src/components/scientific-scene.js",
-      "bytes": 21974,
-      "sha256": "e5f031251f0c18548f8584f7f7cd42b528c275fb2a5225d902609567ea9e081e"
+      "bytes": 22932,
+      "sha256": "fe6e9d2dc395da7e4f1c96cea5ad458d0efa83f4e117584faeb99d75a9b28ac5"
     },
     {
       "path": "explorer/src/components/scientific-session.js",
@@ -4024,8 +4024,8 @@
     },
     {
       "path": "explorer/src/components/systems-explorer.js",
-      "bytes": 2687,
-      "sha256": "246571652c9c26dca6abdcdc9007664fb831cd1dbf036354e4a455bcf80cda91"
+      "bytes": 2981,
+      "sha256": "b5cec774fd051354a1ded6126e285c3723f6d99158527a07206db4bacd96c88f"
     },
     {
       "path": "explorer/src/components/systems-scene-data.js",
@@ -4539,8 +4539,8 @@
     },
     {
       "path": "explorer/test/scientific-scene-r-browser-check.mjs",
-      "bytes": 3575,
-      "sha256": "6c30b5c4a8a148b3ab2ab3e69b88b67d7caab2cf0a5dd2f4a5a1c7d19439e91b"
+      "bytes": 3552,
+      "sha256": "480544286758ae0356c7d0a9c029319502cfcc534eb9e283fc2d8efa15934bad"
     },
     {
       "path": "explorer/test/scientific-scene.test.js",
@@ -4589,8 +4589,8 @@
     },
     {
       "path": "explorer/test/systems-browser-check.mjs",
-      "bytes": 2408,
-      "sha256": "cd586ac369d649731693c3729697cc27036a84e9857a5d88fbd041dcc203988f"
+      "bytes": 3191,
+      "sha256": "9014e0124bf829e7210fed5cd8587c28dd6b2adb601dc539630814714fde76d7"
     },
     {
       "path": "explorer/test/systems-scene-data.test.js",

@@ -21,9 +21,9 @@ try {
  assert.match(scene.source.code_sha256,/^[a-f0-9]{64}$/);assert.match(scene.source.sha256,/^[a-f0-9]{64}$/);
  assert.ok(scene.camera);assert.match(scene.source.run_utc,/T/);
  async function download(label){
-  if(!await page.locator(".scene-export-menu").evaluate(n=>n.open))await page.locator(".scene-export-menu summary").click();
+  await page.locator(".scientific-scene").getByRole("button",{name:"Export",exact:true}).click();
   const pending=page.waitForEvent('download');
-  await page.locator('.scientific-scene').getByRole('button',{name:label,exact:true}).click();
+  await page.locator(".studio-menu.modal-in").getByRole("button",{name:label,exact:true}).click();
   await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
   const item=await pending,stream=await item.createReadStream(),chunks=[];
   for await(const chunk of stream)chunks.push(chunk);

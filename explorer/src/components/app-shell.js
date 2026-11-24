@@ -896,7 +896,7 @@ export function createAppShell({
       ...body.querySelectorAll("select"),
       ...sheetBody.querySelectorAll("select"),
       ...analysisLauncher.body.querySelectorAll("select"),
-      ...root.querySelectorAll(".atlas-3d-tools-content select"),
+      ...root.querySelectorAll(".atlas-3d-tools-content select,.sheet-modal select,.popup select,.panel select,.popover select"),
     ]) {
       if (smartNodes.has(select) || select.multiple || select.closest(".msp-plugin")) continue;
       const hadFocus = document.activeElement === select;
@@ -1389,6 +1389,10 @@ export function createAppShell({
   });
   const observer = new MutationObserver(scheduleEnhance);
   observer.observe(body, { childList: true, subtree: true });
+  // Modal surfaces are siblings of the atlas body. Enhance newly mounted
+  // controls there too, without scanning unrelated renderer/canvas mutations.
+  const surfaceObserver=new MutationObserver(records=>{if(records.some(record=>!body.contains(record.target)&&[...record.addedNodes].some(node=>node.nodeType===1&&(node.matches('select,button,.sheet-modal,.popup,.panel,.popover')||node.querySelector('select,button')))))scheduleEnhance();});
+  surfaceObserver.observe(root,{childList:true,subtree:true});
   const appearanceObserver = new MutationObserver(scheduleEnhance);
   appearanceObserver.observe(document.documentElement, {
     attributes: true,
@@ -1767,6 +1771,7 @@ export function createAppShell({
       document.removeEventListener("keydown", onModalKeydown);
       document.removeEventListener("keydown", openSearch);
       observer.disconnect();
+      surfaceObserver.disconnect();
       appearanceObserver.disconnect();
       root.removeEventListener("change", analysisControlChanged, true);
       root.removeEventListener("pointerdown", touchDown, true);

@@ -6975,3 +6975,56 @@ body {
  #psilocin-app .dataset-footer>.button{width:100%;}
  #psilocin-app .r-object-sheet .r-object-actions>.button{flex:1 1 120px;}
 }
+
+/* Workspace and scientific scene controls share the existing F7 surface tokens. */
+#psilocin-app .studio-systems-sheet {left:0;right:0;margin-inline:auto;width:min(100%,1280px);height:94dvh;max-height:94dvh;display:flex;flex-direction:column;border-radius:20px 20px 0 0;background:var(--research-page);color:var(--research-text);overflow:hidden}
+#psilocin-app .studio-systems-sheet>.sheet-modal-inner {flex:1;min-height:0;height:auto;overflow:auto;overflow-x:hidden;overscroll-behavior:contain;padding:12px clamp(12px,2.5vw,28px) calc(24px + env(safe-area-inset-bottom))}
+#psilocin-app .systems-explorer {width:100%;min-width:0;max-width:none;margin:0}
+#psilocin-app .systems-explorer>.note {margin:0 0 10px;max-width:none}
+#psilocin-app .systems-controls {display:flex;align-items:flex-end;flex-wrap:wrap;gap:10px;margin:8px 0 12px;min-width:0}
+#psilocin-app :is(.systems-field,.python-input-field) {display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 220px}
+#psilocin-app :is(.systems-field-label,.python-field-label) {font-size:12px;font-weight:600;color:var(--research-muted)}
+#psilocin-app :is(.systems-field,.python-input-field)>.research-smart-select {width:100%;max-width:100%;min-height:44px;border-radius:10px}
+#psilocin-app .systems-controls>.button {width:auto;min-height:44px;white-space:normal;flex:0 0 auto}
+#psilocin-app .systems-stage {min-width:0}
+#psilocin-app .scientific-scene {background:var(--research-surface);color:var(--research-text);border-color:var(--research-border);border-radius:14px;min-width:0}
+#psilocin-app .scientific-scene>.scene-actions {display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:10px 0;min-width:0}
+#psilocin-app .scientific-scene .scene-actions>.button {width:auto;min-height:44px;padding:7px 12px;flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;white-space:normal}
+#psilocin-app .scientific-scene .scene-actions>.button svg {width:15px;height:15px}
+#psilocin-app .scientific-scene .scene-data-disclosure {margin:14px 0 0;width:100%;max-width:none;border:1px solid var(--research-border);border-radius:12px;overflow:hidden}
+#psilocin-app .scientific-scene .scene-data-disclosure .item-link {min-height:44px}
+#psilocin-app .scientific-scene .scene-data-disclosure .gene-annotation-body {padding:10px;min-width:0}
+#psilocin-app .scientific-scene .scene-selection {margin:10px 0;line-height:1.5}
+#psilocin-app .systems-explorer .scientific-scene-viewport {height:clamp(300px,55dvh,620px)}
+#psilocin-app .scientific-scene:fullscreen {overflow:auto;background:var(--research-page);padding:16px}
+#psilocin-app .scientific-scene:fullscreen .scientific-scene-viewport {height:65dvh}
+#psilocin-app .python-lab {width:100%;max-width:none;min-width:0}
+#psilocin-app .python-workspace-header {display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+#psilocin-app .python-workspace-header .studio-notebook-title {margin:0}
+#psilocin-app .python-lab>h2 {display:none}
+#psilocin-app .python-lab .python-execution-toolbar {display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+#psilocin-app .python-execution-toolbar>.button,#psilocin-app .python-input-bar>.button {width:auto;min-height:44px;display:inline-flex;align-items:center;gap:6px;flex:0 0 auto}
+#psilocin-app .python-execution-toolbar .f7-icon-svg {width:15px;height:15px}
+#psilocin-app .python-input-bar {display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;padding:12px;border:1px solid var(--research-border);border-radius:12px;background:var(--research-surface)}
+#psilocin-app .python-input-context {margin:8px 0;font-size:12px}
+#psilocin-app :is(.python-editor-card,.python-output-card) {border:1px solid var(--research-border);border-radius:12px;overflow:hidden;min-width:0;background:var(--research-surface);margin:12px 0}
+#psilocin-app .python-editor-heading {padding:10px 14px;background:var(--f7-bars-bg-color);font-weight:600;border-bottom:1px solid var(--research-border)}
+#psilocin-app .python-editor-card .cm-editor {border:0;border-radius:0;min-height:180px}
+#psilocin-app .python-output-card {padding:12px}
+#psilocin-app .python-output-card h3 {margin:0 0 8px;font-size:15px}
+#psilocin-app .python-output-card .studio-inline-table {max-width:100%;overflow:auto}
+#psilocin-app .python-output-card table {width:100%;white-space:nowrap;font-size:13px}
+#psilocin-app .python-output-card .custom-r-toolbar {display:flex;gap:6px;flex-wrap:wrap}
+#psilocin-app .python-output-card .custom-r-toolbar>.button {width:auto;min-height:44px}
+#psilocin-app .studio-cell-code>summary,#psilocin-app .studio-cell-output>summary {display:list-item;min-height:32px;padding:9px 12px;font-size:12px;cursor:pointer;box-sizing:border-box}
+#psilocin-app .studio-cell-code[open]>summary {display:list-item}
+#psilocin-app .studio-cell-code:not([open]) {min-height:0}
+#psilocin-app .r-variable-list .note {font-size:12px;margin:6px 0 12px}
+@media(max-width:700px){
+ #psilocin-app .studio-systems-sheet {width:100%;border-radius:16px 16px 0 0}
+ #psilocin-app .systems-controls>.button {width:100%}
+ #psilocin-app .systems-explorer .scientific-scene-viewport {height:340px}
+ #psilocin-app .scientific-scene .scene-actions>.button {flex:1 1 120px}
+ #psilocin-app .python-input-bar>.button {width:100%}
+ #psilocin-app .studio-cell-code>summary,#psilocin-app .studio-cell-output>summary {min-height:44px;padding-block:13px}
+}

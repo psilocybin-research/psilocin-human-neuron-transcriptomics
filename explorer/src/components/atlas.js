@@ -735,12 +735,12 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   }
   async function openSystemsExplorer(initialMode="systems") {
     const panel=el("div","sheet-modal studio-systems-sheet"),inner=el("div","sheet-modal-inner");
-    const close=button("Close molecular systems",()=>modal.close(),"secondary");inner.append(close,loadingMessage("Loading molecular systems…"));panel.append(inner);root.append(panel);
+    const handle=el("div","sheet-handle"),close=el("button","link","Done");close.type="button";close.setAttribute("aria-label","Close molecular systems");close.onclick=()=>closeSheet(modal);panel.setAttribute("aria-label","Molecular systems");inner.append(loadingMessage("Loading molecular systems…"));panel.append(handle,createSheetToolbar("Molecular systems",[close]),inner);root.append(panel);
     let explorer;
-    const modal=root.f7.sheet.create({el:panel,backdrop:true,closeOnEscape:true,on:{closed(){explorer?.destroy();panel.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();
+    const modal=root.f7.sheet.create({el:panel,backdrop:true,closeOnEscape:false,swipeToClose:true,swipeHandler:handle,on:{closed(){explorer?.destroy();panel.remove();setTimeout(()=>modal.destroy(),0);}}});modal.open();
     try{const [{createSystemsExplorer},{default:snapshot}]=await Promise.all([import("./systems-explorer.js"),import("../assets/vendor/oxphos-network-data.js")]);if(!panel.isConnected)return;
-      explorer=createSystemsExplorer({data:snapshot,getGenes:()=>{const state=researchStore.getState();return state.collections.length?state.collections.flatMap(c=>c.genes):[state.gene].filter(Boolean);},onSelect:id=>researchStore.update({gene:id}),onStructure:gene=>{researchStore.update({gene});persistentInspector.toggle(true);},onSendToR:selection=>{modal.once("closed",()=>sendSelectionToR(selection));modal.close();},onNavigate:key=>{if(key==="mitochondria")explorer.setMode("systems");else showToast("Illustrative landmark; compartment-specific experimental data are unavailable.");}});
-      inner.replaceChildren(close,explorer);if(initialMode!=="systems")explorer.setMode(initialMode);
+      explorer=createSystemsExplorer({data:snapshot,getGenes:()=>{const state=researchStore.getState();return state.collections.length?state.collections.flatMap(c=>c.genes):[state.gene].filter(Boolean);},onSelect:id=>researchStore.update({gene:id}),onStructure:gene=>{researchStore.update({gene});persistentInspector.toggle(true);},onSendToR:selection=>{modal.once("closed",()=>sendSelectionToR(selection));closeSheet(modal);},onNavigate:key=>{if(key==="mitochondria")explorer.setMode("systems");else showToast("Illustrative landmark; compartment-specific experimental data are unavailable.");}});
+      inner.replaceChildren(explorer);if(initialMode!=="systems")explorer.setMode(initialMode);
     }catch(error){inner.append(note(error.message));}
   }
   function sendSelectionToR(selection = researchStore.getState()) {
