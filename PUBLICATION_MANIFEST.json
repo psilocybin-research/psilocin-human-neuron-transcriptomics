@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728179614,
+  "total_bytes": 728180110,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4009,8 +4009,8 @@
     },
     {
       "path": "explorer/src/components/studio-ui.js",
-      "bytes": 4482,
-      "sha256": "7ca529d08f3e70c64f2264795fe61777bc0bb8e76b8c4e56a8896cca64c9c241"
+      "bytes": 4639,
+      "sha256": "2dca9488a9253085d09ab9fdee2d801fe9d0dd9fcd3aef56c05db5b0506cd514"
     },
     {
       "path": "explorer/src/components/synopsis-data.js",
@@ -4454,8 +4454,8 @@
     },
     {
       "path": "explorer/test/r-variable-browser-check.mjs",
-      "bytes": 4521,
-      "sha256": "2097ab47d554f79768101aa02ea1dc1e6e58f2910fb4a5119ca496a59e525df4"
+      "bytes": 4860,
+      "sha256": "3d6cdd49c07d72a0cdf64654a2e51470f238da13c7ed66adfe5ddc6083927a8c"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",

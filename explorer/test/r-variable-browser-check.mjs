@@ -7,12 +7,18 @@ assert.equal(await page.locator('.research-session-actions .button').count(),0);
 await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
 await page.getByLabel('R code cell 1',{exact:true}).fill('results <- data.frame(id=paste0("ENSG",1:121), x=1:121, y=(1:121)/3, z=(1:121)^2)\natlas_scatter3d(results,"x","y","z",name="First scene")\natlas_scatter3d(results,"y","z","x",name="Second scene")');await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});
 console.log('R cell completed');assert.equal(await page.locator('.studio-inline-output .scientific-scene').count(),2,'both scenes rendered as independent outputs');
-await page.locator('.r-variable-list').getByRole('button',{name:'results',exact:true}).click();const sheet=page.locator('.r-object-sheet');await sheet.getByText(/1–50 of 121/).waitFor().catch(async error=>{console.error(await sheet.innerText());throw error;});assert.match(await sheet.innerText(),/data.frame/);await sheet.getByRole('button',{name:'Next',exact:true}).click();await sheet.getByText(/51–100 of 121/).waitFor();await sheet.getByRole('button',{name:'Create 3D visualization',exact:true}).click();await sheet.getByLabel('3D builder x',{exact:true}).selectOption('x');await sheet.getByRole('button',{name:'Insert editable R cell',exact:true}).click();await sheet.waitFor({state:'detached'});assert.equal(await page.locator('.studio-inline-cell').count(),2);assert.match(await page.getByLabel('R code cell 2',{exact:true}).textContent(),/atlas_scatter3d/);assert.equal(await page.locator('.studio-inline-cell').nth(1).locator('.scientific-scene').count(),0,'inserting code never executes it');await page.locator('.desktop-gene-finder').click();
-const searchPopup=page.locator('.autocomplete-popup.modal-in');await expect(searchPopup).toBeVisible();
-await searchPopup.getByRole('button',{name:'Selection',exact:true}).click();await expect(page.getByRole('button',{name:'Redo',exact:true})).toBeDisabled();await page.keyboard.press('Escape');await page.locator('.popover.modal-in').waitFor({state:'detached'});
-// Escape can dismiss both the nested menu and its parent finder.
-if(await searchPopup.isVisible())await searchPopup.getByText('Done',{exact:true}).click();
-await expect(searchPopup).toBeHidden();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
+await page.locator('.r-variable-list').getByRole('button',{name:'results',exact:true}).click();const sheet=page.locator('.r-object-sheet');await sheet.getByText(/1–50 of 121/).waitFor().catch(async error=>{console.error(await sheet.innerText());throw error;});assert.match(await sheet.innerText(),/data.frame/);await sheet.getByRole('button',{name:'Next',exact:true}).click();await sheet.getByText(/51–100 of 121/).waitFor();await sheet.getByRole('button',{name:'Create 3D visualization',exact:true}).click();await sheet.getByLabel('3D builder x',{exact:true}).selectOption('x');await sheet.getByRole('button',{name:'Insert editable R cell',exact:true}).click();await sheet.waitFor({state:'detached'});assert.equal(await page.locator('.studio-inline-cell').count(),2);assert.match(await page.getByLabel('R code cell 2',{exact:true}).textContent(),/atlas_scatter3d/);assert.equal(await page.locator('.studio-inline-cell').nth(1).locator('.scientific-scene').count(),0,'inserting code never executes it');// Repeat the complete real keyboard dismissal flow to catch transition races.
+for(let attempt=0;attempt<3;attempt++){
+ await page.locator('.desktop-gene-finder').click();
+ const searchPopup=page.locator('.autocomplete-popup.modal-in');await expect(searchPopup).toBeVisible();await expect(searchPopup).toHaveAttribute('data-shell-modal-ready','true');
+ await searchPopup.getByRole('button',{name:'Selection',exact:true}).click();
+ const menu=page.locator('.popover.studio-menu.modal-in');await expect(menu).toBeVisible();await expect(menu).toHaveAttribute('data-shell-modal-ready','true');
+ await expect(menu.getByRole('button',{name:'Redo',exact:true})).toBeDisabled();
+ await page.keyboard.press('Escape');await expect(menu).toHaveCount(0);
+ if(await searchPopup.isVisible())await searchPopup.getByText('Done',{exact:true}).click();
+ await expect(searchPopup).toBeHidden();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
+}
+console.log('PASS: three nested Selection menu Escape/dismissal cycles');
 await openWorkspaceNavigation(page);
 const sidebar=()=>page.locator('.studio-sidebar:visible');
 const study=sidebar().getByRole('button',{name:/Study result scripts/});if(await study.getAttribute('aria-expanded')==='false')await study.click();
