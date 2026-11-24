@@ -5403,7 +5403,7 @@ body {
 #psilocin-app .studio-book-list>ul{background:transparent;margin:0;padding:0;list-style:none}
 #psilocin-app .studio-book-list>ul:before,#psilocin-app .studio-book-list>ul:after{display:none}
 #psilocin-app .studio-book-entry{display:block;position:relative;min-width:0;border-radius:8px;overflow:hidden}
-#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:transparent;min-width:0}
+#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:transparent;min-width:0;touch-action:pan-y}
 #psilocin-app .studio-book-entry .swipeout-content>.button{background:transparent;border-radius:4px;min-height:36px;font-size:12px;padding:6px 8px}
 #psilocin-app .studio-book-entry .swipeout-content>.button:first-child{flex:1;min-width:0;text-align:left;justify-content:flex-start;white-space:normal;height:auto;line-height:1.35;font-weight:400;overflow-wrap:anywhere}
 #psilocin-app .studio-book-entry .swipeout-content>.button[aria-current=true]{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow);color:var(--research-accent);font-weight:650}

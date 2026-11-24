@@ -5,15 +5,15 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH||'/
 try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPACE_WIDTH)]:[390,820,1440])){
  const context=await browser.newContext({viewport:{width,height:1000},hasTouch:width<900});const page=await context.newPage(),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error(e.stack);});
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');await page.locator('.workspace-frame').waitFor();await page.waitForFunction(()=>!!document.querySelector('.workspace-inspector-panel')?.f7Panel);
- assert.equal(await page.locator('.workspace-navigation-slot .studio-sidebar').count(),1);assert.equal(await page.locator('.workspace-frame>.studio-sidebar').count(),0);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-modal-open'),'true');
+ await expect(page.locator('#sidebar-workspace .studio-sidebar')).toHaveCount(1);await expect(page.locator('#sidebar-workspace')).toHaveAttribute('aria-hidden','false');await expect(page.locator('.workspace-frame>.studio-sidebar')).toHaveCount(0);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-modal-open'),'true');
  await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Datasets',exact:true}).click();const catalogue=page.locator('.workspace-datasets-sheet');await catalogue.locator('li').nth(5).waitFor();assert.equal(await catalogue.locator('li').count(),6);assert.match(await catalogue.innerText(),/63,462/);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');await catalogue.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
  await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Collections',exact:true}).click();const collections=page.locator('.workspace-collections-sheet');
  const creator=collections.locator('.research-collections .accordion-item').first();
  await creator.waitFor();
  assert.equal(await creator.locator('.item-link').getAttribute('aria-expanded'),'false','Collection form starts collapsed');
- assert(await collections.getByText('No collections yet',{exact:true}).isVisible(),'Saved-collection empty state appears immediately');
+ await expect(collections.getByText('No collections yet',{exact:true}),'Saved-collection empty state appears immediately').toBeVisible();
  await creator.locator('.item-link').click();
- assert.equal(await creator.locator('.item-link').getAttribute('aria-expanded'),'true');
+ await expect(creator.locator('.item-link')).toHaveAttribute('aria-expanded','true');
  await collections.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
  const editor=page.getByLabel('R code cell 1',{exact:true});
  await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();

@@ -40,12 +40,12 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
   archive.body.append(archived);extensions.body.append(advanced);
   const resources=el('div','studio-sidebar-resources'),trash=action('Trash','close',openTrash);if(onOpenSystems)resources.append(action('Molecular systems','plus',onOpenSystems));if(onTools)resources.append(action('Data & settings','controls',onTools));resources.append(trash);
   const empty=el('p','note analysis-search-empty','No matching analyses.');empty.setAttribute('role','status');content.append(head,suggestions,groups,empty,resources);sidebar.append(container);
-  function setSearchOpen(open,{focus=false}={}){searchOpen=open;search.inert=!open;search.setAttribute('aria-hidden',String(!open));container.classList.toggle('analysis-search-open',open);search.classList.toggle('searchbar-enabled',open);searchToggle.setAttribute('aria-expanded',String(open));clear.hidden=!query;if(open){render();if(focus)requestAnimationFrame(()=>input.focus());}else if(!query)render();}
+  function setSearchOpen(open,{focus=false}={}){clearTimeout(searchCloseTimer);searchOpen=open;search.inert=!open;search.setAttribute('aria-hidden',String(!open));container.classList.toggle('analysis-search-open',open);search.classList.toggle('searchbar-enabled',open);searchToggle.setAttribute('aria-expanded',String(open));clear.hidden=!query;if(open){render();if(focus)requestAnimationFrame(()=>input.focus());}else if(!query)render();}
   searchToggle.onclick=()=>setSearchOpen(!searchOpen,{focus:!searchOpen});
   closeSearch.onclick=()=>{input.value='';query='';setSearchOpen(false);searchToggle.focus();};
   clear.onclick=()=>{input.value='';query='';clear.hidden=true;render();input.focus();};
   input.onfocus=()=>{clearTimeout(searchCloseTimer);setSearchOpen(true);};
-  input.onblur=()=>{clearTimeout(searchCloseTimer);searchCloseTimer=setTimeout(()=>{if(!query)setSearchOpen(false);},140);};
+  input.onblur=()=>{clearTimeout(searchCloseTimer);if(!searchOpen)return;searchCloseTimer=setTimeout(()=>{if(searchOpen&&!query)setSearchOpen(false);},140);};
   input.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();input.value='';query='';setSearchOpen(false);searchToggle.focus();}else if(e.key==='ArrowDown'&&suggestionList.firstElementChild){e.preventDefault();suggestionList.querySelector('button')?.focus();}};
   input.oninput=()=>{query=input.value.trim().toLocaleLowerCase();clear.hidden=!query;reordering=false;render();};
   function matches(title){return title.toLocaleLowerCase().includes(query);}

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728177904,
+  "total_bytes": 728179440,
   "status": "pass",
   "failures": [],
   "files": [
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 296487,
-      "sha256": "47369e540ef45ada6c1ca13ba7d30b27a09b99476845afd0a4fc644df00b5f4b"
+      "bytes": 296506,
+      "sha256": "f90c658d6341669899400ea65e7d003a42676f6dd04a3f402db451b1f083b950"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3464,8 +3464,8 @@
     },
     {
       "path": "explorer/src/components/analysis-navigation.js",
-      "bytes": 14703,
-      "sha256": "788b4fd1ef9b0de25856442e13c57b51aef3a535d3e9ff4b7efebb126fe2f15c"
+      "bytes": 14768,
+      "sha256": "25e8776c844871d68d3d4934c8e13a045e6a098b82bd948681cd36b380a5ebc6"
     },
     {
       "path": "explorer/src/components/analysis-options.js",
@@ -4089,8 +4089,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 5886,
-      "sha256": "224ee16e37c3a06a8ad9e402675480ad80c482a82620a7bffd17d66295fe1b3b"
+      "bytes": 7159,
+      "sha256": "14692728fb795573d7def6ab23c1d4c1ab8b8a4e1b1bc193468ceb08d18b46b0"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
@@ -4454,8 +4454,8 @@
     },
     {
       "path": "explorer/test/r-variable-browser-check.mjs",
-      "bytes": 4419,
-      "sha256": "906336762e4890cd7f260e9396a98fe96b6ab493d74e82b2cba80d3998bd574e"
+      "bytes": 4521,
+      "sha256": "2097ab47d554f79768101aa02ea1dc1e6e58f2910fb4a5119ca496a59e525df4"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
@@ -4614,8 +4614,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 7329,
-      "sha256": "9eaa5b697be8a8b2c3392aeb8d09682ca5c1d9fcef2d5fb606c84daabeb11569"
+      "bytes": 7406,
+      "sha256": "12f85882089550db6ed28767f89f24c3a38c27060fbfccce10fafd8a8dd4b711"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",
