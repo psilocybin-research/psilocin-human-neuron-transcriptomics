@@ -26,7 +26,9 @@ export function studioMenu(root, anchor, title, items) {
       button.type = 'button'; button.disabled=!!item.disabled;button.onclick = () => choose(item); inner.append(button);
     }
     content.append(inner); root.append(content);
-    modal = root.f7.popover.create({el: content, targetEl: anchor, closeOnEscape: true, on: {closed() { on.closed(); content.remove(); }}});
+    // The atlas shell owns Escape and the nested modal stack. Avoid a second
+    // Framework7 Escape handler competing with the shell during transitions.
+    modal = root.f7.popover.create({el: content, targetEl: anchor, closeOnEscape: false, on: {closed() { on.closed(); content.remove(); }}});
     modal.open();
   }
   return modal;

@@ -5403,7 +5403,7 @@ body {
 #psilocin-app .studio-book-list>ul{background:transparent;margin:0;padding:0;list-style:none}
 #psilocin-app .studio-book-list>ul:before,#psilocin-app .studio-book-list>ul:after{display:none}
 #psilocin-app .studio-book-entry{display:block;position:relative;min-width:0;border-radius:8px;overflow:hidden}
-#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:transparent;min-width:0}
+#psilocin-app .studio-book-entry .swipeout-content{display:flex;align-items:stretch;background:transparent;min-width:0;touch-action:pan-y}
 #psilocin-app .studio-book-entry .swipeout-content>.button{background:transparent;border-radius:4px;min-height:36px;font-size:12px;padding:6px 8px}
 #psilocin-app .studio-book-entry .swipeout-content>.button:first-child{flex:1;min-width:0;text-align:left;justify-content:flex-start;white-space:normal;height:auto;line-height:1.35;font-weight:400;overflow-wrap:anywhere}
 #psilocin-app .studio-book-entry .swipeout-content>.button[aria-current=true]{background:var(--atlas-selection-glass);box-shadow:var(--atlas-selection-shadow);color:var(--research-accent);font-weight:650}
@@ -6758,4 +6758,161 @@ body {
   #psilocin-app .source-browser .source-readme h1 {
     font-size: 19px;
   }
+}
+
+/* Unified native F7 navigation, disclosure and modal visual language. */
+#psilocin-app .source-browser .source-browser-close,
+#psilocin-app .tour-header .tour-close {
+  background: var(--research-selected);
+  color: var(--f7-theme-color);
+  min-width: 44px; min-height: 44px; border-radius: 12px;
+}
+#psilocin-app .tour-progress li { padding-top: 0; border: 0; }
+#psilocin-app .tour-progress .tour-step {
+  display: block; width: 100%; min-height: 44px;
+  padding: 8px 2px 4px; border: 0;
+  border-top: 3px solid var(--research-border);
+  background: transparent; color: var(--research-muted);
+  text-align: left; font: inherit; font-size: 11px;
+  line-height: 1.4; white-space: normal;
+  overflow-wrap: anywhere; cursor: pointer;
+}
+#psilocin-app .tour-progress li[aria-current="step"] .tour-step {
+  color: var(--research-accent); font-weight: 650;
+  border-color: var(--research-accent);
+}
+#psilocin-app .tour-progress li.tour-completed .tour-step { border-color: var(--research-accent); }
+#psilocin-app .tour-progress .tour-step:hover { color: var(--research-accent); }
+#psilocin-app .tour-progress .tour-step:focus-visible {
+  outline: 2px solid var(--f7-theme-color); outline-offset: 3px;
+  border-radius: 3px;
+}
+#psilocin-app .autocomplete-popup .item-inner { padding-block: 8px; }
+#psilocin-app .autocomplete-popup .item-content { min-height: 62px; }
+#psilocin-app .studio-r-tools-sheet .sheet-modal-inner {
+  padding: 0; display: flex; flex-direction: column; overflow-y: auto;
+}
+#psilocin-app .studio-r-tools-sheet .workspace-sheet-handle {
+  flex: 0 0 auto; margin: 8px auto 4px;
+}
+#psilocin-app .studio-r-tools-sheet .studio-sheet-toolbar {
+  position: sticky; top: 0; z-index: 5; display: flex;
+  align-items: center; justify-content: space-between;
+  min-height: 60px; gap: 16px; padding: 8px clamp(16px, 3vw, 32px);
+  border-bottom: 1px solid var(--research-border);
+  background: var(--f7-bars-bg-color);
+}
+#psilocin-app .studio-r-tools-sheet .studio-sheet-toolbar h3 {
+  font-size: 17px; font-weight: 650; margin: 0; color: var(--research-text);
+}
+#psilocin-app .studio-r-tools-sheet .studio-sheet-done {
+  min-height: 44px; width: auto; flex: 0 0 auto;
+  padding: 8px 16px; border-radius: 12px;
+  background: var(--research-selected); color: var(--f7-theme-color);
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools {
+  width: min(100%, 920px); margin-inline: auto; box-sizing: border-box;
+  padding: 18px clamp(16px, 3vw, 32px) calc(32px + env(safe-area-inset-bottom));
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools > .list {
+  margin: 10px 0; border: 1px solid var(--research-border);
+  border-radius: 12px; overflow: hidden; background: var(--research-surface);
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools > .list .item-link {
+  min-height: 48px; color: var(--research-text);
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools .gene-annotation-body {
+  padding: 12px 16px 18px; display: flex; flex-wrap: wrap;
+  align-items: flex-start; gap: 12px;
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools .gene-annotation-body > :is(p,pre) {
+  flex: 1 1 100%; margin: 0; overflow-wrap: anywhere;
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools .gene-annotation-body > :is(select,input,textarea) {
+  min-height: 44px; max-width: 100%; min-width: 0;
+  padding: 8px 12px; border: 1px solid var(--research-border);
+  border-radius: 10px; background: var(--research-surface);
+  color: var(--research-text);
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools .gene-annotation-body > .button {
+  width: auto; min-height: 44px; padding: 8px 16px;
+  white-space: normal;
+}
+#psilocin-app .studio-r-tools-sheet .studio-research-tools .gene-annotation-body > .custom-r-toolbar {
+  width: 100%; max-width: 100%;
+}
+#psilocin-app .research-collections-view {
+  width: min(100%, 900px); min-width: 0; margin-inline: auto;
+  display: grid; gap: 20px; padding: 18px clamp(16px, 3vw, 32px) 44px;
+  box-sizing: border-box;
+}
+#psilocin-app .research-collections-view > .research-collections {
+  width: 100%; min-width: 0; max-width: none; margin: 0;
+  border: 1px solid var(--research-border); border-radius: 14px;
+  background: var(--research-surface); overflow: hidden;
+}
+#psilocin-app .research-collections-view > .research-collections > ul { margin: 0; }
+#psilocin-app .research-collections-view .research-collections .item-link {
+  min-height: 52px; color: var(--research-text);
+}
+#psilocin-app .research-collections-view .research-collections .gene-annotation-body {
+  padding: 12px clamp(14px, 3vw, 24px) 24px;
+}
+#psilocin-app .research-collections-view .research-collection-inputs {
+  width: 100%; margin: 16px 0; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--research-border);
+}
+#psilocin-app .research-collections-view .research-collection-field {
+  width: 100%; box-sizing: border-box; min-height: 66px;
+}
+#psilocin-app .research-collections-view .research-collection-field .item-inner { min-width: 0; }
+#psilocin-app .research-collections-view .research-collection-field .item-input-wrap {
+  min-width: 0; width: 100%;
+}
+#psilocin-app .research-collections-view .research-collection-field :is(input,textarea) {
+  width: 100%; max-width: 100%; box-sizing: border-box;
+  min-height: 44px; font: inherit; color: var(--research-text);
+  background: var(--research-surface); padding: 8px 10px;
+  border: 1px solid var(--research-border); border-radius: 10px;
+}
+#psilocin-app .research-collections-view .research-collection-field input[type=file] {
+  font-size: 12px; height: auto; padding: 10px;
+}
+#psilocin-app .research-collections-view .research-collection-field textarea {
+  min-height: 120px; resize: vertical;
+}
+#psilocin-app .research-collections-view .research-collections .actions {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px;
+}
+#psilocin-app .research-collections-view .research-collections .actions .button {
+  flex: 1 1 180px; width: auto; min-height: 44px;
+  white-space: normal; padding: 9px 14px;
+}
+#psilocin-app .research-collection-saved-title {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+#psilocin-app .research-collection-saved-title h3 { margin: 0; font-size: 17px; }
+#psilocin-app .research-collection-empty {
+  border: 1px dashed var(--research-border); border-radius: 14px;
+  padding: 32px 20px; background: var(--research-surface);
+  text-align: center; color: var(--research-text);
+}
+#psilocin-app .research-collection-empty p { margin: 8px 0 0; }
+#psilocin-app .research-collection-saved-list { display: grid; gap: 12px; min-width: 0; }
+#psilocin-app .research-collection-saved {
+  margin: 0; border: 1px solid var(--research-border);
+  border-radius: 14px; padding: 18px; background: var(--research-surface);
+}
+#psilocin-app .research-collection-saved .actions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+#psilocin-app .research-collection-saved .actions > .button {
+  width: auto; min-height: 44px; padding: 8px 14px;
+}
+@media (max-width: 600px) {
+  #psilocin-app .tour-progress { gap: 4px; overflow-x: auto; }
+  #psilocin-app .tour-progress li { flex: 1 0 72px; }
+  #psilocin-app .studio-r-tools-sheet .studio-research-tools { padding-inline: 16px; }
+  #psilocin-app .research-collections-view { padding-inline: 12px; }
+  #psilocin-app .research-collection-saved-title { align-items: flex-start; flex-direction: column; }
 }

@@ -18,6 +18,7 @@ import {
   writePreference as remember,
   escapeHTML,
   prepareExternalLinks,
+  loadingMessage,
   useModalPush,
   destroySheet,
 } from "./interface-utils.js";
@@ -1489,6 +1490,56 @@ export function createAppShell({
     if (stored("atlas-sidebar", "expanded") === "collapsed")
       panelInstance.disableVisibleBreakpoint();
     let finderGenes = new Map();
+    const finderBatchSize = 20;
+    let finderMatches = [], finderRender, finderShown = 0, finderScrollEl;
+    function displayFinderPage(reset = false) {
+      if (!finderRender) return;
+      const scrollTop = reset ? 0 : finderScrollEl?.scrollTop || 0;
+      finderShown = reset ? Math.min(finderBatchSize, finderMatches.length)
+        : Math.min(finderShown + finderBatchSize, finderMatches.length);
+      const visible = finderMatches.slice(0, finderShown);
+      finderGenes = new Map(visible.map(gene => [gene.id, gene]));
+      finderRender(visible.map(gene => ({
+        id: `gene:${gene.id}`, value: `gene:${gene.id}`,
+        text: `${gene.symbol} · ${gene.id}`, kind: "gene", target: gene.id, gene,
+        fuzzy: Boolean(gene.fuzzy),
+      })));
+      if (finderScrollEl) requestAnimationFrame(() => {
+        if (!finderScrollEl) return;
+        finderScrollEl.scrollTop = scrollTop;
+        syncFinderLoader();
+      });
+    }
+    function syncFinderLoader() {
+      if (!finderScrollEl) return;
+      let loader = finderScrollEl.querySelector(".atlas-finder-more");
+      if (finderShown >= finderMatches.length) { loader?.remove(); return; }
+      if (!loader) {
+        loader = loadingMessage("Scroll for more matching genes");
+        loader.classList.add("atlas-finder-more");
+        finderScrollEl.append(loader);
+      }
+    }
+    const loadFinderPage = () => {
+      if (finderShown < finderMatches.length) displayFinderPage();
+    };
+    function clearFinderInfinite() {
+      if (!finderScrollEl) return;
+      finderScrollEl.removeEventListener("infinite", loadFinderPage);
+      app.infiniteScroll.destroy(finderScrollEl);
+      finderScrollEl = null;
+    }
+    function mountFinderInfinite() {
+      const scroll = autocomplete?.modal?.el?.querySelector(".page-content");
+      if (!scroll || scroll === finderScrollEl) return;
+      clearFinderInfinite();
+      finderScrollEl = scroll;
+      scroll.classList.add("infinite-scroll-content", "atlas-finder-scroll");
+      scroll.addEventListener("infinite", loadFinderPage);
+      scroll.setAttribute("data-infinite-distance", "180");
+      app.infiniteScroll.create(scroll);
+      syncFinderLoader();
+    }
     // A small, verified subset of the archived catalogue renders immediately;
     // full-text search still uses the complete asynchronously loaded catalogue.
     const finderInitialGenes = [
@@ -1502,6 +1553,7 @@ export function createAppShell({
       if (!actions) return;
       if (!actions.contains(fuzzyControl)) actions.prepend(fuzzyControl);
       if (finderSelection && !actions.contains(finderSelection)) actions.prepend(finderSelection);
+      mountFinderInfinite();
     };
     autocomplete = app.autocomplete.create({
       view,
@@ -1518,7 +1570,7 @@ export function createAppShell({
       animate: false,
       valueProperty: "id",
       textProperty: "text",
-      limit: 100,
+      limit: 50000,
       renderItem(item) {
         const geneId = String(item.value || item.id || "").replace(/^gene:/, "");
         const gene = item.gene || finderGenes.get(geneId);
@@ -1527,7 +1579,7 @@ export function createAppShell({
         // Show a real structure thumbnail when a curated model is available.
         // Other archived genes deliberately retain the shared gene glyph: we do
         // not imply that an unmodelled gene has a molecular structure preview.
-        const preview = genePreviewMarkup(gene) || `<span class="gene-finder-glyph" aria-hidden="true">${uiIcon("genes").outerHTML}</span>`;
+        const preview = (genePreviewMarkup(gene) || `<span class="gene-finder-glyph" aria-hidden="true">${uiIcon("genes").outerHTML}</span>`).replace("<img ", '<img loading="lazy" decoding="async" ');
         const aliases = gene.fuzzy
           ? "Possible fuzzy match"
           : gene.aliases?.length
@@ -1540,13 +1592,12 @@ export function createAppShell({
       notFoundText: "No archived gene match. Try a gene symbol, Ensembl ID or verified alias.",
       source(query, render) {
         const sequence = ++querySequence;
+        finderRender = render;
+        finderShown = 0;
+        finderMatches = [];
         const showGenes = matches => {
-          finderGenes = new Map(matches.map((gene) => [gene.id, gene]));
-          render(matches.map((gene) => ({
-            id: `gene:${gene.id}`, value: `gene:${gene.id}`,
-            text: `${gene.symbol} · ${gene.id}`, kind: 'gene', target: gene.id, gene,
-            fuzzy: Boolean(gene.fuzzy),
-          })));
+          finderMatches = matches;
+          displayFinderPage(true);
         };
         if (!query.trim()) showGenes(finderInitialGenes);
         const suggestions = genes => {
@@ -1556,11 +1607,10 @@ export function createAppShell({
           const preferred = query.trim()
             ? []
             : genes.filter((gene) => gene.selected && geneStructurePreview(gene)).map((gene) => gene.id);
-          const exact = geneSuggestions(genes, data.aliases, query, preferred);
+          const exact = geneSuggestions(genes, data.aliases, query, preferred, genes.length);
           if (!fuzzyMatching) return exact;
-          return [...exact, ...fuzzyGeneSuggestions(genes, data.aliases, query).filter(
-            (gene) => !exact.some((match) => match.id === gene.id),
-          )].slice(0, 20);
+          const existing = new Set(exact.map(gene => gene.id));
+          return [...exact, ...fuzzyGeneSuggestions(genes, data.aliases, query, 300).filter(gene => !existing.has(gene.id))];
         };
         getGenes().then(genes => {
           if (sequence === querySequence) showGenes(suggestions(genes));
@@ -1575,6 +1625,10 @@ export function createAppShell({
         opened: mountFinderSelection,
         closed() {
           ++querySequence;
+          clearFinderInfinite();
+          finderRender = null;
+          finderMatches = [];
+          finderShown = 0;
           searchCleanupPending = true;
           const closedPopup = autocomplete.modal;
           // Escape/backdrop also close the popup directly. Schedule after F7's

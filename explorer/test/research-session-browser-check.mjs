@@ -1,4 +1,5 @@
-import {chromium} from '@playwright/test';
+import {chromium,expect} from '@playwright/test';
+import {openWorkspaceNavigation,selectWorkspace} from './workspace-browser-helpers.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {unzipSync} from 'fflate';
@@ -6,10 +7,16 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH||'/
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');
+ await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 1',{exact:true}).fill('results <- subset(genes, id=="ENSG00000167468.12" & contrast=="day1_vs_control")\nprint(results$log2FoldChange)');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});
- await page.getByRole('tab',{name:'Reports',exact:true}).click();
+ await openWorkspaceNavigation(page);
+ const tools=page.locator('.workspace-extra-tools');
+ await expect(tools.locator('summary')).toBeVisible();
+ if(!await tools.evaluate(node=>node.open))await tools.locator('summary').click();
+ await selectWorkspace(page,'Reports');
+ await expect(page.locator('.studio-reports-panel')).toBeVisible();
  await page.getByRole('button',{name:'Export research session (.zip)',exact:true}).click();
  const pending=page.waitForEvent('download');await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
  const download=await pending,path=await download.path(),bytes=new Uint8Array(await readFile(path)),files=unzipSync(bytes);
@@ -18,9 +25,9 @@ try{
  assert.ok(Object.keys(files).some(path=>path.endsWith('analysis.R')));assert.ok(session.datasets.length>=6);
  await page.getByLabel('Import research session file',{exact:true}).setInputFiles({name:'session.zip',mimeType:'application/zip',buffer:Buffer.from(bytes)});
  await page.locator('.dialog').filter({hasText:'Restore research session'}).locator('.dialog-button').filter({hasText:'OK'}).click();
- await page.getByRole('tab',{name:'R Studio',exact:true}).waitFor({state:'visible'});
- await page.waitForFunction(()=>document.querySelector('.studio-r-panel')?.hidden===false);
- assert.match(await page.locator('.studio-inline-output').innerText(),/1.55032399346458/);
+ await expect(page.locator('.studio-r-panel')).toBeVisible();
+ await expect(page.getByRole('tab',{name:'R Studio',exact:true,includeHidden:true})).toHaveAttribute('aria-selected','true');
+ assert.match(await page.locator('.studio-inline-output').textContent(),/1.55032399346458/);
  assert.equal(await page.locator('#psilocin-app').getAttribute('data-r-session'),'closed');
  assert.deepEqual(errors,[]);console.log('PASS: actual archived GPX4 run → checksummed complete session with six input tables/native R replay → verified import → inline output restored without execution.');
 }finally{await browser.close();}

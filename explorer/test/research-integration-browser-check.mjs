@@ -16,6 +16,10 @@ try{for(const width of [390,820,1440]){
   await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.modalOpen==='false');
  }
  await page.keyboard.press('Control+k');await page.locator('.autocomplete-popup.modal-in').waitFor();
+ await page.waitForFunction(()=>document.querySelectorAll('.autocomplete-popup.modal-in .item-radio').length>=20,null,{timeout:20000});
+ assert.equal(await page.locator('.autocomplete-popup.modal-in .item-radio').count(),20,'Initial search results should be limited to 20');
+ await page.locator('.autocomplete-popup.modal-in .atlas-finder-scroll').evaluate(node=>{node.scrollTop=node.scrollHeight;});
+ await page.waitForFunction(()=>document.querySelectorAll('.autocomplete-popup.modal-in .item-radio').length>20,null,{timeout:15000});
  const search=page.locator('.autocomplete-popup.modal-in input[type=search]');
  await search.fill('GPX4');
  await page.locator('.autocomplete-popup.modal-in').getByText('GPX4',{exact:true}).click();
@@ -27,12 +31,13 @@ try{for(const width of [390,820,1440]){
  await page.getByRole('button',{name:'More',exact:true}).click();
  await page.getByRole('button',{name:'Research tools',exact:true}).click();
  await page.locator('.studio-pane-sheet.modal-in').waitFor();
- await page.locator('.research-studio-import summary').click();
+ await page.locator('.research-studio-import .accordion-item .item-link').click();
  await page.getByLabel('Import research CSV',{exact:true}).setInputFiles({name:'local-study.csv',mimeType:'text/csv',buffer:Buffer.from('sample,value\nA,1.125\nB,2.25\n')});
  await page.getByText(/local-study.csv: 2 rows × 2 columns/).waitFor();
  await page.locator('.studio-pane-sheet').getByRole('button',{name:'Done',exact:true}).click();
  await page.locator('.studio-pane-sheet').waitFor({state:'detached'});
  const script='stopifnot(sum(user_data$value)==3.375)\nresults <- subset(genes, selected & symbol %in% c("GPX4","NDUFB7") & contrast=="day1_vs_control", select=c(id,log2FoldChange,lfcSE))\nprint(sum(user_data$value))';
+ await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 1',{exact:true}).fill(script);
  await page.getByRole('button',{name:'Run cell',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});
