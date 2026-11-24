@@ -141,6 +141,13 @@ await page.setViewportSize({width:1280,height:900});
 await page.getByRole('button',{name:'Search atlas',exact:true}).first().click();
 const finder=page.locator('.autocomplete-popup.modal-in');
 await finder.waitFor();
+const diagnostic=await finder.evaluate(n=>({
+  className:n.className,
+  pageContentCount:n.querySelectorAll('.page-content').length,
+  html:n.outerHTML.slice(0,3500),
+  appErrors:window.__atlasFinderError||null
+}));
+console.log('FINDER STRUCTURE',JSON.stringify(diagnostic));
 const finderScroll=finder.locator('.atlas-search-results-scroll');
 await finderScroll.waitFor();
 await page.waitForFunction(()=>{
