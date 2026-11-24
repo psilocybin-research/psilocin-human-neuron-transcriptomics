@@ -6759,3 +6759,181 @@ body {
     font-size: 19px;
   }
 }
+
+/* Shared Framework7 research surfaces: restrained hierarchy, touch-sized controls. */
+#psilocin-app .atlas-tour .tour-close,
+#psilocin-app .source-browser .source-browser-close {
+  min-width:44px;min-height:44px;
+  background:var(--research-surface-high);border:1px solid var(--research-border);
+  border-radius:13px;color:var(--f7-theme-color);
+}
+#psilocin-app .atlas-tour .tour-close:hover,
+#psilocin-app .source-browser .source-browser-close:hover {background:var(--research-selected)}
+#psilocin-app .tour-progress {align-items:stretch}
+#psilocin-app .tour-progress li {min-width:0;padding-top:0}
+#psilocin-app .tour-progress .tour-step-button {
+  appearance:none;border:0;background:transparent;display:flex;
+  width:100%;min-height:44px;align-items:flex-start;text-align:left;
+  padding:9px 2px 6px;color:inherit;font:inherit;line-height:1.4;
+  cursor:pointer;overflow-wrap:anywhere;transition:color .16s ease;
+}
+#psilocin-app .tour-progress .tour-step-button:hover {color:var(--f7-theme-color)}
+#psilocin-app .tour-progress .tour-step-button:focus-visible {
+  outline:2px solid var(--f7-theme-color);outline-offset:3px;border-radius:4px;
+}
+#psilocin-app .autocomplete-popup .atlas-search-results-scroll {overscroll-behavior-y:contain}
+#psilocin-app .autocomplete-popup .item-inner {padding:9px 0}
+#psilocin-app .autocomplete-popup .item-content {min-height:68px}
+#psilocin-app .autocomplete-popup .item-media {flex:0 0 56px;min-width:56px}
+#psilocin-app .autocomplete-popup .item-subtitle,
+#psilocin-app .autocomplete-popup .item-text {line-height:1.4;margin-top:3px}
+#psilocin-app .autocomplete-popup .atlas-search-more {
+  text-align:center;margin:6px auto 16px;padding:10px;
+  color:var(--research-muted);font-size:12px;
+}
+/* Tools sheets share the same native toolbar and the same scroll contract. */
+#psilocin-app .studio-pane-sheet {
+  display:flex;flex-direction:column;min-height:0;max-height:92dvh;
+  background:var(--f7-page-bg-color);
+  border-radius:22px 22px 0 0;overflow:hidden;
+}
+#psilocin-app .studio-pane-sheet > .workspace-sheet-handle {
+  flex:0 0 auto;margin:8px auto 4px;
+}
+#psilocin-app .studio-pane-sheet > .atlas-sheet-toolbar {
+  flex:0 0 52px;position:relative;inset:auto;width:100%;
+}
+#psilocin-app .studio-pane-sheet > .studio-pane-sheet-scroll {
+  flex:1 1 auto;height:auto;min-height:0;overflow-y:auto;
+  overscroll-behavior-y:contain;padding:18px clamp(16px,3vw,32px) 36px;
+}
+#psilocin-app .studio-pane-sheet .studio-pane-sheet-done {
+  width:auto;min-width:80px;min-height:42px;height:42px;
+  padding:8px 14px;margin:0;border-radius:12px;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools {
+  display:flex;flex-direction:column;gap:12px;
+  width:min(100%,900px);max-width:900px;min-width:0;margin:0 auto;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools > .list,
+#psilocin-app .studio-pane-sheet .research-studio-builder {
+  width:100%;margin:0;background:var(--research-surface);
+  border:1px solid var(--research-border);border-radius:12px;
+  box-shadow:none;overflow:hidden;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools > .list > ul {
+  margin:0;background:transparent;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .accordion-item .item-content {
+  width:100%;min-height:48px;background:transparent;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .accordion-item .item-title {
+  color:var(--research-text);font-weight:600;font-size:13px;white-space:normal;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .accordion-item .gene-annotation-body {
+  padding:12px clamp(14px,2vw,22px) 20px;min-width:0;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .button {
+  width:auto;max-width:100%;min-height:42px;padding:8px 14px;
+  margin:0;border-radius:10px;white-space:normal;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .custom-r-toolbar {
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:6px 0;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .custom-r-toolbar select {
+  flex:1 1 240px;min-width:0;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools input[type="file"] {
+  display:block;width:100%;max-width:520px;min-height:44px;
+  border:1px solid var(--research-border);border-radius:10px;
+  background:var(--f7-input-bg-color,var(--research-surface));
+  color:var(--research-text);padding:8px;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools input[type="file"]::file-selector-button {
+  border:1px solid var(--research-border);border-radius:8px;
+  background:var(--research-surface-high);color:var(--f7-theme-color);
+  padding:7px 12px;margin-right:12px;cursor:pointer;
+}
+#psilocin-app .studio-pane-sheet .studio-research-tools .note {line-height:1.65}
+/* Collections: saved content stays visible when creation is collapsed. */
+#psilocin-app .research-collection-host {width:100%;min-width:0}
+#psilocin-app .research-collections-view {
+  width:min(100%,920px);max-width:920px;min-width:0;
+  margin:0 auto;display:flex;flex-direction:column;gap:20px;
+}
+#psilocin-app .research-collections-view > .research-collections {
+  width:100%;max-width:none;margin:0;
+  background:var(--research-surface);border:1px solid var(--research-border);
+  border-radius:14px;overflow:hidden;box-shadow:none;
+}
+#psilocin-app .research-collections-view .research-collections > ul {
+  background:transparent;margin:0;
+}
+#psilocin-app .research-collections-view .research-collections .item-content {
+  min-height:52px;background:transparent;
+}
+#psilocin-app .research-collections-view .research-collections .gene-annotation-body {
+  padding:16px clamp(16px,3vw,24px) 24px;
+}
+#psilocin-app .research-collections-view .research-collection-field {
+  display:flex;flex-direction:column;gap:7px;min-width:0;
+  font-size:13px;font-weight:550;margin:14px 0;
+  color:var(--research-text);
+}
+#psilocin-app .research-collections-view .research-collection-field > .note {
+  font-size:12px;font-weight:600;color:var(--research-muted);
+}
+#psilocin-app .research-collections-view :is(input[type="text"],textarea,input[type="file"]) {
+  display:block;width:100%;max-width:100%;min-height:44px;
+  box-sizing:border-box;padding:10px 12px;border:1px solid var(--research-border);
+  border-radius:10px;background:var(--f7-input-bg-color,var(--research-surface));
+  color:var(--research-text);font-size:14px;
+}
+#psilocin-app .research-collections-view textarea {min-height:124px;resize:vertical}
+#psilocin-app .research-collections-view input[type="file"]::file-selector-button {
+  background:var(--research-surface-high);border:1px solid var(--research-border);
+  color:var(--f7-theme-color);border-radius:8px;padding:8px 12px;
+  margin-right:12px;cursor:pointer;
+}
+#psilocin-app .research-collections-view .actions {
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0;
+}
+#psilocin-app .research-collections-view .actions .button {
+  flex:0 1 auto;width:auto;min-width:160px;min-height:44px;
+  padding:10px 16px;border-radius:10px;margin:0;
+}
+#psilocin-app .research-collections-view .research-collections-heading,
+#psilocin-app .research-collections-view .research-collections-heading {
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin:0 0 12px;
+}
+#psilocin-app .research-collections-view .research-collections-heading h3 {
+  font-size:17px;margin:0;color:var(--research-text);
+}
+#psilocin-app .research-collections-view .research-collections-empty {
+  border:1px dashed var(--research-border);border-radius:13px;
+  background:var(--research-surface);padding:28px;
+  text-align:center;display:grid;gap:6px;
+}
+#psilocin-app .research-collections-view .research-collections-empty p {margin:0}
+#psilocin-app .research-collections-view .research-collection-saved {
+  margin:12px 0;padding:18px;border:1px solid var(--research-border);
+  background:var(--research-surface);box-shadow:none;border-radius:12px;
+}
+#psilocin-app .research-collections-view .research-collection-diagnostic,
+#psilocin-app .research-collections-view .research-collection-genes {
+  margin:10px 0;background:var(--research-surface-high);border-radius:10px;
+}
+#psilocin-app .research-collections-view .research-collection-gene-row {
+  min-height:44px;
+}
+@media(max-width:600px) {
+  #psilocin-app .tour-progress {padding-left:12px;padding-right:12px;gap:4px}
+  #psilocin-app .tour-progress .tour-step-button {font-size:10px}
+  #psilocin-app .studio-pane-sheet > .studio-pane-sheet-scroll {padding:14px 14px 30px}
+  #psilocin-app .research-collections-view .actions .button {flex:1 1 100%;width:100%}
+  #psilocin-app .research-collections-view .research-collection-saved {padding:14px}
+}
+@media(prefers-reduced-motion:reduce) {
+  #psilocin-app .tour-progress .tour-step-button {transition:none}
+}

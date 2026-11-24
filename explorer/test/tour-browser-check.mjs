@@ -15,6 +15,13 @@ try {
   async function open(){if(width>=1180)await page.locator('.research-sidebar').getByRole('button',{name:'Atlas tour',exact:true}).click();else{await page.getByRole('button',{name:'Open section menu',exact:true}).click();await page.locator('.research-sidebar.panel-in').getByRole('button',{name:'Atlas tour',exact:true}).click();}await page.getByRole('dialog',{name:'Atlas tour',exact:true}).waitFor();await page.locator('.atlas-tour[data-shell-modal-ready=true]').waitFor();}
   await open();const tour=page.getByRole('dialog',{name:'Atlas tour',exact:true});
   assert.equal(await tour.getByRole('button',{name:'Back',exact:true}).isDisabled(),true);
+  const tourSteps=tour.locator('.tour-step-button');
+  assert.equal(await tourSteps.count(),5);
+  await tourSteps.nth(4).click();
+  assert.equal(await tour.locator('.tour-counter').innerText(),'5 of 5');
+  assert.equal(await tour.locator('[aria-current=step]').count(),1);
+  await tourSteps.nth(0).click();
+  assert.equal(await tour.locator('.tour-counter').innerText(),'1 of 5');
   const headings=['A transcriptomic research atlas','Connect pathways, genes and profiles','Interpret contrasts with the study design','Explore the archived data with R','Inspect, export and verify'];
   for(let step=0;step<headings.length;step++){
    assert.equal(await tour.locator('h3').innerText(),headings[step]);assert.equal(await tour.locator('[aria-current=step]').count(),1);assert.equal(await tour.locator('.tour-counter').innerText(),`${step+1} of 5`);

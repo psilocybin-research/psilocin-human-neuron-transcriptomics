@@ -60,6 +60,12 @@ export function exportMembershipRows(branches, contrast) {
 }
 
 export function createPathwayTree({data, provenance, getGenes, state, contrast, tier, selectedPathway, onPathway, onGene, onOverlap, onMembershipChange, onState}) {
+  // Initial family disclosures stay closed until the reader opens them.
+  // Search and linked navigation can still reveal relevant context.
+  if (!state.query && !selectedPathway && !state.initialFamilyDisclosures) {
+    for (const family of Object.keys(families)) state.closed.add(family);
+    state.initialFamilyDisclosures = true;
+  }
   const root = node('section', 'pathway-explorer');
   root.setAttribute('aria-label', 'Pathway and gene tree');
   const toolbar = node('div', 'tree-toolbar');

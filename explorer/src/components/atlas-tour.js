@@ -11,7 +11,13 @@ export function createAtlasTour({node,action,onClose,onRender}) {
  const element=node('div','popup atlas-tour');element.setAttribute('aria-label','Atlas tour');
  const header=node('header','tour-header');header.append(node('h2','','Atlas tour'),action('Close',onClose,'button button-tonal tour-close'));
  const progress=node('ol','tour-progress');progress.setAttribute('aria-label','Tour progress');
- for(const step of steps)progress.append(node('li','',step.label));
+ for(const [stepIndex,step] of steps.entries()){
+  const item=node('li'), button=node('button','tour-step-button',step.label);
+  button.type='button';
+  button.setAttribute('aria-label',`Go to ${step.label} tour step`);
+  button.onclick=()=>render(stepIndex,true);
+  item.append(button);progress.append(item);
+ }
  const content=node('section','tour-content');content.tabIndex=-1;content.setAttribute('aria-labelledby','atlas-tour-title');content.setAttribute('aria-describedby','atlas-tour-description');
  const counter=node('p','tour-counter');
  let index=0;
@@ -23,7 +29,7 @@ export function createAtlasTour({node,action,onClose,onRender}) {
   const title=node('h3','',step.title);title.id='atlas-tour-title';const description=node('p','tour-description',step.text);description.id='atlas-tour-description';
   const list=node('dl','tour-details');for(const [term,definition]of step.items){const item=node('div');item.append(node('dt','',term),node('dd','',definition));list.append(item);}
   content.replaceChildren(node('p','tour-kicker','ATLAS ORIENTATION · ABOUT 1 MINUTE'),title,description,list);content.scrollTop=0;
-  [...progress.children].forEach((li,i)=>{li.classList.toggle('tour-completed',i<index);if(i===index)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current');});
+  [...progress.children].forEach((li,i)=>{li.classList.toggle('tour-completed',i<index);if(i===index)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current');li.firstElementChild?.setAttribute('aria-pressed',String(i===index));});
   previous.disabled=index===0;next.textContent=index===steps.length-1?'Finish tour':'Next';counter.textContent=`${index+1} of ${steps.length}`;
   if(focus)content.focus({preventScroll:true});onRender?.();
  }

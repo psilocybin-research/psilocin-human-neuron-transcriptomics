@@ -136,4 +136,36 @@ const mobileLayout = await popup.locator('#source-overview').evaluate(node => ({
 assert(mobileLayout.githubVisible && mobileLayout.content<=mobileLayout.viewport+1, 'Mobile overview must not clip content');
 assert(await popup.evaluate(n=>n.scrollWidth<=n.clientWidth+1));
 await popup.locator('.navbar .link.popup-close[aria-label="Close"]').click();await popup.waitFor({state:'hidden'});
-assert.deepEqual(errors,[]);await browser.close();console.log('Pinned source browser: F7 navigation, safe text, commit pinning, mobile width and close passed.');
+// The same native F7 popup shell also supports paged gene search.
+await page.setViewportSize({width:1280,height:900});
+await page.getByRole('button',{name:'Search atlas',exact:true}).first().click();
+const finder=page.locator('.autocomplete-popup.modal-in');
+await finder.waitFor();
+const finderScroll=finder.locator('.atlas-search-results-scroll');
+await finderScroll.waitFor();
+await page.waitForFunction(()=>{
+  const node=document.querySelector('.autocomplete-popup .atlas-search-results-scroll');
+  return node && node.querySelectorAll('li .item-radio').length===20 &&
+    node.querySelector('.atlas-search-more')?.hidden===false;
+},null,{timeout:30000});
+assert.equal(await finder.locator('li .item-radio').count(),20);
+await finderScroll.evaluate(node=>node.dispatchEvent(new Event('infinite',{bubbles:true})));
+await page.waitForFunction(()=>document.querySelector('.autocomplete-popup')?.querySelectorAll('li .item-radio').length===40);
+await finder.locator('.searchbar input').fill('GPX4');
+await page.waitForFunction(()=>{
+  const node=document.querySelector('.autocomplete-popup');
+  return node?.querySelector('li .item-radio')?.textContent?.includes('GPX4') &&
+    node.querySelectorAll('li .item-radio').length<=20;
+});
+await page.keyboard.press('Escape');
+await finder.waitFor({state:'hidden'});
+await page.locator('.research-sidebar').getByRole('button',{name:'Atlas tour',exact:true}).click();
+const tour=page.getByRole('dialog',{name:'Atlas tour',exact:true});
+await tour.waitFor();
+await tour.getByRole('button',{name:'Go to Reproducibility tour step'}).click();
+assert.equal(await tour.locator('.tour-counter').innerText(),'5 of 5');
+await tour.getByRole('button',{name:'Go to Study tour step'}).click();
+assert.equal(await tour.locator('.tour-counter').innerText(),'1 of 5');
+await tour.getByRole('button',{name:'Close',exact:true}).click();
+assert.deepEqual(errors,[]);await browser.close();
+console.log('Source browser, native F7 infinite gene search and clickable tour navigation passed.');

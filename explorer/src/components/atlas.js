@@ -14,6 +14,7 @@ import {
   loadingMessage,
   showResearchEvidence,
   createAccordion,
+  createSheetToolbar,
 } from "./interface-utils.js";
 import {
   Plot,
@@ -785,7 +786,10 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   let collectionSheet;
   function showCollectionSurface(){
     if(!root.classList.contains('workspace-mode')||collectionSheet)return;
-    const slot=document.createComment('collection tools'),sheet=el('div','sheet-modal studio-pane-sheet workspace-collections-sheet'),inner=el('div','sheet-modal-inner');collectionHost.before(slot);inner.append(el('h3','','Collections'),collectionHost,button('Done',()=>collectionSheet?.close()));sheet.append(inner);root.append(sheet);sessionBar.hidden=true;
+    const slot=document.createComment('collection tools'),sheet=el('div','sheet-modal studio-pane-sheet workspace-collections-sheet'),inner=el('div','sheet-modal-inner studio-pane-sheet-scroll');collectionHost.before(slot);
+    const close=button('Done',()=>collectionSheet?.close(),'button button-tonal studio-pane-sheet-done');
+    const toolbar=createSheetToolbar('Collections',[close]);
+    inner.append(collectionHost);sheet.append(toolbar,inner);root.append(sheet);sessionBar.hidden=true;
     collectionSheet=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){slot.replaceWith(collectionHost);sheet.remove();const instance=collectionSheet;collectionSheet=undefined;setTimeout(()=>instance?.destroy(),0);}}});collectionSheet.open();
   }
   async function openCollections(force=false) {
@@ -799,7 +803,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         onSendToR: ids => sendSelectionToR({ ...researchStore.getState(), genes: ids }),
       });
       collectionHost.replaceChildren(collectionsView);
-      document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
+      // Collection creation stays collapsed until explicitly requested.
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
     showCollectionSurface();
   }

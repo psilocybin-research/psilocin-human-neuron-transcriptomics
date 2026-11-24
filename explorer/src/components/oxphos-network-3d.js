@@ -1456,7 +1456,7 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         if (destroyed || root.dataset.layoutIntroduction !== "running") return;
         transitionLayout("complex", {automatic:true});
         root.dataset.layoutIntroduction = "complete";
-      }, 5200);
+      }, 180);
     }
   }
   function interruptIntroduction() {

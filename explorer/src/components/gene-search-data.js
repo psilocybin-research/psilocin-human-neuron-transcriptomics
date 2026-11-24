@@ -35,7 +35,7 @@ function searchIndex(genes, aliases) {
 }
 
 // Search identifiers without inventing aliases or merging distinct source IDs.
-export function geneSuggestions(genes, aliases, query, preferred = []) {
+export function geneSuggestions(genes, aliases, query, preferred = [], maxResults = limit) {
   const q = query.trim().toUpperCase();
   const priority = new Map(preferred.map((id, i) => [id, i]));
   const buckets = new Map();
@@ -62,13 +62,13 @@ export function geneSuggestions(genes, aliases, query, preferred = []) {
     let bucket = buckets.get(score);
     if (!bucket) buckets.set(score, (bucket = []));
     // Entries already have the stable tie order; retain only visible candidates.
-    if (bucket.length < limit) bucket.push(entry);
+    if (bucket.length < maxResults) bucket.push(entry);
   }
   const results = [];
   for (const score of [...buckets.keys()].sort((a, b) => a - b)) {
     for (const entry of buckets.get(score)) {
       results.push({ ...entry.gene, aliases: [...entry.aliases], score });
-      if (results.length === limit) return results;
+      if (results.length === maxResults) return results;
     }
   }
   return results;
@@ -76,7 +76,7 @@ export function geneSuggestions(genes, aliases, query, preferred = []) {
 
 // This is deliberately separate from deterministic identifier search. Callers
 // opt in, then append only non-exact results after exact matches.
-export function fuzzyGeneSuggestions(genes, aliases, query) {
+export function fuzzyGeneSuggestions(genes, aliases, query, maxResults = limit) {
   const q = query.trim();
   if (q.length < 3) return [];
   let byAliases = fuzzyIndexes.get(genes);
@@ -102,7 +102,7 @@ export function fuzzyGeneSuggestions(genes, aliases, query) {
     );
     byAliases.set(aliases, fuse);
   }
-  return fuse.search(q, { limit }).map(({ item }) => ({
+  return fuse.search(q, { limit: maxResults }).map(({ item }) => ({
     ...item.gene,
     aliases: [...item.aliases.filter((name) => name !== item.gene.symbol)],
     fuzzy: true,

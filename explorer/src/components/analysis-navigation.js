@@ -14,12 +14,13 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
   const searchIcon=el('i','searchbar-icon'),clear=el('button','input-clear-button'),closeSearch=el('button','searchbar-disable-button');clear.type=closeSearch.type='button';clear.setAttribute('aria-label','Clear analysis search');closeSearch.setAttribute('aria-label','Close analysis search');closeSearch.append(uiIcon('close'));clear.hidden=true;searchIcon.setAttribute('aria-hidden','true');inputWrap.append(input,searchIcon,clear);searchInner.append(inputWrap);search.append(searchInner,closeSearch);head.append(search);
   const suggestions=el('div','list analysis-search-suggestions'),suggestionList=el('ul');suggestions.append(suggestionList);
   const groups=el('div','list analysis-groups'),groupList=el('ul');groups.append(groupList);
+  const expandedGroups=new Map();
   function group(name,key,initial){
     const row=el('li','accordion-item'),toggle=el('a','item-link item-content');toggle.href='#';toggle.setAttribute('role','button');
     const label=el('div','item-inner'),text=el('span','item-title',name),count=el('span','item-after');label.append(text,count);toggle.append(label);
     const body=el('div','accordion-item-content');body.id=`analysis-group-${language}-${key}`;toggle.setAttribute('aria-controls',body.id);
-    const expanded=readPreference(`atlas-analysis-group-${language}-${key}`,String(initial))==='true';row.classList.toggle('accordion-item-opened',expanded);toggle.setAttribute('aria-expanded',String(expanded));
-    for(const [event,open] of [['accordion:open',true],['accordion:close',false]])row.addEventListener(event,()=>{toggle.setAttribute('aria-expanded',String(open));if(!query)writePreference(`atlas-analysis-group-${language}-${key}`,String(open));});
+    const expanded=false;row.classList.toggle('accordion-item-opened',expanded);toggle.setAttribute('aria-expanded',String(expanded));
+    for(const [event,open] of [['accordion:open',true],['accordion:close',false]])row.addEventListener(event,()=>{toggle.setAttribute('aria-expanded',String(open));if(!query)expandedGroups.set(key,open);});
     toggle.onkeydown=e=>{if(e.key===' '){e.preventDefault();toggle.click();}};row.append(toggle,body);groupList.append(row);return {row,toggle,body,count,key,initial};
   }
   const archive=group('Study result scripts','study',true),personal=group('My analyses','personal',true),extensions=group('Exploratory extensions','extensions',false);
@@ -81,7 +82,7 @@ export function createAnalysisNavigation({root, sidebar, action, newBook, getWor
     personal.row.hidden=!!query&&!shown;
     archive.row.hidden=!scriptEntries.some(x=>!x.optional)||(!!query&&!archivedShown);
     extensions.row.hidden=!scriptEntries.some(x=>x.optional)||(!!query&&!advancedShown);
-    for(const section of [archive,personal,extensions]){const expanded=query?true:readPreference(`atlas-analysis-group-${language}-${section.key}`,String(section.initial))==='true';section.row.classList.toggle('accordion-item-opened',expanded);section.toggle.setAttribute('aria-expanded',String(expanded));section.body.style.height='';}
+    for(const section of [archive,personal,extensions]){const expanded=query?true:expandedGroups.get(section.key)===true;section.row.classList.toggle('accordion-item-opened',expanded);section.toggle.setAttribute('aria-expanded',String(expanded));section.body.style.height='';}
     if(!workspace.notebooks.length&&!query)bookList.append(el('li','analysis-list-empty','No personal analyses. Create one or open a study result script.'));
     trash.textContent=`Trash${workspace.trash?.length?` (${workspace.trash.length})`:''}`;
     content.scrollTop=scroll;

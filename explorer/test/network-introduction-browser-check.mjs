@@ -10,12 +10,13 @@ try {
   const root=page.locator('.oxphos-network-3d');
   await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layoutIntroduction==='running');
   assert.equal(await root.getAttribute('data-layout'),'layers');
-  await page.waitForTimeout(5000);
-  assert.equal(await root.getAttribute('data-layout'),'layers','five full seconds in layered view');
+  // A continuous introduction should move promptly into the final complex layout.
+  const introductionStart=Date.now();
   await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layout==='complex');
   await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layoutReady==='true');
+  assert(Date.now()-introductionStart<4500,'Introduction must not pause for five seconds');
   assert.equal(await root.getAttribute('data-layout-introduction'),'complete');
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS: first OXPHOS entry starts layered, holds five seconds and morphs to complex on mobile and desktop.');
+ console.log('PASS: first OXPHOS entry flows from layered to complex without a long pause on mobile and desktop.');
 } finally {await browser.close();}

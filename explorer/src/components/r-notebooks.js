@@ -7,7 +7,7 @@ import {studioMenu, studioResizer, confirmPermanentDeletion} from "./studio-ui.j
 import {parseExploratoryCSV} from "./exploratory-result-data.js";
 import {notebookPublication} from "./notebook-publication.js";
 // Local notebooks contain researcher-authored material only. They never execute on load.
-import { createElement as el, escapeHTML, destroySheet } from "./interface-utils.js";
+import { createElement as el, escapeHTML, destroySheet, createSheetToolbar } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import { rExamples } from "./r-examples.js";
 import { createRRecipeBuilder } from "./r-recipe-builder.js";
@@ -295,7 +295,20 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
   focus.classList.add('studio-focus-toggle');focus.setAttribute('aria-pressed','false');
   toolbar.append(openBooks,runCell,runAll,interrupt,add,exportButton,focus,more);
   const builder=createRRecipeBuilder({action,onGenerate:source=>appendCell('code',source),onStatus});tools.append(builder,mode);
-  function openPane(content,label){const slot=el('span');content.before(slot);const sheet=el('div','sheet-modal studio-pane-sheet'),inner=el('div','sheet-modal-inner'),handle=el('div','workspace-sheet-handle');handle.append(el('span'));inner.append(handle,el('h3','',label));const close=action('Done','close',()=>modal.close());inner.append(close,content);sheet.append(inner);root.append(sheet);const modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,swipeToClose:true,swipeHandler:handle,on:{closed(){slot.replaceWith(content);sheet.remove();setTimeout(()=>destroySheet(modal),0);}}});modal.open();}
+  function openPane(content,label){
+    const slot=el('span');content.before(slot);
+    const sheet=el('div','sheet-modal studio-pane-sheet'),
+      inner=el('div','sheet-modal-inner studio-pane-sheet-scroll'),
+      handle=el('div','workspace-sheet-handle');handle.append(el('span'));
+    const close=action('Done','close',()=>modal.close());
+    close.classList.add('button-tonal','studio-pane-sheet-done');
+    const heading=createSheetToolbar(label,[close]);
+    inner.append(content);sheet.append(handle,heading,inner);root.append(sheet);
+    const modal=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,
+      swipeToClose:true,swipeHandler:handle,
+      on:{closed(){slot.replaceWith(content);sheet.remove();setTimeout(()=>destroySheet(modal),0);}}});
+    modal.open();
+  }
   function openTools(){openPane(tools,'R tools');}
   navigation=createAnalysisNavigation({root,sidebar,action,newBook,getWorkspace:()=>workspace,isBusy:()=>busy,
     onChoose:chooseBook,onRename:renameBook,onDuplicate:duplicateBook,onTrash:deleteAnalysis,onRestore:restoreBook,onReorder:reorderBook,

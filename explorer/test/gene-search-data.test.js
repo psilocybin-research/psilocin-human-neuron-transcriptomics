@@ -56,6 +56,9 @@ test("cached searches retain the top twenty and isolate datasets and returned al
   const preferred = ["ID79", "ID33"];
   const initial = geneSuggestions(many, aliases, "", preferred);
   assert.equal(initial.length, 20);
+  const complete = geneSuggestions(many, aliases, "", preferred, many.length);
+  assert.equal(complete.length, 80, "Search Atlas can page through every archived match");
+  assert.deepEqual(complete.slice(0, 20).map(g => g.id), initial.map(g => g.id));
   assert.deepEqual(
     initial.slice(0, 2).map((g) => g.id),
     preferred,

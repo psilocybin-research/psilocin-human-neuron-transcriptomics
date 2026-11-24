@@ -15,6 +15,7 @@ import { createRReportControls } from "./r-report.js";
 import { createREditor } from "../assets/vendor/r-editor.js";
 import {
   createElement as el,
+  createAccordion,
   readPreference,
   writePreference,
 } from "./interface-utils.js";
@@ -62,8 +63,8 @@ export function createCustomR({
     "note",
     "Analyze transcriptomic data in R, create figures and generate reproducible research reports.",
   );
-  const warning = el("details", "research-studio-boundaries");
-  warning.append(el("summary", "", "Data & limitations"),
+  const warning = createAccordion("Data & limitations", "research-studio-boundaries");
+  warning.body.append(
     el("p", "note", "Outputs are separate from archived findings. Inputs are fitted estimates and VST profiles, not raw counts for DESeq2. Three differentiation blocks, shared controls and unresolved control harvest timing limit inference. RNA differences do not establish mitochondrial function or rejuvenation. Base and recommended R packages are included; additional packages require a compatible WebAssembly repository and a connection."));
   const selector = el("select");
   selector.setAttribute("aria-label", "R example");
@@ -124,8 +125,8 @@ export function createCustomR({
     sharedSession = sessionMode.checked;
     notebooks.setSessionMode(sharedSession);
   };
-  const importData = el("details", "research-studio-import");
-  importData.append(el("summary", "", "Import a research table"));
+  const importData = createAccordion("Import a research table", "research-studio-import");
+  
   const importFile = el("input");
   importFile.type = "file"; importFile.accept = ".csv,text/csv";
   importFile.setAttribute("aria-label", "Import research CSV");
@@ -149,7 +150,7 @@ export function createCustomR({
       importStatus.textContent = `${file.name}: ${info.rows} rows × ${info.columns.length} columns. Use user_data in R. User-imported data; separate from archived evidence. Included in report source exports.`;
     } catch (error) { importStatus.textContent = `Import rejected: ${error.message}${localImport ? " Previous table retained." : " No table imported."}`; }
   };
-  importData.append(importFile, clearImport, importStatus);
+  importData.body.append(importFile, clearImport, importStatus);
   const timeLimit = el("select");
   timeLimit.setAttribute("aria-label", "R execution time limit");
   for (const minutes of [5, 10, 30, 60]) {
@@ -244,9 +245,8 @@ export function createCustomR({
     action,
     getRun: () => ({ record, resultsCSV, vectorPlots, inputs: reportInputs }),
   });
-  const docs = el("details", "custom-r-data-help");
-  docs.append(
-    el("summary", "", "Available data and reproducibility"),
+  const docs = createAccordion("Available data and reproducibility", "custom-r-data-help");
+  docs.body.append(
     el(
       "p",
       "note",
@@ -362,13 +362,13 @@ export function createCustomR({
         notebooks.appendSelection(getSelection()),
       ),
     );
-  const recipes = el("details", "studio-legacy-recipes");
-  recipes.append(el("summary", "", "Archived analyses"), selector, load);
-  const settings = el("details", "studio-runtime-settings");
-  settings.append(el("summary", "", "Runtime settings"), sessionLabel, resetSession, limitField, timeLimit);
+  const recipes = createAccordion("Archived analyses", "studio-legacy-recipes");
+  recipes.body.append(selector, load);
+  const settings = createAccordion("Runtime settings", "studio-runtime-settings");
+  settings.body.append(sessionLabel, resetSession, limitField, timeLimit);
   const archivedOutputs = el("details", "studio-current-output");
   archivedOutputs.append(el("summary", "", "Cell output"), resultArea, inspector);
-  notebooks.tools.append(recipes, importData, settings, docs, warning, credits);
+  notebooks.tools.append(recipes.element, importData.element, settings.element, docs.element, warning.element, credits);
   variables=createRWorkspaceInspector({root,action,onInsert:source=>notebooks.addCode(source),onTransfer:onTransferToPython,onSelectGene,
     read:async(name,offset)=>{
       if(busy||!runtime)throw Error("Run a cell and wait for completion before inspecting variables.");
@@ -430,12 +430,12 @@ export function createCustomR({
   host.syncWorkspaceContext=()=>{syncSelectionContext();syncSelectionCard();};
   syncSelectionCard();
   // Full figures and tables remain inline; inspector contains indexes, not duplicates.
-  host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();notebooks.tools.querySelector('.research-studio-import')?.setAttribute('open','');notebooks.openTools();}});
+  host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();root.f7.accordion.open(notebooks.tools.querySelector('.research-studio-import .accordion-item'));notebooks.openTools();}});
   host.workspaceNavigation=notebooks.sidebar;
   host.setWorkspaceActive=value=>notebooks.layout.setActive(value);
   host.workspaceActions=()=>[
     {label:'Datasets',run:()=>host.openDatasets()},
-    {label:'Import dataset',run:()=>{notebooks.tools.querySelector('.research-studio-import')?.setAttribute('open','');notebooks.toolbar.querySelector('button')?.focus();notebooks.openTools();}},
+    {label:'Import dataset',run:()=>{root.f7.accordion.open(notebooks.tools.querySelector('.research-studio-import .accordion-item'));notebooks.toolbar.querySelector('button')?.focus();notebooks.openTools();}},
     {label:'Variables',run:()=>notebooks.layout.showTab('variables',true)},
     {label:'Figures & 3D scenes',run:()=>notebooks.layout.showTab('figures',true)},
     {label:'Inspect selection',run:()=>notebooks.layout.showTab('selection',true)},

@@ -16,14 +16,15 @@ function action(text, callback, className = "") {
   return button;
 }
 function labelled(text, input) {
-  const label = el("label", "research-collection-field");
+  const label = el("label", "research-collection-field item-input");
   label.append(el("span", "note", text), input);
   return label;
 }
 
 /** Local named collections. Callbacks navigate without changing archived results. */
 export function createResearchCollections({ store, getGenes, aliases = [], onSendToR, onSelectGene }) {
-  const { element, body } = createAccordion("Custom gene collections", "research-collections");
+  const { element, body } = createAccordion("Create gene collection", "research-collections");
+  const view = el("div", "research-collections-view");
   const prefix = `research-collection-${++sequence}`;
   const name = el("input"), input = el("textarea"), file = el("input"), status = el("p", "note"), diagnostics = el("div"), saved = el("div");
   name.type = "text";
@@ -73,16 +74,16 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
       if (resolved.ids.length > 500) status.textContent += " Reduce the collection to 500 unique genes before saving.";
       save.disabled = !resolved.ids.length || resolved.ids.length > 500;
       if (resolved.unresolved.length) {
-        const details = el("details"), summary = el("summary", "", "Unresolved identifiers");
-        details.append(summary, el("p", "note", resolved.unresolved.join(", ")));
-        diagnostics.append(details);
+        const details = createAccordion("Unresolved identifiers", "research-collection-diagnostic");
+        details.body.append(el("p", "note", resolved.unresolved.join(", ")));
+        diagnostics.append(details.element);
       }
       if (resolved.ambiguous.length) {
-        const details = el("details"), summary = el("summary", "", "Ambiguous identifiers — use an exact archived ID");
+        const details = createAccordion("Ambiguous identifiers — use an exact archived ID", "research-collection-diagnostic");
         const list = el("ul");
         for (const row of resolved.ambiguous) list.append(el("li", "note", `${row.input}: ${row.candidates.map((gene) => `${gene.symbol} (${gene.id})`).join("; ")}`));
-        details.append(summary, list);
-        diagnostics.append(details);
+        details.body.append(list);
+        diagnostics.append(details.element);
       }
     } catch (error) { resolved = null; status.textContent = error.message; }
   }
@@ -101,10 +102,14 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
     if (state.collections === renderedCollections) return;
     renderedCollections = state.collections;
     saved.replaceChildren();
-    if (!state.collections.length) { saved.append(el("p", "note", "No collections saved on this device.")); return; }
+    if (!state.collections.length) {
+      const empty = el("div", "research-collections-empty");
+      empty.append(el("strong", "", "No collections yet"), el("p", "note", "Create a collection from archived genes to organize research locally."));
+      saved.append(empty); return;
+    }
     const byId = new Map(getGenes().map((gene) => [gene.id, gene]));
     for (const collection of state.collections) {
-      const section = el("section", "research-collection-saved");
+      const section = el("section", "research-collection-saved card");
       section.append(el("h4", "", collection.name), el("p", "note", `${collection.genes.length} archived gene IDs`));
       const buttons = el("div", "actions");
       if (onSendToR) buttons.append(action("Send to R", () => onSendToR([...collection.genes])));
@@ -129,8 +134,7 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
       }
       if (previewCount) section.append(previews);
       if (onSelectGene) {
-        const details = el("details"), list = el("ul");
-        details.append(el("summary", "", "Inspect collection genes"));
+        const details = createAccordion("Inspect collection genes", "research-collection-genes"), list = el("ul");
         for (const id of collection.genes) {
           const item = el("li"), gene = byId.get(id);
           const select = action("", () => onSelectGene(id), "collection-gene-row");
@@ -138,7 +142,7 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
           select.disabled = !gene;
           item.append(select); list.append(item);
         }
-        details.append(list); section.append(details);
+        details.body.append(list); section.append(details.element);
       }
       saved.append(section);
     }
@@ -151,10 +155,16 @@ export function createResearchCollections({ store, getGenes, aliases = [], onSen
   );
   const buttons = el("div", "actions");
   buttons.append(action("Check identifiers", check), save);
-  body.append(buttons, status, diagnostics, saved);
+  body.append(buttons, status, diagnostics);
+  const savedSection = el("section", "research-collections-saved");
+  const heading = el("div", "research-collections-heading");
+  heading.append(el("h3", "", "My collections"), el("span", "note", "Saved on this device"));
+  savedSection.append(heading, saved);
+  view.append(element, savedSection);
   invalidate();
   const unsubscribe = store.subscribe(renderSaved);
   renderSaved(store.getState());
   element.dispose = () => { disposed = true; unsubscribe(); };
-  return element;
+  view.dispose = element.dispose;
+  return view;
 }
