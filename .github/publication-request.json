@@ -1,6 +1,6 @@
 {
-  "intent": "none",
-  "source_sha": null,
-  "request_id": null,
-  "authorized_by_owner": false
+  "intent": "publish",
+  "source_sha": "dce7b7e72f9ae733cd6fce362bb9ed1ffb4a9067",
+  "request_id": "publish-20261125-reconciled-atlas-01",
+  "authorized_by_owner": true
 }

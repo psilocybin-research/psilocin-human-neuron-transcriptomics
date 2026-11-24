@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1482,
-  "total_bytes": 728256642,
+  "total_bytes": 728256716,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/publication-request.json",
-      "bytes": 99,
-      "sha256": "234c85367f1722a95619fb5120db81f13d68c30c1e5890ded95cd366261e76d6"
+      "bytes": 173,
+      "sha256": "c347f163b0f0a358877d6dda245209caa9cbb778cf001ce7dc0af4ee7e7fa6a9"
     },
     {
       "path": ".github/scripts/publication.py",
