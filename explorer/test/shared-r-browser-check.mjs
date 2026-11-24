@@ -6,7 +6,7 @@ try {
 const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');
 await page.locator('.studio-inline-cell').first().waitFor();
-async function tools(){await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Research tools',exact:true}).click();await page.locator('.studio-pane-sheet.modal-in').waitFor();if(await page.locator('.studio-runtime-settings').getAttribute('open')===null)await page.locator('.studio-runtime-settings summary').click();}
+async function tools(){await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Research tools',exact:true}).click();await page.locator('.studio-pane-sheet.modal-in').waitFor();if(!await page.locator('.studio-runtime-settings .accordion-item').evaluate(n=>n.classList.contains('accordion-item-opened')))await page.locator('.studio-runtime-settings .accordion-item .item-link').click();}
 async function closeTools(){await page.locator('.studio-pane-sheet').getByRole('button',{name:'Done',exact:true}).click();await page.locator('.studio-pane-sheet').waitFor({state:'detached'});}
 await tools();
 await page.getByLabel('Notebook session',{exact:true}).check();await closeTools();

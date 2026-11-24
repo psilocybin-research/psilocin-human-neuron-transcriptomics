@@ -27,7 +27,8 @@ try{for(const width of [390,820,1440]){
  await page.getByRole('button',{name:'More',exact:true}).click();
  await page.getByRole('button',{name:'Research tools',exact:true}).click();
  await page.locator('.studio-pane-sheet.modal-in').waitFor();
- await page.locator('.research-studio-import summary').click();
+ await page.locator('.research-studio-import .accordion-item .item-link').click();
+ await page.locator('.research-studio-import .accordion-item-opened').waitFor();
  await page.getByLabel('Import research CSV',{exact:true}).setInputFiles({name:'local-study.csv',mimeType:'text/csv',buffer:Buffer.from('sample,value\nA,1.125\nB,2.25\n')});
  await page.getByText(/local-study.csv: 2 rows × 2 columns/).waitFor();
  await page.locator('.studio-pane-sheet').getByRole('button',{name:'Done',exact:true}).click();

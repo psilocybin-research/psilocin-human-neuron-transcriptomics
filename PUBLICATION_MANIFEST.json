@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728173967,
+  "total_bytes": 728174134,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4494,8 +4494,8 @@
     },
     {
       "path": "explorer/test/research-integration-browser-check.mjs",
-      "bytes": 5797,
-      "sha256": "e7474aa79cfecf02b3efffd8c988d0902ef9f5ad935b233437a7a40240f8eb06"
+      "bytes": 5897,
+      "sha256": "aa18e53c14838a6a5e2856ec9aeb5a3e6cf86b949aea2ab17e2dc49dbb844ceb"
     },
     {
       "path": "explorer/test/research-search.test.js",
@@ -4559,8 +4559,8 @@
     },
     {
       "path": "explorer/test/shared-r-browser-check.mjs",
-      "bytes": 5413,
-      "sha256": "a7640aca09cbc813af9186920620e258e421c5cbc83e6c37eb319b4215a07ac4"
+      "bytes": 5480,
+      "sha256": "3d0475d72f8ceb577b65d2bd12b70fca92168ce90cb0d70ed16826ab4e359d0e"
     },
     {
       "path": "explorer/test/sidebar-context-browser-check.mjs",
