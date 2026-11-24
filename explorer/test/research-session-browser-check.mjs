@@ -1,4 +1,5 @@
 import {chromium} from '@playwright/test';
+import {openWorkspaceNavigation} from './workspace-browser-helpers.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {unzipSync} from 'fflate';
@@ -9,6 +10,9 @@ try{
  await page.getByLabel('R code cell 1',{exact:true}).fill('results <- subset(genes, id=="ENSG00000167468.12" & contrast=="day1_vs_control")\nprint(results$log2FoldChange)');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});
+ await openWorkspaceNavigation(page);
+ const extra=page.locator('.workspace-extra-tools');
+ if(!await extra.evaluate(n=>n.open))await extra.locator('summary').click();
  await page.getByRole('tab',{name:'Reports',exact:true}).click();
  await page.getByRole('button',{name:'Export research session (.zip)',exact:true}).click();
  const pending=page.waitForEvent('download');await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
