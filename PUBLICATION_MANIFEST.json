@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728211043,
+  "total_bytes": 728211793,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4559,8 +4559,8 @@
     },
     {
       "path": "explorer/test/shared-r-browser-check.mjs",
-      "bytes": 5606,
-      "sha256": "84e0c061d170db14ae9e8a00d94772791e616f98a1fd0df4b8ecc9edee98f863"
+      "bytes": 6093,
+      "sha256": "11ab8d4678db0ea1380d6773f62199ccc68fcf1a04eea2e8f809c2fa7b5e2643"
     },
     {
       "path": "explorer/test/sidebar-context-browser-check.mjs",
@@ -4589,8 +4589,8 @@
     },
     {
       "path": "explorer/test/systems-browser-check.mjs",
-      "bytes": 3235,
-      "sha256": "8804da2dff8bb641eb67f850461af7bd3f02901766ddd1794734a61f6c66a361"
+      "bytes": 3498,
+      "sha256": "09825a52e538fb00468afac7230aac23ca73eecfc193d1fcfba219bd356168bf"
     },
     {
       "path": "explorer/test/systems-scene-data.test.js",
