@@ -799,7 +799,6 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
         onSendToR: ids => sendSelectionToR({ ...researchStore.getState(), genes: ids }),
       });
       collectionHost.replaceChildren(collectionsView);
-      document.querySelector("#psilocin-app")?.f7?.accordion.open(collectionsView.querySelector(".accordion-item"));
     } catch (error) { collectionHost.replaceChildren(note(error.message)); }
     showCollectionSurface();
   }
@@ -3404,7 +3403,7 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
     onSelectionMenu:anchor=>{const state=researchStore.getState();studioMenu(root,anchor,state.gene?`Selection · ${state.gene}`:'Selection',[
       {label:'Inspect',disabled:!state.gene&&!state.pathway,run:()=>persistentInspector.toggle()},
       {label:'Send to R',disabled:!state.gene&&!state.pathway,run:()=>sendSelectionToR()},
-      {label:'Add to collection',disabled:!state.gene,run:async()=>{await openCollections(true);const input=collectionHost.querySelector('textarea');if(input){input.value=state.gene;input.dispatchEvent(new Event('input'));input.focus();}collectionHost.scrollIntoView({block:'nearest'});}},
+      {label:'Add to collection',disabled:!state.gene,run:async()=>{await openCollections(true);const input=collectionHost.querySelector('textarea');if(input){const creator=input.closest('.accordion-item');if(creator&&!creator.classList.contains('accordion-item-opened'))root.f7.accordion.open(creator);input.value=state.gene;input.dispatchEvent(new Event('input'));input.focus();}collectionHost.scrollIntoView({block:'nearest'});}},
       {label:'Undo',disabled:!researchStore.canUndo(),run:()=>researchStore.undo()},
       {label:'Redo',disabled:!researchStore.canRedo(),run:()=>researchStore.redo()},
       {label:'Export selection',run:()=>exportSession.click()}

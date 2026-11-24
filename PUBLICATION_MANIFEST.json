@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728179440,
+  "total_bytes": 728179614,
   "status": "pass",
   "failures": [],
   "files": [
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 136937,
-      "sha256": "3085ec4cc9eed0a3e4d2364a99300fe27f744814159d991bac93383d16654a80"
+      "bytes": 136964,
+      "sha256": "24715fc03d9beda353d4fac8a364fcd236e5d891465ca887d0fbbf16502a7cc4"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -4089,8 +4089,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 7159,
-      "sha256": "14692728fb795573d7def6ab23c1d4c1ab8b8a4e1b1bc193468ceb08d18b46b0"
+      "bytes": 7306,
+      "sha256": "65b043b44a7621f94fe931bca53c1aaf42d7a43c2c1b18c62dff0c638e764feb"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
