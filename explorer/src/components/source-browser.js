@@ -3,8 +3,8 @@ import build from "../assets/vendor/app-build.js";
 import { createElement as el, loadingMessage } from "./interface-utils.js";
 import { uiIcon } from "./icons.js";
 
-const repository = "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics";
-const api = "https://api.github.com/repos/psilocybin-research/psilocin-human-neuron-transcriptomics";
+const repository = build.repository || "https://github.com/psilocybin-research/psilocin-human-neuron-transcriptomics";
+const api = repository.replace("https://github.com/", "https://api.github.com/repos/");
 const cacheName = "atlas-source-v1";
 const maxFileSize = 512 * 1024;
 export function sourceUrl(path = "") {
@@ -33,17 +33,67 @@ export function createSourceBrowser({ app, root }) {
   right.append(close); inner.append(heading, right); navbar.append(inner);
   const toolbar = el("div", "toolbar toolbar-top tabbar tabbar-scrollable source-browser-tabs");
   const toolbarInner = el("div", "toolbar-inner"), tabs = el("div", "tabs source-browser-content");
+  toolbarInner.setAttribute("role", "tablist");
+  toolbarInner.setAttribute("aria-label", "Source browser");
   const panels = new Map();
   for (const [id, label] of [["overview", "Overview"], ["files", "Files"], ["live", "Live"], ["build", "Reproducibility"]]) {
     const button = el("a", `tab-link${id === "overview" ? " tab-link-active" : ""}`, label);
-    button.href = `#source-${id}`; toolbarInner.append(button);
+    button.href = `#source-${id}`;
+    button.setAttribute("role", "tab");
+    button.setAttribute("aria-controls", `source-${id}`);
+    button.setAttribute("aria-selected", String(id === "overview"));
+    button.onclick = () => {
+      for (const tab of toolbarInner.children) tab.setAttribute("aria-selected", String(tab === button));
+    };
+    toolbarInner.append(button);
     const panel = el("div", `page-content tab${id === "overview" ? " tab-active" : ""}`);
+    panel.setAttribute("role", "tabpanel");
     panel.id = `source-${id}`; panels.set(id, panel); tabs.append(panel);
   }
   toolbar.append(toolbarInner);
   page.append(navbar, toolbar, tabs); view.append(page); popup.append(view); root.append(popup);
   const instance = app.popup.create({ el: popup, backdrop: true, closeOnEscape: false, closeByBackdropClick: true });
   let request = 0, currentPath = "", loaded = false;
+  const search = el("form", "searchbar searchbar-inline"), searchInner = el("div", "searchbar-inner"), inputWrap = el("div", "searchbar-input-wrap");
+  search.setAttribute("role", "search");
+  const input = el("input"); input.type = "search"; input.placeholder = "Find files in this build"; input.setAttribute("aria-label", "Find repository files");
+  const clear = el("button", "input-clear-button"); clear.type = "button"; clear.setAttribute("aria-label", "Clear file search");
+  inputWrap.append(input, el("i", "searchbar-icon"), clear); searchInner.append(inputWrap); search.append(searchInner);
+  const fileContent = el("div"), results = el("div"); results.hidden = true; results.setAttribute("aria-live", "polite");
+  panels.get("files").append(search, results, fileContent);
+  const searchbar = app.searchbar.create({ el: search, customSearch: true, backdrop: false });
+  let tree, treePending, searchTimer, searchSequence = 0;
+  async function findFiles() {
+    const query = input.value.trim().toLowerCase(), sequence = ++searchSequence;
+    results.hidden = !query; fileContent.hidden = Boolean(query);
+    if (!query) return;
+    results.replaceChildren(loadingMessage("Finding files…"));
+    try {
+      if (!tree) {
+        treePending ??= (async () => {
+          const key = `${api}/git/trees/${build.commit}?recursive=1`;
+          let cache; try { cache = await caches.open(cacheName); const hit = await cache.match(key); if (hit) return hit.json(); } catch { /* Optional cache. */ }
+          const response = await fetch(key, {signal:controller.signal,credentials:"omit"});
+          if (!response.ok) throw new Error("File search could not load. Try again later or browse folders.");
+          try { await cache?.put(key,response.clone()); } catch { /* Optional cache. */ }
+          return response.json();
+        })().catch(error => { treePending = undefined; throw error; });
+        tree = await treePending;
+      }
+      if (sequence !== searchSequence || controller.signal.aborted) return;
+      const matches = tree.tree.filter(item => item.type === "blob" && query.split(/\s+/).every(word => item.path.toLowerCase().includes(word)));
+      const block = el("div", "block"); block.append(el("p", "note", `${matches.length} matching files${matches.length > 100 ? " · showing the first 100; refine your search" : ""}${tree.truncated ? " · GitHub returned a partial file index" : ""}`));
+      const list = el("div", "list list-dividers"), ul = el("ul");
+      for (const item of matches.slice(0,100)) {
+        const li = el("li"), button = el("button", "item-link item-content"), inner = el("span", "item-inner"); button.type = "button";
+        inner.append(el("span", "item-title", item.path));button.append(inner);button.onclick=()=>{input.value="";findFiles();browse(item.path);};li.append(button);ul.append(li);
+      }
+      list.append(ul); results.replaceChildren(block,list);
+    } catch (error) { if (sequence === searchSequence && !controller.signal.aborted) results.replaceChildren(el("p","block note",error.message)); }
+  }
+  search.onsubmit = event => {event.preventDefault();clearTimeout(searchTimer);findFiles();};
+  input.oninput = () => {clearTimeout(searchTimer);searchTimer=setTimeout(findFiles,180);};
+  clear.onclick = () => {input.value="";clearTimeout(searchTimer);findFiles();input.focus();};
 
   async function read(path, raw = false) {
     const url = `${api}/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${build.commit}`;
@@ -65,7 +115,7 @@ export function createSourceBrowser({ app, root }) {
     message.append(button, link("Open on GitHub", sourceUrl(currentPath))); host.replaceChildren(message);
   }
   async function browse(path = "") {
-    currentPath = path; const token = ++request, host = panels.get("files");
+    currentPath = path; const token = ++request, host = fileContent;
     host.replaceChildren(loadingMessage("Loading pinned source…"));
     try {
       const data = await read(path); if (token !== request || controller.signal.aborted) return;
@@ -171,6 +221,6 @@ export function createSourceBrowser({ app, root }) {
   links.append(ul); panels.get("build").append(provenance, links);
   return {
     open() { instance.open(); if (!loaded) { loaded = true; overview(); browse(); } },
-    destroy() { controller.abort(); instance.destroy(); popup.remove(); },
+    destroy() { searchbar.destroy(); clearTimeout(searchTimer); controller.abort(); instance.destroy(); popup.remove(); },
   };
 }

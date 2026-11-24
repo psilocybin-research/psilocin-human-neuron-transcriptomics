@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check:ui": "node scripts/run-browser-tests.mjs",
     "dev": "observable preview --host 127.0.0.1",
     "build": "observable build && node scripts/prepare-site.mjs && node scripts/prepare-offline.mjs",
     "test": "node --test test/*.test.js",

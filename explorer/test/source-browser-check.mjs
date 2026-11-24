@@ -18,6 +18,7 @@ await page.route('https://api.github.com/repos/psilocybin-research/psilocin-huma
        : [{name:'src',path:'src',type:'dir'}]);
  await route.fulfill({status:200,contentType:raw?'text/plain':'application/json',body});
 });
+await page.route('**/git/trees/**',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({truncated:false,tree:[{type:'blob',path:'src/example.py'},{type:'blob',path:'README.md'}]})}));
 await page.route('**/compare/*', route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'ahead',ahead_by:2,commits:[{sha:'abc',commit:{message:'A new change'}}]})}));
 await page.context().route('https://github.com/**', route=>route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><title>Mock GitHub</title>'}));
 await page.goto(process.env.ATLAS_URL || 'http://127.0.0.1:4173/');
@@ -121,6 +122,9 @@ assert.match(openedFile.url(),/\/blob\/[a-f0-9]{40}\/src\/example\.py$/);
 await openedFile.close();
 await popup.locator('#source-files .breadcrumbs-item').filter({hasText:'Repository'}).click();
 await popup.locator('#source-files .source-file-row').first().waitFor();
+await popup.getByRole('searchbox',{name:'Find repository files'}).fill('example');
+await popup.getByText('1 matching files',{exact:true}).waitFor();
+await popup.getByRole('button',{name:'Clear file search'}).click();
 assert(apiRequests.every(url=>/ref=[a-f0-9]{40}/.test(url)));
 await popup.getByText('Reproducibility',{exact:true}).click();
 assert.match(await popup.locator('.tab-active').innerText(),/Frozen publication archive/);

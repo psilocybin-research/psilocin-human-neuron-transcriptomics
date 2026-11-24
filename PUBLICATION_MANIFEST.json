@@ -2,8 +2,8 @@
   "schema_version": 1,
   "release": "v1.2.0",
   "created": "2026-10-10",
-  "file_count": 1472,
-  "total_bytes": 728211793,
+  "file_count": 1482,
+  "total_bytes": 728254708,
   "status": "pass",
   "failures": [],
   "files": [
@@ -28,14 +28,34 @@
       "sha256": "f331dfc76bf4642fd87bc17efc9a1c5ab97d1740cf8e37372677a87961d68f5c"
     },
     {
-      "path": ".github/workflows/ci.yml",
-      "bytes": 5582,
-      "sha256": "978e65b2b1a499b4f79a0b75c12952a45b6b1df395c8f7fdc55d749cb8688998"
+      "path": ".github/publication-request.json",
+      "bytes": 99,
+      "sha256": "234c85367f1722a95619fb5120db81f13d68c30c1e5890ded95cd366261e76d6"
     },
     {
-      "path": ".github/workflows/pages.yml",
-      "bytes": 966,
-      "sha256": "372c9b8a9282c689d10fca27398dcc73d01609133e3d99bca3c1b291cf9895a1"
+      "path": ".github/scripts/publication.py",
+      "bytes": 3588,
+      "sha256": "0a8539b894065f39dc5cfb2cdc4c9f085734fa4ed821c822b9168d2dcc3f5fff"
+    },
+    {
+      "path": ".github/scripts/refresh_integrity.py",
+      "bytes": 2722,
+      "sha256": "b67fbaa85317325c1d4e7ad994f48afeef5eb8bb0b6385a1160029fdeb1cc032"
+    },
+    {
+      "path": ".github/scripts/site_artifact.py",
+      "bytes": 3441,
+      "sha256": "81b279f0ab783da9ee6b622619a6dffc2b7beb8e5a1b162c1fef3b0a7f9457a5"
+    },
+    {
+      "path": ".github/tests/test_infrastructure.py",
+      "bytes": 6810,
+      "sha256": "dee4b5822595b11fc6e1c620c1013ffe05482c178e5d92d972e762a303289ea7"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 6205,
+      "sha256": "858688ce5a7c33c379727b10b9eac1bf79877c6c44d2239472ab976ad2753b8f"
     },
     {
       "path": ".github/workflows/release.yml",
@@ -69,13 +89,13 @@
     },
     {
       "path": "CONTRIBUTING.md",
-      "bytes": 1360,
-      "sha256": "d464c6efc1088e4bec175cbbd2dd9971470ced6ae390d270d724f29f85832367"
+      "bytes": 5553,
+      "sha256": "167c7d2e1c9c605b3fb1aa6c769b438b4a923d54a663f9c838c47e72ed9e3a16"
     },
     {
       "path": "FILE_LICENSES.json",
-      "bytes": 286352,
-      "sha256": "9c8d123c179e04fddc07dcbd54df31eea72fef893c7fa5431d83eee688cb32c5"
+      "bytes": 287621,
+      "sha256": "4af43da92b5b5c07a908a313e18116afe6f247fc95b70339efd89e4b3662d4b5"
     },
     {
       "path": "LICENSE.md",
@@ -258,6 +278,11 @@
       "sha256": "5939a4d74629431a9926f02637ae295bd23e3014c3e86565e1a86e81feb14b5b"
     },
     {
+      "path": "docs/development.md",
+      "bytes": 6486,
+      "sha256": "1d304db29583aea3fc5bcc81b825d7a7b38e8068107f5a7de9308a4222960b58"
+    },
+    {
       "path": "docs/images/atlas-landscape.png",
       "bytes": 569874,
       "sha256": "1c07c7c710cb7a7785345ab694fea5dd6b5a52eafaa3b407880188bdfacd07cf"
@@ -304,8 +329,8 @@
     },
     {
       "path": "explorer/package.json",
-      "bytes": 4253,
-      "sha256": "80faaa3aecd1b21236b5eb16d8481dfd4498f6a0a9d5ed98d414d6d605db1fd9"
+      "bytes": 4307,
+      "sha256": "9a20e0bb3fcd7df3cec3b32dedf6562f4e48fb07301868eeecb6dfef75cb480b"
     },
     {
       "path": "explorer/screenshots/browser-check.json",
@@ -328,6 +353,16 @@
       "sha256": "1fa7f7695e13bf68a4ee991ef487aaa15cbdf77f2a2c7b8ec7a90f70844e37ff"
     },
     {
+      "path": "explorer/scripts/browser-diagnostics.mjs",
+      "bytes": 2680,
+      "sha256": "1bfd40b5ff31d0ebefbcedc45136d6440ac0a32600cec0ac4269a7885406a2d8"
+    },
+    {
+      "path": "explorer/scripts/browser-suite.mjs",
+      "bytes": 754,
+      "sha256": "b6a30d24847fe8a5d1d78e9b3e28a72159ce7d8643113fd95b95f553f432ee75"
+    },
+    {
       "path": "explorer/scripts/build-complex-i-pilot.py",
       "bytes": 5609,
       "sha256": "b561d22c08e50c810b63b027f7c88352ae964fd63f9691d4e3f26a83084bbbda"
@@ -338,14 +373,19 @@
       "sha256": "1e9d41f6abc84e1ad8ea6a0899ea07455e96d7aed1f2ded4bf707ec458905034"
     },
     {
+      "path": "explorer/scripts/build-source.mjs",
+      "bytes": 2092,
+      "sha256": "56cdcfe1ad39d08cb854bf3967ea2305de2b341a7d9038250d513823dd3eef1c"
+    },
+    {
       "path": "explorer/scripts/capture-network-preview.mjs",
       "bytes": 2334,
       "sha256": "5b36cb8685bcf0552bf174cf27a73eb5510ed4d71b1bd2f7a4f0b0fa146dc63e"
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
-      "bytes": 1820,
-      "sha256": "838f061705597dbc4ec08b33a758d27efe6bcf6b08505e053425e7133ceae449"
+      "bytes": 1875,
+      "sha256": "acc0f127b8719044cd07aae1b6780b3181bc10a88b034a5253d7f97c54bf8d0d"
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
@@ -394,8 +434,8 @@
     },
     {
       "path": "explorer/scripts/prepare-network-3d.mjs",
-      "bytes": 5068,
-      "sha256": "ea728fe26b148b74616fe678090e0fcdf28c6632d2a1c494af00e4c9dd6d5681"
+      "bytes": 4805,
+      "sha256": "443dbe3d7cb6cd7b9b18bc6743494c4655148d10c67a995da468e9d161b65ee1"
     },
     {
       "path": "explorer/scripts/prepare-offline.mjs",
@@ -419,13 +459,18 @@
     },
     {
       "path": "explorer/scripts/prepare-ui.mjs",
-      "bytes": 5330,
-      "sha256": "4c142d70e1852918493e3a62745cea532de3cc11a2a7d9aa47d591d7af086902"
+      "bytes": 5806,
+      "sha256": "c837aad6ef72b0943680864c7248936fa53f4cc73790af0e4764362765ec07c9"
     },
     {
       "path": "explorer/scripts/r-editor-entry.js",
       "bytes": 1860,
       "sha256": "a57635663987ee4d7b2eb80089114dfbca5b7781b133d348df07af61ae2b3094"
+    },
+    {
+      "path": "explorer/scripts/run-browser-tests.mjs",
+      "bytes": 3039,
+      "sha256": "cc0225593e3f722827312fb9eab066ad35c74dcd6aaf9536da36704b4e00f139"
     },
     {
       "path": "explorer/scripts/snapshot-public-context.py",
@@ -3994,8 +4039,8 @@
     },
     {
       "path": "explorer/src/components/source-browser.js",
-      "bytes": 12789,
-      "sha256": "34626f8bac29e7efe1eea98a28a58cc0bb62079abfca9a46afd7d509d1bc0212"
+      "bytes": 16651,
+      "sha256": "e8a1a15dbd8340d60aadc5f32254425f6e54daa688c7bd2fb5808e3e9db37052"
     },
     {
       "path": "explorer/src/components/source-markdown.js",
@@ -4126,6 +4171,11 @@
       "path": "explorer/test/browser-check.mjs",
       "bytes": 13269,
       "sha256": "a0596be606cb3429a3fe25df2c7aea494da3095f8a1baf33fbfa2a8f655f5a2c"
+    },
+    {
+      "path": "explorer/test/build-source.test.js",
+      "bytes": 1281,
+      "sha256": "c1a8f62fcc27d3b5acca3775150535d0854ab02f64b6131302328189c2ba35c8"
     },
     {
       "path": "explorer/test/comparison-browser-check.mjs",
@@ -4574,8 +4624,8 @@
     },
     {
       "path": "explorer/test/source-browser-check.mjs",
-      "bytes": 10894,
-      "sha256": "e0732898f6a4827a59c06c2d68225dd052f538cf23c71fd8720c548c79407ac0"
+      "bytes": 11327,
+      "sha256": "f1be20d03513d1ae36fed1764b467fa3be794b1fc41878d74de20fb1f7570503"
     },
     {
       "path": "explorer/test/studio-browser-check.mjs",
@@ -4609,13 +4659,13 @@
     },
     {
       "path": "explorer/test/workspace-browser-helpers.mjs",
-      "bytes": 793,
-      "sha256": "712e1722b832b3f2fa3ff63c86dcebaf5a89577154d18f2704414289f6d9ee82"
+      "bytes": 958,
+      "sha256": "0d34d62d20e9407e0faef17fa9c317ff2fc4f7a2641573ddf8b67daf39c101ed"
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 8907,
-      "sha256": "2fea8020b33a16decf19816cc94d3477b67aca7e978d71d131da20179a17d5db"
+      "bytes": 8929,
+      "sha256": "60d489eeb4ee83210fae31e31e94984a90d3cb29b84da8e4a0190d589901c326"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

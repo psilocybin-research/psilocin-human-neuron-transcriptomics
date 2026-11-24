@@ -4,7 +4,21 @@ on:
   pull_request:
 permissions:
   contents: read
+concurrency:
+  group: atlas-validation-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
+  publication-request:
+    runs-on: ubuntu-24.04
+    outputs:
+      publish: ${{ steps.request.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - id: request
+        run: python .github/scripts/publication.py
+
   test:
     runs-on: ubuntu-24.04
     steps:
@@ -13,18 +27,25 @@ jobs:
         with:
           python-version: '3.10'
           cache: pip
-      - run: python -m pip install -r requirements.lock.txt
-      - run: python -m pip install -r requirements.release.txt
+      - run: python -m pip install -r requirements.lock.txt -r requirements.release.txt
       - run: cffconvert --validate
+      - run: python .github/scripts/refresh_integrity.py
       - run: python src/validate_release.py
+      - run: python -m unittest discover -s .github/tests
       - run: python -m pytest -q --ignore=tests/test_bayesian_oxphos.py --ignore=tests/test_bayesian_score_reproduction.py
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.6.1'
       - run: Rscript tests/test_transcriptomics.R
-      - name: Verify R results bundle
-        run: Rscript tests/test_r_results_bundle.R
+      - run: Rscript tests/test_r_results_bundle.R
       - run: reuse lint
+
+  build:
+    runs-on: ubuntu-24.04
+    outputs:
+      digest: ${{ steps.package.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
@@ -33,9 +54,22 @@ jobs:
       - run: npm --prefix explorer ci
       - run: npm --prefix explorer test
       - run: npm --prefix explorer run build
+      - id: package
+        run: python .github/scripts/site_artifact.py pack --revision "$GITHUB_SHA"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-site
+          path: artifacts/site/
+          compression-level: 1
+          retention-days: 7
 
-  research-browser:
+  browser:
+    needs: build
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [research-a, research-b, ui]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -44,86 +78,41 @@ jobs:
           cache: npm
           cache-dependency-path: explorer/package-lock.json
       - run: npm --prefix explorer ci
-      - run: npm --prefix explorer run build
-      - name: Install browser for research integration checks
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-site
+          path: artifacts/site
+      - name: Verify and unpack the single build
+        env:
+          ARTIFACT_DIGEST: ${{ needs.build.outputs.digest }}
+        run: python .github/scripts/site_artifact.py unpack --revision "$GITHUB_SHA" --digest "$ARTIFACT_DIGEST"
+      - name: Select browser
         working-directory: explorer
         run: |
           if command -v google-chrome >/dev/null; then
             echo "BROWSER_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
           else
             npx playwright install chromium
+            echo "BROWSER_PATH=$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')" >> "$GITHUB_ENV"
           fi
-      - name: Verify research integration and R session recovery
-        timeout-minutes: 18
-        working-directory: explorer
-        run: |
-          export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-browser-server.log 2>&1 &
-          atlas_server_pid=$!
-          trap 'kill "$atlas_server_pid"' EXIT
-          failed=0
-          for check in test/source-browser-check.mjs test/research-integration-browser-check.mjs test/shared-r-browser-check.mjs test/research-workstation-browser-check.mjs test/python-app-browser-check.mjs test/scientific-scene-r-browser-check.mjs test/research-session-browser-check.mjs test/r-variable-browser-check.mjs test/workspace-layout-browser-check.mjs test/analysis-navigation-browser-check.mjs; do
-            echo "::group::$check"
-            if node "$check"; then
-              echo "PASS: $check"
-            else
-              echo "::error::Browser check failed: $check"
-              failed=1
-            fi
-            echo '::endgroup::'
-          done
-          exit "$failed"
+      - name: Browser checks and diagnostics
+        timeout-minutes: 22
+        env:
+          QA_OUTPUT: ${{ github.workspace }}/artifacts/browser/${{ matrix.group }}
+        run: npm --prefix explorer run check:ui -- ${{ matrix.group }}
+      - name: Verify tested files remain identical
+        env:
+          ARTIFACT_DIGEST: ${{ needs.build.outputs.digest }}
+        run: python .github/scripts/site_artifact.py verify --revision "$GITHUB_SHA" --digest "$ARTIFACT_DIGEST"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: atlas-workspace-review
-          path: /tmp/atlas-visual
-          if-no-files-found: warn
-
-  ui-browser:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: explorer/package-lock.json
-      - run: npm --prefix explorer ci
-      - run: npm --prefix explorer run build
-      - name: Install browser for interface checks
-        working-directory: explorer
-        run: |
-          if command -v google-chrome >/dev/null; then
-            echo "BROWSER_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
-          else
-            npx playwright install chromium
-          fi
-      - name: Verify tour, OXPHOS entrance, pathway tree and visual surfaces
-        timeout-minutes: 18
-        working-directory: explorer
-        run: |
-          export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-ui-server.log 2>&1 &
-          atlas_server_pid=$!
-          trap 'kill "$atlas_server_pid"' EXIT
-          export QA_OUTPUT=/tmp/atlas-visual
-          failed=0
-          for check in test/tour-browser-check.mjs test/network-introduction-browser-check.mjs test/tree-browser-check.mjs test/f7-data-surfaces-browser-check.mjs test/feedback-notification-browser-check.mjs test/plot-layout-browser-check.mjs test/systems-browser-check.mjs test/smart-select-browser-check.mjs; do
-            echo "::group::$check"
-            if node "$check"; then echo "PASS: $check"; else echo "::error::Browser check failed: $check"; failed=1; fi
-            echo '::endgroup::'
-          done
-          exit "$failed"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: atlas-visual-review
-          path: /tmp/atlas-visual
-          if-no-files-found: warn
+          name: browser-${{ matrix.group }}
+          path: artifacts/browser/
+          retention-days: 7
 
   bayesian-inputs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -134,3 +123,55 @@ jobs:
       - run: python -m pip install -r requirements.bayes.lock.txt
       - run: python -m src.transcriptomics.reproduce_bayesian_scores --verify-only
       - run: python -m unittest discover -s tests -p 'test_bayesian*.py'
+
+  release-gate:
+    if: always()
+    needs: [publication-request, test, build, browser, bayesian-inputs]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require every mandatory result
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python - <<'PY'
+          import json, os
+          results = json.loads(os.environ['RESULTS'])
+          failed = {name: job['result'] for name, job in results.items() if job['result'] != 'success'}
+          assert not failed, f'Release gate blocked: {failed}'
+          print('All mandatory checks passed for this revision')
+          PY
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'psilocybin-research/psilocin-human-neuron-transcriptomics' && github.run_attempt == 1 && needs.publication-request.outputs.publish == 'true'
+    needs: [release-gate, publication-request, build]
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: atlas-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-site
+          path: artifacts/site
+      - name: Verify the validated build
+        env:
+          ARTIFACT_DIGEST: ${{ needs.build.outputs.digest }}
+        run: python .github/scripts/site_artifact.py unpack --revision "$GITHUB_SHA" --digest "$ARTIFACT_DIGEST"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: explorer/dist
+      - name: Reject stale or replayed publication
+        run: python .github/scripts/publication.py --deploy-preflight
+      - id: deployment
+        uses: actions/deploy-pages@v4

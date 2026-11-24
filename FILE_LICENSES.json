@@ -23,13 +23,37 @@
       "2026 Christopher B. Germann"
     ]
   },
-  ".github/workflows/ci.yml": {
+  ".github/publication-request.json": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
     ]
   },
-  ".github/workflows/pages.yml": {
+  ".github/scripts/publication.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/scripts/refresh_integrity.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/scripts/site_artifact.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/tests/test_infrastructure.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  ".github/workflows/ci.yml": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -233,6 +257,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "docs/development.md": {
+    "spdx": "CC-BY-4.0",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "docs/images/atlas-landscape.png": {
     "spdx": "CC-BY-4.0",
     "copyright": [
@@ -317,6 +347,18 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/scripts/browser-diagnostics.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/browser-suite.mjs": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/scripts/build-complex-i-pilot.py": {
     "spdx": "MIT",
     "copyright": [
@@ -324,6 +366,12 @@
     ]
   },
   "explorer/scripts/build-mitochondrial-context.py": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/build-source.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -432,6 +480,12 @@
     ]
   },
   "explorer/scripts/r-editor-entry.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
+  "explorer/scripts/run-browser-tests.mjs": {
     "spdx": "MIT",
     "copyright": [
       "2026 Christopher B. Germann"
@@ -5301,6 +5355,12 @@
       "2026 Christopher B. Germann"
     ]
   },
+  "explorer/test/build-source.test.js": {
+    "spdx": "MIT",
+    "copyright": [
+      "2026 Christopher B. Germann"
+    ]
+  },
   "explorer/test/comparison-browser-check.mjs": {
     "spdx": "MIT",
     "copyright": [
@@ -9177,7 +9237,7 @@
       "2011 John Resig",
       "2014-2017 Vitaly Puzrin and Andrei Tuputcyn",
       "2016 cheminfo",
-      "2015 Micha\u00ebl Zasso",
+      "2015 Michaël Zasso",
       "2017 Photopea"
     ]
   },

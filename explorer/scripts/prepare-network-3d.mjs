@@ -1,7 +1,7 @@
-import { execFileSync } from "node:child_process";
 import { build } from "esbuild";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { buildSource } from "./build-source.mjs";
 const root = new URL("../", import.meta.url),
   output = new URL("src/assets/vendor/", root);
 await mkdir(output, { recursive: true });
@@ -125,6 +125,4 @@ const directional = JSON.parse(await readFile(new URL('src/data/bayesian-directi
 await writeFile(new URL('bayesian-directional-data.js', output), `export default ${JSON.stringify(directional)};\n`);
 
 // Pin repository browsing to the source revision used by this build.
-const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: fileURLToPath(root), encoding: "utf8" }).trim();
-const dirty = Boolean(execFileSync("git", ["status", "--porcelain", "--untracked-files=no"], { cwd: fileURLToPath(root), encoding: "utf8" }).trim());
-await writeFile(new URL("app-build.js", output), `export default ${JSON.stringify({commit, dirty})};\n`);
+await writeFile(new URL("app-build.js", output), `export default ${JSON.stringify(buildSource(root))};\n`);

@@ -83,6 +83,11 @@ for (const name of packages) {
   notices += `${name} ${pkg.version}\n${license}\n\n`;
 }
 await writeFile(new URL("framework7.NOTICES.txt", out), notices);
+// FileAttachment requires this notice on clean archive builds as well as Git checkouts.
+const fusePackage = JSON.parse(await readFile(new URL("node_modules/fuse.js/package.json", root), "utf8"));
+const fuseLicense = await readFile(new URL("node_modules/fuse.js/LICENSE", root), "utf8");
+await writeFile(new URL("fuse.NOTICES.txt", out),
+  `Fuse.js ${fusePackage.version}\n\nCopyright (c) 2024 Kiro Risk\n\nLicensed under the Apache License, Version 2.0.\n\n${fuseLicense}`);
 const runtime = new URL("framework7.js", out);
 await writeFile(
   runtime,
