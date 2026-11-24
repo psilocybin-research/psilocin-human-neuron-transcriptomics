@@ -1521,7 +1521,8 @@ export function createAppShell({
       finderScroll = null;
     }
     function mountFinderInfinite() {
-      const scroll = autocomplete?.modal?.el?.querySelector(".page-content");
+      const scroll = autocomplete?.modal?.el?.querySelector(".page-content") ||
+        document.querySelector(".autocomplete-popup.modal-in .page-content");
       if (!scroll || scroll === finderScroll) return;
       detachFinderInfinite();
       finderScroll = scroll;
@@ -1618,7 +1619,7 @@ export function createAppShell({
         });
       },
       on: {
-        open() { requestAnimationFrame(mountFinderSelection); },
+        open() { requestAnimationFrame(() => { mountFinderSelection(); mountFinderInfinite(); }); },
         opened() { mountFinderSelection(); mountFinderInfinite(); },
         closed() {
           ++querySequence;
