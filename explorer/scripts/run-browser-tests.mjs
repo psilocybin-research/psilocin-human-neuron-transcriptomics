@@ -25,8 +25,9 @@ try{
   console.log(`::group::${test}`);
   const child=spawn(process.execPath,['--import',fileURLToPath(new URL('browser-diagnostics.mjs',import.meta.url)),test],{cwd:root,env:{...process.env,ATLAS_URL:base,BASE_URL:base,QA_OUTPUT:diagnostics,ATLAS_DIAGNOSTICS:diagnostics}});
   child.stdout.on('data',data=>{process.stdout.write(data);log.write(data);});child.stderr.on('data',data=>{process.stderr.write(data);log.write(data);});
-  let timedOut=false;const timeout=setTimeout(()=>{timedOut=true;child.kill('SIGTERM');},Number(process.env.BROWSER_TEST_TIMEOUT_MS||240000));
-  const code=await new Promise(accept=>{child.once('error',()=>accept(1));child.once('exit',code=>accept(code??1));});clearTimeout(timeout);log.end();
+  let timedOut=false,forceStop;
+  const timeout=setTimeout(()=>{timedOut=true;child.kill('SIGTERM');forceStop=setTimeout(()=>child.kill('SIGKILL'),10000);},Number(process.env.BROWSER_TEST_TIMEOUT_MS||240000));
+  const code=await new Promise(accept=>{child.once('error',()=>accept(1));child.once('exit',code=>accept(code??1));});clearTimeout(timeout);clearTimeout(forceStop);log.end();
   const result={test,seconds:Number(((performance.now()-started)/1000).toFixed(2)),code,timedOut};results.push(result);
   if(code===0)await rm(diagnostics,{recursive:true,force:true});
   console.log(`${code===0?'PASS':'FAIL'} ${test} ${result.seconds}s\n::endgroup::`);

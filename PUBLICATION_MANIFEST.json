@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1482,
-  "total_bytes": 728254708,
+  "total_bytes": 728255176,
   "status": "pass",
   "failures": [],
   "files": [
@@ -354,13 +354,13 @@
     },
     {
       "path": "explorer/scripts/browser-diagnostics.mjs",
-      "bytes": 2680,
-      "sha256": "1bfd40b5ff31d0ebefbcedc45136d6440ac0a32600cec0ac4269a7885406a2d8"
+      "bytes": 2767,
+      "sha256": "547450e566448ecf4d3c7d846c669563d79f7815d81af39abd9d3c791da7ad56"
     },
     {
       "path": "explorer/scripts/browser-suite.mjs",
       "bytes": 754,
-      "sha256": "b6a30d24847fe8a5d1d78e9b3e28a72159ce7d8643113fd95b95f553f432ee75"
+      "sha256": "50d5eab0cfd7b79e0602b702ea2bc61627f71d00a4653e247e551fb4e96d36e2"
     },
     {
       "path": "explorer/scripts/build-complex-i-pilot.py",
@@ -469,8 +469,8 @@
     },
     {
       "path": "explorer/scripts/run-browser-tests.mjs",
-      "bytes": 3039,
-      "sha256": "cc0225593e3f722827312fb9eab066ad35c74dcd6aaf9536da36704b4e00f139"
+      "bytes": 3130,
+      "sha256": "ce7df45022a20d74b88e0396c7533908a03be3039ca5ac0385301e65f2ee491b"
     },
     {
       "path": "explorer/scripts/snapshot-public-context.py",
@@ -4364,8 +4364,8 @@
     },
     {
       "path": "explorer/test/network-introduction-browser-check.mjs",
-      "bytes": 1465,
-      "sha256": "5d72903caefe3587cee13d32c91cee2947a10d17fb15cb8f2d83be88827c20a3"
+      "bytes": 1515,
+      "sha256": "502d8fb161aaeb85141ef73d2fcb04bd03bdaf2ba4fb2ccd45bf229e987ca0e9"
     },
     {
       "path": "explorer/test/network-molecule.test.js",
@@ -4664,8 +4664,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 8929,
-      "sha256": "60d489eeb4ee83210fae31e31e94984a90d3cb29b84da8e4a0190d589901c326"
+      "bytes": 9169,
+      "sha256": "a9a5ca5ecfd0e12b4d7c798427c8a8f58de11e4f34ce7c0ac2ba47794044724e"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

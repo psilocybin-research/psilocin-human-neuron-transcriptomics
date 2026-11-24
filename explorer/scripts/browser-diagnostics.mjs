@@ -21,7 +21,8 @@ if(output){
    async function instrument(context){
     if(seen.has(context))return;seen.add(context);active.add(context);
     const id=++number;let ended=false;
-    await context.tracing.start({screenshots:true,snapshots:true,sources:true});
+    // DOM/action traces plus a final failure PNG avoid continuous WebGL screencasts.
+    await context.tracing.start({screenshots:false,snapshots:true,sources:true});
     const watch=page=>{
      page.on('console',message=>{if(['error','warning'].includes(message.type()))events.push({type:message.type(),text:message.text(),url:page.url()});});
      page.on('pageerror',error=>events.push({type:'pageerror',text:error.stack,url:page.url()}));
