@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728175454,
+  "total_bytes": 728176751,
   "status": "pass",
   "failures": [],
   "files": [
@@ -4504,8 +4504,8 @@
     },
     {
       "path": "explorer/test/research-session-browser-check.mjs",
-      "bytes": 2651,
-      "sha256": "5907f02ce7e07911dae0060fcba2fb3939ee498db0809efa41e3172466cdb5d7"
+      "bytes": 3028,
+      "sha256": "3255a80499721070e6380cf8c49810e011d4ced1e423a18d39df02e687bd2e68"
     },
     {
       "path": "explorer/test/research-store.test.js",
@@ -4604,8 +4604,8 @@
     },
     {
       "path": "explorer/test/tree-browser-check.mjs",
-      "bytes": 10894,
-      "sha256": "4e3b5ab31bf2d67a32d692f8df68af2946c4839f81600b64562118963e3f0093"
+      "bytes": 11814,
+      "sha256": "05d2ec4f8cbe39b6ffe69cddacdb19886c552c5d592248f523603a4212308ad4"
     },
     {
       "path": "explorer/test/workspace-browser-helpers.mjs",

@@ -1,4 +1,4 @@
-import {chromium, firefox, webkit} from '@playwright/test';
+import {chromium, firefox, webkit, expect} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {readFile, mkdir, writeFile} from 'node:fs/promises';
 const url = process.env.ATLAS_URL || 'http://127.0.0.1:4173/';
@@ -17,6 +17,7 @@ const closeSelectedEvidence = async targetPage => {
   if(await sheet.isVisible()){
     await sheet.getByRole('button',{name:'Done',exact:true}).click();
     await sheet.waitFor({state:'hidden'});
+    await targetPage.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.modalOpen!=='true');
   }
 };
 const open = async hash => {
@@ -102,6 +103,15 @@ for (const width of [320, 390, 768, 1024, 1440]) {
   await page.setViewportSize({width, height: 900});
   await page.getByLabel('Search pathways and genes', {exact: true}).fill('GPX4');
   const activeGene = page.locator('.tree-gene:visible').first();
+  await expect(activeGene).toBeVisible();
+  // A closing push sheet can temporarily scale the underlying page. Measure
+  // the real rendered target after the modal and viewport layout settle.
+  await expect.poll(async()=>activeGene.evaluate(e=>e.getBoundingClientRect().height),{
+    message:`Gene row touch target must be at least 44px at ${width}px`,timeout:5000
+  }).toBeGreaterThanOrEqual(44).catch(async error=>{
+    console.error('Gene row geometry',width,await activeGene.evaluate(e=>({height:e.getBoundingClientRect().height,minHeight:getComputedStyle(e).minHeight,offsetHeight:e.offsetHeight,ancestors:[...function*(n){while(n){yield {className:String(n.className),transform:getComputedStyle(n).transform};n=n.parentElement;}}(e)].filter(n=>n.transform!=='none')})));
+    throw error;
+  });
   const minTouch = await activeGene.evaluate(e => e.getBoundingClientRect().height);
   assert.ok(minTouch >= 44, `Gene row touch target must be at least 44px at ${width}px`);
   await activeGene.click();
