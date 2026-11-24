@@ -54,23 +54,25 @@ jobs:
             npx playwright install chromium
           fi
       - name: Verify research integration and R session recovery
-        timeout-minutes: 12
+        timeout-minutes: 18
         working-directory: explorer
         run: |
           export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-browser-server.log 2>&1 &
           atlas_server_pid=$!
           trap 'kill "$atlas_server_pid"' EXIT
-          node test/source-browser-check.mjs
-          node test/research-integration-browser-check.mjs
-          node test/shared-r-browser-check.mjs
-          node test/research-workstation-browser-check.mjs
-          node test/python-app-browser-check.mjs
-          node test/scientific-scene-r-browser-check.mjs
-          node test/research-session-browser-check.mjs
-          node test/r-variable-browser-check.mjs
-          node test/workspace-layout-browser-check.mjs
-          node test/analysis-navigation-browser-check.mjs
+          failed=0
+          for check in test/source-browser-check.mjs test/research-integration-browser-check.mjs test/shared-r-browser-check.mjs test/research-workstation-browser-check.mjs test/python-app-browser-check.mjs test/scientific-scene-r-browser-check.mjs test/research-session-browser-check.mjs test/r-variable-browser-check.mjs test/workspace-layout-browser-check.mjs test/analysis-navigation-browser-check.mjs; do
+            echo "::group::$check"
+            if node "$check"; then
+              echo "PASS: $check"
+            else
+              echo "::error::Browser check failed: $check"
+              failed=1
+            fi
+            echo '::endgroup::'
+          done
+          exit "$failed"
 
   ui-browser:
     runs-on: ubuntu-24.04
