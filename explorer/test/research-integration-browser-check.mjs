@@ -37,7 +37,7 @@ try{for(const width of [390,820,1440]){
  await page.locator('.studio-pane-sheet').getByRole('button',{name:'Done',exact:true}).click();
  await page.locator('.studio-pane-sheet').waitFor({state:'detached'});
  const script='stopifnot(sum(user_data$value)==3.375)\nresults <- subset(genes, selected & symbol %in% c("GPX4","NDUFB7") & contrast=="day1_vs_control", select=c(id,log2FoldChange,lfcSE))\nprint(sum(user_data$value))';
- await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').first().locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 1',{exact:true}).fill(script);
  await page.getByRole('button',{name:'Run cell',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});

@@ -16,7 +16,7 @@ try{for(const width of [390,820,1440])for(const theme of ['light','dark']){
  });
  await page.reload();await page.getByRole('heading',{name:'Existing notebook',exact:true}).waitFor();await page.getByLabel('R code cell 1',{exact:true}).waitFor({state:'attached'});
  assert.match(await page.locator('.studio-notebook-title').innerText(),/Existing notebook/);
- assert.equal(await page.locator('.studio-inline-cell').count(),2);assert.match(await page.locator('.research-studio-markdown-preview').innerText(),/Preserve prior research/);
+ assert.equal(await page.locator('.studio-inline-cell').count(),2);assert.equal(await page.locator('.studio-inline-cell.is-active .studio-cell-code').evaluate(n=>n.open),true,'Active R editor opens initially');assert.match(await page.locator('.research-studio-markdown-preview').innerText(),/Preserve prior research/);
  assert.equal(requests.some(u=>u.includes('/python/')),false,'R does not initialize Python');
  assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
@@ -24,7 +24,7 @@ try{for(const width of [390,820,1440])for(const theme of ['light','dark']){
  assert.match(await page.locator('.studio-inline-output').innerText(),/41/);
  await page.getByRole('button',{name:'Actions for cell 1',exact:true}).click();await page.getByRole('button',{name:'Duplicate cell',exact:true}).click();
  await page.getByLabel('R code cell 3',{exact:true}).waitFor({state:'attached'});
- await page.locator('.studio-inline-cell').nth(2).locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').nth(2).locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').nth(2).locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 3',{exact:true}).fill('results <- data.frame(value=42)\nprint(results)');
  await page.getByRole('button',{name:'Run R cell 3',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});

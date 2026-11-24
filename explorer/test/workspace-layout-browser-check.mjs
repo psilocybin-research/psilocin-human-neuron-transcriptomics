@@ -25,7 +25,7 @@ try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPAC
  await expect(creator.locator('.item-link')).toHaveAttribute('aria-expanded','true');
  await collections.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
  const editor=page.getByLabel('R code cell 1',{exact:true});
- await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').first().locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await editor.fill('results <- data.frame(id="ENSG00000167468.12", x=1.125, y=2.25, z=3.375)\nplot(results$x,results$y)\natlas_scatter3d(results,"x","y","z")');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});assert.equal(await page.locator('.studio-inline-figure').count(),1);console.log(`R outputs ready ${width}`);
  // FAB opens contextual tools without executing code or discarding the active editor.

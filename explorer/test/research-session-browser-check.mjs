@@ -7,7 +7,7 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH||'/
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');
- await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').first().locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 1',{exact:true}).fill('results <- subset(genes, id=="ENSG00000167468.12" & contrast=="day1_vs_control")\nprint(results$log2FoldChange)');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});

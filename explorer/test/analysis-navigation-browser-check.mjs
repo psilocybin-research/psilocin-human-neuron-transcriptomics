@@ -7,7 +7,7 @@ try{
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');await page.locator('.studio-inline-cell').waitFor();
  const sidebar=()=>page.locator('.studio-sidebar:visible');
  const openPersonal=async()=>{const toggle=sidebar().getByRole('button',{name:/My analyses/});if(await toggle.getAttribute('aria-expanded')==='false')await toggle.click();};
- await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').first().locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await page.getByLabel('R code cell 1',{exact:true}).fill('# preserve this source; never run\nvalue <- 1.125');
  await openWorkspaceNavigation(page);
  assert.equal(await sidebar().getByRole('button',{name:/My analyses/}).getAttribute('aria-expanded'),'false','Analysis group must start collapsed');
