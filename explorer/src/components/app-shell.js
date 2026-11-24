@@ -1475,6 +1475,7 @@ export function createAppShell({
     });
     sourcePopup = app.popup.create({
       el: source,
+      backdrop: true,
       closeOnEscape: false,
       closeByBackdropClick: true,
       swipeToClose: "to-bottom",

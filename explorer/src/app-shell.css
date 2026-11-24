@@ -7028,3 +7028,18 @@ body {
  #psilocin-app .python-input-bar>.button {width:100%}
  #psilocin-app .studio-cell-code>summary,#psilocin-app .studio-cell-output>summary {min-height:44px;padding-block:13px}
 }
+
+/* Keep source and citation popups crisp; blur only the native F7 backdrop.
+   The rule is scoped to these two surfaces and ends with their close lifecycle. */
+#psilocin-app:has(:is(.source-browser,.research-sources):is(.modal-in,.modal-out)) .popup-backdrop.backdrop-in {
+  -webkit-backdrop-filter:blur(12px) saturate(115%);
+  backdrop-filter:blur(12px) saturate(115%);
+  background-color:color-mix(in srgb,var(--research-text) 22%,transparent);
+}
+@media (prefers-reduced-transparency:reduce) {
+  #psilocin-app:has(:is(.source-browser,.research-sources):is(.modal-in,.modal-out)) .popup-backdrop.backdrop-in {
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    background-color:rgba(0,0,0,.55);
+  }
+}
