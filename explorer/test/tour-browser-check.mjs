@@ -16,6 +16,11 @@ try {
   await open();const tour=page.getByRole('dialog',{name:'Atlas tour',exact:true});
   assert.equal(await tour.getByRole('button',{name:'Back',exact:true}).isDisabled(),true);
   const headings=['A transcriptomic research atlas','Connect pathways, genes and profiles','Interpret contrasts with the study design','Explore the archived data with R','Inspect, export and verify'];
+  await tour.getByRole('button',{name:'Reproducibility',exact:true}).click();
+  assert.equal(await tour.locator('h3').innerText(),headings[4]);
+  assert.equal(await tour.locator('.tour-counter').innerText(),'5 of 5');
+  await tour.getByRole('button',{name:'Study',exact:true}).click();
+  assert.equal(await tour.locator('h3').innerText(),headings[0]);
   for(let step=0;step<headings.length;step++){
    assert.equal(await tour.locator('h3').innerText(),headings[step]);assert.equal(await tour.locator('[aria-current=step]').count(),1);assert.equal(await tour.locator('.tour-counter').innerText(),`${step+1} of 5`);
    assert.equal(await tour.evaluate(n=>n.scrollWidth<=n.clientWidth+1),true);
