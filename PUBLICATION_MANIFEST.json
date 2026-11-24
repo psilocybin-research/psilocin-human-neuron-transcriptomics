@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728173884,
+  "total_bytes": 728173967,
   "status": "pass",
   "failures": [],
   "files": [
@@ -344,8 +344,8 @@
     },
     {
       "path": "explorer/scripts/framework7-entry.js",
-      "bytes": 1737,
-      "sha256": "8c68728f9e17b343f81930a6e857b597698bbd411bc3fbcdfed992bd86ba685f"
+      "bytes": 1820,
+      "sha256": "838f061705597dbc4ec08b33a758d27efe6bcf6b08505e053425e7133ceae449"
     },
     {
       "path": "explorer/scripts/network-3d-entry.js",
