@@ -72,6 +72,37 @@ jobs:
           node test/workspace-layout-browser-check.mjs
           node test/analysis-navigation-browser-check.mjs
 
+  ui-browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: explorer/package-lock.json
+      - run: npm --prefix explorer ci
+      - run: npm --prefix explorer run build
+      - name: Install browser for interface checks
+        working-directory: explorer
+        run: |
+          if command -v google-chrome >/dev/null; then
+            echo "BROWSER_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            npx playwright install chromium
+          fi
+      - name: Verify tour, OXPHOS entrance and pathway tree
+        timeout-minutes: 12
+        working-directory: explorer
+        run: |
+          export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-ui-server.log 2>&1 &
+          atlas_server_pid=$!
+          trap 'kill "$atlas_server_pid"' EXIT
+          node test/tour-browser-check.mjs
+          node test/network-introduction-browser-check.mjs
+          node test/tree-browser-check.mjs
+
   bayesian-inputs:
     runs-on: ubuntu-latest
     steps:

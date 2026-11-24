@@ -12,6 +12,13 @@ page.on('pageerror', e => errors.push(e.message));
 page.on('response', r => {if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`);});
 page.on('request', r => requests.push(r.url()));
 const pathway = 'HALLMARK_OXIDATIVE_PHOSPHORYLATION';
+const closeSelectedEvidence = async targetPage => {
+  const sheet = targetPage.locator('.research-evidence-sheet.modal-in[aria-label="Selected evidence"]');
+  if(await sheet.isVisible()){
+    await sheet.getByRole('button',{name:'Done',exact:true}).click();
+    await sheet.waitFor({state:'hidden'});
+  }
+};
 const open = async hash => {
   await page.goto(`${url}#view=pathways${hash ? '&' + hash : ''}`);
   await page.locator('.tree-count').filter({hasText: /gene sets/}).waitFor();
@@ -23,6 +30,8 @@ assert.equal(await page.locator('.tree-pathway[open]').count(), 0);
 assert.match(await page.locator('.tree-count').innerText(), /14 gene sets · 449 unique genes · 587 memberships/);
 await page.screenshot({path: `${output}/desktop.png`, fullPage: true});
 const ox = page.locator(`[data-pathway="${pathway}"]`);
+assert.equal(await page.locator('.tree-family-disclosure[open]').count(),0,'Families should be initially collapsed');
+await page.locator('.tree-family-disclosure').filter({has:ox}).locator(':scope > summary').click();
 await ox.locator('summary').click();
 await ox.locator('.tree-gene').first().waitFor();
 assert.equal(await ox.locator('.tree-gene').count(), 30);assert.equal(await ox.locator('.tree-gene.button').count(),0);assert.equal(await ox.locator('.tree-gene').first().evaluate(n=>n.getBoundingClientRect().width>=n.parentElement.clientWidth-2),true);
@@ -56,13 +65,17 @@ assert.match(await page.locator('.tree-canvas').innerText(), /No matching pathwa
 await page.getByRole('button', {name: 'Reset search', exact:true}).click();
 await page.getByLabel('Contrast', {exact: true}).selectOption('day3_vs_control',{force:true});
 assert.match(await page.locator('.tree-count').innerText(), /Day 3 \/ common control/);
-assert.match(await page.locator(`[data-pathway="${pathway}"] .tree-path-stats`).innerText(), /107 genes/);
+const displayedPathway = page.locator(`[data-pathway="${pathway}"]`);
+const owningFamily = page.locator('.tree-family-disclosure').filter({has:displayedPathway});
+if(!await owningFamily.evaluate(node=>node.open))await owningFamily.locator(':scope > summary').click();
+assert.match(await displayedPathway.locator('.tree-path-stats').innerText(), /107 genes/);
 await page.getByLabel('Gene membership', {exact: true}).selectOption('all',{force:true});
 await page.getByLabel('Search pathways and genes', {exact: true}).fill('ATP5F1A');
 assert.match(await page.locator('.tree-canvas').innerText(), /No literal-symbol match/);
 await page.locator('.tree-gene').first().click();
 await page.waitForFunction(() => document.querySelector('.gene-symbol')?.textContent === 'ATP5A1');
 assert.match(await page.locator('.gene-detail').innerText(), /Alias sensitivity/);
+await closeSelectedEvidence(page);
 await page.getByRole('button', {name: 'Reset search', exact:true}).click();
 await page.getByLabel('Pathway', {exact: true}).selectOption('REACTOME_GLUTATHIONE_SYNTHESIS_AND_RECYCLING',{force:true});
 assert.match(await page.locator('.result-summary').innerText(), /Untestable/);
@@ -75,6 +88,8 @@ await page.getByLabel('Evidence tier',{exact:true}).selectOption('exploratory',{
 assert.equal(await page.locator('.tree-table tbody tr').count(), 2);
 assert.match(await page.locator('.pathway-evidence-panel').innerText(), /Exploratory analyses.*6-test family/s);
 await page.getByRole('button', {name: 'Tree', exact:true}).click();
+const keyboardFamily = page.locator('.tree-family-disclosure').first();
+if(!await keyboardFamily.evaluate(node=>node.open))await keyboardFamily.locator(':scope > summary').click();
 const firstSummary = page.locator('.tree-pathway > summary').first();
 await firstSummary.focus(); await page.keyboard.press('ArrowRight');
 assert.equal(await page.locator('.tree-pathway[open]').count() > 0, true);
@@ -86,13 +101,15 @@ const results = [];
 for (const width of [320, 390, 768, 1024, 1440]) {
   await page.setViewportSize({width, height: 900});
   await page.getByLabel('Search pathways and genes', {exact: true}).fill('GPX4');
-  await page.locator('.tree-gene').first().click();
+  const activeGene = page.locator('.tree-gene:visible').first();
+  const minTouch = await activeGene.evaluate(e => e.getBoundingClientRect().height);
+  assert.ok(minTouch >= 44, `Gene row touch target must be at least 44px at ${width}px`);
+  await activeGene.click();
   await page.waitForFunction(() => document.querySelector('.gene-symbol')?.textContent === 'GPX4' && document.querySelector('.gene-detail')?.textContent.includes('ENSG'));
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
   assert.equal(overflow, false, `Overflow at ${width}`);
-  const minTouch = await page.locator('.tree-gene').first().evaluate(e => e.getBoundingClientRect().height);
-  assert.ok(minTouch >= 44);
   await page.screenshot({path: `${output}/gene-${width}.png`, fullPage: true});
+  await closeSelectedEvidence(page);
   if (width <= 1000) {
     const back = page.getByRole('button', {name: '↑ Back to pathway tree', exact: true});
     await back.click();
@@ -107,6 +124,7 @@ await phone.goto(`${url}#view=pathways&search=GPX4`);
 await phone.locator('.tree-gene').first().waitFor();
 await phone.locator('.tree-gene').first().tap();
 await phone.waitForFunction(()=>document.querySelector('.gene-symbol')?.textContent==='GPX4'&&document.querySelector('.gene-detail')?.textContent.includes('ENSG'));
+await closeSelectedEvidence(phone);
 await phone.getByRole('button',{name:'↑ Back to pathway tree',exact:true}).tap();
 assert.equal(await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
 await phone.setViewportSize({width:844,height:390});

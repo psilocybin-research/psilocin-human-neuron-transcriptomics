@@ -1,4 +1,4 @@
-import { createElement as el } from "./interface-utils.js";
+import { createElement as el, createAccordion } from "./interface-utils.js";
 import { rExamples } from "./r-examples.js";
 
 const contrasts = ["day1_vs_control", "day3_vs_control", "day3_vs_day1"];
@@ -39,8 +39,8 @@ export function buildResearchRecipe({
     );
 }
 export function createRRecipeBuilder({ action, onGenerate, onStatus }) {
-  const host = el("details", "research-studio-builder");
-  host.append(el("summary", "", "Generate an editable analysis recipe"));
+  const disclosure = createAccordion("Generate an editable analysis recipe", "research-studio-builder");
+  const host = disclosure.element;
   const fields = el("div", "custom-r-toolbar");
   const recipe = el("select"),
     gene = el("input"),
@@ -97,7 +97,7 @@ export function createRRecipeBuilder({ action, onGenerate, onStatus }) {
   };
   recipe.onchange = update;
   update();
-  host.append(
+  disclosure.body.append(
     fields,
     action("Add generated R cell", "plus", () => {
       try {

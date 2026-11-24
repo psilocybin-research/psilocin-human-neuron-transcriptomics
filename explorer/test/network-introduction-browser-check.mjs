@@ -8,14 +8,13 @@ try {
   await page.goto('http://127.0.0.1:4173/#view=overview');
   await page.getByRole('button',{name:'Explore 3D gene–pathway membership',exact:true}).click();
   const root=page.locator('.oxphos-network-3d');
-  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layoutIntroduction==='running');
-  assert.equal(await root.getAttribute('data-layout'),'layers');
-  await page.waitForTimeout(5000);
-  assert.equal(await root.getAttribute('data-layout'),'layers','five full seconds in layered view');
-  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layout==='complex');
-  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layoutReady==='true');
+  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.rendererReady==='true');
+  const started=Date.now();
+  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layout==='complex',null,{timeout:5000});
+  await page.waitForFunction(()=>document.querySelector('.oxphos-network-3d')?.dataset.layoutReady==='true',null,{timeout:5000});
   assert.equal(await root.getAttribute('data-layout-introduction'),'complete');
+  assert(Date.now()-started<5000,'First-run network should settle without the old 5-second hold after renderer startup');
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS: first OXPHOS entry starts layered, holds five seconds and morphs to complex on mobile and desktop.');
+ console.log('PASS: first OXPHOS appearance settles directly into complex layout without a 5-second hold on mobile and desktop.');
 } finally {await browser.close();}

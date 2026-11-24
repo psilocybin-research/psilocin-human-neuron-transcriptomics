@@ -3,7 +3,7 @@ import Fuse from "fuse.js";
 // Archived arrays are immutable. Weak keys let replaced datasets be collected.
 const indexes = new WeakMap();
 const fuzzyIndexes = new WeakMap();
-const limit = 20;
+const defaultLimit = 20;
 function searchIndex(genes, aliases) {
   let byAliases = indexes.get(genes);
   if (!byAliases) indexes.set(genes, (byAliases = new WeakMap()));
@@ -35,7 +35,8 @@ function searchIndex(genes, aliases) {
 }
 
 // Search identifiers without inventing aliases or merging distinct source IDs.
-export function geneSuggestions(genes, aliases, query, preferred = []) {
+export function geneSuggestions(genes, aliases, query, preferred = [], maxResults = defaultLimit) {
+  const limit = Math.max(1, Math.min(genes.length, Math.floor(maxResults) || defaultLimit));
   const q = query.trim().toUpperCase();
   const priority = new Map(preferred.map((id, i) => [id, i]));
   const buckets = new Map();
@@ -76,7 +77,8 @@ export function geneSuggestions(genes, aliases, query, preferred = []) {
 
 // This is deliberately separate from deterministic identifier search. Callers
 // opt in, then append only non-exact results after exact matches.
-export function fuzzyGeneSuggestions(genes, aliases, query) {
+export function fuzzyGeneSuggestions(genes, aliases, query, maxResults = defaultLimit) {
+  const limit = Math.max(1, Math.min(genes.length, Math.floor(maxResults) || defaultLimit));
   const q = query.trim();
   if (q.length < 3) return [];
   let byAliases = fuzzyIndexes.get(genes);

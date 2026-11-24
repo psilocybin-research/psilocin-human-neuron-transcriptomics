@@ -31,6 +31,7 @@ const hoverNumber = (value, probability = false) =>
 const exact = (value) =>
   Number.isFinite(value) ? String(value) : "Not estimable";
 let layoutIntroductionShown = false;
+let firstEntranceShown = false;
 
 export function createOxphosNetwork({ onAnalysisToR, onBayesian, onEvidence, initialGene, initialContrast, initialOverlay, onResearch, onSelection = () => {} }) {
   const root = el("section", "oxphos-network-3d");
@@ -1456,7 +1457,7 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
         if (destroyed || root.dataset.layoutIntroduction !== "running") return;
         transitionLayout("complex", {automatic:true});
         root.dataset.layoutIntroduction = "complete";
-      }, 5200);
+      }, 240);
     }
   }
   function interruptIntroduction() {
@@ -1835,8 +1836,9 @@ ${significantCount(day)} genes with FDR < 0.05 · Day ${day ? 3 : 1} / common co
       }
       reset(false);
       updateGraph();
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const began = performance.now();
+      if (!firstEntranceShown && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+         firstEntranceShown = true;
+         const began = performance.now();
         const groups = ["I", "II", "III", "IV", "V", "other"];
         const ease = (v) => {
           const t = Math.min(1, Math.max(0, v));
