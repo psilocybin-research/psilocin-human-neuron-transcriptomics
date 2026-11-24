@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728174375,
+  "total_bytes": 728175778,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 3290,
-      "sha256": "314fd6f7a3455d89a9ebb5c17daa3a4b058df36a925ebf3d49a2a1765e488ae8"
+      "bytes": 3392,
+      "sha256": "9e2f68310e57c592697c295f83d0fad9681ec8296e6f4ed56638f605d771cf73"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -4089,8 +4089,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 5120,
-      "sha256": "1d4ce7ac74c31b3ce0d29db8a9d36827c6db0fbd55a64b86af7b6eb39a76b00a"
+      "bytes": 5537,
+      "sha256": "97dc61ac34c15fbe211cebebbf9279c4ee36a1dfc05807e5467f61fff40ce330"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
@@ -4454,8 +4454,8 @@
     },
     {
       "path": "explorer/test/r-variable-browser-check.mjs",
-      "bytes": 3643,
-      "sha256": "1fedba695f8e9527fba513df7e09734ead0aa4e9d3c0882c7f75516ac5aa11f2"
+      "bytes": 4169,
+      "sha256": "cdb6502f120b66f71b613689374a53c29f23182a73bf8d95149847c66e78b12f"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
@@ -4614,8 +4614,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 6698,
-      "sha256": "b9dbe227e7797cb673226a43d3c3ea000d1e07a2227c724bd0d97b981a36f220"
+      "bytes": 7056,
+      "sha256": "c1296c50c3a431d5d36b2151cbabfd218b4208d6703b3e80c37985b8daeabfbb"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

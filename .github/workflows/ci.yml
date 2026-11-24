@@ -62,6 +62,8 @@ jobs:
           atlas_server_pid=$!
           trap 'kill "$atlas_server_pid"' EXIT
           node test/source-browser-check.mjs
+          node test/tour-browser-check.mjs
+          node test/network-introduction-browser-check.mjs
           node test/research-integration-browser-check.mjs
           node test/shared-r-browser-check.mjs
           node test/research-workstation-browser-check.mjs
