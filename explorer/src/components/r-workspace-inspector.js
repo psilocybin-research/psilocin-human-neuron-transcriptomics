@@ -1,4 +1,4 @@
-import {createElement as el, closeSheet, destroySheet} from './interface-utils.js';
+import {createElement as el, createSheetToolbar, closeSheet, destroySheet} from './interface-utils.js';
 import {downloadFile} from './file-download.js';
 import {createExploratoryResultChart} from './exploratory-result-chart.js';
 
@@ -9,12 +9,13 @@ export function createRWorkspaceInspector({root,action,read,exportCSV,onInsert,o
  const status=el('p','note','Run a cell to inspect its variables.'),list=el('div','r-variable-list');host.append(status,list);
  function update(names=[],metadata=[]){list.replaceChildren();status.textContent='Current notebook session';for(const [title,predicate] of [['Archived inputs · working copies',n=>archived.has(n)],['User objects',n=>!archived.has(n)&&n!=='atlas_archive'&&!n.startsWith('atlas_')]]){const group=el('details');group.open=true;group.append(el('summary','',title));for(const name of names.filter(predicate)){const button=action(name,'custom-r',()=>open(name)),meta=metadata.find(value=>value.name===name);button.setAttribute('aria-label',name);if(meta)button.append(el('small','workspace-variable-meta',`${meta.type} · ${meta.shape}`));group.append(button);}list.append(group);}}
  async function open(name){
-  const sheet=el('div','sheet-modal studio-pane-sheet r-object-sheet'),body=el('div','sheet-modal-inner'),heading=el('h3','',name),message=el('p','note'),metadata=el('div'),stage=el('div'),tools=el('div','custom-r-toolbar'),paging=el('div','custom-r-toolbar');let offset=0,view,modal;
+  const sheet=el('div','sheet-modal studio-pane-sheet r-object-sheet'),body=el('div','sheet-modal-inner'),message=el('p','note'),metadata=el('div','r-object-metadata'),stage=el('div','r-object-stage'),tools=el('div','custom-r-toolbar r-object-actions'),paging=el('div','custom-r-toolbar r-object-paging');let offset=0,view,modal;
   const handle=el('div','workspace-sheet-handle');handle.append(el('span'));
-  body.append(handle,heading,message,tools,metadata,stage,paging,action('Done','close',()=>closeSheet(modal)));sheet.append(body);root.append(sheet);
+  const done=el('button','link','Done');done.type='button';done.onclick=()=>closeSheet(modal);sheet.setAttribute('aria-label',`R object ${name}`);
+  body.append(message,tools,metadata,stage,paging);sheet.append(handle,createSheetToolbar(name,[done]),body);root.append(sheet);
   const query=JSON.stringify(name);
   async function load(){try{view=await read(name,offset);metadata.replaceChildren(el('p','note',`${view.class} · ${view.rows??view.length} ${view.rows!=null?'rows':'elements'}${view.columns?` × ${view.columns.length} displayed columns`:''}`));stage.replaceChildren();paging.replaceChildren();if(!view.columns){stage.append(el('pre','custom-r-console',view.preview));return;}
-    const summary=el('details');summary.append(el('summary','','Columns, missing values & numerical summaries'));const stats=el('table'),header=el('tr');['Column','Type','Missing','Min','Mean','Max'].forEach(s=>header.append(el('th','',s)));stats.append(header);for(const c of view.columns){const row=el('tr');[c.name,c.type,c.missing,c.min??'',c.mean??'',c.max??''].forEach(s=>row.append(el('td','',String(s))));stats.append(row);}summary.append(stats);metadata.append(summary);
+    const summary=el('details');summary.append(el('summary','','Columns, missing values & numerical summaries'));const stats=el('table'),header=el('tr');['Column','Type','Missing','Min','Mean','Max'].forEach(s=>header.append(el('th','',s)));stats.append(header);for(const c of view.columns){const row=el('tr');[c.name,c.type,c.missing,c.min??'',c.mean??'',c.max??''].forEach(s=>row.append(el('td','',String(s))));stats.append(row);}const statsWrap=el('div','table-scroll');statsWrap.append(stats);summary.append(statsWrap);metadata.append(summary);
     const wrap=el('div','table-scroll'),table=el('table'),head=el('tr');view.columns.forEach(c=>head.append(el('th','',c.name)));table.append(head);for(const values of view.preview){const row=el('tr');values.forEach(v=>row.append(el('td','',v)));table.append(row);}wrap.append(table);stage.append(wrap);
     const previous=action('Previous','top',()=>{offset=Math.max(0,offset-50);load();}),next=action('Next','top',()=>{offset+=50;load();});previous.disabled=offset===0;next.disabled=offset+50>=view.rows;paging.append(previous,el('span','note',`${offset+1}–${Math.min(offset+50,view.rows)} of ${view.rows} rows · first 100 columns`),next);
   }catch(error){message.textContent=error.message;}}

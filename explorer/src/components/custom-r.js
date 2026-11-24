@@ -1,7 +1,7 @@
 import { appendMitochondrialCard } from "./mitochondrial-card.js";
 import {openResearchDatasets} from "./research-dataset-browser.js";
 import {createRWorkspaceInspector} from "./r-workspace-inspector.js";
-import {archivedResearchTables,researchTableCSV} from "./research-datasets.js";
+import {archivedResearchTables,archivedResearchMetadata,researchTableCSV} from "./research-datasets.js";
 import {SCIENTIFIC_R_HELPERS} from "./scientific-scene-helpers.js";
 import {validateSceneSpec} from "./scientific-scene-spec.js";
 import {createScientificScene} from "./scientific-scene.js";
@@ -428,7 +428,7 @@ export function createCustomR({
   host.syncWorkspaceContext=()=>{syncSelectionContext();syncSelectionCard();};
   syncSelectionCard();
   // Full figures and tables remain inline; inspector contains indexes, not duplicates.
-  host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();root.f7.accordion.open(notebooks.tools.querySelector('.research-studio-import .accordion-item'));notebooks.openTools();}});
+  host.openDatasets=()=>openResearchDatasets({root,getTables:async()=>cachedTables ||= archivedResearchTables(data,await getGenes(),bayesian),getMetadata:async()=>archivedResearchMetadata(data,await getGenes(),bayesian),onInsert:source=>{root.workspaceTools?.showR?.();notebooks.addCode(source);},onImport:()=>{root.workspaceTools?.showR?.();root.f7.accordion.open(notebooks.tools.querySelector('.research-studio-import .accordion-item'));notebooks.openTools();}});
   host.workspaceNavigation=notebooks.sidebar;
   host.setWorkspaceActive=value=>notebooks.layout.setActive(value);
   host.workspaceActions=()=>[

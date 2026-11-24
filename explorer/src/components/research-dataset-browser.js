@@ -7,6 +7,8 @@ import {
 } from "./interface-utils.js";
 import { downloadFile } from "./file-download.js";
 import { researchTableCSV } from "./research-datasets.js";
+import { uiIcon } from "./icons.js";
+import { showToast } from "./app-toast.js";
 
 let datasetSequence = 0;
 
@@ -14,6 +16,7 @@ let datasetSequence = 0;
 export async function openResearchDatasets({
   root,
   getTables,
+  getMetadata,
   onInsert,
   onImport,
 }) {
@@ -27,11 +30,11 @@ export async function openResearchDatasets({
   done.type = "button";
   const header = createSheetToolbar("Datasets", [done]);
   const body = el("div", "sheet-modal-inner"),
-    stage = el("div");
+    stage = el("div", "dataset-catalogue");
   body.append(
     el(
       "p",
-      "note",
+      "note dataset-provenance",
       "Frozen input tables · archive DOI 10.5281/zenodo.23283595. These are fitted estimates and pooled profiles, not raw counts.",
     ),
     stage,
@@ -71,13 +74,13 @@ export async function openResearchDatasets({
     closeSheet(modal);
   }
   try {
-    const tables = await getTables();
+    const metadata = getMetadata ? await getMetadata() : Object.fromEntries(Object.entries(await getTables()).map(([name,rows])=>[name,{count:rows.length,columns:Object.keys(rows[0]||{})}]));
     if (disposed || !sheet.isConnected) return;
-    stage.replaceChildren();
-    const list = el("div", "list list-strong list-dividers"),
+    stage.replaceChildren(el("h3","dataset-section-title",`${Object.keys(metadata).length} archived input tables`));
+    const list = el("div", "list list-strong list-dividers dataset-list"),
       ul = el("ul");
     list.append(ul);
-    for (const [name, rows] of Object.entries(tables)) {
+    for (const [name, {count,columns}] of Object.entries(metadata)) {
       const li = el("li", "accordion-item workspace-dataset-group"),
         toggle = el("button", "item-link item-content dataset-toggle"),
         inner = el("span", "item-inner");
@@ -86,26 +89,26 @@ export async function openResearchDatasets({
       toggle.setAttribute("aria-label", `Show ${name} columns and actions`);
       inner.append(
         el("span", "item-title", name),
-        el("span", "item-after", `${rows.length.toLocaleString()} rows`),
+        el("span", "item-after", `${count.toLocaleString("en-US")} rows`),
       );
-      toggle.append(inner);
+      const media=el("span","item-media dataset-icon");media.append(uiIcon("landscape"));
+      toggle.append(media,inner);
       const content = el("div", "accordion-item-content"),
-        details = el("div", "block"),
-        actions = el("div", "segmented segmented-strong");
+        details = el("div", "dataset-details"),
+        actions = el("div", "dataset-actions");
       content.id = `workspace-dataset-${++datasetSequence}`;
       content.setAttribute("aria-hidden", "true");
       toggle.setAttribute("aria-controls", content.id);
-      details.append(el("p", "note", Object.keys(rows[0] || {}).join(" · ")));
-      actions.append(
-        button("Download CSV", () =>
-          downloadFile(`${name}.csv`, researchTableCSV(rows), "text/csv"),
-        ),
-        button("Inspect in R", () =>
-          afterClose(() =>
-            onInsert(`results <- head(${name}, 50)\nprint(results)`),
-          ),
-        ),
-      );
+      details.append(el("p","dataset-column-heading",`${columns.length} columns`),el("p", "note dataset-columns", columns.join(" · ") || "No recorded columns"));
+      const download=button("Download CSV", async()=> {
+        download.disabled=true;
+        try {const rows=(await getTables())[name];if(!disposed)await downloadFile(`${name}.csv`,researchTableCSV(rows),"text/csv");}
+        catch(error){if(!disposed)showToast(error.message);}
+        finally{if(!disposed)download.disabled=false;}
+      });
+      const inspect=button("Inspect in R",()=>afterClose(()=>onInsert(`results <- head(${name}, 50)\nprint(results)`)));
+      download.classList.add("button-tonal");inspect.classList.add("button-tonal");
+      actions.append(download,inspect);
       details.append(actions);
       content.append(details);
       li.append(toggle, content);
@@ -120,8 +123,9 @@ export async function openResearchDatasets({
       });
     }
     const add = button("Import dataset", () => afterClose(onImport));
-    add.classList.add("button-tonal");
-    stage.append(list, add);
+    add.classList.add("button-fill","dataset-import");
+    const footer=el("div","dataset-footer");footer.append(add);
+    stage.append(list, footer);
   } catch (error) {
     if (!disposed) stage.replaceChildren(el("p", "note", error.message));
   }

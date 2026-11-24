@@ -14,6 +14,8 @@ import {
   loadingMessage,
   showResearchEvidence,
   createAccordion,
+  createSheetToolbar,
+  closeSheet,
 } from "./interface-utils.js";
 import {
   Plot,
@@ -785,8 +787,11 @@ export function createAtlas(data, provenance, loadGenes, branding = {}) {
   let collectionSheet;
   function showCollectionSurface(){
     if(!root.classList.contains('workspace-mode')||collectionSheet)return;
-    const slot=document.createComment('collection tools'),sheet=el('div','sheet-modal studio-pane-sheet workspace-collections-sheet'),inner=el('div','sheet-modal-inner');collectionHost.before(slot);inner.append(el('h3','','Collections'),collectionHost,button('Done',()=>collectionSheet?.close()));sheet.append(inner);root.append(sheet);sessionBar.hidden=true;
-    collectionSheet=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:true,on:{closed(){slot.replaceWith(collectionHost);sheet.remove();const instance=collectionSheet;collectionSheet=undefined;setTimeout(()=>instance?.destroy(),0);}}});collectionSheet.open();
+    const slot=document.createComment('collection tools'),sheet=el('div','sheet-modal studio-pane-sheet workspace-collections-sheet'),inner=el('div','sheet-modal-inner');
+    const handle=el('div','sheet-handle'),done=el('button','link','Done');done.type='button';done.onclick=()=>closeSheet(collectionSheet);
+    sheet.setAttribute('aria-label','Collections');collectionHost.before(slot);inner.append(collectionHost);
+    sheet.append(handle,createSheetToolbar('Collections',[done]),inner);root.append(sheet);sessionBar.hidden=true;
+    collectionSheet=root.f7.sheet.create({el:sheet,backdrop:true,closeOnEscape:false,swipeToClose:true,swipeHandler:handle,push:false,on:{closed(){slot.replaceWith(collectionHost);sheet.remove();const instance=collectionSheet;collectionSheet=undefined;setTimeout(()=>instance?.destroy(),0);}}});collectionSheet.open();
   }
   async function openCollections(force=false) {
     if (collectionsView) { collectionHost.hidden = force?false:!collectionHost.hidden; sessionBar.hidden=collectionHost.hidden;if(!collectionHost.hidden)showCollectionSurface(); return; }

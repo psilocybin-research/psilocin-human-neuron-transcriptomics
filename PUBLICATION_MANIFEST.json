@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728180110,
+  "total_bytes": 728192978,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 4742,
-      "sha256": "1820c3190cfba508a7cb0a771b66ff0687e57baff8646962684cc7cb7df1d519"
+      "bytes": 5515,
+      "sha256": "6c5c007da4e00f5559a776c0c7da8c95d84729293595685c1ee33be50a4a2496"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 296506,
-      "sha256": "f90c658d6341669899400ea65e7d003a42676f6dd04a3f402db451b1f083b950"
+      "bytes": 302437,
+      "sha256": "61328ddadf467bb7c1944bb83a7a6f26e6af0e5b4f0c936189032339b0c0c61c"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 136964,
-      "sha256": "24715fc03d9beda353d4fac8a364fcd236e5d891465ca887d0fbbf16502a7cc4"
+      "bytes": 137224,
+      "sha256": "6d20da77fb89bfd349fd7678d6138cefef67a472662549b035d482c76add4b5c"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -3554,8 +3554,8 @@
     },
     {
       "path": "explorer/src/components/custom-r.js",
-      "bytes": 45481,
-      "sha256": "67587875c2fb615aef32964999082bf627be8c779f57cedbfaa45cb6e6904221"
+      "bytes": 45584,
+      "sha256": "4cb64023d6570563eaa10075d43ea14d4f3c41f5abab490dc322d682dc495e9b"
     },
     {
       "path": "explorer/src/components/evidence-sheet.js",
@@ -3884,8 +3884,8 @@
     },
     {
       "path": "explorer/src/components/r-workspace-inspector.js",
-      "bytes": 6181,
-      "sha256": "d38da47f26d6df9180d618204151728be2c2b2324d6b9b2b791ba6ba146a1d5a"
+      "bytes": 6441,
+      "sha256": "b7249b0d69d4308d44a5449bc25a28dbf0fd754bec6c4a912e836f7961272a1b"
     },
     {
       "path": "explorer/src/components/research-collection-data.js",
@@ -3899,13 +3899,13 @@
     },
     {
       "path": "explorer/src/components/research-dataset-browser.js",
-      "bytes": 4193,
-      "sha256": "ebdc5d5cf2bfa04f58bad99c6b6cb9fe51d42fb460a2b300e9b4f601df99fb18"
+      "bytes": 5139,
+      "sha256": "41692152682996c7b4b6a411533fa9a348bca0621330df3723e8bc9627edc552"
     },
     {
       "path": "explorer/src/components/research-datasets.js",
-      "bytes": 806,
-      "sha256": "d1fa364819a64ec208e62beb57d8efe302c16cfa996349cc49f315e230602aca"
+      "bytes": 1501,
+      "sha256": "6ed52a581bb977b2874644b62037b52080bc056ff6bd788e3c89a00d2f4aaa7f"
     },
     {
       "path": "explorer/src/components/research-figure-builder.js",
@@ -3944,8 +3944,8 @@
     },
     {
       "path": "explorer/src/components/research-studio.js",
-      "bytes": 12413,
-      "sha256": "500061530daafc3c14d99a3a3542923430c0f067303f29e01e85d8bd6fa3d2b1"
+      "bytes": 12921,
+      "sha256": "de14535f762a8209182cfa2f8d7622fb3c1dc98a97a18d11d879254cd2fc7e42"
     },
     {
       "path": "explorer/src/components/research-tables.js",
@@ -4169,8 +4169,8 @@
     },
     {
       "path": "explorer/test/f7-data-surfaces-browser-check.mjs",
-      "bytes": 2809,
-      "sha256": "f787bdb9a651cad2973e9222071e0ba84740d11b24d207a054c81f1f05094693"
+      "bytes": 4803,
+      "sha256": "b7a430fae5363be40250ecf5d84c800bf296d7c20b027d5f00df6d20c9a177f5"
     },
     {
       "path": "explorer/test/f7-interaction-browser-check.mjs",
@@ -4614,8 +4614,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 7406,
-      "sha256": "12f85882089550db6ed28767f89f24c3a38c27060fbfccce10fafd8a8dd4b711"
+      "bytes": 8804,
+      "sha256": "b160d2b6a1a53db9b9b12eaae6aa23c2a29bdf13690eee58587a7bd92f9b689e"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

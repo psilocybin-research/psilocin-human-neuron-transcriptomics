@@ -1,17 +1,26 @@
 import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+const output=process.env.QA_OUTPUT||'/tmp/atlas-visual';await mkdir(output,{recursive:true});
 import {openWorkspaceNavigation,selectWorkspace} from './workspace-browser-helpers.mjs';
 const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH||'/usr/bin/chromium',args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
 try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPACE_WIDTH)]:[390,820,1440])){
  const context=await browser.newContext({viewport:{width,height:1000},hasTouch:width<900});const page=await context.newPage(),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error(e.stack);});
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');await page.locator('.workspace-frame').waitFor();await page.waitForFunction(()=>!!document.querySelector('.workspace-inspector-panel')?.f7Panel);
  await expect(page.locator('#sidebar-workspace .studio-sidebar')).toHaveCount(1);await expect(page.locator('#sidebar-workspace')).toHaveAttribute('aria-hidden','false');await expect(page.locator('.workspace-frame>.studio-sidebar')).toHaveCount(0);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-modal-open'),'true');
- await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Datasets',exact:true}).click();const catalogue=page.locator('.workspace-datasets-sheet');await catalogue.locator('li').nth(5).waitFor();assert.equal(await catalogue.locator('li').count(),6);assert.match(await catalogue.innerText(),/63,462/);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');await catalogue.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
+ await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Datasets',exact:true}).click();const catalogue=page.locator('.workspace-datasets-sheet');await catalogue.locator('li').nth(5).waitFor();assert.equal(await catalogue.locator('li').count(),6);assert.match(await catalogue.innerText(),/63,462/);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');await expect(catalogue).toHaveAttribute('data-shell-modal-ready','true');
+ const layout=await catalogue.evaluate(n=>{const b=n.getBoundingClientRect(),l=n.querySelector('.dataset-list').getBoundingClientRect(),t=n.querySelector('.dataset-toggle');return{width:b.width,left:b.left,right:b.right,listRatio:l.width/b.width,touch:t.getBoundingClientRect().height,border:getComputedStyle(t).borderTopWidth};});
+ assert.ok(layout.left>=-1&&layout.right<=width+1&&layout.width<=Math.min(width,820)+1&&layout.listRatio>.85&&layout.touch>=44&&layout.border==='0px',JSON.stringify(layout));
+ await expect(catalogue.locator('.dataset-toggle[aria-expanded=false]')).toHaveCount(6);
+ await page.screenshot({path:`${output}/datasets-${width}-light.png`,animations:'disabled'});
+ await catalogue.getByRole('button',{name:'Show landscape columns and actions',exact:true}).click();await expect(catalogue.getByRole('button',{name:'Inspect in R',exact:true})).toBeVisible();await page.screenshot({path:`${output}/datasets-expanded-${width}-light.png`,animations:'disabled'});
+ await catalogue.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
  await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Collections',exact:true}).click();const collections=page.locator('.workspace-collections-sheet');
  const creator=collections.locator('.research-collections .accordion-item').first();
  await creator.waitFor();
  assert.equal(await creator.locator('.item-link').getAttribute('aria-expanded'),'false','Collection form starts collapsed');
  await expect(collections.getByText('No collections yet',{exact:true}),'Saved-collection empty state appears immediately').toBeVisible();
+ await expect(collections).toHaveAttribute('data-shell-modal-ready','true');await page.screenshot({path:`${output}/collections-${width}-light.png`,animations:'disabled'});
  await creator.locator('.item-link').click();
  await expect(creator.locator('.item-link')).toHaveAttribute('aria-expanded','true');
  await collections.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
@@ -30,5 +39,5 @@ try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPAC
  await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Focus mode',exact:true}).click();await expect(page.locator('.workspace-frame')).toHaveClass(/workspace-focus/);await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Focus mode',exact:true}).click();await expect(page.locator('.workspace-frame')).not.toHaveClass(/workspace-focus/);
  await selectWorkspace(page,'Python Lab');await page.locator('.python-lab').waitFor();assert.match(await page.locator('.python-inspector').textContent(),/Runtime not initialized/);await selectWorkspace(page,'R Studio');assert.match(await editor.innerText(),/1.125/);assert.equal(await page.locator('.studio-inline-figure').count(),1);
  await openWorkspaceNavigation(page);await expect(page.locator('.studio-sidebar:visible .studio-archived-analyses>.button')).toHaveCount(6);if(width<1180){await page.getByRole('tab',{name:'R Studio',exact:true}).click();}
- assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);await page.screenshot({path:`/tmp/atlas-f7-${width}.png`});console.log(`PASS ${width}: integrated navigation, native inspector, nested sheet focus, live R outputs, figure index, console, focus, contextual FAB, Python isolation and state preservation`);await context.close();
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);await page.screenshot({path:`${output}/workspace-${width}-light.png`,animations:'disabled'});console.log(`PASS ${width}: integrated navigation, native inspector, nested sheet focus, live R outputs, figure index, console, focus, contextual FAB, Python isolation and state preservation`);await context.close();
 }}finally{await browser.close();}

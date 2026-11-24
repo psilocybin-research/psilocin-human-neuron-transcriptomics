@@ -73,6 +73,12 @@ jobs:
             echo '::endgroup::'
           done
           exit "$failed"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atlas-workspace-review
+          path: /tmp/atlas-visual
+          if-no-files-found: warn
 
   ui-browser:
     runs-on: ubuntu-24.04
@@ -93,17 +99,28 @@ jobs:
           else
             npx playwright install chromium
           fi
-      - name: Verify tour, OXPHOS entrance and pathway tree
-        timeout-minutes: 12
+      - name: Verify tour, OXPHOS entrance, pathway tree and visual surfaces
+        timeout-minutes: 18
         working-directory: explorer
         run: |
           export BROWSER_PATH="${BROWSER_PATH:-$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')}"
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atlas-ui-server.log 2>&1 &
           atlas_server_pid=$!
           trap 'kill "$atlas_server_pid"' EXIT
-          node test/tour-browser-check.mjs
-          node test/network-introduction-browser-check.mjs
-          node test/tree-browser-check.mjs
+          export QA_OUTPUT=/tmp/atlas-visual
+          failed=0
+          for check in test/tour-browser-check.mjs test/network-introduction-browser-check.mjs test/tree-browser-check.mjs test/f7-data-surfaces-browser-check.mjs test/feedback-notification-browser-check.mjs test/plot-layout-browser-check.mjs; do
+            echo "::group::$check"
+            if node "$check"; then echo "PASS: $check"; else echo "::error::Browser check failed: $check"; failed=1; fi
+            echo '::endgroup::'
+          done
+          exit "$failed"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atlas-visual-review
+          path: /tmp/atlas-visual
+          if-no-files-found: warn
 
   bayesian-inputs:
     runs-on: ubuntu-latest

@@ -6916,3 +6916,62 @@ body {
   #psilocin-app .research-collections-view { padding-inline: 12px; }
   #psilocin-app .research-collection-saved-title { align-items: flex-start; flex-direction: column; }
 }
+
+/* Shared compact research surfaces: retain Framework7's vertical sheet transform. */
+#psilocin-app :is(.workspace-datasets-sheet,.workspace-collections-sheet,.r-object-sheet) {
+ left:0;right:0;margin-inline:auto;width:min(100%,820px);height:min(85dvh,680px);max-height:85dvh;
+ border-radius:20px 20px 0 0;background:var(--research-page);color:var(--research-text);box-shadow:0 -8px 32px #0002;
+}
+#psilocin-app .r-object-sheet {width:min(100%,1100px);height:min(88dvh,820px);max-height:88dvh;}
+#psilocin-app :is(.workspace-datasets-sheet,.workspace-collections-sheet,.r-object-sheet):is(.modal-in,.modal-out){display:flex;flex-direction:column;}
+#psilocin-app :is(.workspace-datasets-sheet,.workspace-collections-sheet,.r-object-sheet)>:is(.sheet-handle,.workspace-sheet-handle){flex:0 0 auto;}
+#psilocin-app :is(.workspace-datasets-sheet,.workspace-collections-sheet,.r-object-sheet)>.sheet-modal-inner{flex:1;min-height:0;height:auto;overflow:auto;overscroll-behavior:contain;padding:16px clamp(14px,3vw,28px) calc(20px + env(safe-area-inset-bottom));}
+#psilocin-app .workspace-collections-sheet>.sheet-modal-inner{padding:0;}
+#psilocin-app .workspace-collections-sheet .research-collection-host{width:100%;max-width:none;}
+#psilocin-app .dataset-provenance{margin:0 0 18px;max-width:none;line-height:1.5;font-size:12px;}
+#psilocin-app .dataset-section-title{margin:0 0 8px;font-size:13px;color:var(--research-muted);font-weight:600;}
+#psilocin-app .dataset-list{width:100%;max-width:none;margin:0;border:1px solid var(--research-border);border-radius:14px;overflow:hidden;background:var(--research-surface);}
+#psilocin-app .dataset-list>ul{width:100%;max-width:none;margin:0;padding:0;list-style:none;background:transparent;}
+#psilocin-app .dataset-list>ul::before,#psilocin-app .dataset-list>ul::after{display:none;}
+#psilocin-app .dataset-list .workspace-dataset-group{margin:0;padding:0;border:0;}
+#psilocin-app .dataset-list .workspace-dataset-group+.workspace-dataset-group{border-top:1px solid var(--research-border);}
+#psilocin-app .dataset-list button.dataset-toggle{width:100%;max-width:none;min-height:52px;height:auto;margin:0;padding:0 14px;border:0;border-radius:0;background:transparent;color:var(--research-text);display:flex;align-items:center;text-align:left;font:inherit;box-shadow:none;}
+#psilocin-app .dataset-list button.dataset-toggle:focus-visible{outline-offset:-3px;}
+#psilocin-app .dataset-list button.dataset-toggle .item-inner{min-width:0;min-height:52px;gap:8px;}
+#psilocin-app .dataset-list .item-inner::after{display:none;}
+#psilocin-app .dataset-list .item-title{font-family:var(--font-mono,monospace);font-size:13px;overflow-wrap:anywhere;white-space:normal;}
+#psilocin-app .dataset-list .item-after{color:var(--research-muted);font-size:12px;white-space:nowrap;}
+#psilocin-app .dataset-icon{min-width:28px;display:grid;place-items:center;color:var(--research-accent);}
+#psilocin-app .dataset-icon svg{width:19px;height:19px;}
+#psilocin-app .dataset-details{padding:10px 16px 16px;border-top:1px solid var(--research-border);}
+#psilocin-app .dataset-column-heading{margin:0 0 4px;font-size:12px;font-weight:600;}
+#psilocin-app .dataset-columns{margin:0 0 12px;line-height:1.5;overflow-wrap:anywhere;max-width:none;}
+#psilocin-app :is(.dataset-actions,.dataset-footer,.workspace-session-actions){display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+#psilocin-app .dataset-footer{justify-content:flex-end;margin-top:16px;}
+#psilocin-app :is(.dataset-actions,.dataset-footer,.workspace-session-actions)>.button{width:auto;min-height:44px;padding:8px 16px;white-space:normal;}
+#psilocin-app .dataset-footer>.button{background:var(--f7-theme-color);color:white;}
+#psilocin-app .r-object-sheet .r-object-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}
+#psilocin-app .r-object-sheet :is(.r-object-actions,.r-object-paging)>.button{width:auto;min-height:44px;padding:8px 12px;white-space:normal;}
+#psilocin-app .r-object-sheet .r-object-metadata{margin:0 0 12px;}
+#psilocin-app .r-object-sheet .table-scroll{max-width:100%;overflow:auto;border:1px solid var(--research-border);border-radius:10px;}
+#psilocin-app .r-object-sheet .table-scroll table{margin:0;}
+#psilocin-app .r-object-sheet .r-object-paging{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;}
+#psilocin-app .studio-inline-cell{border-radius:12px;}
+#psilocin-app .studio-inline-output{padding:0 14px 14px;}
+#psilocin-app :is(.studio-projects-panel,.studio-reports-panel){width:min(100%,980px);margin-inline:auto;padding:clamp(12px,2vw,24px);min-width:0;}
+#psilocin-app :is(.studio-projects-panel,.studio-reports-panel)>h3{margin:0 0 8px;font-size:20px;}
+#psilocin-app .studio-project-list{display:grid;gap:12px;margin-top:16px;}
+#psilocin-app :is(.studio-project-row,.workspace-project-empty,.workspace-session-tools){padding:16px;border:1px solid var(--research-border);border-radius:12px;background:var(--research-surface);min-width:0;}
+#psilocin-app .studio-project-row h4,#psilocin-app .workspace-session-tools h4{margin:0 0 6px;}
+#psilocin-app .studio-project-row .button{width:auto;min-height:44px;}
+#psilocin-app .workspace-session-tools{margin-top:20px;}
+#psilocin-app .workspace-session-tools>.note{margin:6px 0 12px;}
+#psilocin-app .python-lab .python-inspector{border-color:var(--research-border);background:var(--research-surface);}
+@media(max-width:900px){#psilocin-app .workspace-editor-view>.studio-main-toolbar>.button{min-height:44px;}}
+@media(max-width:600px){
+ #psilocin-app :is(.workspace-datasets-sheet,.workspace-collections-sheet,.r-object-sheet){width:100%;border-radius:16px 16px 0 0;}
+ #psilocin-app .dataset-list button.dataset-toggle{padding-inline:10px;}
+ #psilocin-app .dataset-actions>.button{flex:1 1 120px;}
+ #psilocin-app .dataset-footer>.button{width:100%;}
+ #psilocin-app .r-object-sheet .r-object-actions>.button{flex:1 1 120px;}
+}
