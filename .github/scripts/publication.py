@@ -4,11 +4,17 @@ import json
 import os
 import re
 import subprocess
+import urllib.request
 from pathlib import Path
 
 REQUEST = ".github/publication-request.json"
 ALLOWED = {REQUEST, "PUBLICATION_MANIFEST.json", "SHA256SUMS"}
 REPOSITORY = "psilocybin-research/psilocin-human-neuron-transcriptomics"
+
+
+def reject_replayed_run(runs, current_id, revision):
+    if any(str(run["id"]) != str(current_id) and run.get("head_sha") == revision and run.get("head_branch") == "main" and run.get("event") == "push" for run in runs):
+        raise ValueError("This publication commit already had a main push run; create a fresh request")
 
 
 def git(*args):
@@ -59,6 +65,13 @@ def deploy_preflight():
     remote = git("ls-remote", "--exit-code", "origin", "refs/heads/main").split()[0]
     if remote != os.environ.get("GITHUB_SHA") or remote != git("rev-parse", "HEAD"):
         raise ValueError("Publication request was superseded by newer main commits")
+    # Also reject a new push event restoring the same old request commit. A run
+    # attempt check alone would not catch that kind of replay.
+    token = os.environ["GITHUB_TOKEN"]
+    url = f"https://api.github.com/repos/{REPOSITORY}/actions/workflows/ci.yml/runs?head_sha={remote}&event=push&per_page=100"
+    request = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        reject_replayed_run(json.load(response)["workflow_runs"], os.environ["GITHUB_RUN_ID"], remote)
 
 
 if __name__ == "__main__":

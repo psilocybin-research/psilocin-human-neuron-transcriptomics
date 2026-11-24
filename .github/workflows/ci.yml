@@ -150,6 +150,7 @@ jobs:
       cancel-in-progress: false
     permissions:
       contents: read
+      actions: read
       pages: write
       id-token: write
     environment:
@@ -172,6 +173,8 @@ jobs:
         with:
           path: explorer/dist
       - name: Reject stale or replayed publication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python .github/scripts/publication.py --deploy-preflight
       - id: deployment
         uses: actions/deploy-pages@v4

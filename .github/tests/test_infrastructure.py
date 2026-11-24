@@ -64,6 +64,12 @@ class PublicationTests(unittest.TestCase):
             finally:
                 os.chdir(previous)
 
+    def test_same_commit_new_push_is_rejected_but_staging_validation_is_allowed(self):
+        current = {"id": 2, "head_sha": "a" * 40, "head_branch": "main", "event": "push"}
+        publication.reject_replayed_run([current, {**current, "id": 1, "head_branch": "staging/candidate"}], 2, "a" * 40)
+        with self.assertRaises(ValueError):
+            publication.reject_replayed_run([current, {**current, "id": 1}], 2, "a" * 40)
+
 
 class ArtifactTests(unittest.TestCase):
     def test_round_trip_and_tamper_rejection(self):

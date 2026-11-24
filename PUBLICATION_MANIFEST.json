@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1482,
-  "total_bytes": 728255176,
+  "total_bytes": 728256642,
   "status": "pass",
   "failures": [],
   "files": [
@@ -34,8 +34,8 @@
     },
     {
       "path": ".github/scripts/publication.py",
-      "bytes": 3588,
-      "sha256": "0a8539b894065f39dc5cfb2cdc4c9f085734fa4ed821c822b9168d2dcc3f5fff"
+      "bytes": 4543,
+      "sha256": "82c49ddb7b469212dcb1cdc8d46a0a978cc7a993a6a9086359818c780f36adf7"
     },
     {
       "path": ".github/scripts/refresh_integrity.py",
@@ -49,13 +49,13 @@
     },
     {
       "path": ".github/tests/test_infrastructure.py",
-      "bytes": 6810,
-      "sha256": "dee4b5822595b11fc6e1c620c1013ffe05482c178e5d92d972e762a303289ea7"
+      "bytes": 7244,
+      "sha256": "463b7a54ceb91be37b1535ac8664147143bb9529ea643548cfd516193656c3ad"
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 6205,
-      "sha256": "858688ce5a7c33c379727b10b9eac1bf79877c6c44d2239472ab976ad2753b8f"
+      "bytes": 6282,
+      "sha256": "bd2dc0cc7c335254faedd64320f7c1ad4c7f1246a6fa3fef19c323c9d641626f"
     },
     {
       "path": ".github/workflows/release.yml",
