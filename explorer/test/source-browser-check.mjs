@@ -141,13 +141,6 @@ await page.setViewportSize({width:1280,height:900});
 await page.getByRole('button',{name:'Search atlas',exact:true}).first().click();
 const finder=page.locator('.autocomplete-popup.modal-in');
 await finder.waitFor();
-const diagnostic=await finder.evaluate(n=>({
-  className:n.className,
-  pageContentCount:n.querySelectorAll('.page-content').length,
-  html:n.outerHTML.slice(0,3500),
-  appErrors:window.__atlasFinderError||null
-}));
-console.log('FINDER STRUCTURE',JSON.stringify(diagnostic));
 const finderScroll=finder.locator('.atlas-search-results-scroll');
 await finderScroll.waitFor();
 await page.waitForFunction(()=>{
@@ -164,7 +157,7 @@ await page.waitForFunction(()=>{
   return node?.querySelector('li .item-radio')?.textContent?.includes('GPX4') &&
     node.querySelectorAll('li .item-radio').length<=20;
 });
-await page.keyboard.press('Escape');
+await finder.locator('.popup-close').click();
 await finder.waitFor({state:'hidden'});
 await page.locator('.research-sidebar').getByRole('button',{name:'Atlas tour',exact:true}).click();
 const tour=page.getByRole('dialog',{name:'Atlas tour',exact:true});
