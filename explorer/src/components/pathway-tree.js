@@ -62,6 +62,7 @@ export function exportMembershipRows(branches, contrast) {
 export function createPathwayTree({data, provenance, getGenes, state, contrast, tier, selectedPathway, onPathway, onGene, onOverlap, onMembershipChange, onState}) {
   const root = node('section', 'pathway-explorer');
   root.setAttribute('aria-label', 'Pathway and gene tree');
+  const openedFamilies = new Set();
   const toolbar = node('div', 'tree-toolbar');
   const view = node('div', 'tree-view-toggle'); view.setAttribute('aria-label', 'Pathway display');
   const treeButton = action('Tree', () => setView('tree'));
@@ -178,9 +179,13 @@ export function createPathwayTree({data, provenance, getGenes, state, contrast, 
       const forest = node('ul', 'tree-forest');
       for (const [family, meta] of Object.entries(families)) {
         const children = branches.filter(b => b.row.tier === family); if (!children.length) continue;
-        const item = node('li', 'tree-family'); const details = node('details', 'tree-family-disclosure'); details.open = !state.closed.has(family) || Boolean(state.query);
+        const item = node('li', 'tree-family'); const details = node('details', 'tree-family-disclosure'); details.open = openedFamilies.has(family) || Boolean(state.query);
         const summary = node('summary', 'tree-focus'); summary.append(node('strong', '', meta.title), node('small', '', `${count(children.length, 'set')} · ${meta.tests}-test family`));
-        details.ontoggle = () => {if (!state.query) details.open ? state.closed.delete(family) : state.closed.add(family);};
+        details.ontoggle = () => {
+          if (state.query) return;
+          if (details.open) { openedFamilies.add(family); state.closed.delete(family); }
+          else { openedFamilies.delete(family); state.closed.add(family); }
+        };
         const paths = node('ul', 'tree-paths');
         for (const branch of children) {
           const li = node('li'); const pathway = node('details', 'tree-pathway'); pathway.dataset.pathway = branch.row.pathway;

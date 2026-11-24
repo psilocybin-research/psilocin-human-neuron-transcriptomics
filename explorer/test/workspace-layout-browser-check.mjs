@@ -7,8 +7,17 @@ try{for(const width of (process.env.WORKSPACE_WIDTH?[Number(process.env.WORKSPAC
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');await page.locator('.workspace-frame').waitFor();await page.waitForFunction(()=>!!document.querySelector('.workspace-inspector-panel')?.f7Panel);
  assert.equal(await page.locator('.workspace-navigation-slot .studio-sidebar').count(),1);assert.equal(await page.locator('.workspace-frame>.studio-sidebar').count(),0);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-modal-open'),'true');
  await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Datasets',exact:true}).click();const catalogue=page.locator('.workspace-datasets-sheet');await catalogue.locator('li').nth(5).waitFor();assert.equal(await catalogue.locator('li').count(),6);assert.match(await catalogue.innerText(),/63,462/);assert.notEqual(await page.locator('#psilocin-app').getAttribute('data-r-busy'),'true');await catalogue.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
- await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Collections',exact:true}).click();const collections=page.locator('.workspace-collections-sheet');await collections.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
- const editor=page.getByLabel('R code cell 1',{exact:true});await editor.fill('results <- data.frame(id="ENSG00000167468.12", x=1.125, y=2.25, z=3.375)\nplot(results$x,results$y)\natlas_scatter3d(results,"x","y","z")');
+ await openWorkspaceNavigation(page);await page.locator('.workspace-shared-navigation').getByRole('button',{name:'Collections',exact:true}).click();const collections=page.locator('.workspace-collections-sheet');
+ const creator=collections.locator('.research-collections .accordion-item');
+ await creator.waitFor();
+ assert.equal(await creator.locator('.item-link').getAttribute('aria-expanded'),'false','Collection form starts collapsed');
+ assert(await collections.getByText('No collections yet',{exact:true}).isVisible(),'Saved-collection empty state appears immediately');
+ await creator.locator('.item-link').click();
+ assert.equal(await creator.locator('.item-link').getAttribute('aria-expanded'),'true');
+ await collections.getByRole('button',{name:'Done',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app').dataset.modalOpen!=='true');
+ const editor=page.getByLabel('R code cell 1',{exact:true});
+ await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ await editor.fill('results <- data.frame(id="ENSG00000167468.12", x=1.125, y=2.25, z=3.375)\nplot(results$x,results$y)\natlas_scatter3d(results,"x","y","z")');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#psilocin-app')?.dataset.rBusy==='false',null,{timeout:180000});assert.equal(await page.locator('.studio-inline-figure').count(),1);console.log(`R outputs ready ${width}`);
  // FAB opens contextual tools without executing code or discarding the active editor.
  await page.getByRole('button',{name:'Workspace tools',exact:true}).click();await page.getByRole('button',{name:'Variables',exact:true}).last().click();await page.locator('.workspace-inspector-panel .r-variable-list').getByRole('button',{name:'results',exact:true}).waitFor();

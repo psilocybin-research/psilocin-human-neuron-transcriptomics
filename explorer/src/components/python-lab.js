@@ -73,8 +73,6 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   for (const [id, value] of Object.entries(starterCode)) { const option=el('option','',value.title); option.value=id; starter.append(option); }
   const datasets = el('select'); datasets.setAttribute('aria-label', 'Python dataset');
   const datasetGuide = createAccordion('Python inputs & variables', 'python-data-guide');
-  const datasetGuideItem = datasetGuide.element.querySelector('.accordion-item');
-  datasetGuideItem.classList.add('accordion-item-opened');
   const datasetGuideBody = datasetGuide.body;
   datasetGuideBody.append(el('p','note','Choose an archived or transferred table above. Each run receives a fresh namespace: data is the selected table as a list of row dictionaries; dataset_name is its name; datasets maps every available table name to its rows. CSV values are strings, so convert numerical columns explicitly.'));
   const datasetGuideList = el('div','python-dataset-list'); datasetGuideBody.append(datasetGuideList);

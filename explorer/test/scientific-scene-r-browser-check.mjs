@@ -6,7 +6,8 @@ try {
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');
  const editor=page.getByLabel('R code cell 1',{exact:true});
- await editor.waitFor();
+ await editor.waitFor({state:'attached'});
+ await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await editor.fill('d <- data.frame(id=c("ENSG1","ENSG2"), a=c(0.123456789012345,-2), b=c(2,4), c=c(1,1))\natlas_scatter3d(d, "a", "b", "c", color="a", title="R scene integration")');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.locator('.scientific-scene').waitFor({timeout:180000});
