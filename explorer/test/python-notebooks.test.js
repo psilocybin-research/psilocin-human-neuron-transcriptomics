@@ -35,3 +35,5 @@ test('Python workspace preserves Trash, empty state and identity across reloads'
  assert.throws(()=>parsePythonWorkspace({...workspace,notebooks:[original]}),/unique/);
  assert.throws(()=>parsePythonWorkspace({...workspace,trash:[{...workspace.trash[0],book:{...original,runs:[{}]}}]}),/Invalid recorded/);
 });
+
+test('Python dataset choice survives notebook persistence without altering source',()=>{const b={...book(),selected_dataset:'landscape'};assert.deepEqual(parsePythonNotebooks(JSON.stringify([b])),[b]);});

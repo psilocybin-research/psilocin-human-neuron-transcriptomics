@@ -21,7 +21,7 @@ export function parsePythonNotebooks(text) {
     if (!book || typeof book.id !== 'string' || !book.id || ids.has(book.id) || typeof book.name !== 'string' || !book.name.trim() ||
         book.name.length > 120 || typeof book.code !== 'string' || book.code.length > PYTHON_NOTEBOOK_LIMITS.code) throw Error('Invalid Python notebook.');
     ids.add(book.id);
-    return {id: book.id, name: book.name, code: book.code, runs: (Array.isArray(book.runs) ? book.runs : []).filter(validPythonRun).slice(-PYTHON_NOTEBOOK_LIMITS.runs)};
+    return {id: book.id, name: book.name, code: book.code, ...(typeof book.selected_dataset==='string'&&book.selected_dataset.length<=256?{selected_dataset:book.selected_dataset}:{}), runs: (Array.isArray(book.runs) ? book.runs : []).filter(validPythonRun).slice(-PYTHON_NOTEBOOK_LIMITS.runs)};
   });
 }
 export function retainPythonRun(books, notebook, record) {

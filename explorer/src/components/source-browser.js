@@ -42,7 +42,7 @@ export function createSourceBrowser({ app, root }) {
   }
   toolbar.append(toolbarInner);
   page.append(navbar, toolbar, tabs); view.append(page); popup.append(view); root.append(popup);
-  const instance = app.popup.create({ el: popup, closeOnEscape: true });
+  const instance = app.popup.create({ el: popup, backdrop: true, closeOnEscape: false, closeByBackdropClick: true });
   let request = 0, currentPath = "", loaded = false;
 
   async function read(path, raw = false) {

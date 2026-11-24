@@ -24,6 +24,12 @@ await page.goto(process.env.ATLAS_URL || 'http://127.0.0.1:4173/');
 await page.locator('[data-framework7="9.3.0"]').waitFor();
 await page.getByRole('button',{name:'GitHub source',exact:true}).click();
 const popup=page.locator('.source-browser');await popup.locator('.source-browser-overview .source-readme').waitFor();
+async function verifySourceBlur(surface){
+ await page.waitForFunction(selector=>document.querySelector(selector)?.dataset.shellModalReady==='true',surface);
+ await page.waitForFunction(()=>[...document.querySelectorAll('#psilocin-app .popup-backdrop.backdrop-in')].some(n=>getComputedStyle(n).backdropFilter.includes('blur(12px)')));
+ assert.equal(await page.locator(surface).evaluate(n=>getComputedStyle(n).filter),'none','Popup content remains sharp');
+}
+await verifySourceBlur('.source-browser');
 const structure = await popup.evaluate(node => {
   const navbar = node.querySelector('.navbar');
   const bg = node.querySelector('.navbar-bg');
@@ -136,4 +142,10 @@ const mobileLayout = await popup.locator('#source-overview').evaluate(node => ({
 assert(mobileLayout.githubVisible && mobileLayout.content<=mobileLayout.viewport+1, 'Mobile overview must not clip content');
 assert(await popup.evaluate(n=>n.scrollWidth<=n.clientWidth+1));
 await popup.locator('.navbar .link.popup-close[aria-label="Close"]').click();await popup.waitFor({state:'hidden'});
-assert.deepEqual(errors,[]);await browser.close();console.log('Pinned source browser: F7 navigation, safe text, commit pinning, mobile width and close passed.');
+await page.setViewportSize({width:1280,height:900});
+await page.getByRole('button',{name:'References & citation',exact:true}).click();
+await verifySourceBlur('.research-sources');
+await page.locator('.research-sources').getByRole('button',{name:'Close sources',exact:true}).click();
+await page.locator('.research-sources').waitFor({state:'hidden'});
+await page.waitForFunction(()=>![...document.querySelectorAll('#psilocin-app .popup-backdrop')].some(n=>getComputedStyle(n).backdropFilter.includes('blur(12px)')),'');
+assert.deepEqual(errors,[]);await browser.close();console.log('Pinned source browser: F7 navigation, safe text, commit pinning, mobile width, blurred source/citation backdrops, and close passed.');

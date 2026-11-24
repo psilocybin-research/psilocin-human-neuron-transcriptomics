@@ -7,7 +7,7 @@ try {
  await page.goto((process.env.ATLAS_URL||'http://127.0.0.1:4173/')+'#view=custom-r');
  const editor=page.getByLabel('R code cell 1',{exact:true});
  await editor.waitFor({state:'attached'});
- await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
+ if(!await page.locator('.studio-inline-cell').first().locator('.studio-cell-code').evaluate(n=>n.open))await page.locator('.studio-inline-cell').first().locator('.studio-cell-code summary').click();
  await editor.fill('d <- data.frame(id=c("ENSG1","ENSG2"), a=c(0.123456789012345,-2), b=c(2,4), c=c(1,1))\natlas_scatter3d(d, "a", "b", "c", color="a", title="R scene integration")');
  await page.getByRole('button',{name:'Run R cell 1',exact:true}).click();
  await page.locator('.scientific-scene').waitFor({timeout:180000});
@@ -21,9 +21,9 @@ try {
  assert.match(scene.source.code_sha256,/^[a-f0-9]{64}$/);assert.match(scene.source.sha256,/^[a-f0-9]{64}$/);
  assert.ok(scene.camera);assert.match(scene.source.run_utc,/T/);
  async function download(label){
-  if(!await page.locator(".scene-export-menu").evaluate(n=>n.open))await page.locator(".scene-export-menu summary").click();
+  await page.locator(".scientific-scene").getByRole("button",{name:"Export",exact:true}).click();
   const pending=page.waitForEvent('download');
-  await page.locator('.scientific-scene').getByRole('button',{name:label,exact:true}).click();
+  await page.locator(".studio-menu.modal-in").getByRole("button",{name:label,exact:true}).click();
   await page.locator('.download-confirmation').getByRole('button',{name:'Download',exact:true}).click();
   const item=await pending,stream=await item.createReadStream(),chunks=[];
   for await(const chunk of stream)chunks.push(chunk);

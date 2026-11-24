@@ -9,6 +9,8 @@ import {downloadFile} from './file-download.js';
 import {studioMenu,confirmPermanentDeletion} from './studio-ui.js';
 import {validateSceneSpec} from './scientific-scene-spec.js';
 import {validateResearchCSV} from './research-import.js';
+import {parseExploratoryCSV} from './exploratory-result-data.js';
+import {uiIcon} from './icons.js';
 
 const storageKey = 'atlas-python-notebooks-v1';
 const workspaceKey = 'atlas-python-workspace-v2';
@@ -50,7 +52,28 @@ if data:
 print(f"Audited {len(results)} columns in {dataset_name}")
 ` },
 };
-function newBook() { return {id: crypto.randomUUID(), name: 'Python analysis', code: example, runs: []}; }
+// Dataset-aware starters are deliberately bounded, schema-tolerant previews.
+const datasetHints={
+ genes:['Gene estimates by contrast',['id','symbol','contrast','log2fc']],
+ pathways:['Archived pathway enrichment',['pathway','contrast','NES','pval','padj']],
+ landscape:['Illustrative OXPHOS membership and archived effects',['gene','functional_group','day1_log2fc','day3_log2fc','day3_minus_day1_log2fc']],
+ profiles:['Archived pooled expression profiles',['gene','profile_id','block','condition','vst','row_z']],
+ bayesian_scores:['Archived directional evidence',['contrast','score']],
+ bayesian_archive:['Archived Bayesian result records',['contrast','pathway']],
+};
+function datasetExample(name){
+ const hint=datasetHints[name];
+ if(!hint)return starterCode.preview.code;
+ return '# '+hint[0]+'; exploratory preview, not a new archived result.\n'+
+ 'print(f"Dataset: {dataset_name}; rows: {len(data)}")\n'+
+ 'preferred = '+JSON.stringify(hint[1])+'\n'+
+ 'columns = [c for c in preferred if data and c in data[0]]\n'+
+ 'if not columns and data:\n    columns = list(data[0])\n'+
+ 'results = [{c: row.get(c, "") for c in columns} for row in data[:25]]\n'+
+ 'print(f"Preview columns: {columns}")\n';
+}
+function isStarter(source){return Object.values(starterCode).some(item=>item.code===source)||Object.keys(datasetHints).some(name=>datasetExample(name)===source);}
+function newBook() { return {id: crypto.randomUUID(), name: 'Python analysis', code: example, selected_dataset:'genes', runs: []}; }
 function readBooks() {
   try { return parsePythonNotebooks(localStorage.getItem(storageKey)); } catch {}
   return [newBook()];
@@ -70,8 +93,10 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   // working code starters, so it always changes what appears in the editor.
   const notebooks = el('select'); notebooks.setAttribute('aria-label', 'Python notebook'); notebooks.hidden=true;
   const starter = el('select'); starter.setAttribute('aria-label', 'Python code starter');
+  const datasetStarter=el('option','','Selected dataset example');datasetStarter.value='dataset';starter.append(datasetStarter);
   for (const [id, value] of Object.entries(starterCode)) { const option=el('option','',value.title); option.value=id; starter.append(option); }
   const datasets = el('select'); datasets.setAttribute('aria-label', 'Python dataset');
+  let syncingDataset=false;const inputContext=el('p','note python-input-context','Select an input table. Examples never execute automatically.');
   const datasetGuide = createAccordion('Python inputs & variables', 'python-data-guide');
   const datasetGuideBody = datasetGuide.body;
   datasetGuideBody.append(el('p','note','Choose an archived or transferred table above. Each run receives a fresh namespace: data is the selected table as a list of row dictionaries; dataset_name is its name; datasets maps every available table name to its rows. CSV values are strings, so convert numerical columns explicitly.'));
@@ -96,9 +121,9 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   const stop = button('Stop Python', () => reset('Python stopped. The worker was reset.'));
   const initialize = button('Initialize Python', initializePython);
   const loadStarter = button('Load starter', () => {
-    const source = starterCode[starter.value]; if (!source || editor.value === source.code) return;
+    const source = starter.value==='dataset'?{title:'Selected dataset',code:datasetExample(datasets.value)}:starterCode[starter.value]; if (!current||!source || editor.value === source.code) return;
     const apply = () => { editor.value = source.code; save(); status.textContent = `Loaded ${source.title} starter. It has not run.`; };
-    if (editor.value.trim()) root.f7.dialog.confirm('Replace the editor with this Python starter? Your current script remains available in browser history only if saved or downloaded.', 'Load Python starter', apply);
+    if (editor.value.trim()&&!isStarter(editor.value)) root.f7.dialog.confirm('Replace your edited script with this Python starter? Download or duplicate the current analysis first if you want to keep the source.', 'Load Python starter', apply);
     else apply();
   });
   const more = button('Python actions', () => studioMenu(root, more, 'Python notebook', [
@@ -119,8 +144,13 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     catch (error) { status.textContent = `Transfer failed: ${error.message}`; }
   });
   const exports = el('div', 'custom-r-toolbar'); exports.append(csv, provenance); if (onTransferToR) exports.append(transfer);
-  toolbar.append(starter, loadStarter, datasets, run, stop, initialize, more);
-  host.append(heading, intro, datasetGuide.element, toolbar, emptyState, editor, status, history, consoleOutput, result, exports, inspector, limits);
+  const titleBar=el('header','python-workspace-header'),analysisTitle=el('h3','studio-notebook-title'),saveState=el('span','studio-save-status','Saved locally');titleBar.append(analysisTitle,saveState);
+  const dataBar=el('div','python-input-bar'),dataField=el('div','python-input-field'),starterField=el('div','python-input-field');dataField.append(el('span','python-field-label','Input dataset'),datasets);starterField.append(el('span','python-field-label','Code example'),starter);dataBar.append(dataField,starterField,loadStarter);
+  loadStarter.textContent='Load example';run.prepend(uiIcon('play'));
+  toolbar.classList.add('python-execution-toolbar');toolbar.append(run, stop, initialize, more);
+  const editorCard=el('section','python-editor-card');editorCard.append(el('div','python-editor-heading','Python source'),editor);
+  const outputCard=el('section','python-output-card');outputCard.append(el('h3','','Recorded output'),history,consoleOutput,result,exports);
+  host.append(titleBar,heading,intro,toolbar,dataBar,inputContext,datasetGuide.element,emptyState,editorCard,status,outputCard,inspector,limits);
   function setBusy(value) {
     busy = value; history.disabled = value || !current?.runs?.length; initialize.disabled = datasets.disabled = starter.disabled = loadStarter.disabled = more.disabled = value;run.disabled=notebooks.disabled=value||!current;editor.inert=value||!current;navigation?.setBusy(value);
     host.classList.toggle('python-empty',!current);emptyState.hidden=!!current;
@@ -129,15 +159,15 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
   }
   function refreshBooks() {
     notebooks.replaceChildren(...books.map(book => { const option = el('option', '', book.name); option.value = book.id; return option; }));
-    notebooks.value = current?.id||'';
+    notebooks.value = current?.id||'';analysisTitle.textContent=current?.name||'Python Lab';syncDataset();
     for(const book of [...books,...trash.map(item=>item.book)])book.title=book.name;
     navigation?.render();
   }
   function save() {
     if(current)current.code = editor.value;
     if (current?.code.length > 100000) { status.textContent = 'This script exceeds the 100,000-character local save limit. Download it to preserve the full source.'; return false; }
-    try { const value={notebooks:books,trash,active:current?.id??null};if(new TextEncoder().encode(JSON.stringify(value)).byteLength>6000000)throw Error('Storage limit');localStorage.setItem(workspaceKey,JSON.stringify(value));localStorage.setItem(storageKey, JSON.stringify(books)); return true; }
-    catch { status.textContent = 'Browser storage is unavailable or full. Download your Python notebook to preserve it.'; return false; }
+    try { const value={notebooks:books,trash,active:current?.id??null};if(new TextEncoder().encode(JSON.stringify(value)).byteLength>6000000)throw Error('Storage limit');localStorage.setItem(workspaceKey,JSON.stringify(value));localStorage.setItem(storageKey, JSON.stringify(books));saveState.textContent='Saved locally'; return true; }
+    catch { saveState.textContent='Not saved';status.textContent = 'Browser storage is unavailable or full. Download your Python notebook to preserve it.'; return false; }
   }
   function reset(message = 'Python worker reset. Run Python to start a new session.') {
     generation++; runtime?.close(); runtime = undefined; runtimeInfo = undefined; record = undefined;
@@ -157,6 +187,26 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     catch (error) { if (token === generation) reset(`Python could not start: ${error.message}`); }
     finally { if (token === generation) setBusy(false); }
   }
+  function updateInputContext(){
+    const changed=record&&(record.selected_dataset!==datasets.value||record.code!==editor.value);
+    inputContext.textContent=(datasets.value?'Input: '+datasets.value:'No selected input')+(changed?' · Recorded output belongs to earlier code or inputs. Rerun explicitly.':' · Selection does not execute code.');
+    inputContext.classList.toggle('studio-stale-output',!!changed);
+  }
+  function syncDataset(){
+    if(!datasets.options.length)return;
+    const wanted=current?.selected_dataset||current?.runs?.at(-1)?.selected_dataset||'genes';
+    if([...datasets.options].some(o=>o.value===wanted))datasets.value=wanted;
+    else datasets.selectedIndex=0;
+    if(current)current.selected_dataset=datasets.value;
+    syncingDataset=true;datasets.dispatchEvent(new Event('change',{bubbles:true}));syncingDataset=false;updateInputContext();
+  }
+  datasets.addEventListener('change',()=>{
+    if(syncingDataset||!current||busy)return;
+    const pristine=isStarter(editor.value);current.selected_dataset=datasets.value;
+    if(pristine)editor.value=datasetExample(datasets.value);
+    save();updateInputContext();
+    status.textContent=pristine?'Dataset example loaded. No code executed.':'Input changed; your edited source is preserved. Run when ready.';
+  });
   async function loadDatasets() {
     const items = await getDatasets();
     if (!Array.isArray(items)) throw Error('Dataset provider must return an array.');
@@ -166,10 +216,9 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
         throw Error('Python inputs require unique names and CSV text.');
       names.add(item.name);
     }
-    const selected = datasets.value;
     datasets.replaceChildren(...items.map(item => { const option = el('option', '', item.name); option.value = item.name; return option; }));
-    if (names.has(selected)) datasets.value = selected;
     if (!items.length) { const option = el('option', '', 'No selected table'); option.value = ''; datasets.append(option); }
+    syncDataset();
     datasetGuideList.replaceChildren();
     for (const item of items) {
       const row = el('article', 'python-dataset-row');
@@ -178,7 +227,7 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
       datasetGuideList.append(row);
     }
     if (!items.length) datasetGuideList.append(el('p','note','No datasets are available in this workspace.'));
-    return items;
+    if(current)save();return items;
   }
   async function execute() {
     if (!current)return;
@@ -232,10 +281,11 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     consoleOutput.textContent = saved.console.map(item => item.text).join('\n');
     result.append(el('p', 'note', `${saved.rows.toLocaleString()} exploratory result rows · ${saved.columns.length} columns`));
     if (saved.csv) {
-      const preview = el('pre', 'custom-r-console', saved.csv.slice(0, 12000) + (saved.csv.length > 12000 ? '\n[Preview truncated; download the complete CSV.]' : ''));
-      preview.setAttribute('aria-label', 'Python results preview'); result.append(preview);
+      const parsed=parseExploratoryCSV(saved.csv);
+      if(parsed.error){result.append(el('p','note',parsed.error));}
+      else {const wrap=el('div','studio-inline-table'),table=el('table');table.setAttribute('aria-label','Python results preview');const head=el('thead'),tr=el('tr');for(const column of parsed.headers.slice(0,12)){const th=el('th','',column);th.scope='col';tr.append(th);}head.append(tr);table.append(head);const body=el('tbody');for(const row of parsed.rows.slice(0,25)){const tr=el('tr');row.slice(0,12).forEach(value=>tr.append(el('td','',value)));body.append(tr);}table.append(body);wrap.append(table);result.append(wrap,el('p','note',`Preview: ${Math.min(25,parsed.rows.length)} rows · full recorded CSV available for download.`));}
     }
-    setBusy(false);
+    setBusy(false);updateInputContext();
   }
   function restoreLatest() {
     refreshHistory();
@@ -247,7 +297,7 @@ export function createPythonLab({root, getDatasets = async () => [], onTransferT
     if (history.value !== '' && saved) { onClearResults?.(); displayRecord(saved); status.textContent = 'Viewing recorded Python output. The editor has not changed; no code was executed.'; }
   };
   notebooks.onchange = () => chooseAnalysis(books.find(book=>book.id===notebooks.value));
-  editor.addEventListener('input', () => { save(); if (record) status.textContent = 'Script changed. Results belong to the last completed Python run.'; });
+  editor.addEventListener('input', () => { save();updateInputContext(); if (record) status.textContent = 'Script changed. Results belong to the last completed Python run.'; });
   editor.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); execute(); } });
   const sidebar=el('aside','studio-sidebar');sidebar.setAttribute('aria-label','Python analyses');
   function workspace(){return {notebooks:books,trash,active:current?.id??null};}

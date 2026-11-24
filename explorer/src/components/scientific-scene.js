@@ -1,4 +1,6 @@
-import { createElement as el } from "./interface-utils.js";
+import { createElement as el, createAccordion } from "./interface-utils.js";
+import { studioMenu } from "./studio-ui.js";
+import { uiIcon } from "./icons.js";
 import { downloadFile } from "./file-download.js";
 import { validateSceneSpec, sceneCoordinates, sceneCSV, sceneEdgesCSV } from "./scientific-scene-spec.js";
 
@@ -41,8 +43,16 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     if (current !== lastCameraJSON) {lastCameraJSON = current; onChange(root.getSceneSpec());}
   }
   function scheduleCamera() {clearTimeout(cameraChangeTimer); cameraChangeTimer = setTimeout(publishCamera, 150);}
-  const exportMenu=el("details","scene-export-menu"),exportSummary=el("summary","","Export");exportMenu.append(exportSummary);actions.append(exportMenu);
-  exportMenu.append(button("Scene specification (.json)", () => downloadFile("scientific-scene.json", JSON.stringify(root.getSceneSpec(), null, 2), "application/json")));
+  const appRoot=document.querySelector("#psilocin-app"),exportItems=[];
+  // The standalone software fixture has no F7 application. Within the atlas,
+  // all scene actions use the same native Framework7 menus as the notebooks.
+  const exportMenu=appRoot?button("Export",()=>studioMenu(appRoot,exportMenu,"Export scene",exportItems.map(item=>({label:item.textContent,disabled:item.disabled,run:()=>item.click()})))):el("details","scene-export-menu");
+  if(appRoot){exportMenu.classList.add("scene-export-menu");exportMenu.prepend(uiIcon("download"));}
+  else exportMenu.append(el("summary","","Export"));
+  function addExport(item){exportItems.push(item);if(!appRoot)exportMenu.append(item);}
+  function disclosure(title,cls){if(appRoot)return createAccordion(title,cls);const element=el("details",cls);element.append(el("summary","",title));return {element,body:element};}
+  actions.append(exportMenu);
+  addExport(button("Scene specification (.json)", () => downloadFile("scientific-scene.json", JSON.stringify(root.getSceneSpec(), null, 2), "application/json")));
   root.append(actions, status);
   if (spec.kind === "structure-reference") {
     status.textContent = `Structure request: ${spec.gene}. A gene identifier is not a protein structure; the linked protein context records structure provenance and mapping limitations.`;
@@ -51,13 +61,13 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     root.setSelection = () => {};
     return root;
   }
-  exportMenu.append(button("Data (.csv)", () => downloadFile("scientific-scene.csv", sceneCSV(spec), "text/csv")));
+  addExport(button("Data (.csv)", () => downloadFile("scientific-scene.csv", sceneCSV(spec), "text/csv")));
   if (spec.kind === "membership-overlay") {
     status.textContent = `${spec.data.length} exact identifiers with user-computed values. Overlay uses archived membership edges; values do not create biological interactions.`;
     if (onNetwork) actions.prepend(button("Open gene network", () => onNetwork(spec)));
   }
-  const tableDetails = el("details"), tableSummary = el("summary", "", `Underlying data · ${spec.data.length} rows`), tableWrap = el("div", "scientific-scene-table-wrap"), table = el("table"), pagination = el("div", "scene-actions");
-  tableDetails.append(tableSummary, tableWrap, pagination); tableWrap.append(table);
+  const tableDisclosure=disclosure(`Underlying data · ${spec.data.length} rows`,"scene-data-disclosure"),tableDetails=tableDisclosure.element,tableWrap = el("div", "scientific-scene-table-wrap"), table = el("table"), pagination = el("div", "scene-actions");
+  tableDisclosure.body.append(tableWrap, pagination); tableWrap.append(table);
   const cols = schematic ? ["id", "label", "node_type", ...(hasColor ? ["color"] : []), "evidence"] : spec.kind === "scatter3d" ? ["id", "x", "y", "z", ...(hasColor ? ["color"] : [])] : ["id", "value"];
   function select(id, notify = true) {
     const row = spec.data.find((r) => r.id === id);
@@ -84,7 +94,7 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
       const tr = el("tr");
       for (const c of cols) {
         const td = el("td");
-        if (c === "id") {const b = button(row.id, () => select(row.id)); b.className = "scene-point-id"; b.dataset.id = row.id; b.setAttribute("aria-pressed", String(row.id === selectedId)); td.append(b);} else td.textContent = row[c] === undefined ? "Not available" : String(row[c]);
+        if (c === "id") {const b = button(row.id, () => select(row.id)); b.classList.add("scene-point-id"); b.dataset.id = row.id; b.setAttribute("aria-pressed", String(row.id === selectedId)); td.append(b);} else td.textContent = row[c] === undefined ? "Not available" : String(row[c]);
         tr.append(td);
       }
       body.append(tr);
@@ -124,16 +134,16 @@ export function createScientificScene(input, {onSelect = () => {}, onChange = ()
     ctx.fillText(spec.data[0].color === undefined ? "Independent linear axes; exact values and camera in companion scene JSON." : `${spec.color_label || "Colour"}: blue ${number(-colorLimit)} / white 0 / red ${number(colorLimit)}; independent linear axes.`, 16, y, canvas.width - 32);
     canvas.toBlob((blob) => {if (blob) void downloadFile("scientific-scene.png", blob, "image/png");}, "image/png");
   });
-  actions.prepend(open, reset);exportMenu.append(png);
+  open.classList.add("button-fill");reset.prepend(uiIcon("controls"));actions.prepend(open, reset);addExport(png);
   actions.append(button("Fullscreen",()=>{if(root.requestFullscreen)root.requestFullscreen().catch(()=>{status.textContent="Fullscreen is unavailable in this browser.";});else status.textContent="Fullscreen is unavailable in this browser.";}));
-  root.append(axes, legend, viewport, tableDetails);
+  root.append(legend, viewport, selected, axes, tableDetails);
   if (schematic) {
-    exportMenu.append(button("Download typed edges CSV", () => downloadFile("scientific-scene-edges.csv",sceneEdgesCSV(spec),"text/csv")));
-    const details = el("details"), summary = el("summary", "", `Typed edge table · ${spec.edges.length} edges`), wrap = el("div", "scientific-scene-table-wrap"), table = el("table");
-    details.append(summary, wrap);wrap.append(table);
+    addExport(button("Download typed edges CSV", () => downloadFile("scientific-scene-edges.csv",sceneEdgesCSV(spec),"text/csv")));
+    const edgeDisclosure=disclosure(`Typed edge table · ${spec.edges.length} edges`,"scene-data-disclosure"),details=edgeDisclosure.element,wrap = el("div", "scientific-scene-table-wrap"), table = el("table");
+    edgeDisclosure.body.append(wrap);wrap.append(table);
     const head = el("tr");for(const name of ["Source", "Target", "Relation", "Evidence"])head.append(el("th", "", name));table.append(head);
     for(const edge of spec.edges.slice(0,500)){const row=el("tr");for(const key of ["source","target","relation","evidence"])row.append(el("td","",edge[key]));table.append(row);}
-    details.append(el("p","note",`Preview retains the first ${Math.min(500,spec.edges.length)} edges; JSON and CSV retain all edges.`));root.append(details);
+    edgeDisclosure.body.append(el("p","note",`Preview retains the first ${Math.min(500,spec.edges.length)} edges; JSON and CSV retain all edges.`));root.append(details);
   }
   function render() {if (renderer && !destroyed && !document.hidden) renderer.render(graph, camera);}
   function release(message = "Scene paused. Explore in 3D to resume; exact data and exports remain available.") {

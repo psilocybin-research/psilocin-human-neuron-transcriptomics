@@ -58,6 +58,8 @@ export function validateWorkspace(value, includeTrash = true) {
           id: String(cell.id || id()),
           kind: cell.kind,
           source: cell.source,
+          ...(typeof cell.code_open==='boolean'?{code_open:cell.code_open}:{}),
+          ...(typeof cell.output_open==='boolean'?{output_open:cell.output_open}:{}),
           runs: Array.isArray(cell.runs)
             ? cell.runs
                 .slice(-20)
@@ -252,27 +254,27 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     insert.hidden=false;
     notebook().cells.forEach((item,index)=>{
       const row=el('article','studio-inline-cell');row.dataset.cellId=item.id;row.classList.toggle('is-active',item.id===activeCell);
-      const bar=el('div','studio-cell-header'),select=action(`${item.kind==='code'?'R':'Markdown'} ${index+1}`,'custom-r',()=>activate(item));select.setAttribute('aria-label',`Select ${item.kind==='code'?'R':'Markdown'} cell ${index+1}`);
+      const bar=el('div','studio-cell-header'),select=action(`${item.kind==='code'?'R':'Markdown'} ${index+1}`,'custom-r',()=>{activate(item);row.querySelector('.studio-cell-code').open=true;});select.setAttribute('aria-label',`Select ${item.kind==='code'?'R':'Markdown'} cell ${index+1}`);
       bar.append(select);
       if(item.kind==='code'){const run=action('Run','play',async()=>{activate(item);await onRun?.();});run.setAttribute('aria-label',`Run R cell ${index+1}`);bar.append(run);}
       const menu=action('Cell actions','controls',()=>cellMenu(item,menu));menu.setAttribute('aria-label',`Actions for cell ${index+1}`);bar.append(menu);
-      const codeBlock=el('details','studio-cell-code');codeBlock.open=false;codeBlock.append(el('summary','',item.kind==='code'?'Code':'Markdown'));
+      const codeBlock=el('details','studio-cell-code');const initialCodeOpen=item.code_open??(item.kind==='code'&&item.id===activeCell);codeBlock.open=initialCodeOpen;codeBlock.append(el('summary','item-link f7-press',item.kind==='code'?'Code':'Markdown'));let lastCodeOpen=initialCodeOpen;codeBlock.ontoggle=()=>{if(row.isConnected&&lastCodeOpen!==codeBlock.open){lastCodeOpen=codeBlock.open;item.code_open=codeBlock.open;changed();}};
       if(item.kind==='code'){
         const cm=createREditor(item.source,{label:`R code cell ${index+1}`});editors.set(item.id,cm);
         cm.addEventListener('focusin',()=>activate(item));cm.addEventListener('input',()=>{item.source=cm.value;for(const dependent of notebook().cells.slice(index+1)){for(const run of dependent.runs||[])run.upstream_outdated=true;const output=list.querySelector(`[data-cell-id="${dependent.id}"] .studio-inline-output`);if(output)renderOutput(dependent,output);}changed();});
-        cm.addEventListener('keydown',async event=>{if((event.ctrlKey||event.metaKey||event.shiftKey)&&event.key==='Enter'){event.preventDefault();activate(item);await onRun?.();if(event.shiftKey){const next=notebook().cells[index+1];if(next){activate(next);editors.get(next.id)?.querySelector('.cm-content')?.focus();}else appendCell('code');}}});
+        cm.addEventListener('keydown',async event=>{if((event.ctrlKey||event.metaKey||event.shiftKey)&&event.key==='Enter'){event.preventDefault();activate(item);await onRun?.();if(event.shiftKey){const next=notebook().cells[index+1];if(next){activate(next);list.querySelector(`[data-cell-id="${next.id}"] .studio-cell-code`).open=true;editors.get(next.id)?.querySelector('.cm-content')?.focus();}else appendCell('code');}}});
         codeBlock.append(cm);
       }else{
         const notes=el('textarea','studio-markdown-editor');notes.setAttribute('aria-label',`Markdown cell ${index+1}`);notes.value=item.source;notes.rows=4;
         const preview=el('div','research-studio-markdown-preview');preview.append(renderNotebookMarkdown(item.source));
         preview.tabIndex=0;preview.setAttribute('aria-label','Markdown preview; Enter to edit');const edit=()=>{codeBlock.open=true;notes.focus();};preview.ondblclick=edit;preview.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();edit();}};notes.onkeydown=e=>{if(e.key==='Escape'){codeBlock.open=false;preview.focus();}};notes.onfocus=()=>activate(item);notes.oninput=()=>{item.source=notes.value;preview.replaceChildren(renderNotebookMarkdown(item.source));changed();};codeBlock.append(notes);row.append(bar,codeBlock,preview);
       }
-      if(item.kind==='code'){const output=el('details','studio-cell-output');output.open=false;output.append(el('summary','','Output'));const content=el('div','studio-inline-output');renderOutput(item,content);output.append(content);row.append(bar,codeBlock,output);}
+      if(item.kind==='code'){const output=el('details','studio-cell-output');const initialOutputOpen=item.output_open??false;output.open=initialOutputOpen;let lastOutputOpen=initialOutputOpen;output.ontoggle=()=>{if(row.isConnected&&lastOutputOpen!==output.open){lastOutputOpen=output.open;item.output_open=output.open;changed();}};output.append(el('summary','item-link f7-press','Output'));const content=el('div','studio-inline-output');renderOutput(item,content);output.append(content);row.append(bar,codeBlock,output);}
       list.append(row);
     });
     onCellChange?.(cell());layout?.refreshFigures();
   }
-  function appendCell(kind,source=''){if(busy)return;if(!notebook()){const book=createNotebook('Untitled analysis');book.cells=[];workspace.notebooks.push(book);workspace.active=book.id;onNotebookChange?.();}if(notebook().cells.length>=200)return;const item={id:id(),kind,source,runs:[]};notebook().cells.push(item);activeCell=item.id;render();changed();save();list.lastElementChild?.scrollIntoView({block:'nearest'});}
+  function appendCell(kind,source=''){if(busy)return;if(!notebook()){const book=createNotebook('Untitled analysis');book.cells=[];workspace.notebooks.push(book);workspace.active=book.id;onNotebookChange?.();}if(notebook().cells.length>=200)return;const item={id:id(),kind,source,runs:[],code_open:true};notebook().cells.push(item);activeCell=item.id;render();changed();save();list.lastElementChild?.scrollIntoView({block:'nearest'});}
   function move(item,offset){const a=notebook().cells,from=a.indexOf(item),to=from+offset;if(to<0||to>=a.length)return;[a[from],a[to]]=[a[to],a[from]];render();changed();}
   function newNotebook(){if(busy||workspace.notebooks.length>=30)return;const book=createNotebook('Untitled analysis');workspace.notebooks.push(book);chooseBook(book);}
   async function exportArchive(){const payload={...structuredClone(workspace),exported_utc:new Date().toISOString(),provenance:getSources(),execution:'Explicit runs only; execution_mode and prior_cells record isolated/shared sessions.',classification:'user-exploratory'};const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(payload))))].map(x=>x.toString(16).padStart(2,'0')).join('');downloadFile('psilocin-research-notebooks.json',JSON.stringify({...payload,integrity:{algorithm:'SHA-256',sha256:hash}},null,2),'application/json');}
@@ -328,7 +330,7 @@ export function createRNotebooks({editor, action, root, initialCode, getSources,
     setSessionMode(shared){mode.textContent=shared?'Notebook session · variables persist. Archived inputs and seed initialize once. Restart, interrupt, errors or notebook changes discard the runtime.':'Independent cell execution · every cell starts with fresh inputs and seed.';},
     current:()=>cell(),
     setBusy(value){busy=value;runCell.disabled=runAll.disabled=value||!notebook();add.disabled=newBook.disabled=importBook.disabled=value;exportButton.disabled=value||!notebook();navigation.setBusy(value);interrupt.disabled=!value;list.querySelectorAll('.studio-cell-header button').forEach(b=>b.disabled=value);for(const cm of editors.values())cm.inert=value;},save,
-    async recordRun(run){const current=cell();if(!current||current.kind!=='code')return;const execution_order=Math.max(0,...notebook().cells.flatMap(x=>x.runs||[]).map(x=>x.execution_order||0))+1;current.runs=[...current.runs,{...structuredClone(run),execution_order}].slice(-20);const target=list.querySelector(`[data-cell-id="${current.id}"] .studio-inline-output`);if(target){renderOutput(current,target);const section=target.closest('.studio-cell-output');if(section)section.open=true;}await save();layout.refreshFigures();},
+    async recordRun(run){const current=cell();if(!current||current.kind!=='code')return;const execution_order=Math.max(0,...notebook().cells.flatMap(x=>x.runs||[]).map(x=>x.execution_order||0))+1;current.runs=[...current.runs,{...structuredClone(run),execution_order}].slice(-20);const target=list.querySelector(`[data-cell-id="${current.id}"] .studio-inline-output`);if(target){renderOutput(current,target);const section=target.closest('.studio-cell-output');if(section)section.open=true;current.output_open=true;}await save();layout.refreshFigures();},
     appendSelection(selection) {
       if (!ready) {
         pendingSelections.push(structuredClone(selection));

@@ -3,7 +3,7 @@
   "release": "v1.2.0",
   "created": "2026-10-10",
   "file_count": 1472,
-  "total_bytes": 728192978,
+  "total_bytes": 728211793,
   "status": "pass",
   "failures": [],
   "files": [
@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 5515,
-      "sha256": "6c5c007da4e00f5559a776c0c7da8c95d84729293595685c1ee33be50a4a2496"
+      "bytes": 5582,
+      "sha256": "978e65b2b1a499b4f79a0b75c12952a45b6b1df395c8f7fdc55d749cb8688998"
     },
     {
       "path": ".github/workflows/pages.yml",
@@ -444,8 +444,8 @@
     },
     {
       "path": "explorer/src/app-shell.css",
-      "bytes": 302437,
-      "sha256": "61328ddadf467bb7c1944bb83a7a6f26e6af0e5b4f0c936189032339b0c0c61c"
+      "bytes": 308515,
+      "sha256": "ea4b7bb7bc5fd560931187086536b5f4ff4a3a9f20f58748c8621ec6a05fd56c"
     },
     {
       "path": "explorer/src/assets/app/apple-touch-icon.png",
@@ -3494,8 +3494,8 @@
     },
     {
       "path": "explorer/src/components/app-shell.js",
-      "bytes": 70186,
-      "sha256": "2bc0bb63b5bb7c070ae02743465f152ca23570763eea1508fb1b5355748142a9"
+      "bytes": 70816,
+      "sha256": "5798ec9c8994dc049f74304599ac20bcec4257f8c3531436d5f633fa2dd529d1"
     },
     {
       "path": "explorer/src/components/app-toast.js",
@@ -3514,8 +3514,8 @@
     },
     {
       "path": "explorer/src/components/atlas.js",
-      "bytes": 137224,
-      "sha256": "6d20da77fb89bfd349fd7678d6138cefef67a472662549b035d482c76add4b5c"
+      "bytes": 137473,
+      "sha256": "709f306b3b516e5556aad20bc1c01404413aebf55c9716ae25d018b10fb8b336"
     },
     {
       "path": "explorer/src/components/bayesian-directional-model.js",
@@ -3829,13 +3829,13 @@
     },
     {
       "path": "explorer/src/components/python-lab.js",
-      "bytes": 21088,
-      "sha256": "d85e730443d7a982be02721c491cc9f253ffc53e6c5cdb0c84e15a0c19f3ffa1"
+      "bytes": 25794,
+      "sha256": "b1da52fb096933e9281d217377da9c189997585cb33310b46f0057024f23c18c"
     },
     {
       "path": "explorer/src/components/python-notebooks.js",
-      "bytes": 3848,
-      "sha256": "3197df4995c991c7fa80b33e5944489cf5ef235db8d93c5b185724ac6dd8365f"
+      "bytes": 3973,
+      "sha256": "5ec94bc44991b1a98906af3c3eb3ab819617185d232678ed04c88edbe2079387"
     },
     {
       "path": "explorer/src/components/python-runtime.js",
@@ -3854,8 +3854,8 @@
     },
     {
       "path": "explorer/src/components/r-notebooks.js",
-      "bytes": 32436,
-      "sha256": "6a5ce0c78e71b7a873aab41e2d2ebc9acef7c9b65d1a36c384567bd926daffc9"
+      "bytes": 33315,
+      "sha256": "ba5cf5b7c5348b84dca9a65a9dedcc80b0d33b21dc60ec31594930e61ca144c3"
     },
     {
       "path": "explorer/src/components/r-progress.js",
@@ -3884,8 +3884,8 @@
     },
     {
       "path": "explorer/src/components/r-workspace-inspector.js",
-      "bytes": 6441,
-      "sha256": "b7249b0d69d4308d44a5449bc25a28dbf0fd754bec6c4a912e836f7961272a1b"
+      "bytes": 6653,
+      "sha256": "1af84e5f72572b8b5e50710c069e1b5c5457b29d188c19069d5525d9912266f4"
     },
     {
       "path": "explorer/src/components/research-collection-data.js",
@@ -3979,8 +3979,8 @@
     },
     {
       "path": "explorer/src/components/scientific-scene.js",
-      "bytes": 21974,
-      "sha256": "e5f031251f0c18548f8584f7f7cd42b528c275fb2a5225d902609567ea9e081e"
+      "bytes": 22932,
+      "sha256": "fe6e9d2dc395da7e4f1c96cea5ad458d0efa83f4e117584faeb99d75a9b28ac5"
     },
     {
       "path": "explorer/src/components/scientific-session.js",
@@ -3994,8 +3994,8 @@
     },
     {
       "path": "explorer/src/components/source-browser.js",
-      "bytes": 12744,
-      "sha256": "d7f01f7ed2e1162c8c2333993c683f6b14f8f5bfab2af11ef873898f29a42718"
+      "bytes": 12789,
+      "sha256": "34626f8bac29e7efe1eea98a28a58cc0bb62079abfca9a46afd7d509d1bc0212"
     },
     {
       "path": "explorer/src/components/source-markdown.js",
@@ -4024,8 +4024,8 @@
     },
     {
       "path": "explorer/src/components/systems-explorer.js",
-      "bytes": 2687,
-      "sha256": "246571652c9c26dca6abdcdc9007664fb831cd1dbf036354e4a455bcf80cda91"
+      "bytes": 2981,
+      "sha256": "b5cec774fd051354a1ded6126e285c3723f6d99158527a07206db4bacd96c88f"
     },
     {
       "path": "explorer/src/components/systems-scene-data.js",
@@ -4089,8 +4089,8 @@
     },
     {
       "path": "explorer/test/analysis-navigation-browser-check.mjs",
-      "bytes": 7306,
-      "sha256": "65b043b44a7621f94fe931bca53c1aaf42d7a43c2c1b18c62dff0c638e764feb"
+      "bytes": 7409,
+      "sha256": "1952c0b41703a24c14585d0f8fb4deb003249ad093e1674054c1929646ab9a36"
     },
     {
       "path": "explorer/test/app-fullscreen-browser-check.mjs",
@@ -4409,8 +4409,8 @@
     },
     {
       "path": "explorer/test/python-app-browser-check.mjs",
-      "bytes": 2573,
-      "sha256": "4ae2b99fef18913b8026b6199f104f28d14a8573bb0b9691e13cee5fa6a25184"
+      "bytes": 3468,
+      "sha256": "de1165011ffc12763f72ef524a3fad7a06b66a4cdd1b9d99c6dfb4b4bcd2ef1c"
     },
     {
       "path": "explorer/test/python-lab-browser-check.mjs",
@@ -4419,8 +4419,8 @@
     },
     {
       "path": "explorer/test/python-notebooks.test.js",
-      "bytes": 2647,
-      "sha256": "7bd57bbbd0b62ff8239adba66e16949b2e991745abc1580ea4347486a696b5e9"
+      "bytes": 2853,
+      "sha256": "fb946127d8b5106d580bd281bb39e15668c6a0c2749d9b1a5b929e7dca76852d"
     },
     {
       "path": "explorer/test/python-runtime-browser-check.mjs",
@@ -4454,8 +4454,8 @@
     },
     {
       "path": "explorer/test/r-variable-browser-check.mjs",
-      "bytes": 4860,
-      "sha256": "3d6cdd49c07d72a0cdf64654a2e51470f238da13c7ed66adfe5ddc6083927a8c"
+      "bytes": 4963,
+      "sha256": "4d21d4caa8fa54f3eed41a5c4965756336a9f5602f75f2f0191e4d72f0025fe1"
     },
     {
       "path": "explorer/test/research-additions-browser-check.mjs",
@@ -4494,8 +4494,8 @@
     },
     {
       "path": "explorer/test/research-integration-browser-check.mjs",
-      "bytes": 6449,
-      "sha256": "bb59770eadbd2f40425016cd31c6e5b40b71cfbd1fd98aa84a7567bdb922d798"
+      "bytes": 6552,
+      "sha256": "ed2c0824de2b0b3893554db8c9327a0ee0a9192d0d5b36a0d5dd9af81051d92f"
     },
     {
       "path": "explorer/test/research-search.test.js",
@@ -4504,8 +4504,8 @@
     },
     {
       "path": "explorer/test/research-session-browser-check.mjs",
-      "bytes": 3028,
-      "sha256": "3255a80499721070e6380cf8c49810e011d4ced1e423a18d39df02e687bd2e68"
+      "bytes": 3131,
+      "sha256": "3d4600f2261b1b04c31cc718cc1e1fcda57f5b8b97432d0cfebc06556717bbce"
     },
     {
       "path": "explorer/test/research-store.test.js",
@@ -4519,8 +4519,8 @@
     },
     {
       "path": "explorer/test/research-workstation-browser-check.mjs",
-      "bytes": 5230,
-      "sha256": "7c20faa72b446ccdcf6f20987ef16200377e5017e58ecd446b1a2f654cd66372"
+      "bytes": 5475,
+      "sha256": "08736171ccca5829f075e27fd5968bbbd0cc418a84c5c014089d2c1b159701ac"
     },
     {
       "path": "explorer/test/residue-mapping.test.js",
@@ -4539,8 +4539,8 @@
     },
     {
       "path": "explorer/test/scientific-scene-r-browser-check.mjs",
-      "bytes": 3472,
-      "sha256": "f8cda180b3bc3dc5eb99785fb30998a3bb0788473123f14e25aebdc59480dda9"
+      "bytes": 3552,
+      "sha256": "480544286758ae0356c7d0a9c029319502cfcc534eb9e283fc2d8efa15934bad"
     },
     {
       "path": "explorer/test/scientific-scene.test.js",
@@ -4559,8 +4559,8 @@
     },
     {
       "path": "explorer/test/shared-r-browser-check.mjs",
-      "bytes": 5606,
-      "sha256": "84e0c061d170db14ae9e8a00d94772791e616f98a1fd0df4b8ecc9edee98f863"
+      "bytes": 6093,
+      "sha256": "11ab8d4678db0ea1380d6773f62199ccc68fcf1a04eea2e8f809c2fa7b5e2643"
     },
     {
       "path": "explorer/test/sidebar-context-browser-check.mjs",
@@ -4574,8 +4574,8 @@
     },
     {
       "path": "explorer/test/source-browser-check.mjs",
-      "bytes": 9840,
-      "sha256": "851ffcde446612ba71449304d7d14304fbd6028383edb54c0dba57733c3f3ccf"
+      "bytes": 10894,
+      "sha256": "e0732898f6a4827a59c06c2d68225dd052f538cf23c71fd8720c548c79407ac0"
     },
     {
       "path": "explorer/test/studio-browser-check.mjs",
@@ -4589,8 +4589,8 @@
     },
     {
       "path": "explorer/test/systems-browser-check.mjs",
-      "bytes": 2408,
-      "sha256": "cd586ac369d649731693c3729697cc27036a84e9857a5d88fbd041dcc203988f"
+      "bytes": 3498,
+      "sha256": "09825a52e538fb00468afac7230aac23ca73eecfc193d1fcfba219bd356168bf"
     },
     {
       "path": "explorer/test/systems-scene-data.test.js",
@@ -4614,8 +4614,8 @@
     },
     {
       "path": "explorer/test/workspace-layout-browser-check.mjs",
-      "bytes": 8804,
-      "sha256": "b160d2b6a1a53db9b9b12eaae6aa23c2a29bdf13690eee58587a7bd92f9b689e"
+      "bytes": 8907,
+      "sha256": "2fea8020b33a16decf19816cc94d3477b67aca7e978d71d131da20179a17d5db"
     },
     {
       "path": "explorer/vendor/latex/LICENSE-COMPONENTS.txt",

@@ -109,7 +109,7 @@ jobs:
           trap 'kill "$atlas_server_pid"' EXIT
           export QA_OUTPUT=/tmp/atlas-visual
           failed=0
-          for check in test/tour-browser-check.mjs test/network-introduction-browser-check.mjs test/tree-browser-check.mjs test/f7-data-surfaces-browser-check.mjs test/feedback-notification-browser-check.mjs test/plot-layout-browser-check.mjs; do
+          for check in test/tour-browser-check.mjs test/network-introduction-browser-check.mjs test/tree-browser-check.mjs test/f7-data-surfaces-browser-check.mjs test/feedback-notification-browser-check.mjs test/plot-layout-browser-check.mjs test/systems-browser-check.mjs test/smart-select-browser-check.mjs; do
             echo "::group::$check"
             if node "$check"; then echo "PASS: $check"; else echo "::error::Browser check failed: $check"; failed=1; fi
             echo '::endgroup::'
